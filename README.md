@@ -11,10 +11,13 @@ In many applications we need to know, understand or prove how input variables ar
 ## Install
 
 ```{r}
-devtools::instal_github("pbiecek/DALEX")
+devtools::install_github("pbiecek/DALEX")
 ```
 
 ## Single Variable
 
 ![DALEX_single_variable](misc/DALEX_single_variable.png)
 
+## Single Prediction
+
+![DALEX_single_prediction](misc/DALEX_single_prediction.png)
