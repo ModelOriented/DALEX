@@ -1,4 +1,4 @@
-#' Plots Local Explanations
+#' Plots Local Explanations (Single Prediction)
 #'
 #' Function 'plot.single_prediction_explainer' plots break down plots for a single prediction.
 #'

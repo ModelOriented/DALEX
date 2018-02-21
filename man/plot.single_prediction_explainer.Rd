@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_single_prediction.R
 \name{plot.single_prediction_explainer}
 \alias{plot.single_prediction_explainer}
-\title{Plots Local Explanations}
+\title{Plots Local Explanations (Single Prediction)}
 \usage{
 \method{plot}{single_prediction_explainer}(x, ..., add_contributions = TRUE,
   vcolors = c(`-1` = "#d8b365", `0` = "#f5f5f5", `1` = "#5ab4ac", X =

@@ -89,7 +89,7 @@
 This function creates a unified representation of a model, which can be further processed by various explainers.</p>
     
 
-    <pre class="usage"><span class='fu'>explain</span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict.function</span> <span class='kw'>=</span> <span class='no'>yhat</span>,
+    <pre class="usage"><span class='fu'>explain</span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict.function</span> <span class='kw'>=</span> <span class='no'>yhat</span>,
   <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'>tail</span>(<span class='fu'>class</span>(<span class='no'>model</span>), <span class='fl'>1</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
@@ -119,8 +119,13 @@ This function creates a unified representation of a model, which can be further 
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the class 'explainer'.
-It's a list with the model and additional meta-data, like model class, model name etc.</p>
+    <p>An object of the class 'explainer'.</p>
+<p>It's a list with following fields:</p>
+<p>* <code>model</code> the explained model
+* <code>data</code> the dataset used for training
+* <code>predict.function</code> function that may be used for model predictions, shall return a single numerical value for each observation.
+* <code>class</code> class/classess of a model
+* <code>label</code> label, by default it's the last value from the <code>class</code> vector, but may be set to any character.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
