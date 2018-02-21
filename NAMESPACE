@@ -2,6 +2,7 @@
 
 S3method(plot,single_prediction_explainer)
 S3method(plot,single_variable_explainer)
+S3method(plot,variable_dropout_explainer)
 S3method(print,explainer)
 export(explain)
 export(single_prediction)

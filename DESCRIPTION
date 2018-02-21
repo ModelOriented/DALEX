@@ -1,6 +1,6 @@
 Package: DALEX
 Title: Descriptive mAchine Learning EXplanations
-Version: 0.1
+Version: 0.1.1
 Authors@R: person("Przemyslaw", "Biecek", email = "przemyslaw.biecek@gmail.com", role = c("aut", "cre"))
 Description: Machine Learning models are widely used and have various applications in classification 
   or regression tasks. Due to increasing computational power, availability of new data sources and new 
