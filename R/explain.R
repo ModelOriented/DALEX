@@ -10,7 +10,14 @@
 #' @param label character - the name of the model. By default it's extracted from the 'class' attribute of the model
 #'
 #' @return An object of the class 'explainer'.
-#' It's a list with the model and additional meta-data, like model class, model name etc.
+#'
+#' It's a list with following fields:
+#'
+#' * \code{model} the explained model
+#' * \code{data} the dataset used for training
+#' * \code{predict.function} function that may be used for model predictions, shall return a single numerical value for each observation.
+#' * \code{class} class/classess of a model
+#' * \code{label} label, by default it's the last value from the \code{class} vector, but may be set to any character.
 #'
 #' @export
 #' @importFrom stats predict
@@ -28,8 +35,13 @@
 #' wine_rf_explainer4 <- explain(wine_rf_model4, data = wine, label = "model_rf")
 #' wine_rf_explainer4
 #'
-explain <- function(model, data = NULL, predict.function = yhat, label = tail(class(model), 1)) {
-  explainer <- list(model = model, data = data, predict.function = predict.function, class = class(model), label = label)
+explain <- function(model, data = NULL, y = NULL, predict.function = yhat, label = tail(class(model), 1)) {
+  explainer <- list(model = model,
+                    data = data,
+                    y = y,
+                    predict.function = predict.function,
+                    class = class(model),
+                    label = label)
   class(explainer) <- "explainer"
   explainer
 }

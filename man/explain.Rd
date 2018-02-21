@@ -4,7 +4,7 @@
 \alias{explain}
 \title{Create Model Explainer}
 \usage{
-explain(model, data = NULL, predict.function = yhat,
+explain(model, data = NULL, y = NULL, predict.function = yhat,
   label = tail(class(model), 1))
 }
 \arguments{
@@ -20,7 +20,14 @@ explain(model, data = NULL, predict.function = yhat,
 }
 \value{
 An object of the class 'explainer'.
-It's a list with the model and additional meta-data, like model class, model name etc.
+
+It's a list with following fields:
+
+* \code{model} the explained model
+* \code{data} the dataset used for training
+* \code{predict.function} function that may be used for model predictions, shall return a single numerical value for each observation.
+* \code{class} class/classess of a model
+* \code{label} label, by default it's the last value from the \code{class} vector, but may be set to any character.
 }
 \description{
 Black-box models may have very different structures.
