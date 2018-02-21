@@ -35,7 +35,7 @@ single_prediction <- function(explainer, observation, ...) {
   res <- broken(explainer$model,
                 new_observation = observation,
                 data = explainer$data,
-                baseline = "Intercept")
+                baseline = "Intercept", ...)
   res$label <- rep(explainer$label, length(res$variable))
 
   class(res) <- c("single_prediction_explainer", "data.frame")
