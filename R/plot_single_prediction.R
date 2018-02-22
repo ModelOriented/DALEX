@@ -38,6 +38,23 @@
 #' # both models
 #' plot(wine_rf_predict4, wine_lm_predict4)
 #'
+#' library("gbm")
+#' # create a gbm model
+#' model <- gbm(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine,
+#'              distribution = "gaussian",
+#'              n.trees = 1000,
+#'              interaction.depth = 4,
+#'              shrinkage = 0.01,
+#'              n.minobsinnode = 10,
+#'              verbose = FALSE)
+#'  # make an explainer for the model
+#'  explainer_gbm <- explain(model, data = wine)
+#'  # create a new observation
+#'  exp_sgn <- single_prediction(explainer_gbm, observation = new.wine,
+#'               n.trees = 1000)
+#'  exp_sgn
+#'  plot(exp_sgn)
+#'
 plot.single_prediction_explainer <- function(x, ..., add_contributions = TRUE,
                                              vcolors = c("-1" = "#d8b365", "0" = "#f5f5f5", "1" = "#5ab4ac", "X" = "darkgrey"),
                                              digits = 3, rounding_function = round) {
