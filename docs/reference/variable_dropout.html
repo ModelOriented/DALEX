@@ -128,36 +128,36 @@ It's a data frame with calculated average response.</p>
 <span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>left</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR_data</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR_data</span>$<span class='no'>left</span>)
 <span class='no'>vd_rf</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_dropout</span>(<span class='no'>explainer_rf</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)
 <span class='no'>vd_rf</span></div><div class='output co'>#&gt;                 variable dropout_loss        label
-#&gt; 1           _full_model_     2.864791 randomForest
-#&gt; 2  promotion_last_5years     2.864711 randomForest
-#&gt; 3                   left     2.864791 randomForest
-#&gt; 4          Work_accident     4.827576 randomForest
-#&gt; 5                 salary     6.953784 randomForest
-#&gt; 6                  sales     9.333851 randomForest
-#&gt; 7     time_spend_company    71.930029 randomForest
-#&gt; 8   average_montly_hours    89.684090 randomForest
-#&gt; 9        last_evaluation    91.273031 randomForest
-#&gt; 10        number_project   103.508723 randomForest
-#&gt; 11    satisfaction_level   155.238445 randomForest
-#&gt; 12            _baseline_   336.632141 randomForest</div><div class='input'>
+#&gt; 1           _full_model_     3.518106 randomForest
+#&gt; 2                   left     3.518106 randomForest
+#&gt; 3  promotion_last_5years     3.593906 randomForest
+#&gt; 4          Work_accident     4.894278 randomForest
+#&gt; 5                 salary     5.492415 randomForest
+#&gt; 6                  sales    10.826912 randomForest
+#&gt; 7     time_spend_company    76.792620 randomForest
+#&gt; 8   average_montly_hours    93.316933 randomForest
+#&gt; 9        last_evaluation   112.648191 randomForest
+#&gt; 10        number_project   133.269477 randomForest
+#&gt; 11    satisfaction_level   180.030137 randomForest
+#&gt; 12            _baseline_   357.524222 randomForest</div><div class='input'>
 <span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>left</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR_data</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR_data</span>$<span class='no'>left</span>)
 <span class='no'>logit</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'>exp</span>(<span class='no'>x</span>)/(<span class='fl'>1</span>+<span class='fu'>exp</span>(<span class='no'>x</span>))
 <span class='no'>vd_glm</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_dropout</span>(<span class='no'>explainer_glm</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>,
                         <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>) <span class='fu'>sum</span>((<span class='no'>observed</span> - <span class='fu'>logit</span>(<span class='no'>predicted</span>))^<span class='fl'>2</span>))
 <span class='no'>vd_glm</span></div><div class='output co'>#&gt;                 variable dropout_loss label
-#&gt; 1           _full_model_     138.6548    lm
-#&gt; 2   average_montly_hours     137.9145    lm
-#&gt; 3        last_evaluation     138.5597    lm
-#&gt; 4                   left     138.6548    lm
-#&gt; 5                  sales     140.1722    lm
-#&gt; 6  promotion_last_5years     141.5771    lm
-#&gt; 7     time_spend_company     142.9918    lm
-#&gt; 8          Work_accident     146.2993    lm
-#&gt; 9                 salary     149.6998    lm
-#&gt; 10        number_project     150.8737    lm
-#&gt; 11    satisfaction_level     206.2383    lm
-#&gt; 12            _baseline_     231.1264    lm</div><div class='input'>
+#&gt; 1           _full_model_     131.9339    lm
+#&gt; 2                  sales     131.2187    lm
+#&gt; 3  promotion_last_5years     131.8669    lm
+#&gt; 4   average_montly_hours     131.9053    lm
+#&gt; 5                   left     131.9339    lm
+#&gt; 6        last_evaluation     132.1117    lm
+#&gt; 7     time_spend_company     136.0778    lm
+#&gt; 8                 salary     143.5271    lm
+#&gt; 9         number_project     143.7606    lm
+#&gt; 10         Work_accident     146.3567    lm
+#&gt; 11    satisfaction_level     200.0032    lm
+#&gt; 12            _baseline_     215.0226    lm</div><div class='input'>
 <span class='fu'>library</span>(<span class='st'>"xgboost"</span>)
 <span class='no'>model_martix_train</span> <span class='kw'>&lt;-</span> <span class='fu'>model.matrix</span>(<span class='no'>left</span>~<span class='no'>.</span>-<span class='fl'>1</span>, <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>)
 <span class='no'>data_train</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/xgboost/topics/xgb.DMatrix'>xgb.DMatrix</a></span>(<span class='no'>model_martix_train</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>$<span class='no'>left</span>)
@@ -167,27 +167,27 @@ It's a data frame with calculated average response.</p>
 <span class='no'>explainer_xgb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_xgb_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>model_martix_train</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR_data</span>$<span class='no'>left</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"xgboost"</span>)
 <span class='no'>vd_xgb</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_dropout</span>(<span class='no'>explainer_xgb</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)
 <span class='no'>vd_xgb</span></div><div class='output co'>#&gt;                 variable dropout_loss   label
-#&gt; 1           _full_model_     20.23229 xgboost
-#&gt; 2  promotion_last_5years     20.16094 xgboost
-#&gt; 3             salessales     20.17215 xgboost
-#&gt; 4        salesaccounting     20.23229 xgboost
-#&gt; 5                salesIT     20.23229 xgboost
-#&gt; 6        salesmanagement     20.23229 xgboost
-#&gt; 7         salesmarketing     20.23229 xgboost
-#&gt; 8           salessupport     20.28994 xgboost
-#&gt; 9             salesRandD     20.30007 xgboost
-#&gt; 10      salesproduct_mng     20.43981 xgboost
-#&gt; 11         Work_accident     20.51868 xgboost
-#&gt; 12               saleshr     20.58113 xgboost
-#&gt; 13          salarymedium     20.71848 xgboost
-#&gt; 14        salestechnical     20.96317 xgboost
-#&gt; 15             salarylow     23.34276 xgboost
-#&gt; 16  average_montly_hours     42.69147 xgboost
-#&gt; 17       last_evaluation     49.73818 xgboost
-#&gt; 18        number_project     51.77436 xgboost
-#&gt; 19    time_spend_company     56.53983 xgboost
-#&gt; 20    satisfaction_level    162.02565 xgboost
-#&gt; 21            _baseline_    325.04431 xgboost</div><div class='input'>
+#&gt; 1           _full_model_     18.84525 xgboost
+#&gt; 2             salesRandD     18.61675 xgboost
+#&gt; 3           salessupport     18.78564 xgboost
+#&gt; 4        salesaccounting     18.84525 xgboost
+#&gt; 5                salesIT     18.84525 xgboost
+#&gt; 6        salesmanagement     18.84525 xgboost
+#&gt; 7         salesmarketing     18.84525 xgboost
+#&gt; 8             salessales     18.85145 xgboost
+#&gt; 9                saleshr     18.86079 xgboost
+#&gt; 10 promotion_last_5years     18.89052 xgboost
+#&gt; 11      salesproduct_mng     18.89147 xgboost
+#&gt; 12        salestechnical     19.03387 xgboost
+#&gt; 13          salarymedium     19.34897 xgboost
+#&gt; 14         Work_accident     19.57376 xgboost
+#&gt; 15             salarylow     20.08231 xgboost
+#&gt; 16        number_project     41.27843 xgboost
+#&gt; 17       last_evaluation     48.45253 xgboost
+#&gt; 18  average_montly_hours     48.70331 xgboost
+#&gt; 19    time_spend_company     78.97156 xgboost
+#&gt; 20    satisfaction_level    150.05115 xgboost
+#&gt; 21            _baseline_    351.57701 xgboost</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -142,20 +142,50 @@ It's a data frame with calculated average response.</p>
 <span class='no'>wine_rf_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>single_prediction</span>(<span class='no'>wine_rf_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>)
 <span class='no'>wine_rf_predict4</span></div><div class='output co'>#&gt;                              variable contribution  variable_name
 #&gt; 1                         (Intercept)    0.0000000      Intercept
-#&gt; alcohol              + alcohol = 12.5    0.5911477        alcohol
-#&gt; sulphates           + sulphates = 0.6    0.2220045      sulphates
-#&gt; pH                        + pH = 3.36    0.2744970             pH
-#&gt; residual.sugar + residual.sugar = 4.8    0.2975313 residual.sugar
+#&gt; alcohol              + alcohol = 12.5    0.5829462        alcohol
+#&gt; sulphates           + sulphates = 0.6    0.1940118      sulphates
+#&gt; residual.sugar + residual.sugar = 4.8    0.2466960 residual.sugar
+#&gt; pH                        + pH = 3.36    0.2805923             pH
 #&gt; citric.acid      + citric.acid = 0.35    0.0000000    citric.acid
-#&gt; 11                    final_prognosis    1.3851804               
+#&gt; 11                    final_prognosis    1.3042463               
 #&gt;                variable_value cummulative sign position    label
 #&gt; 1                           1   0.0000000    0        1 model_rf
-#&gt; alcohol                  12.5   0.5911477    1        2 model_rf
-#&gt; sulphates                 0.6   0.8131521    1        3 model_rf
-#&gt; pH                       3.36   1.0876491    1        4 model_rf
-#&gt; residual.sugar            4.8   1.3851804    1        5 model_rf
-#&gt; citric.acid              0.35   1.3851804    0        6 model_rf
-#&gt; 11                              1.3851804    X        7 model_rf</div><div class='input'>
+#&gt; alcohol                  12.5   0.5829462    1        2 model_rf
+#&gt; sulphates                 0.6   0.7769580    1        3 model_rf
+#&gt; residual.sugar            4.8   1.0236540    1        4 model_rf
+#&gt; pH                       3.36   1.3042463    1        5 model_rf
+#&gt; citric.acid              0.35   1.3042463    0        6 model_rf
+#&gt; 11                              1.3042463    X        7 model_rf</div><div class='input'>
+<span class='fu'>library</span>(<span class='st'>"gbm"</span>)
+<span class='co'># create a gbm model</span>
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/gbm/topics/gbm'>gbm</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>,
+             <span class='kw'>distribution</span> <span class='kw'>=</span> <span class='st'>"gaussian"</span>,
+             <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+             <span class='kw'>interaction.depth</span> <span class='kw'>=</span> <span class='fl'>4</span>,
+             <span class='kw'>shrinkage</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
+             <span class='kw'>n.minobsinnode</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+             <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+ <span class='co'># make an explainer for the model</span>
+ <span class='no'>explainer_gbm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
+ <span class='co'># create a new observation</span>
+ <span class='no'>exp_sgn</span> <span class='kw'>&lt;-</span> <span class='fu'>single_prediction</span>(<span class='no'>explainer_gbm</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>,
+              <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
+ <span class='no'>exp_sgn</span></div><div class='output co'>#&gt;                              variable contribution  variable_name
+#&gt; 1                         (Intercept)    0.0000000      Intercept
+#&gt; alcohol              + alcohol = 12.5    0.6398519        alcohol
+#&gt; pH                        + pH = 3.36    0.1600515             pH
+#&gt; sulphates           + sulphates = 0.6    0.1306007      sulphates
+#&gt; residual.sugar + residual.sugar = 4.8    0.0406708 residual.sugar
+#&gt; citric.acid      + citric.acid = 0.35    0.0000000    citric.acid
+#&gt; 11                    final_prognosis    0.9711748               
+#&gt;                variable_value cummulative sign position label
+#&gt; 1                           1   0.0000000    0        1   gbm
+#&gt; alcohol                  12.5   0.6398519    1        2   gbm
+#&gt; pH                       3.36   0.7999033    1        3   gbm
+#&gt; sulphates                 0.6   0.9305040    1        4   gbm
+#&gt; residual.sugar            4.8   0.9711748    1        5   gbm
+#&gt; citric.acid              0.35   0.9711748    0        6   gbm
+#&gt; 11                              0.9711748    X        7   gbm</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

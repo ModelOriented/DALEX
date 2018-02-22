@@ -120,12 +120,19 @@ This function creates a unified representation of a model, which can be further 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An object of the class 'explainer'.</p>
-<p>It's a list with following fields:</p>
-<p>* <code>model</code> the explained model
-* <code>data</code> the dataset used for training
-* <code>predict.function</code> function that may be used for model predictions, shall return a single numerical value for each observation.
-* <code>class</code> class/classess of a model
-* <code>label</code> label, by default it's the last value from the <code>class</code> vector, but may be set to any character.</p>
+<p>It's a list with following fields:</p><ul>
+<li><p><code>model</code> the explained model</p></li>
+<li><p><code>data</code> the dataset used for training</p></li>
+<li><p><code>predict.function</code> function that may be used for model predictions, shall return a single numerical value for each observation.</p></li>
+<li><p><code>class</code> class/classess of a model</p></li>
+<li><p><code>label</code> label, by default it's the last value from the <code>class</code> vector, but may be set to any character.</p></li>
+</ul>
+
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Please NOTE, that the <code>model</code> is accually the only required argument.
+But some explainers may require that others will be provided too.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -168,6 +175,8 @@ This function creates a unified representation of a model, which can be further 
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
