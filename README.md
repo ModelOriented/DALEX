@@ -24,4 +24,4 @@ devtools::install_github("pbiecek/DALEX")
 
 ## Variable Drop-out / Importance
 
-![DALEX_variable_dropout](DALEX_variable_dropout.png)
+![DALEX_variable_dropout](misc/DALEX_variable_dropout.png)

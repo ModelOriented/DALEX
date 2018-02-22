@@ -40,7 +40,9 @@ variable_dropout <- function(explainer,
                               ...,
                               type = "raw",
                               n_sample = 1000) {
-  stopifnot(class(explainer) == "explainer")
+  if (!("explainer" %in% class(explainer))) stop("The variable_dropout() function requires an object created with explain() function.")
+  if (is.null(explainer$data)) stop("The variable_dropout() function requires explainers created with specified 'data' parameter.")
+  if (is.null(explainer$y)) stop("The variable_dropout() function requires explainers created with specified 'y' parameter.")
 
   variables <- colnames(explainer$data)
   sampled_rows <- sample.int(nrow(explainer$data), n_sample, replace = TRUE)

@@ -29,7 +29,8 @@
 #' wine_rf_predict4
 #'
 single_prediction <- function(explainer, observation, ...) {
-  stopifnot(class(explainer) == "explainer")
+  if (!("explainer" %in% class(explainer))) stop("The single_prediction() function requires an object created with explain() function.")
+  if (is.null(explainer$data)) stop("The single_prediction() function requires explainers created with specified 'data' parameter.")
 
   # breakDown
   res <- broken(explainer$model,

@@ -38,6 +38,9 @@
 #' expl_rf
 #'
 single_variable <- function(explainer, variable, type = "pdp", trans = I, ...) {
+  if (!("explainer" %in% class(explainer))) stop("The single_variable() function requires an object created with explain() function.")
+  if (is.null(explainer$data)) stop("The single_variable() function requires explainers created with specified 'data' parameter.")
+
   switch(type,
          pdp = {
            part <- partial(explainer$model, pred.var = variable, train = explainer$data, ...)

@@ -54,6 +54,10 @@
 #'               n.trees = 1000)
 #'  exp_sgn
 #'  plot(exp_sgn)
+#'  plot(wine_rf_predict4, wine_lm_predict4, exp_sgn)
+#'
+#'  # session info
+#'  sessionInfo()
 #'
 plot.single_prediction_explainer <- function(x, ..., add_contributions = TRUE,
                                              vcolors = c("-1" = "#d8b365", "0" = "#f5f5f5", "1" = "#5ab4ac", "X" = "darkgrey"),
