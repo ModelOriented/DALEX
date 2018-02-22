@@ -21,3 +21,7 @@ devtools::install_github("pbiecek/DALEX")
 ## Single Prediction
 
 ![DALEX_single_prediction](misc/DALEX_single_prediction.png)
+
+## Variable Drop-out / Importance
+
+![DALEX_variable_dropout](DALEX_variable_dropout.png)
