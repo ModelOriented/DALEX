@@ -68,5 +68,6 @@ model <- gbm(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine,
               n.trees = 1000)
  exp_sgn
  plot(exp_sgn)
+ plot(wine_rf_predict4, wine_lm_predict4, exp_sgn)
 
 }

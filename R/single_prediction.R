@@ -28,6 +28,22 @@
 #' wine_rf_predict4 <- single_prediction(wine_rf_explainer4, observation = new.wine)
 #' wine_rf_predict4
 #'
+#' library("gbm")
+#' # create a gbm model
+#' model <- gbm(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine,
+#'              distribution = "gaussian",
+#'              n.trees = 1000,
+#'              interaction.depth = 4,
+#'              shrinkage = 0.01,
+#'              n.minobsinnode = 10,
+#'              verbose = FALSE)
+#'  # make an explainer for the model
+#'  explainer_gbm <- explain(model, data = wine)
+#'  # create a new observation
+#'  exp_sgn <- single_prediction(explainer_gbm, observation = new.wine,
+#'               n.trees = 1000)
+#'  exp_sgn
+#'
 single_prediction <- function(explainer, observation, ...) {
   if (!("explainer" %in% class(explainer))) stop("The single_prediction() function requires an object created with explain() function.")
   if (is.null(explainer$data)) stop("The single_prediction() function requires explainers created with specified 'data' parameter.")

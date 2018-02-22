@@ -23,11 +23,13 @@ An object of the class 'explainer'.
 
 It's a list with following fields:
 
+\itemize{
 \item \code{model} the explained model
 \item \code{data} the dataset used for training
 \item \code{predict.function} function that may be used for model predictions, shall return a single numerical value for each observation.
 \item \code{class} class/classess of a model
 \item \code{label} label, by default it's the last value from the \code{class} vector, but may be set to any character.
+}
 }
 \description{
 Black-box models may have very different structures.
