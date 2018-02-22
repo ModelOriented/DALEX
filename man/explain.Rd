@@ -10,7 +10,7 @@ explain(model, data = NULL, y = NULL, predict.function = yhat,
 \arguments{
 \item{model}{object - a model to be explained}
 
-\item{data}{data.frame or marix - data that was used for fitting. If not provided then will be extracted from model fit}
+\item{data}{data.frame or matrix - data that was used for fitting. If not provided then will be extracted from the model}
 
 \item{predict.function}{function that takes two arguments: model and new data and returns numeric vector with predictions}
 
@@ -27,7 +27,7 @@ It's a list with following fields:
 \item \code{model} the explained model
 \item \code{data} the dataset used for training
 \item \code{predict.function} function that may be used for model predictions, shall return a single numerical value for each observation.
-\item \code{class} class/classess of a model
+\item \code{class} class/classes of a model
 \item \code{label} label, by default it's the last value from the \code{class} vector, but may be set to any character.
 }
 }
@@ -36,7 +36,7 @@ Black-box models may have very different structures.
 This function creates a unified representation of a model, which can be further processed by various explainers.
 }
 \details{
-Please NOTE, that the \code{model} is accually the only required argument.
+Please NOTE, that the \code{model} is actually the only required argument.
 But some explainers may require that others will be provided too.
 }
 \examples{
