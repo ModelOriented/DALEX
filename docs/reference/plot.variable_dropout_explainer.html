@@ -131,7 +131,7 @@ It uses output from <code>variable_dropout</code> function that corresponds to p
 #&gt; 9        last_evaluation   100.529014 randomForest
 #&gt; 10        number_project   105.806632 randomForest
 #&gt; 11    satisfaction_level   170.634216 randomForest
-#&gt; 12            _baseline_   341.674293 randomForest</div><div class='input'><span class='fu'>plot</span>(<span class='no'>vd_rf</span>)</div><div class='img'><img src='plot.variable_dropout_explainer-16.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+#&gt; 12            _baseline_   341.674293 randomForest</div><div class='input'><span class='fu'>plot</span>(<span class='no'>vd_rf</span>)</div><div class='img'><img src='plot.variable_dropout_explainer-21.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>left</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR_data</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR_data</span>$<span class='no'>left</span>)
 <span class='no'>logit</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'>exp</span>(<span class='no'>x</span>)/(<span class='fl'>1</span>+<span class='fu'>exp</span>(<span class='no'>x</span>))
@@ -149,7 +149,7 @@ It uses output from <code>variable_dropout</code> function that corresponds to p
 #&gt; 9         number_project     134.0903    lm
 #&gt; 10         Work_accident     136.1615    lm
 #&gt; 11    satisfaction_level     182.1601    lm
-#&gt; 12            _baseline_     215.5256    lm</div><div class='input'><span class='fu'>plot</span>(<span class='no'>vd_glm</span>)</div><div class='img'><img src='plot.variable_dropout_explainer-17.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+#&gt; 12            _baseline_     215.5256    lm</div><div class='input'><span class='fu'>plot</span>(<span class='no'>vd_glm</span>)</div><div class='img'><img src='plot.variable_dropout_explainer-22.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='fu'>library</span>(<span class='st'>"xgboost"</span>)
 <span class='no'>model_martix_train</span> <span class='kw'>&lt;-</span> <span class='fu'>model.matrix</span>(<span class='no'>left</span>~<span class='no'>.</span>-<span class='fl'>1</span>, <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>)
 <span class='no'>data_train</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/xgboost/topics/xgb.DMatrix'>xgb.DMatrix</a></span>(<span class='no'>model_martix_train</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>$<span class='no'>left</span>)
@@ -179,15 +179,15 @@ It uses output from <code>variable_dropout</code> function that corresponds to p
 #&gt; 18       last_evaluation     52.17555 xgboost
 #&gt; 19    time_spend_company     74.85348 xgboost
 #&gt; 20    satisfaction_level    152.05913 xgboost
-#&gt; 21            _baseline_    344.85452 xgboost</div><div class='input'><span class='fu'>plot</span>(<span class='no'>vd_xgb</span>)</div><div class='img'><img src='plot.variable_dropout_explainer-18.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
-<span class='fu'>plot</span>(<span class='no'>vd_rf</span>, <span class='no'>vd_glm</span>, <span class='no'>vd_xgb</span>)</div><div class='img'><img src='plot.variable_dropout_explainer-19.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+#&gt; 21            _baseline_    344.85452 xgboost</div><div class='input'><span class='fu'>plot</span>(<span class='no'>vd_xgb</span>)</div><div class='img'><img src='plot.variable_dropout_explainer-23.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>vd_rf</span>, <span class='no'>vd_glm</span>, <span class='no'>vd_xgb</span>)</div><div class='img'><img src='plot.variable_dropout_explainer-24.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='co'># NOTE:</span>
 <span class='co'># if you like to have all importances hooked to 0, you can do this as well</span>
 <span class='no'>vd_rf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_dropout.html'>variable_dropout</a></span>(<span class='no'>explainer_rf</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"difference"</span>)
 <span class='no'>vd_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_dropout.html'>variable_dropout</a></span>(<span class='no'>explainer_glm</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"difference"</span>,
                         <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>) <span class='fu'>sum</span>((<span class='no'>observed</span> - <span class='fu'>logit</span>(<span class='no'>predicted</span>))^<span class='fl'>2</span>))
 <span class='no'>vd_xgb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_dropout.html'>variable_dropout</a></span>(<span class='no'>explainer_xgb</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"difference"</span>)
-<span class='fu'>plot</span>(<span class='no'>vd_rf</span>, <span class='no'>vd_glm</span>, <span class='no'>vd_xgb</span>)</div><div class='img'><img src='plot.variable_dropout_explainer-20.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>vd_rf</span>, <span class='no'>vd_glm</span>, <span class='no'>vd_xgb</span>)</div><div class='img'><img src='plot.variable_dropout_explainer-25.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

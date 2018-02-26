@@ -101,7 +101,7 @@ This function creates a unified representation of a model, which can be further 
     </tr>
     <tr>
       <th>data</th>
-      <td><p>data.frame or marix - data that was used for fitting. If not provided then will be extracted from model fit</p></td>
+      <td><p>data.frame or matrix - data that was used for fitting. If not provided then will be extracted from the model</p></td>
     </tr>
     <tr>
       <th>predict.function</th>
@@ -124,14 +124,14 @@ This function creates a unified representation of a model, which can be further 
 <li><p><code>model</code> the explained model</p></li>
 <li><p><code>data</code> the dataset used for training</p></li>
 <li><p><code>predict.function</code> function that may be used for model predictions, shall return a single numerical value for each observation.</p></li>
-<li><p><code>class</code> class/classess of a model</p></li>
+<li><p><code>class</code> class/classes of a model</p></li>
 <li><p><code>label</code> label, by default it's the last value from the <code>class</code> vector, but may be set to any character.</p></li>
 </ul>
 
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Please NOTE, that the <code>model</code> is accually the only required argument.
+    <p>Please NOTE, that the <code>model</code> is actually the only required argument.
 But some explainers may require that others will be provided too.</p>
     
 
