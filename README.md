@@ -11,6 +11,10 @@ In many applications we need to know, understand or prove how input variables ar
 ## Install
 
 ```{r}
+# dependencies
+devtools::install_github("pbiecek/breakDown")
+
+# DALEX pacakge
 devtools::install_github("pbiecek/DALEX")
 ```
 
