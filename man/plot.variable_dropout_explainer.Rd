@@ -22,6 +22,7 @@ It uses output from \code{variable_dropout} function that corresponds to permuta
 }
 \examples{
 
+\dontrun{
 library("breakDown")
 library("randomForest")
 HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
@@ -61,5 +62,6 @@ vd_glm <- variable_dropout(explainer_glm, type = "difference",
                                    sum((observed - logit(predicted))^2))
 vd_xgb <- variable_dropout(explainer_xgb, type = "difference")
 plot(vd_rf, vd_glm, vd_xgb)
+}
 
 }

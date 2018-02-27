@@ -17,7 +17,7 @@
 #' @import ggplot2
 #'
 #' @examples
-#' library("randomForest")
+#' \dontrun{
 #' library("breakDown")
 #' new.wine <- data.frame(citric.acid = 0.35,
 #'      sulphates = 0.6,
@@ -30,6 +30,7 @@
 #' wine_lm_predict4 <- single_prediction(wine_lm_explainer4, observation = new.wine)
 #' plot(wine_lm_predict4)
 #'
+#' library("randomForest")
 #' wine_rf_model4 <- randomForest(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine)
 #' wine_rf_explainer4 <- explain(wine_rf_model4, data = wine, label = "model_rf")
 #' wine_rf_predict4 <- single_prediction(wine_rf_explainer4, observation = new.wine)
@@ -55,6 +56,7 @@
 #'  exp_sgn
 #'  plot(exp_sgn)
 #'  plot(wine_rf_predict4, wine_lm_predict4, exp_sgn)
+#'  }
 #'
 plot.single_prediction_explainer <- function(x, ..., add_contributions = TRUE,
                                              vcolors = c("-1" = "#d8b365", "0" = "#f5f5f5", "1" = "#5ab4ac", "X" = "darkgrey"),

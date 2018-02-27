@@ -31,7 +31,7 @@ a ggplot2 object
 Function 'plot.single_prediction_explainer' plots break down plots for a single prediction.
 }
 \examples{
-library("randomForest")
+\dontrun{
 library("breakDown")
 new.wine <- data.frame(citric.acid = 0.35,
      sulphates = 0.6,
@@ -44,6 +44,7 @@ wine_lm_explainer4 <- explain(wine_lm_model4, data = wine, label = "model_4v")
 wine_lm_predict4 <- single_prediction(wine_lm_explainer4, observation = new.wine)
 plot(wine_lm_predict4)
 
+library("randomForest")
 wine_rf_model4 <- randomForest(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine)
 wine_rf_explainer4 <- explain(wine_rf_model4, data = wine, label = "model_rf")
 wine_rf_predict4 <- single_prediction(wine_rf_explainer4, observation = new.wine)
@@ -69,5 +70,6 @@ model <- gbm(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine,
  exp_sgn
  plot(exp_sgn)
  plot(wine_rf_predict4, wine_lm_predict4, exp_sgn)
+ }
 
 }

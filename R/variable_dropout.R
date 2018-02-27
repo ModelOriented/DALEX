@@ -11,7 +11,7 @@
 #'
 #' @export
 #' @examples
-#'
+#' \dontrun{
 #' library("breakDown")
 #' library("randomForest")
 #' HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
@@ -37,6 +37,7 @@
 #'                      y = HR_data$left, label = "xgboost")
 #' vd_xgb <- variable_dropout(explainer_xgb, type = "raw")
 #' vd_xgb
+#' }
 #'
 variable_dropout <- function(explainer,
                               loss_function = function(observed, predicted) sum((observed - predicted)^2),

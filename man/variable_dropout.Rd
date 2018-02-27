@@ -26,7 +26,7 @@ It's a data frame with calculated average response.
 Loss from Variable Dropout
 }
 \examples{
-
+\dontrun{
 library("breakDown")
 library("randomForest")
 HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
@@ -52,5 +52,6 @@ explainer_xgb <- explain(HR_xgb_model, data = model_martix_train,
                      y = HR_data$left, label = "xgboost")
 vd_xgb <- variable_dropout(explainer_xgb, type = "raw")
 vd_xgb
+}
 
 }

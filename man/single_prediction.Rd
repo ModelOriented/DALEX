@@ -21,7 +21,6 @@ It's a data frame with calculated average response.
 Explanations for a Single Prediction
 }
 \examples{
-library("randomForest")
 library("breakDown")
 new.wine <- data.frame(citric.acid = 0.35,
      sulphates = 0.6,
@@ -34,6 +33,8 @@ wine_lm_explainer4 <- explain(wine_lm_model4, data = wine, label = "model_4v")
 wine_lm_predict4 <- single_prediction(wine_lm_explainer4, observation = new.wine)
 wine_lm_predict4
 
+\dontrun{
+library("randomForest")
 wine_rf_model4 <- randomForest(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine)
 wine_rf_explainer4 <- explain(wine_rf_model4, data = wine, label = "model_rf")
 wine_rf_predict4 <- single_prediction(wine_rf_explainer4, observation = new.wine)
@@ -54,5 +55,6 @@ model <- gbm(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine,
  exp_sgn <- single_prediction(explainer_gbm, observation = new.wine,
               n.trees = 1000)
  exp_sgn
+ }
 
 }
