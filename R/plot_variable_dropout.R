@@ -7,11 +7,13 @@
 #' @param ... other explainers that shall be plotted together
 #' @param max_vars maximum number of variables that shall be presented for for each model
 #'
+#' @importFrom stats model.frame reorder
 #' @return a ggplot2 object
 #' @export
 #'
 #' @examples
 #'
+#' library("breakDown")
 #' library("randomForest")
 #' HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
 #' explainer_rf  <- explain(HR_rf_model, data = HR_data, y = HR_data$left)
@@ -23,7 +25,8 @@
 #' explainer_glm <- explain(HR_glm_model, data = HR_data, y = HR_data$left)
 #' logit <- function(x) exp(x)/(1+exp(x))
 #' vd_glm <- variable_dropout(explainer_glm, type = "raw",
-#'                         loss_function = function(observed, predicted) sum((observed - logit(predicted))^2))
+#'                         loss_function = function(observed, predicted)
+#'                                    sum((observed - logit(predicted))^2))
 #' vd_glm
 #' plot(vd_glm)
 #'
@@ -33,7 +36,8 @@
 #' param <- list(max_depth = 2, eta = 1, silent = 1, nthread = 2,
 #'               objective = "binary:logistic", eval_metric = "auc")
 #' HR_xgb_model <- xgb.train(param, data_train, nrounds = 50)
-#' explainer_xgb <- explain(HR_xgb_model, data = model_martix_train, y = HR_data$left, label = "xgboost")
+#' explainer_xgb <- explain(HR_xgb_model, data = model_martix_train,
+#'                                     y = HR_data$left, label = "xgboost")
 #' vd_xgb <- variable_dropout(explainer_xgb, type = "raw")
 #' vd_xgb
 #' plot(vd_xgb)
@@ -44,7 +48,8 @@
 #' # if you like to have all importances hooked to 0, you can do this as well
 #' vd_rf <- variable_dropout(explainer_rf, type = "difference")
 #' vd_glm <- variable_dropout(explainer_glm, type = "difference",
-#'                         loss_function = function(observed, predicted) sum((observed - logit(predicted))^2))
+#'                         loss_function = function(observed, predicted)
+#'                                    sum((observed - logit(predicted))^2))
 #' vd_xgb <- variable_dropout(explainer_xgb, type = "difference")
 #' plot(vd_rf, vd_glm, vd_xgb)
 #'

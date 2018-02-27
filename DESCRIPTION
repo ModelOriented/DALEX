@@ -19,3 +19,6 @@ Imports: pdp,
     ggplot2,
     ALEPlot,
     breakDown
+Suggests: gbm,
+  randomForest,
+  xgboost

@@ -8,6 +8,7 @@
 #'
 #' @param model object - a model to be explained
 #' @param data data.frame or matrix - data that was used for fitting. If not provided then will be extracted from the model
+#' @param y numeric vector with outputs / scores. Currently used only by \code{variable_dropout()} explainer.
 #' @param predict.function function that takes two arguments: model and new data and returns numeric vector with predictions
 #' @param ... other parameters
 #' @param label character - the name of the model. By default it's extracted from the 'class' attribute of the model
