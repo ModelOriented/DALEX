@@ -29,3 +29,8 @@ devtools::install_github("pbiecek/DALEX")
 ## Variable Drop-out / Importance
 
 ![DALEX_variable_dropout](misc/DALEX_variable_dropout.png)
+
+## Acknowledgments
+
+Work on this package was financially supported by the 'NCN Opus grant 2016/21/B/ST6/02176'.
+    
