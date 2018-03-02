@@ -2,8 +2,9 @@
 #'
 #' Function \code{plot.variable_dropout_explainer} plots dropouts for variables used in the model.
 #' It uses output from \code{variable_dropout} function that corresponds to permutation based measure of variable importance.
+#' Variables are sorted in the same order in all panels. The order depends on the average drop out loss. In different panels variable contributions may not look like sorted if variable importance is different in different in different mdoels.
 #'
-#' @param x a variable fropout exlainer produced with the 'variable_dropout' function
+#' @param x a variable dropout exlainer produced with the 'variable_dropout' function
 #' @param ... other explainers that shall be plotted together
 #' @param max_vars maximum number of variables that shall be presented for for each model
 #'
