@@ -39,7 +39,7 @@
 #'              n.minobsinnode = 10,
 #'              verbose = FALSE)
 #'  # make an explainer for the model
-#'  explainer_gbm <- explain(model, data = wine, predict.function =
+#'  explainer_gbm <- explain(model, data = wine, predict_function =
 #'          function(model, x) predict(model, x, n.trees = 1000))
 #'  # create a new observation
 #'  exp_sgn <- single_prediction(explainer_gbm, observation = new.wine)
@@ -54,7 +54,7 @@ single_prediction <- function(explainer, observation, ...) {
   res <- broken(explainer$model,
                 new_observation = observation,
                 data = explainer$data,
-                predict.function = explainer$predict.function,
+                predict.function = explainer$predict_function,
                 baseline = "Intercept", ...)
   res$label <- rep(explainer$label, length(res$variable))
 

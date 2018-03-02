@@ -55,13 +55,13 @@ variable_dropout <- function(explainer,
   observed <- explainer$y[sampled_rows]
 
   loss_0 <- loss_function(observed,
-                          explainer$predict.function(explainer$model, sampled_data))
+                          explainer$predict_function(explainer$model, sampled_data))
   loss_full <- loss_function(sample(observed),
-                          explainer$predict.function(explainer$model, sampled_data))
+                          explainer$predict_function(explainer$model, sampled_data))
   res <- sapply(variables, function(variable) {
     ndf <- sampled_data
     ndf[,variable] <- sample(ndf[,variable])
-    predicted <- explainer$predict.function(explainer$model, ndf)
+    predicted <- explainer$predict_function(explainer$model, ndf)
     loss_function(observed, predicted)
   })
   res <- sort(res)

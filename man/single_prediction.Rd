@@ -50,7 +50,7 @@ model <- gbm(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine,
              n.minobsinnode = 10,
              verbose = FALSE)
  # make an explainer for the model
- explainer_gbm <- explain(model, data = wine, predict.function =
+ explainer_gbm <- explain(model, data = wine, predict_function =
          function(model, x) predict(model, x, n.trees = 1000))
  # create a new observation
  exp_sgn <- single_prediction(explainer_gbm, observation = new.wine)
