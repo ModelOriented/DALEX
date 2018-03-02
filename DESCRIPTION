@@ -6,12 +6,12 @@ Description: Machine Learning (ML) models are widely used and have various appli
   or regression. Models created with boosting, bagging, stacking or similar techniques are often
   used due to their high performance, but such black-box models usually lack of interpretability.
   'DALEX' package contains various explainers that help to understand the link between input variables and model output.
-  The 'single_variable()' explainer extracts conditional response of a model as a function of a single selected variable.
+  The single_variable() explainer extracts conditional response of a model as a function of a single selected variable.
   It is a wrapper over packages 'pdp' and 'ALEPlot'.
-  The 'single_prediction()' explainer attributes arts of model prediction to articular variables used in the model.
+  The single_prediction() explainer attributes arts of model prediction to articular variables used in the model.
   It is a wrapper over 'breakDown' package.
-  The 'variable_dropout()' explainer assess variable importance based on consecutive permutations.
-  All these explainers can be plotted with generic 'plot()' function and compared across different models.
+  The variable_dropout() explainer assess variable importance based on consecutive permutations.
+  All these explainers can be plotted with generic plot() function and compared across different models.
 Depends: R (>= 3.0)
 License: GPL
 Encoding: UTF-8

@@ -17,7 +17,7 @@
 #' @import ggplot2
 #'
 #' @examples
-#' \dontrun{
+#' # \dontrun{
 #' library("breakDown")
 #' new.wine <- data.frame(citric.acid = 0.35,
 #'      sulphates = 0.6,
@@ -49,14 +49,14 @@
 #'              n.minobsinnode = 10,
 #'              verbose = FALSE)
 #'  # make an explainer for the model
-#'  explainer_gbm <- explain(model, data = wine)
+#'  explainer_gbm <- explain(model, data = wine, predict.function =
+#'          function(model, x) predict(model, x, n.trees = 1000))
 #'  # create a new observation
-#'  exp_sgn <- single_prediction(explainer_gbm, observation = new.wine,
-#'               n.trees = 1000)
+#'  exp_sgn <- single_prediction(explainer_gbm, observation = new.wine)
 #'  exp_sgn
 #'  plot(exp_sgn)
 #'  plot(wine_rf_predict4, wine_lm_predict4, exp_sgn)
-#'  }
+#'  #}
 #'
 plot.single_prediction_explainer <- function(x, ..., add_contributions = TRUE,
                                              vcolors = c("-1" = "#d8b365", "0" = "#f5f5f5", "1" = "#5ab4ac", "X" = "darkgrey"),
@@ -100,7 +100,7 @@ plot.single_prediction_explainer <- function(x, ..., add_contributions = TRUE,
 
   pl <- pl +
     scale_y_continuous(expand = c(0.1, 0.1), name = "") +
-    scale_x_continuous(labels = df$variable, breaks = df$position + 0.5, name =  "") +
+    scale_x_continuous(expand = c(0, 0), labels = df$variable, breaks = df$position + 0.5, name =  "") +
     scale_fill_manual(values = vcolors) +
     coord_flip() +
     theme_mi2() + theme(legend.position = "none", panel.border = element_blank())

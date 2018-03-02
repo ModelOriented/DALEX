@@ -14,7 +14,7 @@ In many applications we need to know, understand or prove how input variables ar
 # dependencies
 devtools::install_github("pbiecek/breakDown")
 
-# DALEX pacakge
+# DALEX package
 devtools::install_github("pbiecek/DALEX")
 ```
 

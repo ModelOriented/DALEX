@@ -39,12 +39,12 @@ explainer_glm <- explain(HR_glm_model, data = HR_data)
 expl_glm <- single_variable(explainer_glm, "satisfaction_level", "pdp", trans=logit)
 expl_glm
 
-\dontrun{
+#\dontrun{
 library("randomForest")
 HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
 explainer_rf  <- explain(HR_rf_model, data = HR_data)
 expl_rf  <- single_variable(explainer_rf, variable =  "satisfaction_level", type = "pdp")
 expl_rf
-}
+#}
 
 }

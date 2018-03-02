@@ -19,7 +19,7 @@
 #' expl_glm <- single_variable(explainer_glm, "satisfaction_level", "pdp", trans=logit)
 #' plot(expl_glm)
 #'
-#' \dontrun{
+#' #\dontrun{
 #' library("randomForest")
 #' HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
 #' explainer_rf  <- explain(HR_rf_model, data = HR_data)
@@ -27,7 +27,7 @@
 #' plot(expl_rf)
 #'
 #' plot(expl_rf, expl_glm)
-#' }
+#' #}
 #'
 plot.single_variable_explainer <- function(x, ...) {
   df <- x
