@@ -36,6 +36,11 @@ devtools::install_github("pbiecek/DALEX")
 
 ![DALEX_variable_dropout](misc/DALEX_variable_dropout.png)
 
+
+## DALEX Stories
+
+* [DALEX at Complexity Institute / NTU February 2018](https://github.com/pbiecek/pbiecek.github.io/blob/master/Presentations/DALEX_at_NTU_2018.pdf)
+
 ## Acknowledgments
 
 Work on this package was financially supported by the 'NCN Opus grant 2016/21/B/ST6/02176'.
