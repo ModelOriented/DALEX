@@ -1,6 +1,6 @@
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/DALEX)](https://cran.r-project.org/package=DALEX)
 [![Downloads](http://cranlogs.r-pkg.org/badges/DALEX)](http://cran.rstudio.com/package=DALEX)
-[![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/archivist?color=DALEX)](http://cranlogs.r-pkg.org/badges/grand-total/DALEX)
+[![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/DALEX?color=orange)](http://cranlogs.r-pkg.org/badges/grand-total/DALEX)
 [![Build Status](https://api.travis-ci.org/pbiecek/DALEX.png)](https://travis-ci.org/pbiecek/DALEX)
 [![Github Issues](http://githubbadges.herokuapp.com/pbiecek/DALEX/issues.svg)](https://github.com/pbiecek/DALEX/issues)
 

@@ -89,7 +89,7 @@
 This function creates a unified representation of a model, which can be further processed by various explainers.</p>
     
 
-    <pre class="usage"><span class='fu'>explain</span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict.function</span> <span class='kw'>=</span> <span class='no'>yhat</span>,
+    <pre class="usage"><span class='fu'>explain</span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>yhat</span>,
   <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'>tail</span>(<span class='fu'>class</span>(<span class='no'>model</span>), <span class='fl'>1</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
@@ -104,7 +104,11 @@ This function creates a unified representation of a model, which can be further 
       <td><p>data.frame or matrix - data that was used for fitting. If not provided then will be extracted from the model</p></td>
     </tr>
     <tr>
-      <th>predict.function</th>
+      <th>y</th>
+      <td><p>numeric vector with outputs / scores. Currently used only by <code><a href='variable_dropout.html'>variable_dropout()</a></code> explainer.</p></td>
+    </tr>
+    <tr>
+      <th>predict_function</th>
       <td><p>function that takes two arguments: model and new data and returns numeric vector with predictions</p></td>
     </tr>
     <tr>
@@ -123,7 +127,7 @@ This function creates a unified representation of a model, which can be further 
 <p>It's a list with following fields:</p><ul>
 <li><p><code>model</code> the explained model</p></li>
 <li><p><code>data</code> the dataset used for training</p></li>
-<li><p><code>predict.function</code> function that may be used for model predictions, shall return a single numerical value for each observation.</p></li>
+<li><p><code>predict_function</code> function that may be used for model predictions, shall return a single numerical value for each observation.</p></li>
 <li><p><code>class</code> class/classes of a model</p></li>
 <li><p><code>label</code> label, by default it's the last value from the <code>class</code> vector, but may be set to any character.</p></li>
 </ul>
@@ -136,8 +140,7 @@ But some explainers may require that others will be provided too.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
-<span class='fu'>library</span>(<span class='st'>"breakDown"</span>)
+    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='st'>"breakDown"</span>)
 
 <span class='no'>wine_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
 <span class='no'>wine_lm_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>wine_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>)
@@ -153,6 +156,8 @@ But some explainers may require that others will be provided too.</p>
 #&gt;   quality
 #&gt; 1       6
 #&gt; 2       6</div><div class='input'>
+<span class='co'># \dontrun{</span>
+<span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
 <span class='no'>wine_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
 <span class='no'>wine_rf_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>wine_rf_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_rf"</span>)
 <span class='no'>wine_rf_explainer4</span></div><div class='output co'>#&gt; Model label:  model_rf 
@@ -166,7 +171,8 @@ But some explainers may require that others will be provided too.</p>
 #&gt; 2                  14                  132   0.994 3.3      0.49     9.5
 #&gt;   quality
 #&gt; 1       6
-#&gt; 2       6</div><div class='input'>
+#&gt; 2       6</div><div class='input'># }
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
