@@ -1,0 +1,15 @@
+language: R
+sudo: false
+cache: packages
+dist: trusty
+env:
+  global:
+  - R_CHECK_ARGS="--no-build-vignettes --no-manual --timings"
+notifications:
+  email: false
+r_packages:
+  - archivist
+  - pdp
+  - ggplot2
+  - ALEPlot
+  - breakDown
