@@ -20,7 +20,9 @@ RoxygenNote: 6.0.1.9000
 Imports: pdp,
     ggplot2,
     ALEPlot,
-    breakDown
+    breakDown,
+    factorMerger,
+    ggpubr
 Suggests: gbm,
   randomForest,
   xgboost
