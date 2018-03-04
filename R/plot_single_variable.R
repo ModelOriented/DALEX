@@ -70,7 +70,8 @@ plot.single_variable_factor_explainer <- function(x, ...) {
                                                markStars = TRUE,
                                                clusterSplit = clusterSplit,
                                                palette = NULL,
-                                               panelGrid = FALSE)
+                                               panelGrid = FALSE) +
+                        scale_x_continuous("", breaks=NULL)
     responsePlot <- factorMerger:::plotResponse(fm, "boxplot", TRUE, clusterSplit, NULL) +
       ggtitle("Partial Group Predictions")
     ggarrange(mergingPathPlot, responsePlot,
