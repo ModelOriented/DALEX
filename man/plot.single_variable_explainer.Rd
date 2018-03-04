@@ -28,11 +28,23 @@ plot(expl_glm)
 
 #\dontrun{
 library("randomForest")
-HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
-explainer_rf  <- explain(HR_rf_model, data = HR_data)
-expl_rf  <- single_variable(explainer_rf, variable =  "satisfaction_level", type = "pdp")
+HR_rf_model <- randomForest(factor(left)~., data = breakDown::HR_data, ntree = 100)
+explainer_rf  <- explain(HR_rf_model, data = HR_data,
+                       predict_function = function(model, x) predict(model, x, type = "prob")[,2])
+expl_rf  <- single_variable(explainer_rf, variable =  "satisfaction_level", type = "pdp", which.class = 2, prob = TRUE)
 plot(expl_rf)
 
+plot(expl_rf, expl_glm)
+
+# Example for factor variable (with factorMerger)
+library("randomForest")
+expl_rf  <- single_variable(explainer_rf, variable =  "sales", type = "factor")
+plot(expl_rf)
+
+expl_glm  <- single_variable(explainer_glm, variable =  "sales", type = "factor", trans = logit)
+plot(expl_glm)
+
+# both models
 plot(expl_rf, expl_glm)
 #}
 

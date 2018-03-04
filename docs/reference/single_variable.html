@@ -87,7 +87,7 @@
     
     <p>Calculates the average model response as a function of a single selected variable.
 Use the 'type' parameter to select the type of marginal response to be calculated.
-Currently we have Partial Dependency and Accumulated Local Effects implemented.
+Currently for numeric variables we have Partial Dependency and Accumulated Local Effects implemented.
 Current implementation uses the 'pdp' package (Brandon M. Greenwell (2017).
 pdp: An R Package for Constructing Partial Dependence Plots. The R Journal, 9(1), 421--436.)
 and 'ALEPlot' (Dan Apley (2017). ALEPlot: Accumulated Local Effects Plots and Partial Dependence Plots.)</p>
@@ -125,6 +125,11 @@ Currently following options are implemented: 'pdp' for Partial Dependency and 'a
 
     <p>An object of the class 'single_variable_explainer'.
 It's a data frame with calculated average response.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>For factor variables we are using the 'factorMerger' package.
+Please note that the argument <code>type</code> must be set to <code>'factor'</code> to use this method.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -188,60 +193,62 @@ It's a data frame with calculated average response.</p>
 #&gt; 51 1.0000 0.1677960 satisfaction_level  pdp    lm</div><div class='input'>
 <span class='co'>#\dontrun{</span>
 <span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
-<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>left</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR_data</span>)
-<span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'>single_variable</span>(<span class='no'>explainer_rf</span>, <span class='kw'>variable</span> <span class='kw'>=</span>  <span class='st'>"satisfaction_level"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>)
+<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='fu'>factor</span>(<span class='no'>left</span>)~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)
+<span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR_data</span>,
+                       <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>model</span>, <span class='no'>x</span>) <span class='fu'>predict</span>(<span class='no'>model</span>, <span class='no'>x</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>)[,<span class='fl'>2</span>])
+<span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'>single_variable</span>(<span class='no'>explainer_rf</span>, <span class='kw'>variable</span> <span class='kw'>=</span>  <span class='st'>"satisfaction_level"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>, <span class='kw'>which.class</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>expl_rf</span></div><div class='output co'>#&gt;         x            y                var type        label
-#&gt; 1  0.0900 0.720654.... satisfaction_level  pdp randomForest
-#&gt; 2  0.1082 0.707218.... satisfaction_level  pdp randomForest
-#&gt; 3  0.1264 0.153172.... satisfaction_level  pdp randomForest
-#&gt; 4  0.1446 0.128855.... satisfaction_level  pdp randomForest
-#&gt; 5  0.1628 0.094760.... satisfaction_level  pdp randomForest
-#&gt; 6  0.1810 0.085950.... satisfaction_level  pdp randomForest
-#&gt; 7  0.1992 0.085686.... satisfaction_level  pdp randomForest
-#&gt; 8  0.2174 0.082298.... satisfaction_level  pdp randomForest
-#&gt; 9  0.2356 0.084172.... satisfaction_level  pdp randomForest
-#&gt; 10 0.2538 0.087325.... satisfaction_level  pdp randomForest
-#&gt; 11 0.2720 0.089904.... satisfaction_level  pdp randomForest
-#&gt; 12 0.2902 0.094524.... satisfaction_level  pdp randomForest
-#&gt; 13 0.3084 0.133928.... satisfaction_level  pdp randomForest
-#&gt; 14 0.3266 0.125285.... satisfaction_level  pdp randomForest
-#&gt; 15 0.3448 0.130259.... satisfaction_level  pdp randomForest
-#&gt; 16 0.3630 0.187194.... satisfaction_level  pdp randomForest
-#&gt; 17 0.3812 0.182159.... satisfaction_level  pdp randomForest
-#&gt; 18 0.3994 0.178998.... satisfaction_level  pdp randomForest
-#&gt; 19 0.4176 0.191902.... satisfaction_level  pdp randomForest
-#&gt; 20 0.4358 0.188588.... satisfaction_level  pdp randomForest
-#&gt; 21 0.4540 0.190275.... satisfaction_level  pdp randomForest
-#&gt; 22 0.4722 0.100702.... satisfaction_level  pdp randomForest
-#&gt; 23 0.4904 0.059742.... satisfaction_level  pdp randomForest
-#&gt; 24 0.5086 0.056699.... satisfaction_level  pdp randomForest
-#&gt; 25 0.5268 0.053738.... satisfaction_level  pdp randomForest
-#&gt; 26 0.5450 0.057116.... satisfaction_level  pdp randomForest
-#&gt; 27 0.5632 0.054650.... satisfaction_level  pdp randomForest
-#&gt; 28 0.5814 0.053168.... satisfaction_level  pdp randomForest
-#&gt; 29 0.5996 0.050938.... satisfaction_level  pdp randomForest
-#&gt; 30 0.6178 0.051200.... satisfaction_level  pdp randomForest
-#&gt; 31 0.6360 0.051000.... satisfaction_level  pdp randomForest
-#&gt; 32 0.6542 0.051462.... satisfaction_level  pdp randomForest
-#&gt; 33 0.6724 0.055069.... satisfaction_level  pdp randomForest
-#&gt; 34 0.6906 0.056271.... satisfaction_level  pdp randomForest
-#&gt; 35 0.7088 0.069769.... satisfaction_level  pdp randomForest
-#&gt; 36 0.7270 0.099722.... satisfaction_level  pdp randomForest
-#&gt; 37 0.7452 0.100116.... satisfaction_level  pdp randomForest
-#&gt; 38 0.7634 0.100052.... satisfaction_level  pdp randomForest
-#&gt; 39 0.7816 0.104748.... satisfaction_level  pdp randomForest
-#&gt; 40 0.7998 0.104527.... satisfaction_level  pdp randomForest
-#&gt; 41 0.8180 0.099797.... satisfaction_level  pdp randomForest
-#&gt; 42 0.8362 0.099626.... satisfaction_level  pdp randomForest
-#&gt; 43 0.8544 0.101631.... satisfaction_level  pdp randomForest
-#&gt; 44 0.8726 0.099228.... satisfaction_level  pdp randomForest
-#&gt; 45 0.8908 0.102877.... satisfaction_level  pdp randomForest
-#&gt; 46 0.9090 0.095445.... satisfaction_level  pdp randomForest
-#&gt; 47 0.9272 0.056625.... satisfaction_level  pdp randomForest
-#&gt; 48 0.9454 0.050303.... satisfaction_level  pdp randomForest
-#&gt; 49 0.9636 0.049335.... satisfaction_level  pdp randomForest
-#&gt; 50 0.9818 0.049335.... satisfaction_level  pdp randomForest
-#&gt; 51 1.0000 0.049335.... satisfaction_level  pdp randomForest</div><div class='input'>#}
+#&gt; 1  0.0900 0.702813.... satisfaction_level  pdp randomForest
+#&gt; 2  0.1082 0.679701.... satisfaction_level  pdp randomForest
+#&gt; 3  0.1264 0.150328.... satisfaction_level  pdp randomForest
+#&gt; 4  0.1446 0.137212.... satisfaction_level  pdp randomForest
+#&gt; 5  0.1628 0.093080.... satisfaction_level  pdp randomForest
+#&gt; 6  0.1810 0.085633.... satisfaction_level  pdp randomForest
+#&gt; 7  0.1992 0.083112.... satisfaction_level  pdp randomForest
+#&gt; 8  0.2174 0.080490.... satisfaction_level  pdp randomForest
+#&gt; 9  0.2356 0.080830.... satisfaction_level  pdp randomForest
+#&gt; 10 0.2538 0.085318.... satisfaction_level  pdp randomForest
+#&gt; 11 0.2720 0.087466.... satisfaction_level  pdp randomForest
+#&gt; 12 0.2902 0.087458.... satisfaction_level  pdp randomForest
+#&gt; 13 0.3084 0.145449.... satisfaction_level  pdp randomForest
+#&gt; 14 0.3266 0.129332.... satisfaction_level  pdp randomForest
+#&gt; 15 0.3448 0.142547.... satisfaction_level  pdp randomForest
+#&gt; 16 0.3630 0.197893.... satisfaction_level  pdp randomForest
+#&gt; 17 0.3812 0.188327.... satisfaction_level  pdp randomForest
+#&gt; 18 0.3994 0.185303.... satisfaction_level  pdp randomForest
+#&gt; 19 0.4176 0.194660.... satisfaction_level  pdp randomForest
+#&gt; 20 0.4358 0.183572.... satisfaction_level  pdp randomForest
+#&gt; 21 0.4540 0.186968.... satisfaction_level  pdp randomForest
+#&gt; 22 0.4722 0.100308.... satisfaction_level  pdp randomForest
+#&gt; 23 0.4904 0.059087.... satisfaction_level  pdp randomForest
+#&gt; 24 0.5086 0.057561.... satisfaction_level  pdp randomForest
+#&gt; 25 0.5268 0.054612.... satisfaction_level  pdp randomForest
+#&gt; 26 0.5450 0.057015.... satisfaction_level  pdp randomForest
+#&gt; 27 0.5632 0.054942.... satisfaction_level  pdp randomForest
+#&gt; 28 0.5814 0.054115.... satisfaction_level  pdp randomForest
+#&gt; 29 0.5996 0.053848.... satisfaction_level  pdp randomForest
+#&gt; 30 0.6178 0.054630.... satisfaction_level  pdp randomForest
+#&gt; 31 0.6360 0.053812.... satisfaction_level  pdp randomForest
+#&gt; 32 0.6542 0.056089.... satisfaction_level  pdp randomForest
+#&gt; 33 0.6724 0.056915.... satisfaction_level  pdp randomForest
+#&gt; 34 0.6906 0.058063.... satisfaction_level  pdp randomForest
+#&gt; 35 0.7088 0.069129.... satisfaction_level  pdp randomForest
+#&gt; 36 0.7270 0.099959.... satisfaction_level  pdp randomForest
+#&gt; 37 0.7452 0.099705.... satisfaction_level  pdp randomForest
+#&gt; 38 0.7634 0.100298.... satisfaction_level  pdp randomForest
+#&gt; 39 0.7816 0.103276.... satisfaction_level  pdp randomForest
+#&gt; 40 0.7998 0.104182.... satisfaction_level  pdp randomForest
+#&gt; 41 0.8180 0.099181.... satisfaction_level  pdp randomForest
+#&gt; 42 0.8362 0.098064.... satisfaction_level  pdp randomForest
+#&gt; 43 0.8544 0.100122.... satisfaction_level  pdp randomForest
+#&gt; 44 0.8726 0.097204.... satisfaction_level  pdp randomForest
+#&gt; 45 0.8908 0.100933.... satisfaction_level  pdp randomForest
+#&gt; 46 0.9090 0.095143.... satisfaction_level  pdp randomForest
+#&gt; 47 0.9272 0.061426.... satisfaction_level  pdp randomForest
+#&gt; 48 0.9454 0.055002.... satisfaction_level  pdp randomForest
+#&gt; 49 0.9636 0.053089.... satisfaction_level  pdp randomForest
+#&gt; 50 0.9818 0.053089.... satisfaction_level  pdp randomForest
+#&gt; 51 1.0000 0.053089.... satisfaction_level  pdp randomForest</div><div class='input'>#}
 
 </div></pre>
   </div>
@@ -251,6 +258,8 @@ It's a data frame with calculated average response.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

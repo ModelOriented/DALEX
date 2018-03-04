@@ -25,10 +25,14 @@ It's a data frame with calculated average response.
 \description{
 Calculates the average model response as a function of a single selected variable.
 Use the 'type' parameter to select the type of marginal response to be calculated.
-Currently we have Partial Dependency and Accumulated Local Effects implemented.
+Currently for numeric variables we have Partial Dependency and Accumulated Local Effects implemented.
 Current implementation uses the 'pdp' package (Brandon M. Greenwell (2017).
 pdp: An R Package for Constructing Partial Dependence Plots. The R Journal, 9(1), 421--436.)
 and 'ALEPlot' (Dan Apley (2017). ALEPlot: Accumulated Local Effects Plots and Partial Dependence Plots.)
+}
+\details{
+For factor variables we are using the 'factorMerger' package.
+Please note that the argument \code{type} must be set to \code{'factor'} to use this method.
 }
 \examples{
 library("breakDown")
@@ -41,9 +45,10 @@ expl_glm
 
 #\dontrun{
 library("randomForest")
-HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
-explainer_rf  <- explain(HR_rf_model, data = HR_data)
-expl_rf  <- single_variable(explainer_rf, variable =  "satisfaction_level", type = "pdp")
+HR_rf_model <- randomForest(factor(left)~., data = breakDown::HR_data, ntree = 100)
+explainer_rf  <- explain(HR_rf_model, data = HR_data,
+                       predict_function = function(model, x) predict(model, x, type = "prob")[,2])
+expl_rf  <- single_variable(explainer_rf, variable =  "satisfaction_level", type = "pdp", which.class = 2, prob = TRUE)
 expl_rf
 #}
 
