@@ -14,7 +14,7 @@
 #' @param variable character - name of a single variable
 #' @param type character - type of the response to be calculated.
 #' Currently following options are implemented: 'pdp' for Partial Dependency and 'ale' for Accumulated Local Effects
-#' @param trans function - a transformation/link function that shall be applied to raw model predictions
+#' @param trans function - a transformation/link function that shall be applied to raw model predictions. This will be inherited from the explainer.
 #' @param ... other parameters
 #'
 #' @return An object of the class 'single_variable_explainer'.
@@ -30,8 +30,8 @@
 #' logit <- function(x) exp(x)/(1+exp(x))
 #'
 #' HR_glm_model <- glm(left~., data = breakDown::HR_data, family = "binomial")
-#' explainer_glm <- explain(HR_glm_model, data = HR_data)
-#' expl_glm <- single_variable(explainer_glm, "satisfaction_level", "pdp", trans=logit)
+#' explainer_glm <- explain(HR_glm_model, data = HR_data, trans=logit)
+#' expl_glm <- single_variable(explainer_glm, "satisfaction_level", "pdp")
 #' expl_glm
 #'
 #' #\dontrun{
@@ -39,11 +39,11 @@
 #' HR_rf_model <- randomForest(factor(left)~., data = breakDown::HR_data, ntree = 100)
 #' explainer_rf  <- explain(HR_rf_model, data = HR_data,
 #'                        predict_function = function(model, x) predict(model, x, type = "prob")[,2])
-#' expl_rf  <- single_variable(explainer_rf, variable =  "satisfaction_level", type = "pdp", which.class = 2, prob = TRUE)
+#' expl_rf  <- single_variable(explainer_rf, variable = "satisfaction_level", type = "pdp", which.class = 2, prob = TRUE)
 #' expl_rf
 #' #}
 #'
-single_variable <- function(explainer, variable, type = "pdp", trans = I, ...) {
+single_variable <- function(explainer, variable, type = "pdp", trans = explainer$trans, ...) {
   if (!("explainer" %in% class(explainer))) stop("The single_variable() function requires an object created with explain() function.")
   if (is.null(explainer$data)) stop("The single_variable() function requires explainers created with specified 'data' parameter.")
   if (class(explainer$data[,variable]) == "factor" & type != "factor") {

@@ -14,6 +14,9 @@ Machine Learning models are widely used and have various applications in classif
 
 In many applications we need to know, understand or prove how input variables are used in the model and what impact do they have on final model prediction. DALEX is a set of tools that help to understand how complex models are working.
 
+![DALEX_intro](misc/DALEX_intro.png)
+
+
 ## Install
 
 ```{r}

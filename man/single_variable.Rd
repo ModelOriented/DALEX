@@ -4,7 +4,8 @@
 \alias{single_variable}
 \title{Marginal Response for a Single Variable}
 \usage{
-single_variable(explainer, variable, type = "pdp", trans = I, ...)
+single_variable(explainer, variable, type = "pdp", trans = explainer$trans,
+  ...)
 }
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the 'explain' function}
@@ -14,7 +15,7 @@ single_variable(explainer, variable, type = "pdp", trans = I, ...)
 \item{type}{character - type of the response to be calculated.
 Currently following options are implemented: 'pdp' for Partial Dependency and 'ale' for Accumulated Local Effects}
 
-\item{trans}{function - a transformation/link function that shall be applied to raw model predictions}
+\item{trans}{function - a transformation/link function that shall be applied to raw model predictions. This will be inherited from the explainer.}
 
 \item{...}{other parameters}
 }
@@ -39,8 +40,8 @@ library("breakDown")
 logit <- function(x) exp(x)/(1+exp(x))
 
 HR_glm_model <- glm(left~., data = breakDown::HR_data, family = "binomial")
-explainer_glm <- explain(HR_glm_model, data = HR_data)
-expl_glm <- single_variable(explainer_glm, "satisfaction_level", "pdp", trans=logit)
+explainer_glm <- explain(HR_glm_model, data = HR_data, trans=logit)
+expl_glm <- single_variable(explainer_glm, "satisfaction_level", "pdp")
 expl_glm
 
 #\dontrun{
@@ -48,7 +49,7 @@ library("randomForest")
 HR_rf_model <- randomForest(factor(left)~., data = breakDown::HR_data, ntree = 100)
 explainer_rf  <- explain(HR_rf_model, data = HR_data,
                        predict_function = function(model, x) predict(model, x, type = "prob")[,2])
-expl_rf  <- single_variable(explainer_rf, variable =  "satisfaction_level", type = "pdp", which.class = 2, prob = TRUE)
+expl_rf  <- single_variable(explainer_rf, variable = "satisfaction_level", type = "pdp", which.class = 2, prob = TRUE)
 expl_rf
 #}
 

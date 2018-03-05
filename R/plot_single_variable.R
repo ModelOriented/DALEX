@@ -16,7 +16,7 @@
 #' logit <- function(x) exp(x)/(1+exp(x))
 #'
 #' HR_glm_model <- glm(left~., data = breakDown::HR_data, family = "binomial")
-#' explainer_glm <- explain(HR_glm_model, data = HR_data)
+#' explainer_glm <- explain(HR_glm_model, data = HR_data, trans = logit)
 #' expl_glm <- single_variable(explainer_glm, "satisfaction_level", "pdp", trans=logit)
 #' plot(expl_glm)
 #'
@@ -25,7 +25,7 @@
 #' HR_rf_model <- randomForest(factor(left)~., data = breakDown::HR_data, ntree = 100)
 #' explainer_rf  <- explain(HR_rf_model, data = HR_data,
 #'                        predict_function = function(model, x) predict(model, x, type = "prob")[,2])
-#' expl_rf  <- single_variable(explainer_rf, variable =  "satisfaction_level", type = "pdp", which.class = 2, prob = TRUE)
+#' expl_rf  <- single_variable(explainer_rf, variable = "satisfaction_level", type = "pdp", which.class = 2, prob = TRUE)
 #' plot(expl_rf)
 #'
 #' plot(expl_rf, expl_glm)
@@ -35,7 +35,7 @@
 #' expl_rf  <- single_variable(explainer_rf, variable =  "sales", type = "factor")
 #' plot(expl_rf)
 #'
-#' expl_glm  <- single_variable(explainer_glm, variable =  "sales", type = "factor", trans = logit)
+#' expl_glm  <- single_variable(explainer_glm, variable =  "sales", type = "factor")
 #' plot(expl_glm)
 #'
 #' # both models

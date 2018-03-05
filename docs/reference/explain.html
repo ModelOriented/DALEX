@@ -90,7 +90,7 @@ This function creates a unified representation of a model, which can be further 
     
 
     <pre class="usage"><span class='fu'>explain</span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>yhat</span>,
-  <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'>tail</span>(<span class='fu'>class</span>(<span class='no'>model</span>), <span class='fl'>1</span>))</pre>
+  <span class='kw'>trans</span> <span class='kw'>=</span> <span class='no'>I</span>, <span class='no'>...</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'>tail</span>(<span class='fu'>class</span>(<span class='no'>model</span>), <span class='fl'>1</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -112,12 +112,16 @@ This function creates a unified representation of a model, which can be further 
       <td><p>function that takes two arguments: model and new data and returns numeric vector with predictions</p></td>
     </tr>
     <tr>
-      <th>label</th>
-      <td><p>character - the name of the model. By default it's extracted from the 'class' attribute of the model</p></td>
+      <th>trans</th>
+      <td><p>function - a transformation/link function that shall be applied to raw model predictions</p></td>
     </tr>
     <tr>
       <th>...</th>
       <td><p>other parameters</p></td>
+    </tr>
+    <tr>
+      <th>label</th>
+      <td><p>character - the name of the model. By default it's extracted from the 'class' attribute of the model</p></td>
     </tr>
     </table>
     

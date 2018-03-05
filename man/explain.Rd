@@ -5,7 +5,7 @@
 \title{Create Model Explainer}
 \usage{
 explain(model, data = NULL, y = NULL, predict_function = yhat,
-  label = tail(class(model), 1))
+  trans = I, ..., label = tail(class(model), 1))
 }
 \arguments{
 \item{model}{object - a model to be explained}
@@ -16,9 +16,11 @@ explain(model, data = NULL, y = NULL, predict_function = yhat,
 
 \item{predict_function}{function that takes two arguments: model and new data and returns numeric vector with predictions}
 
-\item{label}{character - the name of the model. By default it's extracted from the 'class' attribute of the model}
+\item{trans}{function - a transformation/link function that shall be applied to raw model predictions}
 
 \item{...}{other parameters}
+
+\item{label}{character - the name of the model. By default it's extracted from the 'class' attribute of the model}
 }
 \value{
 An object of the class 'explainer'.
