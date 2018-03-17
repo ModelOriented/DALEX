@@ -4,8 +4,8 @@
 \alias{explain}
 \title{Create Model Explainer}
 \usage{
-explain(model, data = NULL, y = NULL, predict_function = yhat,
-  trans = I, ..., label = tail(class(model), 1))
+explain(model, data = NULL, y = NULL, predict_function = yhat, link = I,
+  ..., label = tail(class(model), 1))
 }
 \arguments{
 \item{model}{object - a model to be explained}
@@ -16,7 +16,7 @@ explain(model, data = NULL, y = NULL, predict_function = yhat,
 
 \item{predict_function}{function that takes two arguments: model and new data and returns numeric vector with predictions}
 
-\item{trans}{function - a transformation/link function that shall be applied to raw model predictions}
+\item{link}{function - a transformation/link function that shall be applied to raw model predictions}
 
 \item{...}{other parameters}
 

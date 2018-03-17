@@ -4,7 +4,7 @@
 \alias{single_variable}
 \title{Marginal Response for a Single Variable}
 \usage{
-single_variable(explainer, variable, type = "pdp", trans = explainer$trans,
+single_variable(explainer, variable, type = "pdp", trans = explainer$link,
   ...)
 }
 \arguments{

@@ -63,6 +63,18 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/DALEX_and_xgboost.html">How to use DALEX with the xgboost models</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../news/index.html">News</a>
 </li>
@@ -93,7 +105,7 @@ pdp: An R Package for Constructing Partial Dependence Plots. The R Journal, 9(1)
 and 'ALEPlot' (Dan Apley (2017). ALEPlot: Accumulated Local Effects Plots and Partial Dependence Plots.)</p>
     
 
-    <pre class="usage"><span class='fu'>single_variable</span>(<span class='no'>explainer</span>, <span class='no'>variable</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>, <span class='kw'>trans</span> <span class='kw'>=</span> <span class='no'>explainer</span>$<span class='no'>trans</span>,
+    <pre class="usage"><span class='fu'>single_variable</span>(<span class='no'>explainer</span>, <span class='no'>variable</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>, <span class='kw'>trans</span> <span class='kw'>=</span> <span class='no'>explainer</span>$<span class='no'>link</span>,
   <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
@@ -140,58 +152,58 @@ Please note that the argument <code>type</code> must be set to <code>'factor'</c
 <span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>left</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR_data</span>, <span class='kw'>trans</span><span class='kw'>=</span><span class='no'>logit</span>)
 <span class='no'>expl_glm</span> <span class='kw'>&lt;-</span> <span class='fu'>single_variable</span>(<span class='no'>explainer_glm</span>, <span class='st'>"satisfaction_level"</span>, <span class='st'>"pdp"</span>)
-<span class='no'>expl_glm</span></div><div class='output co'>#&gt;         x         y                var type label
-#&gt; 1  0.0900 0.5696467 satisfaction_level  pdp    lm
-#&gt; 2  0.1082 0.5603974 satisfaction_level  pdp    lm
-#&gt; 3  0.1264 0.5511059 satisfaction_level  pdp    lm
-#&gt; 4  0.1446 0.5417787 satisfaction_level  pdp    lm
-#&gt; 5  0.1628 0.5324221 satisfaction_level  pdp    lm
-#&gt; 6  0.1810 0.5230426 satisfaction_level  pdp    lm
-#&gt; 7  0.1992 0.5136469 satisfaction_level  pdp    lm
-#&gt; 8  0.2174 0.5042415 satisfaction_level  pdp    lm
-#&gt; 9  0.2356 0.4948331 satisfaction_level  pdp    lm
-#&gt; 10 0.2538 0.4854283 satisfaction_level  pdp    lm
-#&gt; 11 0.2720 0.4760339 satisfaction_level  pdp    lm
-#&gt; 12 0.2902 0.4666564 satisfaction_level  pdp    lm
-#&gt; 13 0.3084 0.4573024 satisfaction_level  pdp    lm
-#&gt; 14 0.3266 0.4479784 satisfaction_level  pdp    lm
-#&gt; 15 0.3448 0.4386908 satisfaction_level  pdp    lm
-#&gt; 16 0.3630 0.4294460 satisfaction_level  pdp    lm
-#&gt; 17 0.3812 0.4202501 satisfaction_level  pdp    lm
-#&gt; 18 0.3994 0.4111093 satisfaction_level  pdp    lm
-#&gt; 19 0.4176 0.4020294 satisfaction_level  pdp    lm
-#&gt; 20 0.4358 0.3930163 satisfaction_level  pdp    lm
-#&gt; 21 0.4540 0.3840754 satisfaction_level  pdp    lm
-#&gt; 22 0.4722 0.3752122 satisfaction_level  pdp    lm
-#&gt; 23 0.4904 0.3664318 satisfaction_level  pdp    lm
-#&gt; 24 0.5086 0.3577392 satisfaction_level  pdp    lm
-#&gt; 25 0.5268 0.3491393 satisfaction_level  pdp    lm
-#&gt; 26 0.5450 0.3406364 satisfaction_level  pdp    lm
-#&gt; 27 0.5632 0.3322349 satisfaction_level  pdp    lm
-#&gt; 28 0.5814 0.3239388 satisfaction_level  pdp    lm
-#&gt; 29 0.5996 0.3157519 satisfaction_level  pdp    lm
-#&gt; 30 0.6178 0.3076777 satisfaction_level  pdp    lm
-#&gt; 31 0.6360 0.2997196 satisfaction_level  pdp    lm
-#&gt; 32 0.6542 0.2918805 satisfaction_level  pdp    lm
-#&gt; 33 0.6724 0.2841633 satisfaction_level  pdp    lm
-#&gt; 34 0.6906 0.2765704 satisfaction_level  pdp    lm
-#&gt; 35 0.7088 0.2691041 satisfaction_level  pdp    lm
-#&gt; 36 0.7270 0.2617665 satisfaction_level  pdp    lm
-#&gt; 37 0.7452 0.2545593 satisfaction_level  pdp    lm
-#&gt; 38 0.7634 0.2474839 satisfaction_level  pdp    lm
-#&gt; 39 0.7816 0.2405418 satisfaction_level  pdp    lm
-#&gt; 40 0.7998 0.2337339 satisfaction_level  pdp    lm
-#&gt; 41 0.8180 0.2270611 satisfaction_level  pdp    lm
-#&gt; 42 0.8362 0.2205239 satisfaction_level  pdp    lm
-#&gt; 43 0.8544 0.2141228 satisfaction_level  pdp    lm
-#&gt; 44 0.8726 0.2078580 satisfaction_level  pdp    lm
-#&gt; 45 0.8908 0.2017294 satisfaction_level  pdp    lm
-#&gt; 46 0.9090 0.1957369 satisfaction_level  pdp    lm
-#&gt; 47 0.9272 0.1898801 satisfaction_level  pdp    lm
-#&gt; 48 0.9454 0.1841583 satisfaction_level  pdp    lm
-#&gt; 49 0.9636 0.1785710 satisfaction_level  pdp    lm
-#&gt; 50 0.9818 0.1731172 satisfaction_level  pdp    lm
-#&gt; 51 1.0000 0.1677960 satisfaction_level  pdp    lm</div><div class='input'>
+<span class='no'>expl_glm</span></div><div class='output co'>#&gt;         x            y                var type label
+#&gt; 1  0.0900 0.280409.... satisfaction_level  pdp    lm
+#&gt; 2  0.1082 0.242774.... satisfaction_level  pdp    lm
+#&gt; 3  0.1264 0.205140.... satisfaction_level  pdp    lm
+#&gt; 4  0.1446 0.167505.... satisfaction_level  pdp    lm
+#&gt; 5  0.1628 0.129870.... satisfaction_level  pdp    lm
+#&gt; 6  0.1810 0.092235.... satisfaction_level  pdp    lm
+#&gt; 7  0.1992 0.054601.... satisfaction_level  pdp    lm
+#&gt; 8  0.2174 0.016966.... satisfaction_level  pdp    lm
+#&gt; 9  0.2356 -0.02066.... satisfaction_level  pdp    lm
+#&gt; 10 0.2538 -0.05830.... satisfaction_level  pdp    lm
+#&gt; 11 0.2720 -0.09593.... satisfaction_level  pdp    lm
+#&gt; 12 0.2902 -0.13357.... satisfaction_level  pdp    lm
+#&gt; 13 0.3084 -0.17120.... satisfaction_level  pdp    lm
+#&gt; 14 0.3266 -0.20884.... satisfaction_level  pdp    lm
+#&gt; 15 0.3448 -0.24647.... satisfaction_level  pdp    lm
+#&gt; 16 0.3630 -0.28411.... satisfaction_level  pdp    lm
+#&gt; 17 0.3812 -0.32174.... satisfaction_level  pdp    lm
+#&gt; 18 0.3994 -0.35938.... satisfaction_level  pdp    lm
+#&gt; 19 0.4176 -0.39701.... satisfaction_level  pdp    lm
+#&gt; 20 0.4358 -0.43465.... satisfaction_level  pdp    lm
+#&gt; 21 0.4540 -0.47228.... satisfaction_level  pdp    lm
+#&gt; 22 0.4722 -0.50992.... satisfaction_level  pdp    lm
+#&gt; 23 0.4904 -0.54755.... satisfaction_level  pdp    lm
+#&gt; 24 0.5086 -0.58519.... satisfaction_level  pdp    lm
+#&gt; 25 0.5268 -0.62282.... satisfaction_level  pdp    lm
+#&gt; 26 0.5450 -0.66045.... satisfaction_level  pdp    lm
+#&gt; 27 0.5632 -0.69809.... satisfaction_level  pdp    lm
+#&gt; 28 0.5814 -0.73572.... satisfaction_level  pdp    lm
+#&gt; 29 0.5996 -0.77336.... satisfaction_level  pdp    lm
+#&gt; 30 0.6178 -0.81099.... satisfaction_level  pdp    lm
+#&gt; 31 0.6360 -0.84863.... satisfaction_level  pdp    lm
+#&gt; 32 0.6542 -0.88626.... satisfaction_level  pdp    lm
+#&gt; 33 0.6724 -0.92390.... satisfaction_level  pdp    lm
+#&gt; 34 0.6906 -0.96153.... satisfaction_level  pdp    lm
+#&gt; 35 0.7088 -0.99917.... satisfaction_level  pdp    lm
+#&gt; 36 0.7270 -1.03680.... satisfaction_level  pdp    lm
+#&gt; 37 0.7452 -1.07444.... satisfaction_level  pdp    lm
+#&gt; 38 0.7634 -1.11207.... satisfaction_level  pdp    lm
+#&gt; 39 0.7816 -1.14971.... satisfaction_level  pdp    lm
+#&gt; 40 0.7998 -1.18734.... satisfaction_level  pdp    lm
+#&gt; 41 0.8180 -1.22498.... satisfaction_level  pdp    lm
+#&gt; 42 0.8362 -1.26261.... satisfaction_level  pdp    lm
+#&gt; 43 0.8544 -1.30025.... satisfaction_level  pdp    lm
+#&gt; 44 0.8726 -1.33788.... satisfaction_level  pdp    lm
+#&gt; 45 0.8908 -1.37552.... satisfaction_level  pdp    lm
+#&gt; 46 0.9090 -1.41315.... satisfaction_level  pdp    lm
+#&gt; 47 0.9272 -1.45078.... satisfaction_level  pdp    lm
+#&gt; 48 0.9454 -1.48842.... satisfaction_level  pdp    lm
+#&gt; 49 0.9636 -1.52605.... satisfaction_level  pdp    lm
+#&gt; 50 0.9818 -1.56369.... satisfaction_level  pdp    lm
+#&gt; 51 1.0000 -1.60132.... satisfaction_level  pdp    lm</div><div class='input'>
 <span class='co'>#\dontrun{</span>
 <span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
 <span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='fu'>factor</span>(<span class='no'>left</span>)~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)

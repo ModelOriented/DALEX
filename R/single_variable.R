@@ -43,7 +43,7 @@
 #' expl_rf
 #' #}
 #'
-single_variable <- function(explainer, variable, type = "pdp", trans = explainer$trans, ...) {
+single_variable <- function(explainer, variable, type = "pdp", trans = explainer$link, ...) {
   if (!("explainer" %in% class(explainer))) stop("The single_variable() function requires an object created with explain() function.")
   if (is.null(explainer$data)) stop("The single_variable() function requires explainers created with specified 'data' parameter.")
   if (class(explainer$data[,variable]) == "factor" & type != "factor") {
