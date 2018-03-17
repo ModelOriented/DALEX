@@ -72,7 +72,7 @@ plot(sv_xgb_satisfaction_level)
 
 ## Single prediction
 
-```{r, warning=FALSE, message=FALSE, fig.width=10, fig.height=8}
+```{r, warning=FALSE, message=FALSE, fig.width=10, fig.height=6}
 nobs <- model_martix_train[1, , drop = FALSE]
 sp_xgb  <- single_prediction(explainer_xgb, 
                              observation = nobs)
@@ -83,7 +83,7 @@ plot(sp_xgb)
 
 ## Variable importance
 
-```{r, warning=FALSE, message=FALSE, fig.width=10, fig.height=8}
+```{r, warning=FALSE, message=FALSE, fig.width=10, fig.height=6}
 vd_xgb <- variable_dropout(explainer_xgb, type = "raw")
 head(vd_xgb)
 
@@ -123,10 +123,17 @@ Now we can create an explainer.
 
 ```{r, warning=FALSE, message=FALSE}
 library("DALEX")
+predict_logit <- function(model, x) {
+  raw_x <- predict(model, x)
+  exp(raw_x)/(1 + exp(raw_x))
+}
+logit <- function(x) exp(x)/(1+exp(x))
 
 explainer_xgb <- explain(HR_xgb_model, 
                          data = model_martix_train, 
                          y = HR_data$left, 
+                         predict_function = predict_logit,
+                         link = logit,
                          label = "xgboost")
 explainer_xgb
 ```
@@ -136,7 +143,9 @@ explainer_xgb
 For continouse variable
 
 ```{r, warning=FALSE, message=FALSE, fig.width=10, fig.height=8}
-sv_xgb_satisfaction_level  <- single_variable(explainer_xgb, variable = "satisfaction_level", type = "pdp")
+sv_xgb_satisfaction_level  <- single_variable(explainer_xgb, 
+                          variable = "satisfaction_level",
+                          type = "pdp")
 head(sv_xgb_satisfaction_level)
 
 plot(sv_xgb_satisfaction_level)
@@ -144,7 +153,7 @@ plot(sv_xgb_satisfaction_level)
 
 ## Single prediction
 
-```{r, warning=FALSE, message=FALSE, fig.width=10, fig.height=8}
+```{r, warning=FALSE, message=FALSE, fig.width=10, fig.height=6}
 nobs <- model_martix_train[1, , drop = FALSE]
 sp_xgb  <- single_prediction(explainer_xgb, 
                              observation = nobs)
@@ -155,7 +164,7 @@ plot(sp_xgb)
 
 ## Variable importance
 
-```{r, warning=FALSE, message=FALSE, fig.width=10, fig.height=8}
+```{r, warning=FALSE, message=FALSE, fig.width=10, fig.height=6}
 vd_xgb <- variable_dropout(explainer_xgb, type = "raw")
 head(vd_xgb)
 

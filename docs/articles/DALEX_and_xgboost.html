@@ -200,12 +200,12 @@ sp_xgb  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sin
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vd_xgb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_dropout.html">variable_dropout</a></span>(explainer_xgb, <span class="dt">type =</span> <span class="st">"raw"</span>)
 <span class="kw">head</span>(vd_xgb)
 <span class="co">#&gt;               variable dropout_loss   label</span>
-<span class="co">#&gt; 1         _full_model_     413.1152 xgboost</span>
-<span class="co">#&gt; 2            sulphates     434.5825 xgboost</span>
-<span class="co">#&gt; 3        fixed.acidity     434.8852 xgboost</span>
-<span class="co">#&gt; 4            chlorides     441.4548 xgboost</span>
-<span class="co">#&gt; 5 total.sulfur.dioxide     447.5651 xgboost</span>
-<span class="co">#&gt; 6          citric.acid     449.6626 xgboost</span>
+<span class="co">#&gt; 1         _full_model_     382.4561 xgboost</span>
+<span class="co">#&gt; 2        fixed.acidity     401.1067 xgboost</span>
+<span class="co">#&gt; 3          citric.acid     412.8188 xgboost</span>
+<span class="co">#&gt; 4 total.sulfur.dioxide     412.9705 xgboost</span>
+<span class="co">#&gt; 5            sulphates     418.7446 xgboost</span>
+<span class="co">#&gt; 6                   pH     422.1842 xgboost</span>
 
 <span class="kw">plot</span>(vd_xgb)</code></pre></div>
 <p><img src="DALEX_and_xgboost_files/figure-html/unnamed-chunk-6-1.png" width="960"></p>
@@ -262,10 +262,17 @@ HR_xgb_model
 <a href="#explainer-1" class="anchor"></a>Explainer</h2>
 <p>Now we can create an explainer.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"DALEX"</span>)
+predict_logit &lt;-<span class="st"> </span><span class="cf">function</span>(model, x) {
+  raw_x &lt;-<span class="st"> </span><span class="kw">predict</span>(model, x)
+  <span class="kw">exp</span>(raw_x)<span class="op">/</span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(raw_x))
+}
+logit &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">exp</span>(x)<span class="op">/</span>(<span class="dv">1</span><span class="op">+</span><span class="kw">exp</span>(x))
 
 explainer_xgb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/explain.html">explain</a></span>(HR_xgb_model, 
                          <span class="dt">data =</span> model_martix_train, 
                          <span class="dt">y =</span> HR_data<span class="op">$</span>left, 
+                         <span class="dt">predict_function =</span> predict_logit,
+                         <span class="dt">link =</span> logit,
                          <span class="dt">label =</span> <span class="st">"xgboost"</span>)
 explainer_xgb
 <span class="co">#&gt; Model label:  xgboost </span>
@@ -288,15 +295,17 @@ explainer_xgb
 <h2 class="hasAnchor">
 <a href="#single-variable-1" class="anchor"></a>Single variable</h2>
 <p>For continouse variable</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sv_xgb_satisfaction_level  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/single_variable.html">single_variable</a></span>(explainer_xgb, <span class="dt">variable =</span> <span class="st">"satisfaction_level"</span>, <span class="dt">type =</span> <span class="st">"pdp"</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sv_xgb_satisfaction_level  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/single_variable.html">single_variable</a></span>(explainer_xgb, 
+                          <span class="dt">variable =</span> <span class="st">"satisfaction_level"</span>,
+                          <span class="dt">type =</span> <span class="st">"pdp"</span>)
 <span class="kw">head</span>(sv_xgb_satisfaction_level)
-<span class="co">#&gt;        x            y                var type   label</span>
-<span class="co">#&gt; 1 0.0900 2.182966.... satisfaction_level  pdp xgboost</span>
-<span class="co">#&gt; 2 0.1082 2.182966.... satisfaction_level  pdp xgboost</span>
-<span class="co">#&gt; 3 0.1264 -1.35263.... satisfaction_level  pdp xgboost</span>
-<span class="co">#&gt; 4 0.1446 -1.08183.... satisfaction_level  pdp xgboost</span>
-<span class="co">#&gt; 5 0.1628 -1.74262.... satisfaction_level  pdp xgboost</span>
-<span class="co">#&gt; 6 0.1810 -1.74262.... satisfaction_level  pdp xgboost</span>
+<span class="co">#&gt;        x         y                var type   label</span>
+<span class="co">#&gt; 1 0.0900 0.8987094 satisfaction_level  pdp xgboost</span>
+<span class="co">#&gt; 2 0.1082 0.8987094 satisfaction_level  pdp xgboost</span>
+<span class="co">#&gt; 3 0.1264 0.2054395 satisfaction_level  pdp xgboost</span>
+<span class="co">#&gt; 4 0.1446 0.2531582 satisfaction_level  pdp xgboost</span>
+<span class="co">#&gt; 5 0.1628 0.1489797 satisfaction_level  pdp xgboost</span>
+<span class="co">#&gt; 6 0.1810 0.1489797 satisfaction_level  pdp xgboost</span>
 
 <span class="kw">plot</span>(sv_xgb_satisfaction_level)</code></pre></div>
 <p><img src="DALEX_and_xgboost_files/figure-html/unnamed-chunk-10-1.png" width="960"></p>
@@ -309,19 +318,19 @@ sp_xgb  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sin
                              <span class="dt">observation =</span> nobs)
 <span class="kw">head</span>(sp_xgb)
 <span class="co">#&gt;                                    variable  contribution</span>
-<span class="co">#&gt; 1                               (Intercept)  0.0000000000</span>
-<span class="co">#&gt; time_spend_company + time_spend_company = 3 -0.0576312331</span>
-<span class="co">#&gt; salarymedium             + salarymedium = 0 -0.0049158347</span>
-<span class="co">#&gt; salessupport             + salessupport = 0 -0.0008345185</span>
-<span class="co">#&gt; salestechnical         + salestechnical = 0 -0.0006528577</span>
-<span class="co">#&gt; saleshr                       + saleshr = 0 -0.0004127287</span>
+<span class="co">#&gt; 1                               (Intercept)  0.000000e+00</span>
+<span class="co">#&gt; time_spend_company + time_spend_company = 3 -1.345254e-02</span>
+<span class="co">#&gt; salarymedium             + salarymedium = 0 -1.150067e-03</span>
+<span class="co">#&gt; salessupport             + salessupport = 0 -1.972958e-04</span>
+<span class="co">#&gt; salestechnical         + salestechnical = 0 -1.505909e-04</span>
+<span class="co">#&gt; saleshr                       + saleshr = 0 -9.573981e-05</span>
 <span class="co">#&gt;                         variable_name variable_value cummulative sign</span>
 <span class="co">#&gt; 1                           Intercept              1  0.00000000    0</span>
-<span class="co">#&gt; time_spend_company time_spend_company              3 -0.05763123   -1</span>
-<span class="co">#&gt; salarymedium             salarymedium              0 -0.06254707   -1</span>
-<span class="co">#&gt; salessupport             salessupport              0 -0.06338159   -1</span>
-<span class="co">#&gt; salestechnical         salestechnical              0 -0.06403444   -1</span>
-<span class="co">#&gt; saleshr                       saleshr              0 -0.06444717   -1</span>
+<span class="co">#&gt; time_spend_company time_spend_company              3 -0.01345254   -1</span>
+<span class="co">#&gt; salarymedium             salarymedium              0 -0.01460261   -1</span>
+<span class="co">#&gt; salessupport             salessupport              0 -0.01479990   -1</span>
+<span class="co">#&gt; salestechnical         salestechnical              0 -0.01495049   -1</span>
+<span class="co">#&gt; saleshr                       saleshr              0 -0.01504623   -1</span>
 <span class="co">#&gt;                    position   label</span>
 <span class="co">#&gt; 1                         1 xgboost</span>
 <span class="co">#&gt; time_spend_company        2 xgboost</span>
@@ -338,13 +347,13 @@ sp_xgb  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sin
 <a href="#variable-importance-1" class="anchor"></a>Variable importance</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vd_xgb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_dropout.html">variable_dropout</a></span>(explainer_xgb, <span class="dt">type =</span> <span class="st">"raw"</span>)
 <span class="kw">head</span>(vd_xgb)
-<span class="co">#&gt;          variable dropout_loss   label</span>
-<span class="co">#&gt; 1    _full_model_     18.01854 xgboost</span>
-<span class="co">#&gt; 2      salesRandD     17.73438 xgboost</span>
-<span class="co">#&gt; 3      salessales     17.93020 xgboost</span>
-<span class="co">#&gt; 4    salessupport     17.93937 xgboost</span>
-<span class="co">#&gt; 5 salesaccounting     18.01854 xgboost</span>
-<span class="co">#&gt; 6         salesIT     18.01854 xgboost</span>
+<span class="co">#&gt;                variable dropout_loss   label</span>
+<span class="co">#&gt; 1          _full_model_     218.7678 xgboost</span>
+<span class="co">#&gt; 2 promotion_last_5years     218.7118 xgboost</span>
+<span class="co">#&gt; 3          salarymedium     218.7372 xgboost</span>
+<span class="co">#&gt; 4               saleshr     218.7585 xgboost</span>
+<span class="co">#&gt; 5       salesaccounting     218.7678 xgboost</span>
+<span class="co">#&gt; 6               salesIT     218.7678 xgboost</span>
 
 <span class="kw">plot</span>(vd_xgb)</code></pre></div>
 <p><img src="DALEX_and_xgboost_files/figure-html/unnamed-chunk-12-1.png" width="960"></p>
