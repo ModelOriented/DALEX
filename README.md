@@ -21,6 +21,7 @@ In many applications we need to know, understand or prove how input variables ar
 
 ```{r}
 # dependencies
+devtools::install_github("MI2DataLab/factorMerger")
 devtools::install_github("pbiecek/breakDown")
 
 # DALEX package

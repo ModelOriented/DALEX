@@ -64,4 +64,10 @@ explain <- function(model, data = NULL, y = NULL, predict_function = yhat, link 
   explainer
 }
 
-yhat <- function(X.model, newdata) as.numeric(predict(X.model, newdata))
+yhat <- function(X.model, newdata, ...) {
+  if ("lm" %in% class(X.model)) {
+    stats::predict(X.model, newdata, ...)
+  } else {
+    as.numeric(stats::predict(X.model, newdata, ...))
+  }
+}

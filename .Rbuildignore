@@ -4,3 +4,5 @@
 ^misc$
 ^docs$
 ^_pkgdown\.yml$
+.travis.yml
+vignettes/

@@ -10,6 +10,7 @@
 #' @import ggplot2
 #' @importFrom grDevices dev.off pdf
 #' @importFrom ggpubr ggarrange
+#' @importFrom factorMerger getOptimalPartitionDf plotTree plotResponse
 #'
 #' @examples
 #' library("breakDown")
@@ -24,8 +25,10 @@
 #' library("randomForest")
 #' HR_rf_model <- randomForest(factor(left)~., data = breakDown::HR_data, ntree = 100)
 #' explainer_rf  <- explain(HR_rf_model, data = HR_data,
-#'                        predict_function = function(model, x) predict(model, x, type = "prob")[,2])
-#' expl_rf  <- single_variable(explainer_rf, variable = "satisfaction_level", type = "pdp", which.class = 2, prob = TRUE)
+#'                        predict_function = function(model, x)
+#'                              predict(model, x, type = "prob")[,2])
+#' expl_rf  <- single_variable(explainer_rf, variable = "satisfaction_level",
+#'                        type = "pdp", which.class = 2, prob = TRUE)
 #' plot(expl_rf)
 #'
 #' plot(expl_rf, expl_glm)
@@ -57,22 +60,22 @@ plot.single_variable_factor_explainer <- function(x, ...) {
   clusterSplit <- list(stat = "GIC", value = 2)
 
   all_plots <- lapply(fex, function(fm) {
-    colorsDf <- factorMerger:::getOptimalPartitionDf(fm, "GIC", 2)
-    mergingPathPlot <- factorMerger:::plotTree(fm,
-                                               statistic = "loglikelihood",
-                                               nodesSpacing = "equidistant",
-                                               title = fm$label[1],
-                                               alpha = 0.5,
-                                               subtitle = "",
-                                               color = TRUE,
-                                               colorsDf = colorsDf,
-                                               markBestModel = FALSE,
-                                               markStars = TRUE,
-                                               clusterSplit = clusterSplit,
-                                               palette = NULL,
-                                               panelGrid = FALSE) +
-                        scale_x_continuous("", breaks=NULL)
-    responsePlot <- factorMerger:::plotResponse(fm, "boxplot", TRUE, clusterSplit, NULL) +
+    colorsDf <- getOptimalPartitionDf(fm, "GIC", 2)
+    mergingPathPlot <- plotTree(fm,
+                         statistic = "loglikelihood",
+                         nodesSpacing = "equidistant",
+                         title = fm$label[1],
+                         alpha = 0.5,
+                         subtitle = "",
+                         color = TRUE,
+                         colorsDf = colorsDf,
+                         markBestModel = FALSE,
+                         markStars = TRUE,
+                         clusterSplit = clusterSplit,
+                         palette = NULL,
+                         panelGrid = FALSE) +
+        scale_x_continuous("", breaks=NULL)
+    responsePlot <- plotResponse(fm, "boxplot", TRUE, clusterSplit, NULL) +
       ggtitle("Partial Group Predictions")
     ggarrange(mergingPathPlot, responsePlot,
               ncol = 2,  align = "h", widths = c(2, 1))

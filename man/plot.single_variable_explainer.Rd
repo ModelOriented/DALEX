@@ -30,8 +30,10 @@ plot(expl_glm)
 library("randomForest")
 HR_rf_model <- randomForest(factor(left)~., data = breakDown::HR_data, ntree = 100)
 explainer_rf  <- explain(HR_rf_model, data = HR_data,
-                       predict_function = function(model, x) predict(model, x, type = "prob")[,2])
-expl_rf  <- single_variable(explainer_rf, variable = "satisfaction_level", type = "pdp", which.class = 2, prob = TRUE)
+                       predict_function = function(model, x)
+                             predict(model, x, type = "prob")[,2])
+expl_rf  <- single_variable(explainer_rf, variable = "satisfaction_level",
+                       type = "pdp", which.class = 2, prob = TRUE)
 plot(expl_rf)
 
 plot(expl_rf, expl_glm)
