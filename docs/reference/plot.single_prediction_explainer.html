@@ -154,16 +154,15 @@ Or the default <code>round()</code> to have the same precision for all component
 <span class='no'>wine_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
 <span class='no'>wine_lm_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>wine_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>)
 <span class='no'>wine_lm_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='single_prediction.html'>single_prediction</a></span>(<span class='no'>wine_lm_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>)
-<span class='fu'>plot</span>(<span class='no'>wine_lm_predict4</span>)</div><div class='img'><img src='plot.single_prediction_explainer-11.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>wine_lm_predict4</span>)</div><div class='img'><img src='plot.single_prediction_explainer-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
 <span class='no'>wine_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
 <span class='no'>wine_rf_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>wine_rf_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_rf"</span>)
 <span class='no'>wine_rf_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='single_prediction.html'>single_prediction</a></span>(<span class='no'>wine_rf_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>)
-<span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>)</div><div class='img'><img src='plot.single_prediction_explainer-12.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>)</div><div class='img'><img src='plot.single_prediction_explainer-2.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='co'># both models</span>
-<span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>, <span class='no'>wine_lm_predict4</span>)</div><div class='img'><img src='plot.single_prediction_explainer-13.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
-<span class='fu'>library</span>(<span class='st'>"gbm"</span>)
-<span class='co'># create a gbm model</span>
+<span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>, <span class='no'>wine_lm_predict4</span>)</div><div class='img'><img src='plot.single_prediction_explainer-3.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>library</span>(<span class='st'>"gbm"</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: survival</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: lattice</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: splines</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: parallel</span></div><div class='output co'>#&gt; <span class='message'>Loaded gbm 2.1.3</span></div><div class='input'><span class='co'># create a gbm model</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/gbm/topics/gbm'>gbm</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>,
              <span class='kw'>distribution</span> <span class='kw'>=</span> <span class='st'>"gaussian"</span>,
              <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
@@ -175,23 +174,7 @@ Or the default <code>round()</code> to have the same precision for all component
  <span class='no'>explainer_gbm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span>
          <span class='kw'>function</span>(<span class='no'>model</span>, <span class='no'>x</span>) <span class='fu'>predict</span>(<span class='no'>model</span>, <span class='no'>x</span>, <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>1000</span>))
  <span class='co'># create a new observation</span>
- <span class='no'>exp_sgn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='single_prediction.html'>single_prediction</a></span>(<span class='no'>explainer_gbm</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>)
- <span class='no'>exp_sgn</span></div><div class='output co'>#&gt;                              variable contribution  variable_name
-#&gt; 1                         (Intercept)   0.00000000      Intercept
-#&gt; alcohol              + alcohol = 12.5   0.64246926        alcohol
-#&gt; pH                        + pH = 3.36   0.16648794             pH
-#&gt; sulphates           + sulphates = 0.6   0.11901490      sulphates
-#&gt; residual.sugar + residual.sugar = 4.8   0.04287583 residual.sugar
-#&gt; citric.acid      + citric.acid = 0.35   0.00000000    citric.acid
-#&gt; 11                    final_prognosis   0.97084793               
-#&gt;                variable_value cummulative sign position label
-#&gt; 1                           1   0.0000000    0        1   gbm
-#&gt; alcohol                  12.5   0.6424693    1        2   gbm
-#&gt; pH                       3.36   0.8089572    1        3   gbm
-#&gt; sulphates                 0.6   0.9279721    1        4   gbm
-#&gt; residual.sugar            4.8   0.9708479    1        5   gbm
-#&gt; citric.acid              0.35   0.9708479    0        6   gbm
-#&gt; 11                              0.9708479    X        7   gbm</div><div class='input'> <span class='fu'>plot</span>(<span class='no'>exp_sgn</span>)</div><div class='img'><img src='plot.single_prediction_explainer-14.png' alt='' width='700' height='432.632880098887' /></div><div class='input'> <span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>, <span class='no'>wine_lm_predict4</span>, <span class='no'>exp_sgn</span>)</div><div class='img'><img src='plot.single_prediction_explainer-15.png' alt='' width='700' height='432.632880098887' /></div><div class='input'> #}
+ <span class='no'>exp_sgn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='single_prediction.html'>single_prediction</a></span>(<span class='no'>explainer_gbm</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>)</div><div class='output co'>#&gt; <span class='error'>Error in paste("Using", n.trees, "trees...\n"): argument "n.trees" is missing, with no default</span></div><div class='input'> <span class='no'>exp_sgn</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'exp_sgn' not found</span></div><div class='input'> <span class='fu'>plot</span>(<span class='no'>exp_sgn</span>)</div><div class='output co'>#&gt; <span class='error'>Error in plot(exp_sgn): object 'exp_sgn' not found</span></div><div class='input'> <span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>, <span class='no'>wine_lm_predict4</span>, <span class='no'>exp_sgn</span>)</div><div class='output co'>#&gt; <span class='error'>Error in plot.single_prediction_explainer(wine_rf_predict4, wine_lm_predict4,     exp_sgn): object 'exp_sgn' not found</span></div><div class='input'> #}
 
 </div></pre>
   </div>

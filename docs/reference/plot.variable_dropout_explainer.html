@@ -146,7 +146,7 @@ Variables are sorted in the same order in all panels. The order depends on the a
 #&gt; 9        last_evaluation   103.419431 randomForest
 #&gt; 10        number_project   104.804285 randomForest
 #&gt; 11    satisfaction_level   162.421905 randomForest
-#&gt; 12            _baseline_   349.616078 randomForest</div><div class='input'><span class='fu'>plot</span>(<span class='no'>vd_rf</span>)</div><div class='img'><img src='plot.variable_dropout_explainer-11.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+#&gt; 12            _baseline_   349.616078 randomForest</div><div class='input'><span class='fu'>plot</span>(<span class='no'>vd_rf</span>)</div><div class='img'><img src='plot.variable_dropout_explainer-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>left</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR_data</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR_data</span>$<span class='no'>left</span>)
 <span class='no'>logit</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'>exp</span>(<span class='no'>x</span>)/(<span class='fl'>1</span>+<span class='fu'>exp</span>(<span class='no'>x</span>))
@@ -165,7 +165,7 @@ Variables are sorted in the same order in all panels. The order depends on the a
 #&gt; 9          Work_accident     147.1223    lm
 #&gt; 10                salary     148.2949    lm
 #&gt; 11    satisfaction_level     190.8213    lm
-#&gt; 12            _baseline_     224.5224    lm</div><div class='input'><span class='fu'>plot</span>(<span class='no'>vd_glm</span>)</div><div class='img'><img src='plot.variable_dropout_explainer-12.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+#&gt; 12            _baseline_     224.5224    lm</div><div class='input'><span class='fu'>plot</span>(<span class='no'>vd_glm</span>)</div><div class='img'><img src='plot.variable_dropout_explainer-2.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='fu'>library</span>(<span class='st'>"xgboost"</span>)
 <span class='no'>model_martix_train</span> <span class='kw'>&lt;-</span> <span class='fu'>model.matrix</span>(<span class='no'>left</span>~<span class='no'>.</span>-<span class='fl'>1</span>, <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>)
 <span class='no'>data_train</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/xgboost/topics/xgb.DMatrix'>xgb.DMatrix</a></span>(<span class='no'>model_martix_train</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>$<span class='no'>left</span>)
@@ -196,8 +196,8 @@ Variables are sorted in the same order in all panels. The order depends on the a
 #&gt; 18       last_evaluation     48.68943 xgboost
 #&gt; 19    time_spend_company     73.49116 xgboost
 #&gt; 20    satisfaction_level    160.25894 xgboost
-#&gt; 21            _baseline_    329.32449 xgboost</div><div class='input'><span class='fu'>plot</span>(<span class='no'>vd_xgb</span>)</div><div class='img'><img src='plot.variable_dropout_explainer-13.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
-<span class='fu'>plot</span>(<span class='no'>vd_rf</span>, <span class='no'>vd_glm</span>, <span class='no'>vd_xgb</span>)</div><div class='img'><img src='plot.variable_dropout_explainer-14.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+#&gt; 21            _baseline_    329.32449 xgboost</div><div class='input'><span class='fu'>plot</span>(<span class='no'>vd_xgb</span>)</div><div class='img'><img src='plot.variable_dropout_explainer-3.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>vd_rf</span>, <span class='no'>vd_glm</span>, <span class='no'>vd_xgb</span>)</div><div class='img'><img src='plot.variable_dropout_explainer-4.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='co'># NOTE:</span>
 <span class='co'># if you like to have all importances hooked to 0, you can do this as well</span>
 <span class='no'>vd_rf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_dropout.html'>variable_dropout</a></span>(<span class='no'>explainer_rf</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"difference"</span>)
@@ -205,7 +205,7 @@ Variables are sorted in the same order in all panels. The order depends on the a
                         <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>)
                                    <span class='fu'>sum</span>((<span class='no'>observed</span> - <span class='fu'>logit</span>(<span class='no'>predicted</span>))^<span class='fl'>2</span>))
 <span class='no'>vd_xgb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_dropout.html'>variable_dropout</a></span>(<span class='no'>explainer_xgb</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"difference"</span>)
-<span class='fu'>plot</span>(<span class='no'>vd_rf</span>, <span class='no'>vd_glm</span>, <span class='no'>vd_xgb</span>)</div><div class='img'><img src='plot.variable_dropout_explainer-15.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>#}
+<span class='fu'>plot</span>(<span class='no'>vd_rf</span>, <span class='no'>vd_glm</span>, <span class='no'>vd_xgb</span>)</div><div class='img'><img src='plot.variable_dropout_explainer-5.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>#}
 
 </div></pre>
   </div>
