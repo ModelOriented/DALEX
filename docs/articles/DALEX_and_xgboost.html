@@ -70,7 +70,7 @@
       <h1>How to use DALEX with the xgboost models</h1>
                         <h4 class="author">Przemyslaw Biecek</h4>
             
-            <h4 class="date">2018-03-25</h4>
+            <h4 class="date">2018-03-26</h4>
           </div>
 
     
@@ -184,12 +184,12 @@
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">vd_xgb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_dropout.html">variable_dropout</a></span>(explainer_xgb, <span class="dt">type =</span> <span class="st">"raw"</span>)</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">head</span>(vd_xgb)</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt;               variable dropout_loss   label</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; 1         _full_model_     397.6758 xgboost</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; 2        fixed.acidity     412.1234 xgboost</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; 3            sulphates     421.7360 xgboost</span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; 4          citric.acid     425.5332 xgboost</span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; 5 total.sulfur.dioxide     432.0466 xgboost</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; 6                   pH     443.7778 xgboost</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; 1         _full_model_     406.9899 xgboost</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; 2        fixed.acidity     423.2739 xgboost</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; 3            sulphates     425.9512 xgboost</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; 4 total.sulfur.dioxide     433.0827 xgboost</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; 5                   pH     437.7971 xgboost</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; 6          citric.acid     448.3550 xgboost</span></a>
 <a class="sourceLine" id="cb6-10" data-line-number="10"></a>
 <a class="sourceLine" id="cb6-11" data-line-number="11"><span class="kw">plot</span>(vd_xgb)</a></code></pre></div>
 <p><img src="DALEX_and_xgboost_files/figure-html/unnamed-chunk-6-1.png" width="960"></p>
@@ -314,12 +314,12 @@
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">vd_xgb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_dropout.html">variable_dropout</a></span>(explainer_xgb, <span class="dt">type =</span> <span class="st">"raw"</span>)</a>
 <a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw">head</span>(vd_xgb)</a>
 <a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt;          variable dropout_loss   label</span></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; 1    _full_model_     211.0457 xgboost</span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; 2  salestechnical     210.9951 xgboost</span></a>
-<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt; 3      salesRandD     210.9958 xgboost</span></a>
-<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt; 4 salesaccounting     211.0457 xgboost</span></a>
-<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">#&gt; 5         salesIT     211.0457 xgboost</span></a>
-<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt; 6 salesmanagement     211.0457 xgboost</span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; 1    _full_model_     211.9700 xgboost</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; 2      salesRandD     211.9612 xgboost</span></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt; 3 salesaccounting     211.9700 xgboost</span></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt; 4         salesIT     211.9700 xgboost</span></a>
+<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">#&gt; 5 salesmanagement     211.9700 xgboost</span></a>
+<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt; 6  salesmarketing     211.9700 xgboost</span></a>
 <a class="sourceLine" id="cb12-10" data-line-number="10"></a>
 <a class="sourceLine" id="cb12-11" data-line-number="11"><span class="kw">plot</span>(vd_xgb)</a></code></pre></div>
 <p><img src="DALEX_and_xgboost_files/figure-html/unnamed-chunk-12-1.png" width="960"></p>
@@ -332,7 +332,7 @@
 <a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt;  language (EN)                        </span></a>
 <a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt;  collate  en_US.UTF-8                 </span></a>
 <a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt;  tz       Europe/Warsaw               </span></a>
-<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt;  date     2018-03-25                  </span></a>
+<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt;  date     2018-03-26                  </span></a>
 <a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb13-11" data-line-number="11"><span class="co">#&gt;  package      * version   date      </span></a>
 <a class="sourceLine" id="cb13-12" data-line-number="12"><span class="co">#&gt;  agricolae      1.2-8     2017-09-12</span></a>
@@ -344,13 +344,13 @@
 <a class="sourceLine" id="cb13-18" data-line-number="18"><span class="co">#&gt;  bindr          0.1       2016-11-13</span></a>
 <a class="sourceLine" id="cb13-19" data-line-number="19"><span class="co">#&gt;  bindrcpp       0.2       2017-06-17</span></a>
 <a class="sourceLine" id="cb13-20" data-line-number="20"><span class="co">#&gt;  boot           1.3-20    2017-08-06</span></a>
-<a class="sourceLine" id="cb13-21" data-line-number="21"><span class="co">#&gt;  breakDown    * 0.1.5     2018-03-24</span></a>
+<a class="sourceLine" id="cb13-21" data-line-number="21"><span class="co">#&gt;  breakDown    * 0.1.5     2018-03-25</span></a>
 <a class="sourceLine" id="cb13-22" data-line-number="22"><span class="co">#&gt;  cluster        2.0.6     2017-03-10</span></a>
 <a class="sourceLine" id="cb13-23" data-line-number="23"><span class="co">#&gt;  coda           0.19-1    2016-12-08</span></a>
 <a class="sourceLine" id="cb13-24" data-line-number="24"><span class="co">#&gt;  colorspace     1.3-2     2016-12-14</span></a>
 <a class="sourceLine" id="cb13-25" data-line-number="25"><span class="co">#&gt;  combinat       0.0-8     2012-10-29</span></a>
 <a class="sourceLine" id="cb13-26" data-line-number="26"><span class="co">#&gt;  compiler       3.4.4     2018-03-15</span></a>
-<a class="sourceLine" id="cb13-27" data-line-number="27"><span class="co">#&gt;  DALEX        * 0.1.8     2018-03-24</span></a>
+<a class="sourceLine" id="cb13-27" data-line-number="27"><span class="co">#&gt;  DALEX        * 0.2.0     2018-03-26</span></a>
 <a class="sourceLine" id="cb13-28" data-line-number="28"><span class="co">#&gt;  data.table     1.10.4-3  2017-10-27</span></a>
 <a class="sourceLine" id="cb13-29" data-line-number="29"><span class="co">#&gt;  datasets     * 3.4.4     2018-03-15</span></a>
 <a class="sourceLine" id="cb13-30" data-line-number="30"><span class="co">#&gt;  deldir         0.1-14    2017-04-22</span></a>
@@ -424,7 +424,7 @@
 <a class="sourceLine" id="cb13-98" data-line-number="98"><span class="co">#&gt;  CRAN (R 3.4.0)                        </span></a>
 <a class="sourceLine" id="cb13-99" data-line-number="99"><span class="co">#&gt;  CRAN (R 3.4.0)                        </span></a>
 <a class="sourceLine" id="cb13-100" data-line-number="100"><span class="co">#&gt;  CRAN (R 3.4.4)                        </span></a>
-<a class="sourceLine" id="cb13-101" data-line-number="101"><span class="co">#&gt;  local (pbiecek/breakDown@NA)          </span></a>
+<a class="sourceLine" id="cb13-101" data-line-number="101"><span class="co">#&gt;  local (pbiecek/breakDown@7591b59)     </span></a>
 <a class="sourceLine" id="cb13-102" data-line-number="102"><span class="co">#&gt;  CRAN (R 3.4.4)                        </span></a>
 <a class="sourceLine" id="cb13-103" data-line-number="103"><span class="co">#&gt;  cran (@0.19-1)                        </span></a>
 <a class="sourceLine" id="cb13-104" data-line-number="104"><span class="co">#&gt;  CRAN (R 3.4.0)                        </span></a>

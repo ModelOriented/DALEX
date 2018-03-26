@@ -1,3 +1,7 @@
+DALEX 0.2.0
+----------------------------------------------------------------
+* New names for some functions: `model_performance()`, `variable_importance()`, `variable_response()`, `outlier_detection()`, `prediction_breakdown()`. Old names are now deprecated but still working. ([#12](https://github.com/pbiecek/archivist/issues/12))
+
 DALEX 0.1.8
 ----------------------------------------------------------------
 * Function `single_variable()` supports factor variables as well (with the use of `factorMerger` package). Remember to use `type='factor'` when playing with factors. ([#10](https://github.com/pbiecek/archivist/issues/10))

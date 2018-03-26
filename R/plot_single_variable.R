@@ -1,6 +1,6 @@
 #' Plots Marginal Model Explanations (Single Variable Responses)
 #'
-#' Function 'plot.single_variable_explainer' plots marginal responses for one or more explainers.
+#' Function 'plot.variable_response_explainer' plots marginal responses for one or more explainers.
 #'
 #' @param x a single variable exlainer produced with the 'single_variable' function
 #' @param ... other explainers that shall be plotted together
@@ -18,7 +18,7 @@
 #'
 #' HR_glm_model <- glm(left~., data = breakDown::HR_data, family = "binomial")
 #' explainer_glm <- explain(HR_glm_model, data = HR_data, trans = logit)
-#' expl_glm <- single_variable(explainer_glm, "satisfaction_level", "pdp", trans=logit)
+#' expl_glm <- variable_response(explainer_glm, "satisfaction_level", "pdp", trans=logit)
 #' plot(expl_glm)
 #'
 #' #\dontrun{
@@ -27,7 +27,7 @@
 #' explainer_rf  <- explain(HR_rf_model, data = HR_data,
 #'                        predict_function = function(model, x)
 #'                              predict(model, x, type = "prob")[,2])
-#' expl_rf  <- single_variable(explainer_rf, variable = "satisfaction_level",
+#' expl_rf  <- variable_response(explainer_rf, variable = "satisfaction_level",
 #'                        type = "pdp", which.class = 2, prob = TRUE)
 #' plot(expl_rf)
 #'
@@ -35,10 +35,10 @@
 #'
 #' # Example for factor variable (with factorMerger)
 #' library("randomForest")
-#' expl_rf  <- single_variable(explainer_rf, variable =  "sales", type = "factor")
+#' expl_rf  <- variable_response(explainer_rf, variable =  "sales", type = "factor")
 #' plot(expl_rf)
 #'
-#' expl_glm  <- single_variable(explainer_glm, variable =  "sales", type = "factor")
+#' expl_glm  <- variable_response(explainer_glm, variable =  "sales", type = "factor")
 #' plot(expl_glm)
 #'
 #' # both models
@@ -46,16 +46,16 @@
 #' #}
 #'
 
-plot.single_variable_explainer <- function(x, ...) {
+plot.variable_response_explainer <- function(x, ...) {
   if ("factorMerger" %in% class(x)) {
-    return(plot.single_variable_factor_explainer(x, ...))
+    return(plot.variable_response_factor_explainer(x, ...))
   }
   if ("data.frame" %in% class(x)) {
-    return(plot.single_variable_numeric_explainer(x, ...))
+    return(plot.variable_response_numeric_explainer(x, ...))
   }
 }
 
-plot.single_variable_factor_explainer <- function(x, ...) {
+plot.variable_response_factor_explainer <- function(x, ...) {
   fex <- c(list(x), list(...))
   clusterSplit <- list(stat = "GIC", value = 2)
 
@@ -83,7 +83,7 @@ plot.single_variable_factor_explainer <- function(x, ...) {
   ggarrange(plotlist = all_plots, ncol = 1, nrow = length(all_plots)) + theme_mi2()
 }
 
-plot.single_variable_numeric_explainer <- function(x, ...) {
+plot.variable_response_numeric_explainer <- function(x, ...) {
   df <- x
   class(df) <- "data.frame"
 
@@ -102,7 +102,7 @@ plot.single_variable_numeric_explainer <- function(x, ...) {
     theme_mi2() +
     scale_color_brewer(name = "Model", type = "qual", palette = "Dark2") +
     scale_shape_discrete(name = "Type") +
-    ggtitle("Single variable conditional responses") +
+    ggtitle("Variable response") +
     xlab(variable_name) + ylab(expression(hat("y")))
 
 }

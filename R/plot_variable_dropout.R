@@ -1,4 +1,4 @@
-#' Plots Global Model Explanations (Variable Drop-out)
+#' Plots Global Model Explanations (Variable Importance)
 #'
 #' Function \code{plot.variable_dropout_explainer} plots dropouts for variables used in the model.
 #' It uses output from \code{variable_dropout} function that corresponds to permutation based measure of variable importance.
@@ -19,14 +19,14 @@
 #' library("randomForest")
 #' HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
 #' explainer_rf  <- explain(HR_rf_model, data = HR_data, y = HR_data$left)
-#' vd_rf <- variable_dropout(explainer_rf, type = "raw")
+#' vd_rf <- variable_importance(explainer_rf, type = "raw")
 #' vd_rf
 #' plot(vd_rf)
 #'
 #' HR_glm_model <- glm(left~., data = breakDown::HR_data, family = "binomial")
 #' explainer_glm <- explain(HR_glm_model, data = HR_data, y = HR_data$left)
 #' logit <- function(x) exp(x)/(1+exp(x))
-#' vd_glm <- variable_dropout(explainer_glm, type = "raw",
+#' vd_glm <- variable_importance(explainer_glm, type = "raw",
 #'                         loss_function = function(observed, predicted)
 #'                                    sum((observed - logit(predicted))^2))
 #' vd_glm
@@ -40,7 +40,7 @@
 #' HR_xgb_model <- xgb.train(param, data_train, nrounds = 50)
 #' explainer_xgb <- explain(HR_xgb_model, data = model_martix_train,
 #'                                     y = HR_data$left, label = "xgboost")
-#' vd_xgb <- variable_dropout(explainer_xgb, type = "raw")
+#' vd_xgb <- variable_importance(explainer_xgb, type = "raw")
 #' vd_xgb
 #' plot(vd_xgb)
 #'
@@ -48,15 +48,15 @@
 #'
 #' # NOTE:
 #' # if you like to have all importances hooked to 0, you can do this as well
-#' vd_rf <- variable_dropout(explainer_rf, type = "difference")
-#' vd_glm <- variable_dropout(explainer_glm, type = "difference",
+#' vd_rf <- variable_importance(explainer_rf, type = "difference")
+#' vd_glm <- variable_importance(explainer_glm, type = "difference",
 #'                         loss_function = function(observed, predicted)
 #'                                    sum((observed - logit(predicted))^2))
-#' vd_xgb <- variable_dropout(explainer_xgb, type = "difference")
+#' vd_xgb <- variable_importance(explainer_xgb, type = "difference")
 #' plot(vd_rf, vd_glm, vd_xgb)
 #' #}
 #'
-plot.variable_dropout_explainer <- function(x, ..., max_vars = 10) {
+plot.variable_importance_explainer <- function(x, ..., max_vars = 10) {
   dfl <- c(list(x), list(...))
 
   # combine all explainers in a single frame

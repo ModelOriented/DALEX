@@ -27,13 +27,13 @@
 #'
 #' wine_lm_model4 <- lm(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine)
 #' wine_lm_explainer4 <- explain(wine_lm_model4, data = wine, label = "model_4v")
-#' wine_lm_predict4 <- single_prediction(wine_lm_explainer4, observation = new.wine)
+#' wine_lm_predict4 <- prediction_breakdown(wine_lm_explainer4, observation = new.wine)
 #' plot(wine_lm_predict4)
 #'
 #' library("randomForest")
 #' wine_rf_model4 <- randomForest(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine)
 #' wine_rf_explainer4 <- explain(wine_rf_model4, data = wine, label = "model_rf")
-#' wine_rf_predict4 <- single_prediction(wine_rf_explainer4, observation = new.wine)
+#' wine_rf_predict4 <- prediction_breakdown(wine_rf_explainer4, observation = new.wine)
 #' plot(wine_rf_predict4)
 #'
 #' # both models
@@ -52,13 +52,13 @@
 #'  explainer_gbm <- explain(model, data = wine, predict_function =
 #'          function(model, x) predict(model, x, n.trees = 1000))
 #'  # create a new observation
-#'  exp_sgn <- single_prediction(explainer_gbm, observation = new.wine)
+#'  exp_sgn <- prediction_breakdown(explainer_gbm, observation = new.wine)
 #'  exp_sgn
 #'  plot(exp_sgn)
 #'  plot(wine_rf_predict4, wine_lm_predict4, exp_sgn)
 #'  #}
 #'
-plot.single_prediction_explainer <- function(x, ..., add_contributions = TRUE,
+plot.prediction_breakdown_explainer <- function(x, ..., add_contributions = TRUE,
                                              vcolors = c("-1" = "#d8b365", "0" = "#f5f5f5", "1" = "#5ab4ac", "X" = "darkgrey"),
                                              digits = 3, rounding_function = round) {
   df <- NULL
