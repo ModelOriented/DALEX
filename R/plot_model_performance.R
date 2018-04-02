@@ -2,6 +2,7 @@
 #'
 #' @param x a model to be explained, preprocessed by the 'explain' function
 #' @param ... other parameters
+#' @param geom either \code{"ecdf"} or \code{"boxplot"} determines how residuals shall be summarized
 #'
 #' @return An object of the class 'model_performance_explainer'.
 #'
@@ -27,9 +28,10 @@
 #' plot(mp_lm)
 #'
 #' plot(mp_rf, mp_glm, mp_lm)
+#' plot(mp_rf, mp_glm, mp_lm, geom = "boxplot")
 #' #}
 #'
-plot.model_performance_explainer <- function(x, ...) {
+plot.model_performance_explainer <- function(x, ..., geom = "ecdf") {
   df <- x
   class(df) <- "data.frame"
 
@@ -41,16 +43,27 @@ plot.model_performance_explainer <- function(x, ...) {
     }
   }
   label <- NULL
-  ggplot(df, aes(abs(diff), color = label)) +
-    stat_ecdf(geom = "step") +
-    stat_ecdf(geom = "point") +
-    theme_mi2() +
-    scale_color_brewer(name = "Model", type = "qual", palette = "Dark2") +
-    xlab("| residuals |") +
-    scale_y_continuous(breaks = seq(0,1,0.1),
-                       labels = paste(seq(100,0,-10),"%"),
-                       trans = "reverse",
-                       name = "") +
-    ggtitle("Ecdf of | residuals |")
-
+  if (geom == "ecdf") {
+     pl <-   ggplot(df, aes(abs(diff), color = label)) +
+       stat_ecdf(geom = "step") +
+       stat_ecdf(geom = "point") +
+       theme_mi2() +
+       scale_color_brewer(name = "Model", type = "qual", palette = "Dark2") +
+       xlab("| residuals |") +
+       scale_y_continuous(breaks = seq(0,1,0.1),
+                          labels = paste(seq(100,0,-10),"%"),
+                          trans = "reverse",
+                          name = "") +
+       ggtitle("Ecdf of | residuals |")
+  } else {
+    pl <- ggplot(df, aes(x=label, y=abs(diff), fill = label)) +
+      stat_boxplot(alpha=0.4, coef = 1000) +
+      stat_summary(fun.y=function(x) sqrt(mean(x^2)), geom="point", shape=20, size=10, color="red", fill="red") +
+      theme_mi2() +
+      scale_fill_brewer(name = "Model", type = "qual", palette = "Dark2") +
+      ylab("") + xlab("") +
+      ggtitle("Boxplots of | residuals |", "Red dot stands for root mean square of residuals") +
+      coord_flip()
+  }
+  pl
 }

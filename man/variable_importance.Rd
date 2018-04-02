@@ -17,7 +17,7 @@ variable_importance(explainer, loss_function = function(observed, predicted)
 
 \item{type}{character, type of transformation that should be applied for dropout loss. 'raw' results raw drop lossess, 'ratio' returns \code{drop_loss/drop_loss_full_model} while 'difference' returns \code{drop_loss - drop_loss_full_model}}
 
-\item{n_sample}{number of observations that should be sampled for calculations of variable leverages}
+\item{n_sample}{number of observations that should be sampled for calculation of variable importance. If negative then variable importance will be calculated on whole dataset (no sampling).}
 }
 \value{
 An object of the class 'variable_leverage_explainer'.

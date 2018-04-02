@@ -4,12 +4,14 @@
 \alias{plot.model_performance_explainer}
 \title{Model Performance Plots}
 \usage{
-\method{plot}{model_performance_explainer}(x, ...)
+\method{plot}{model_performance_explainer}(x, ..., geom = "ecdf")
 }
 \arguments{
 \item{x}{a model to be explained, preprocessed by the 'explain' function}
 
 \item{...}{other parameters}
+
+\item{geom}{either \code{"ecdf"} or \code{"boxplot"} determines how residuals shall be summarized}
 }
 \value{
 An object of the class 'model_performance_explainer'.
@@ -38,6 +40,7 @@ mp_lm <- model_performance(explainer_lm)
 plot(mp_lm)
 
 plot(mp_rf, mp_glm, mp_lm)
+plot(mp_rf, mp_glm, mp_lm, geom = "boxplot")
 #}
 
 }

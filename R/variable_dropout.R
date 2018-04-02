@@ -4,7 +4,7 @@
 #' @param loss_function a function thet will be used to assess variable importance
 #' @param ... other parameters
 #' @param type character, type of transformation that should be applied for dropout loss. 'raw' results raw drop lossess, 'ratio' returns \code{drop_loss/drop_loss_full_model} while 'difference' returns \code{drop_loss - drop_loss_full_model}
-#' @param n_sample number of observations that should be sampled for calculations of variable leverages
+#' @param n_sample number of observations that should be sampled for calculation of variable importance. If negative then variable importance will be calculated on whole dataset (no sampling).
 #'
 #' @return An object of the class 'variable_leverage_explainer'.
 #' It's a data frame with calculated average response.
@@ -50,9 +50,12 @@ variable_importance <- function(explainer,
   if (is.null(explainer$y)) stop("The variable_importance() function requires explainers created with specified 'y' parameter.")
 
   variables <- colnames(explainer$data)
-  sampled_rows <- sample.int(nrow(explainer$data), n_sample, replace = TRUE)
+  if (n_sample > 0) {
+    sampled_rows <- sample.int(nrow(explainer$data), n_sample, replace = TRUE)
+  } else {
+    sampled_rows <- 1:nrow(explainer$data)
+  }
   sampled_data <- explainer$data[sampled_rows,]
-
   observed <- explainer$y[sampled_rows]
 
   loss_0 <- loss_function(observed,
