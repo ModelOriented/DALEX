@@ -9,7 +9,7 @@
 #' @return An object of the class 'variable_leverage_explainer'.
 #' It's a data frame with calculated average response.
 #'
-#' @aliases variable_dropout
+#' @aliases variable_dropout loss_sum_of_squares loss_root_mean_square
 #' @export
 #' @examples
 #' #\dontrun{

@@ -14,6 +14,7 @@
 #' \item construction.date - construction year
 #' }
 #'
+#' @aliases apartmentsTest
 #' @docType data
 #' @keywords apartments
 #' @name apartments
