@@ -117,7 +117,7 @@ This function creates a unified representation of a model, which can be further 
     </tr>
     <tr>
       <th>y</th>
-      <td><p>numeric vector with outputs / scores. Currently used only by <code><a href='variable_dropout.html'>variable_dropout()</a></code> explainer.</p></td>
+      <td><p>numeric vector with outputs / scores. Currently used only by <code><a href='variable_importance.html'>variable_dropout()</a></code> explainer.</p></td>
     </tr>
     <tr>
       <th>predict_function</th>
@@ -173,8 +173,10 @@ But some explainers may require that others will be provided too.</p>
 #&gt; 1       6
 #&gt; 2       6</div><div class='input'>
 <span class='co'># \dontrun{</span>
-<span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
-<span class='no'>wine_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
+<span class='fu'>library</span>(<span class='st'>"randomForest"</span>)</div><div class='output co'>#&gt; <span class='message'>randomForest 4.6-12</span></div><div class='output co'>#&gt; <span class='message'>Type rfNews() to see new features/changes/bug fixes.</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘randomForest’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:DALEX’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    margin</span></div><div class='input'><span class='no'>wine_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
 <span class='no'>wine_rf_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>wine_rf_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_rf"</span>)
 <span class='no'>wine_rf_explainer4</span></div><div class='output co'>#&gt; Model label:  model_rf 
 #&gt; Model class:  randomForest.formula,randomForest 

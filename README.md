@@ -8,6 +8,8 @@
 
 Descriptive mAchine Learning EXplanations
 
+[A gentle introduction to DALEX with examples](https://pbiecek.github.io/DALEX_docs/)
+
 ## Intro
 
 Machine Learning models are widely used and have various applications in classification or regression tasks. Due to increasing computational power, availability of new data sources and new methods, ML models are more and more complex. Models created with techniques like boosting, bagging of neural networks are true black boxes. It is hard to trace the link between input variables and model outcomes. They are use because of high performance, but lack of interpretability is one of their weakest sides.
@@ -44,6 +46,7 @@ devtools::install_github("pbiecek/DALEX")
 ## DALEX Stories
 
 * [DALEX at Complexity Institute / NTU February 2018](https://github.com/pbiecek/pbiecek.github.io/blob/master/Presentations/DALEX_at_NTU_2018.pdf)
+* [DALEX at SER / WTU April 2018](https://github.com/pbiecek/Talks/blob/master/2018/SER_DALEX.pdf)
 
 ## Acknowledgments
 

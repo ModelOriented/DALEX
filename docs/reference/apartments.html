@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>All news • DALEX</title>
+<title>Apartments Data — apartments • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -37,7 +37,7 @@
   </head>
 
   <body>
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top navbar-mi2" role="navigation">
   <div class="container">
@@ -91,65 +91,47 @@
       </header>
 
       <div class="row">
-
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Change log <small>All releases</small></h1>
+    <h1>Apartments Data</h1>
     </div>
 
-    <div class="contents">
-    <div class="section level2">
-<h2>DALEX 0.2.0</h2>
-<ul>
-<li>New names for some functions: <code><a href="../reference/model_performance.html">model_performance()</a></code>, <code><a href="../reference/variable_importance.html">variable_importance()</a></code>, <code><a href="../reference/variable_response.html">variable_response()</a></code>, <code>outlier_detection()</code>, <code><a href="../reference/prediction_breakdown.html">prediction_breakdown()</a></code>. Old names are now deprecated but still working. (<a href="https://github.com/pbiecek/archivist/issues/12">#12</a>)</li>
-<li>A new dataset <code>apartments</code> - will be used in examples</li>
-<li>
-<code><a href="../reference/variable_importance.html">variable_importance()</a></code> allows work on full dataset if <code>n_sample</code> is negative</li>
-<li>
-<code>plot_model_performance()</code> uses ecdf or boxplots (depending on <code>geom</code> parameter).</li>
+    
+    <p>Datasets <code>apartments</code> and <code>apartmentsTest</code> are artificial,
+generated form the same model.
+Structure of the dataset is copied from real dataset from <code>PBImisc</code> package,
+but they were generated in a way to mimic effect of Anscombe quartet for complex black box models.</p>
+    
+
+    <pre class="usage"><span class='fu'>data</span>(<span class='no'>apartments</span>)</pre>
+        
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>a data frame with 1000 rows and 6 columns</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <ul>
+<li><p>m2.price - price per square meter</p></li>
+<li><p>surface - apartment area in square meters</p></li>
+<li><p>n.rooms - number of rooms (correlated with surface)</p></li>
+<li><p>district - district in which apartment is located, factor with 10 levels</p></li>
+<li><p>floor - floor</p></li>
+<li><p>construction.date - construction year</p></li>
 </ul>
-</div>
-    <div class="section level2">
-<h2>DALEX 0.1.8</h2>
-<ul>
-<li>Function <code><a href="../reference/variable_response.html">single_variable()</a></code> supports factor variables as well (with the use of <code>factorMerger</code> package). Remember to use <code>type='factor'</code> when playing with factors. (<a href="https://github.com/pbiecek/archivist/issues/10">#10</a>)</li>
-<li>Change in the function <code><a href="../reference/explain.html">explain()</a></code>. Old version has an argument <code>predict.function</code>, now it’s <code>predict_function</code>. New name is more consistent with other arguments. (<a href="https://github.com/pbiecek/archivist/issues/7">#7</a>)</li>
-<li>New vigniette for <code>xgboost</code> model (<a href="https://github.com/pbiecek/archivist/issues/11">#11</a>)</li>
-</ul>
-</div>
-    <div class="section level2">
-<h2>DALEX 0.1.1</h2>
-<ul>
-<li>Support for global model structure explainers with <code><a href="../reference/variable_importance.html">variable_dropout()</a></code> function</li>
-</ul>
-</div>
-    <div class="section level2">
-<h2>DALEX 0.1</h2>
-<ul>
-<li>DALEX package is now public</li>
-<li>
-<code><a href="../reference/explain.html">explain()</a></code> function implemented</li>
-<li>
-<code><a href="../reference/prediction_breakdown.html">single_prediction()</a></code> function implemented</li>
-<li>
-<code><a href="../reference/variable_response.html">single_variable()</a></code> function implemented</li>
-</ul>
-</div>
-    </div>
+    
+
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked contents-mi2">
-        <li><a href="#NA">0.2.0</a></li>
-        <li><a href="#NA">0.1.8</a></li>
-        <li><a href="#NA">0.1.1</a></li>
-        <li><a href="#NA">0.1</a></li>
-      </ul>
-    </div>
-  </div>
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      
+      <li><a href="#format">Format</a></li>
 
+      <li><a href="#details">Details</a></li>
+          </ul>
+
+  </div>
 </div>
 
       <footer>
