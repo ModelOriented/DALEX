@@ -25,6 +25,7 @@ Imports: pdp,
     ggpubr
 Suggests: gbm,
   randomForest,
-  xgboost
+  xgboost,
+    testthat
 URL: https://pbiecek.github.io/DALEX/
 BugReports: https://github.com/pbiecek/DALEX/issues
