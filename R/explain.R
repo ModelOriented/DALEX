@@ -26,6 +26,7 @@
 #' \item \code{label} label, by default it's the last value from the \code{class} vector, but may be set to any character.
 #' }
 #'
+#' @rdname explain
 #' @export
 #' @importFrom stats predict
 #' @importFrom utils head tail
@@ -52,6 +53,11 @@ explain <- function(model, data = NULL, y = NULL, predict_function = yhat, link 
     }
   }
 
+  # as for issue #15, if data is in the tibble format then needs to be translated to data.frame
+  if ("tbl" %in% class(data)) {
+    data <- as.data.frame(data)
+  }
+
   explainer <- list(model = model,
                     data = data,
                     y = y,
@@ -63,6 +69,10 @@ explain <- function(model, data = NULL, y = NULL, predict_function = yhat, link 
   class(explainer) <- "explainer"
   explainer
 }
+
+#' @export
+#' @rdname explain
+explain.default <- explain
 
 yhat <- function(X.model, newdata, ...) {
   if ("lm" %in% class(X.model)) {
