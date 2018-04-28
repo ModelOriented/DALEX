@@ -99,9 +99,22 @@
 
     <div class="contents">
     <div class="section level2">
+<h2>DALEX 0.2.2</h2>
+<ul>
+<li>The <code>single_variable() / variable_response()</code> function uses <code>predict_function</code> from <code>explainer</code> (<a href="https://github.com/pbiecek/DALEX/issues/17">#17</a>)</li>
+</ul>
+</div>
+    <div class="section level2">
+<h2>DALEX 0.2.1</h2>
+<ul>
+<li>The <code><a href="../reference/explain.html">explain()</a></code> function converts <code>tibbles</code> to <code>data.frame</code> when specified as <code>data</code> argument (<a href="https://github.com/pbiecek/DALEX/issues/15">#15</a>)</li>
+<li>The default generic <code><a href="../reference/explain.html">explain.default()</a></code> should help when <code><a href="../reference/explain.html">explain()</a></code> from <code>dplyr</code> is loaded after <code>DALEX</code> (<a href="https://github.com/pbiecek/DALEX/issues/16">#16</a>)</li>
+</ul>
+</div>
+    <div class="section level2">
 <h2>DALEX 0.2.0</h2>
 <ul>
-<li>New names for some functions: <code><a href="../reference/model_performance.html">model_performance()</a></code>, <code><a href="../reference/variable_importance.html">variable_importance()</a></code>, <code><a href="../reference/variable_response.html">variable_response()</a></code>, <code>outlier_detection()</code>, <code><a href="../reference/prediction_breakdown.html">prediction_breakdown()</a></code>. Old names are now deprecated but still working. (<a href="https://github.com/pbiecek/archivist/issues/12">#12</a>)</li>
+<li>New names for some functions: <code><a href="../reference/model_performance.html">model_performance()</a></code>, <code><a href="../reference/variable_importance.html">variable_importance()</a></code>, <code><a href="../reference/variable_response.html">variable_response()</a></code>, <code>outlier_detection()</code>, <code><a href="../reference/prediction_breakdown.html">prediction_breakdown()</a></code>. Old names are now deprecated but still working. (<a href="https://github.com/pbiecek/DALEX/issues/12">#12</a>)</li>
 <li>A new dataset <code>apartments</code> - will be used in examples</li>
 <li>
 <code><a href="../reference/variable_importance.html">variable_importance()</a></code> allows work on full dataset if <code>n_sample</code> is negative</li>
@@ -112,9 +125,9 @@
     <div class="section level2">
 <h2>DALEX 0.1.8</h2>
 <ul>
-<li>Function <code><a href="../reference/variable_response.html">single_variable()</a></code> supports factor variables as well (with the use of <code>factorMerger</code> package). Remember to use <code>type='factor'</code> when playing with factors. (<a href="https://github.com/pbiecek/archivist/issues/10">#10</a>)</li>
-<li>Change in the function <code><a href="../reference/explain.html">explain()</a></code>. Old version has an argument <code>predict.function</code>, now it’s <code>predict_function</code>. New name is more consistent with other arguments. (<a href="https://github.com/pbiecek/archivist/issues/7">#7</a>)</li>
-<li>New vigniette for <code>xgboost</code> model (<a href="https://github.com/pbiecek/archivist/issues/11">#11</a>)</li>
+<li>Function <code><a href="../reference/variable_response.html">single_variable()</a></code> supports factor variables as well (with the use of <code>factorMerger</code> package). Remember to use <code>type='factor'</code> when playing with factors. (<a href="https://github.com/pbiecek/DALEX/issues/10">#10</a>)</li>
+<li>Change in the function <code><a href="../reference/explain.html">explain()</a></code>. Old version has an argument <code>predict.function</code>, now it’s <code>predict_function</code>. New name is more consistent with other arguments. (<a href="https://github.com/pbiecek/DALEX/issues/7">#7</a>)</li>
+<li>New vigniette for <code>xgboost</code> model (<a href="https://github.com/pbiecek/DALEX/issues/11">#11</a>)</li>
 </ul>
 </div>
     <div class="section level2">
@@ -142,6 +155,8 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked contents-mi2">
+        <li><a href="#NA">0.2.2</a></li>
+        <li><a href="#NA">0.2.1</a></li>
         <li><a href="#NA">0.2.0</a></li>
         <li><a href="#NA">0.1.8</a></li>
         <li><a href="#NA">0.1.1</a></li>
