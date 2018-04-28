@@ -75,7 +75,7 @@ variable_response <- function(explainer, variable, type = "pdp", trans = explain
            res
          },
          pdp = {
-           part <- partial(explainer$model, pred.var = variable, train = explainer$data, ...)
+           part <- partial(explainer$model, pred.var = variable, train = explainer$data, ..., pred.fun = explainer$predict_function)
            res <- data.frame(x = part[,1], y = trans(part$yhat), var = variable, type = type, label = explainer$label)
            class(res) <- c("variable_response_explainer", "data.frame", "pdp")
            res
@@ -84,7 +84,7 @@ variable_response <- function(explainer, variable, type = "pdp", trans = explain
            # need to create a temporary file to stop ALEPlot function from plotting anytihing
            tmpfn <- tempfile()
            pdf(tmpfn)
-           part <- ALEPlot(X = explainer$data, X.model = explainer$model, yhat, J = variable)
+           part <- ALEPlot(X = explainer$data, X.model = explainer$model, yhat, J = variable, pred.fun = explainer$predict_function)
            dev.off()
            unlink(tmpfn)
            res <- data.frame(x = part$x.values, y = trans(part$f.values), var = variable, type = type, label = explainer$label)

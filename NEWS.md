@@ -1,3 +1,7 @@
+DALEX 0.2.2
+----------------------------------------------------------------
+* The `single_variable() / variable_response()` function uses `predict_function` from `explainer` ([#17](https://github.com/pbiecek/DALEX/issues/17))
+
 DALEX 0.2.1
 ----------------------------------------------------------------
 * The `explain()` function converts `tibbles` to `data.frame` when specified as `data` argument ([#15](https://github.com/pbiecek/DALEX/issues/15))
