@@ -57,6 +57,9 @@ variable_response <- function(explainer, variable, type = "pdp", trans = explain
     stop(paste("Variable", variable, " must be a factor variable"))
   }
 
+  # pdp requires predict function with only two arguments
+  predictor <- function(m,x) explainer$predict_function(m,x)
+
   switch(type,
          factor = {
            lev <- levels(factor(explainer$data[,variable]))
@@ -64,7 +67,7 @@ variable_response <- function(explainer, variable, type = "pdp", trans = explain
            preds <- lapply(lev, function(cur_lev) {
              tmp <- explainer$data
              tmp[,variable] <- factor(cur_lev, levels = lev)
-             data.frame(scores = trans(explainer$predict_function(explainer$model, tmp)),
+             data.frame(scores = trans(predictor(explainer$model, tmp)),
                         level = cur_lev)
            })
            preds_combined <- do.call(rbind, preds)
@@ -75,7 +78,7 @@ variable_response <- function(explainer, variable, type = "pdp", trans = explain
            res
          },
          pdp = {
-           part <- partial(explainer$model, pred.var = variable, train = explainer$data, ..., pred.fun = explainer$predict_function)
+           part <- partial(explainer$model, pred.var = variable, train = explainer$data, ..., pred.fun = predictor)
            res <- data.frame(x = part[,1], y = trans(part$yhat), var = variable, type = type, label = explainer$label)
            class(res) <- c("variable_response_explainer", "data.frame", "pdp")
            res
@@ -84,7 +87,7 @@ variable_response <- function(explainer, variable, type = "pdp", trans = explain
            # need to create a temporary file to stop ALEPlot function from plotting anytihing
            tmpfn <- tempfile()
            pdf(tmpfn)
-           part <- ALEPlot(X = explainer$data, X.model = explainer$model, yhat, J = variable, pred.fun = explainer$predict_function)
+           part <- ALEPlot(X = explainer$data, X.model = explainer$model, yhat, J = variable, pred.fun = predictor)
            dev.off()
            unlink(tmpfn)
            res <- data.frame(x = part$x.values, y = trans(part$f.values), var = variable, type = type, label = explainer$label)
