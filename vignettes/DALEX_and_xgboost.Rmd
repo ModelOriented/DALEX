@@ -62,7 +62,7 @@ explainer_xgb
 For continouse variable
 
 ```{r, warning=FALSE, message=FALSE, fig.width=10, fig.height=8}
-sv_xgb_satisfaction_level  <- single_variable(explainer_xgb, 
+sv_xgb_satisfaction_level  <- variable_response(explainer_xgb, 
                                               variable = "alcohol", 
                                               type = "pdp")
 head(sv_xgb_satisfaction_level)
@@ -74,7 +74,7 @@ plot(sv_xgb_satisfaction_level)
 
 ```{r, warning=FALSE, message=FALSE, fig.width=10, fig.height=6}
 nobs <- model_martix_train[1, , drop = FALSE]
-sp_xgb  <- single_prediction(explainer_xgb, 
+sp_xgb  <- prediction_breakdown(explainer_xgb, 
                              observation = nobs)
 head(sp_xgb)
 
@@ -84,7 +84,7 @@ plot(sp_xgb)
 ## Variable importance
 
 ```{r, warning=FALSE, message=FALSE, fig.width=10, fig.height=6}
-vd_xgb <- variable_dropout(explainer_xgb, type = "raw")
+vd_xgb <- variable_importance(explainer_xgb, type = "raw")
 head(vd_xgb)
 
 plot(vd_xgb)
@@ -143,7 +143,7 @@ explainer_xgb
 For continouse variable
 
 ```{r, warning=FALSE, message=FALSE, fig.width=10, fig.height=8}
-sv_xgb_satisfaction_level  <- single_variable(explainer_xgb, 
+sv_xgb_satisfaction_level  <- variable_response(explainer_xgb, 
                           variable = "satisfaction_level",
                           type = "pdp")
 head(sv_xgb_satisfaction_level)
@@ -155,7 +155,7 @@ plot(sv_xgb_satisfaction_level)
 
 ```{r, warning=FALSE, message=FALSE, fig.width=10, fig.height=6}
 nobs <- model_martix_train[1, , drop = FALSE]
-sp_xgb  <- single_prediction(explainer_xgb, 
+sp_xgb  <- prediction_breakdown(explainer_xgb, 
                              observation = nobs)
 head(sp_xgb)
 
@@ -165,7 +165,7 @@ plot(sp_xgb)
 ## Variable importance
 
 ```{r, warning=FALSE, message=FALSE, fig.width=10, fig.height=6}
-vd_xgb <- variable_dropout(explainer_xgb, type = "raw")
+vd_xgb <- variable_importance(explainer_xgb, type = "raw")
 head(vd_xgb)
 
 plot(vd_xgb)
