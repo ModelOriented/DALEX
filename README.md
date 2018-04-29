@@ -8,7 +8,13 @@
 
 Descriptive mAchine Learning EXplanations
 
-[A gentle introduction to DALEX with examples](https://pbiecek.github.io/DALEX_docs/)
+## DALEX Stories
+
+* [A gentle introduction to DALEX with examples](https://pbiecek.github.io/DALEX_docs/)
+* [How to use DALEX with caret](https://rawgithub.com/pbiecek/DALEX_docs/master/vignettes/DALEX_caret.html)
+
+* [Talk about DALEX at Complexity Institute / NTU February 2018](https://github.com/pbiecek/pbiecek.github.io/blob/master/Presentations/DALEX_at_NTU_2018.pdf)
+* [Talk about DALEX at SER / WTU April 2018](https://github.com/pbiecek/Talks/blob/master/2018/SER_DALEX.pdf)
 
 ## Install
 
@@ -50,11 +56,6 @@ In many applications we need to know, understand or prove how input variables ar
 
 ![DALEX_variable_dropout](misc/DALEX_variable_dropout.png)
 
-
-## DALEX Stories
-
-* [DALEX at Complexity Institute / NTU February 2018](https://github.com/pbiecek/pbiecek.github.io/blob/master/Presentations/DALEX_at_NTU_2018.pdf)
-* [DALEX at SER / WTU April 2018](https://github.com/pbiecek/Talks/blob/master/2018/SER_DALEX.pdf)
 
 ## Acknowledgments
 
