@@ -1,3 +1,4 @@
+context("Check variable_importance() function")
 
 vi_rf <- variable_importance(explainer_regr_rf, n_sample = 100)
 vi_lm <- variable_importance(explainer_regr_lm, n_sample = 100)
@@ -12,7 +13,7 @@ test_that("wrong type value",{
   expect_error(variable_importance(explainer_regr_rf, type="anything"))
 })
 
-test_that("variable_importance plots",{
+test_that("Output format - plot",{
   expect_is(plot(vi_rf_ratio), "gg")
   expect_is(plot(vi_rf, vi_lm), "gg")
 })
