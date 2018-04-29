@@ -85,12 +85,12 @@ variable_response <- function(explainer, variable, type = "pdp", trans = explain
          },
          ale = {
            # pdp requires predict function with only two arguments
-           predictor <- function(X.model, newdata) mean(explainer$predict_function(X.model, newdata), na.rm = TRUE)
+           predictor <- function(X.model, newdata) explainer$predict_function(X.model, newdata)
 
            # need to create a temporary file to stop ALEPlot function from plotting anytihing
            tmpfn <- tempfile()
            pdf(tmpfn)
-           part <- ALEPlot(X = explainer$data, X.model = explainer$model, yhat, J = variable, pred.fun = predictor)
+           part <- ALEPlot(X = explainer$data, X.model = explainer$model, J = variable, pred.fun = predictor)
            dev.off()
            unlink(tmpfn)
            res <- data.frame(x = part$x.values, y = trans(part$f.values), var = variable, type = type, label = explainer$label)
