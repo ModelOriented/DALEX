@@ -11,7 +11,7 @@
 
 \item{...}{other parameters}
 
-\item{geom}{either \code{"ecdf"}, \code{"boxplot"} or \code{"point"} determines how residuals shall be summarized}
+\item{geom}{either \code{"ecdf"} or \code{"boxplot"} determines how residuals shall be summarized}
 }
 \value{
 An object of the class 'model_performance_explainer'.
