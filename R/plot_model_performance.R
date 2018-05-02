@@ -2,7 +2,7 @@
 #'
 #' @param x a model to be explained, preprocessed by the 'explain' function
 #' @param ... other parameters
-#' @param geom either \code{"ecdf"} or \code{"boxplot"} determines how residuals shall be summarized
+#' @param geom either \code{"ecdf"}, \code{"boxplot"} or \code{"point"} determines how residuals shall be summarized
 #'
 #' @return An object of the class 'model_performance_explainer'.
 #'
@@ -55,7 +55,7 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf") {
                           trans = "reverse",
                           name = "") +
        ggtitle("Ecdf of | residuals |")
-  } else {
+  } else if(geom == "boxplot") {
     pl <- ggplot(df, aes(x=label, y=abs(diff), fill = label)) +
       stat_boxplot(alpha=0.4, coef = 1000) +
       stat_summary(fun.y=function(x) sqrt(mean(x^2)), geom="point", shape=20, size=10, color="red", fill="red") +
@@ -64,6 +64,14 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf") {
       ylab("") + xlab("") +
       ggtitle("Boxplots of | residuals |", "Red dot stands for root mean square of residuals") +
       coord_flip()
+  } else {
+    pl <- ggplot(df, aes(x = observed, y = predicted)) +
+      geom_point() +
+      geom_abline(slope = 1, intercept = 0, size = 1.2) +
+      theme_mi2() +
+      xlab("Observed response values") +
+      ylab("Predicted response") +
+      facet_wrap(~label)
   }
   pl
 }
