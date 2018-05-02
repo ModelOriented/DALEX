@@ -13,3 +13,8 @@ r_packages:
   - ggplot2
   - ALEPlot
   - breakDown
+  - covr
+
+after_success:
+  - Rscript -e 'library(covr); codecov()'
+  

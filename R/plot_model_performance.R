@@ -3,6 +3,7 @@
 #' @param x a model to be explained, preprocessed by the 'explain' function
 #' @param ... other parameters
 #' @param geom either \code{"ecdf"} or \code{"boxplot"} determines how residuals shall be summarized
+#' @param lossFunction A function that calculates the total loss for a model based on model residuals. By default it's the root mean square.
 #'
 #' @return An object of the class 'model_performance_explainer'.
 #'
@@ -31,7 +32,7 @@
 #' plot(mp_rf, mp_glm, mp_lm, geom = "boxplot")
 #' #}
 #'
-plot.model_performance_explainer <- function(x, ..., geom = "ecdf") {
+plot.model_performance_explainer <- function(x, ..., geom = "ecdf", lossFunction = function(x) sqrt(mean(x^2))) {
   df <- x
   class(df) <- "data.frame"
 
@@ -42,6 +43,7 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf") {
       df <- rbind(df, resp)
     }
   }
+  df$label <- reorder(df$label, df$diff, lossFunction)
   label <- NULL
   if (geom == "ecdf") {
      pl <-   ggplot(df, aes(abs(diff), color = label)) +
@@ -58,7 +60,7 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf") {
   } else {
     pl <- ggplot(df, aes(x=label, y=abs(diff), fill = label)) +
       stat_boxplot(alpha=0.4, coef = 1000) +
-      stat_summary(fun.y=function(x) sqrt(mean(x^2)), geom="point", shape=20, size=10, color="red", fill="red") +
+      stat_summary(fun.y=lossFunction, geom="point", shape=20, size=10, color="red", fill="red") +
       theme_mi2() +
       scale_fill_brewer(name = "Model", type = "qual", palette = "Dark2") +
       ylab("") + xlab("") +

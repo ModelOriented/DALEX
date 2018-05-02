@@ -4,7 +4,8 @@
 \alias{plot.model_performance_explainer}
 \title{Model Performance Plots}
 \usage{
-\method{plot}{model_performance_explainer}(x, ..., geom = "ecdf")
+\method{plot}{model_performance_explainer}(x, ..., geom = "ecdf",
+  lossFunction = function(x) sqrt(mean(x^2)))
 }
 \arguments{
 \item{x}{a model to be explained, preprocessed by the 'explain' function}
@@ -12,6 +13,8 @@
 \item{...}{other parameters}
 
 \item{geom}{either \code{"ecdf"} or \code{"boxplot"} determines how residuals shall be summarized}
+
+\item{lossFunction}{A function that calculates the total loss for a model based on model residuals. By default it's the root mean square.}
 }
 \value{
 An object of the class 'model_performance_explainer'.

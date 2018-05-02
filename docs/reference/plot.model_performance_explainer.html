@@ -63,18 +63,6 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/DALEX_and_xgboost.html">How to use DALEX with the xgboost models</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="../news/index.html">News</a>
 </li>
@@ -101,7 +89,8 @@
     
 
     <pre class="usage"><span class='co'># S3 method for model_performance_explainer</span>
-<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"ecdf"</span>,
+  <span class='kw'>lossFunction</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'>sqrt</span>(<span class='fu'>mean</span>(<span class='no'>x</span>^<span class='fl'>2</span>)))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -113,6 +102,14 @@
     <tr>
       <th>...</th>
       <td><p>other parameters</p></td>
+    </tr>
+    <tr>
+      <th>geom</th>
+      <td><p>either <code>"ecdf"</code> or <code>"boxplot"</code> determines how residuals shall be summarized</p></td>
+    </tr>
+    <tr>
+      <th>lossFunction</th>
+      <td><p>A function that calculates the total loss for a model based on model residuals. By default it's the root mean square.</p></td>
     </tr>
     </table>
     
@@ -127,17 +124,17 @@
 <span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
 <span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>left</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR_data</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR_data</span>$<span class='no'>left</span>)
 <span class='no'>mp_rf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_rf</span>)
-<span class='fu'>plot</span>(<span class='no'>mp_rf</span>)</div><div class='img'><img src='plot.model_performance_explainer-12.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>mp_rf</span>)</div><div class='img'><img src='plot.model_performance_explainer-6.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>left</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR_data</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR_data</span>$<span class='no'>left</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"glm"</span>,
                     <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>m</span>,<span class='no'>x</span>) <span class='fu'>predict.glm</span>(<span class='no'>m</span>,<span class='no'>x</span>,<span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"response"</span>))
 <span class='no'>mp_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_glm</span>)
-<span class='fu'>plot</span>(<span class='no'>mp_glm</span>)</div><div class='img'><img src='plot.model_performance_explainer-13.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>mp_glm</span>)</div><div class='img'><img src='plot.model_performance_explainer-7.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='no'>HR_lm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>left</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>)
 <span class='no'>explainer_lm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_lm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR_data</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR_data</span>$<span class='no'>left</span>)
 <span class='no'>mp_lm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_lm</span>)
-<span class='fu'>plot</span>(<span class='no'>mp_lm</span>)</div><div class='img'><img src='plot.model_performance_explainer-14.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
-<span class='fu'>plot</span>(<span class='no'>mp_rf</span>, <span class='no'>mp_glm</span>, <span class='no'>mp_lm</span>)</div><div class='img'><img src='plot.model_performance_explainer-15.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>#}
+<span class='fu'>plot</span>(<span class='no'>mp_lm</span>)</div><div class='img'><img src='plot.model_performance_explainer-8.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>mp_rf</span>, <span class='no'>mp_glm</span>, <span class='no'>mp_lm</span>)</div><div class='img'><img src='plot.model_performance_explainer-9.png' alt='' width='700' height='432.632880098887' /></div><div class='input'><span class='fu'>plot</span>(<span class='no'>mp_rf</span>, <span class='no'>mp_glm</span>, <span class='no'>mp_lm</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"boxplot"</span>)</div><div class='img'><img src='plot.model_performance_explainer-10.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>#}
 
 </div></pre>
   </div>

@@ -9,7 +9,7 @@
 #' @return An object of the class 'variable_leverage_explainer'.
 #' It's a data frame with calculated average response.
 #'
-#' @aliases variable_dropout
+#' @aliases variable_dropout loss_sum_of_squares loss_root_mean_square
 #' @export
 #' @examples
 #' #\dontrun{
@@ -48,6 +48,7 @@ variable_importance <- function(explainer,
   if (!("explainer" %in% class(explainer))) stop("The variable_importance() function requires an object created with explain() function.")
   if (is.null(explainer$data)) stop("The variable_importance() function requires explainers created with specified 'data' parameter.")
   if (is.null(explainer$y)) stop("The variable_importance() function requires explainers created with specified 'y' parameter.")
+  if (!(type %in% c("difference", "ratio", "raw"))) stop("Type shall be one of 'difference', 'ratio', 'raw'")
 
   variables <- colnames(explainer$data)
   if (n_sample > 0) {

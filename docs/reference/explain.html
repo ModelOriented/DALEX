@@ -63,18 +63,6 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/DALEX_and_xgboost.html">How to use DALEX with the xgboost models</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="../news/index.html">News</a>
 </li>
@@ -102,7 +90,10 @@ This function creates a unified representation of a model, which can be further 
     
 
     <pre class="usage"><span class='fu'>explain</span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>yhat</span>, <span class='kw'>link</span> <span class='kw'>=</span> <span class='no'>I</span>,
-  <span class='no'>...</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'>tail</span>(<span class='fu'>class</span>(<span class='no'>model</span>), <span class='fl'>1</span>))</pre>
+  <span class='no'>...</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'>tail</span>(<span class='fu'>class</span>(<span class='no'>model</span>), <span class='fl'>1</span>))
+
+<span class='fu'>explain.default</span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>yhat</span>,
+  <span class='kw'>link</span> <span class='kw'>=</span> <span class='no'>I</span>, <span class='no'>...</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'>tail</span>(<span class='fu'>class</span>(<span class='no'>model</span>), <span class='fl'>1</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -117,7 +108,7 @@ This function creates a unified representation of a model, which can be further 
     </tr>
     <tr>
       <th>y</th>
-      <td><p>numeric vector with outputs / scores. Currently used only by <code><a href='variable_dropout.html'>variable_dropout()</a></code> explainer.</p></td>
+      <td><p>numeric vector with outputs / scores. Currently used only by <code><a href='variable_importance.html'>variable_dropout()</a></code> explainer.</p></td>
     </tr>
     <tr>
       <th>predict_function</th>
