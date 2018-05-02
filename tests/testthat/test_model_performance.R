@@ -10,4 +10,5 @@ test_that("Output format",{
 test_that("Output format - plot",{
   expect_is(plot(mp_lm, mp_rf), "gg")
   expect_is(plot(mp_lm, mp_rf, geom ="boxplot"), "gg")
+  expect_is(plot(mp_lm, mp_rf, geom = "point"), "gg")
 })
