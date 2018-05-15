@@ -45,7 +45,7 @@
 #' wine_rf_explainer4
 #' # }
 #'
-explain <- function(model, data = NULL, y = NULL, predict_function = yhat, link = I, ..., label = tail(class(model), 1)) {
+explain.default <- function(model, data = NULL, y = NULL, predict_function = yhat, link = I, ..., label = tail(class(model), 1)) {
   if (is.null(data)) {
     possible_data <- try(model.frame(model), silent = TRUE)
     if (class(possible_data) != "try-error") {
@@ -72,7 +72,7 @@ explain <- function(model, data = NULL, y = NULL, predict_function = yhat, link 
 
 #' @export
 #' @rdname explain
-explain.default <- explain
+explain <- explain.default
 
 yhat <- function(X.model, newdata, ...) {
   if ("lm" %in% class(X.model)) {

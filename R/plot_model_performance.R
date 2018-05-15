@@ -56,7 +56,7 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", lossFunction
                           labels = paste(seq(100,0,-10),"%"),
                           trans = "reverse",
                           name = "") +
-       ggtitle("Ecdf of | residuals |")
+       ggtitle("Distribution of | residuals |")
   } else {
     pl <- ggplot(df, aes(x=label, y=abs(diff), fill = label)) +
       stat_boxplot(alpha=0.4, coef = 1000) +
