@@ -23,7 +23,7 @@ An object of the class 'model_performance_explainer'.
 Model Performance Plots
 }
 \examples{
-#\dontrun{
+\dontrun{
 library("breakDown")
 library("randomForest")
 HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
@@ -44,6 +44,6 @@ plot(mp_lm)
 
 plot(mp_rf, mp_glm, mp_lm)
 plot(mp_rf, mp_glm, mp_lm, geom = "boxplot")
-#}
+}
 
 }

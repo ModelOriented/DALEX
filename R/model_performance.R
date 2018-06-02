@@ -7,7 +7,7 @@
 #'
 #' @export
 #' @examples
-#' #\dontrun{
+#' \dontrun{
 #' library("breakDown")
 #' library("randomForest")
 #' HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
@@ -22,7 +22,7 @@
 #' HR_lm_model <- lm(left~., data = breakDown::HR_data)
 #' explainer_lm <- explain(HR_lm_model, data = HR_data, y = HR_data$left)
 #' model_performance(explainer_lm)
-#' #}
+#' }
 #'
 model_performance <- function(explainer, ...) {
   if (!("explainer" %in% class(explainer))) stop("The model_performance() function requires an object created with explain() function.")
@@ -47,14 +47,14 @@ model_performance <- function(explainer, ...) {
 #' @importFrom stats quantile
 #' @export
 #' @examples
-#' #\dontrun{
+#' \dontrun{
 #' library("breakDown")
 #' library("randomForest")
 #' HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
 #' explainer_rf  <- explain(HR_rf_model, data = HR_data, y = HR_data$left)
 #' model_performance(explainer_rf)
 #'
-#' #}
+#' }
 #'
 print.model_performance_explainer <- function(x, ...) {
   print(quantile(x$diff, seq(0, 1, 0.1)))

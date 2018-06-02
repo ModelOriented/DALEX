@@ -23,7 +23,7 @@ Variables are sorted in the same order in all panels. The order depends on the a
 }
 \examples{
 
-#\dontrun{
+\dontrun{
 library("breakDown")
 library("randomForest")
 HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
@@ -63,6 +63,6 @@ vd_glm <- variable_importance(explainer_glm, type = "difference",
                                    sum((observed - logit(predicted))^2))
 vd_xgb <- variable_importance(explainer_xgb, type = "difference")
 plot(vd_rf, vd_glm, vd_xgb)
-#}
+}
 
 }

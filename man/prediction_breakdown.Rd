@@ -34,7 +34,7 @@ wine_lm_explainer4 <- explain(wine_lm_model4, data = wine, label = "model_4v")
 wine_lm_predict4 <- prediction_breakdown(wine_lm_explainer4, observation = new.wine)
 wine_lm_predict4
 
-#\dontrun{
+\dontrun{
 library("randomForest")
 wine_rf_model4 <- randomForest(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine)
 wine_rf_explainer4 <- explain(wine_rf_model4, data = wine, label = "model_rf")
@@ -56,6 +56,6 @@ model <- gbm(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine,
  # create a new observation
  exp_sgn <- prediction_breakdown(explainer_gbm, observation = new.wine)
  exp_sgn
- #}
+ }
 
 }

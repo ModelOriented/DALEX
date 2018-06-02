@@ -18,7 +18,7 @@ An object of the class 'model_performance_explainer'.
 Model Performance Plots
 }
 \examples{
-#\dontrun{
+\dontrun{
 library("breakDown")
 library("randomForest")
 HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
@@ -33,6 +33,6 @@ model_performance(explainer_glm)
 HR_lm_model <- lm(left~., data = breakDown::HR_data)
 explainer_lm <- explain(HR_lm_model, data = HR_data, y = HR_data$left)
 model_performance(explainer_lm)
-#}
+}
 
 }

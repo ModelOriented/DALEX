@@ -9,7 +9,7 @@
 #'
 #' @export
 #' @examples
-#' #\dontrun{
+#' \dontrun{
 #' library("breakDown")
 #' library("randomForest")
 #' HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
@@ -30,7 +30,7 @@
 #'
 #' plot(mp_rf, mp_glm, mp_lm)
 #' plot(mp_rf, mp_glm, mp_lm, geom = "boxplot")
-#' #}
+#' }
 #'
 plot.model_performance_explainer <- function(x, ..., geom = "ecdf", lossFunction = function(x) sqrt(mean(x^2))) {
   df <- x

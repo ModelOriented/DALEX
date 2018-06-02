@@ -31,7 +31,7 @@ a ggplot2 object
 Function 'plot.single_prediction_explainer' plots break down plots for a single prediction.
 }
 \examples{
-# \dontrun{
+ \dontrun{
 library("breakDown")
 new.wine <- data.frame(citric.acid = 0.35,
      sulphates = 0.6,
@@ -70,6 +70,6 @@ model <- gbm(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine,
  exp_sgn
  plot(exp_sgn)
  plot(wine_rf_predict4, wine_lm_predict4, exp_sgn)
- #}
+ }
 
 }

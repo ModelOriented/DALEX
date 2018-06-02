@@ -15,13 +15,13 @@
 Model Performance Summary
 }
 \examples{
-#\dontrun{
+\dontrun{
 library("breakDown")
 library("randomForest")
 HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
 explainer_rf  <- explain(HR_rf_model, data = HR_data, y = HR_data$left)
 model_performance(explainer_rf)
 
-#}
+}
 
 }
