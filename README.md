@@ -11,6 +11,7 @@ Descriptive mAchine Learning EXplanations
 ## DALEX Stories
 
 * [A gentle introduction to DALEX with examples](https://pbiecek.github.io/DALEX_docs/)
+* [An interactive notebook with examples:](https://mybinder.org/v2/gh/pbiecek/DALEX_docs/master?filepath=jupyter-notebooks%2FDALEX.ipynb) [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/pbiecek/DALEX_docs/master?filepath=jupyter-notebooks%2FDALEX.ipynb)
 * [How to use DALEX with caret](https://rawgithub.com/pbiecek/DALEX_docs/master/vignettes/DALEX_caret.html)
 * [How to use DALEX with mlr](https://rawgithub.com/pbiecek/DALEX_docs/master/vignettes/DALEX_mlr.html)
 * [How to use DALEX with xgboost package](https://rawgithub.com/pbiecek/DALEX_docs/master/vignettes/DALEX_and_xgboost.html)
