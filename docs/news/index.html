@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>All news • DALEX</title>
+<title>Changelog • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -23,8 +23,6 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -50,7 +48,7 @@
 	  <a class = "navbar-mi2logo" href="http://mi2.mini.pw.edu.pl/">
         <img src = "https://github.com/mi2-warsaw/MI2template/blob/master/inst/pkgdown/assets/MI2logo.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
 	  </a>
-      <a class="navbar-brand navbar-mi2" href="../index.html">DALEX</a>
+      <a class="navbar-brand navbar-mi2" href="../index.html"></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="navbar-mi2 nav navbar-nav">
@@ -64,7 +62,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -82,25 +80,37 @@
 
   <div class="col-md-9">
     <div class="page-header">
-      <h1>Change log <small>All releases</small></h1>
+      <h1>Change log <small></small></h1>
     </div>
 
     <div class="contents">
-    <div class="section level2">
-<h2>DALEX 0.2.2</h2>
+    <div id="dalex-0-2-3" class="section level2">
+<h2 class="hasAnchor">
+<a href="#dalex-0-2-3" class="anchor"></a>DALEX 0.2.3</h2>
+<ul>
+<li>Small fixes in <code><a href="../reference/variable_response.html">variable_response()</a></code> to better support of <code>gbm</code> models (c8393120ffb05e2f3c70b0143c4e92dc91f6c823).</li>
+<li>Better title for <code>plot_model_performance()</code> (e5e61d0398459b78ea38ccc980c4040fd853f449).</li>
+<li>Tested with <code>breakDown</code> v 0.1.6.</li>
+</ul>
+</div>
+    <div id="dalex-0-2-2" class="section level2">
+<h2 class="hasAnchor">
+<a href="#dalex-0-2-2" class="anchor"></a>DALEX 0.2.2</h2>
 <ul>
 <li>The <code>single_variable() / variable_response()</code> function uses <code>predict_function</code> from <code>explainer</code> (<a href="https://github.com/pbiecek/DALEX/issues/17">#17</a>)</li>
 </ul>
 </div>
-    <div class="section level2">
-<h2>DALEX 0.2.1</h2>
+    <div id="dalex-0-2-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#dalex-0-2-1" class="anchor"></a>DALEX 0.2.1</h2>
 <ul>
 <li>The <code><a href="../reference/explain.html">explain()</a></code> function converts <code>tibbles</code> to <code>data.frame</code> when specified as <code>data</code> argument (<a href="https://github.com/pbiecek/DALEX/issues/15">#15</a>)</li>
 <li>The default generic <code><a href="../reference/explain.html">explain.default()</a></code> should help when <code><a href="../reference/explain.html">explain()</a></code> from <code>dplyr</code> is loaded after <code>DALEX</code> (<a href="https://github.com/pbiecek/DALEX/issues/16">#16</a>)</li>
 </ul>
 </div>
-    <div class="section level2">
-<h2>DALEX 0.2.0</h2>
+    <div id="dalex-0-2-0" class="section level2">
+<h2 class="hasAnchor">
+<a href="#dalex-0-2-0" class="anchor"></a>DALEX 0.2.0</h2>
 <ul>
 <li>New names for some functions: <code><a href="../reference/model_performance.html">model_performance()</a></code>, <code><a href="../reference/variable_importance.html">variable_importance()</a></code>, <code><a href="../reference/variable_response.html">variable_response()</a></code>, <code>outlier_detection()</code>, <code><a href="../reference/prediction_breakdown.html">prediction_breakdown()</a></code>. Old names are now deprecated but still working. (<a href="https://github.com/pbiecek/DALEX/issues/12">#12</a>)</li>
 <li>A new dataset <code>apartments</code> - will be used in examples</li>
@@ -110,22 +120,25 @@
 <code>plot_model_performance()</code> uses ecdf or boxplots (depending on <code>geom</code> parameter).</li>
 </ul>
 </div>
-    <div class="section level2">
-<h2>DALEX 0.1.8</h2>
+    <div id="dalex-0-1-8" class="section level2">
+<h2 class="hasAnchor">
+<a href="#dalex-0-1-8" class="anchor"></a>DALEX 0.1.8</h2>
 <ul>
 <li>Function <code><a href="../reference/variable_response.html">single_variable()</a></code> supports factor variables as well (with the use of <code>factorMerger</code> package). Remember to use <code>type='factor'</code> when playing with factors. (<a href="https://github.com/pbiecek/DALEX/issues/10">#10</a>)</li>
 <li>Change in the function <code><a href="../reference/explain.html">explain()</a></code>. Old version has an argument <code>predict.function</code>, now it’s <code>predict_function</code>. New name is more consistent with other arguments. (<a href="https://github.com/pbiecek/DALEX/issues/7">#7</a>)</li>
 <li>New vigniette for <code>xgboost</code> model (<a href="https://github.com/pbiecek/DALEX/issues/11">#11</a>)</li>
 </ul>
 </div>
-    <div class="section level2">
-<h2>DALEX 0.1.1</h2>
+    <div id="dalex-0-1-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#dalex-0-1-1" class="anchor"></a>DALEX 0.1.1</h2>
 <ul>
 <li>Support for global model structure explainers with <code><a href="../reference/variable_importance.html">variable_dropout()</a></code> function</li>
 </ul>
 </div>
-    <div class="section level2">
-<h2>DALEX 0.1</h2>
+    <div id="dalex-0-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#dalex-0-1" class="anchor"></a>DALEX 0.1</h2>
 <ul>
 <li>DALEX package is now public</li>
 <li>
@@ -143,12 +156,13 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked contents-mi2">
-        <li><a href="#NA">0.2.2</a></li>
-        <li><a href="#NA">0.2.1</a></li>
-        <li><a href="#NA">0.2.0</a></li>
-        <li><a href="#NA">0.1.8</a></li>
-        <li><a href="#NA">0.1.1</a></li>
-        <li><a href="#NA">0.1</a></li>
+        <li><a href="#dalex-0-2-3">0.2.3</a></li>
+        <li><a href="#dalex-0-2-2">0.2.2</a></li>
+        <li><a href="#dalex-0-2-1">0.2.1</a></li>
+        <li><a href="#dalex-0-2-0">0.2.0</a></li>
+        <li><a href="#dalex-0-1-8">0.1.8</a></li>
+        <li><a href="#dalex-0-1-1">0.1.1</a></li>
+        <li><a href="#dalex-0-1">0.1</a></li>
       </ul>
     </div>
   </div>
@@ -169,3 +183,4 @@
 
   </body>
 </html>
+

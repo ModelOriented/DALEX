@@ -23,8 +23,6 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -50,7 +48,7 @@
 	  <a class = "navbar-mi2logo" href="http://mi2.mini.pw.edu.pl/">
         <img src = "https://github.com/mi2-warsaw/MI2template/blob/master/inst/pkgdown/assets/MI2logo.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
 	  </a>
-      <a class="navbar-brand navbar-mi2" href="../index.html">DALEX</a>
+      <a class="navbar-brand navbar-mi2" href="../index.html">Plots Local Explanations (Single Prediction)</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="navbar-mi2 nav navbar-nav">
@@ -64,7 +62,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -142,14 +140,14 @@ Or the default <code>round()</code> to have the same precision for all component
 <span class='no'>wine_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
 <span class='no'>wine_lm_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>wine_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>)
 <span class='no'>wine_lm_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prediction_breakdown.html'>prediction_breakdown</a></span>(<span class='no'>wine_lm_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>)
-<span class='fu'>plot</span>(<span class='no'>wine_lm_predict4</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-6.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>wine_lm_predict4</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
 <span class='no'>wine_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
 <span class='no'>wine_rf_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>wine_rf_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_rf"</span>)
 <span class='no'>wine_rf_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prediction_breakdown.html'>prediction_breakdown</a></span>(<span class='no'>wine_rf_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>)
-<span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-7.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># both models</span>
-<span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>, <span class='no'>wine_lm_predict4</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-8.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>, <span class='no'>wine_lm_predict4</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'>library</span>(<span class='st'>"gbm"</span>)
 <span class='co'># create a gbm model</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/gbm/topics/gbm'>gbm</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>,
@@ -179,7 +177,7 @@ Or the default <code>round()</code> to have the same precision for all component
 #&gt; sulphates                 0.6   0.9236425    1        4   gbm
 #&gt; residual.sugar            4.8   0.9751057    1        5   gbm
 #&gt; citric.acid              0.35   0.9751057    0        6   gbm
-#&gt; 11                              0.9751057    X        7   gbm</div><div class='input'> <span class='fu'>plot</span>(<span class='no'>exp_sgn</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-9.png' alt='' width='700' height='432.632880098887' /></div><div class='input'> <span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>, <span class='no'>wine_lm_predict4</span>, <span class='no'>exp_sgn</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-10.png' alt='' width='700' height='432.632880098887' /></div><div class='input'> #}
+#&gt; 11                              0.9751057    X        7   gbm</div><div class='input'> <span class='fu'>plot</span>(<span class='no'>exp_sgn</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-4.png' alt='' width='700' height='433' /></div><div class='input'> <span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>, <span class='no'>wine_lm_predict4</span>, <span class='no'>exp_sgn</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-5.png' alt='' width='700' height='433' /></div><div class='input'># }
 
 </div></pre>
   </div>
@@ -210,3 +208,4 @@ Or the default <code>round()</code> to have the same precision for all component
 
   </body>
 </html>
+

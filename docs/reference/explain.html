@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create Model Explainer — explain • DALEX</title>
+<title>Create Model Explainer — explain.default • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -23,8 +23,6 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -50,7 +48,7 @@
 	  <a class = "navbar-mi2logo" href="http://mi2.mini.pw.edu.pl/">
         <img src = "https://github.com/mi2-warsaw/MI2template/blob/master/inst/pkgdown/assets/MI2logo.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
 	  </a>
-      <a class="navbar-brand navbar-mi2" href="../index.html">DALEX</a>
+      <a class="navbar-brand navbar-mi2" href="../index.html">Create Model Explainer</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="navbar-mi2 nav navbar-nav">
@@ -64,7 +62,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -89,11 +87,11 @@
 This function creates a unified representation of a model, which can be further processed by various explainers.</p>
     
 
-    <pre class="usage"><span class='fu'>explain</span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>yhat</span>, <span class='kw'>link</span> <span class='kw'>=</span> <span class='no'>I</span>,
-  <span class='no'>...</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'>tail</span>(<span class='fu'>class</span>(<span class='no'>model</span>), <span class='fl'>1</span>))
+    <pre class="usage"><span class='fu'>explain.default</span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>yhat</span>,
+  <span class='kw'>link</span> <span class='kw'>=</span> <span class='no'>I</span>, <span class='no'>...</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'>tail</span>(<span class='fu'>class</span>(<span class='no'>model</span>), <span class='fl'>1</span>))
 
-<span class='fu'>explain.default</span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>yhat</span>,
-  <span class='kw'>link</span> <span class='kw'>=</span> <span class='no'>I</span>, <span class='no'>...</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'>tail</span>(<span class='fu'>class</span>(<span class='no'>model</span>), <span class='fl'>1</span>))</pre>
+<span class='fu'>explain</span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>yhat</span>, <span class='kw'>link</span> <span class='kw'>=</span> <span class='no'>I</span>,
+  <span class='no'>...</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'>tail</span>(<span class='fu'>class</span>(<span class='no'>model</span>), <span class='fl'>1</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -131,7 +129,8 @@ This function creates a unified representation of a model, which can be further 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An object of the class 'explainer'.</p>
-<p>It's a list with following fields:</p><ul>
+<p>It's a list with following fields:</p>
+<ul>
 <li><p><code>model</code> the explained model</p></li>
 <li><p><code>data</code> the dataset used for training</p></li>
 <li><p><code>predict_function</code> function that may be used for model predictions, shall return a single numerical value for each observation.</p></li>
@@ -211,3 +210,4 @@ But some explainers may require that others will be provided too.</p>
 
   </body>
 </html>
+

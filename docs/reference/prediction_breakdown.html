@@ -23,8 +23,6 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -50,7 +48,7 @@
 	  <a class = "navbar-mi2logo" href="http://mi2.mini.pw.edu.pl/">
         <img src = "https://github.com/mi2-warsaw/MI2template/blob/master/inst/pkgdown/assets/MI2logo.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
 	  </a>
-      <a class="navbar-brand navbar-mi2" href="../index.html">DALEX</a>
+      <a class="navbar-brand navbar-mi2" href="../index.html">Explanations for a Single Prediction</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="navbar-mi2 nav navbar-nav">
@@ -64,7 +62,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -135,7 +133,7 @@ It's a data frame with calculated average response.</p>
 #&gt; pH               0.7595504    1        2 model_4v
 #&gt; sulphates        0.8082092    1        3 model_4v
 #&gt; residual.sugar   0.7703164   -1        4 model_4v
-#&gt; 1                0.7703164    X        5 model_4v</div><div class='input'>
+#&gt; 1                0.7703164    X        5 model_4v</div><div class='input'><span class='fu'>plot</span>(<span class='no'>wine_lm_predict4</span>)</div><div class='img'><img src='prediction_breakdown-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>#\dontrun{</span>
 <span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
 <span class='no'>wine_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
@@ -156,7 +154,7 @@ It's a data frame with calculated average response.</p>
 #&gt; pH                       3.36   1.0290505    1        4 model_rf
 #&gt; residual.sugar            4.8   1.3205333    1        5 model_rf
 #&gt; citric.acid              0.35   1.3205333    0        6 model_rf
-#&gt; 11                              1.3205333    X        7 model_rf</div><div class='input'>
+#&gt; 11                              1.3205333    X        7 model_rf</div><div class='input'><span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>)</div><div class='img'><img src='prediction_breakdown-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'>library</span>(<span class='st'>"gbm"</span>)
 <span class='co'># create a gbm model</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/gbm/topics/gbm'>gbm</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>,
@@ -186,7 +184,7 @@ It's a data frame with calculated average response.</p>
 #&gt; sulphates                 0.6   0.9365841    1        4   gbm
 #&gt; residual.sugar            4.8   0.9896105    1        5   gbm
 #&gt; citric.acid              0.35   0.9896105    0        6   gbm
-#&gt; 11                              0.9896105    X        7   gbm</div><div class='input'> #}
+#&gt; 11                              0.9896105    X        7   gbm</div><div class='input'> <span class='fu'>plot</span>(<span class='no'>exp_sgn</span>)</div><div class='img'><img src='prediction_breakdown-3.png' alt='' width='700' height='433' /></div><div class='input'> #}
 
 </div></pre>
   </div>
@@ -217,3 +215,4 @@ It's a data frame with calculated average response.</p>
 
   </body>
 </html>
+
