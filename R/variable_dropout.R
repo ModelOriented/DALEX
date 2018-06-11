@@ -12,7 +12,7 @@
 #' @aliases variable_dropout loss_sum_of_squares loss_root_mean_square
 #' @export
 #' @examples
-#' \dontrun{
+#'  \dontrun{
 #' library("breakDown")
 #' library("randomForest")
 #' HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
@@ -38,7 +38,8 @@
 #'                      y = HR_data$left, label = "xgboost")
 #' vd_xgb <- variable_importance(explainer_xgb, type = "raw")
 #' vd_xgb
-#' }
+#' plot(vd_xgb)
+#'  }
 #'
 variable_importance <- function(explainer,
                               loss_function = function(observed, predicted) sum((observed - predicted)^2),

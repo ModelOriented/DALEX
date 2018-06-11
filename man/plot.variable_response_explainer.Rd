@@ -26,7 +26,7 @@ explainer_glm <- explain(HR_glm_model, data = HR_data, trans = logit)
 expl_glm <- variable_response(explainer_glm, "satisfaction_level", "pdp", trans=logit)
 plot(expl_glm)
 
-\dontrun{
+ \dontrun{
 library("randomForest")
 HR_rf_model <- randomForest(factor(left)~., data = breakDown::HR_data, ntree = 100)
 explainer_rf  <- explain(HR_rf_model, data = HR_data,
@@ -48,6 +48,6 @@ plot(expl_glm)
 
 # both models
 plot(expl_rf, expl_glm)
-}
+ }
 
 }

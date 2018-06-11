@@ -1,3 +1,9 @@
+DALEX 0.2.3
+----------------------------------------------------------------
+* Small fixes in `variable_response()` to better support of `gbm` models (c8393120ffb05e2f3c70b0143c4e92dc91f6c823).
+* Better title for `plot_model_performance()` (e5e61d0398459b78ea38ccc980c4040fd853f449).
+* Tested with `breakDown` v 0.1.6.
+
 DALEX 0.2.2
 ----------------------------------------------------------------
 * The `single_variable() / variable_response()` function uses `predict_function` from `explainer` ([#17](https://github.com/pbiecek/DALEX/issues/17))

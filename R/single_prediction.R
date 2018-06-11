@@ -2,7 +2,7 @@
 #'
 #' @param explainer a model to be explained, preprocessed by the 'explain' function
 #' @param observation a new observarvation for which predictions need to be explained
-#' @param ... other parameters
+#' @param ... other parameters that will be passed to \code{breakDown::broken.default()}
 #'
 #' @return An object of the class 'single_prediction_explainer'.
 #' It's a data frame with calculated average response.
@@ -22,6 +22,7 @@
 #' wine_lm_explainer4 <- explain(wine_lm_model4, data = wine, label = "model_4v")
 #' wine_lm_predict4 <- prediction_breakdown(wine_lm_explainer4, observation = new.wine)
 #' wine_lm_predict4
+#' plot(wine_lm_predict4)
 #'
 #' \dontrun{
 #' library("randomForest")
@@ -29,6 +30,7 @@
 #' wine_rf_explainer4 <- explain(wine_rf_model4, data = wine, label = "model_rf")
 #' wine_rf_predict4 <- prediction_breakdown(wine_rf_explainer4, observation = new.wine)
 #' wine_rf_predict4
+#' plot(wine_rf_predict4)
 #'
 #' library("gbm")
 #' # create a gbm model
@@ -45,6 +47,7 @@
 #'  # create a new observation
 #'  exp_sgn <- prediction_breakdown(explainer_gbm, observation = new.wine)
 #'  exp_sgn
+#'  plot(exp_sgn)
 #'  }
 #'
 prediction_breakdown <- function(explainer, observation, ...) {

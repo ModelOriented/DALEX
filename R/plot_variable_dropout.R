@@ -14,7 +14,7 @@
 #'
 #' @examples
 #'
-#' \dontrun{
+#'  \dontrun{
 #' library("breakDown")
 #' library("randomForest")
 #' HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
@@ -54,7 +54,7 @@
 #'                                    sum((observed - logit(predicted))^2))
 #' vd_xgb <- variable_importance(explainer_xgb, type = "difference")
 #' plot(vd_rf, vd_glm, vd_xgb)
-#' }
+#'  }
 #'
 plot.variable_importance_explainer <- function(x, ..., max_vars = 10) {
   dfl <- c(list(x), list(...))

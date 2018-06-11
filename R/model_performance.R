@@ -7,7 +7,7 @@
 #'
 #' @export
 #' @examples
-#' \dontrun{
+#'  \dontrun{
 #' library("breakDown")
 #' library("randomForest")
 #' HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
@@ -17,12 +17,14 @@
 #' HR_glm_model <- glm(left~., data = breakDown::HR_data, family = "binomial")
 #' explainer_glm <- explain(HR_glm_model, data = HR_data, y = HR_data$left,
 #'                     predict_function = function(m,x) predict.glm(m,x,type = "response"))
-#' model_performance(explainer_glm)
+#' mp_ex_glm <- model_performance(explainer_glm)
+#' mp_ex_glm
+#' plot(mp_ex_glm)
 #'
 #' HR_lm_model <- lm(left~., data = breakDown::HR_data)
 #' explainer_lm <- explain(HR_lm_model, data = HR_data, y = HR_data$left)
 #' model_performance(explainer_lm)
-#' }
+#'  }
 #'
 model_performance <- function(explainer, ...) {
   if (!("explainer" %in% class(explainer))) stop("The model_performance() function requires an object created with explain() function.")
@@ -47,14 +49,15 @@ model_performance <- function(explainer, ...) {
 #' @importFrom stats quantile
 #' @export
 #' @examples
-#' \dontrun{
+#'  \dontrun{
 #' library("breakDown")
 #' library("randomForest")
 #' HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
 #' explainer_rf  <- explain(HR_rf_model, data = HR_data, y = HR_data$left)
-#' model_performance(explainer_rf)
-#'
-#' }
+#' mp_ex_rf <- model_performance(explainer_rf)
+#' mp_ex_rf
+#' plot(mp_ex_rf)
+#'  }
 #'
 print.model_performance_explainer <- function(x, ...) {
   print(quantile(x$diff, seq(0, 1, 0.1)))

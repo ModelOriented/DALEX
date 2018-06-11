@@ -45,7 +45,7 @@ explainer_glm <- explain(HR_glm_model, data = HR_data, trans=logit)
 expl_glm <- variable_response(explainer_glm, "satisfaction_level", "pdp")
 expl_glm
 
-\dontrun{
+ \dontrun{
 library("randomForest")
 HR_rf_model <- randomForest(factor(left)~., data = breakDown::HR_data, ntree = 100)
 explainer_rf  <- explain(HR_rf_model, data = HR_data,
@@ -54,6 +54,7 @@ explainer_rf  <- explain(HR_rf_model, data = HR_data,
 expl_rf  <- variable_response(explainer_rf, variable = "satisfaction_level", type = "pdp",
                        which.class = 2, prob = TRUE)
 expl_rf
-}
+plot(expl_rf)
+ }
 
 }
