@@ -110,8 +110,8 @@
 <p>Let’s build a model. We need to prepare <code>xgb.DMatrix</code> first.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"xgboost"</span>)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">model_martix_train &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(quality <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, wine)</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">data_train &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/xgboost/topics/xgb.DMatrix">xgb.DMatrix</a></span>(model_martix_train, <span class="dt">label =</span> wine<span class="op">$</span>quality)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">model_matrix_train &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(quality <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, wine)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">data_train &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/xgboost/topics/xgb.DMatrix">xgb.DMatrix</a></span>(model_matrix_train, <span class="dt">label =</span> wine<span class="op">$</span>quality)</a>
 <a class="sourceLine" id="cb2-5" data-line-number="5">param &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">max_depth =</span> <span class="dv">2</span>, <span class="dt">eta =</span> <span class="dv">1</span>, <span class="dt">silent =</span> <span class="dv">1</span>, <span class="dt">nthread =</span> <span class="dv">2</span>,</a>
 <a class="sourceLine" id="cb2-6" data-line-number="6">              <span class="dt">objective =</span> <span class="st">"reg:linear"</span>)</a>
 <a class="sourceLine" id="cb2-7" data-line-number="7"></a>
@@ -136,7 +136,7 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"DALEX"</span>)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3">explainer_xgb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/explain.html">explain</a></span>(wine_xgb_model, </a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">                         <span class="dt">data =</span> model_martix_train, </a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">                         <span class="dt">data =</span> model_matrix_train, </a>
 <a class="sourceLine" id="cb3-5" data-line-number="5">                         <span class="dt">y =</span> wine<span class="op">$</span>quality, </a>
 <a class="sourceLine" id="cb3-6" data-line-number="6">                         <span class="dt">label =</span> <span class="st">"xgboost"</span>)</a>
 <a class="sourceLine" id="cb3-7" data-line-number="7">explainer_xgb</a>
@@ -172,7 +172,7 @@
 <div id="single-prediction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#single-prediction" class="anchor"></a>Single prediction</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">nobs &lt;-<span class="st"> </span>model_martix_train[<span class="dv">1</span>, , drop =<span class="st"> </span><span class="ot">FALSE</span>]</a>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">nobs &lt;-<span class="st"> </span>model_matrix_train[<span class="dv">1</span>, , drop =<span class="st"> </span><span class="ot">FALSE</span>]</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">sp_xgb  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prediction_breakdown.html">single_prediction</a></span>(explainer_xgb, </a>
 <a class="sourceLine" id="cb5-3" data-line-number="3">                             <span class="dt">observation =</span> nobs)</a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"><span class="kw">head</span>(sp_xgb)</a>
@@ -237,8 +237,8 @@
 <p>Let’s build a model. We need to prepare <code>xgb.DMatrix</code> first.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"xgboost"</span>)</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3">model_martix_train &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(left <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, HR_data)</a>
-<a class="sourceLine" id="cb8-4" data-line-number="4">data_train &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/xgboost/topics/xgb.DMatrix">xgb.DMatrix</a></span>(model_martix_train, <span class="dt">label =</span> HR_data<span class="op">$</span>left)</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">model_matrix_train &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(left <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, HR_data)</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">data_train &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/xgboost/topics/xgb.DMatrix">xgb.DMatrix</a></span>(model_matrix_train, <span class="dt">label =</span> HR_data<span class="op">$</span>left)</a>
 <a class="sourceLine" id="cb8-5" data-line-number="5">param &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">max_depth =</span> <span class="dv">2</span>, <span class="dt">eta =</span> <span class="dv">1</span>, <span class="dt">silent =</span> <span class="dv">1</span>, <span class="dt">nthread =</span> <span class="dv">2</span>,</a>
 <a class="sourceLine" id="cb8-6" data-line-number="6">              <span class="dt">objective =</span> <span class="st">"binary:logistic"</span>, <span class="dt">eval_metric =</span> <span class="st">"auc"</span>)</a>
 <a class="sourceLine" id="cb8-7" data-line-number="7"></a>
@@ -269,7 +269,7 @@
 <a class="sourceLine" id="cb9-6" data-line-number="6">logit &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">exp</span>(x)<span class="op">/</span>(<span class="dv">1</span><span class="op">+</span><span class="kw">exp</span>(x))</a>
 <a class="sourceLine" id="cb9-7" data-line-number="7"></a>
 <a class="sourceLine" id="cb9-8" data-line-number="8">explainer_xgb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/explain.html">explain</a></span>(HR_xgb_model, </a>
-<a class="sourceLine" id="cb9-9" data-line-number="9">                         <span class="dt">data =</span> model_martix_train, </a>
+<a class="sourceLine" id="cb9-9" data-line-number="9">                         <span class="dt">data =</span> model_matrix_train, </a>
 <a class="sourceLine" id="cb9-10" data-line-number="10">                         <span class="dt">y =</span> HR_data<span class="op">$</span>left, </a>
 <a class="sourceLine" id="cb9-11" data-line-number="11">                         <span class="dt">predict_function =</span> predict_logit,</a>
 <a class="sourceLine" id="cb9-12" data-line-number="12">                         <span class="dt">link =</span> logit,</a>
@@ -313,7 +313,7 @@
 <div id="single-prediction-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#single-prediction-1" class="anchor"></a>Single prediction</h2>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">nobs &lt;-<span class="st"> </span>model_martix_train[<span class="dv">1</span>, , drop =<span class="st"> </span><span class="ot">FALSE</span>]</a>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">nobs &lt;-<span class="st"> </span>model_matrix_train[<span class="dv">1</span>, , drop =<span class="st"> </span><span class="ot">FALSE</span>]</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">sp_xgb  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prediction_breakdown.html">single_prediction</a></span>(explainer_xgb, </a>
 <a class="sourceLine" id="cb11-3" data-line-number="3">                             <span class="dt">observation =</span> nobs)</a>
 <a class="sourceLine" id="cb11-4" data-line-number="4"><span class="kw">head</span>(sp_xgb)</a>
