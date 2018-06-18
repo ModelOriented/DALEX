@@ -54,6 +54,8 @@ devtools::install_github("pbiecek/DALEX")
 
 ## Cheatsheets
 
+![Roadmap](https://raw.githubusercontent.com/pbiecek/DALEX_docs/master/images/Explain.png)
+
 ![DALEX_intro](misc/DALEX_intro.png)
 
 
