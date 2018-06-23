@@ -50,6 +50,7 @@
 variable_response <- function(explainer, variable, type = "pdp", trans = explainer$link, ...) {
   if (!("explainer" %in% class(explainer))) stop("The variable_response() function requires an object created with explain() function.")
   if (is.null(explainer$data)) stop("The variable_response() function requires explainers created with specified 'data' parameter.")
+  if (inherits(explainer$data, "H2OFrame")) return(variable_response_h2o(explainer, variable, type, trans, ...))
   if (class(explainer$data[,variable]) == "factor" & type != "factor") {
     message(paste("Variable", variable, " is of the class factor. Type of explainer changed to 'factor'."))
     type <- "factor"

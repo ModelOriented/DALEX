@@ -53,6 +53,7 @@
 prediction_breakdown <- function(explainer, observation, ...) {
   if (!("explainer" %in% class(explainer))) stop("The prediction_breakdown() function requires an object created with explain() function.")
   if (is.null(explainer$data)) stop("The prediction_breakdown() function requires explainers created with specified 'data' parameter.")
+  if (inherits(explainer$data, "H2OFrame")) return(prediction_breakdown_h2o(explainer, observation, ...))
 
   # breakDown
   res <- broken(explainer$model,

@@ -75,9 +75,8 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = yha
 explain <- explain.default
 
 yhat <- function(X.model, newdata, ...) {
-  if ("lm" %in% class(X.model)) {
-    stats::predict(X.model, newdata, ...)
-  } else {
-    as.numeric(stats::predict(X.model, newdata, ...))
-  }
+  if ("lm" %in% class(X.model)) return(stats::predict(X.model, newdata, ...))
+  if ("h2o" %in% attr(class(X.model), "package")) return(h2o::h2o.predict(X.model, newdata, ...))
+
+  return(as.numeric(stats::predict(X.model, newdata, ...)))
 }

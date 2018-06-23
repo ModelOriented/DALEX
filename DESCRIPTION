@@ -22,7 +22,8 @@ Imports: pdp,
     ALEPlot,
     breakDown,
     factorMerger,
-    ggpubr
+    ggpubr,
+    h2o
 Suggests: gbm,
   randomForest,
   xgboost,

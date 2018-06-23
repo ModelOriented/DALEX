@@ -30,6 +30,7 @@ model_performance <- function(explainer, ...) {
   if (!("explainer" %in% class(explainer))) stop("The model_performance() function requires an object created with explain() function.")
   if (is.null(explainer$data)) stop("The model_performance() function requires explainers created with specified 'data' parameter.")
   if (is.null(explainer$y)) stop("The model_performance() function requires explainers created with specified 'y' parameter.")
+  if (inherits(explainer$data, "H2OFrame")) return(model_performance_h2o(explainer, ...))
 
   observed <- explainer$y
   predicted <- explainer$predict_function(explainer$model, explainer$data, ...)

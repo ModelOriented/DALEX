@@ -50,6 +50,8 @@ variable_importance <- function(explainer,
   if (is.null(explainer$data)) stop("The variable_importance() function requires explainers created with specified 'data' parameter.")
   if (is.null(explainer$y)) stop("The variable_importance() function requires explainers created with specified 'y' parameter.")
   if (!(type %in% c("difference", "ratio", "raw"))) stop("Type shall be one of 'difference', 'ratio', 'raw'")
+  if (inherits(explainer$data, "H2OFrame")) return(variable_importance_h2o(explainer, loss_function, ..., type, n_sample))
+
 
   variables <- colnames(explainer$data)
   if (n_sample > 0) {
