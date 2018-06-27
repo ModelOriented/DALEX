@@ -1,0 +1,12 @@
+bibentry(bibtype = "Article", 
+  title = "DALEX: explainers for complex predictive models", 
+  author = c(person(given = "Przemyslaw", 
+                   family = "Biecek")), 
+  journal = "ArXiv e-prints", 
+  archivePrefix = "arXiv", 
+  eprint = {1806.08915}, 
+  primaryClass = "stat.ML", 
+  year = "2018", 
+  url = {"https://arxiv.org/abs/1806.08915"}, 
+  header = "To cite DALEX in publications use:" 
+)
