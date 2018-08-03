@@ -1,3 +1,7 @@
+DALEX 0.2.4
+----------------------------------------------------------------
+* New dataset `HR` and `HRTest`. Target variable is a factor with three levels. Is used in examples for classification.
+
 DALEX 0.2.3
 ----------------------------------------------------------------
 * Small fixes in `variable_response()` to better support of `gbm` models (c8393120ffb05e2f3c70b0143c4e92dc91f6c823).
