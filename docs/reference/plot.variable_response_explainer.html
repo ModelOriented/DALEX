@@ -115,7 +115,7 @@
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR_data</span>, <span class='kw'>trans</span> <span class='kw'>=</span> <span class='no'>logit</span>)
 <span class='no'>expl_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_response.html'>variable_response</a></span>(<span class='no'>explainer_glm</span>, <span class='st'>"satisfaction_level"</span>, <span class='st'>"pdp"</span>, <span class='kw'>trans</span><span class='kw'>=</span><span class='no'>logit</span>)
 <span class='fu'>plot</span>(<span class='no'>expl_glm</span>)</div><div class='img'><img src='plot.variable_response_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># \dontrun{</span>
+ </div><span class='co'># NOT RUN {</span>
 <span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
 <span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='fu'>factor</span>(<span class='no'>left</span>)~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)
 <span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR_data</span>,
@@ -123,21 +123,22 @@
                              <span class='fu'>predict</span>(<span class='no'>model</span>, <span class='no'>x</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>)[,<span class='fl'>2</span>])
 <span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_response.html'>variable_response</a></span>(<span class='no'>explainer_rf</span>, <span class='kw'>variable</span> <span class='kw'>=</span> <span class='st'>"satisfaction_level"</span>,
                        <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>, <span class='kw'>which.class</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'>plot</span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='plot.variable_response_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'>plot</span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>)</div><div class='img'><img src='plot.variable_response_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>expl_rf</span>)
+
+<span class='fu'>plot</span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>)
+
 <span class='co'># Example for factor variable (with factorMerger)</span>
 <span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
 <span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_response.html'>variable_response</a></span>(<span class='no'>explainer_rf</span>, <span class='kw'>variable</span> <span class='kw'>=</span>  <span class='st'>"sales"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"factor"</span>)
-<span class='fu'>plot</span>(<span class='no'>expl_rf</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='img'><img src='plot.variable_response_explainer-4.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>expl_glm</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_response.html'>variable_response</a></span>(<span class='no'>explainer_glm</span>, <span class='kw'>variable</span> <span class='kw'>=</span>  <span class='st'>"sales"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"factor"</span>)
-<span class='fu'>plot</span>(<span class='no'>expl_glm</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='img'><img src='plot.variable_response_explainer-5.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># both models</span>
-<span class='fu'>plot</span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='img'><img src='plot.variable_response_explainer-6.png' alt='' width='700' height='433' /></div><div class='input'># }
+<span class='fu'>plot</span>(<span class='no'>expl_rf</span>)
 
+<span class='no'>expl_glm</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_response.html'>variable_response</a></span>(<span class='no'>explainer_glm</span>, <span class='kw'>variable</span> <span class='kw'>=</span>  <span class='st'>"sales"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"factor"</span>)
+<span class='fu'>plot</span>(<span class='no'>expl_glm</span>)
+
+<span class='co'># both models</span>
+<span class='fu'>plot</span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>)
+
+<span class='co'># }</span><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
