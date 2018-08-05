@@ -47,7 +47,7 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
     }
   }
   df$label <- reorder(df$label, df$diff, lossFunction)
-  label <- NULL
+  label <- name <- NULL
   if (geom == "ecdf") {
      pl <-   ggplot(df, aes(abs(diff), color = label)) +
        stat_ecdf(geom = "step") +
