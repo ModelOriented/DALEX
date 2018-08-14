@@ -5,7 +5,7 @@
 \alias{single_prediction}
 \title{Explanations for a Single Prediction}
 \usage{
-prediction_breakdown(explainer, observation, ...)
+prediction_breakdown(explainer, observation, ..., baseline = "Intercept")
 }
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the 'explain' function}
@@ -13,6 +13,8 @@ prediction_breakdown(explainer, observation, ...)
 \item{observation}{a new observarvation for which predictions need to be explained}
 
 \item{...}{other parameters that will be passed to \code{breakDown::broken.default()}}
+
+\item{baseline}{this argument will be passed to \code{breakDown::broke.default()}, by default it's \code{"Intercept"}}
 }
 \value{
 An object of the class 'single_prediction_explainer'.

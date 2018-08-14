@@ -3,6 +3,7 @@
 #' @param explainer a model to be explained, preprocessed by the 'explain' function
 #' @param observation a new observarvation for which predictions need to be explained
 #' @param ... other parameters that will be passed to \code{breakDown::broken.default()}
+#' @param baseline this argument will be passed to \code{breakDown::broke.default()}, by default it's \code{"Intercept"}
 #'
 #' @return An object of the class 'single_prediction_explainer'.
 #' It's a data frame with calculated average response.
@@ -48,9 +49,12 @@
 #'  exp_sgn <- prediction_breakdown(explainer_gbm, observation = new.wine)
 #'  exp_sgn
 #'  plot(exp_sgn)
+#'
+#'  exp_sgn <- prediction_breakdown(explainer_gbm, observation = new.wine, baseline = 0)
+#'  plot(exp_sgn)
 #'  }
 #'
-prediction_breakdown <- function(explainer, observation, ...) {
+prediction_breakdown <- function(explainer, observation, ..., baseline = "Intercept") {
   if (!("explainer" %in% class(explainer))) stop("The prediction_breakdown() function requires an object created with explain() function.")
   if (is.null(explainer$data)) stop("The prediction_breakdown() function requires explainers created with specified 'data' parameter.")
 
@@ -59,7 +63,7 @@ prediction_breakdown <- function(explainer, observation, ...) {
                 new_observation = observation,
                 data = explainer$data,
                 predict.function = explainer$predict_function,
-                baseline = "Intercept", ...)
+                baseline = baseline, ...)
   res$label <- rep(explainer$label, length(res$variable))
 
   class(res) <- c("prediction_breakdown_explainer", "data.frame")

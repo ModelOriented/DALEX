@@ -1,6 +1,12 @@
+DALEX 0.2.5
+----------------------------------------------------------------
+* You can now change the `baseline` argument in the `broken.default()`function, which is called by the `single_prediction()` function. ([#39](https://github.com/pbiecek/DALEX/issues/39))
+
+
 DALEX 0.2.4
 ----------------------------------------------------------------
 * New dataset `HR` and `HRTest`. Target variable is a factor with three levels. Is used in examples for classification.
+* The `plot.model_performance()` has now `show_outliers` parameter. Set it to anything >0 and observations with largest residuals will be presented in the plot. ([#34](https://github.com/pbiecek/DALEX/issues/34))
 
 DALEX 0.2.3
 ----------------------------------------------------------------
