@@ -12,3 +12,18 @@ test_that("Output format - plot",{
   expect_is(plot(pb_rf, pb_lm), "gg")
 })
 
+test_that("Default parameters agree with broken() (#39)", {
+  expect_identical(
+    attr(breakDown::broken(explainer_regr_lm$model, new_apartments), "baseline"),
+    attr(pb_lm, "baseline")
+  )
+
+  rf_breakdown <- breakDown::broken(
+    explainer_regr_rf$model, new_apartments,
+    data = explainer_regr_rf$data, predict.function = explainer_regr_rf$predict_function
+  )
+  expect_identical(
+    attr(rf_breakdown, "baseline"),
+    attr(pb_rf, "baseline")
+  )
+})
