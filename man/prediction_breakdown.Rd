@@ -5,7 +5,7 @@
 \alias{single_prediction}
 \title{Explanations for a Single Prediction}
 \usage{
-prediction_breakdown(explainer, observation, ..., baseline = "Intercept")
+prediction_breakdown(explainer, observation, ...)
 }
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the 'explain' function}
@@ -13,8 +13,6 @@ prediction_breakdown(explainer, observation, ..., baseline = "Intercept")
 \item{observation}{a new observarvation for which predictions need to be explained}
 
 \item{...}{other parameters that will be passed to \code{breakDown::broken.default()}}
-
-\item{baseline}{this argument will be passed to \code{breakDown::broke.default()}, by default it's \code{"Intercept"}}
 }
 \value{
 An object of the class 'single_prediction_explainer'.
@@ -60,6 +58,9 @@ model <- gbm(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine,
  # create a new observation
  exp_sgn <- prediction_breakdown(explainer_gbm, observation = new.wine)
  exp_sgn
+ plot(exp_sgn)
+
+ exp_sgn <- prediction_breakdown(explainer_gbm, observation = new.wine, baseline = 0)
  plot(exp_sgn)
  }
 
