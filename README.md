@@ -74,6 +74,23 @@ devtools::install_github("pbiecek/DALEX")
 ![DALEX_variable_dropout](misc/DALEX_variable_dropout.png)
 
 
+## Why
+
+76 years ago Isaac Asimov formulated [Three Laws of Robotics](https://en.wikipedia.org/wiki/Three_Laws_of_Robotics): 1) a robot may not injure a human being, 2) a robot must obey the orders given it by human beings and 3) A robot must protect its own existence. These laws heavily impact discussion around [Ethics of AI](https://en.wikipedia.org/wiki/Ethics_of_artificial_intelligence). Today we are surrounded by autonomous units, like cleaning robots, robotic pets or autonomous cars. Yet they are far from being conscious enough to be under Asimovs laws. 
+
+On the other hand, we are surrounded by complex algorithms that are used for decision making. Machine learning models are being widely used in health care, politics, education, judiciary and many other areas. Black box predictive models have far larger influence on our lives than physical robots. Yet, their development is left unregulated despite many examples of their potential harmfulness. See *Weapons of Math Destruction* by Cathy O'Neil for an excellent overview of potential problems.
+
+It’s clear that we need to control algorithms that may affect us. Such control is in our civic rights.  Here we propose three requirements, that any predictive model should fulfill.
+
+-	**Prediction's justifications**. For every prediction of a model one should be able to understand which variables affect the prediction and how much of the final prognosis may be attributed to a particular variable.
+-	**Prediction's speculations**. For every prediction of a model one should be able to understand how the model prediction would change if input variables were changed. Hypothesizing about what-if scenarios. 
+-	**Prediction's validations**. For every prediction of a model one should be able to verify how strong are evidences that confirm this particular prediction. 
+
+There are two ways to comply with these requirements. 
+One is to use only models that fulfill these conditions by design. White-box models like linear regression or decision trees. In many cases the price for transparency is lower performance.
+Other way is to use approximated explainers – techniques that find only approximated answers, but work for any black box model. Here we present such techniques.
+
+
 ## Acknowledgments
 
 Work on this package was financially supported by the 'NCN Opus grant 2016/21/B/ST6/02176'.
