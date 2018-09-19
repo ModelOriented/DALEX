@@ -5,7 +5,7 @@
 \title{Model Performance Plots}
 \usage{
 \method{plot}{model_performance_explainer}(x, ..., geom = "ecdf",
-  lossFunction = function(x) sqrt(mean(x^2)))
+  show_outliers = 0, lossFunction = function(x) sqrt(mean(x^2)))
 }
 \arguments{
 \item{x}{a model to be explained, preprocessed by the 'explain' function}
@@ -14,7 +14,9 @@
 
 \item{geom}{either \code{"ecdf"} or \code{"boxplot"} determines how residuals shall be summarized}
 
-\item{lossFunction}{A function that calculates the total loss for a model based on model residuals. By default it's the root mean square.}
+\item{show_outliers}{number of largest residuals to be presented (only when geom = boxplot).}
+
+\item{lossFunction}{function that calculates the loss for a model based on model residuals. By default it's the root mean square.}
 }
 \value{
 An object of the class 'model_performance_explainer'.
@@ -30,6 +32,7 @@ HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
 explainer_rf  <- explain(HR_rf_model, data = HR_data, y = HR_data$left)
 mp_rf <- model_performance(explainer_rf)
 plot(mp_rf)
+plot(mp_rf, geom = "boxplot", show_outliers = 1)
 
 HR_glm_model <- glm(left~., data = breakDown::HR_data, family = "binomial")
 explainer_glm <- explain(HR_glm_model, data = HR_data, y = HR_data$left, label = "glm",
@@ -44,6 +47,7 @@ plot(mp_lm)
 
 plot(mp_rf, mp_glm, mp_lm)
 plot(mp_rf, mp_glm, mp_lm, geom = "boxplot")
+plot(mp_rf, mp_glm, mp_lm, geom = "boxplot", show_outliers = 1)
  }
 
 }

@@ -59,6 +59,9 @@ model <- gbm(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine,
  exp_sgn <- prediction_breakdown(explainer_gbm, observation = new.wine)
  exp_sgn
  plot(exp_sgn)
+
+ exp_sgn <- prediction_breakdown(explainer_gbm, observation = new.wine, baseline = 0)
+ plot(exp_sgn)
  }
 
 }

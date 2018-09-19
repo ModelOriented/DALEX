@@ -3,7 +3,8 @@
 #' @param x a model to be explained, preprocessed by the 'explain' function
 #' @param ... other parameters
 #' @param geom either \code{"ecdf"} or \code{"boxplot"} determines how residuals shall be summarized
-#' @param lossFunction A function that calculates the total loss for a model based on model residuals. By default it's the root mean square.
+#' @param lossFunction function that calculates the loss for a model based on model residuals. By default it's the root mean square.
+#' @param show_outliers number of largest residuals to be presented (only when geom = boxplot).
 #'
 #' @return An object of the class 'model_performance_explainer'.
 #'
@@ -16,6 +17,7 @@
 #' explainer_rf  <- explain(HR_rf_model, data = HR_data, y = HR_data$left)
 #' mp_rf <- model_performance(explainer_rf)
 #' plot(mp_rf)
+#' plot(mp_rf, geom = "boxplot", show_outliers = 1)
 #'
 #' HR_glm_model <- glm(left~., data = breakDown::HR_data, family = "binomial")
 #' explainer_glm <- explain(HR_glm_model, data = HR_data, y = HR_data$left, label = "glm",
@@ -30,9 +32,10 @@
 #'
 #' plot(mp_rf, mp_glm, mp_lm)
 #' plot(mp_rf, mp_glm, mp_lm, geom = "boxplot")
+#' plot(mp_rf, mp_glm, mp_lm, geom = "boxplot", show_outliers = 1)
 #'  }
 #'
-plot.model_performance_explainer <- function(x, ..., geom = "ecdf", lossFunction = function(x) sqrt(mean(x^2))) {
+plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outliers = 0, lossFunction = function(x) sqrt(mean(x^2))) {
   df <- x
   class(df) <- "data.frame"
 
@@ -44,7 +47,7 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", lossFunction
     }
   }
   df$label <- reorder(df$label, df$diff, lossFunction)
-  label <- NULL
+  label <- name <- NULL
   if (geom == "ecdf") {
      pl <-   ggplot(df, aes(abs(diff), color = label)) +
        stat_ecdf(geom = "step") +
@@ -66,6 +69,16 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", lossFunction
       ylab("") + xlab("") +
       ggtitle("Boxplots of | residuals |", "Red dot stands for root mean square of residuals") +
       coord_flip()
+    if (show_outliers > 0) {
+      df$rank <- unlist(tapply(-abs(df$diff), df$label, rank, ties.method = "min"))
+      df$name <- rownames(df)
+      df_small <- df[df$rank <= show_outliers,]
+      pl <- pl +
+        geom_point(data = df_small) +
+        geom_text(data = df_small,
+                  aes(label = name), srt = 90,
+                  hjust = -0.2, vjust = 1)
+    }
   }
   pl
 }

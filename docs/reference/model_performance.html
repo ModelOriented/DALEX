@@ -107,8 +107,7 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \dontrun{</span>
-<span class='fu'>library</span>(<span class='st'>"breakDown"</span>)
+    <pre class="examples"><div class='input'> </div><div class='input'><span class='fu'>library</span>(<span class='st'>"breakDown"</span>)
 <span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
 <span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>left</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR_data</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR_data</span>$<span class='no'>left</span>)
 <span class='fu'>model_performance</span>(<span class='no'>explainer_rf</span>)</div><div class='output co'>#&gt;            0%           10%           20%           30%           40% 
@@ -130,8 +129,7 @@
 <span class='fu'>model_performance</span>(<span class='no'>explainer_lm</span>)</div><div class='output co'>#&gt;          0%         10%         20%         30%         40%         50% 
 #&gt; -1.14375259 -0.62839417 -0.40819054 -0.05159668  0.04461159  0.10549088 
 #&gt;         60%         70%         80%         90%        100% 
-#&gt;  0.16475470  0.22421855  0.28954362  0.38794542  0.80741690 </div><div class='input'># }
-
+#&gt;  0.16475470  0.22421855  0.28954362  0.38794542  0.80741690 </div><div class='input'> </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

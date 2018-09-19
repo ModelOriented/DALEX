@@ -48,6 +48,9 @@
 #'  exp_sgn <- prediction_breakdown(explainer_gbm, observation = new.wine)
 #'  exp_sgn
 #'  plot(exp_sgn)
+#'
+#'  exp_sgn <- prediction_breakdown(explainer_gbm, observation = new.wine, baseline = 0)
+#'  plot(exp_sgn)
 #'  }
 #'
 prediction_breakdown <- function(explainer, observation, ...) {
@@ -59,7 +62,7 @@ prediction_breakdown <- function(explainer, observation, ...) {
                 new_observation = observation,
                 data = explainer$data,
                 predict.function = explainer$predict_function,
-                baseline = "Intercept", ...)
+                ...)
   res$label <- rep(explainer$label, length(res$variable))
 
   class(res) <- c("prediction_breakdown_explainer", "data.frame")
