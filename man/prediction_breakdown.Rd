@@ -10,7 +10,7 @@ prediction_breakdown(explainer, observation, ...)
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the 'explain' function}
 
-\item{observation}{a new observarvation for which predictions need to be explained}
+\item{observation}{a new observation for which predictions need to be explained}
 
 \item{...}{other parameters that will be passed to \code{breakDown::broken.default()}}
 }

@@ -5,8 +5,9 @@
 \title{Plots Local Explanations (Single Prediction)}
 \usage{
 \method{plot}{prediction_breakdown_explainer}(x, ...,
-  add_contributions = TRUE, vcolors = c(`-1` = "#d8b365", `0` = "#f5f5f5",
-  `1` = "#5ab4ac", X = "darkgrey"), digits = 3, rounding_function = round)
+  add_contributions = TRUE, vcolors = c(`-1` = "#d8b365", `0` =
+  "#f5f5f5", `1` = "#5ab4ac", X = "darkgrey"), digits = 3,
+  rounding_function = round)
 }
 \arguments{
 \item{x}{a single prediction exlainer produced with the 'single_prediction' function}

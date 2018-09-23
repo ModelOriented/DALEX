@@ -1,7 +1,7 @@
 #' Explanations for a Single Prediction
 #'
 #' @param explainer a model to be explained, preprocessed by the 'explain' function
-#' @param observation a new observarvation for which predictions need to be explained
+#' @param observation a new observation for which predictions need to be explained
 #' @param ... other parameters that will be passed to \code{breakDown::broken.default()}
 #'
 #' @return An object of the class 'single_prediction_explainer'.
