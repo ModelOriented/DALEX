@@ -74,10 +74,21 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = yha
 #' @rdname explain
 explain <- explain.default
 
-yhat <- function(X.model, newdata, ...) {
-  if ("lm" %in% class(X.model)) {
-    stats::predict(X.model, newdata, ...)
+yhat <- function (X.model, newdata, ...)
+  UseMethod("yhat")
+
+yhat.lm <- function(X.model, newdata, ...) {
+  predict(X.model, newdata, ...)
+}
+
+yhat.randomForest <- function(X.model, newdata, ...) {
+  if (X.model$type == "classification") {
+    predict(X.model, newdata, type = "prob", ...)
   } else {
-    as.numeric(stats::predict(X.model, newdata, ...))
+    predict(X.model, newdata, ...)
   }
+}
+
+yhat.default <- function(X.model, newdata, ...) {
+  as.numeric(predict(X.model, newdata, ...))
 }
