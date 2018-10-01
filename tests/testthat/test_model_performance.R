@@ -47,3 +47,10 @@ test_that("Adding plot functionality to model_performance #34", {
   expect_identical(mp_rf$label, old_mp_rf$label)
   expect_identical(mp_rf$index, seq_along(old_mp_rf$label))
 })
+
+test_that("plot index versus mp idex issue #34", {
+  p_lm <- plot(mp_lm, geom = "boxplot", show_outliers = 1)
+  p_rf <- plot(mp_rf, geom = "boxplot", show_outliers = 1)
+  expect_identical(mp_lm$index, p_lm$data$index)
+  expect_identical(mp_rf$index, p_rf$data$index)
+})
