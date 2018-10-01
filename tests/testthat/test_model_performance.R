@@ -13,8 +13,23 @@ test_that("Output format - plot",{
 })
 
 test_that("Adding plot functionality to model_performance #34", {
-  old_mp_lm <- DALEX::model_performance(explainer_regr_lm)
-  old_mp_rf <- DALEX::model_performance(explainer_regr_rf)
+  #original code
+  model_performance <- function(explainer, ...) {
+    if (!("explainer" %in% class(explainer))) stop("The model_performance() function requires an object created with explain() function.")
+    if (is.null(explainer$data)) stop("The model_performance() function requires explainers created with specified 'data' parameter.")
+    if (is.null(explainer$y)) stop("The model_performance() function requires explainers created with specified 'y' parameter.")
+
+    observed <- explainer$y
+    predicted <- explainer$predict_function(explainer$model, explainer$data, ...)
+    residuals <- data.frame(predicted, observed, diff = predicted - observed)
+
+    class(residuals) <- c("model_performance_explainer", "data.frame")
+    residuals$label <- explainer$label
+    residuals
+  }
+
+  old_mp_lm <- model_performance(explainer_regr_lm)
+  old_mp_rf <- model_performance(explainer_regr_rf)
   expect_identical(colnames(mp_lm), c("predicted", "observed", "diff", "index", "label"))
   expect_identical(ncol(mp_lm), ncol(old_mp_lm)+1L)
   expect_identical(nrow(mp_lm), nrow(old_mp_lm))
