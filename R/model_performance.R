@@ -33,7 +33,7 @@ model_performance <- function(explainer, ...) {
 
   observed <- explainer$y
   predicted <- explainer$predict_function(explainer$model, explainer$data, ...)
-  residuals <- data.frame(predicted, observed, diff = predicted - observed)
+  residuals <- data.frame(predicted, observed, diff = predicted - observed, index = seq_along(observed))
 
   class(residuals) <- c("model_performance_explainer", "data.frame")
   residuals$label <- explainer$label
