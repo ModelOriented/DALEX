@@ -71,7 +71,6 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
       coord_flip()
     if (show_outliers > 0) {
       df$rank <- unlist(tapply(-abs(df$diff), df$label, rank, ties.method = "min"))
-      # df$name <- rownames(df)
       df_small <- df[df$rank <= show_outliers,]
       pl <- pl +
         geom_point(data = df_small) +
