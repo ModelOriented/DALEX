@@ -5,7 +5,8 @@
 \title{Model Performance Plots}
 \usage{
 \method{plot}{model_performance_explainer}(x, ..., geom = "ecdf",
-  show_outliers = 0, lossFunction = function(x) sqrt(mean(x^2)))
+  show_outliers = 0, ptlabel = "name", lossFunction = function(x)
+  sqrt(mean(x^2)))
 }
 \arguments{
 \item{x}{a model to be explained, preprocessed by the 'explain' function}
@@ -15,6 +16,8 @@
 \item{geom}{either \code{"ecdf"} or \code{"boxplot"} determines how residuals shall be summarized}
 
 \item{show_outliers}{number of largest residuals to be presented (only when geom = boxplot).}
+
+\item{ptlabel}{either \code{"name"} or \code{"index"} determines the naming convention of the outliers}
 
 \item{lossFunction}{function that calculates the loss for a model based on model residuals. By default it's the root mean square.}
 }
