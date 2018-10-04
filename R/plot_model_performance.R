@@ -49,6 +49,10 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
   }
   df$label <- reorder(df$label, df$diff, lossFunction)
   label <- name <- NULL
+  if (ptlabel == "name") {
+    df$name <- NULL
+    df$name <- rownames(df)
+  }
   if (geom == "ecdf") {
     pl <-   ggplot(df, aes(abs(diff), color = label)) +
       stat_ecdf(geom = "step") +
@@ -72,10 +76,6 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
       coord_flip()
     if (show_outliers > 0) {
       df$rank <- unlist(tapply(-abs(df$diff), df$label, rank, ties.method = "min"))
-      if (ptlabel == "name") {
-        df$name <- NULL
-        df$name <- rownames(df)
-      }
       if (!(ptlabel %in% c("name", "index"))){
         stop("The plot.model_performance() function requires label to be name or index.")
       }
