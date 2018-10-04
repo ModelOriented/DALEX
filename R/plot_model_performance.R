@@ -36,7 +36,10 @@
 #'  }
 #'
 plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outliers = 0, ptlabel = "name", lossFunction = function(x) sqrt(mean(x^2))) {
-  df <- x
+  if (!(ptlabel %in% c("name", "index"))){
+    stop("The plot.model_performance() function requires label to be name or index.")
+  }
+   df <- x
   class(df) <- "data.frame"
   df$name <- seq.int(nrow(df))
   dfl <- list(...)
@@ -76,9 +79,6 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
       coord_flip()
     if (show_outliers > 0) {
       df$rank <- unlist(tapply(-abs(df$diff), df$label, rank, ties.method = "min"))
-      if (!(ptlabel %in% c("name", "index"))){
-        stop("The plot.model_performance() function requires label to be name or index.")
-      }
       df_small <- df[df$rank <= show_outliers,]
       pl <- pl +
         geom_point(data = df_small) +
