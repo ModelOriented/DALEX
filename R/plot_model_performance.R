@@ -5,6 +5,7 @@
 #' @param geom either \code{"ecdf"} or \code{"boxplot"} determines how residuals shall be summarized
 #' @param lossFunction function that calculates the loss for a model based on model residuals. By default it's the root mean square.
 #' @param show_outliers number of largest residuals to be presented (only when geom = boxplot).
+#' @param ptlabel either \code{"name"} or \code{"index"} determines the naming convention of the outliers
 #'
 #' @return An object of the class 'model_performance_explainer'.
 #'
