@@ -35,31 +35,32 @@
 #' plot(mp_rf, mp_glm, mp_lm, geom = "boxplot", show_outliers = 1)
 #'  }
 #'
-plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outliers = 0, lossFunction = function(x) sqrt(mean(x^2))) {
+plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outliers = 0, ptlabel = "name", lossFunction = function(x) sqrt(mean(x^2))) {
   df <- x
   class(df) <- "data.frame"
-
+  df$name <- seq.int(nrow(df))
   dfl <- list(...)
   if (length(dfl) > 0) {
     for (resp in dfl) {
       class(resp) <- "data.frame"
+      resp$name <- seq.int(nrow(resp))
       df <- rbind(df, resp)
     }
   }
   df$label <- reorder(df$label, df$diff, lossFunction)
   label <- name <- NULL
   if (geom == "ecdf") {
-     pl <-   ggplot(df, aes(abs(diff), color = label)) +
-       stat_ecdf(geom = "step") +
-       stat_ecdf(geom = "point") +
-       theme_mi2() +
-       scale_color_brewer(name = "Model", type = "qual", palette = "Dark2") +
-       xlab("| residuals |") +
-       scale_y_continuous(breaks = seq(0,1,0.1),
-                          labels = paste(seq(100,0,-10),"%"),
-                          trans = "reverse",
-                          name = "") +
-       ggtitle("Distribution of | residuals |")
+    pl <-   ggplot(df, aes(abs(diff), color = label)) +
+      stat_ecdf(geom = "step") +
+      stat_ecdf(geom = "point") +
+      theme_mi2() +
+      scale_color_brewer(name = "Model", type = "qual", palette = "Dark2") +
+      xlab("| residuals |") +
+      scale_y_continuous(breaks = seq(0,1,0.1),
+                         labels = paste(seq(100,0,-10),"%"),
+                         trans = "reverse",
+                         name = "") +
+      ggtitle("Distribution of | residuals |")
   } else {
     pl <- ggplot(df, aes(x=label, y=abs(diff), fill = label)) +
       stat_boxplot(alpha=0.4, coef = 1000) +
@@ -71,11 +72,18 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
       coord_flip()
     if (show_outliers > 0) {
       df$rank <- unlist(tapply(-abs(df$diff), df$label, rank, ties.method = "min"))
+      if (ptlabel == "name") {
+        df$name <- NULL
+        df$name <- rownames(df)
+      }
+      if (!(ptlabel %in% c("name", "index"))){
+        stop("The plot.model_performance() function requires label to be name or index.")
+      }
       df_small <- df[df$rank <= show_outliers,]
       pl <- pl +
         geom_point(data = df_small) +
         geom_text(data = df_small,
-                  aes(label = index), srt = 90,
+                  aes(label = name), srt = 90,
                   hjust = -0.2, vjust = 1)
     }
   }
