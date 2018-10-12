@@ -40,7 +40,7 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
   if (!(ptlabel %in% c("name", "index"))){
     stop("The plot.model_performance() function requires label to be name or index.")
   }
-   df <- x
+  df <- x
   class(df) <- "data.frame"
   df$name <- seq.int(nrow(df))
   dfl <- list(...)
@@ -75,7 +75,10 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
       theme_mi2() +
       scale_fill_brewer(name = "Model", type = "qual", palette = "Dark2") +
       ylab("") + xlab("") +
-      ggtitle("Boxplots of | residuals |", "Red dot stands for root mean square of residuals") +
+      ggtitle(
+        expression(paste("Boxplots of |", residual, "|")),
+        "Red dot stands for root mean square of residuals"
+      ) +
       coord_flip()
     if (show_outliers > 0) {
       df$rank <- unlist(tapply(-abs(df$diff), df$label, rank, ties.method = "min"))
