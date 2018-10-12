@@ -60,7 +60,6 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
   if (geom == "ecdf") {
     pl <-   ggplot(df, aes(abs(diff), color = label)) +
       stat_ecdf(geom = "step") +
-      stat_ecdf(geom = "point") +
       theme_mi2() +
       scale_color_brewer(name = "Model", type = "qual", palette = "Dark2") +
       xlab("| residuals |") +
