@@ -62,12 +62,12 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
       stat_ecdf(geom = "step") +
       theme_mi2() +
       scale_color_brewer(name = "Model", type = "qual", palette = "Dark2") +
-      xlab("| residuals |") +
+      xlab(expression(paste("|", residual, "|"))) +
       scale_y_continuous(breaks = seq(0,1,0.1),
                          labels = paste(seq(100,0,-10),"%"),
                          trans = "reverse",
                          name = "") +
-      ggtitle("Distribution of | residuals |")
+      ggtitle(expression(paste("Distribution of |", residual, "|")))
   } else {
     pl <- ggplot(df, aes(x=label, y=abs(diff), fill = label)) +
       stat_boxplot(alpha=0.4, coef = 1000) +
