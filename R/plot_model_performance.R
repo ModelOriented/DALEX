@@ -62,12 +62,12 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
       stat_ecdf(geom = "step") +
       theme_mi2() +
       scale_color_brewer(name = "Model", type = "qual", palette = "Dark2") +
-      xlab(expression(paste("|", residual, "|"))) +
+      xlab(expression(group("|", residual, "|"))) +
       scale_y_continuous(breaks = seq(0,1,0.1),
                          labels = paste(seq(100,0,-10),"%"),
                          trans = "reverse",
                          name = "") +
-      ggtitle(expression(paste("Distribution of |", residual, "|")))
+      ggtitle(expression(paste("Distribution of ", group("|", residual, "|"))))
   } else {
     pl <- ggplot(df, aes(x=label, y=abs(diff), fill = label)) +
       stat_boxplot(alpha=0.4, coef = 1000) +
@@ -76,7 +76,7 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
       scale_fill_brewer(name = "Model", type = "qual", palette = "Dark2") +
       ylab("") + xlab("") +
       ggtitle(
-        expression(paste("Boxplots of |", residual, "|")),
+        expression(paste("Boxplots of", group("|", residual, "|"))),
         "Red dot stands for root mean square of residuals"
       ) +
       coord_flip()
