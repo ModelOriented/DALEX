@@ -76,7 +76,7 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
       scale_fill_brewer(name = "Model", type = "qual", palette = "Dark2") +
       ylab("") + xlab("") +
       ggtitle(
-        expression(paste("Boxplots of", group("|", residual, "|"))),
+        expression(paste("Boxplots of ", group("|", residual, "|"))),
         "Red dot stands for root mean square of residuals"
       ) +
       coord_flip()
