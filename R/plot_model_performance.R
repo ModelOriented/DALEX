@@ -40,7 +40,7 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
   if (!(ptlabel %in% c("name", "index"))){
     stop("The plot.model_performance() function requires label to be name or index.")
   }
-   df <- x
+  df <- x
   class(df) <- "data.frame"
   df$name <- seq.int(nrow(df))
   dfl <- list(...)
@@ -60,15 +60,14 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
   if (geom == "ecdf") {
     pl <-   ggplot(df, aes(abs(diff), color = label)) +
       stat_ecdf(geom = "step") +
-      stat_ecdf(geom = "point") +
       theme_mi2() +
       scale_color_brewer(name = "Model", type = "qual", palette = "Dark2") +
-      xlab("| residuals |") +
+      xlab(expression(group("|", residual, "|"))) +
       scale_y_continuous(breaks = seq(0,1,0.1),
                          labels = paste(seq(100,0,-10),"%"),
                          trans = "reverse",
                          name = "") +
-      ggtitle("Distribution of | residuals |")
+      ggtitle(expression(paste("Distribution of ", group("|", residual, "|"))))
   } else {
     pl <- ggplot(df, aes(x=label, y=abs(diff), fill = label)) +
       stat_boxplot(alpha=0.4, coef = 1000) +
@@ -76,7 +75,10 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
       theme_mi2() +
       scale_fill_brewer(name = "Model", type = "qual", palette = "Dark2") +
       ylab("") + xlab("") +
-      ggtitle("Boxplots of | residuals |", "Red dot stands for root mean square of residuals") +
+      ggtitle(
+        expression(paste("Boxplots of ", group("|", residual, "|"))),
+        "Red dot stands for root mean square of residuals"
+      ) +
       coord_flip()
     if (show_outliers > 0) {
       df$rank <- unlist(tapply(-abs(df$diff), df$label, rank, ties.method = "min"))
