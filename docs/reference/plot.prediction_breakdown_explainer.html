@@ -147,8 +147,7 @@ Or the default <code>round()</code> to have the same precision for all component
 <span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># both models</span>
 <span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>, <span class='no'>wine_lm_predict4</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'>library</span>(<span class='st'>"gbm"</span>)
-<span class='co'># create a gbm model</span>
+<span class='fu'>library</span>(<span class='st'>"gbm"</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: survival</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: lattice</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: splines</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: parallel</span></div><div class='output co'>#&gt; <span class='message'>Loaded gbm 2.1.3</span></div><div class='input'><span class='co'># create a gbm model</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/gbm/topics/gbm'>gbm</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>,
              <span class='kw'>distribution</span> <span class='kw'>=</span> <span class='st'>"gaussian"</span>,
              <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>1000</span>,

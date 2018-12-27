@@ -88,7 +88,8 @@
 
     <pre class="usage"><span class='co'># S3 method for model_performance_explainer</span>
 <span class='fu'>plot</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"ecdf"</span>,
-  <span class='kw'>show_outliers</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>lossFunction</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'>sqrt</span>(<span class='fu'>mean</span>(<span class='no'>x</span>^<span class='fl'>2</span>)))</pre>
+  <span class='kw'>show_outliers</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>ptlabel</span> <span class='kw'>=</span> <span class='st'>"name"</span>, <span class='kw'>lossFunction</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>)
+  <span class='fu'>sqrt</span>(<span class='fu'>mean</span>(<span class='no'>x</span>^<span class='fl'>2</span>)))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -108,6 +109,10 @@
     <tr>
       <th>show_outliers</th>
       <td><p>number of largest residuals to be presented (only when geom = boxplot).</p></td>
+    </tr>
+    <tr>
+      <th>ptlabel</th>
+      <td><p>either <code>"name"</code> or <code>"index"</code> determines the naming convention of the outliers</p></td>
     </tr>
     <tr>
       <th>lossFunction</th>
