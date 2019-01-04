@@ -5,11 +5,12 @@
 \alias{explain}
 \title{Create Model Explainer}
 \usage{
-explain.default(model, data = NULL, y = NULL, predict_function = yhat,
-  link = I, ..., label = tail(class(model), 1))
+explain.default(model, data = NULL, y = NULL,
+  predict_function = yhat, link = I, ..., label = tail(class(model),
+  1))
 
-explain(model, data = NULL, y = NULL, predict_function = yhat, link = I,
-  ..., label = tail(class(model), 1))
+explain(model, data = NULL, y = NULL, predict_function = yhat,
+  link = I, ..., label = tail(class(model), 1))
 }
 \arguments{
 \item{model}{object - a model to be explained}

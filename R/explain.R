@@ -109,6 +109,28 @@ yhat.randomForest <- function(X.model, newdata, ...) {
 
 #' @rdname yhat
 #' @export
+yhat.svm <- function(X.model, newdata, ...) {
+  if (X.model$type == 0) {
+    attr(predict(X.model, newdata = newdata, probability = TRUE), "probabilities")
+  } else {
+    predict(X.model, newdata, ...)
+  }
+}
+
+
+#' @rdname yhat
+#' @export
+yhat.ranger <- function(X.model, newdata, ...) {
+  if (X.model$treetype == "Regression") {
+    predict(X.model, newdata, ...)$predictions
+  } else {
+    # please note, that probability=TRUE should be set during training
+    predict(X.model, newdata, ..., probability = TRUE)$predictions
+  }
+}
+
+#' @rdname yhat
+#' @export
 yhat.default <- function(X.model, newdata, ...) {
   as.numeric(predict(X.model, newdata, ...))
 }

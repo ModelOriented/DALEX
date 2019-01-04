@@ -4,6 +4,8 @@
 \alias{yhat}
 \alias{yhat.lm}
 \alias{yhat.randomForest}
+\alias{yhat.svm}
+\alias{yhat.ranger}
 \alias{yhat.default}
 \title{Wrapper over the predict function}
 \usage{
@@ -12,6 +14,10 @@ yhat(X.model, newdata, ...)
 \method{yhat}{lm}(X.model, newdata, ...)
 
 \method{yhat}{randomForest}(X.model, newdata, ...)
+
+\method{yhat}{svm}(X.model, newdata, ...)
+
+\method{yhat}{ranger}(X.model, newdata, ...)
 
 \method{yhat}{default}(X.model, newdata, ...)
 }
