@@ -86,8 +86,9 @@
     <p>Loss from Variable Dropout</p>
     
 
-    <pre class="usage"><span class='fu'>variable_importance</span>(<span class='no'>explainer</span>, <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>)
-  <span class='fu'>sum</span>((<span class='no'>observed</span> - <span class='no'>predicted</span>)^<span class='fl'>2</span>), <span class='no'>...</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>, <span class='kw'>n_sample</span> <span class='kw'>=</span> <span class='fl'>1000</span>)</pre>
+    <pre class="usage"><span class='fu'>variable_importance</span>(<span class='no'>explainer</span>, <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>observed</span>,
+  <span class='no'>predicted</span>) <span class='fu'>sum</span>((<span class='no'>observed</span> - <span class='no'>predicted</span>)^<span class='fl'>2</span>), <span class='no'>...</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>,
+  <span class='kw'>n_sample</span> <span class='kw'>=</span> <span class='fl'>1000</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">

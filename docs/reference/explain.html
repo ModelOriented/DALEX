@@ -87,11 +87,12 @@
 This function creates a unified representation of a model, which can be further processed by various explainers.</p>
     
 
-    <pre class="usage"><span class='fu'>explain.default</span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>yhat</span>,
-  <span class='kw'>link</span> <span class='kw'>=</span> <span class='no'>I</span>, <span class='no'>...</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'>tail</span>(<span class='fu'>class</span>(<span class='no'>model</span>), <span class='fl'>1</span>))
+    <pre class="usage"><span class='fu'>explain.default</span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>yhat</span>, <span class='kw'>link</span> <span class='kw'>=</span> <span class='no'>I</span>, <span class='no'>...</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'>tail</span>(<span class='fu'>class</span>(<span class='no'>model</span>),
+  <span class='fl'>1</span>))
 
-<span class='fu'>explain</span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>yhat</span>, <span class='kw'>link</span> <span class='kw'>=</span> <span class='no'>I</span>,
-  <span class='no'>...</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'>tail</span>(<span class='fu'>class</span>(<span class='no'>model</span>), <span class='fl'>1</span>))</pre>
+<span class='fu'>explain</span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>yhat</span>,
+  <span class='kw'>link</span> <span class='kw'>=</span> <span class='no'>I</span>, <span class='no'>...</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'>tail</span>(<span class='fu'>class</span>(<span class='no'>model</span>), <span class='fl'>1</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
