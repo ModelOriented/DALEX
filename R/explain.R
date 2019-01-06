@@ -117,6 +117,12 @@ yhat.svm <- function(X.model, newdata, ...) {
   }
 }
 
+#' @rdname yhat
+#' @export
+yhat.glm <- function(X.model, newdata, ...) {
+  predict(X.model, newdata, type = "response")
+}
+
 
 #' @rdname yhat
 #' @export
