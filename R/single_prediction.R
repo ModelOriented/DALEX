@@ -58,7 +58,7 @@ prediction_breakdown <- function(explainer, observation, ...) {
   if (is.null(explainer$data)) stop("The prediction_breakdown() function requires explainers created with specified 'data' parameter.")
 
   # breakDown
-  res <- broken(explainer$model,
+  res <- breakDown:::broken.default(explainer$model,
                 new_observation = observation,
                 data = explainer$data,
                 predict.function = explainer$predict_function,
