@@ -9,7 +9,7 @@
 #' @return An object of the class 'variable_leverage_explainer'.
 #' It's a data frame with calculated average response.
 #'
-#' @aliases variable_dropout loss_sum_of_squares loss_root_mean_square
+#' @aliases variable_importance variable_dropout
 #' @export
 #' @examples
 #'  \dontrun{
@@ -42,7 +42,7 @@
 #'  }
 #'
 variable_importance <- function(explainer,
-                              loss_function = function(observed, predicted) sum((observed - predicted)^2),
+                              loss_function = loss_sum_of_squares,
                               ...,
                               type = "raw",
                               n_sample = 1000) {
@@ -84,17 +84,33 @@ variable_importance <- function(explainer,
   res$label <- explainer$label
   res
 }
-
 #' @export
 variable_dropout <- variable_importance
 
+
+#' Preimplemented Loss Functions
+#'
+#' @param predicted predicted scores, either vector of matrix, these are returned from the model specific `predict_function()``
+#' @param observed observed scores or labels, these are supplied as explainer specific `y`
+#' @param p_min for cross entropy, minimal value for probability to make sure that `log` will not explode
+#'
+#' @return numeric - value of the loss function
+#'
+#' @aliases loss_cross_entropy loss_sum_of_squares loss_root_mean_square
 #' @export
-loss_sum_of_squares = function(observed, predicted) sum((observed - predicted)^2)
-#' @export
-loss_root_mean_square = function(observed, predicted) sqrt(mean((observed - predicted)^2))
+#' @examples
+#'  \dontrun{
+#' library("randomForest")
+#' HR_rf_model <- randomForest(status~., data = HR, ntree = 100)
+#' loss_cross_entropy(HR$status, yhat(HR_rf_model))
+#'  }
 #' @export
 loss_cross_entropy = function(observed, predicted, p_min = 0.0001) {
   p <- sapply(seq_along(observed), function(i)  predicted[i, observed[i]] )
   sum(-log(pmax(p, p_min)))
 }
+#' @export
+loss_sum_of_squares = function(observed, predicted) sum((observed - predicted)^2)
+#' @export
+loss_root_mean_square = function(observed, predicted) sqrt(mean((observed - predicted)^2))
 

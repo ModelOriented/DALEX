@@ -30,7 +30,8 @@ test_that("Default parameters agree with broken() (#39)", {
 
 test_that("`baseline` argument is respected when specified (#39)", {
   pb_lm_baseline_intercept <- prediction_breakdown(explainer_regr_lm, observation = new_apartments, baseline = "Intercept")
-  breakdown_lm_baseline_intercept <- breakDown::broken(explainer_regr_lm$model, new_apartments, baseline = "Intercept")
+  breakdown_lm_baseline_intercept <- breakDown:::broken.default(explainer_regr_lm$model, new_observation = new_apartments,
+                                                                data = apartmentsTest[1:1000, ], baseline = "Intercept")
 
   pb_rf_baseline_intercept <- prediction_breakdown(explainer_regr_rf, observation = new_apartments, baseline = "Intercept")
   breakdown_rf_baseline_intercept <- breakDown::broken(

@@ -3,13 +3,10 @@
 \name{variable_importance}
 \alias{variable_importance}
 \alias{variable_dropout}
-\alias{loss_sum_of_squares}
-\alias{loss_root_mean_square}
 \title{Loss from Variable Dropout}
 \usage{
-variable_importance(explainer, loss_function = function(observed,
-  predicted) sum((observed - predicted)^2), ..., type = "raw",
-  n_sample = 1000)
+variable_importance(explainer, loss_function = loss_sum_of_squares, ...,
+  type = "raw", n_sample = 1000)
 }
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the 'explain' function}
