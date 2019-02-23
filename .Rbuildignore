@@ -6,3 +6,4 @@
 ^_pkgdown\.yml$
 .travis.yml
 vignettes/
+^LICENSE$

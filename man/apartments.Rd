@@ -3,6 +3,7 @@
 \docType{data}
 \name{apartments}
 \alias{apartments}
+\alias{apartments_test}
 \alias{apartmentsTest}
 \title{Apartments Data}
 \format{a data frame with 1000 rows and 6 columns}

@@ -1,6 +1,6 @@
 #' Human Resources Data
 #'
-#' Datasets \code{HR} and \code{HRTest} are artificial, generated form the same model.
+#' Datasets \code{HR} and \code{HR_test} are artificial, generated form the same model.
 #' Structure of the dataset is based on a real data, from Human Resources department with
 #' information which employees were promoted, which were fired.
 #'
@@ -18,7 +18,7 @@
 #' \item status - target variable, either `fired` or `promoted` or `ok`.
 #' }
 #'
-#' @aliases HRTest
+#' @aliases HRTest HR_test
 #' @docType data
 #' @keywords HR
 #' @name HR

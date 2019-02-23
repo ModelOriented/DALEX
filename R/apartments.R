@@ -14,10 +14,12 @@
 #' \item construction.date - construction year
 #' }
 #'
-#' @aliases apartmentsTest
+#' @aliases apartments_test apartmentsTest
 #' @docType data
 #' @keywords apartments
 #' @name apartments
 #' @usage data(apartments)
 #' @format a data frame with 1000 rows and 6 columns
 NULL
+
+

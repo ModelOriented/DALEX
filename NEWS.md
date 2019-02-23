@@ -1,3 +1,7 @@
+DALEX 0.2.7
+----------------------------------------------------------------
+* Test datasets are now named `apartments_test` and `HR_test`
+
 DALEX 0.2.6
 ----------------------------------------------------------------
 * New versions of `yhat` for `ranger` and `svm` models.
@@ -8,6 +12,7 @@ DALEX 0.2.5
 * The defaults of `single_prediction()` are now consistent with `breakDown::broken()`. Specifically, `baseline` is now `0` by default instead of `"Intercept"`. The user can also specify the `baseline` and other arguments by passing them to `single_prediction` (@kevinykuo, [#39](https://github.com/pbiecek/DALEX/issues/39)). **WARNING:** Change in the default value of `baseline`.
 * New `yhat.*` functions help to handle additional parameters to different `predict()` functions.
 * Updated `CITATION` info
+
 
 DALEX 0.2.4
 ----------------------------------------------------------------
