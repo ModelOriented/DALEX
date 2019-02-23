@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Human Resources Data — HR • DALEX</title>
+<title>Dragon Data — dragons • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -48,7 +48,7 @@
 	  <a class = "navbar-mi2logo" href="http://mi2.mini.pw.edu.pl/">
         <img src = "https://github.com/mi2-warsaw/MI2template/blob/master/inst/pkgdown/assets/MI2logo.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
 	  </a>
-      <a class="navbar-brand navbar-mi2" href="../index.html">Human Resources Data</a>
+      <a class="navbar-brand navbar-mi2" href="../index.html">Dragon Data</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="navbar-mi2 nav navbar-nav">
@@ -79,34 +79,34 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Human Resources Data</h1>
+    <h1>Dragon Data</h1>
     </div>
 
     
-    <p>Datasets <code>HR</code> and <code>HR_test</code> are artificial, generated form the same model.
-Structure of the dataset is based on a real data, from Human Resources department with
-information which employees were promoted, which were fired.</p>
+    <p>Datasets <code>dragons</code> and <code>dragons_test</code> are artificial, generated form the same ground truth model, 
+but with sometimes different data distridution.</p>
     
 
-    <pre class="usage"><span class='fu'>data</span>(<span class='no'>HR</span>)</pre>
+    <pre class="usage"><span class='fu'>data</span>(<span class='no'>dragons</span>)</pre>
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>a data frame with 10000 rows and 6 columns</p>
+    <p>a data frame with 2000 rows and 8 columns</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Values are generated in a way to:
-- have interaction between age and gender for the 'fired' variable
-- have non monotonic relation for the salary variable
-- have linear effects for hours and evaluation.</p>
+- have nonlinearity in year_of_birth and height
+- have concept drift in the test set</p>
 <ul>
-<li><p>gender - gender of an employee.</p></li>
-<li><p>age - gender of an employee in the moment of evaluation.</p></li>
-<li><p>hours - average number of working hours per week.</p></li>
-<li><p>evaluation - evaluation in the scale 2 (bad) - 5 (very good).</p></li>
-<li><p>salary - level of salary in the scale 0 (lowest) - 5 (highest).</p></li>
-<li><p>status - target variable, either `fired` or `promoted` or `ok`.</p></li>
+<li><p>year_of_birth - year in which the dragon was born. Negative year means year BC, eg: -1200 = 1201 BC</p></li>
+<li><p>year_of_discovery - year in which the dragon was found.</p></li>
+<li><p>height - height of the dragon in yards.</p></li>
+<li><p>weight - weight of the dragon in tons.</p></li>
+<li><p>scars - number of scars.</p></li>
+<li><p>colour - colour of the dragon.</p></li>
+<li><p>number_of_lost_teeth - number of teeth that the dragon lost.</p></li>
+<li><p>life_length - life length of the dragon.</p></li>
 </ul>
     
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Loss from Variable Dropout — variable_dropout • DALEX</title>
+<title>#' @export — variable_dropout • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -23,8 +23,6 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -50,7 +48,7 @@
 	  <a class = "navbar-mi2logo" href="http://mi2.mini.pw.edu.pl/">
         <img src = "https://github.com/mi2-warsaw/MI2template/blob/master/inst/pkgdown/assets/MI2logo.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
 	  </a>
-      <a class="navbar-brand navbar-mi2" href="../index.html">DALEX</a>
+      <a class="navbar-brand navbar-mi2" href="../index.html">#' @export</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="navbar-mi2 nav navbar-nav">
@@ -63,20 +61,8 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/DALEX_and_xgboost.html">How to use DALEX with the xgboost models</a>
-    </li>
-  </ul>
-</li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -93,128 +79,22 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Loss from Variable Dropout</h1>
+    <h1>#' @export</h1>
     </div>
 
     
-    <p>Loss from Variable Dropout</p>
+    <p>#' @export</p>
     
 
-    <pre class="usage"><span class='fu'>variable_dropout</span>(<span class='no'>explainer</span>, <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>)
-  <span class='fu'>sum</span>((<span class='no'>observed</span> - <span class='no'>predicted</span>)^<span class='fl'>2</span>), <span class='no'>...</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>, <span class='kw'>n_sample</span> <span class='kw'>=</span> <span class='fl'>1000</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>explainer</th>
-      <td><p>a model to be explained, preprocessed by the 'explain' function</p></td>
-    </tr>
-    <tr>
-      <th>loss_function</th>
-      <td><p>a function thet will be used to assess variable importance</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>other parameters</p></td>
-    </tr>
-    <tr>
-      <th>type</th>
-      <td><p>character, type of transformation that should be applied for dropout loss. 'raw' results raw drop lossess, 'ratio' returns <code>drop_loss/drop_loss_full_model</code> while 'difference' returns <code>drop_loss - drop_loss_full_model</code></p></td>
-    </tr>
-    <tr>
-      <th>n_sample</th>
-      <td><p>number of observations that should be sampled for calculations of variable leverages</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <pre class="usage"><span class='fu'>variable_dropout</span>(<span class='no'>explainer</span>, <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='no'>loss_sum_of_squares</span>, <span class='no'>...</span>,
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>, <span class='kw'>n_sample</span> <span class='kw'>=</span> <span class='fl'>1000</span>)</pre>
+        
 
-    <p>An object of the class 'variable_leverage_explainer'.
-It's a data frame with calculated average response.</p>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>#\dontrun{</span>
-<span class='fu'>library</span>(<span class='st'>"breakDown"</span>)
-<span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
-<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>left</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR_data</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR_data</span>$<span class='no'>left</span>)
-<span class='no'>vd_rf</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_importance</span>(<span class='no'>explainer_rf</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)
-<span class='no'>vd_rf</span></div><div class='output co'>#&gt;                 variable dropout_loss        label
-#&gt; 1           _full_model_     3.410130 randomForest
-#&gt; 2                   left     3.410130 randomForest
-#&gt; 3  promotion_last_5years     3.427143 randomForest
-#&gt; 4          Work_accident     5.308898 randomForest
-#&gt; 5                 salary     5.651584 randomForest
-#&gt; 6                  sales     9.093774 randomForest
-#&gt; 7     time_spend_company    71.429207 randomForest
-#&gt; 8   average_montly_hours    88.344376 randomForest
-#&gt; 9        last_evaluation    99.579821 randomForest
-#&gt; 10        number_project   103.405347 randomForest
-#&gt; 11    satisfaction_level   172.231179 randomForest
-#&gt; 12            _baseline_   347.205939 randomForest</div><div class='input'>
-<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>left</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
-<span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR_data</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR_data</span>$<span class='no'>left</span>)
-<span class='no'>logit</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'>exp</span>(<span class='no'>x</span>)/(<span class='fl'>1</span>+<span class='fu'>exp</span>(<span class='no'>x</span>))
-<span class='no'>vd_glm</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_importance</span>(<span class='no'>explainer_glm</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>,
-                        <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>)
-                                     <span class='fu'>sum</span>((<span class='no'>observed</span> - <span class='fu'>logit</span>(<span class='no'>predicted</span>))^<span class='fl'>2</span>))
-<span class='no'>vd_glm</span></div><div class='output co'>#&gt;                 variable dropout_loss label
-#&gt; 1           _full_model_     140.6629    lm
-#&gt; 2        last_evaluation     139.1849    lm
-#&gt; 3                   left     140.6629    lm
-#&gt; 4   average_montly_hours     141.0377    lm
-#&gt; 5  promotion_last_5years     141.6833    lm
-#&gt; 6                  sales     143.1762    lm
-#&gt; 7     time_spend_company     149.4197    lm
-#&gt; 8          Work_accident     150.2034    lm
-#&gt; 9         number_project     152.4859    lm
-#&gt; 10                salary     152.8655    lm
-#&gt; 11    satisfaction_level     202.0484    lm
-#&gt; 12            _baseline_     225.7262    lm</div><div class='input'>
-<span class='fu'>library</span>(<span class='st'>"xgboost"</span>)
-<span class='no'>model_martix_train</span> <span class='kw'>&lt;-</span> <span class='fu'>model.matrix</span>(<span class='no'>left</span>~<span class='no'>.</span>-<span class='fl'>1</span>, <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>)
-<span class='no'>data_train</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/xgboost/topics/xgb.DMatrix'>xgb.DMatrix</a></span>(<span class='no'>model_martix_train</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>$<span class='no'>left</span>)
-<span class='no'>param</span> <span class='kw'>&lt;-</span> <span class='fu'>list</span>(<span class='kw'>max_depth</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>eta</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>silent</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>nthread</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-              <span class='kw'>objective</span> <span class='kw'>=</span> <span class='st'>"binary:logistic"</span>, <span class='kw'>eval_metric</span> <span class='kw'>=</span> <span class='st'>"auc"</span>)
-<span class='no'>HR_xgb_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/xgboost/topics/xgb.train'>xgb.train</a></span>(<span class='no'>param</span>, <span class='no'>data_train</span>, <span class='kw'>nrounds</span> <span class='kw'>=</span> <span class='fl'>50</span>)
-<span class='no'>explainer_xgb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_xgb_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>model_martix_train</span>,
-                     <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR_data</span>$<span class='no'>left</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"xgboost"</span>)
-<span class='no'>vd_xgb</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_importance</span>(<span class='no'>explainer_xgb</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)
-<span class='no'>vd_xgb</span></div><div class='output co'>#&gt;                 variable dropout_loss   label
-#&gt; 1           _full_model_     16.72423 xgboost
-#&gt; 2         salestechnical     16.09381 xgboost
-#&gt; 3           salarymedium     16.32211 xgboost
-#&gt; 4       salesproduct_mng     16.56851 xgboost
-#&gt; 5                saleshr     16.67714 xgboost
-#&gt; 6           salessupport     16.68060 xgboost
-#&gt; 7        salesaccounting     16.72423 xgboost
-#&gt; 8                salesIT     16.72423 xgboost
-#&gt; 9        salesmanagement     16.72423 xgboost
-#&gt; 10        salesmarketing     16.72423 xgboost
-#&gt; 11            salesRandD     16.75925 xgboost
-#&gt; 12            salessales     16.80109 xgboost
-#&gt; 13 promotion_last_5years     17.13410 xgboost
-#&gt; 14         Work_accident     17.48615 xgboost
-#&gt; 15             salarylow     17.83307 xgboost
-#&gt; 16        number_project     42.37062 xgboost
-#&gt; 17  average_montly_hours     43.87100 xgboost
-#&gt; 18       last_evaluation     44.52705 xgboost
-#&gt; 19    time_spend_company     69.81988 xgboost
-#&gt; 20    satisfaction_level    151.38285 xgboost
-#&gt; 21            _baseline_    351.79178 xgboost</div><div class='input'>#}
-
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>
@@ -233,3 +113,4 @@ It's a data frame with calculated average response.</p>
 
   </body>
 </html>
+

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Human Resources Data — HR • DALEX</title>
+<title>Preimplemented Loss Functions — loss_sum_of_squares • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -48,7 +48,7 @@
 	  <a class = "navbar-mi2logo" href="http://mi2.mini.pw.edu.pl/">
         <img src = "https://github.com/mi2-warsaw/MI2template/blob/master/inst/pkgdown/assets/MI2logo.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
 	  </a>
-      <a class="navbar-brand navbar-mi2" href="../index.html">Human Resources Data</a>
+      <a class="navbar-brand navbar-mi2" href="../index.html">Preimplemented Loss Functions</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="navbar-mi2 nav navbar-nav">
@@ -79,46 +79,51 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Human Resources Data</h1>
+    <h1>Preimplemented Loss Functions</h1>
     </div>
 
     
-    <p>Datasets <code>HR</code> and <code>HR_test</code> are artificial, generated form the same model.
-Structure of the dataset is based on a real data, from Human Resources department with
-information which employees were promoted, which were fired.</p>
+    <p>Preimplemented Loss Functions</p>
     
 
-    <pre class="usage"><span class='fu'>data</span>(<span class='no'>HR</span>)</pre>
-        
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>a data frame with 10000 rows and 6 columns</p>
+    <pre class="usage"><span class='fu'>loss_sum_of_squares</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>)</pre>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>observed</th>
+      <td><p>observed scores or labels, these are supplied as explainer specific `y`</p></td>
+    </tr>
+    <tr>
+      <th>predicted</th>
+      <td><p>predicted scores, either vector of matrix, these are returned from the model specific `predict_function()``</p></td>
+    </tr>
+    <tr>
+      <th>p_min</th>
+      <td><p>for cross entropy, minimal value for probability to make sure that `log` will not explode</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Values are generated in a way to:
-- have interaction between age and gender for the 'fired' variable
-- have non monotonic relation for the salary variable
-- have linear effects for hours and evaluation.</p>
-<ul>
-<li><p>gender - gender of an employee.</p></li>
-<li><p>age - gender of an employee in the moment of evaluation.</p></li>
-<li><p>hours - average number of working hours per week.</p></li>
-<li><p>evaluation - evaluation in the scale 2 (bad) - 5 (very good).</p></li>
-<li><p>salary - level of salary in the scale 0 (lowest) - 5 (highest).</p></li>
-<li><p>status - target variable, either `fired` or `promoted` or `ok`.</p></li>
-</ul>
+    <p>numeric - value of the loss function</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'> </div><div class='input'><span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
+<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>status</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)
+<span class='fu'>loss_cross_entropy</span>(<span class='no'>HR</span>$<span class='no'>status</span>, <span class='fu'><a href='yhat.html'>yhat</a></span>(<span class='no'>HR_rf_model</span>))</div><div class='output co'>#&gt; [1] 5751.673</div><div class='input'> </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#format">Format</a></li>
-
-      <li><a href="#details">Details</a></li>
-          </ul>
+      <li><a href="#value">Value</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

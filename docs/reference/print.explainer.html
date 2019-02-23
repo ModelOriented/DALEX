@@ -120,21 +120,13 @@
 #&gt;   quality
 #&gt; 1       6
 #&gt; 2       6</div><div class='input'>
- </div><div class='input'><span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
+ </div><span class='co'># NOT RUN {</span>
+<span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
 <span class='no'>wine_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
 <span class='no'>wine_rf_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>wine_rf_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_rf"</span>)
-<span class='no'>wine_rf_explainer4</span></div><div class='output co'>#&gt; Model label:  model_rf 
-#&gt; Model class:  randomForest.formula,randomForest 
-#&gt; Data head  :
-#&gt;   fixed.acidity volatile.acidity citric.acid residual.sugar chlorides
-#&gt; 1           7.0             0.27        0.36           20.7     0.045
-#&gt; 2           6.3             0.30        0.34            1.6     0.049
-#&gt;   free.sulfur.dioxide total.sulfur.dioxide density  pH sulphates alcohol
-#&gt; 1                  45                  170   1.001 3.0      0.45     8.8
-#&gt; 2                  14                  132   0.994 3.3      0.49     9.5
-#&gt;   quality
-#&gt; 1       6
-#&gt; 2       6</div><div class='input'> </div><div class='input'>
+<span class='no'>wine_rf_explainer4</span>
+
+<span class='co'># }</span><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
