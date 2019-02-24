@@ -2,11 +2,19 @@ language: R
 sudo: false
 cache: packages
 dist: trusty
+
+addons:
+  apt:
+    packages:
+      - libudunits2-dev
+
 env:
   global:
   - R_CHECK_ARGS="--no-build-vignettes --no-manual --timings"
+
 notifications:
   email: false
+
 r_packages:
   - archivist
   - pdp
