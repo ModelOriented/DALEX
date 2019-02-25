@@ -101,20 +101,28 @@ yhat.lm <- function(X.model, newdata, ...) {
 #' @export
 yhat.randomForest <- function(X.model, newdata, ...) {
   if (X.model$type == "classification") {
-    predict(X.model, newdata, type = "prob", ...)
+    pred <- predict(X.model, newdata, type = "prob", ...)
+    if (ncol(pred) == 2) { # binary classification
+      pred <- pred[,2]
+    }
   } else {
-    predict(X.model, newdata, ...)
+    pred <- predict(X.model, newdata, ...)
   }
+  pred
 }
 
 #' @rdname yhat
 #' @export
 yhat.svm <- function(X.model, newdata, ...) {
   if (X.model$type == 0) {
-    attr(predict(X.model, newdata = newdata, probability = TRUE), "probabilities")
+    pred <- attr(predict(X.model, newdata = newdata, probability = TRUE), "probabilities")
+    if (ncol(pred) == 2) { # binary classification
+      pred <- pred[,2]
+    }
   } else {
-    predict(X.model, newdata, ...)
+    pred <- predict(X.model, newdata, ...)
   }
+  pred
 }
 
 #' @rdname yhat
@@ -128,11 +136,15 @@ yhat.glm <- function(X.model, newdata, ...) {
 #' @export
 yhat.ranger <- function(X.model, newdata, ...) {
   if (X.model$treetype == "Regression") {
-    predict(X.model, newdata, ...)$predictions
+    pred <- predict(X.model, newdata, ...)$predictions
   } else {
     # please note, that probability=TRUE should be set during training
-    predict(X.model, newdata, ..., probability = TRUE)$predictions
+    pred <- predict(X.model, newdata, ..., probability = TRUE)$predictions
+    if (ncol(pred) == 2) { # binary classification
+      pred <- pred[,2]
+    }
   }
+  pred
 }
 
 #' @rdname yhat
