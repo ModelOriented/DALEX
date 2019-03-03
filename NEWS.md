@@ -1,7 +1,7 @@
 DALEX 0.2.7
 ----------------------------------------------------------------
 * Test datasets are now named `apartments_test` and `HR_test`
-* For binary classification we return just a second column
+* For binary classification we return just a second column. NOTE: this may cause some unexpected problems with code dependend on defaults for DALEX 0.2.6.
 
 DALEX 0.2.6
 ----------------------------------------------------------------
