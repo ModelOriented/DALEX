@@ -84,12 +84,24 @@
     </div>
 
     <div class="contents">
+    <div id="dalex-0-2-8" class="section level2">
+<h2 class="hasAnchor">
+<a href="#dalex-0-2-8" class="anchor"></a>DALEX 0.2.8</h2>
+<ul>
+<li>
+<code>DALEX</code> is being prepared for tight integration with <code>iBreakDown</code> and <code>ingredients</code>
+</li>
+<li>temporarly there is a duplicated <code>single_variable</code> and <code>single_feature</code>
+</li>
+</ul>
+</div>
     <div id="dalex-0-2-7" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dalex-0-2-7" class="anchor"></a>DALEX 0.2.7</h2>
 <ul>
 <li>Test datasets are now named <code>apartments_test</code> and <code>HR_test</code>
 </li>
+<li>For binary classification we return just a second column. NOTE: this may cause some unexpected problems with code dependend on defaults for DALEX 0.2.6.</li>
 </ul>
 </div>
     <div id="dalex-0-2-6" class="section level2">
@@ -103,9 +115,9 @@
 <h2 class="hasAnchor">
 <a href="#dalex-0-2-5" class="anchor"></a>DALEX 0.2.5</h2>
 <ul>
-<li>Residual distribution plots for model performance are now more legible when multiple models are plotted. The styling of plot and axis titles have also been improved (<a href='http://github.com/kevinykuo'>@kevinykuo</a>).</li>
-<li>The defaults of <code><a href="../reference/prediction_breakdown.html">single_prediction()</a></code> are now consistent with <code><a href="http://www.rdocumentation.org/packages/breakDown/topics/broken">breakDown::broken()</a></code>. Specifically, <code>baseline</code> is now <code>0</code> by default instead of <code>"Intercept"</code>. The user can also specify the <code>baseline</code> and other arguments by passing them to <code>single_prediction</code> (<a href='http://github.com/kevinykuo'>@kevinykuo</a>, <a href="https://github.com/pbiecek/DALEX/issues/39">#39</a>). <strong>WARNING:</strong> Change in the default value of <code>baseline</code>.</li>
-<li>New <code>yhat.*</code> functions help to handle additional parameters to different <code>predict()</code> functions.</li>
+<li>Residual distribution plots for model performance are now more legible when multiple models are plotted. The styling of plot and axis titles have also been improved (<a href='https://github.com/kevinykuo'>@kevinykuo</a>).</li>
+<li>The defaults of <code><a href="../reference/prediction_breakdown.html">single_prediction()</a></code> are now consistent with <code><a href="https://www.rdocumentation.org/packages/breakDown/topics/broken">breakDown::broken()</a></code>. Specifically, <code>baseline</code> is now <code>0</code> by default instead of <code>"Intercept"</code>. The user can also specify the <code>baseline</code> and other arguments by passing them to <code>single_prediction</code> (<a href='https://github.com/kevinykuo'>@kevinykuo</a>, <a href="https://github.com/pbiecek/DALEX/issues/39">#39</a>). <strong>WARNING:</strong> Change in the default value of <code>baseline</code>.</li>
+<li>New <code>yhat.*</code> functions help to handle additional parameters to different <code><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict()</a></code> functions.</li>
 <li>Updated <code>CITATION</code> info</li>
 </ul>
 </div>
@@ -189,6 +201,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked contents-mi2">
+        <li><a href="#dalex-0-2-8">0.2.8</a></li>
         <li><a href="#dalex-0-2-7">0.2.7</a></li>
         <li><a href="#dalex-0-2-6">0.2.6</a></li>
         <li><a href="#dalex-0-2-5">0.2.5</a></li>

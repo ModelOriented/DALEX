@@ -132,10 +132,10 @@ Please note that the argument <code>type</code> must be set to <code>'factor'</c
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='st'>"breakDown"</span>)
-<span class='no'>logit</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'>exp</span>(<span class='no'>x</span>)/(<span class='fl'>1</span>+<span class='fu'>exp</span>(<span class='no'>x</span>))
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"breakDown"</span>)
+<span class='no'>logit</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>exp</a></span>(<span class='no'>x</span>)/(<span class='fl'>1</span>+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>exp</a></span>(<span class='no'>x</span>))
 
-<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>left</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
+<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></span>(<span class='no'>left</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR_data</span>, <span class='kw'>trans</span><span class='kw'>=</span><span class='no'>logit</span>)
 <span class='no'>expl_glm</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_response</span>(<span class='no'>explainer_glm</span>, <span class='st'>"satisfaction_level"</span>, <span class='st'>"pdp"</span>)
 <span class='no'>expl_glm</span></div><div class='output co'>#&gt;         x            y                var type label
@@ -190,18 +190,65 @@ Please note that the argument <code>type</code> must be set to <code>'factor'</c
 #&gt; 49 0.9636 0.061510.... satisfaction_level  pdp    lm
 #&gt; 50 0.9818 0.057461.... satisfaction_level  pdp    lm
 #&gt; 51 1.0000 0.053655.... satisfaction_level  pdp    lm</div><div class='input'>
- </div><span class='co'># NOT RUN {</span>
-<span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
-<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='fu'>factor</span>(<span class='no'>left</span>)~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)
+ </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"randomForest"</span>)
+<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='no'>left</span>)~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)
 <span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR_data</span>,
                        <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>model</span>, <span class='no'>x</span>)
-                              <span class='fu'>predict</span>(<span class='no'>model</span>, <span class='no'>x</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>)[,<span class='fl'>2</span>])
+                              <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>model</span>, <span class='no'>x</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>)[,<span class='fl'>2</span>])
 <span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'>variable_response</span>(<span class='no'>explainer_rf</span>, <span class='kw'>variable</span> <span class='kw'>=</span> <span class='st'>"satisfaction_level"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>,
                        <span class='kw'>which.class</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>expl_rf</span>
-<span class='fu'>plot</span>(<span class='no'>expl_rf</span>)
-
-<span class='co'># }</span><div class='input'>
+<span class='no'>expl_rf</span></div><div class='output co'>#&gt;         x            y                var type        label
+#&gt; 1  0.0900 0.765985.... satisfaction_level  pdp randomForest
+#&gt; 2  0.1082 0.732266.... satisfaction_level  pdp randomForest
+#&gt; 3  0.1264 0.134256.... satisfaction_level  pdp randomForest
+#&gt; 4  0.1446 0.129671.... satisfaction_level  pdp randomForest
+#&gt; 5  0.1628 0.090168.... satisfaction_level  pdp randomForest
+#&gt; 6  0.1810 0.078671.... satisfaction_level  pdp randomForest
+#&gt; 7  0.1992 0.079713.... satisfaction_level  pdp randomForest
+#&gt; 8  0.2174 0.073780.... satisfaction_level  pdp randomForest
+#&gt; 9  0.2356 0.074758.... satisfaction_level  pdp randomForest
+#&gt; 10 0.2538 0.081429.... satisfaction_level  pdp randomForest
+#&gt; 11 0.2720 0.083642.... satisfaction_level  pdp randomForest
+#&gt; 12 0.2902 0.089907.... satisfaction_level  pdp randomForest
+#&gt; 13 0.3084 0.138189.... satisfaction_level  pdp randomForest
+#&gt; 14 0.3266 0.128779.... satisfaction_level  pdp randomForest
+#&gt; 15 0.3448 0.137538.... satisfaction_level  pdp randomForest
+#&gt; 16 0.3630 0.193261.... satisfaction_level  pdp randomForest
+#&gt; 17 0.3812 0.182338.... satisfaction_level  pdp randomForest
+#&gt; 18 0.3994 0.177979.... satisfaction_level  pdp randomForest
+#&gt; 19 0.4176 0.191056.... satisfaction_level  pdp randomForest
+#&gt; 20 0.4358 0.185334.... satisfaction_level  pdp randomForest
+#&gt; 21 0.4540 0.188454.... satisfaction_level  pdp randomForest
+#&gt; 22 0.4722 0.096159.... satisfaction_level  pdp randomForest
+#&gt; 23 0.4904 0.055749.... satisfaction_level  pdp randomForest
+#&gt; 24 0.5086 0.053122.... satisfaction_level  pdp randomForest
+#&gt; 25 0.5268 0.049888.... satisfaction_level  pdp randomForest
+#&gt; 26 0.5450 0.052142.... satisfaction_level  pdp randomForest
+#&gt; 27 0.5632 0.049254.... satisfaction_level  pdp randomForest
+#&gt; 28 0.5814 0.048687.... satisfaction_level  pdp randomForest
+#&gt; 29 0.5996 0.047153.... satisfaction_level  pdp randomForest
+#&gt; 30 0.6178 0.047654.... satisfaction_level  pdp randomForest
+#&gt; 31 0.6360 0.048213.... satisfaction_level  pdp randomForest
+#&gt; 32 0.6542 0.049479.... satisfaction_level  pdp randomForest
+#&gt; 33 0.6724 0.054636.... satisfaction_level  pdp randomForest
+#&gt; 34 0.6906 0.057403.... satisfaction_level  pdp randomForest
+#&gt; 35 0.7088 0.070821.... satisfaction_level  pdp randomForest
+#&gt; 36 0.7270 0.098657.... satisfaction_level  pdp randomForest
+#&gt; 37 0.7452 0.097451.... satisfaction_level  pdp randomForest
+#&gt; 38 0.7634 0.097893.... satisfaction_level  pdp randomForest
+#&gt; 39 0.7816 0.102814.... satisfaction_level  pdp randomForest
+#&gt; 40 0.7998 0.101176.... satisfaction_level  pdp randomForest
+#&gt; 41 0.8180 0.098232.... satisfaction_level  pdp randomForest
+#&gt; 42 0.8362 0.097341.... satisfaction_level  pdp randomForest
+#&gt; 43 0.8544 0.100839.... satisfaction_level  pdp randomForest
+#&gt; 44 0.8726 0.096451.... satisfaction_level  pdp randomForest
+#&gt; 45 0.8908 0.100276.... satisfaction_level  pdp randomForest
+#&gt; 46 0.9090 0.093049.... satisfaction_level  pdp randomForest
+#&gt; 47 0.9272 0.064401.... satisfaction_level  pdp randomForest
+#&gt; 48 0.9454 0.059015.... satisfaction_level  pdp randomForest
+#&gt; 49 0.9636 0.058050.... satisfaction_level  pdp randomForest
+#&gt; 50 0.9818 0.058050.... satisfaction_level  pdp randomForest
+#&gt; 51 1.0000 0.058050.... satisfaction_level  pdp randomForest</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='variable_response-1.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

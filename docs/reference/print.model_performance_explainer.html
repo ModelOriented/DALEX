@@ -87,7 +87,7 @@
     
 
     <pre class="usage"><span class='co'># S3 method for model_performance_explainer</span>
-<span class='fu'>print</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -104,16 +104,16 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'> </div><span class='co'># NOT RUN {</span>
-<span class='fu'>library</span>(<span class='st'>"breakDown"</span>)
-<span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
-<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>left</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)
-<span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR_data</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR_data</span>$<span class='no'>left</span>)
+    <pre class="examples"><div class='input'> </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"breakDown"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"randomForest"</span>)
+<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>left</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>breakDown</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/breakDown/topics/HR_data'>HR_data</a></span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR_data</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR_data</span>$<span class='no'>left</span>)
 <span class='no'>mp_ex_rf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_rf</span>)
-<span class='no'>mp_ex_rf</span>
-<span class='fu'>plot</span>(<span class='no'>mp_ex_rf</span>)
-
-<span class='co'># }</span><div class='input'>
+<span class='no'>mp_ex_rf</span></div><div class='output co'>#&gt;            0%           10%           20%           30%           40% 
+#&gt; -6.739512e-01 -1.230000e-03 -2.202960e-15 -1.764588e-15 -1.277312e-15 
+#&gt;           50%           60%           70%           80%           90% 
+#&gt;  1.043610e-14  6.021409e-04  5.000000e-03  1.046657e-02  2.400000e-02 
+#&gt;          100% 
+#&gt;  7.140928e-01 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>mp_ex_rf</span>)</div><div class='img'><img src='print.model_performance_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

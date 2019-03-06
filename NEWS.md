@@ -1,3 +1,8 @@
+DALEX 0.2.8
+----------------------------------------------------------------
+* `DALEX` is being prepared for tight integration with `iBreakDown` and `ingredients`
+* temporarly there is a duplicated `single_variable` and `single_feature`
+
 DALEX 0.2.7
 ----------------------------------------------------------------
 * Test datasets are now named `apartments_test` and `HR_test`
