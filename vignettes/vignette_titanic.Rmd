@@ -30,6 +30,7 @@ titanic <- titanic_train[,c("Survived", "Pclass", "Sex", "Age", "SibSp", "Parch"
 titanic$Survived <- factor(titanic$Survived)
 titanic$Sex <- factor(titanic$Sex)
 titanic$Embarked <- factor(titanic$Embarked)
+levels(titanic$Embarked)[1] = "N"
 titanic <- na.omit(titanic)
 head(titanic)
 ```
@@ -97,6 +98,15 @@ Very cheap tickets are linked with lower chances.
 ```{r}
 vr_fare  <- variable_response(rf_explain, variable =  "Fare")
 plot(vr_fare, use_facets = TRUE)
+```
+
+## Embarked
+
+Passangers that embarked from C have highest survival.
+
+```{r}
+vr_embarked  <- variable_response(rf_explain, variable =  "Embarked")
+plot(vr_embarked)
 ```
 
 # Instance level explanations

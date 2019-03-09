@@ -46,7 +46,7 @@
 #' vd_xgb
 #' plot(vd_xgb)
 #'
-#' plot(vd_rf, vd_glm, vd_xgb)
+#' plot(vd_rf, vd_glm, vd_xgb, bar_width = 4)
 #'
 #' # NOTE:
 #' # if you like to have all importances hooked to 0, you can do this as well
@@ -55,7 +55,7 @@
 #'                         loss_function = function(observed, predicted)
 #'                                    sum((observed - logit(predicted))^2))
 #' vd_xgb <- variable_importance(explainer_xgb, type = "difference")
-#' plot(vd_rf, vd_glm, vd_xgb)
+#' plot(vd_rf, vd_glm, vd_xgb, bar_width = 4)
 #'  }
 #'
 plot.variable_importance_explainer <- function(x, ..., max_vars = 10, bar_width = 10, show_baseline = FALSE) {

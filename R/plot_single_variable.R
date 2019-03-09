@@ -75,13 +75,13 @@ plot.variable_response_factor_explainer <- function(x, ...) {
                          clusterSplit = clusterSplit,
                          palette = NULL,
                          panelGrid = FALSE) +
-        scale_x_continuous("", breaks=NULL)
+        scale_x_continuous("", breaks = NULL)
     responsePlot <- plotResponse(fm, "boxplot", TRUE, clusterSplit, NULL) +
       ggtitle("Partial Group Predictions")
-    ggarrange(mergingPathPlot, responsePlot,
-              ncol = 2,  align = "h", widths = c(2, 1))
+    ggarrange(mergingPathPlot,
+              ncol = 1,  align = "h", widths = c(2))
   })
-  ggarrange(plotlist = all_plots, ncol = 1, nrow = length(all_plots)) + theme_mi2()
+  ggarrange(plotlist = all_plots, ncol = 1, nrow = length(all_plots)) + theme_void()
 }
 
 plot.variable_response_numeric_explainer <- function(x, ..., use_facets = FALSE) {

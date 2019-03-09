@@ -88,8 +88,9 @@
 <a class="sourceLine" id="cb1-3" data-line-number="3">titanic<span class="op">$</span>Survived &lt;-<span class="st"> </span><span class="kw">factor</span>(titanic<span class="op">$</span>Survived)</a>
 <a class="sourceLine" id="cb1-4" data-line-number="4">titanic<span class="op">$</span>Sex &lt;-<span class="st"> </span><span class="kw">factor</span>(titanic<span class="op">$</span>Sex)</a>
 <a class="sourceLine" id="cb1-5" data-line-number="5">titanic<span class="op">$</span>Embarked &lt;-<span class="st"> </span><span class="kw">factor</span>(titanic<span class="op">$</span>Embarked)</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6">titanic &lt;-<span class="st"> </span><span class="kw">na.omit</span>(titanic)</a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw">head</span>(titanic)</a></code></pre></div>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">levels</span>(titanic<span class="op">$</span>Embarked)[<span class="dv">1</span>] =<span class="st"> "N"</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">titanic &lt;-<span class="st"> </span><span class="kw">na.omit</span>(titanic)</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw">head</span>(titanic)</a></code></pre></div>
 <pre><code>#&gt;   Survived Pclass    Sex Age SibSp Parch    Fare Embarked
 #&gt; 1        0      3   male  22     1     0  7.2500        S
 #&gt; 2        1      1 female  38     1     0 71.2833        C
@@ -113,11 +114,11 @@
 #&gt;                      Number of trees: 500
 #&gt; No. of variables tried at each split: 2
 #&gt; 
-#&gt;         OOB estimate of  error rate: 18.77%
+#&gt;         OOB estimate of  error rate: 19.05%
 #&gt; Confusion matrix:
 #&gt;     0   1 class.error
-#&gt; 0 379  45   0.1061321
-#&gt; 1  89 201   0.3068966</code></pre>
+#&gt; 0 381  43   0.1014151
+#&gt; 1  93 197   0.3206897</code></pre>
 </div>
 <div id="explainer-for-titanic-survival" class="section level1">
 <h1 class="hasAnchor">
@@ -135,11 +136,11 @@
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">head</span>(vi_rf)</a></code></pre></div>
 <pre><code>#&gt;       variable dropout_loss            label
 #&gt; 1 _full_model_      0.00000 Random Forest v7
-#&gt; 2        Parch     14.02689 Random Forest v7
-#&gt; 3     Embarked     16.20019 Random Forest v7
-#&gt; 4        SibSp     17.52728 Random Forest v7
-#&gt; 5          Age     56.07103 Random Forest v7
-#&gt; 6       Pclass     56.62294 Random Forest v7</code></pre>
+#&gt; 2        Parch     15.13348 Random Forest v7
+#&gt; 3     Embarked     15.18437 Random Forest v7
+#&gt; 4        SibSp     17.93607 Random Forest v7
+#&gt; 5         Fare     46.30548 Random Forest v7
+#&gt; 6          Age     57.57469 Random Forest v7</code></pre>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">plot</span>(vi_rf)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
@@ -155,12 +156,12 @@
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">vr_age  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_response.html">variable_response</a></span>(rf_explain, <span class="dt">variable =</span>  <span class="st">"Age"</span>)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw">head</span>(vr_age)</a></code></pre></div>
 <pre><code>#&gt;        x            y var type            label
-#&gt; 1 0.4200 0.641064.... Age  pdp Random Forest v7
-#&gt; 2 2.0116        0.607 Age  pdp Random Forest v7
-#&gt; 3 3.6032 0.625504.... Age  pdp Random Forest v7
-#&gt; 4 5.1948 0.628568.... Age  pdp Random Forest v7
-#&gt; 5 6.7864 0.576123.... Age  pdp Random Forest v7
-#&gt; 6 8.3780 0.557319.... Age  pdp Random Forest v7</code></pre>
+#&gt; 1 0.4200 0.641047.... Age  pdp Random Forest v7
+#&gt; 2 2.0116 0.613442.... Age  pdp Random Forest v7
+#&gt; 3 3.6032 0.631708.... Age  pdp Random Forest v7
+#&gt; 4 5.1948 0.632498.... Age  pdp Random Forest v7
+#&gt; 5 6.7864 0.576308.... Age  pdp Random Forest v7
+#&gt; 6 8.3780 0.562649.... Age  pdp Random Forest v7</code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">plot</span>(vr_age, <span class="dt">use_facets =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
@@ -180,20 +181,28 @@
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw">plot</span>(vr_fare, <span class="dt">use_facets =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
+<div id="embarked" class="section level2">
+<h2 class="hasAnchor">
+<a href="#embarked" class="anchor"></a>Embarked</h2>
+<p>Passangers that embarked from C have highest survival.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">vr_embarked  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_response.html">variable_response</a></span>(rf_explain, <span class="dt">variable =</span>  <span class="st">"Embarked"</span>)</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw">plot</span>(vr_embarked)</a></code></pre></div>
+<p><img src="vignette_titanic_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+</div>
 </div>
 <div id="instance-level-explanations" class="section level1">
 <h1 class="hasAnchor">
 <a href="#instance-level-explanations" class="anchor"></a>Instance level explanations</h1>
 <p>Let’s see break down for model predictions for 8 years old male from 1st class that embarked from port C.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">new_passanger &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2">  <span class="dt">Pclass =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">  <span class="dt">Sex =</span> <span class="kw">factor</span>(<span class="st">"male"</span>, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">"female"</span>, <span class="st">"male"</span>)),</a>
-<a class="sourceLine" id="cb14-4" data-line-number="4">  <span class="dt">Age =</span> <span class="dv">8</span>,</a>
-<a class="sourceLine" id="cb14-5" data-line-number="5">  <span class="dt">SibSp =</span> <span class="dv">0</span>,</a>
-<a class="sourceLine" id="cb14-6" data-line-number="6">  <span class="dt">Parch =</span> <span class="dv">0</span>,</a>
-<a class="sourceLine" id="cb14-7" data-line-number="7">  <span class="dt">Fare =</span> <span class="dv">72</span>,</a>
-<a class="sourceLine" id="cb14-8" data-line-number="8">  <span class="dt">Embarked =</span> <span class="kw">factor</span>(<span class="st">"C"</span>, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">""</span>,<span class="st">"C"</span>,<span class="st">"Q"</span>,<span class="st">"S"</span>))</a>
-<a class="sourceLine" id="cb14-9" data-line-number="9">)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">new_passanger &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">  <span class="dt">Pclass =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb15-3" data-line-number="3">  <span class="dt">Sex =</span> <span class="kw">factor</span>(<span class="st">"male"</span>, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">"female"</span>, <span class="st">"male"</span>)),</a>
+<a class="sourceLine" id="cb15-4" data-line-number="4">  <span class="dt">Age =</span> <span class="dv">8</span>,</a>
+<a class="sourceLine" id="cb15-5" data-line-number="5">  <span class="dt">SibSp =</span> <span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb15-6" data-line-number="6">  <span class="dt">Parch =</span> <span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb15-7" data-line-number="7">  <span class="dt">Fare =</span> <span class="dv">72</span>,</a>
+<a class="sourceLine" id="cb15-8" data-line-number="8">  <span class="dt">Embarked =</span> <span class="kw">factor</span>(<span class="st">"C"</span>, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">""</span>,<span class="st">"C"</span>,<span class="st">"Q"</span>,<span class="st">"S"</span>))</a>
+<a class="sourceLine" id="cb15-9" data-line-number="9">)</a></code></pre></div>
 </div>
   </div>
 
@@ -211,6 +220,7 @@
 <li><a href="#age">Age</a></li>
       <li><a href="#pclass">Pclass</a></li>
       <li><a href="#fare">Fare</a></li>
+      <li><a href="#embarked">Embarked</a></li>
       </ul>
 </li>
       <li><a href="#instance-level-explanations">Instance level explanations</a></li>
