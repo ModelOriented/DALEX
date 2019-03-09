@@ -99,18 +99,23 @@
     
 
     <pre class="usage"><span class='co'># S3 method for model_feature_response_explainer</span>
-<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='no'>...</span>,
+  <span class='kw'>use_facets</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>a single variable exlainer produced with the 'single_variable' function</p></td>
+      <td><p>a single variable exlainer produced with the 'single_feature' function</p></td>
     </tr>
     <tr>
       <th>...</th>
       <td><p>other explainers that shall be plotted together</p></td>
+    </tr>
+    <tr>
+      <th>use_facets</th>
+      <td><p>logical. If TRUE then separate models are on different facets</p></td>
     </tr>
     </table>
     
@@ -144,40 +149,7 @@
 #&gt; 4 37.69866 0.6289665 hours  pdp randomForest.fired
 #&gt; 5 38.59822 0.6487396 hours  pdp randomForest.fired
 #&gt; 6 39.49777 0.6270932 hours  pdp randomForest.fired</div><div class='input'><span class='fu'>plot</span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='plot.model_feature_response_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'>plot</span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>)</div><div class='img'><img src='plot.model_feature_response_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># Example for factor variable (with factorMerger)</span>
-<span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
-<span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/DALEX/topics/model_feature_response'>model_feature_response</a></span>(<span class='no'>explainer_rf</span>, <span class='kw'>feature</span> <span class='kw'>=</span>  <span class='st'>"gender"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"factor"</span>)
-<span class='fu'>head</span>(<span class='no'>expl_rf</span>)</div><div class='output co'>#&gt; [[1]]
-#&gt; Family: gaussian Factor Merger.
-#&gt; 
-#&gt; Factor levels were merged in the following order:
-#&gt; 
-#&gt; |   |groupA |groupB |     model| pvalVsFull| pvalVsPrevious|
-#&gt; |:--|:------|:------|---------:|----------:|--------------:|
-#&gt; |0  |       |       | -6850.221|      1.000|          1.000|
-#&gt; |1  |male   |female | -6850.276|      0.739|          0.739|
-#&gt; [[2]]
-#&gt; Family: gaussian Factor Merger.
-#&gt; 
-#&gt; Factor levels were merged in the following order:
-#&gt; 
-#&gt; |   |groupA |groupB |     model| pvalVsFull| pvalVsPrevious|
-#&gt; |:--|:------|:------|---------:|----------:|--------------:|
-#&gt; |0  |       |       | -2823.197|     1.0000|         1.0000|
-#&gt; |1  |male   |female | -2823.487|     0.4466|         0.4466|
-#&gt; [[3]]
-#&gt; Family: gaussian Factor Merger.
-#&gt; 
-#&gt; Factor levels were merged in the following order:
-#&gt; 
-#&gt; |   |groupA |groupB |     model| pvalVsFull| pvalVsPrevious|
-#&gt; |:--|:------|:------|---------:|----------:|--------------:|
-#&gt; |0  |       |       | -7142.243|     1.0000|         1.0000|
-#&gt; |1  |female |male   | -7142.653|     0.3654|         0.3654|</div><div class='input'><span class='fu'>plot</span>(<span class='no'>expl_rf</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='img'><img src='plot.model_feature_response_explainer-4.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>)</div><div class='img'><img src='plot.model_feature_response_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot</span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>, <span class='kw'>use_facets</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='plot.model_feature_response_explainer-4.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

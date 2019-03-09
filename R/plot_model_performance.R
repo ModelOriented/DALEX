@@ -57,11 +57,12 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
     df$name <- NULL
     df$name <- rownames(df)
   }
+  nlabels <- length(unique(df$label))
   if (geom == "ecdf") {
     pl <-   ggplot(df, aes(abs(diff), color = label)) +
       stat_ecdf(geom = "step") +
-      theme_mi2() +
-      scale_color_brewer(name = "Model", type = "qual", palette = "Dark2") +
+      theme_drwhy() +
+      scale_color_manual(name = "Model", values = theme_drwhy_colors(nlabels)) +
       xlab(expression(group("|", residual, "|"))) +
       scale_y_continuous(breaks = seq(0,1,0.1),
                          labels = paste(seq(100,0,-10),"%"),
@@ -69,11 +70,11 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
                          name = "") +
       ggtitle(expression(paste("Distribution of ", group("|", residual, "|"))))
   } else {
-    pl <- ggplot(df, aes(x=label, y=abs(diff), fill = label)) +
-      stat_boxplot(alpha=0.4, coef = 1000) +
-      stat_summary(fun.y=lossFunction, geom="point", shape=20, size=10, color="red", fill="red") +
-      theme_mi2() +
-      scale_fill_brewer(name = "Model", type = "qual", palette = "Dark2") +
+    pl <- ggplot(df, aes(x = label, y = abs(diff), fill = label)) +
+      stat_boxplot(alpha = 0.4, coef = 1000) +
+      stat_summary(fun.y = lossFunction, geom="point", shape = 20, size=10, color="red", fill="red") +
+      theme_drwhy_vertical() +
+      scale_fill_manual(name = "Model", values = theme_drwhy_colors(nlabels)) +
       ylab("") + xlab("") +
       ggtitle(
         expression(paste("Boxplots of ", group("|", residual, "|"))),

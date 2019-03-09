@@ -4,12 +4,15 @@
 \alias{plot.model_feature_response_explainer}
 \title{Plots Marginal Model Explanations (Single Variable Responses)}
 \usage{
-\method{plot}{model_feature_response_explainer}(x, ...)
+\method{plot}{model_feature_response_explainer}(x, ...,
+  use_facets = FALSE)
 }
 \arguments{
-\item{x}{a single variable exlainer produced with the 'single_variable' function}
+\item{x}{a single variable exlainer produced with the 'single_feature' function}
 
 \item{...}{other explainers that shall be plotted together}
+
+\item{use_facets}{logical. If TRUE then separate models are on different facets}
 }
 \value{
 a ggplot2 object
@@ -36,12 +39,7 @@ head(expl_rf)
 plot(expl_rf)
 
 plot(expl_rf, expl_glm)
-
-# Example for factor variable (with factorMerger)
-library("randomForest")
-expl_rf  <- model_feature_response(explainer_rf, feature =  "gender", type = "factor")
-head(expl_rf)
-plot(expl_rf)
+plot(expl_rf, expl_glm, use_facets = TRUE)
  }
 
 }
