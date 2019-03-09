@@ -61,6 +61,18 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/vignette_titanic.html">Survival on the RMS Titanic</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -87,7 +99,7 @@
     
 
     <pre class="usage"><span class='co'># S3 method for model_feature_response_explainer</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -108,35 +120,35 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"DALEX"</span>)
+    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='st'>"DALEX"</span>)
 
-<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
+<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)
-<span class='no'>expl_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_feature_response.html'>model_feature_response</a></span>(<span class='no'>explainer_glm</span>, <span class='st'>"hours"</span>, <span class='st'>"pdp"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>expl_glm</span>)</div><div class='output co'>#&gt;          x         y   var type label
+<span class='no'>expl_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/DALEX/topics/model_feature_response'>model_feature_response</a></span>(<span class='no'>explainer_glm</span>, <span class='st'>"hours"</span>, <span class='st'>"pdp"</span>)
+<span class='fu'>head</span>(<span class='no'>expl_glm</span>)</div><div class='output co'>#&gt;          x         y   var type label
 #&gt; 1 35.00000 0.6453431 hours  pdp    lm
 #&gt; 2 35.89955 0.6251385 hours  pdp    lm
 #&gt; 3 36.79911 0.6045067 hours  pdp    lm
 #&gt; 4 37.69866 0.5835110 hours  pdp    lm
 #&gt; 5 38.59822 0.5622188 hours  pdp    lm
-#&gt; 6 39.49777 0.5407016 hours  pdp    lm</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>expl_glm</span>)</div><div class='img'><img src='plot.model_feature_response_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'>
- </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"randomForest"</span>)
-<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>status</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)
+#&gt; 6 39.49777 0.5407016 hours  pdp    lm</div><div class='input'><span class='fu'>plot</span>(<span class='no'>expl_glm</span>)</div><div class='img'><img src='plot.model_feature_response_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'>
+ </div><div class='input'><span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
+<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>status</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)
 <span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)
-<span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='model_feature_response.html'>model_feature_response</a></span>(<span class='no'>explainer_rf</span>, <span class='kw'>feature</span> <span class='kw'>=</span> <span class='st'>"hours"</span>,
+<span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/DALEX/topics/model_feature_response'>model_feature_response</a></span>(<span class='no'>explainer_rf</span>, <span class='kw'>feature</span> <span class='kw'>=</span> <span class='st'>"hours"</span>,
                        <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>expl_rf</span>)</div><div class='output co'>#&gt;          x         y   var type              label
+<span class='fu'>head</span>(<span class='no'>expl_rf</span>)</div><div class='output co'>#&gt;          x         y   var type              label
 #&gt; 1 35.00000 0.5009418 hours  pdp randomForest.fired
 #&gt; 2 35.89955 0.6522722 hours  pdp randomForest.fired
 #&gt; 3 36.79911 0.6398229 hours  pdp randomForest.fired
 #&gt; 4 37.69866 0.6289665 hours  pdp randomForest.fired
 #&gt; 5 38.59822 0.6487396 hours  pdp randomForest.fired
-#&gt; 6 39.49777 0.6270932 hours  pdp randomForest.fired</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='plot.model_feature_response_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>)</div><div class='img'><img src='plot.model_feature_response_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; 6 39.49777 0.6270932 hours  pdp randomForest.fired</div><div class='input'><span class='fu'>plot</span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='plot.model_feature_response_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>)</div><div class='img'><img src='plot.model_feature_response_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Example for factor variable (with factorMerger)</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"randomForest"</span>)
-<span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='model_feature_response.html'>model_feature_response</a></span>(<span class='no'>explainer_rf</span>, <span class='kw'>feature</span> <span class='kw'>=</span>  <span class='st'>"gender"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"factor"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>expl_rf</span>)</div><div class='output co'>#&gt; [[1]]
+<span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
+<span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/DALEX/topics/model_feature_response'>model_feature_response</a></span>(<span class='no'>explainer_rf</span>, <span class='kw'>feature</span> <span class='kw'>=</span>  <span class='st'>"gender"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"factor"</span>)
+<span class='fu'>head</span>(<span class='no'>expl_rf</span>)</div><div class='output co'>#&gt; [[1]]
 #&gt; Family: gaussian Factor Merger.
 #&gt; 
 #&gt; Factor levels were merged in the following order:
@@ -162,7 +174,7 @@
 #&gt; |   |groupA |groupB |     model| pvalVsFull| pvalVsPrevious|
 #&gt; |:--|:------|:------|---------:|----------:|--------------:|
 #&gt; |0  |       |       | -7142.243|     1.0000|         1.0000|
-#&gt; |1  |female |male   | -7142.653|     0.3654|         0.3654|</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>expl_rf</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
+#&gt; |1  |female |male   | -7142.653|     0.3654|         0.3654|</div><div class='input'><span class='fu'>plot</span>(<span class='no'>expl_rf</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
 #&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
 #&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
 #&gt; <span class='message'>replace the existing scale.</span></div><div class='img'><img src='plot.model_feature_response_explainer-4.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>

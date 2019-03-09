@@ -4,6 +4,7 @@ DALEX 0.2.8
 * temporarly there is a duplicated `single_variable` and `single_feature`
 * Added new `theme_drwhy()`.
 * New arguments in the `plot.variable_importance_explainer()`. Namely `bar_width` with widths of bars and `show_baseline` if baseline shall be included in these plots.
+* New skin in the `plot.variable_response_explainer()`. 
 
 
 DALEX 0.2.7
