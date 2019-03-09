@@ -4,7 +4,8 @@
 \alias{plot.variable_importance_explainer}
 \title{Plots Global Model Explanations (Variable Importance)}
 \usage{
-\method{plot}{variable_importance_explainer}(x, ..., max_vars = 10)
+\method{plot}{variable_importance_explainer}(x, ..., max_vars = 10,
+  bar_width = 10, show_baseline = FALSE)
 }
 \arguments{
 \item{x}{a variable dropout exlainer produced with the 'variable_dropout' function}
@@ -12,6 +13,10 @@
 \item{...}{other explainers that shall be plotted together}
 
 \item{max_vars}{maximum number of variables that shall be presented for for each model}
+
+\item{bar_width}{width of bars. By default 10}
+
+\item{show_baseline}{logical. Should the baseline be included?}
 }
 \value{
 a ggplot2 object

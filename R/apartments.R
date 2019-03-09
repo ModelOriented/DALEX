@@ -1,6 +1,6 @@
 #' Apartments Data
 #'
-#' Datasets \code{apartments} and \code{apartmentsTest} are artificial,
+#' Datasets \code{apartments} and \code{apartments_test} are artificial,
 #' generated form the same model.
 #' Structure of the dataset is copied from real dataset from \code{PBImisc} package,
 #' but they were generated in a way to mimic effect of Anscombe quartet for complex black box models.

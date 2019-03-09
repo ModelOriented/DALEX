@@ -7,6 +7,8 @@
 #' @param x a variable dropout exlainer produced with the 'variable_dropout' function
 #' @param ... other explainers that shall be plotted together
 #' @param max_vars maximum number of variables that shall be presented for for each model
+#' @param bar_width width of bars. By default 10
+#' @param show_baseline logical. Should the baseline be included?
 #'
 #' @importFrom stats model.frame reorder
 #' @return a ggplot2 object
@@ -56,7 +58,7 @@
 #' plot(vd_rf, vd_glm, vd_xgb)
 #'  }
 #'
-plot.variable_importance_explainer <- function(x, ..., max_vars = 10) {
+plot.variable_importance_explainer <- function(x, ..., max_vars = 10, bar_width = 10, show_baseline = FALSE) {
   dfl <- c(list(x), list(...))
 
   # combine all explainers in a single frame
@@ -78,14 +80,20 @@ plot.variable_importance_explainer <- function(x, ..., max_vars = 10) {
   })
   ext_expl_df <- do.call(rbind, trimmed_parts)
 
+  if (!show_baseline) {
+    ext_expl_df <- ext_expl_df[ext_expl_df$variable != "_baseline_" &
+                                 ext_expl_df$variable != "_full_model_", ]
+  }
+
   variable <- dropout_loss.x <- dropout_loss.y <- NULL
-
+  nlabels <- length(unique(bestFits$label))
   # plot it
-  ggplot(ext_expl_df, aes(variable, ymin = dropout_loss.y, ymax = dropout_loss.x)) +
-    geom_errorbar() + coord_flip() +
-    facet_wrap(~label, ncol = 1, scales = "free_y") +
-    ylab("Drop-out loss") + xlab("") +
-    theme_mi2()
-
+  ggplot(ext_expl_df, aes(variable, ymin = dropout_loss.y, ymax = dropout_loss.x, color = label)) +
+    geom_hline(data = bestFits, aes(yintercept = dropout_loss, color = label), lty= 3) +
+    geom_linerange(size = bar_width) + coord_flip() +
+    scale_color_manual(values = theme_drwhy_colors(nlabels)) +
+    facet_wrap(~label, ncol = 1, scales = "free_y") + theme_drwhy_vertical() +
+    theme(legend.position = "none") +
+    ylab("Loss-drop after perturbations") + xlab("")
 }
 

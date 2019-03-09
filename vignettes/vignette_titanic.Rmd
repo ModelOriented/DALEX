@@ -1,0 +1,84 @@
+---
+title: "Survival on the RMS Titanic"
+author: "Przemyslaw Biecek"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_document
+vignette: >
+  %\VignetteIndexEntry{Survival on the RMS Titanic}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = FALSE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE,
+  cache = TRUE
+)
+```
+
+# Data for Titanic survival
+
+Let's see an example for `DALEX` package for Titanic passengers.
+First, let's see the data, we will find quite nice data from in the `titanic` package.
+
+```{r}
+library("titanic")
+titanic <- titanic_train[,c("Survived", "Pclass", "Sex", "Age", "SibSp", "Parch", "Fare", "Embarked")]
+titanic$Survived <- factor(titanic$Survived)
+titanic$Sex <- factor(titanic$Sex)
+titanic$Embarked <- factor(titanic$Embarked)
+titanic <- na.omit(titanic)
+head(titanic)
+```
+
+# Model for Titanic survival
+
+Ok, not it's time to create a model. Let's use the Random Forest model.
+
+```{r}
+# prepare model
+library("randomForest")
+rf_model <- randomForest(Survived ~ .,  data = titanic)
+rf_model
+```
+
+# Explainer for Titanic survival
+
+The third step (it's optional but useful) is to create a `DALEX` explainer for random forest model.
+
+```{r}
+library("DALEX")
+rf_explain <- explain(rf_model, data = titanic[,-1],
+                      y = titanic$Survived == "1", label = "Random Forest v7")
+```
+
+# Variable importance plots
+
+Use the `variable_importance()` explainer to present importance of particular features. Note that `type = "difference"` normalizes dropouts, and now they all start in 0.
+
+```{r}
+vi_rf <- variable_importance(rf_explain, type = "difference")
+vi_rf
+plot(vi_rf)
+```
+
+# Instance level explanations
+
+Let's see break down for model predictions for 8 years old male from 1st class that embarked from port C.
+
+```{r}
+new_passanger <- data.frame(
+  Pclass = 1,
+  Sex = factor("male", levels = c("female", "male")),
+  Age = 8,
+  SibSp = 0,
+  Parch = 0,
+  Fare = 72,
+  Embarked = factor("C", levels = c("","C","Q","S"))
+)
+```
+
+
