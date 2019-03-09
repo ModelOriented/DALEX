@@ -68,7 +68,7 @@ model <- gbm(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine,
          function(model, x) predict(model, x, n.trees = 1000))
  # create a new observation
  exp_sgn <- prediction_breakdown(explainer_gbm, observation = new.wine)
- exp_sgn
+ head(exp_sgn)
  plot(exp_sgn)
  plot(wine_rf_predict4, wine_lm_predict4, exp_sgn)
  }

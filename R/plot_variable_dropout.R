@@ -22,7 +22,7 @@
 #' HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
 #' explainer_rf  <- explain(HR_rf_model, data = HR_data, y = HR_data$left)
 #' vd_rf <- variable_importance(explainer_rf, type = "raw")
-#' vd_rf
+#' head(vd_rf)
 #' plot(vd_rf)
 #'
 #' HR_glm_model <- glm(left~., data = breakDown::HR_data, family = "binomial")
@@ -31,7 +31,7 @@
 #' vd_glm <- variable_importance(explainer_glm, type = "raw",
 #'                         loss_function = function(observed, predicted)
 #'                                    sum((observed - logit(predicted))^2))
-#' vd_glm
+#' head(vd_glm)
 #' plot(vd_glm)
 #'
 #' library("xgboost")
@@ -43,7 +43,7 @@
 #' explainer_xgb <- explain(HR_xgb_model, data = model_martix_train,
 #'                                     y = HR_data$left, label = "xgboost")
 #' vd_xgb <- variable_importance(explainer_xgb, type = "raw")
-#' vd_xgb
+#' head(vd_xgb)
 #' plot(vd_xgb)
 #'
 #' plot(vd_rf, vd_glm, vd_xgb, bar_width = 4)
