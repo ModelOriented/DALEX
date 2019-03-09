@@ -70,7 +70,7 @@
       <h1>Survival on the RMS Titanic</h1>
                         <h4 class="author">Przemyslaw Biecek</h4>
             
-            <h4 class="date">2019-03-09</h4>
+            <h4 class="date">2019-03-10</h4>
       
       
       <div class="hidden name"><code>vignette_titanic.Rmd</code></div>
@@ -114,10 +114,10 @@
 #&gt;                      Number of trees: 500
 #&gt; No. of variables tried at each split: 2
 #&gt; 
-#&gt;         OOB estimate of  error rate: 18.35%
+#&gt;         OOB estimate of  error rate: 18.21%
 #&gt; Confusion matrix:
 #&gt;     0   1 class.error
-#&gt; 0 385  39  0.09198113
+#&gt; 0 386  38  0.08962264
 #&gt; 1  92 198  0.31724138</code></pre>
 </div>
 <div id="explainer-for-titanic-survival" class="section level1">
@@ -136,11 +136,11 @@
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">head</span>(vi_rf)</a></code></pre></div>
 <pre><code>#&gt;       variable dropout_loss            label
 #&gt; 1 _full_model_      0.00000 Random Forest v7
-#&gt; 2        Parch     13.21966 Random Forest v7
-#&gt; 3        SibSp     16.51560 Random Forest v7
-#&gt; 4     Embarked     16.99724 Random Forest v7
-#&gt; 5         Fare     51.99162 Random Forest v7
-#&gt; 6       Pclass     59.75487 Random Forest v7</code></pre>
+#&gt; 2        Parch     15.50410 Random Forest v7
+#&gt; 3     Embarked     17.20747 Random Forest v7
+#&gt; 4        SibSp     23.98407 Random Forest v7
+#&gt; 5         Fare     54.33854 Random Forest v7
+#&gt; 6          Age     63.54260 Random Forest v7</code></pre>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">plot</span>(vi_rf)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
@@ -156,12 +156,12 @@
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">vr_age  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_response.html">variable_response</a></span>(rf_explain, <span class="dt">variable =</span>  <span class="st">"Age"</span>)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw">head</span>(vr_age)</a></code></pre></div>
 <pre><code>#&gt;        x            y var type            label
-#&gt; 1 0.4200 0.643016.... Age  pdp Random Forest v7
-#&gt; 2 2.0116 0.608299.... Age  pdp Random Forest v7
-#&gt; 3 3.6032 0.630918.... Age  pdp Random Forest v7
-#&gt; 4 5.1948 0.632492.... Age  pdp Random Forest v7
-#&gt; 5 6.7864 0.575719.... Age  pdp Random Forest v7
-#&gt; 6 8.3780 0.562355.... Age  pdp Random Forest v7</code></pre>
+#&gt; 1 0.4200 0.650904.... Age  pdp Random Forest v7
+#&gt; 2 2.0116 0.608053.... Age  pdp Random Forest v7
+#&gt; 3 3.6032 0.628683.... Age  pdp Random Forest v7
+#&gt; 4 5.1948 0.631935.... Age  pdp Random Forest v7
+#&gt; 5 6.7864 0.570577.... Age  pdp Random Forest v7
+#&gt; 6 8.3780 0.554067.... Age  pdp Random Forest v7</code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">plot</span>(vr_age, <span class="dt">use_facets =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
@@ -209,10 +209,90 @@
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 <p>It looks like the most important feature for this passenger is <code>Age</code> and <code>Sex</code>. After all his odds for survival are higher than for the average passenger. Mainly because of the young age and despite of being a male.</p>
 </div>
+<div id="more-models" class="section level1">
+<h1 class="hasAnchor">
+<a href="#more-models" class="anchor"></a>More models</h1>
+<p>Let’s train more models for survival.</p>
+<div id="logistic-regression" class="section level2">
+<h2 class="hasAnchor">
+<a href="#logistic-regression" class="anchor"></a>Logistic regression</h2>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"rms"</span>)</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">lmr_model &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/rms/topics/lrm">lrm</a></span>(Survived <span class="op">==</span><span class="st"> "1"</span> <span class="op">~</span><span class="st"> </span>Pclass <span class="op">+</span><span class="st"> </span>Sex <span class="op">+</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/rms/topics/rms.trans">rcs</a></span>(Age) <span class="op">+</span><span class="st"> </span>SibSp <span class="op">+</span></a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="st">                   </span>Parch <span class="op">+</span><span class="st"> </span>Fare <span class="op">+</span><span class="st"> </span>Embarked, titanic)</a>
+<a class="sourceLine" id="cb16-4" data-line-number="4">lmr_explain &lt;-<span class="st"> </span><span class="kw"><a href="../reference/explain.html">explain</a></span>(lmr_model, <span class="dt">data =</span> titanic, </a>
+<a class="sourceLine" id="cb16-5" data-line-number="5">                       <span class="dt">y =</span> titanic<span class="op">$</span>Survived <span class="op">==</span><span class="st"> "1"</span>, </a>
+<a class="sourceLine" id="cb16-6" data-line-number="6">                       <span class="dt">predict_function =</span> <span class="cf">function</span>(m,x) <span class="kw">predict</span>(m, x, <span class="dt">type=</span><span class="st">"fitted"</span>),</a>
+<a class="sourceLine" id="cb16-7" data-line-number="7">                       <span class="dt">label =</span> <span class="st">"Logistic regression"</span>)</a></code></pre></div>
+</div>
+<div id="generalized-boosted-models-gbm" class="section level2">
+<h2 class="hasAnchor">
+<a href="#generalized-boosted-models-gbm" class="anchor"></a>Generalized Boosted Models (GBM)</h2>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"gbm"</span>)</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">gbm_model &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/gbm/topics/gbm">gbm</a></span>(Survived <span class="op">==</span><span class="st"> "1"</span> <span class="op">~</span><span class="st"> </span>Pclass <span class="op">+</span><span class="st"> </span>Sex <span class="op">+</span><span class="st"> </span>Age <span class="op">+</span><span class="st"> </span>SibSp <span class="op">+</span></a>
+<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="st">                     </span>Parch <span class="op">+</span><span class="st"> </span>Fare <span class="op">+</span><span class="st"> </span>Embarked, <span class="dt">data =</span> titanic, <span class="dt">n.trees =</span> <span class="dv">15000</span>)</a></code></pre></div>
+<pre><code>#&gt; Distribution not specified, assuming bernoulli ...</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">gbm_explain &lt;-<span class="st"> </span><span class="kw"><a href="../reference/explain.html">explain</a></span>(gbm_model, <span class="dt">data =</span> titanic, </a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">                       <span class="dt">y =</span> titanic<span class="op">$</span>Survived <span class="op">==</span><span class="st"> "1"</span>, </a>
+<a class="sourceLine" id="cb19-3" data-line-number="3">                       <span class="dt">predict_function =</span> <span class="cf">function</span>(m,x) <span class="kw">predict</span>(m, x, <span class="dt">n.trees =</span> <span class="dv">15000</span>, <span class="dt">type =</span> <span class="st">"response"</span>),</a>
+<a class="sourceLine" id="cb19-4" data-line-number="4">                       <span class="dt">label =</span> <span class="st">"Generalized Boosted Models"</span>)</a></code></pre></div>
+</div>
+<div id="support-vector-machines-svm" class="section level2">
+<h2 class="hasAnchor">
+<a href="#support-vector-machines-svm" class="anchor"></a>Support Vector Machines (SVM)</h2>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"e1071"</span>)</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">svm_model &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/e1071/topics/svm">svm</a></span>(Survived <span class="op">==</span><span class="st"> "1"</span> <span class="op">~</span><span class="st"> </span>Pclass <span class="op">+</span><span class="st"> </span>Sex <span class="op">+</span><span class="st"> </span>Age <span class="op">+</span><span class="st"> </span>SibSp <span class="op">+</span></a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="st">                     </span>Parch <span class="op">+</span><span class="st"> </span>Fare <span class="op">+</span><span class="st"> </span>Embarked, <span class="dt">data =</span> titanic, </a>
+<a class="sourceLine" id="cb20-4" data-line-number="4">             <span class="dt">type =</span> <span class="st">"C-classification"</span>, <span class="dt">probability =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb20-5" data-line-number="5">svm_explain &lt;-<span class="st"> </span><span class="kw"><a href="../reference/explain.html">explain</a></span>(svm_model, <span class="dt">data =</span> titanic, </a>
+<a class="sourceLine" id="cb20-6" data-line-number="6">                       <span class="dt">y =</span> titanic<span class="op">$</span>Survived <span class="op">==</span><span class="st"> "1"</span>, </a>
+<a class="sourceLine" id="cb20-7" data-line-number="7">                       <span class="dt">label =</span> <span class="st">"Support Vector Machines"</span>)</a></code></pre></div>
+</div>
+<div id="k-nearest-neighbours-knn" class="section level2">
+<h2 class="hasAnchor">
+<a href="#k-nearest-neighbours-knn" class="anchor"></a>k-Nearest Neighbours (kNN)</h2>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"caret"</span>)</a>
+<a class="sourceLine" id="cb21-2" data-line-number="2">knn_model &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/caret/topics/knn3">knn3</a></span>(Survived <span class="op">==</span><span class="st"> "1"</span> <span class="op">~</span><span class="st"> </span>Pclass <span class="op">+</span><span class="st"> </span>Sex <span class="op">+</span><span class="st"> </span>Age <span class="op">+</span><span class="st"> </span>SibSp <span class="op">+</span></a>
+<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="st">                     </span>Parch <span class="op">+</span><span class="st"> </span>Fare <span class="op">+</span><span class="st"> </span>Embarked, <span class="dt">data =</span> titanic, <span class="dt">k =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb21-4" data-line-number="4">knn_explain &lt;-<span class="st"> </span><span class="kw"><a href="../reference/explain.html">explain</a></span>(knn_model, <span class="dt">data =</span> titanic, </a>
+<a class="sourceLine" id="cb21-5" data-line-number="5">                       <span class="dt">y =</span> titanic<span class="op">$</span>Survived <span class="op">==</span><span class="st"> "1"</span>, </a>
+<a class="sourceLine" id="cb21-6" data-line-number="6">                       <span class="dt">predict_function =</span> <span class="cf">function</span>(m,x) <span class="kw">predict</span>(m, x)[,<span class="dv">2</span>],</a>
+<a class="sourceLine" id="cb21-7" data-line-number="7">                       <span class="dt">label =</span> <span class="st">"k-Nearest Neighbours"</span>)</a></code></pre></div>
+</div>
+<div id="variable-performance" class="section level2">
+<h2 class="hasAnchor">
+<a href="#variable-performance" class="anchor"></a>Variable performance</h2>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">vi_rf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_importance.html">variable_importance</a></span>(rf_explain)</a>
+<a class="sourceLine" id="cb22-2" data-line-number="2">vi_lmr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_importance.html">variable_importance</a></span>(lmr_explain)</a>
+<a class="sourceLine" id="cb22-3" data-line-number="3">vi_gbm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_importance.html">variable_importance</a></span>(gbm_explain)</a>
+<a class="sourceLine" id="cb22-4" data-line-number="4">vi_svm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_importance.html">variable_importance</a></span>(svm_explain)</a>
+<a class="sourceLine" id="cb22-5" data-line-number="5">vi_knn &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_importance.html">variable_importance</a></span>(knn_explain)</a>
+<a class="sourceLine" id="cb22-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb22-7" data-line-number="7"><span class="kw">plot</span>(vi_rf, vi_lmr, vi_gbm, vi_svm, vi_knn, <span class="dt">bar_width =</span> <span class="dv">4</span>)</a></code></pre></div>
+<p><img src="vignette_titanic_files/figure-html/unnamed-chunk-14-1.png" width="480"></p>
+</div>
+<div id="single-variable" class="section level2">
+<h2 class="hasAnchor">
+<a href="#single-variable" class="anchor"></a>Single variable</h2>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">vr_age_rf  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_response.html">variable_response</a></span>(rf_explain, <span class="dt">variable =</span>  <span class="st">"Age"</span>)</a>
+<a class="sourceLine" id="cb23-2" data-line-number="2">vr_age_lmr  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_response.html">variable_response</a></span>(lmr_explain, <span class="dt">variable =</span>  <span class="st">"Age"</span>)</a>
+<a class="sourceLine" id="cb23-3" data-line-number="3">vr_age_gbm  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_response.html">variable_response</a></span>(gbm_explain, <span class="dt">variable =</span>  <span class="st">"Age"</span>)</a>
+<a class="sourceLine" id="cb23-4" data-line-number="4">vr_age_svm  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_response.html">variable_response</a></span>(svm_explain, <span class="dt">variable =</span>  <span class="st">"Age"</span>)</a>
+<a class="sourceLine" id="cb23-5" data-line-number="5">vr_age_knn  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_response.html">variable_response</a></span>(knn_explain, <span class="dt">variable =</span>  <span class="st">"Age"</span>)</a>
+<a class="sourceLine" id="cb23-6" data-line-number="6"><span class="kw">plot</span>(vr_age_rf, vr_age_lmr, vr_age_gbm, vr_age_svm, vr_age_knn)</a></code></pre></div>
+<p><img src="vignette_titanic_files/figure-html/unnamed-chunk-15-1.png" width="480"> # Instance level explanations</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">sp_rf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prediction_breakdown.html">single_prediction</a></span>(rf_explain, new_passanger)</a>
+<a class="sourceLine" id="cb24-2" data-line-number="2">sp_lmr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prediction_breakdown.html">single_prediction</a></span>(lmr_explain, new_passanger)</a>
+<a class="sourceLine" id="cb24-3" data-line-number="3">sp_gbm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prediction_breakdown.html">single_prediction</a></span>(gbm_explain, new_passanger)</a>
+<a class="sourceLine" id="cb24-4" data-line-number="4">sp_svm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prediction_breakdown.html">single_prediction</a></span>(svm_explain, new_passanger)</a>
+<a class="sourceLine" id="cb24-5" data-line-number="5">sp_knn &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prediction_breakdown.html">single_prediction</a></span>(knn_explain, new_passanger)</a>
+<a class="sourceLine" id="cb24-6" data-line-number="6"><span class="kw">plot</span>(sp_rf, sp_lmr, sp_gbm, sp_svm, sp_knn)</a></code></pre></div>
+<p><img src="vignette_titanic_files/figure-html/unnamed-chunk-16-1.png" width="480"></p>
+</div>
+</div>
 <div id="session-info" class="section level1">
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session info</h1>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
 <pre><code>#&gt; R version 3.5.0 (2018-04-23)
 #&gt; Platform: x86_64-apple-darwin15.6.0 (64-bit)
 #&gt; Running under: macOS  10.14.2
@@ -225,43 +305,61 @@
 #&gt; [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 #&gt; 
 #&gt; attached base packages:
-#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
+#&gt; [1] parallel  splines   stats     graphics  grDevices utils     datasets 
+#&gt; [8] methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt; [1] DALEX_0.2.8         randomForest_4.6-14 titanic_0.1.0      
+#&gt;  [1] caret_6.0-80        e1071_1.7-0.1       gbm_2.1.3          
+#&gt;  [4] rms_5.1-2           SparseM_1.77        Hmisc_4.1-1        
+#&gt;  [7] ggplot2_3.1.0       Formula_1.2-3       survival_2.41-3    
+#&gt; [10] lattice_0.20-35     DALEX_0.2.8         randomForest_4.6-14
+#&gt; [13] titanic_0.1.0      
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] splines_3.5.0      gtools_3.8.1       shiny_1.2.0       
-#&gt;  [4] assertthat_0.2.0   expm_0.999-3       sp_1.3-1          
-#&gt;  [7] highr_0.7          pdp_0.7.0          yaml_2.2.0        
-#&gt; [10] LearnBayes_2.15.1  pillar_1.3.1       backports_1.1.3   
-#&gt; [13] lattice_0.20-35    glue_1.3.0         digest_0.6.18     
-#&gt; [16] promises_1.0.1     colorspace_1.4-0   cowplot_0.9.4     
-#&gt; [19] htmltools_0.3.6    httpuv_1.4.5.1     Matrix_1.2-14     
-#&gt; [22] plyr_1.8.4         klaR_0.6-14        pkgconfig_2.0.2   
-#&gt; [25] breakDown_0.2.0    gmodels_2.18.1     questionr_0.7.0   
-#&gt; [28] mvtnorm_1.0-10     purrr_0.3.1        xtable_1.8-3      
-#&gt; [31] scales_1.0.0       gdata_2.18.0       later_0.8.0       
-#&gt; [34] proxy_0.4-23       tibble_2.0.1       combinat_0.0-8    
-#&gt; [37] ggplot2_3.1.0      ggpubr_0.2         ALEPlot_1.1       
-#&gt; [40] agricolae_1.3-0    lazyeval_0.2.1     survival_2.41-3   
-#&gt; [43] magrittr_1.5       crayon_1.3.4       mime_0.6          
-#&gt; [46] deldir_0.1-16      memoise_1.1.0      evaluate_0.13     
-#&gt; [49] fs_1.2.6           nlme_3.1-137       MASS_7.3-49       
-#&gt; [52] xml2_1.2.0         class_7.3-14       tools_3.5.0       
-#&gt; [55] stringr_1.4.0      munsell_0.5.0      cluster_2.0.7-1   
-#&gt; [58] compiler_3.5.0     pkgdown_1.0.0      e1071_1.7-0.1     
-#&gt; [61] rlang_0.3.1        classInt_0.3-1     units_0.6-2       
-#&gt; [64] grid_3.5.0         rstudioapi_0.9.0   miniUI_0.1.1.1    
-#&gt; [67] labeling_0.3       rmarkdown_1.11     boot_1.3-20       
-#&gt; [70] gtable_0.2.0       codetools_0.2-15   DBI_1.0.0         
-#&gt; [73] roxygen2_6.1.1     reshape2_1.4.3     AlgDesign_1.1-7.3 
-#&gt; [76] R6_2.4.0           gridExtra_2.3      yaImpute_1.0-31   
-#&gt; [79] knitr_1.22         dplyr_0.8.0.1      commonmark_1.5    
-#&gt; [82] factorMerger_0.3.6 rprojroot_1.3-2    spdep_1.0-2       
-#&gt; [85] desc_1.2.0         stringi_1.3.1      Rcpp_1.0.0        
-#&gt; [88] sf_0.7-3           spData_0.3.0       tidyselect_0.2.5  
-#&gt; [91] xfun_0.5           coda_0.19-2</code></pre>
+#&gt;   [1] backports_1.1.3     plyr_1.8.4          lazyeval_0.2.1     
+#&gt;   [4] sp_1.3-1            AlgDesign_1.1-7.3   TH.data_1.0-8      
+#&gt;   [7] digest_0.6.18       foreach_1.4.4       htmltools_0.3.6    
+#&gt;  [10] gdata_2.18.0        magrittr_1.5        checkmate_1.8.5    
+#&gt;  [13] memoise_1.1.0       cluster_2.0.7-1     sfsmisc_1.1-2      
+#&gt;  [16] recipes_0.1.3       gower_0.1.2         dimRed_0.1.0       
+#&gt;  [19] gmodels_2.18.1      sandwich_2.4-0      pkgdown_1.0.0      
+#&gt;  [22] colorspace_1.4-0    xfun_0.5            dplyr_0.8.0.1      
+#&gt;  [25] crayon_1.3.4        roxygen2_6.1.1      ALEPlot_1.1        
+#&gt;  [28] zoo_1.8-4           iterators_1.0.9     glue_1.3.0         
+#&gt;  [31] DRR_0.0.3           gtable_0.2.0        ipred_0.9-6        
+#&gt;  [34] MatrixModels_0.4-1  questionr_0.7.0     kernlab_0.9-27     
+#&gt;  [37] ddalpha_1.3.3       DEoptimR_1.0-8      abind_1.4-5        
+#&gt;  [40] scales_1.0.0        mvtnorm_1.0-10      DBI_1.0.0          
+#&gt;  [43] miniUI_0.1.1.1      Rcpp_1.0.0          xtable_1.8-3       
+#&gt;  [46] spData_0.3.0        htmlTable_1.12      magic_1.5-8        
+#&gt;  [49] units_0.6-2         foreign_0.8-70      spdep_1.0-2        
+#&gt;  [52] proxy_0.4-23        stats4_3.5.0        lava_1.6.2         
+#&gt;  [55] prodlim_2018.04.18  htmlwidgets_1.3     yaImpute_1.0-31    
+#&gt;  [58] RColorBrewer_1.1-2  acepack_1.4.1       pkgconfig_2.0.2    
+#&gt;  [61] nnet_7.3-12         deldir_0.1-16       tidyselect_0.2.5   
+#&gt;  [64] labeling_0.3        rlang_0.3.1         reshape2_1.4.3     
+#&gt;  [67] later_0.8.0         munsell_0.5.0       tools_3.5.0        
+#&gt;  [70] pls_2.6-0           factorMerger_0.3.6  broom_0.5.0        
+#&gt;  [73] evaluate_0.13       geometry_0.3-6      stringr_1.4.0      
+#&gt;  [76] yaml_2.2.0          ModelMetrics_1.1.0  knitr_1.22         
+#&gt;  [79] fs_1.2.6            robustbase_0.93-3   pdp_0.7.0          
+#&gt;  [82] purrr_0.3.1         nlme_3.1-137        mime_0.6           
+#&gt;  [85] quantreg_5.38       RcppRoll_0.2.2      xml2_1.2.0         
+#&gt;  [88] compiler_3.5.0      rstudioapi_0.9.0    klaR_0.6-14        
+#&gt;  [91] tibble_2.0.1        stringi_1.3.1       highr_0.7          
+#&gt;  [94] desc_1.2.0          Matrix_1.2-14       classInt_0.3-1     
+#&gt;  [97] commonmark_1.5      pillar_1.3.1        LearnBayes_2.15.1  
+#&gt; [100] combinat_0.0-8      data.table_1.12.0   cowplot_0.9.4      
+#&gt; [103] httpuv_1.4.5.1      agricolae_1.3-0     R6_2.4.0           
+#&gt; [106] latticeExtra_0.6-28 promises_1.0.1      gridExtra_2.3      
+#&gt; [109] codetools_0.2-15    polspline_1.1.13    boot_1.3-20        
+#&gt; [112] MASS_7.3-49         gtools_3.8.1        assertthat_0.2.0   
+#&gt; [115] CVST_0.2-2          rprojroot_1.3-2     withr_2.1.2        
+#&gt; [118] multcomp_1.4-8      expm_0.999-3        grid_3.5.0         
+#&gt; [121] rpart_4.1-13        timeDate_3043.102   tidyr_0.8.3        
+#&gt; [124] coda_0.19-2         class_7.3-14        rmarkdown_1.11     
+#&gt; [127] breakDown_0.2.0     ggpubr_0.2          sf_0.7-3           
+#&gt; [130] lubridate_1.7.4     shiny_1.2.0         base64enc_0.1-3</code></pre>
 </div>
   </div>
 
@@ -283,6 +381,16 @@
       </ul>
 </li>
       <li><a href="#instance-level-explanations">Instance level explanations</a></li>
+      <li>
+<a href="#more-models">More models</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#logistic-regression">Logistic regression</a></li>
+      <li><a href="#generalized-boosted-models-gbm">Generalized Boosted Models (GBM)</a></li>
+      <li><a href="#support-vector-machines-svm">Support Vector Machines (SVM)</a></li>
+      <li><a href="#k-nearest-neighbours-knn">k-Nearest Neighbours (kNN)</a></li>
+      <li><a href="#variable-performance">Variable performance</a></li>
+      <li><a href="#single-variable">Single variable</a></li>
+      </ul>
+</li>
       <li><a href="#session-info">Session info</a></li>
       </ul>
 </div>

@@ -131,6 +131,92 @@ plot(sp_rf)
 
 It looks like the most important feature for this passenger is `Age` and `Sex`. After all his odds for survival are higher than for the average passenger. Mainly because of the young age and despite of being a male.
 
+# More models
+
+Let's train more models for survival.
+ 
+## Logistic regression
+
+```{r}
+library("rms")
+lmr_model <- lrm(Survived == "1" ~ Pclass + Sex + rcs(Age) + SibSp +
+                   Parch + Fare + Embarked, titanic)
+lmr_explain <- explain(lmr_model, data = titanic, 
+                       y = titanic$Survived == "1", 
+                       predict_function = function(m,x) predict(m, x, type="fitted"),
+                       label = "Logistic regression")
+```
+ 
+## Generalized Boosted Models (GBM)
+
+```{r}
+library("gbm")
+gbm_model <- gbm(Survived == "1" ~ Pclass + Sex + Age + SibSp +
+                     Parch + Fare + Embarked, data = titanic, n.trees = 15000)
+gbm_explain <- explain(gbm_model, data = titanic, 
+                       y = titanic$Survived == "1", 
+                       predict_function = function(m,x) predict(m, x, n.trees = 15000, type = "response"),
+                       label = "Generalized Boosted Models")
+```
+ 
+## Support Vector Machines (SVM)
+
+```{r}
+library("e1071")
+svm_model <- svm(Survived == "1" ~ Pclass + Sex + Age + SibSp +
+                     Parch + Fare + Embarked, data = titanic, 
+             type = "C-classification", probability = TRUE)
+svm_explain <- explain(svm_model, data = titanic, 
+                       y = titanic$Survived == "1", 
+                       label = "Support Vector Machines")
+```
+ 
+## k-Nearest Neighbours (kNN)
+
+```{r}
+library("caret")
+knn_model <- knn3(Survived == "1" ~ Pclass + Sex + Age + SibSp +
+                     Parch + Fare + Embarked, data = titanic, k = 5)
+knn_explain <- explain(knn_model, data = titanic, 
+                       y = titanic$Survived == "1", 
+                       predict_function = function(m,x) predict(m, x)[,2],
+                       label = "k-Nearest Neighbours")
+```
+
+## Variable performance
+
+```{r, fig.width=5, fig.height=7}
+vi_rf <- variable_importance(rf_explain)
+vi_lmr <- variable_importance(lmr_explain)
+vi_gbm <- variable_importance(gbm_explain)
+vi_svm <- variable_importance(svm_explain)
+vi_knn <- variable_importance(knn_explain)
+
+plot(vi_rf, vi_lmr, vi_gbm, vi_svm, vi_knn, bar_width = 4)
+```
+
+## Single variable
+
+```{r, fig.width=5, fig.height=5}
+vr_age_rf  <- variable_response(rf_explain, variable =  "Age")
+vr_age_lmr  <- variable_response(lmr_explain, variable =  "Age")
+vr_age_gbm  <- variable_response(gbm_explain, variable =  "Age")
+vr_age_svm  <- variable_response(svm_explain, variable =  "Age")
+vr_age_knn  <- variable_response(knn_explain, variable =  "Age")
+plot(vr_age_rf, vr_age_lmr, vr_age_gbm, vr_age_svm, vr_age_knn)
+```
+
+# Instance level explanations
+
+```{r, fig.width=5, fig.height=8}
+sp_rf <- single_prediction(rf_explain, new_passanger)
+sp_lmr <- single_prediction(lmr_explain, new_passanger)
+sp_gbm <- single_prediction(gbm_explain, new_passanger)
+sp_svm <- single_prediction(svm_explain, new_passanger)
+sp_knn <- single_prediction(knn_explain, new_passanger)
+plot(sp_rf, sp_lmr, sp_gbm, sp_svm, sp_knn)
+```
+
 # Session info
 
 ```{r}
