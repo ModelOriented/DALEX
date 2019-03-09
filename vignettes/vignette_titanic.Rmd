@@ -61,8 +61,42 @@ Use the `variable_importance()` explainer to present importance of particular fe
 
 ```{r}
 vi_rf <- variable_importance(rf_explain, type = "difference")
-vi_rf
+head(vi_rf)
 plot(vi_rf)
+```
+
+# Variable effects
+
+As we see the most important feature is `Sex`. Next three importnat features are `Pclass`, `Age` and `Fare`. Let's see the link between model response and these features.
+
+Such univariate relation can be calculated with `variable_response()`.
+
+## Age
+
+Kids 5 years old and younger have much higher survival probability.
+
+```{r}
+vr_age  <- variable_response(rf_explain, variable =  "Age")
+head(vr_age)
+plot(vr_age, use_facets = TRUE)
+```
+
+## Pclass
+
+Passangers in the first class have much higher survival probability.
+
+```{r}
+vr_pclass  <- variable_response(rf_explain, variable =  "Pclass")
+plot(vr_pclass, use_facets = TRUE)
+```
+
+## Fare
+
+Very cheap tickets are linked with lower chances.
+
+```{r}
+vr_fare  <- variable_response(rf_explain, variable =  "Fare")
+plot(vr_fare, use_facets = TRUE)
 ```
 
 # Instance level explanations

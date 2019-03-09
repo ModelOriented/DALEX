@@ -10,6 +10,8 @@
 \item{x}{a single variable exlainer produced with the 'single_variable' function}
 
 \item{...}{other explainers that shall be plotted together}
+
+\item{use_facets}{logical. If TRUE then separate models are on different facets}
 }
 \value{
 a ggplot2 object

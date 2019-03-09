@@ -4,6 +4,7 @@
 #'
 #' @param x a single variable exlainer produced with the 'single_variable' function
 #' @param ... other explainers that shall be plotted together
+#' @param use_facets logical. If TRUE then separate models are on different facets
 #'
 #' @return a ggplot2 object
 #' @export
@@ -83,7 +84,7 @@ plot.variable_response_factor_explainer <- function(x, ...) {
   ggarrange(plotlist = all_plots, ncol = 1, nrow = length(all_plots)) + theme_mi2()
 }
 
-plot.variable_response_numeric_explainer <- function(x, ...) {
+plot.variable_response_numeric_explainer <- function(x, ..., use_facets = FALSE) {
   df <- x
   class(df) <- "data.frame"
 
@@ -96,14 +97,21 @@ plot.variable_response_numeric_explainer <- function(x, ...) {
   }
 
   variable_name <- head(df$var, 1)
-  ggplot(df, aes_string(x = "x", y = "y", color = "label", shape = "type")) +
-    geom_point() +
-    geom_line() +
-    theme_mi2() +
-    scale_color_brewer(name = "Model", type = "qual", palette = "Dark2") +
-    scale_shape_discrete(name = "Type") +
-    ggtitle("Variable response") +
-    xlab(variable_name) + ylab(expression(hat("y")))
+  nlabels <- length(unique(df$label))
+  pl <- ggplot(df, aes_string(x = "x", y = "y", color = "label")) +
+    geom_point(size = 1) +
+    geom_line(size = 1) +
+    theme_drwhy() +
+    scale_color_manual(name = "Model", values = theme_drwhy_colors(nlabels)) +
+    ggtitle("") +
+    xlab(variable_name) + ylab("prediction")
+
+  if (use_facets) {
+    pl <- pl + facet_wrap(~label, ncol = 1, scales = "free_y") +
+      theme(legend.position = "none")
+  }
+
+  pl
 
 }
 
