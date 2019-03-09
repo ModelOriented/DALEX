@@ -4,7 +4,7 @@
 \alias{plot.variable_response_explainer}
 \title{Plots Marginal Model Explanations (Single Variable Responses)}
 \usage{
-\method{plot}{variable_response_explainer}(x, ...)
+\method{plot}{variable_response_explainer}(x, ..., use_facets = FALSE)
 }
 \arguments{
 \item{x}{a single variable exlainer produced with the 'single_variable' function}

@@ -114,10 +114,10 @@
 #&gt;                      Number of trees: 500
 #&gt; No. of variables tried at each split: 2
 #&gt; 
-#&gt;         OOB estimate of  error rate: 17.79%
+#&gt;         OOB estimate of  error rate: 18.07%
 #&gt; Confusion matrix:
 #&gt;     0   1 class.error
-#&gt; 0 386  38  0.08962264
+#&gt; 0 384  40  0.09433962
 #&gt; 1  89 201  0.30689655</code></pre>
 </div>
 <div id="explainer-for-titanic-survival" class="section level1">
@@ -136,11 +136,11 @@
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">head</span>(vi_rf)</a></code></pre></div>
 <pre><code>#&gt;       variable dropout_loss            label
 #&gt; 1 _full_model_      0.00000 Random Forest v7
-#&gt; 2     Embarked     14.19520 Random Forest v7
-#&gt; 3        Parch     14.26029 Random Forest v7
-#&gt; 4        SibSp     17.56094 Random Forest v7
-#&gt; 5         Fare     45.86305 Random Forest v7
-#&gt; 6          Age     53.22466 Random Forest v7</code></pre>
+#&gt; 2        Parch     13.82176 Random Forest v7
+#&gt; 3     Embarked     15.75677 Random Forest v7
+#&gt; 4        SibSp     21.16505 Random Forest v7
+#&gt; 5         Fare     51.95294 Random Forest v7
+#&gt; 6          Age     56.76987 Random Forest v7</code></pre>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">plot</span>(vi_rf)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
@@ -156,12 +156,12 @@
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">vr_age  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_response.html">variable_response</a></span>(rf_explain, <span class="dt">variable =</span>  <span class="st">"Age"</span>)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw">head</span>(vr_age)</a></code></pre></div>
 <pre><code>#&gt;        x            y var type            label
-#&gt; 1 0.4200 0.643249.... Age  pdp Random Forest v7
-#&gt; 2 2.0116 0.613039.... Age  pdp Random Forest v7
-#&gt; 3 3.6032 0.630549.... Age  pdp Random Forest v7
-#&gt; 4 5.1948 0.636005.... Age  pdp Random Forest v7
-#&gt; 5 6.7864 0.580316.... Age  pdp Random Forest v7
-#&gt; 6 8.3780 0.564361.... Age  pdp Random Forest v7</code></pre>
+#&gt; 1 0.4200 0.647462.... Age  pdp Random Forest v7
+#&gt; 2 2.0116 0.612619.... Age  pdp Random Forest v7
+#&gt; 3 3.6032 0.632739.... Age  pdp Random Forest v7
+#&gt; 4 5.1948 0.635428.... Age  pdp Random Forest v7
+#&gt; 5 6.7864 0.578549.... Age  pdp Random Forest v7
+#&gt; 6 8.3780 0.563350.... Age  pdp Random Forest v7</code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">plot</span>(vr_age, <span class="dt">use_facets =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>

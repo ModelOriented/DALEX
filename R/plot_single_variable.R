@@ -46,13 +46,12 @@
 #' plot(expl_rf, expl_glm)
 #'  }
 #'
-
-plot.variable_response_explainer <- function(x, ...) {
+plot.variable_response_explainer <- function(x, ..., use_facets = FALSE) {
   if ("factorMerger" %in% class(x)) {
     return(plot.variable_response_factor_explainer(x, ...))
   }
   if ("data.frame" %in% class(x)) {
-    return(plot.variable_response_numeric_explainer(x, ...))
+    return(plot.variable_response_numeric_explainer(x, ..., use_facets = use_facets))
   }
 }
 
