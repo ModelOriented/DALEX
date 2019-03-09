@@ -1,10 +1,11 @@
 DALEX 0.2.8
 ----------------------------------------------------------------
-* `DALEX` is being prepared for tight integration with `iBreakDown` and `ingredients`.
+* `DALEX` is being prepared for tighter integration with `iBreakDown` and `ingredients`.
 * temporarly there is a duplicated `single_variable` and `single_feature`
 * Added new `theme_drwhy()`.
 * New arguments in the `plot.variable_importance_explainer()`. Namely `bar_width` with widths of bars and `show_baseline` if baseline shall be included in these plots.
 * New skin in the `plot.variable_response_explainer()`. 
+* New skin in the `plot.prediction_breakdown_explainer()`.
 
 
 DALEX 0.2.7

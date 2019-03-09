@@ -59,7 +59,7 @@
 #'  }
 #'
 plot.prediction_breakdown_explainer <- function(x, ..., add_contributions = TRUE,
-                                             vcolors = c("-1" = "#d8b365", "0" = "#f5f5f5", "1" = "#5ab4ac", "X" = "darkgrey"),
+                                                vcolors = c("-1" = "#f05a71", "0" = "#371ea3", "1" = "#8bdcbe", "X" = "#371ea3"),
                                              digits = 3, rounding_function = round) {
   df <- NULL
   dfl <- c(list(x), list(...))
@@ -70,6 +70,11 @@ plot.prediction_breakdown_explainer <- function(x, ..., add_contributions = TRUE
     broken_cumm$prev <- constant + broken_cumm$cummulative - broken_cumm$contribution
     broken_cumm$cummulative <- constant + broken_cumm$cummulative
     broken_cumm$trans_contribution <- broken_cumm$cummulative - broken_cumm$prev
+    # zero for intercept and final profnosis
+    baseline <- head(broken_cumm$contribution[broken_cumm$variable_name == "Intercept"],1)
+    broken_cumm$prev[broken_cumm$variable == "(Intercept)"] = baseline
+    broken_cumm$prev[broken_cumm$variable == "final_prognosis"] = baseline
+
     if (is.null(df)) {
       df <- broken_cumm
     } else {
@@ -77,33 +82,38 @@ plot.prediction_breakdown_explainer <- function(x, ..., add_contributions = TRUE
     }
   }
   df$position <- seq_along(df$position)
+  ctmp <- as.character(rounding_function(df$trans_contribution, digits))
+  df$pretty_text <-
+    paste0(ifelse((substr(ctmp, 1, 1) == "-") |
+                    (df$variable == "final_prognosis") |
+                    (df$variable == "(Intercept)"), "", "+"), ctmp)
 
-  position <- cummulative <- prev <- trans_contribution <- NULL
+  position <- contribution <- cummulative <- prev <- trans_contribution  <- pretty_text <- NULL
+  broken_baseline <- df[df$variable_name == "Intercept",]
 
   pl <- ggplot(df, aes(x = position + 0.5,
                                 y = pmax(cummulative, prev),
-                                xmin = position, xmax = position + 0.95,
+                                xmin = position + 0.1, xmax = position + 0.8,
                                 ymin = cummulative, ymax = prev,
                                 fill = sign,
-                                label = sapply(trans_contribution, function(tmp) as.character(rounding_function(tmp, digits))))) +
+                                label = pretty_text)) +
     geom_errorbarh(data = df[!(df$variable == "final_prognosis"),],
-                   aes(xmax = position,
-                       xmin = position + 2,
-                       y = cummulative), height = 0,
-                   lty = "F2") +
+                   aes(xmax = position + 0.1,
+                       xmin = position + 1.8,
+                       y = cummulative), color = "#371ea3", height = 0) +
     geom_rect(alpha = 0.9) +
-    geom_hline(yintercept = constant) +
+    geom_hline(data = broken_baseline, aes(yintercept = contribution), lty = 3, alpha = 0.5, color = "#371ea3") +
     facet_wrap(~label, scales = "free_y", ncol = 1)
 
   if (add_contributions)
-    pl <- pl + geom_text(nudge_y = 0.1, vjust = 0.5, hjust = 0)
+    pl <- pl + geom_text(nudge_y = 0.1, vjust = 0.5, hjust = 0, color = "#371ea3")
 
   pl <- pl +
     scale_y_continuous(expand = c(0.1, 0.1), name = "") +
     scale_x_continuous(expand = c(0, 0), labels = df$variable, breaks = df$position + 0.5, name =  "") +
     scale_fill_manual(values = vcolors) +
     coord_flip() +
-    theme_mi2() + theme(legend.position = "none", panel.border = element_blank())
+    theme_drwhy_vertical() + theme(legend.position = "none")
 
   pl
 }

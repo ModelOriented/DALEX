@@ -109,9 +109,10 @@ vr_embarked  <- variable_response(rf_explain, variable =  "Embarked")
 plot(vr_embarked)
 ```
 
+
 # Instance level explanations
 
-Let's see break down for model predictions for 8 years old male from 1st class that embarked from port C.
+Let's see break down explanation for model predictions for 8 years old male from 1st class that embarked from port C.
 
 ```{r}
 new_passanger <- data.frame(
@@ -121,8 +122,17 @@ new_passanger <- data.frame(
   SibSp = 0,
   Parch = 0,
   Fare = 72,
-  Embarked = factor("C", levels = c("","C","Q","S"))
+  Embarked = factor("C", levels = c("N","C","Q","S"))
 )
+
+sp_rf <- single_prediction(rf_explain, new_passanger)
+plot(sp_rf)
 ```
 
+It looks like the most important feature for this passenger is `Age` and `Sex`. After all his odds for survival are higher than for the average passenger. Mainly because of the young age and despite of being a male.
 
+# Session info
+
+```{r}
+sessionInfo()
+```

@@ -85,7 +85,7 @@ plot.variable_importance_explainer <- function(x, ..., max_vars = 10, bar_width 
                                  ext_expl_df$variable != "_full_model_", ]
   }
 
-  variable <- dropout_loss.x <- dropout_loss.y <- NULL
+  variable <- dropout_loss.x <- dropout_loss.y <- dropout_loss <- label <- NULL
   nlabels <- length(unique(bestFits$label))
   # plot it
   ggplot(ext_expl_df, aes(variable, ymin = dropout_loss.y, ymax = dropout_loss.x, color = label)) +
