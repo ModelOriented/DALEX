@@ -98,7 +98,7 @@
     <p>Preimplemented Loss Functions</p>
     
 
-    <pre class="usage"><span class='fu'>loss_cross_entropy</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>, <span class='kw'>p_min</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>)</pre>
+    <pre class="usage"><span class='fu'>loss_cross_entropy</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>, <span class='kw'>p_min</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -114,6 +114,10 @@
     <tr>
       <th>p_min</th>
       <td><p>for cross entropy, minimal value for probability to make sure that `log` will not explode</p></td>
+    </tr>
+    <tr>
+      <th>na.rm</th>
+      <td><p>logical, should missing values be removed?</p></td>
     </tr>
     </table>
     

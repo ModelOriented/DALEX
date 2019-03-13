@@ -6,7 +6,7 @@
 \alias{loss_root_mean_square}
 \title{Preimplemented Loss Functions}
 \usage{
-loss_cross_entropy(observed, predicted, p_min = 1e-04)
+loss_cross_entropy(observed, predicted, p_min = 1e-04, na.rm = TRUE)
 }
 \arguments{
 \item{observed}{observed scores or labels, these are supplied as explainer specific `y`}
@@ -14,6 +14,8 @@ loss_cross_entropy(observed, predicted, p_min = 1e-04)
 \item{predicted}{predicted scores, either vector of matrix, these are returned from the model specific `predict_function()``}
 
 \item{p_min}{for cross entropy, minimal value for probability to make sure that `log` will not explode}
+
+\item{na.rm}{logical, should missing values be removed?}
 }
 \value{
 numeric - value of the loss function

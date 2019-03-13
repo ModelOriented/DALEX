@@ -1,3 +1,7 @@
+DALEX 0.2.9
+----------------------------------------------------------------
+* the `titanic` dataset is copied from `stablelearner` package. Some features are transformed (some `NA` replaced with `0`, more numeric features).
+
 DALEX 0.2.8
 ----------------------------------------------------------------
 * `DALEX` is being prepared for tighter integration with `iBreakDown` and `ingredients`.

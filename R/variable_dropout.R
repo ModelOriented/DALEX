@@ -93,6 +93,7 @@ variable_dropout <- variable_importance
 #' @param predicted predicted scores, either vector of matrix, these are returned from the model specific `predict_function()``
 #' @param observed observed scores or labels, these are supplied as explainer specific `y`
 #' @param p_min for cross entropy, minimal value for probability to make sure that `log` will not explode
+#' @param na.rm logical, should missing values be removed?
 #'
 #' @return numeric - value of the loss function
 #'
@@ -105,12 +106,13 @@ variable_dropout <- variable_importance
 #' loss_cross_entropy(HR$status, yhat(HR_rf_model))
 #'  }
 #' @export
-loss_cross_entropy = function(observed, predicted, p_min = 0.0001) {
+loss_cross_entropy = function(observed, predicted, p_min = 0.0001, na.rm = TRUE) {
   p <- sapply(seq_along(observed), function(i)  predicted[i, observed[i]] )
-  sum(-log(pmax(p, p_min)))
+  sum(-log(pmax(p, p_min)), na.rm = TRUE)
 }
 #' @export
-loss_sum_of_squares = function(observed, predicted) sum((observed - predicted)^2)
+loss_sum_of_squares = function(observed, predicted, na.rm = TRUE) sum((observed - predicted)^2, na.rm = na.rm)
 #' @export
-loss_root_mean_square = function(observed, predicted) sqrt(mean((observed - predicted)^2))
-
+loss_root_mean_square = function(observed, predicted, na.rm = TRUE) sqrt(mean((observed - predicted)^2, na.rm = na.rm))
+#' @export
+loss_accuracy = function(observed, predicted, na.rm = TRUE) mean(observed == predicted, na.rm = TRUE, na.rm = na.rm)
