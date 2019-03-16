@@ -55,3 +55,9 @@ theme_drwhy_colors <- function(n = 2) {
   if (n == 6) return(c( "#4378bf", "#46bac2", "#8bdcbe", "#ae2c87", "#ffa58c", "#f05a71"))
   c( "#4378bf", "#46bac2", "#371ea3", "#8bdcbe", "#ae2c87", "#ffa58c", "#f05a71")[((0:(n-1)) %% 7) + 1]
 }
+
+#' @export
+#' @rdname theme_drwhy
+theme_drwhy_colors_break_down <- function() {
+  c(`-1` = "#f05a71", `0` = "#371ea3", `1` = "#8bdcbe", X = "#371ea3")
+}
