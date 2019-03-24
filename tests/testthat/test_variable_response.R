@@ -1,17 +1,17 @@
 context("Check variable_response() function")
 
-vr_pdp_rf  <- variable_response(explainer_classif_rf, variable = "satisfaction_level", type = "pdp",
+vr_pdp_rf  <- variable_response(explainer_classif_rf, variable = "age", type = "pdp",
                                 trans = function(x) exp(x))
-vr_pdp_glm  <- variable_response(explainer_classif_glm, variable = "satisfaction_level", type = "pdp")
-vr_ale_rf  <- variable_response(explainer_classif_rf, variable = "satisfaction_level", type = "ale")
-vr_ale_glm  <- variable_response(explainer_classif_glm, variable = "satisfaction_level", type = "ale")
+vr_pdp_glm  <- variable_response(explainer_classif_glm, variable = "age", type = "pdp")
+vr_ale_rf  <- variable_response(explainer_classif_rf, variable = "age", type = "ale")
+vr_ale_glm  <- variable_response(explainer_classif_glm, variable = "age", type = "ale")
 vr_factor_rf  <- variable_response(explainer_regr_rf, variable = "district", type = "factor")
 vr_factor_lm  <- variable_response(explainer_regr_lm, variable = "district", type = "factor")
 
 
 test_that("Wrong input", {
   expect_error(variable_response(model_classif_rf))
-  expect_error(variable_response(explainer_classif_rf, variable = "satisfaction_level", type = "factor"))
+  expect_error(variable_response(explainer_classif_rf, variable = "age", type = "factor"))
 })
 
 test_that("Data wasn't provided", {
@@ -19,7 +19,7 @@ test_that("Data wasn't provided", {
 })
 
 test_that("Unsupported type",{
-  expect_error(variable_response(explainer_classif_rf, variable = "satisfaction_level", type = "unknown"))
+  expect_error(variable_response(explainer_classif_rf, variable = "age", type = "unknown"))
 })
 
 test_that("Non standard predict functions",{
