@@ -110,8 +110,8 @@
 #&gt;                      Number of trees: 500
 #&gt; No. of variables tried at each split: 2
 #&gt; 
-#&gt;           Mean of squared residuals: 0.1427196
-#&gt;                     % Var explained: 34.88</code></pre>
+#&gt;           Mean of squared residuals: 0.1426801
+#&gt;                     % Var explained: 34.9</code></pre>
 </div>
 <div id="explainer-for-titanic-survival" class="section level1">
 <h1 class="hasAnchor">
@@ -130,12 +130,12 @@
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">vi_rf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_importance.html">variable_importance</a></span>(explain_titanic_rf)</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">head</span>(vi_rf)</a></code></pre></div>
 <pre><code>#&gt;       variable dropout_loss            label
-#&gt; 1 _full_model_     110.5441 Random Forest v7
-#&gt; 2      country     110.5441 Random Forest v7
-#&gt; 3        parch     119.0725 Random Forest v7
-#&gt; 4     embarked     120.7615 Random Forest v7
-#&gt; 5        sibsp     120.8783 Random Forest v7
-#&gt; 6          age     135.5995 Random Forest v7</code></pre>
+#&gt; 1 _full_model_     114.1746 Random Forest v7
+#&gt; 2      country     114.1746 Random Forest v7
+#&gt; 3        parch     123.6342 Random Forest v7
+#&gt; 4        sibsp     125.0427 Random Forest v7
+#&gt; 5     embarked     126.0048 Random Forest v7
+#&gt; 6         fare     144.9573 Random Forest v7</code></pre>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">plot</span>(vi_rf)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
@@ -151,12 +151,12 @@
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">vr_age  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_response.html">variable_response</a></span>(explain_titanic_rf, <span class="dt">variable =</span>  <span class="st">"age"</span>)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw">head</span>(vr_age)</a></code></pre></div>
 <pre><code>#&gt;           x            y var type            label
-#&gt; 1 0.1666667 0.526320.... age  pdp Random Forest v7
-#&gt; 2 1.6433333 0.549511.... age  pdp Random Forest v7
-#&gt; 3 3.1200000 0.562267.... age  pdp Random Forest v7
-#&gt; 4 4.5966667 0.543303.... age  pdp Random Forest v7
-#&gt; 5 6.0733333 0.523393.... age  pdp Random Forest v7
-#&gt; 6 7.5500000 0.525448.... age  pdp Random Forest v7</code></pre>
+#&gt; 1 0.1666667 0.526247.... age  pdp Random Forest v7
+#&gt; 2 1.6433333 0.560144.... age  pdp Random Forest v7
+#&gt; 3 3.1200000 0.575253.... age  pdp Random Forest v7
+#&gt; 4 4.5966667 0.554517.... age  pdp Random Forest v7
+#&gt; 5 6.0733333 0.540128.... age  pdp Random Forest v7
+#&gt; 6 7.5500000 0.540106.... age  pdp Random Forest v7</code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">plot</span>(vr_age, <span class="dt">use_facets =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>

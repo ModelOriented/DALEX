@@ -1,7 +1,7 @@
 DALEX 0.3
 ----------------------------------------------------------------
 * `pdp`, `factorMerger` and `ALEPlot` are going to `Suggested`. ([#60](https://github.com/pbiecek/DALEX/issues/60)). In next releases they will be deprecated.
-* added `predict` function that calles the `predict_function` hidded in the `explainer` object. ([#58](https://github.com/pbiecek/DALEX/issues/58)).
+* added `predict` function that calls the `predict_function` hidden in the `explainer` object. ([#58](https://github.com/pbiecek/DALEX/issues/58)).
 
 DALEX 0.2.9
 ----------------------------------------------------------------
@@ -10,7 +10,7 @@ DALEX 0.2.9
 DALEX 0.2.8
 ----------------------------------------------------------------
 * `DALEX` is being prepared for tighter integration with `iBreakDown` and `ingredients`.
-* temporarly there is a duplicated `single_variable` and `single_feature`
+* temporally there is a duplicated `single_variable` and `single_feature`
 * Added new `theme_drwhy()`.
 * New arguments in the `plot.variable_importance_explainer()`. Namely `bar_width` with widths of bars and `show_baseline` if baseline shall be included in these plots.
 * New skin in the `plot.variable_response_explainer()`. 
