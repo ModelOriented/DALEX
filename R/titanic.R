@@ -9,7 +9,7 @@
 #' were converted to numerical variables and values for crew were replaced with 0.
 #' If you use this dataset please cite the original package.
 #'
-#' From \code{stablelearner}: The website \url{http://www.encyclopedia-titanica.org/} offers detailed  information about passengers and crew
+#' From \code{stablelearner}: The website \url{https://www.encyclopedia-titanica.org} offers detailed  information about passengers and crew
 #' members on the RMS Titanic. According to the website 1317 passengers and 890 crew member were abord.
 #' 8 musicians and 9 employees of the shipyard company are listed as passengers, but travelled with a
 #' free ticket, which is why they have \code{NA} values in \code{fare}. In addition to that, \code{fare}
@@ -30,10 +30,10 @@
 #' @docType data
 #' @keywords titanic
 #' @name titanic
-#' @references   \url{http://www.encyclopedia-titanica.org/}, \url{http://biostat.mc.vanderbilt.edu/DataSets} and \url{https://CRAN.R-project.org/package=stablelearner}
+#' @references   \url{https://www.encyclopedia-titanica.org}, \url{http://biostat.mc.vanderbilt.edu/DataSets} and \url{https://CRAN.R-project.org/package=stablelearner}
 #' @source This dataset was copied from the \code{stablelearner} package and went through few variable
 #' transformations. The complete list of persons on the RMS titanic was downloaded from
-#' \url{http://www.encyclopedia-titanica.org/} on April 5, 2016. The  information given
+#' \url{https://www.encyclopedia-titanica.org} on April 5, 2016. The  information given
 #' in \code{sibsp} and \code{parch} was adopoted from a data set obtained from \url{http://biostat.mc.vanderbilt.edu/DataSets}.
 #' @usage data(titanic)
 #' @format a data frame with 2207 rows and 11 columns
