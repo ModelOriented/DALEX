@@ -1,6 +1,7 @@
 DALEX 0.3
 ----------------------------------------------------------------
-* `pdp`, `factorMerger` and `ALEPlot` are going to `Suggested`. In next releases they will be deprecated
+* `pdp`, `factorMerger` and `ALEPlot` are going to `Suggested`. ([#60](https://github.com/pbiecek/DALEX/issues/60)). In next releases they will be deprecated.
+* added `predict` function that calles the `predict_function` hidded in the `explainer` object. ([#58](https://github.com/pbiecek/DALEX/issues/58)).
 
 DALEX 0.2.9
 ----------------------------------------------------------------
