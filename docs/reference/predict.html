@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plots Marginal Model Explanations (Single Variable Responses) — plot.variable_response_explainer • DALEX</title>
+<title>Wrapper over the predict function — predict.explainer • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -48,7 +48,7 @@
 	  <a class = "navbar-mi2logo" href="http://mi2.mini.pw.edu.pl/">
         <img src = "https://github.com/mi2-warsaw/MI2template/blob/master/inst/pkgdown/assets/MI2logo.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
 	  </a>
-      <a class="navbar-brand navbar-mi2" href="../index.html">Plots Marginal Model Explanations (Single Variable Responses)</a>
+      <a class="navbar-brand navbar-mi2" href="../index.html">Wrapper over the predict function</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="navbar-mi2 nav navbar-nav">
@@ -91,62 +91,47 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plots Marginal Model Explanations (Single Variable Responses)</h1>
+    <h1>Wrapper over the predict function</h1>
     </div>
 
     
-    <p>Function 'plot.variable_response_explainer' plots marginal responses for one or more explainers.</p>
+    <p>This function works for explain objects. It calles embeded predict function.</p>
     
 
-    <pre class="usage"><span class='co'># S3 method for variable_response_explainer</span>
-<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>use_facets</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for explainer</span>
+<span class='fu'>predict</span>(<span class='no'>object</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>a single variable exlainer produced with the 'single_variable' function</p></td>
+      <th>object</th>
+      <td><p>a model to be explained, object of the class 'explainer'</p></td>
+    </tr>
+    <tr>
+      <th>newdata</th>
+      <td><p>data.frame or matrix - observations for prediction</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>other explainers that shall be plotted together</p></td>
-    </tr>
-    <tr>
-      <th>use_facets</th>
-      <td><p>logical. If TRUE then separate models are on different facets</p></td>
+      <td><p>other parameters that will be passed to the predict function</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a ggplot2 object</p>
+    <p>An numeric matrix of predictions</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>HR</span>$<span class='no'>evaluation</span> <span class='kw'>&lt;-</span> <span class='fu'>factor</span>(<span class='no'>HR</span>$<span class='no'>evaluation</span>)
-
-<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
+    <pre class="examples"><div class='input'><span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)
-<span class='no'>expl_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_response.html'>variable_response</a></span>(<span class='no'>explainer_glm</span>, <span class='st'>"age"</span>, <span class='st'>"pdp"</span>)
-<span class='fu'>plot</span>(<span class='no'>expl_glm</span>)</div><div class='img'><img src='plot.variable_response_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>predict</span>(<span class='no'>explainer_glm</span>, <span class='no'>HR</span>[<span class='fl'>1</span>:<span class='fl'>3</span>,])</div><div class='output co'>#&gt;         1         2         3 
+#&gt; 0.5139357 0.7384469 0.6412859 </div><div class='input'>
  </div><div class='input'><span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
 <span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)
-<span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_response.html'>variable_response</a></span>(<span class='no'>explainer_rf</span>, <span class='kw'>variable</span> <span class='kw'>=</span> <span class='st'>"age"</span>,
-                       <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>)
-<span class='fu'>plot</span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='plot.variable_response_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot</span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>)</div><div class='img'><img src='plot.variable_response_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># Example for factor variable (with factorMerger)</span>
-<span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_response.html'>variable_response</a></span>(<span class='no'>explainer_rf</span>, <span class='kw'>variable</span> <span class='kw'>=</span>  <span class='st'>"evaluation"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"factor"</span>)
-<span class='fu'>plot</span>(<span class='no'>expl_rf</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='img'><img src='plot.variable_response_explainer-4.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>expl_glm</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_response.html'>variable_response</a></span>(<span class='no'>explainer_glm</span>, <span class='kw'>variable</span> <span class='kw'>=</span>  <span class='st'>"evaluation"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"factor"</span>)
-<span class='fu'>plot</span>(<span class='no'>expl_glm</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='img'><img src='plot.variable_response_explainer-5.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># both models</span>
-<span class='fu'>plot</span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='img'><img src='plot.variable_response_explainer-6.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
-</div></pre>
+<span class='fu'>predict</span>(<span class='no'>explainer_rf</span>, <span class='no'>HR</span>[<span class='fl'>1</span>:<span class='fl'>3</span>,])</div><div class='output co'>#&gt;         1         2         3 
+#&gt; 0.5402233 0.7514361 0.7187082 </div><div class='input'> </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
