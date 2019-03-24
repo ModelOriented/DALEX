@@ -8,21 +8,20 @@
 #' @export
 #' @examples
 #'  \dontrun{
-#' library("breakDown")
 #' library("randomForest")
-#' HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
-#' explainer_rf  <- explain(HR_rf_model, data = HR_data, y = HR_data$left)
+#' HR_rf_model <- randomForest(status == "fired"~., data = HR, ntree = 100)
+#' explainer_rf  <- explain(HR_rf_model, data = HR, y = HR$status == "fired")
 #' model_performance(explainer_rf)
 #'
-#' HR_glm_model <- glm(left~., data = breakDown::HR_data, family = "binomial")
-#' explainer_glm <- explain(HR_glm_model, data = HR_data, y = HR_data$left,
+#' HR_glm_model <- glm(status == "fired"~., data = HR, family = "binomial")
+#' explainer_glm <- explain(HR_glm_model, data = HR, y = HR$status == "fired",
 #'                     predict_function = function(m,x) predict.glm(m,x,type = "response"))
 #' mp_ex_glm <- model_performance(explainer_glm)
 #' mp_ex_glm
 #' plot(mp_ex_glm)
 #'
-#' HR_lm_model <- lm(left~., data = breakDown::HR_data)
-#' explainer_lm <- explain(HR_lm_model, data = HR_data, y = HR_data$left)
+#' HR_lm_model <- lm(status == "fired"~., data = HR)
+#' explainer_lm <- explain(HR_lm_model, data = HR, y = HR$status == "fired")
 #' model_performance(explainer_lm)
 #'  }
 #'
@@ -52,8 +51,8 @@ model_performance <- function(explainer, ...) {
 #'  \dontrun{
 #' library("breakDown")
 #' library("randomForest")
-#' HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
-#' explainer_rf  <- explain(HR_rf_model, data = HR_data, y = HR_data$left)
+#' HR_rf_model <- randomForest(status == "fired"~., data = HR, ntree = 100)
+#' explainer_rf  <- explain(HR_rf_model, data = HR, y = HR$status == "fired")
 #' mp_ex_rf <- model_performance(explainer_rf)
 #' mp_ex_rf
 #' plot(mp_ex_rf)

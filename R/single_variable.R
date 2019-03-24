@@ -24,6 +24,8 @@
 #'
 #' @aliases single_variable
 #' @examples
+#' HR$evaluation <- factor(HR$evaluation)
+#'
 #' HR_glm_model <- glm(status == "fired"~., data = HR, family = "binomial")
 #' explainer_glm <- explain(HR_glm_model, data = HR)
 #' expl_glm <- variable_response(explainer_glm, "age", "pdp")

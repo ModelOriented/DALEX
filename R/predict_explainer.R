@@ -10,8 +10,7 @@
 #' @examples
 #' HR_glm_model <- glm(status == "fired"~., data = HR, family = "binomial")
 #' explainer_glm <- explain(HR_glm_model, data = HR)
-#' expl_glm <- variable_response(explainer_glm, "age", "pdp")
-#' plot(expl_glm)
+#' predict(explainer_glm, HR[1:3,])
 #'
 #'  \dontrun{
 #' library("randomForest")
