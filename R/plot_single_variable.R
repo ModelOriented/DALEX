@@ -10,36 +10,27 @@
 #' @export
 #' @import ggplot2
 #' @importFrom grDevices dev.off pdf
-#' @importFrom ggpubr ggarrange
-#' @importFrom factorMerger getOptimalPartitionDf plotTree plotResponse
 #'
 #' @examples
-#' library("breakDown")
-#' logit <- function(x) exp(x)/(1+exp(x))
-#'
-#' HR_glm_model <- glm(left~., data = breakDown::HR_data, family = "binomial")
-#' explainer_glm <- explain(HR_glm_model, data = HR_data, trans = logit)
-#' expl_glm <- variable_response(explainer_glm, "satisfaction_level", "pdp", trans=logit)
+#' HR_glm_model <- glm(status == "fired"~., data = HR, family = "binomial")
+#' explainer_glm <- explain(HR_glm_model, data = HR)
+#' expl_glm <- variable_response(explainer_glm, "age", "pdp")
 #' plot(expl_glm)
 #'
 #'  \dontrun{
 #' library("randomForest")
-#' HR_rf_model <- randomForest(factor(left)~., data = breakDown::HR_data, ntree = 100)
-#' explainer_rf  <- explain(HR_rf_model, data = HR_data,
-#'                        predict_function = function(model, x)
-#'                              predict(model, x, type = "prob")[,2])
-#' expl_rf  <- variable_response(explainer_rf, variable = "satisfaction_level",
-#'                        type = "pdp", which.class = 2, prob = TRUE)
+#' HR_rf_model <- randomForest(status == "fired" ~., data = HR)
+#' explainer_rf  <- explain(HR_rf_model, data = HR)
+#' expl_rf  <- variable_response(explainer_rf, variable = "age",
+#'                        type = "pdp")
 #' plot(expl_rf)
-#'
 #' plot(expl_rf, expl_glm)
 #'
 #' # Example for factor variable (with factorMerger)
-#' library("randomForest")
-#' expl_rf  <- variable_response(explainer_rf, variable =  "sales", type = "factor")
+#' expl_rf  <- variable_response(explainer_rf, variable =  "evaluation", type = "factor")
 #' plot(expl_rf)
 #'
-#' expl_glm  <- variable_response(explainer_glm, variable =  "sales", type = "factor")
+#' expl_glm  <- variable_response(explainer_glm, variable =  "evaluation", type = "factor")
 #' plot(expl_glm)
 #'
 #' # both models
@@ -60,8 +51,8 @@ plot.variable_response_factor_explainer <- function(x, ...) {
   clusterSplit <- list(stat = "GIC", value = 2)
 
   all_plots <- lapply(fex, function(fm) {
-    colorsDf <- getOptimalPartitionDf(fm, "GIC", 2)
-    mergingPathPlot <- plotTree(fm,
+    colorsDf <- factorMerger::getOptimalPartitionDf(fm, "GIC", 2)
+    mergingPathPlot <- factorMerger::plotTree(fm,
                          statistic = "loglikelihood",
                          nodesSpacing = "equidistant",
                          title = fm$label[1],
@@ -75,12 +66,12 @@ plot.variable_response_factor_explainer <- function(x, ...) {
                          palette = NULL,
                          panelGrid = FALSE) +
         scale_x_continuous("", breaks = NULL)
-    responsePlot <- plotResponse(fm, "boxplot", TRUE, clusterSplit, NULL) +
+    responsePlot <- factorMerger::plotResponse(fm, "boxplot", TRUE, clusterSplit, NULL) +
       ggtitle("Partial Group Predictions")
-    ggarrange(mergingPathPlot,
+    ggpubr::ggarrange(mergingPathPlot,
               ncol = 1,  align = "h", widths = c(2))
   })
-  ggarrange(plotlist = all_plots, ncol = 1, nrow = length(all_plots)) + theme_void()
+  ggpubr::ggarrange(plotlist = all_plots, ncol = 1, nrow = length(all_plots)) + theme_void()
 }
 
 plot.variable_response_numeric_explainer <- function(x, ..., use_facets = FALSE) {

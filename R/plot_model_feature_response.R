@@ -10,8 +10,6 @@
 #' @export
 #' @import ggplot2
 #' @importFrom grDevices dev.off pdf
-#' @importFrom ggpubr ggarrange
-#' @importFrom factorMerger getOptimalPartitionDf plotTree plotResponse
 #'
 #' @examples
 #' library("DALEX")

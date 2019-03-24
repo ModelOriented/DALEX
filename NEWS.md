@@ -1,3 +1,7 @@
+DALEX 0.3
+----------------------------------------------------------------
+* `pdp`, `factorMerger` and `ALEPlot` are going to `Suggested`. In next releases they will be deprecated
+
 DALEX 0.2.9
 ----------------------------------------------------------------
 * the `titanic` dataset is copied from `stablelearner` package. Some features are transformed (some `NA` replaced with `0`, more numeric features).

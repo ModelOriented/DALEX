@@ -24,9 +24,6 @@
 #' It's a data frame with calculated average response.
 #'
 #' @export
-#' @importFrom pdp partial
-#' @importFrom ALEPlot ALEPlot
-#' @importFrom factorMerger mergeFactors
 #'
 #' @examples
 #' library("DALEX")
@@ -131,7 +128,7 @@ model_feature_response_1d <- function(x, data, predict_function,
            })
            preds_combined <- do.call(rbind, preds)
 
-           res <- mergeFactors(preds_combined$scores, preds_combined$level, abbreviate = FALSE)
+           res <- factorMerger::mergeFactors(preds_combined$scores, preds_combined$level, abbreviate = FALSE)
            res$label = label
            class(res) <-  c("model_feature_response_explainer", "factorMerger", "gaussianFactorMerger")
            res
@@ -140,7 +137,7 @@ model_feature_response_1d <- function(x, data, predict_function,
            # pdp requires predict function with only two arguments
            predictor_pdp <- function(object, newdata) mean(predict_function(object, newdata), na.rm = TRUE)
 
-           part <- partial(x, pred.var = feature, train = data, ..., pred.fun = predictor_pdp, recursive = FALSE)
+           part <- pdp::partial(x, pred.var = feature, train = data, ..., pred.fun = predictor_pdp, recursive = FALSE)
            res <- data.frame(x = part[,1], y = part$yhat, var = feature, type = type, label = label)
            class(res) <- c("model_feature_response_explainer", "data.frame", "pdp")
            res
@@ -152,7 +149,7 @@ model_feature_response_1d <- function(x, data, predict_function,
            # need to create a temporary file to stop ALEPlot function from plotting anytihing
            tmpfn <- tempfile()
            pdf(tmpfn)
-           part <- ALEPlot(X = data, X.model = x, J = feature, pred.fun = predictor_ale)
+           part <- ALEPlot::ALEPlot(X = data, X.model = x, J = feature, pred.fun = predictor_ale)
            dev.off()
            unlink(tmpfn)
            res <- data.frame(x = part$x.values, y = part$f.values, var = feature, type = type, label = label)

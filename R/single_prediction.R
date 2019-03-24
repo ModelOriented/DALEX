@@ -9,7 +9,6 @@
 #'
 #' @aliases single_prediction
 #' @export
-#' @import breakDown
 #' @examples
 #' library("breakDown")
 #' new.wine <- data.frame(citric.acid = 0.35,

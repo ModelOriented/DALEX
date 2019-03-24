@@ -8,7 +8,7 @@ before_install:
 
 env:
   global:
-  - R_CHECK_ARGS="--no-build-vignettes --no-manual --timings"
+  - R_CHECK_ARGS="--timings"
 
 notifications:
   email: false
@@ -23,4 +23,4 @@ r_packages:
 
 after_success:
   - Rscript -e 'library(covr); codecov()'
-  
+

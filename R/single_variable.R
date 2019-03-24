@@ -21,30 +21,32 @@
 #' It's a data frame with calculated average response.
 #'
 #' @export
-#' @importFrom pdp partial
-#' @importFrom ALEPlot ALEPlot
-#' @importFrom factorMerger mergeFactors
 #'
 #' @aliases single_variable
 #' @examples
-#' library("breakDown")
-#' logit <- function(x) exp(x)/(1+exp(x))
-#'
-#' HR_glm_model <- glm(left~., data = breakDown::HR_data, family = "binomial")
-#' explainer_glm <- explain(HR_glm_model, data = HR_data, trans=logit)
-#' expl_glm <- variable_response(explainer_glm, "satisfaction_level", "pdp")
-#' head(expl_glm)
+#' HR_glm_model <- glm(status == "fired"~., data = HR, family = "binomial")
+#' explainer_glm <- explain(HR_glm_model, data = HR)
+#' expl_glm <- variable_response(explainer_glm, "age", "pdp")
+#' plot(expl_glm)
 #'
 #'  \dontrun{
 #' library("randomForest")
-#' HR_rf_model <- randomForest(factor(left)~., data = breakDown::HR_data, ntree = 100)
-#' explainer_rf  <- explain(HR_rf_model, data = HR_data,
-#'                        predict_function = function(model, x)
-#'                               predict(model, x, type = "prob")[,2])
-#' expl_rf  <- variable_response(explainer_rf, variable = "satisfaction_level", type = "pdp",
-#'                        which.class = 2, prob = TRUE)
-#' head(expl_rf)
+#' HR_rf_model <- randomForest(status == "fired" ~., data = HR)
+#' explainer_rf  <- explain(HR_rf_model, data = HR)
+#' expl_rf  <- variable_response(explainer_rf, variable = "age",
+#'                        type = "pdp")
 #' plot(expl_rf)
+#' plot(expl_rf, expl_glm)
+#'
+#' # Example for factor variable (with factorMerger)
+#' expl_rf  <- variable_response(explainer_rf, variable =  "evaluation", type = "factor")
+#' plot(expl_rf)
+#'
+#' expl_glm  <- variable_response(explainer_glm, variable =  "evaluation", type = "factor")
+#' plot(expl_glm)
+#'
+#' # both models
+#' plot(expl_rf, expl_glm)
 #'  }
 #'
 variable_response <- function(explainer, variable, type = "pdp", trans = explainer$link, ...) {
@@ -70,7 +72,7 @@ variable_response <- function(explainer, variable, type = "pdp", trans = explain
            })
            preds_combined <- do.call(rbind, preds)
 
-           res <- mergeFactors(preds_combined$scores, preds_combined$level, abbreviate = FALSE)
+           res <- factorMerger::mergeFactors(preds_combined$scores, preds_combined$level, abbreviate = FALSE)
            res$label = explainer$label
            class(res) <-  c("variable_response_explainer", "factorMerger", "gaussianFactorMerger")
            res
@@ -79,7 +81,7 @@ variable_response <- function(explainer, variable, type = "pdp", trans = explain
            # pdp requires predict function with only two arguments
            predictor_pdp <- function(object, newdata) mean(explainer$predict_function(object, newdata), na.rm = TRUE)
 
-           part <- partial(explainer$model, pred.var = variable, train = explainer$data, ..., pred.fun = predictor_pdp, recursive = FALSE)
+           part <- pdp::partial(explainer$model, pred.var = variable, train = explainer$data, ..., pred.fun = predictor_pdp, recursive = FALSE)
            res <- data.frame(x = part[,1], y = trans(part$yhat), var = variable, type = type, label = explainer$label)
            class(res) <- c("variable_response_explainer", "data.frame", "pdp")
            res
@@ -91,7 +93,7 @@ variable_response <- function(explainer, variable, type = "pdp", trans = explain
            # need to create a temporary file to stop ALEPlot function from plotting anytihing
            tmpfn <- tempfile()
            pdf(tmpfn)
-           part <- ALEPlot(X = explainer$data, X.model = explainer$model, J = variable, pred.fun = predictor_ale)
+           part <- ALEPlot::ALEPlot(X = explainer$data, X.model = explainer$model, J = variable, pred.fun = predictor_ale)
            dev.off()
            unlink(tmpfn)
            res <- data.frame(x = part$x.values, y = trans(part$f.values), var = variable, type = type, label = explainer$label)

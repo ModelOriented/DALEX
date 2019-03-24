@@ -12,22 +12,21 @@
 #' @export
 #' @examples
 #'  \dontrun{
-#' library("breakDown")
 #' library("randomForest")
-#' HR_rf_model <- randomForest(left~., data = breakDown::HR_data, ntree = 100)
-#' explainer_rf  <- explain(HR_rf_model, data = HR_data, y = HR_data$left)
+#' HR_rf_model <- randomForest(status == "fired"~., data = HR, ntree = 100)
+#' explainer_rf  <- explain(HR_rf_model, data = HR, y = HR$status == "fired")
 #' mp_rf <- model_performance(explainer_rf)
 #' plot(mp_rf)
 #' plot(mp_rf, geom = "boxplot", show_outliers = 1)
 #'
-#' HR_glm_model <- glm(left~., data = breakDown::HR_data, family = "binomial")
-#' explainer_glm <- explain(HR_glm_model, data = HR_data, y = HR_data$left, label = "glm",
+#' HR_glm_model <- glm(status == "fired"~., data = HR, family = "binomial")
+#' explainer_glm <- explain(HR_glm_model, data = HR, y = HR$status == "fired", label = "glm",
 #'                     predict_function = function(m,x) predict.glm(m,x,type = "response"))
 #' mp_glm <- model_performance(explainer_glm)
 #' plot(mp_glm)
 #'
-#' HR_lm_model <- lm(left~., data = breakDown::HR_data)
-#' explainer_lm <- explain(HR_lm_model, data = HR_data, y = HR_data$left)
+#' HR_lm_model <- lm(status == "fired"~., data = HR)
+#' explainer_lm <- explain(HR_lm_model, data = HR, y = HR$status == "fired")
 #' mp_lm <- model_performance(explainer_lm)
 #' plot(mp_lm)
 #'
