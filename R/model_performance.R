@@ -4,7 +4,7 @@
 #' @param ... other parameters
 #'
 #' @return An object of the class 'model_performance_explainer'.
-#'
+#' @references Predictive Models: Visual Exploration, Explanation and Debugging \url{https://pbiecek.github.io/PM_VEE/}
 #' @export
 #' @examples
 #'  \dontrun{

@@ -65,3 +65,6 @@ plot(expl_rf, expl_glm)
  }
 
 }
+\references{
+Predictive Models: Visual Exploration, Explanation and Debugging \url{https://pbiecek.github.io/PM_VEE/}
+}

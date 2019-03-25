@@ -22,7 +22,7 @@
 #'
 #' @return An object of the class 'model_feature_response_explainer'.
 #' It's a data frame with calculated average response.
-#'
+#' @references Predictive Models: Visual Exploration, Explanation and Debugging \url{https://pbiecek.github.io/PM_VEE/}
 #' @export
 #'
 #' @examples

@@ -8,6 +8,7 @@
 #' It's a data frame with calculated average response.
 #'
 #' @aliases single_prediction
+#' @references Predictive Models: Visual Exploration, Explanation and Debugging \url{https://pbiecek.github.io/PM_VEE/}
 #' @export
 #' @examples
 #' library("breakDown")
