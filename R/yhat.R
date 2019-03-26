@@ -55,6 +55,17 @@ yhat.glm <- function(X.model, newdata, ...) {
   predict(X.model, newdata, type = "response")
 }
 
+#' @rdname yhat
+#' @export
+yhat.cv.glmnet <- function(X.model, newdata, ...) {
+  predict(X.model, newdata, type = "response")
+}
+
+#' @rdname yhat
+#' @export
+yhat.glmnet <- function(X.model, newdata, ...) {
+  predict(X.model, newdata, type = "response")
+}
 
 #' @rdname yhat
 #' @export
