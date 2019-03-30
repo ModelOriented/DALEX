@@ -1,4 +1,4 @@
-#' Marginal Response for a Single Variable
+#' Marginal Response for a Single Feature
 #'
 #' Calculates the average model response as a function of a single selected variable.
 #' Use the 'type' parameter to select the type of marginal response to be calculated.
@@ -20,7 +20,7 @@
 #' @param which_class character, for multilabel classification you can restrict results to selected classes. By default `NULL` which means that all classes are considered.
 #' @param ... other parameters
 #'
-#' @return An object of the class 'model_feature_response_explainer'.
+#' @return An object of the class 'feature_response_explainer'.
 #' It's a data frame with calculated average response.
 #' @references Predictive Models: Visual Exploration, Explanation and Debugging \url{https://pbiecek.github.io/PM_VEE/}
 #' @export
@@ -30,7 +30,7 @@
 #'
 #' HR_glm_model <- glm(status == "fired" ~ ., data = HR, family = "binomial")
 #' explainer_glm <- explain(HR_glm_model, data = HR)
-#' expl_glm <- model_feature_response(explainer_glm, "age", "pdp")
+#' expl_glm <- feature_response(explainer_glm, "age", "pdp")
 #' head(expl_glm)
 #' plot(expl_glm)
 #'
@@ -38,39 +38,39 @@
 #' library("randomForest")
 #' HR_rf_model <- randomForest(status ~ ., data = HR, ntree = 100)
 #' explainer_rf  <- explain(HR_rf_model, data = HR)
-#' expl_rf  <- model_feature_response(explainer_rf, feature = "age", type = "pdp")
+#' expl_rf  <- feature_response(explainer_rf, feature = "age", type = "pdp")
 #' head(expl_rf)
 #' plot(expl_rf)
 #'
-#' expl_rf  <- model_feature_response(explainer_rf, feature = "age", type = "pdp",
+#' expl_rf  <- feature_response(explainer_rf, feature = "age", type = "pdp",
 #'                        which_class = 2)
 #' plot(expl_rf)
 #'  }
 #'
 #' @export
-#' @rdname model_feature_response
-model_feature_response <- function(x, ...)
-  UseMethod("model_feature_response")
+#' @rdname feature_response
+feature_response <- function(x, ...)
+  UseMethod("feature_response")
 
 #' @export
-#' @rdname model_feature_response
-model_feature_response.explainer <- function(x, feature, type = "pdp", which_class = NULL, ...) {
-  if (is.null(x$data)) stop("The model_feature_response() function requires explainers created with specified 'data' parameter.")
+#' @rdname feature_response
+feature_response.explainer <- function(x, feature, type = "pdp", which_class = NULL, ...) {
+  if (is.null(x$data)) stop("The feature_response() function requires explainers created with specified 'data' parameter.")
   # extracts model, data and predict function from the explainer
   model <- x$model
   data <- x$data
   predict_function <- x$predict_function
   label <- x$label
 
-  model_feature_response.default(model, data = data,
+  feature_response.default(model, data = data,
                                  predict_function = predict_function,
                                  feature = feature, type = type,
                                  label = label, which_class = which_class, ...)
 }
 
 #' @export
-#' @rdname model_feature_response
-model_feature_response.default <- function(x, data, predict_function,
+#' @rdname feature_response
+feature_response.default <- function(x, data, predict_function,
                                    feature, type = "pdp", label = class(x)[1], which_class = NULL, ...) {
   if (class(data[,feature]) == "factor" & type != "factor") {
     message(paste("Variable", feature, " is of the class factor. Type of explainer changed to 'factor'."))
@@ -91,7 +91,7 @@ model_feature_response.default <- function(x, data, predict_function,
     }
     res <- lapply(selected_classess, function(which_class) {
       predict_function_1d <- function(...) predict_function(...)[,which_class]
-      model_feature_response_1d(x = x, data = data, predict_function = predict_function_1d,
+      feature_response_1d(x = x, data = data, predict_function = predict_function_1d,
                                        feature = feature, type = type,
                                        label = paste0(label, ".", selected_names[which_class]), ...)
     })
@@ -103,7 +103,7 @@ model_feature_response.default <- function(x, data, predict_function,
     }
   } else {
     predict_function_1d <- predict_function
-    res <- model_feature_response_1d(x = x, data = data, predict_function = predict_function_1d,
+    res <- feature_response_1d(x = x, data = data, predict_function = predict_function_1d,
                                      feature = feature, type = type, label = label, ...)
   }
   res
@@ -114,7 +114,7 @@ print.factorMerger_list <- function(x, ...) {
   invisible(lapply(x, print, ...))
 }
 
-model_feature_response_1d <- function(x, data, predict_function,
+feature_response_1d <- function(x, data, predict_function,
                                       feature, type = "pdp", label = class(x)[1],  ...) {
   switch(type,
          factor = {
@@ -130,7 +130,7 @@ model_feature_response_1d <- function(x, data, predict_function,
 
            res <- factorMerger::mergeFactors(preds_combined$scores, preds_combined$level, abbreviate = FALSE)
            res$label = label
-           class(res) <-  c("model_feature_response_explainer", "factorMerger", "gaussianFactorMerger")
+           class(res) <-  c("feature_response_explainer", "factorMerger", "gaussianFactorMerger")
            res
          },
          pdp = {
@@ -139,7 +139,7 @@ model_feature_response_1d <- function(x, data, predict_function,
 
            part <- pdp::partial(x, pred.var = feature, train = data, ..., pred.fun = predictor_pdp, recursive = FALSE)
            res <- data.frame(x = part[,1], y = part$yhat, var = feature, type = type, label = label)
-           class(res) <- c("model_feature_response_explainer", "data.frame", "pdp")
+           class(res) <- c("feature_response_explainer", "data.frame", "pdp")
            res
          },
          ale = {
@@ -153,7 +153,7 @@ model_feature_response_1d <- function(x, data, predict_function,
            dev.off()
            unlink(tmpfn)
            res <- data.frame(x = part$x.values, y = part$f.values, var = feature, type = type, label = label)
-           class(res) <- c("model_feature_response_explainer", "data.frame", "ale")
+           class(res) <- c("feature_response_explainer", "data.frame", "ale")
            res
          },
          stop("Currently only 'pdp', 'ale' and 'factor' methods are implemented"))

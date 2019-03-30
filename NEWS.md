@@ -1,3 +1,7 @@
+DALEX 0.3.1
+----------------------------------------------------------------
+* updated filenames
+
 DALEX 0.3
 ----------------------------------------------------------------
 * `pdp`, `factorMerger` and `ALEPlot` are going to `Suggested`. ([#60](https://github.com/pbiecek/DALEX/issues/60)). In next releases they will be deprecated.

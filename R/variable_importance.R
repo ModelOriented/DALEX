@@ -1,4 +1,4 @@
-#' Loss from Variable Dropout
+#' Feature Importance Calculated as Loss from Feature Dropout
 #'
 #' @param explainer a model to be explained, preprocessed by the 'explain' function
 #' @param loss_function a function thet will be used to assess variable importance

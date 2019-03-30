@@ -6,6 +6,8 @@
 \alias{yhat.randomForest}
 \alias{yhat.svm}
 \alias{yhat.glm}
+\alias{yhat.cv.glmnet}
+\alias{yhat.glmnet}
 \alias{yhat.ranger}
 \alias{yhat.default}
 \title{Wrapper over the predict function}
@@ -19,6 +21,10 @@ yhat(X.model, newdata, ...)
 \method{yhat}{svm}(X.model, newdata, ...)
 
 \method{yhat}{glm}(X.model, newdata, ...)
+
+\method{yhat}{cv.glmnet}(X.model, newdata, ...)
+
+\method{yhat}{glmnet}(X.model, newdata, ...)
 
 \method{yhat}{ranger}(X.model, newdata, ...)
 
