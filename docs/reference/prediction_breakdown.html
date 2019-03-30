@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Explanations for a Single Prediction — prediction_breakdown • DALEX</title>
+<title>Explanations for a Prediction Breakdown — prediction_breakdown • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -45,10 +45,10 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-	  <a class = "navbar-mi2logo" href="http://mi2.mini.pw.edu.pl/">
-        <img src = "https://github.com/mi2-warsaw/MI2template/blob/master/inst/pkgdown/assets/MI2logo.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
+	  <a class = "navbar-mi2logo" href="http://DrWhy.AI/">
+        <img src = "https://github.com/ModelOriented/DrWhyTemplate/blob/master/inst/pkgdown/assets/drwhy_znak_violet_small.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
 	  </a>
-      <a class="navbar-brand navbar-mi2" href="../index.html">Explanations for a Single Prediction</a>
+      <a class="navbar-brand navbar-mi2" href="../index.html">Explanations for a Prediction Breakdown</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="navbar-mi2 nav navbar-nav">
@@ -91,11 +91,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Explanations for a Single Prediction</h1>
+    <h1>Explanations for a Prediction Breakdown</h1>
     </div>
 
     
-    <p>Explanations for a Single Prediction</p>
+    <p>Explanations for a Prediction Breakdown</p>
     
 
     <pre class="usage"><span class='fu'>prediction_breakdown</span>(<span class='no'>explainer</span>, <span class='no'>observation</span>, <span class='no'>...</span>)</pre>
@@ -121,6 +121,10 @@
 
     <p>An object of the class 'single_prediction_explainer'.
 It's a data frame with calculated average response.</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Predictive Models: Visual Exploration, Explanation and Debugging <a href='https://pbiecek.github.io/PM_VEE/'>https://pbiecek.github.io/PM_VEE/</a></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -153,19 +157,19 @@ It's a data frame with calculated average response.</p>
 <span class='no'>wine_rf_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>wine_rf_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_rf"</span>)
 <span class='no'>wine_rf_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_breakdown</span>(<span class='no'>wine_rf_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>)
 <span class='fu'>head</span>(<span class='no'>wine_rf_predict4</span>)</div><div class='output co'>#&gt;                              variable contribution  variable_name
-#&gt; 1                         (Intercept)    5.8817741      Intercept
-#&gt; alcohol              + alcohol = 12.5    0.5849727        alcohol
-#&gt; sulphates           + sulphates = 0.6    0.2028761      sulphates
-#&gt; pH                        + pH = 3.36    0.2748941             pH
-#&gt; residual.sugar + residual.sugar = 4.8    0.2756222 residual.sugar
+#&gt; 1                         (Intercept)    5.8803135      Intercept
+#&gt; alcohol              + alcohol = 12.5    0.5850657        alcohol
+#&gt; sulphates           + sulphates = 0.6    0.2070141      sulphates
+#&gt; pH                        + pH = 3.36    0.2790537             pH
+#&gt; residual.sugar + residual.sugar = 4.8    0.2687412 residual.sugar
 #&gt; citric.acid      + citric.acid = 0.35    0.0000000    citric.acid
 #&gt;                variable_value cummulative sign position    label
-#&gt; 1                           1    5.881774    1        1 model_rf
-#&gt; alcohol                  12.5    6.466747    1        2 model_rf
-#&gt; sulphates                 0.6    6.669623    1        3 model_rf
-#&gt; pH                       3.36    6.944517    1        4 model_rf
-#&gt; residual.sugar            4.8    7.220139    1        5 model_rf
-#&gt; citric.acid              0.35    7.220139    0        6 model_rf</div><div class='input'><span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>)</div><div class='img'><img src='prediction_breakdown-2.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; 1                           1    5.880313    1        1 model_rf
+#&gt; alcohol                  12.5    6.465379    1        2 model_rf
+#&gt; sulphates                 0.6    6.672393    1        3 model_rf
+#&gt; pH                       3.36    6.951447    1        4 model_rf
+#&gt; residual.sugar            4.8    7.220188    1        5 model_rf
+#&gt; citric.acid              0.35    7.220188    0        6 model_rf</div><div class='input'><span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>)</div><div class='img'><img src='prediction_breakdown-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'>library</span>(<span class='st'>"gbm"</span>)
 <span class='co'># create a gbm model</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/gbm/topics/gbm'>gbm</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>,
@@ -181,19 +185,19 @@ It's a data frame with calculated average response.</p>
  <span class='co'># create a new observation</span>
  <span class='no'>exp_sgn</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_breakdown</span>(<span class='no'>explainer_gbm</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>)
  <span class='fu'>head</span>(<span class='no'>exp_sgn</span>)</div><div class='output co'>#&gt;                              variable contribution  variable_name
-#&gt; 1                         (Intercept)   5.87709145      Intercept
-#&gt; alcohol              + alcohol = 12.5   0.64209166        alcohol
-#&gt; pH                        + pH = 3.36   0.16086973             pH
-#&gt; sulphates           + sulphates = 0.6   0.12104730      sulphates
-#&gt; residual.sugar + residual.sugar = 4.8   0.04735961 residual.sugar
+#&gt; 1                         (Intercept)   5.87759265      Intercept
+#&gt; alcohol              + alcohol = 12.5   0.64509278        alcohol
+#&gt; pH                        + pH = 3.36   0.16295504             pH
+#&gt; sulphates           + sulphates = 0.6   0.11804114      sulphates
+#&gt; residual.sugar + residual.sugar = 4.8   0.05397097 residual.sugar
 #&gt; citric.acid      + citric.acid = 0.35   0.00000000    citric.acid
 #&gt;                variable_value cummulative sign position label
-#&gt; 1                           1    5.877091    1        1   gbm
-#&gt; alcohol                  12.5    6.519183    1        2   gbm
-#&gt; pH                       3.36    6.680053    1        3   gbm
-#&gt; sulphates                 0.6    6.801100    1        4   gbm
-#&gt; residual.sugar            4.8    6.848460    1        5   gbm
-#&gt; citric.acid              0.35    6.848460    0        6   gbm</div><div class='input'> <span class='fu'>plot</span>(<span class='no'>exp_sgn</span>)</div><div class='img'><img src='prediction_breakdown-3.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; 1                           1    5.877593    1        1   gbm
+#&gt; alcohol                  12.5    6.522685    1        2   gbm
+#&gt; pH                       3.36    6.685640    1        3   gbm
+#&gt; sulphates                 0.6    6.803682    1        4   gbm
+#&gt; residual.sugar            4.8    6.857653    1        5   gbm
+#&gt; citric.acid              0.35    6.857653    0        6   gbm</div><div class='input'> <span class='fu'>plot</span>(<span class='no'>exp_sgn</span>)</div><div class='img'><img src='prediction_breakdown-3.png' alt='' width='700' height='433' /></div><div class='input'>
  <span class='no'>exp_sgn</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_breakdown</span>(<span class='no'>explainer_gbm</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>, <span class='kw'>baseline</span> <span class='kw'>=</span> <span class='fl'>0</span>)
  <span class='fu'>plot</span>(<span class='no'>exp_sgn</span>)</div><div class='img'><img src='prediction_breakdown-4.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
 </div></pre>
@@ -204,6 +208,8 @@ It's a data frame with calculated average response.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

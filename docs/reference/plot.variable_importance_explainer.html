@@ -45,8 +45,8 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-	  <a class = "navbar-mi2logo" href="http://mi2.mini.pw.edu.pl/">
-        <img src = "https://github.com/mi2-warsaw/MI2template/blob/master/inst/pkgdown/assets/MI2logo.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
+	  <a class = "navbar-mi2logo" href="http://DrWhy.AI/">
+        <img src = "https://github.com/ModelOriented/DrWhyTemplate/blob/master/inst/pkgdown/assets/drwhy_znak_violet_small.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
 	  </a>
       <a class="navbar-brand navbar-mi2" href="../index.html">Plots Global Model Explanations (Variable Importance)</a>
     </div>
@@ -141,12 +141,12 @@ Variables are sorted in the same order in all panels. The order depends on the a
 <span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)
 <span class='no'>vd_rf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_importance.html'>variable_importance</a></span>(<span class='no'>explainer_rf</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)
 <span class='fu'>head</span>(<span class='no'>vd_rf</span>)</div><div class='output co'>#&gt;       variable dropout_loss        label
-#&gt; 1 _full_model_     110.6550 randomForest
-#&gt; 2       status     110.6550 randomForest
-#&gt; 3   evaluation     128.4042 randomForest
-#&gt; 4          age     134.7129 randomForest
-#&gt; 5       gender     134.7618 randomForest
-#&gt; 6       salary     141.7473 randomForest</div><div class='input'><span class='fu'>plot</span>(<span class='no'>vd_rf</span>)</div><div class='img'><img src='plot.variable_importance_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; 1 _full_model_     124.9131 randomForest
+#&gt; 2       status     124.9131 randomForest
+#&gt; 3   evaluation     141.8110 randomForest
+#&gt; 4       gender     152.4473 randomForest
+#&gt; 5       salary     154.3866 randomForest
+#&gt; 6          age     156.1831 randomForest</div><div class='input'><span class='fu'>plot</span>(<span class='no'>vd_rf</span>)</div><div class='img'><img src='plot.variable_importance_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)
 <span class='no'>logit</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'>exp</span>(<span class='no'>x</span>)/(<span class='fl'>1</span>+<span class='fu'>exp</span>(<span class='no'>x</span>))
@@ -154,12 +154,12 @@ Variables are sorted in the same order in all panels. The order depends on the a
                         <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>)
                                    <span class='fu'>sum</span>((<span class='no'>observed</span> - <span class='fu'>logit</span>(<span class='no'>predicted</span>))^<span class='fl'>2</span>))
 <span class='fu'>head</span>(<span class='no'>vd_glm</span>)</div><div class='output co'>#&gt;       variable dropout_loss label
-#&gt; 1 _full_model_     252.8159    lm
-#&gt; 2       salary     252.8103    lm
-#&gt; 3       status     252.8159    lm
-#&gt; 4       gender     252.8261    lm
-#&gt; 5          age     252.8705    lm
-#&gt; 6   evaluation     254.2211    lm</div><div class='input'><span class='fu'>plot</span>(<span class='no'>vd_glm</span>)</div><div class='img'><img src='plot.variable_importance_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; 1 _full_model_     261.1544    lm
+#&gt; 2       gender     261.1489    lm
+#&gt; 3       status     261.1544    lm
+#&gt; 4       salary     261.1851    lm
+#&gt; 5          age     261.1935    lm
+#&gt; 6   evaluation     263.3490    lm</div><div class='input'><span class='fu'>plot</span>(<span class='no'>vd_glm</span>)</div><div class='img'><img src='plot.variable_importance_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'>library</span>(<span class='st'>"xgboost"</span>)
 <span class='no'>model_martix_train</span> <span class='kw'>&lt;-</span> <span class='fu'>model.matrix</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>-<span class='fl'>1</span>, <span class='no'>HR</span>)
 <span class='no'>data_train</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/xgboost/topics/xgb.DMatrix'>xgb.DMatrix</a></span>(<span class='no'>model_martix_train</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)
@@ -170,12 +170,12 @@ Variables are sorted in the same order in all panels. The order depends on the a
                                     <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"xgboost"</span>)
 <span class='no'>vd_xgb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_importance.html'>variable_importance</a></span>(<span class='no'>explainer_xgb</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)
 <span class='fu'>head</span>(<span class='no'>vd_xgb</span>)</div><div class='output co'>#&gt;       variable dropout_loss   label
-#&gt; 1 _full_model_     90.33232 xgboost
-#&gt; 2   gendermale     90.33232 xgboost
-#&gt; 3   evaluation    108.93603 xgboost
-#&gt; 4 genderfemale    139.10684 xgboost
-#&gt; 5          age    152.91360 xgboost
-#&gt; 6       salary    174.33732 xgboost</div><div class='input'><span class='fu'>plot</span>(<span class='no'>vd_xgb</span>)</div><div class='img'><img src='plot.variable_importance_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; 1 _full_model_     96.70042 xgboost
+#&gt; 2   gendermale     96.70042 xgboost
+#&gt; 3   evaluation    109.92497 xgboost
+#&gt; 4          age    160.80976 xgboost
+#&gt; 5 genderfemale    163.80274 xgboost
+#&gt; 6       salary    184.62991 xgboost</div><div class='input'><span class='fu'>plot</span>(<span class='no'>vd_xgb</span>)</div><div class='img'><img src='plot.variable_importance_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'>plot</span>(<span class='no'>vd_rf</span>, <span class='no'>vd_glm</span>, <span class='no'>vd_xgb</span>, <span class='kw'>bar_width</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div><div class='img'><img src='plot.variable_importance_explainer-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># NOTE:</span>
 <span class='co'># if you like to have all importances hooked to 0, you can do this as well</span>

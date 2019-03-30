@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Marginal Response for a Single Variable — variable_response • DALEX</title>
+<title>Marginal Response for a Single Feature — feature_response • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -48,7 +48,7 @@
 	  <a class = "navbar-mi2logo" href="http://DrWhy.AI/">
         <img src = "https://github.com/ModelOriented/DrWhyTemplate/blob/master/inst/pkgdown/assets/drwhy_znak_violet_small.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
 	  </a>
-      <a class="navbar-brand navbar-mi2" href="../index.html">Marginal Response for a Single Variable</a>
+      <a class="navbar-brand navbar-mi2" href="../index.html">Marginal Response for a Single Feature</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="navbar-mi2 nav navbar-nav">
@@ -91,7 +91,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Marginal Response for a Single Variable</h1>
+    <h1>Marginal Response for a Single Feature</h1>
     </div>
 
     
@@ -103,18 +103,29 @@ pdp: An R Package for Constructing Partial Dependence Plots. The R Journal, 9(1)
 and 'ALEPlot' (Dan Apley (2017). ALEPlot: Accumulated Local Effects Plots and Partial Dependence Plots.)</p>
     
 
-    <pre class="usage"><span class='fu'>variable_response</span>(<span class='no'>explainer</span>, <span class='no'>variable</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>,
-  <span class='kw'>trans</span> <span class='kw'>=</span> <span class='no'>explainer</span>$<span class='no'>link</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>feature_response</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for explainer</span>
+<span class='fu'>feature_response</span>(<span class='no'>x</span>, <span class='no'>feature</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>,
+  <span class='kw'>which_class</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>feature_response</span>(<span class='no'>x</span>, <span class='no'>data</span>, <span class='no'>predict_function</span>, <span class='no'>feature</span>,
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'>class</span>(<span class='no'>x</span>)[<span class='fl'>1</span>], <span class='kw'>which_class</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>explainer</th>
-      <td><p>a model to be explained, preprocessed by the 'explain' function</p></td>
+      <th>x</th>
+      <td><p>a model to be explained, or an explainer created with function `DALEX::explain()`.</p></td>
     </tr>
     <tr>
-      <th>variable</th>
+      <th>...</th>
+      <td><p>other parameters</p></td>
+    </tr>
+    <tr>
+      <th>feature</th>
       <td><p>character - name of a single variable</p></td>
     </tr>
     <tr>
@@ -123,18 +134,26 @@ and 'ALEPlot' (Dan Apley (2017). ALEPlot: Accumulated Local Effects Plots and Pa
 Currently following options are implemented: 'pdp' for Partial Dependency and 'ale' for Accumulated Local Effects</p></td>
     </tr>
     <tr>
-      <th>trans</th>
-      <td><p>function - a transformation/link function that shall be applied to raw model predictions. This will be inherited from the explainer.</p></td>
+      <th>which_class</th>
+      <td><p>character, for multilabel classification you can restrict results to selected classes. By default `NULL` which means that all classes are considered.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>other parameters</p></td>
+      <th>data</th>
+      <td><p>validation dataset, will be extracted from `x` if it's an explainer</p></td>
+    </tr>
+    <tr>
+      <th>predict_function</th>
+      <td><p>predict function, will be extracted from `x` if it's an explainer</p></td>
+    </tr>
+    <tr>
+      <th>label</th>
+      <td><p>name of the model. By default it's extracted from the 'class' attribute of the model</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the class 'svariable_response_explainer'.
+    <p>An object of the class 'feature_response_explainer'.
 It's a data frame with calculated average response.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -148,28 +167,32 @@ Please note that the argument <code>type</code> must be set to <code>'factor'</c
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>HR</span>$<span class='no'>evaluation</span> <span class='kw'>&lt;-</span> <span class='fu'>factor</span>(<span class='no'>HR</span>$<span class='no'>evaluation</span>)
+    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='st'>"DALEX"</span>)
 
-<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
+<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)
-<span class='no'>expl_glm</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_response</span>(<span class='no'>explainer_glm</span>, <span class='st'>"age"</span>, <span class='st'>"pdp"</span>)
-<span class='fu'>plot</span>(<span class='no'>expl_glm</span>)</div><div class='img'><img src='variable_response-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>expl_glm</span> <span class='kw'>&lt;-</span> <span class='fu'>feature_response</span>(<span class='no'>explainer_glm</span>, <span class='st'>"age"</span>, <span class='st'>"pdp"</span>)
+<span class='fu'>head</span>(<span class='no'>expl_glm</span>)</div><div class='output co'>#&gt;          x         y var type label
+#&gt; 1 20.00389 0.3690356 age  pdp    lm
+#&gt; 2 20.80378 0.3688270 age  pdp    lm
+#&gt; 3 21.60368 0.3686184 age  pdp    lm
+#&gt; 4 22.40357 0.3684098 age  pdp    lm
+#&gt; 5 23.20346 0.3682013 age  pdp    lm
+#&gt; 6 24.00336 0.3679928 age  pdp    lm</div><div class='input'><span class='fu'>plot</span>(<span class='no'>expl_glm</span>)</div><div class='img'><img src='feature_response-1.png' alt='' width='700' height='433' /></div><div class='input'>
  </div><div class='input'><span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
-<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)
-<span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'>variable_response</span>(<span class='no'>explainer_rf</span>, <span class='kw'>variable</span> <span class='kw'>=</span> <span class='st'>"age"</span>,
-                       <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>)
-<span class='fu'>plot</span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='variable_response-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot</span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>)</div><div class='img'><img src='variable_response-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># Example for factor variable (with factorMerger)</span>
-<span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'>variable_response</span>(<span class='no'>explainer_rf</span>, <span class='kw'>variable</span> <span class='kw'>=</span>  <span class='st'>"evaluation"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"factor"</span>)
-<span class='fu'>plot</span>(<span class='no'>expl_rf</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='img'><img src='variable_response-4.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>expl_glm</span>  <span class='kw'>&lt;-</span> <span class='fu'>variable_response</span>(<span class='no'>explainer_glm</span>, <span class='kw'>variable</span> <span class='kw'>=</span>  <span class='st'>"evaluation"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"factor"</span>)
-<span class='fu'>plot</span>(<span class='no'>expl_glm</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='img'><img src='variable_response-5.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># both models</span>
-<span class='fu'>plot</span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='img'><img src='variable_response-6.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
+<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>status</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)
+<span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)
+<span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'>feature_response</span>(<span class='no'>explainer_rf</span>, <span class='kw'>feature</span> <span class='kw'>=</span> <span class='st'>"age"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>)
+<span class='fu'>head</span>(<span class='no'>expl_rf</span>)</div><div class='output co'>#&gt;          x         y var type              label
+#&gt; 1 20.00389 0.3856225 age  pdp randomForest.fired
+#&gt; 2 20.80378 0.3752899 age  pdp randomForest.fired
+#&gt; 3 21.60368 0.3691487 age  pdp randomForest.fired
+#&gt; 4 22.40357 0.3791678 age  pdp randomForest.fired
+#&gt; 5 23.20346 0.3822212 age  pdp randomForest.fired
+#&gt; 6 24.00336 0.3886785 age  pdp randomForest.fired</div><div class='input'><span class='fu'>plot</span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='feature_response-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'>feature_response</span>(<span class='no'>explainer_rf</span>, <span class='kw'>feature</span> <span class='kw'>=</span> <span class='st'>"age"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>,
+                       <span class='kw'>which_class</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+<span class='fu'>plot</span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='feature_response-3.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

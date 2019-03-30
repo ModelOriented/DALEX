@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Loss from Variable Dropout — variable_importance • DALEX</title>
+<title>Feature Importance Calculated as Loss from Feature Dropout — variable_importance • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -45,10 +45,10 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-	  <a class = "navbar-mi2logo" href="http://mi2.mini.pw.edu.pl/">
-        <img src = "https://github.com/mi2-warsaw/MI2template/blob/master/inst/pkgdown/assets/MI2logo.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
+	  <a class = "navbar-mi2logo" href="http://DrWhy.AI/">
+        <img src = "https://github.com/ModelOriented/DrWhyTemplate/blob/master/inst/pkgdown/assets/drwhy_znak_violet_small.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
 	  </a>
-      <a class="navbar-brand navbar-mi2" href="../index.html">Loss from Variable Dropout</a>
+      <a class="navbar-brand navbar-mi2" href="../index.html">Feature Importance Calculated as Loss from Feature Dropout</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="navbar-mi2 nav navbar-nav">
@@ -91,11 +91,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Loss from Variable Dropout</h1>
+    <h1>Feature Importance Calculated as Loss from Feature Dropout</h1>
     </div>
 
     
-    <p>Loss from Variable Dropout</p>
+    <p>Feature Importance Calculated as Loss from Feature Dropout</p>
     
 
     <pre class="usage"><span class='fu'>variable_importance</span>(<span class='no'>explainer</span>, <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='no'>loss_sum_of_squares</span>, <span class='no'>...</span>,
@@ -131,6 +131,10 @@
     <p>An object of the class 'variable_leverage_explainer'.
 It's a data frame with calculated average response.</p>
     
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Predictive Models: Visual Exploration, Explanation and Debugging <a href='https://pbiecek.github.io/PM_VEE/'>https://pbiecek.github.io/PM_VEE/</a></p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'> </div><div class='input'><span class='fu'>library</span>(<span class='st'>"breakDown"</span>)
@@ -138,14 +142,14 @@ It's a data frame with calculated average response.</p>
 <span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)
 <span class='no'>vd_rf</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_importance</span>(<span class='no'>explainer_rf</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)
 <span class='no'>vd_rf</span></div><div class='output co'>#&gt;       variable dropout_loss        label
-#&gt; 1 _full_model_     122.1990 randomForest
-#&gt; 2       status     122.1990 randomForest
-#&gt; 3   evaluation     139.5715 randomForest
-#&gt; 4       gender     143.6366 randomForest
-#&gt; 5          age     147.1866 randomForest
-#&gt; 6       salary     155.8468 randomForest
-#&gt; 7        hours     209.4609 randomForest
-#&gt; 8   _baseline_     266.9622 randomForest</div><div class='input'>
+#&gt; 1 _full_model_     118.2721 randomForest
+#&gt; 2       status     118.2721 randomForest
+#&gt; 3   evaluation     134.3331 randomForest
+#&gt; 4       gender     141.9767 randomForest
+#&gt; 5          age     142.2153 randomForest
+#&gt; 6       salary     152.4642 randomForest
+#&gt; 7        hours     217.8473 randomForest
+#&gt; 8   _baseline_     280.6662 randomForest</div><div class='input'>
 <span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)
 <span class='no'>logit</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'>exp</span>(<span class='no'>x</span>)/(<span class='fl'>1</span>+<span class='fu'>exp</span>(<span class='no'>x</span>))
@@ -153,14 +157,14 @@ It's a data frame with calculated average response.</p>
                         <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>)
                                      <span class='fu'>sum</span>((<span class='no'>observed</span> - <span class='fu'>logit</span>(<span class='no'>predicted</span>))^<span class='fl'>2</span>))
 <span class='no'>vd_glm</span></div><div class='output co'>#&gt;       variable dropout_loss label
-#&gt; 1 _full_model_     263.9579    lm
-#&gt; 2       salary     263.9256    lm
-#&gt; 3          age     263.9542    lm
-#&gt; 4       status     263.9579    lm
-#&gt; 5       gender     264.0216    lm
-#&gt; 6   evaluation     267.2698    lm
-#&gt; 7        hours     286.0926    lm
-#&gt; 8   _baseline_     290.9656    lm</div><div class='input'>
+#&gt; 1 _full_model_     261.1626    lm
+#&gt; 2       gender     261.1520    lm
+#&gt; 3       status     261.1626    lm
+#&gt; 4          age     261.2144    lm
+#&gt; 5       salary     261.2334    lm
+#&gt; 6   evaluation     265.0622    lm
+#&gt; 7        hours     283.0327    lm
+#&gt; 8   _baseline_     286.7967    lm</div><div class='input'>
 <span class='fu'>library</span>(<span class='st'>"xgboost"</span>)
 <span class='no'>model_martix_train</span> <span class='kw'>&lt;-</span> <span class='fu'>model.matrix</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~ <span class='no'>.</span>-<span class='fl'>1</span>, <span class='no'>HR</span>)
 <span class='no'>data_train</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/xgboost/topics/xgb.DMatrix'>xgb.DMatrix</a></span>(<span class='no'>model_martix_train</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)
@@ -171,14 +175,14 @@ It's a data frame with calculated average response.</p>
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"xgboost"</span>)
 <span class='no'>vd_xgb</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_importance</span>(<span class='no'>explainer_xgb</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)
 <span class='no'>vd_xgb</span></div><div class='output co'>#&gt;       variable dropout_loss   label
-#&gt; 1 _full_model_      99.2681 xgboost
-#&gt; 2   gendermale      99.2681 xgboost
-#&gt; 3   evaluation     116.7494 xgboost
-#&gt; 4          age     159.0899 xgboost
-#&gt; 5 genderfemale     161.7351 xgboost
-#&gt; 6       salary     181.8513 xgboost
-#&gt; 7        hours     240.8658 xgboost
-#&gt; 8   _baseline_     352.7465 xgboost</div><div class='input'><span class='fu'>plot</span>(<span class='no'>vd_xgb</span>)</div><div class='img'><img src='variable_importance-1.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
+#&gt; 1 _full_model_     95.67031 xgboost
+#&gt; 2   gendermale     95.67031 xgboost
+#&gt; 3   evaluation    112.28263 xgboost
+#&gt; 4 genderfemale    147.23628 xgboost
+#&gt; 5          age    161.06768 xgboost
+#&gt; 6       salary    180.47562 xgboost
+#&gt; 7        hours    220.43280 xgboost
+#&gt; 8   _baseline_    363.74880 xgboost</div><div class='input'><span class='fu'>plot</span>(<span class='no'>vd_xgb</span>)</div><div class='img'><img src='variable_importance-1.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -187,6 +191,8 @@ It's a data frame with calculated average response.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

@@ -45,8 +45,8 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-	  <a class = "navbar-mi2logo" href="http://mi2.mini.pw.edu.pl/">
-        <img src = "https://github.com/mi2-warsaw/MI2template/blob/master/inst/pkgdown/assets/MI2logo.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
+	  <a class = "navbar-mi2logo" href="http://DrWhy.AI/">
+        <img src = "https://github.com/ModelOriented/DrWhyTemplate/blob/master/inst/pkgdown/assets/drwhy_znak_violet_small.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
 	  </a>
       <a class="navbar-brand navbar-mi2" href="../index.html">Plots Local Explanations (Single Prediction)</a>
     </div>
@@ -160,7 +160,8 @@ Or the default <code>round()</code> to have the same precision for all component
 <span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># both models</span>
 <span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>, <span class='no'>wine_lm_predict4</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'>library</span>(<span class='st'>"gbm"</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: survival</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: lattice</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: splines</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: parallel</span></div><div class='output co'>#&gt; <span class='message'>Loaded gbm 2.1.3</span></div><div class='input'><span class='co'># create a gbm model</span>
+<span class='fu'>library</span>(<span class='st'>"gbm"</span>)
+<span class='co'># create a gbm model</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/gbm/topics/gbm'>gbm</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>,
              <span class='kw'>distribution</span> <span class='kw'>=</span> <span class='st'>"gaussian"</span>,
              <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
@@ -174,19 +175,19 @@ Or the default <code>round()</code> to have the same precision for all component
  <span class='co'># create a new observation</span>
  <span class='no'>exp_sgn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prediction_breakdown.html'>prediction_breakdown</a></span>(<span class='no'>explainer_gbm</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>)
  <span class='fu'>head</span>(<span class='no'>exp_sgn</span>)</div><div class='output co'>#&gt;                              variable contribution  variable_name
-#&gt; 1                         (Intercept)   5.87890814      Intercept
-#&gt; alcohol              + alcohol = 12.5   0.63304179        alcohol
-#&gt; pH                        + pH = 3.36   0.17646301             pH
-#&gt; sulphates           + sulphates = 0.6   0.12038176      sulphates
-#&gt; residual.sugar + residual.sugar = 4.8   0.03463394 residual.sugar
+#&gt; 1                         (Intercept)   5.87730600      Intercept
+#&gt; alcohol              + alcohol = 12.5   0.64079315        alcohol
+#&gt; pH                        + pH = 3.36   0.15945220             pH
+#&gt; sulphates           + sulphates = 0.6   0.12732433      sulphates
+#&gt; residual.sugar + residual.sugar = 4.8   0.04643455 residual.sugar
 #&gt; citric.acid      + citric.acid = 0.35   0.00000000    citric.acid
 #&gt;                variable_value cummulative sign position label
-#&gt; 1                           1    5.878908    1        1   gbm
-#&gt; alcohol                  12.5    6.511950    1        2   gbm
-#&gt; pH                       3.36    6.688413    1        3   gbm
-#&gt; sulphates                 0.6    6.808795    1        4   gbm
-#&gt; residual.sugar            4.8    6.843429    1        5   gbm
-#&gt; citric.acid              0.35    6.843429    0        6   gbm</div><div class='input'> <span class='fu'>plot</span>(<span class='no'>exp_sgn</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-4.png' alt='' width='700' height='433' /></div><div class='input'> <span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>, <span class='no'>wine_lm_predict4</span>, <span class='no'>exp_sgn</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-5.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
+#&gt; 1                           1    5.877306    1        1   gbm
+#&gt; alcohol                  12.5    6.518099    1        2   gbm
+#&gt; pH                       3.36    6.677551    1        3   gbm
+#&gt; sulphates                 0.6    6.804876    1        4   gbm
+#&gt; residual.sugar            4.8    6.851310    1        5   gbm
+#&gt; citric.acid              0.35    6.851310    0        6   gbm</div><div class='input'> <span class='fu'>plot</span>(<span class='no'>exp_sgn</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-4.png' alt='' width='700' height='433' /></div><div class='input'> <span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>, <span class='no'>wine_lm_predict4</span>, <span class='no'>exp_sgn</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-5.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
