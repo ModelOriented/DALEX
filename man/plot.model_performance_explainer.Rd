@@ -36,6 +36,11 @@ mp_rf <- model_performance(explainer_rf)
 plot(mp_rf)
 plot(mp_rf, geom = "boxplot", show_outliers = 1)
 
+HR_rf_model2 <- randomForest(status == "fired"~age + hours, data = HR, ntree = 100)
+explainer_rf2  <- explain(HR_rf_model2, data = HR, y = HR$status == "fired")
+mp_rf2 <- model_performance(explainer_rf2)
+plot(mp_rf, mp_rf2)
+
 HR_glm_model <- glm(status == "fired"~., data = HR, family = "binomial")
 explainer_glm <- explain(HR_glm_model, data = HR, y = HR$status == "fired", label = "glm",
                     predict_function = function(m,x) predict.glm(m,x,type = "response"))

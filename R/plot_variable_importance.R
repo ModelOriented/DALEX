@@ -59,10 +59,11 @@
 #'  }
 #'
 plot.variable_importance_explainer <- function(x, ..., max_vars = 10, bar_width = 10, show_baseline = FALSE) {
-  dfl <- c(list(x), list(...))
 
   # combine all explainers in a single frame
-  expl_df <- do.call(rbind, dfl)
+## remove in 0.4  dfl <- c(list(x), list(...))
+## remove in 0.4  expl_df <- do.call(rbind, dfl)
+  expl_df <- combine_explainers(x, ...)
 
   # add an additional column that serve as a baseline
   bestFits <- expl_df[expl_df$variable == "_full_model_", ]

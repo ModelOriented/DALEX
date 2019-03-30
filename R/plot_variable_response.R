@@ -77,16 +77,7 @@ plot.variable_response_factor_explainer <- function(x, ...) {
 }
 
 plot.variable_response_numeric_explainer <- function(x, ..., use_facets = FALSE) {
-  df <- x
-  class(df) <- "data.frame"
-
-  dfl <- list(...)
-  if (length(dfl) > 0) {
-    for (resp in dfl) {
-      class(resp) <- "data.frame"
-      df <- rbind(df, resp)
-      }
-  }
+  df <- combine_explainers(x, ...)
 
   variable_name <- head(df$var, 1)
   nlabels <- length(unique(df$label))

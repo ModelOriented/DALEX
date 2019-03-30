@@ -19,6 +19,11 @@
 #' plot(mp_rf)
 #' plot(mp_rf, geom = "boxplot", show_outliers = 1)
 #'
+#' HR_rf_model2 <- randomForest(status == "fired"~age + hours, data = HR, ntree = 100)
+#' explainer_rf2  <- explain(HR_rf_model2, data = HR, y = HR$status == "fired")
+#' mp_rf2 <- model_performance(explainer_rf2)
+#' plot(mp_rf, mp_rf2)
+#'
 #' HR_glm_model <- glm(status == "fired"~., data = HR, family = "binomial")
 #' explainer_glm <- explain(HR_glm_model, data = HR, y = HR$status == "fired", label = "glm",
 #'                     predict_function = function(m,x) predict.glm(m,x,type = "response"))
@@ -39,17 +44,8 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
   if (!(ptlabel %in% c("name", "index"))){
     stop("The plot.model_performance() function requires label to be name or index.")
   }
-  df <- x
-  class(df) <- "data.frame"
-  df$name <- seq.int(nrow(df))
-  dfl <- list(...)
-  if (length(dfl) > 0) {
-    for (resp in dfl) {
-      class(resp) <- "data.frame"
-      resp$name <- seq.int(nrow(resp))
-      df <- rbind(df, resp)
-    }
-  }
+  df <- combine_explainers(x, ...)
+
   df$label <- reorder(df$label, df$diff, lossFunction)
   label <- name <- NULL
   if (ptlabel == "name") {
