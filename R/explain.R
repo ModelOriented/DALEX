@@ -58,7 +58,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = yha
     data <- as.data.frame(data)
   }
   
-  if((is.factor(y) | is.character(y)) & length(y) == 2) {
+  if((is.factor(y) | is.character(y))) {
     message("Factor provided as y. DALEX works with predicted probabilities, so please provide a logical or numerical (0-1) vector.") 
   }
 
