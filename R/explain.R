@@ -29,7 +29,7 @@
 #' @rdname explain
 #' @export
 #' @importFrom stats predict
-#' @importFrom utils head tail
+#' @importFrom utils head tail installed.packages
 #'
 #' @examples
 #' library("breakDown")
@@ -57,9 +57,9 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = yha
   if ("tbl" %in% class(data)) {
     data <- as.data.frame(data)
   }
-  
+
   if((is.factor(y) | is.character(y))) {
-    message("Please note that 'y' is a factor. The default loss functions assume numerical outputs (e.g. scores, probabilities, rates). Consider changing the y to the logical or numerical (0-1) vector.") 
+    message("Please note that 'y' is a factor. The default loss functions assume numerical outputs (e.g. scores, probabilities, rates). Consider changing the y to the logical or numerical (0-1) vector.")
   }
 
   explainer <- list(model = model,
