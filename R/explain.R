@@ -59,7 +59,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = yha
   }
   
   if((is.factor(y) | is.character(y))) {
-    message("Factor provided as y. Factor provided as y. The default loss functions assume numerical outputs (e.g. scores, probabilities, rates). Consider changing the y to the logical or numerical (0-1) vector.") 
+    message("Please note that 'y' is a factor. The default loss functions assume numerical outputs (e.g. scores, probabilities, rates). Consider changing the y to the logical or numerical (0-1) vector.") 
   }
 
   explainer <- list(model = model,
