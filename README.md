@@ -13,15 +13,13 @@ Machine Learning models are widely used and have various applications in classif
 
 In many applications we need to know, understand or prove how input variables are used in the model and what impact do they have on final model prediction. `DALEX` is a set of tools that help to understand how complex models are working.
 
-`DALEX` is a part of [DrWhy.AI](http://DrWhy.AI) universe.
-
 Find more about DALEX in this [Gentle introduction to DALEX with examples](https://pbiecek.github.io/DALEX_docs/).
+
+`DALEX` is a part of [DrWhy.AI](http://DrWhy.AI) universe. Find more aout the uniform grammar of model explanations in the [Predictive Models: Visual Exploration, Explanation and Debugging](https://pbiecek.github.io/PM_VEE/) e-book.
 
 Experimental Python version [pyDALEX](https://github.com/MI2DataLab/pyDALEX).
 
 ## DALEX Stories
-
-* [An interactive notebook with examples:](https://mybinder.org/v2/gh/pbiecek/DALEX_docs/master?filepath=jupyter-notebooks%2FDALEX.ipynb) [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/pbiecek/DALEX_docs/master?filepath=jupyter-notebooks%2FDALEX.ipynb)
 
 ### How to use DALEX
 
@@ -42,6 +40,11 @@ Experimental Python version [pyDALEX](https://github.com/MI2DataLab/pyDALEX).
 * [Talk about DALEX at STWUR May 2018 (in Polish)](https://github.com/STWUR/eRementarz-29-05-2018)
 * [Talk about DALEX at BayArea 2018](https://github.com/pbiecek/Talks/blob/master/2018/DALEX_BayArea.pdf)
 * [Talk about DALEX at PyData Warsaw 2018](https://github.com/pbiecek/Talks/blob/master/2018/DALEX_PyDataWarsaw2018.pdf)
+
+### Notebooks
+
+* [An interactive notebook with examples:](https://mybinder.org/v2/gh/pbiecek/DALEX_docs/master?filepath=jupyter-notebooks%2FDALEX.ipynb) [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/pbiecek/DALEX_docs/master?filepath=jupyter-notebooks%2FDALEX.ipynb)
+
 
 ## Install
 
