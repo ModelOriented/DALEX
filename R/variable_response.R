@@ -7,6 +7,9 @@
 #' pdp: An R Package for Constructing Partial Dependence Plots. The R Journal, 9(1), 421--436.)
 #' and 'ALEPlot' (Dan Apley (2017). ALEPlot: Accumulated Local Effects Plots and Partial Dependence Plots.)
 #'
+#' This function is set as Deprecated. It is suggested to use `ingredients::partial_dependency()`, `ingredients::accumulated_dependency()` instead.
+#' Find information how to use these functions here: \url{https://pbiecek.github.io/PM_VEE/partialDependenceProfiles.html} and \url{https://pbiecek.github.io/PM_VEE/accumulatedLocalProfiles.html}.
+#'
 #' For factor variables we are using the 'factorMerger' package.
 #' Please note that the argument \code{type} must be set to \code{'factor'} to use this method.
 #'
@@ -53,6 +56,13 @@
 #'  }
 #'
 variable_response <- function(explainer, variable, type = "pdp", trans = explainer$link, ...) {
+  # Deprecated
+  if (type == "pdp") {
+    .Deprecated("ingredients::partial_dependency()", package = "ingredients", msg = "Please note that 'variable_response()' is now deprecated, it is better to use 'ingredients::partial_dependency()' instead.\nFind examples and detailed introduction at: https://pbiecek.github.io/PM_VEE/partialDependenceProfiles.html")
+  } else {
+    .Deprecated("ingredients::accumulated_dependency()", package = "ingredients", msg = "Please note that 'variable_response()' is now deprecated, it is better to use 'ingredients::accumulated_dependency()' instead.\nFind examples and detailed introduction at: https://pbiecek.github.io/PM_VEE/accumulatedLocalProfiles.html")
+  }
+
   if (!("explainer" %in% class(explainer))) stop("The variable_response() function requires an object created with explain() function.")
   if (is.null(explainer$data)) stop("The variable_response() function requires explainers created with specified 'data' parameter.")
   if (class(explainer$data[,variable]) == "factor" & type != "factor") {

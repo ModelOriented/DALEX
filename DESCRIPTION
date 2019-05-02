@@ -1,6 +1,6 @@
 Package: DALEX
 Title: Descriptive mAchine Learning EXplanations
-Version: 0.3.1
+Version: 0.4
 Authors@R: person("Przemyslaw", "Biecek", email = "przemyslaw.biecek@gmail.com", 
     role = c("aut", "cre"),
     comment = c(ORCID = "0000-0001-8423-1823"))
@@ -27,6 +27,8 @@ Suggests: gbm,
   randomForest,
   xgboost,
   ALEPlot,
+  ingredients,
+  iBreakDown,
   breakDown,
   pdp,
   factorMerger,

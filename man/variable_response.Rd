@@ -33,6 +33,9 @@ pdp: An R Package for Constructing Partial Dependence Plots. The R Journal, 9(1)
 and 'ALEPlot' (Dan Apley (2017). ALEPlot: Accumulated Local Effects Plots and Partial Dependence Plots.)
 }
 \details{
+This function is set as Deprecated. It is suggested to use `ingredients::partial_dependency()`, `ingredients::accumulated_dependency()` instead.
+Find information how to use these functions here: \url{https://pbiecek.github.io/PM_VEE/partialDependenceProfiles.html} and \url{https://pbiecek.github.io/PM_VEE/accumulatedLocalProfiles.html}.
+
 For factor variables we are using the 'factorMerger' package.
 Please note that the argument \code{type} must be set to \code{'factor'} to use this method.
 }

@@ -6,7 +6,7 @@
 #' @param packages which packages shall be installed?
 #' @importFrom utils install.packages
 #' @export
-install_dependencies <- function(packages = c("pdp", "ALEPlot", "breakDown", "ggpubr", "factorMerger")) {
+install_dependencies <- function(packages = c("ingredients", "iBreakDown", "pdp", "ALEPlot", "breakDown", "ggpubr", "factorMerger")) {
   sapply(packages, function(package) {
     cat("\nInstallation of the ",package," initiated.\n")
     try(install.packages(package), silent = TRUE)

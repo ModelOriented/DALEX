@@ -4,8 +4,8 @@
 \alias{install_dependencies}
 \title{Install all dependencies for the DALEX package}
 \usage{
-install_dependencies(packages = c("pdp", "ALEPlot", "breakDown",
-  "ggpubr", "factorMerger"))
+install_dependencies(packages = c("ingredients", "iBreakDown", "pdp",
+  "ALEPlot", "breakDown", "ggpubr", "factorMerger"))
 }
 \arguments{
 \item{packages}{which packages shall be installed?}
