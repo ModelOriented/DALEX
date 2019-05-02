@@ -10,6 +10,7 @@ quick.installed.packages <- function() {
                     quick.installed.packages())
 
   packageStartupMessage("Welcome to DALEX (version: ", utils::packageVersion("DALEX"), ").\n",
+    "Find examples and detailed introduction at: https://pbiecek.github.io/PM_VEE/\n",
     ifelse(length(addons) == 0, "",
     paste0( "Additional features will be available after installation of: ",
             paste(addons, collapse = ", "),".\nUse 'install_dependencies()' to get all suggested dependencies"))
