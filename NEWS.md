@@ -2,6 +2,7 @@ DALEX 0.4.0
 ----------------------------------------------------------------
 * `ingredients` and `iBreakDown` are added to additional features ([#72](https://github.com/pbiecek/DALEX/issues/72)).
 * `feature_response()` and `variable_response()` are marked as Deprecated. It is suggested to use `ingredients::partial_dependency()`, `ingredients::accumulated_dependency()` instead ([#74](https://github.com/pbiecek/DALEX/issues/74)).
+* `variable_importance()` is marked as Deprecated. It is suggested to use `ingredients::feature_importance()` instead  ([#75](https://github.com/pbiecek/DALEX/issues/75)).
 
 DALEX 0.3.1
 ----------------------------------------------------------------

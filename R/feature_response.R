@@ -60,9 +60,15 @@ feature_response <- function(x, ...)
 feature_response.explainer <- function(x, feature, type = "pdp", which_class = NULL, ...) {
   # Deprecated
   if (type == "pdp") {
-    .Deprecated("ingredients::partial_dependency()", package = "ingredients", msg = "Please note that 'feature_response()' is now deprecated, it is better to use 'ingredients::partial_dependency()' instead.\nFind examples and detailed introduction at: https://pbiecek.github.io/PM_VEE/partialDependenceProfiles.html")
+    if (!exists("message_partial_dependency", envir = .DALEX.env)) {
+      .DALEX.env$message_partial_dependency = TRUE
+      .Deprecated("ingredients::partial_dependency()", package = "ingredients", msg = "Please note that 'feature_response()' is now deprecated, it is better to use 'ingredients::partial_dependency()' instead.\nFind examples and detailed introduction at: https://pbiecek.github.io/PM_VEE/partialDependenceProfiles.html")
+    }
   } else {
-    .Deprecated("ingredients::accumulated_dependency()", package = "ingredients", msg = "Please note that 'feature_response()' is now deprecated, it is better to use 'ingredients::accumulated_dependency()' instead.\nFind examples and detailed introduction at: https://pbiecek.github.io/PM_VEE/accumulatedLocalProfiles.html")
+    if (!exists("message_accumulated_dependency", envir = .DALEX.env)) {
+      .DALEX.env$message_accumulated_dependency = TRUE
+      .Deprecated("ingredients::accumulated_dependency()", package = "ingredients", msg = "Please note that 'feature_response()' is now deprecated, it is better to use 'ingredients::accumulated_dependency()' instead.\nFind examples and detailed introduction at: https://pbiecek.github.io/PM_VEE/accumulatedLocalProfiles.html")
+    }
   }
 
   if (is.null(x$data)) stop("The feature_response() function requires explainers created with specified 'data' parameter.")

@@ -16,3 +16,5 @@ quick.installed.packages <- function() {
             paste(addons, collapse = ", "),".\nUse 'install_dependencies()' to get all suggested dependencies"))
         )
 }
+
+.DALEX.env <- new.env()

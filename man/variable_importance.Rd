@@ -24,7 +24,8 @@ An object of the class 'variable_leverage_explainer'.
 It's a data frame with calculated average response.
 }
 \description{
-Feature Importance Calculated as Loss from Feature Dropout
+This function is set deprecated. It is suggested to use \code{\link[ingredients]{feature_importance}} instead.
+Find information how to use these functions here: \url{https://pbiecek.github.io/PM_VEE/variableImportance.html}.
 }
 \examples{
  \dontrun{
