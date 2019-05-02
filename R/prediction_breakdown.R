@@ -1,5 +1,8 @@
 #' Explanations for a Prediction Breakdown
 #'
+#' This function is set deprecated. It is suggested to use \code{\link[iBreakDown]{break_down}} instead.
+#' Find information how to use these functions here: \url{https://pbiecek.github.io/PM_VEE/breakDown.html}.
+#'
 #' @param explainer a model to be explained, preprocessed by the 'explain' function
 #' @param observation a new observarvation for which predictions need to be explained
 #' @param ... other parameters that will be passed to \code{breakDown::broken.default()}
@@ -54,6 +57,13 @@
 #'  }
 #'
 prediction_breakdown <- function(explainer, observation, ...) {
+  # Deprecated, but print the message only once
+  if (!exists("message_prediction_breakdown", envir = .DALEX.env)) {
+    .DALEX.env$message_prediction_breakdown = TRUE
+    .Deprecated("iBreakDown::break_down()", package = "iBreakDown", msg = "Please note that 'prediction_breakdown()' is now deprecated, it is better to use 'iBreakDown::break_down()' instead.\nFind examples and detailed introduction at: https://pbiecek.github.io/PM_VEE/breakDown.html")
+  }
+
+
   if (!("explainer" %in% class(explainer))) stop("The prediction_breakdown() function requires an object created with explain() function.")
   if (is.null(explainer$data)) stop("The prediction_breakdown() function requires explainers created with specified 'data' parameter.")
 

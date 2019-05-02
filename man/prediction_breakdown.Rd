@@ -19,7 +19,8 @@ An object of the class 'single_prediction_explainer'.
 It's a data frame with calculated average response.
 }
 \description{
-Explanations for a Prediction Breakdown
+This function is set deprecated. It is suggested to use \code{\link[iBreakDown]{break_down}} instead.
+Find information how to use these functions here: \url{https://pbiecek.github.io/PM_VEE/breakDown.html}.
 }
 \examples{
 library("breakDown")
