@@ -31,15 +31,6 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- Google analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-5650686-14"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-5650686-14');
-</script>
 
   </head>
 
@@ -109,11 +100,11 @@ This function creates a unified representation of a model, which can be further 
     
 
     <pre class="usage"><span class='fu'>explain.default</span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>yhat</span>, <span class='kw'>link</span> <span class='kw'>=</span> <span class='no'>I</span>, <span class='no'>...</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'>tail</span>(<span class='fu'>class</span>(<span class='no'>model</span>),
+  <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>yhat</span>, <span class='kw'>link</span> <span class='kw'>=</span> <span class='no'>I</span>, <span class='no'>...</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>tail</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/class'>class</a></span>(<span class='no'>model</span>),
   <span class='fl'>1</span>))
 
 <span class='fu'>explain</span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>yhat</span>,
-  <span class='kw'>link</span> <span class='kw'>=</span> <span class='no'>I</span>, <span class='no'>...</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'>tail</span>(<span class='fu'>class</span>(<span class='no'>model</span>), <span class='fl'>1</span>))</pre>
+  <span class='kw'>link</span> <span class='kw'>=</span> <span class='no'>I</span>, <span class='no'>...</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>tail</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/class'>class</a></span>(<span class='no'>model</span>), <span class='fl'>1</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -168,9 +159,9 @@ But some explainers may require that others will be provided too.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='st'>"breakDown"</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"breakDown"</span>)
 
-<span class='no'>wine_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
+<span class='no'>wine_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
 <span class='no'>wine_lm_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>wine_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>)
 <span class='no'>wine_lm_explainer4</span></div><div class='output co'>#&gt; Model label:  model_4v 
 #&gt; Model class:  lm 
@@ -184,8 +175,7 @@ But some explainers may require that others will be provided too.</p>
 #&gt;   quality
 #&gt; 1       6
 #&gt; 2       6</div><div class='input'>
- </div><div class='input'><span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
-<span class='no'>wine_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
+ </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"randomForest"</span>)</div><div class='output co'>#&gt; <span class='message'>randomForest 4.6-14</span></div><div class='output co'>#&gt; <span class='message'>Type rfNews() to see new features/changes/bug fixes.</span></div><div class='input'><span class='no'>wine_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
 <span class='no'>wine_rf_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>wine_rf_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_rf"</span>)
 <span class='no'>wine_rf_explainer4</span></div><div class='output co'>#&gt; Model label:  model_rf 
 #&gt; Model class:  randomForest.formula,randomForest 

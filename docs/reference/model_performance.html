@@ -31,15 +31,6 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- Google analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-5650686-14"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-5650686-14');
-</script>
 
   </head>
 
@@ -132,21 +123,21 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'> </div><div class='input'><span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
-<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)
+    <pre class="examples"><div class='input'> </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"randomForest"</span>)
+<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)
 <span class='fu'>model_performance</span>(<span class='no'>explainer_rf</span>)</div><div class='output co'>#&gt;          0%         10%         20%         30%         40%         50% 
 #&gt; -0.85732596 -0.50098313 -0.37975468 -0.27447380  0.07962973  0.11369357 
 #&gt;         60%         70%         80%         90%        100% 
 #&gt;  0.16333830  0.21392233  0.29230448  0.40730286  0.75516513 </div><div class='input'>
-<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
+<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>,
-                    <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>m</span>,<span class='no'>x</span>) <span class='fu'>predict.glm</span>(<span class='no'>m</span>,<span class='no'>x</span>,<span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"response"</span>))
+                    <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>m</span>,<span class='no'>x</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict.glm'>predict.glm</a></span>(<span class='no'>m</span>,<span class='no'>x</span>,<span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"response"</span>))
 <span class='no'>mp_ex_glm</span> <span class='kw'>&lt;-</span> <span class='fu'>model_performance</span>(<span class='no'>explainer_glm</span>)
 <span class='no'>mp_ex_glm</span></div><div class='output co'>#&gt;          0%         10%         20%         30%         40%         50% 
 #&gt; -0.98205373 -0.55235667 -0.41461652 -0.30976313  0.02245228  0.06123718 
 #&gt;         60%         70%         80%         90%        100% 
-#&gt;  0.12851638  0.22772548  0.37762011  0.54512663  0.77559013 </div><div class='input'><span class='fu'>plot</span>(<span class='no'>mp_ex_glm</span>)</div><div class='img'><img src='model_performance-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>HR_lm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)
+#&gt;  0.12851638  0.22772548  0.37762011  0.54512663  0.77559013 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>mp_ex_glm</span>)</div><div class='img'><img src='model_performance-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>HR_lm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)
 <span class='no'>explainer_lm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_lm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)
 <span class='fu'>model_performance</span>(<span class='no'>explainer_lm</span>)</div><div class='output co'>#&gt;          0%         10%         20%         30%         40%         50% 
 #&gt; -1.13838567 -0.53762473 -0.44185859 -0.36475626 -0.10022291  0.06849654 

@@ -12,13 +12,7 @@
 <script src="jquery.sticky-kit.min.js"></script><script src="pkgdown.js"></script><!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]--><!-- Google analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-5650686-14"></script><script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-5650686-14');
-</script>
+<![endif]-->
 </head>
 <body>
     <div class="container template-home">
@@ -82,29 +76,26 @@
 <a href="#dalex-descriptive-machine-learning-explanations" class="anchor"></a>DALEX: Descriptive mAchine Learning EXplanations</h2>
 <p>Machine Learning models are widely used and have various applications in classification or regression tasks. Due to increasing computational power, availability of new data sources and new methods, ML models are more and more complex. Models created with techniques like boosting, bagging of neural networks are true black boxes. It is hard to trace the link between input variables and model outcomes. They are use because of high performance, but lack of interpretability is one of their weakest sides.</p>
 <p>In many applications we need to know, understand or prove how input variables are used in the model and what impact do they have on final model prediction. <code>DALEX</code> is a set of tools that help to understand how complex models are working.</p>
-<p><code>DALEX</code> is a part of <a href="http://DrWhy.AI">DrWhy.AI</a> universe.</p>
 <p>Find more about DALEX in this <a href="https://pbiecek.github.io/DALEX_docs/">Gentle introduction to DALEX with examples</a>.</p>
+<p><code>DALEX</code> is a part of <a href="http://DrWhy.AI">DrWhy.AI</a> universe. Find more aout the uniform grammar of model explanations in the <a href="https://pbiecek.github.io/PM_VEE/">Predictive Models: Visual Exploration, Explanation and Debugging</a> e-book.</p>
 <p>Experimental Python version <a href="https://github.com/MI2DataLab/pyDALEX">pyDALEX</a>.</p>
 </div>
 <div id="dalex-stories" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dalex-stories" class="anchor"></a>DALEX Stories</h2>
-<ul>
-<li>
-<a href="https://mybinder.org/v2/gh/pbiecek/DALEX_docs/master?filepath=jupyter-notebooks%2FDALEX.ipynb">An interactive notebook with examples:</a> <a href="https://mybinder.org/v2/gh/pbiecek/DALEX_docs/master?filepath=jupyter-notebooks%2FDALEX.ipynb"><img src="https://mybinder.org/badge.svg" alt="Binder"></a>
-</li>
-</ul>
 <div id="how-to-use-dalex" class="section level3">
 <h3 class="hasAnchor">
 <a href="#how-to-use-dalex" class="anchor"></a>How to use DALEX</h3>
 <ul>
-<li><a href="https://rawgithub.com/pbiecek/DALEX_docs/master/vignettes/DALEX_caret.html">How to use DALEX with caret</a></li>
-<li><a href="https://rawgithub.com/pbiecek/DALEX_docs/master/vignettes/DALEX_mlr.html">How to use DALEX with mlr</a></li>
-<li><a href="https://rawgit.com/pbiecek/DALEX_docs/master/vignettes/DALEX_h2o.html">How to use DALEX with H2O</a></li>
-<li><a href="https://rawgithub.com/pbiecek/DALEX_docs/master/vignettes/DALEX_and_xgboost.html">How to use DALEX with xgboost package</a></li>
-<li><a href="https://rawgithub.com/pbiecek/DALEX_docs/master/vignettes/DALEX_teaching.html">How to use DALEX for teaching. Part 1</a></li>
-<li><a href="https://rawgit.com/pbiecek/DALEX_docs/master/examples/What%20they%20have%20learned%20-%20part%202.html">How to use DALEX for teaching. Part 2</a></li>
-<li><a href="https://rawgit.com/pbiecek/DALEX_docs/master/vignettes/Comparison_between_breakdown%2C_lime%2C_shapley.html">breakDown vs lime vs shapleyR</a></li>
+<li><a href="https://rawgit.com/pbiecek/DALEX_docs/master/vignettes/DALEX_and_keras.html">How to use DALEX with keras</a></li>
+<li><a href="https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_parsnip.html">How to use DALEX with parsnip</a></li>
+<li><a href="https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_caret.html">How to use DALEX with caret</a></li>
+<li><a href="https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_mlr.html">How to use DALEX with mlr</a></li>
+<li><a href="https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_h2o.html">How to use DALEX with H2O</a></li>
+<li><a href="https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_and_xgboost.html">How to use DALEX with xgboost package</a></li>
+<li><a href="https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_teaching.html">How to use DALEX for teaching. Part 1</a></li>
+<li><a href="https://raw.githack.com/pbiecek/DALEX_docs/master/examples/What%20they%20have%20learned%20-%20part%202.html">How to use DALEX for teaching. Part 2</a></li>
+<li><a href="https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/Comparison_between_breakdown%2C_lime%2C_shapley.html">breakDown vs lime vs shapleyR</a></li>
 </ul>
 </div>
 <div id="talks-about-dalex" class="section level3">
@@ -118,14 +109,23 @@
 <li><a href="https://github.com/pbiecek/Talks/blob/master/2018/DALEX_PyDataWarsaw2018.pdf">Talk about DALEX at PyData Warsaw 2018</a></li>
 </ul>
 </div>
+<div id="notebooks" class="section level3">
+<h3 class="hasAnchor">
+<a href="#notebooks" class="anchor"></a>Notebooks</h3>
+<ul>
+<li>
+<a href="https://mybinder.org/v2/gh/pbiecek/DALEX_docs/master?filepath=jupyter-notebooks%2FDALEX.ipynb">An interactive notebook with examples:</a> <a href="https://mybinder.org/v2/gh/pbiecek/DALEX_docs/master?filepath=jupyter-notebooks%2FDALEX.ipynb"><img src="https://mybinder.org/badge.svg" alt="Binder"></a>
+</li>
+</ul>
+</div>
 </div>
 <div id="install" class="section level2">
 <h2 class="hasAnchor">
 <a href="#install" class="anchor"></a>Install</h2>
 <p>From CRAN</p>
-<pre class="{r}"><code>install.packages("DALEX")</code></pre>
+<pre class="{r}"><code><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages("DALEX")</a></code></pre>
 <p>or from GitHub</p>
-<pre class="{r}"><code><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports"># dependencies
+<pre class="{r}"><code><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports"># dependencies
 devtools::install_github("MI2DataLab/factorMerger")
 devtools::install_github("pbiecek/breakDown")
 
@@ -208,7 +208,7 @@ devtools::install_github("pbiecek/DALEX")</a></code></pre>
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Przemyslaw Biecek <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-8423-1823" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" height="16"></a> </li>
+<li>Przemyslaw Biecek <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-8423-1823" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
 </ul>
 </div>
 

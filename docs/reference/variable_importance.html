@@ -31,15 +31,6 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- Google analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-5650686-14"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-5650686-14');
-</script>
 
   </head>
 
@@ -104,7 +95,8 @@
     </div>
 
     
-    <p>Feature Importance Calculated as Loss from Feature Dropout</p>
+    <p>This function is set deprecated. It is suggested to use <code><a href='https://www.rdocumentation.org/packages/ingredients/topics/feature_importance'>feature_importance</a></code> instead.
+Find information how to use these functions here: <a href='https://pbiecek.github.io/PM_VEE/variableImportance.html'>https://pbiecek.github.io/PM_VEE/variableImportance.html</a>.</p>
     
 
     <pre class="usage"><span class='fu'>variable_importance</span>(<span class='no'>explainer</span>, <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='no'>loss_sum_of_squares</span>, <span class='no'>...</span>,
@@ -146,52 +138,52 @@ It's a data frame with calculated average response.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'> </div><div class='input'><span class='fu'>library</span>(<span class='st'>"breakDown"</span>)
-<span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
-<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)
+    <pre class="examples"><div class='input'> </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"breakDown"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"randomForest"</span>)
+<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)
 <span class='no'>vd_rf</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_importance</span>(<span class='no'>explainer_rf</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)
 <span class='no'>vd_rf</span></div><div class='output co'>#&gt;       variable dropout_loss        label
-#&gt; 1 _full_model_     118.2721 randomForest
-#&gt; 2       status     118.2721 randomForest
-#&gt; 3   evaluation     134.3331 randomForest
-#&gt; 4       gender     141.9767 randomForest
-#&gt; 5          age     142.2153 randomForest
-#&gt; 6       salary     152.4642 randomForest
-#&gt; 7        hours     217.8473 randomForest
-#&gt; 8   _baseline_     280.6662 randomForest</div><div class='input'>
-<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
+#&gt; 1 _full_model_     120.9083 randomForest
+#&gt; 2       status     120.9083 randomForest
+#&gt; 3   evaluation     136.0882 randomForest
+#&gt; 4       gender     141.8207 randomForest
+#&gt; 5          age     144.5874 randomForest
+#&gt; 6       salary     150.5714 randomForest
+#&gt; 7        hours     207.6025 randomForest
+#&gt; 8   _baseline_     277.3188 randomForest</div><div class='input'>
+<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)
-<span class='no'>logit</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'>exp</span>(<span class='no'>x</span>)/(<span class='fl'>1</span>+<span class='fu'>exp</span>(<span class='no'>x</span>))
+<span class='no'>logit</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>exp</a></span>(<span class='no'>x</span>)/(<span class='fl'>1</span>+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>exp</a></span>(<span class='no'>x</span>))
 <span class='no'>vd_glm</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_importance</span>(<span class='no'>explainer_glm</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>,
                         <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>)
-                                     <span class='fu'>sum</span>((<span class='no'>observed</span> - <span class='fu'>logit</span>(<span class='no'>predicted</span>))^<span class='fl'>2</span>))
+                                     <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sum'>sum</a></span>((<span class='no'>observed</span> - <span class='fu'>logit</span>(<span class='no'>predicted</span>))^<span class='fl'>2</span>))
 <span class='no'>vd_glm</span></div><div class='output co'>#&gt;       variable dropout_loss label
-#&gt; 1 _full_model_     261.1626    lm
-#&gt; 2       gender     261.1520    lm
-#&gt; 3       status     261.1626    lm
-#&gt; 4          age     261.2144    lm
-#&gt; 5       salary     261.2334    lm
-#&gt; 6   evaluation     265.0622    lm
-#&gt; 7        hours     283.0327    lm
-#&gt; 8   _baseline_     286.7967    lm</div><div class='input'>
-<span class='fu'>library</span>(<span class='st'>"xgboost"</span>)
-<span class='no'>model_martix_train</span> <span class='kw'>&lt;-</span> <span class='fu'>model.matrix</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~ <span class='no'>.</span>-<span class='fl'>1</span>, <span class='no'>HR</span>)
-<span class='no'>data_train</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/xgboost/topics/xgb.DMatrix'>xgb.DMatrix</a></span>(<span class='no'>model_martix_train</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)
-<span class='no'>param</span> <span class='kw'>&lt;-</span> <span class='fu'>list</span>(<span class='kw'>max_depth</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>eta</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>silent</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>nthread</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+#&gt; 1 _full_model_     256.2435    lm
+#&gt; 2       salary     256.1909    lm
+#&gt; 3       status     256.2435    lm
+#&gt; 4       gender     256.2675    lm
+#&gt; 5          age     256.3097    lm
+#&gt; 6   evaluation     259.2151    lm
+#&gt; 7        hours     279.2908    lm
+#&gt; 8   _baseline_     281.2700    lm</div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"xgboost"</span>)
+<span class='no'>model_martix_train</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/model.matrix'>model.matrix</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~ <span class='no'>.</span>-<span class='fl'>1</span>, <span class='no'>HR</span>)
+<span class='no'>data_train</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/xgboost/topics/xgb.DMatrix'>xgb.DMatrix</a></span>(<span class='no'>model_martix_train</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)
+<span class='no'>param</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>max_depth</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>eta</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>silent</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>nthread</span> <span class='kw'>=</span> <span class='fl'>2</span>,
               <span class='kw'>objective</span> <span class='kw'>=</span> <span class='st'>"binary:logistic"</span>, <span class='kw'>eval_metric</span> <span class='kw'>=</span> <span class='st'>"auc"</span>)
-<span class='no'>HR_xgb_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/xgboost/topics/xgb.train'>xgb.train</a></span>(<span class='no'>param</span>, <span class='no'>data_train</span>, <span class='kw'>nrounds</span> <span class='kw'>=</span> <span class='fl'>50</span>)
+<span class='no'>HR_xgb_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/xgboost/topics/xgb.train'>xgb.train</a></span>(<span class='no'>param</span>, <span class='no'>data_train</span>, <span class='kw'>nrounds</span> <span class='kw'>=</span> <span class='fl'>50</span>)
 <span class='no'>explainer_xgb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_xgb_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>model_martix_train</span>,
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"xgboost"</span>)
 <span class='no'>vd_xgb</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_importance</span>(<span class='no'>explainer_xgb</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)
 <span class='no'>vd_xgb</span></div><div class='output co'>#&gt;       variable dropout_loss   label
-#&gt; 1 _full_model_     95.67031 xgboost
-#&gt; 2   gendermale     95.67031 xgboost
-#&gt; 3   evaluation    112.28263 xgboost
-#&gt; 4 genderfemale    147.23628 xgboost
-#&gt; 5          age    161.06768 xgboost
-#&gt; 6       salary    180.47562 xgboost
-#&gt; 7        hours    220.43280 xgboost
-#&gt; 8   _baseline_    363.74880 xgboost</div><div class='input'><span class='fu'>plot</span>(<span class='no'>vd_xgb</span>)</div><div class='img'><img src='variable_importance-1.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
+#&gt; 1 _full_model_     92.38626 xgboost
+#&gt; 2   gendermale     92.38626 xgboost
+#&gt; 3   evaluation    109.72229 xgboost
+#&gt; 4 genderfemale    140.22323 xgboost
+#&gt; 5          age    155.11231 xgboost
+#&gt; 6       salary    155.69565 xgboost
+#&gt; 7        hours    237.72157 xgboost
+#&gt; 8   _baseline_    358.49992 xgboost</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>vd_xgb</span>)</div><div class='img'><img src='variable_importance-1.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
