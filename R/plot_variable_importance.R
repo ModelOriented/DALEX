@@ -61,6 +61,10 @@
 #'
 plot.variable_importance_explainer <- function(x, ..., max_vars = 10, bar_width = 10, show_baseline = FALSE, desc_sorting = TRUE) {
 
+  if (!is.logical(desc_sorting)){
+    error("desc_sorting is not logical")
+  }
+
   # combine all explainers in a single frame
   ## remove in 0.4  dfl <- c(list(x), list(...))
   ## remove in 0.4  expl_df <- do.call(rbind, dfl)

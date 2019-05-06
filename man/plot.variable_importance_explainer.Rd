@@ -5,7 +5,7 @@
 \title{Plots Global Model Explanations (Variable Importance)}
 \usage{
 \method{plot}{variable_importance_explainer}(x, ..., max_vars = 10,
-  bar_width = 10, show_baseline = FALSE)
+  bar_width = 10, show_baseline = FALSE, desc_sorting = TRUE)
 }
 \arguments{
 \item{x}{a variable dropout exlainer produced with the 'variable_dropout' function}
@@ -17,6 +17,8 @@
 \item{bar_width}{width of bars. By default 10}
 
 \item{show_baseline}{logical. Should the baseline be included?}
+
+\item{desc_sorting}{logical. Should the bars be sorted descending? By default TRUE}
 }
 \value{
 a ggplot2 object
