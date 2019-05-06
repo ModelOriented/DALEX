@@ -9,6 +9,7 @@
 #' @param max_vars maximum number of variables that shall be presented for for each model
 #' @param bar_width width of bars. By default 10
 #' @param show_baseline logical. Should the baseline be included?
+#' @param desc_sorting logical. Should the bars be sorted descending? By default TRUE
 #'
 #' @importFrom stats model.frame reorder
 #' @return a ggplot2 object
@@ -58,11 +59,11 @@
 #' plot(vd_rf, vd_glm, vd_xgb, bar_width = 4)
 #'  }
 #'
-plot.variable_importance_explainer <- function(x, ..., max_vars = 10, bar_width = 10, show_baseline = FALSE) {
+plot.variable_importance_explainer <- function(x, ..., max_vars = 10, bar_width = 10, show_baseline = FALSE, desc_sorting = TRUE) {
 
   # combine all explainers in a single frame
-## remove in 0.4  dfl <- c(list(x), list(...))
-## remove in 0.4  expl_df <- do.call(rbind, dfl)
+  ## remove in 0.4  dfl <- c(list(x), list(...))
+  ## remove in 0.4  expl_df <- do.call(rbind, dfl)
   expl_df <- combine_explainers(x, ...)
 
   # add an additional column that serve as a baseline
@@ -70,8 +71,14 @@ plot.variable_importance_explainer <- function(x, ..., max_vars = 10, bar_width 
   ext_expl_df <- merge(expl_df, bestFits[,c("label", "dropout_loss")], by = "label")
 
   # set the order of variables depending on their contribution
+  if (desc_sorting) {
+    reorder_levels <- ext_expl_df$dropout_loss.x - ext_expl_df$dropout_loss.y
+  } else {
+    reorder_levels <- (ext_expl_df$dropout_loss.x - ext_expl_df$dropout_loss.y) * -1
+  }
+
   ext_expl_df$variable <- reorder(ext_expl_df$variable,
-                                  ext_expl_df$dropout_loss.x - ext_expl_df$dropout_loss.y,
+                                  reorder_levels,
                                   mean)
 
   # for each model leave only max_vars
@@ -90,7 +97,7 @@ plot.variable_importance_explainer <- function(x, ..., max_vars = 10, bar_width 
   nlabels <- length(unique(bestFits$label))
   # plot it
   ggplot(ext_expl_df, aes(variable, ymin = dropout_loss.y, ymax = dropout_loss.x, color = label)) +
-    geom_hline(data = bestFits, aes(yintercept = dropout_loss, color = label), lty= 3) +
+    geom_hline(data = bestFits, aes(yintercept = dropout_loss, color = label), lty = 3) +
     geom_linerange(size = bar_width) + coord_flip() +
     scale_color_manual(values = theme_drwhy_colors(nlabels)) +
     facet_wrap(~label, ncol = 1, scales = "free_y") + theme_drwhy_vertical() +
