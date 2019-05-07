@@ -17,3 +17,13 @@ test_that("Output format - plot",{
   expect_is(plot(vi_rf_ratio), "gg")
   expect_is(plot(vi_rf, vi_lm), "gg")
 })
+
+
+test_that("Inverse sorting of bars",{
+  expect_is(plot(vi_rf_ratio, desc_sorting = FALSE), "gg")
+  expect_is(plot(vi_rf, vi_lm, desc_sorting = FALSE), "gg")
+  expect_error(plot(vi_rf_ratio, desc_sorting = "desc"))
+  expect_error(plot(vi_rf, vi_lm, desc_sorting = "desc"))
+})
+
+
