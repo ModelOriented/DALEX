@@ -62,7 +62,7 @@
 plot.variable_importance_explainer <- function(x, ..., max_vars = 10, bar_width = 10, show_baseline = FALSE, desc_sorting = TRUE) {
 
   if (!is.logical(desc_sorting)){
-    error("desc_sorting is not logical")
+    stop("desc_sorting is not logical")
   }
 
   # combine all explainers in a single frame
@@ -75,14 +75,10 @@ plot.variable_importance_explainer <- function(x, ..., max_vars = 10, bar_width 
   ext_expl_df <- merge(expl_df, bestFits[,c("label", "dropout_loss")], by = "label")
 
   # set the order of variables depending on their contribution
-  if (desc_sorting) {
-    reorder_levels <- ext_expl_df$dropout_loss.x - ext_expl_df$dropout_loss.y
-  } else {
-    reorder_levels <- (ext_expl_df$dropout_loss.x - ext_expl_df$dropout_loss.y) * -1
-  }
+  reorder_levels <- ext_expl_df$dropout_loss.x - ext_expl_df$dropout_loss.y
 
   ext_expl_df$variable <- reorder(ext_expl_df$variable,
-                                  reorder_levels,
+                                  reorder_levels * ifelse(desc_sorting, 1, -1),
                                   mean)
 
   # for each model leave only max_vars

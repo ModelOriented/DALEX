@@ -1,3 +1,7 @@
+DALEX 0.4.1
+----------------------------------------------------------------
+* `plot.variable_importance_explainer()` has now  `desc_sorting` argument. If FALSE then variable importance will be sorted in an increasing order ([#41](https://github.com/pbiecek/DALEX/issues/41)).
+
 DALEX 0.4.0
 ----------------------------------------------------------------
 * `ingredients` and `iBreakDown` are added to additional features ([#72](https://github.com/pbiecek/DALEX/issues/72)).
