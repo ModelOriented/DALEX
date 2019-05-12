@@ -28,4 +28,4 @@ loss_sum_of_squares = function(observed, predicted, na.rm = TRUE) sum((observed 
 loss_root_mean_square = function(observed, predicted, na.rm = TRUE) sqrt(mean((observed - predicted)^2, na.rm = na.rm))
 
 #' @export
-loss_accuracy = function(observed, predicted, na.rm = TRUE) mean(observed == predicted, na.rm = TRUE, na.rm = na.rm)
+loss_accuracy = function(observed, predicted, na.rm = TRUE) mean(observed == predicted, na.rm = na.rm)
