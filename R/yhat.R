@@ -87,3 +87,68 @@ yhat.ranger <- function(X.model, newdata, ...) {
 yhat.default <- function(X.model, newdata, ...) {
   as.numeric(predict(X.model, newdata, ...))
 }
+
+#' @rdname yhat
+#' @export
+yhat.WrappedModel <- function(X.model, newdata, ...) {
+  if(X.model$task.desc$type == "classif"){
+    pred <- predict(X.model, newdata = newdata)
+    response <- pred$data[, 1]
+  }
+  if(X.model$task.desc$type == "regr"){
+    pred <- predict(X.model, newdata = newdata)
+    response <- pred$data[, 1]
+  }
+  response
+}
+
+#' @rdname yhat
+#' @export
+yhat.model_fit <- function(X.model, newdata, ...) {
+  if(X.model$spec$mode == "classification"){
+    response <- as.data.frame(predict(X.model, newdata, type = "prob"))[,2]
+  }
+  if(X.model$spec$mode == "regrssion"){
+    pred <- predict(X.model, newdata)
+    response <- pred$.pred
+  }
+  response
+}
+
+#' @rdname yhat
+#' @export
+yhat.train <- function(X.model, newdata, ...) {
+  if(X.model$modelType == "Classification"){
+    response <- predict(X.model, newdata = newdata, type = "prob")[,2]
+  }
+  if(X.model$modelType == "Regression"){
+    response <- predict(X.model, newdata = newdata)
+    
+  }
+  response
+}
+
+#' @rdname yhat
+#' @export
+yhat.catboost.Model <- function(X.model, newdata, ...) {
+  newdata_pool <- catboost.load_pool(newdata)
+  catboost.predict(object, newdata_pool)
+}
+
+#' @rdname yhat
+#' @export
+yhat.H2ORegressionModel <- function(X.model, newdata, ...) {
+  newdata_h2o <- as.h2o(newdata)
+  as.vector(h2o.predict(X.model, newdata = newdata_h2o))
+  
+}
+
+
+#' @rdname yhat
+#' @export
+yhat.H2OBinomialModel <- function(X.model, newdata, ...) {
+  newdata_h2o <- as.h2o(newdata)
+  res <- as.data.frame(h2o.predict(X.model, newdata = newdata_h2o))
+  res$p1
+  
+}
