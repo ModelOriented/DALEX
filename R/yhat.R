@@ -84,12 +84,6 @@ yhat.ranger <- function(X.model, newdata, ...) {
 
 #' @rdname yhat
 #' @export
-yhat.default <- function(X.model, newdata, ...) {
-  as.numeric(predict(X.model, newdata, ...))
-}
-
-#' @rdname yhat
-#' @export
 yhat.WrappedModel <- function(X.model, newdata, ...) {
   if(X.model$task.desc$type == "classif"){
     pred <- predict(X.model, newdata = newdata)
@@ -151,4 +145,11 @@ yhat.H2OBinomialModel <- function(X.model, newdata, ...) {
   res <- as.data.frame(h2o.predict(X.model, newdata = newdata_h2o))
   res$p1
   
+}
+
+
+#' @rdname yhat
+#' @export
+yhat.default <- function(X.model, newdata, ...) {
+  as.numeric(predict(X.model, newdata, ...))
 }
