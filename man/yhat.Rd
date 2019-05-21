@@ -12,9 +12,6 @@
 \alias{yhat.WrappedModel}
 \alias{yhat.model_fit}
 \alias{yhat.train}
-\alias{yhat.catboost.Model}
-\alias{yhat.H2ORegressionModel}
-\alias{yhat.H2OBinomialModel}
 \alias{yhat.default}
 \title{Wrapper over the predict function}
 \usage{
@@ -39,12 +36,6 @@ yhat(X.model, newdata, ...)
 \method{yhat}{model_fit}(X.model, newdata, ...)
 
 \method{yhat}{train}(X.model, newdata, ...)
-
-\method{yhat}{catboost.Model}(X.model, newdata, ...)
-
-\method{yhat}{H2ORegressionModel}(X.model, newdata, ...)
-
-\method{yhat}{H2OBinomialModel}(X.model, newdata, ...)
 
 \method{yhat}{default}(X.model, newdata, ...)
 }
