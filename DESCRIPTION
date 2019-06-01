@@ -35,6 +35,7 @@ Suggests: gbm,
   ggpubr,
   testthat,
   dplyr,
-  h2o
+  h2o,
+  reticulate
 URL: https://pbiecek.github.io/DALEX/
 BugReports: https://github.com/pbiecek/DALEX/issues
