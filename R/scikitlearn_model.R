@@ -34,14 +34,14 @@
 #' 
 #' @examples 
 #' ##usage with explain()
-#' have_picke <- reticulate::py_module_available("pickle")
+#' have_picke <- reticulate::py_module_available("sklearn.ensemble")
 #' 
 #' if(have_picke){
-#' library(dplyr)
 #' library(DALEX)
 #' library(reticulate)
 #' titnic_test <- read.csv(system.file("extdata", "titanic_test.csv", package = "DALEX"))
-#' explainer <- scikitlearn_model(system.file("extdata", "gbm.pkl", package = "DALEX")) %>% DALEX::explain(data = titanic_test[,-18], y = titanic_test$survived)
+#' model <- scikitlearn_model(system.file("extdata", "gbm.pkl", package = "DALEX")) 
+#' explainer <- explain(model = model, data = titanic_test[,-18], y = titanic_test$survived)
 #' model_performance(explainer)
 #' }else{
 #' print('Python testing environment is required.')
@@ -49,7 +49,7 @@
 #' 
 #' 
 #' ## Predictions with nedata
-#' have_picke <- reticulate::py_module_available("pickle")
+#' have_picke <- reticulate::py_module_available("sklearn.ensemble")
 #' if(have_pickle){
 #' library(DALEX)
 #' library(reticulate)
