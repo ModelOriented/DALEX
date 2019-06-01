@@ -35,7 +35,6 @@
 #' @examples 
 #' ##usage with explain()
 #' have_picke <- reticulate::py_module_available("pickle")
-#' ## Not run:
 #' 
 #' if(have_picke){
 #' library(dplyr)
@@ -49,11 +48,8 @@
 #' }
 #' 
 #' 
-#' ## End(Not run)
-#' 
 #' ## Predictions with nedata
 #' have_picke <- reticulate::py_module_available("pickle")
-#' ## Not run:
 #' if(have_pickle){
 #' library(DALEX)
 #' library(reticulate)
@@ -63,7 +59,6 @@
 #' }else{
 #' print('Python testing environment is required.')
 #' }
-#' ## End(Not run)
 #' 
 #' @rdname scikitlearn_model
 #' @export
