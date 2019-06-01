@@ -31,6 +31,15 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
+<!-- Google analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-5650686-14"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-5650686-14');
+</script>
 
   </head>
 
@@ -95,9 +104,11 @@
     </div>
 
     
-    <p>This function is just a wrapper over the predict function.
-It sets different default parameters for models from different classes,
-like for classification random Forest is forces the output to be probabilities not classes itself.</p>
+    <p>This function is a wrapper over the predict function.
+The wrapper returns a single numeric score for each new observation.
+To do this it uses different extraction techniques for models from different classes,
+like for classification random forest is forces the output to be probabilities
+not classes itself.</p>
     
 
     <pre class="usage"><span class='fu'>yhat</span>(<span class='no'>X.model</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)
@@ -123,7 +134,25 @@ like for classification random Forest is forces the output to be probabilities n
 <span class='co'># S3 method for ranger</span>
 <span class='fu'>yhat</span>(<span class='no'>X.model</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)
 
+<span class='co'># S3 method for WrappedModel</span>
+<span class='fu'>yhat</span>(<span class='no'>X.model</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for model_fit</span>
+<span class='fu'>yhat</span>(<span class='no'>X.model</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for train</span>
+<span class='fu'>yhat</span>(<span class='no'>X.model</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)
+
 <span class='co'># S3 method for default</span>
+<span class='fu'>yhat</span>(<span class='no'>X.model</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for catboost.Model</span>
+<span class='fu'>yhat</span>(<span class='no'>X.model</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for H2ORegressionModel</span>
+<span class='fu'>yhat</span>(<span class='no'>X.model</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for H2OBinomialModel</span>
 <span class='fu'>yhat</span>(<span class='no'>X.model</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
@@ -147,6 +176,22 @@ like for classification random Forest is forces the output to be probabilities n
 
     <p>An numeric matrix of predictions</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Currently supported packages are:</p><ul>
+<li><p>class `catboost.Model` - models created with `catboost` package</p></li>
+<li><p>class `cv.glmnet` and `glmnet` - models created with `glmnet` package</p></li>
+<li><p>class `glm` - generalized linear models</p></li>
+<li><p>class `H2OBinomialModel` and `H2ORegressionModel` - models created with `h2o` package</p></li>
+<li><p>class `model_fit` - models created with `parsnip` package</p></li>
+<li><p>class `lm` - linear models created with `stats::lm`</p></li>
+<li><p>class `ranger` - models created with `ranger` package</p></li>
+<li><p>class `randomForest` - random forest models created with `randomForest` package</p></li>
+<li><p>class `svm` - support vector machines models created with the `e1071` package</p></li>
+<li><p>class `train` - models created with `caret` package</p></li>
+<li><p>class `WrappedModel` - models created with `mlr` package</p></li>
+</ul>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -155,6 +200,8 @@ like for classification random Forest is forces the output to be probabilities n
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
           </ul>
 
   </div>

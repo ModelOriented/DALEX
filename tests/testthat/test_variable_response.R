@@ -24,5 +24,4 @@ test_that("Output format - plot",{
   expect_is(plot(vr_pdp_rf, vr_pdp_rf), "gg")
   expect_is(plot(vr_pdp_rf, vr_pdp_glm), "gg")
   expect_is(plot(vr_ale_rf, vr_ale_glm), "gg")
-  expect_is(plot(vr_factor_rf, vr_factor_lm), "gg")
 })
