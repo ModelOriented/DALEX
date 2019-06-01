@@ -34,22 +34,33 @@
 #' 
 #' @examples 
 #' ##usage with explain()
+#' have_picke <- reticulate::py_module_available("pickle")
 #' ## Not run:
+#' 
+#' if(have_picke){
 #' library(dplyr)
 #' library(DALEX)
 #' library(reticulate)
 #' 
 #' explainer <- scikitlearn_model("gbm.pkl") %>% explain(data = titanic_test, y = titanic_test$survived)
 #' model_performance(explainer)
+#' }else{
+#' print('Python testing environment is required.')
+#' }
+#' 
 #' 
 #' ## End(Not run)
+#' 
 #' ## Predictions with nedata
 #' ## Not run:
-#' 
+#' if(have_pickle){
 #' library(DALEX)
 #' library(reticulate)
 #' model <- scikitlearn_model("gbm.pkl")
 #' predictions <- model$predict_function(model$model, titanic_test_X)
+#' }else{
+#' print('Python testing environment is required.')
+#' }
 #' ## End(Not run)
 #' 
 #' @rdname scikitlearn_model
