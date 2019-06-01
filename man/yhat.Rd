@@ -13,7 +13,6 @@
 \alias{yhat.model_fit}
 \alias{yhat.train}
 \alias{yhat.default}
-\alias{yhat.catboost.Model}
 \alias{yhat.H2ORegressionModel}
 \alias{yhat.H2OBinomialModel}
 \title{Wrapper over the predict function}
@@ -42,8 +41,6 @@ yhat(X.model, newdata, ...)
 
 \method{yhat}{default}(X.model, newdata, ...)
 
-\method{yhat}{catboost.Model}(X.model, newdata, ...)
-
 \method{yhat}{H2ORegressionModel}(X.model, newdata, ...)
 
 \method{yhat}{H2OBinomialModel}(X.model, newdata, ...)
@@ -68,7 +65,6 @@ not classes itself.
 \details{
 Currently supported packages are:
 \itemize{
-\item class `catboost.Model` - models created with `catboost` package
 \item class `cv.glmnet` and `glmnet` - models created with `glmnet` package
 \item class `glm` - generalized linear models
 \item class `H2OBinomialModel` and `H2ORegressionModel` - models created with `h2o` package

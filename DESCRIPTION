@@ -35,7 +35,6 @@ Suggests: gbm,
   ggpubr,
   testthat,
   dplyr,
-  catboost, 
   h2o
 URL: https://pbiecek.github.io/DALEX/
 BugReports: https://github.com/pbiecek/DALEX/issues

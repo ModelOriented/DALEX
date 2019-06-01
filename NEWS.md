@@ -1,6 +1,6 @@
 DALEX 0.4.2
 ----------------------------------------------------------------
-* New `yhat` functions for `mlr`, `h2o`, `catboost` and `caret` packages (added by Szymon).
+* New `yhat` functions for `mlr`, `h2o` and `caret` packages (added by Szymon).
 
 DALEX 0.4.1
 ----------------------------------------------------------------

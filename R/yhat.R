@@ -8,7 +8,7 @@
 #'
 #' Currently supported packages are:
 #' \itemize{
-#' \item class `catboost.Model` - models created with `catboost` package
+# #' \item class `catboost.Model` - models created with `catboost` package
 #' \item class `cv.glmnet` and `glmnet` - models created with `glmnet` package
 #' \item class `glm` - generalized linear models
 #' \item class `H2OBinomialModel` and `H2ORegressionModel` - models created with `h2o` package
@@ -150,13 +150,6 @@ yhat.default <- function(X.model, newdata, ...) {
 
 #' @rdname yhat
 #' @export
-yhat.catboost.Model <- function(X.model, newdata, ...) {
-  newdata_pool <- catboost::catboost.load_pool(newdata)
-  catboost::catboost.predict(X.model, newdata_pool)
-}
-
-#' @rdname yhat
-#' @export
 yhat.H2ORegressionModel <- function(X.model, newdata, ...) {
   newdata_h2o <- h2o::as.h2o(newdata)
   as.vector(h2o::h2o.predict(X.model, newdata = newdata_h2o))
@@ -170,5 +163,13 @@ yhat.H2OBinomialModel <- function(X.model, newdata, ...) {
   newdata_h2o <- h2o::as.h2o(newdata)
   res <- as.data.frame(h2o::h2o.predict(X.model, newdata = newdata_h2o))
   res$p1
-
 }
+
+
+
+# #' @rdname yhat
+# #' @export
+# yhat.catboost.Model <- function(X.model, newdata, ...) {
+#   newdata_pool <- catboost::catboost.load_pool(newdata)
+#   catboost::catboost.predict(X.model, newdata_pool)
+# }
