@@ -6,7 +6,7 @@
 #' 
 #' @usage scikitlearn_model("gbm.pkl")
 #' 
-#' @param path string - a path to pickle file
+#' @param path string - a path to pickle file.
 #' 
 #' 
 #' @return An object of the class 'scikitlearn_model'.
@@ -31,27 +31,6 @@
 #' model = model.fit(titanic_train_X, titanic_train_Y)\cr
 #' pickle.dump(model, open("gbm.pkl", "wb"))\cr
 #' }
-#' 
-#' @examples 
-#' ##usage with explain()
-#' ## Not run:
-#' library(dplyr)
-#' library(DALEX)
-#' library(reticulate)
-#' 
-#' explainer <- scikitlearn_model("gbm.pkl") %>% explain(data = titanic_test, y = titanic_test$survived)
-#' model_performance(explainer)
-#' 
-#' ## End(Not run)
-#' ## Predictions with nedata
-#' ## Not run:
-#' 
-#' library(dplyr)
-#' library(DALEX)
-#' library(reticulate)
-#' model <- scikitlearn_model("gbm.pkl")
-#' predictions <- model$predict_function(model$model, titanic_test_X)
-#' ## End(Not run)
 #' 
 #' @rdname scikitlearn_model
 #' @export
