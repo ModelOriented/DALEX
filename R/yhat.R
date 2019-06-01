@@ -122,6 +122,30 @@ yhat.train <- function(X.model, newdata, ...) {
   response
 }
 
+#' @rdname yhat
+#' @export
+yhat.catboost.Model <- function(X.model, newdata, ...) {
+  newdata_pool <- catboost.load_pool(newdata)
+  catboost.predict(object, newdata_pool)
+}
+
+#' @rdname yhat
+#' @export
+yhat.H2ORegressionModel <- function(X.model, newdata, ...) {
+  newdata_h2o <- as.h2o(newdata)
+  as.vector(h2o.predict(X.model, newdata = newdata_h2o))
+  
+}
+
+
+#' @rdname yhat
+#' @export
+yhat.H2OBinomialModel <- function(X.model, newdata, ...) {
+  newdata_h2o <- as.h2o(newdata)
+  res <- as.data.frame(h2o.predict(X.model, newdata = newdata_h2o))
+  res$p1
+  
+}
 
 
 #' @rdname yhat
