@@ -34,9 +34,9 @@
 #' 
 #' @examples 
 #' ##usage with explain()
-#' have_picke <- reticulate::py_module_available("sklearn.ensemble")
+#' have_sklearn <- reticulate::py_module_available("sklearn.ensemble")
 #' 
-#' if(have_picke){
+#' if(have_sklearn){
 #' library(DALEX)
 #' library(reticulate)
 #' titnic_test <- read.csv(system.file("extdata", "titanic_test.csv", package = "DALEX"))
@@ -49,8 +49,8 @@
 #' 
 #' 
 #' ## Predictions with nedata
-#' have_picke <- reticulate::py_module_available("sklearn.ensemble")
-#' if(have_pickle){
+#' have_sklearn <- reticulate::py_module_available("sklearn.ensemble")
+#' if(have_sklearn){
 #' library(DALEX)
 #' library(reticulate)
 #' titnic_test <- read.csv(system.file("extdata", "titanic_test.csv", package = "DALEX"))
