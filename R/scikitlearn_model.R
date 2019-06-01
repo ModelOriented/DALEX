@@ -42,7 +42,7 @@
 #' library(DALEX)
 #' library(reticulate)
 #' titnic_test <- read.csv(system.file("extdata", "titanic_test.csv", package = "DALEX"))
-#' explainer <- scikitlearn_model(system.file("extdata", "gbmk.pkl", package = "DALEX")) %>% DALEX::explain(data = titanic_test[,-18], y = titanic_test$survived)
+#' explainer <- scikitlearn_model(system.file("extdata", "gbm.pkl", package = "DALEX")) %>% DALEX::explain(data = titanic_test[,-18], y = titanic_test$survived)
 #' model_performance(explainer)
 #' }else{
 #' print('Python testing environment is required.')
@@ -52,11 +52,13 @@
 #' ## End(Not run)
 #' 
 #' ## Predictions with nedata
+#' have_picke <- reticulate::py_module_available("pickle")
 #' ## Not run:
 #' if(have_pickle){
 #' library(DALEX)
 #' library(reticulate)
-#' model <- scikitlearn_model(system.file("extdata", "gbmk.pkl", package = "DALEX"))
+#' titnic_test <- read.csv(system.file("extdata", "titanic_test.csv", package = "DALEX"))
+#' model <- scikitlearn_model(system.file("extdata", "gbm.pkl", package = "DALEX"))
 #' predictions <- model$predict_function(model$model, titanic_test[,-18])
 #' }else{
 #' print('Python testing environment is required.')
