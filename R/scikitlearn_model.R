@@ -46,7 +46,6 @@
 #' ## Predictions with nedata
 #' ## Not run:
 #' 
-#' library(dplyr)
 #' library(DALEX)
 #' library(reticulate)
 #' model <- scikitlearn_model("gbm.pkl")
