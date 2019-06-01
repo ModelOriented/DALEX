@@ -5,14 +5,7 @@ vr_pdp_rf  <- variable_response(explainer_classif_rf, variable = "age", type = "
 vr_pdp_glm  <- variable_response(explainer_classif_glm, variable = "age", type = "pdp")
 vr_ale_rf  <- variable_response(explainer_classif_rf, variable = "age", type = "ale")
 vr_ale_glm  <- variable_response(explainer_classif_glm, variable = "age", type = "ale")
-vr_factor_rf  <- variable_response(explainer_regr_rf, variable = "district", type = "factor")
-vr_factor_lm  <- variable_response(explainer_regr_lm, variable = "district", type = "factor")
 
-
-test_that("Wrong input", {
-  expect_error(variable_response(model_classif_rf))
-  expect_error(variable_response(explainer_classif_rf, variable = "age", type = "factor"))
-})
 
 test_that("Data wasn't provided", {
   expect_error(variable_response(explainer_wo_data))
@@ -25,10 +18,6 @@ test_that("Unsupported type",{
 test_that("Non standard predict functions",{
   expect_true("data.frame" %in% class(vr_pdp_rf))
   expect_true("data.frame" %in% class(vr_ale_rf))
-})
-
-test_that("Output format",{
-  expect_true("factorMerger" %in% class(vr_factor_rf))
 })
 
 test_that("Output format - plot",{
