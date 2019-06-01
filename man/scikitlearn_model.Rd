@@ -7,7 +7,7 @@
 scikitlearn_model("gbm.pkl")
 }
 \arguments{
-\item{path}{string - a path to pickle file}
+\item{path}{string - a path to pickle file.}
 }
 \value{
 An object of the class 'scikitlearn_model'.
@@ -37,26 +37,4 @@ pickle.dump(model, open("gbm.pkl", "wb"))\cr
 scikit-learn models may be lodaed into R enviromente like any other Python object. We may need it to inspect performance of our model 
 and compre it with others, using R tools like DALEX. This function creates object that is easy accessible version of model 
 exported form python via pickle file.
-}
-\examples{
-##usage with explain()
-## Not run:
-library(dplyr)
-library(DALEX)
-library(reticulate)
-
-explainer <- scikitlearn_model("gbm.pkl") \%>\% explain(data = titanic_test, y = titanic_test$survived)
-model_performance(explainer)
-
-## End(Not run)
-## Predictions with nedata
-## Not run:
-
-library(dplyr)
-library(DALEX)
-library(reticulate)
-model <- scikitlearn_model("gbm.pkl")
-predictions <- model$predict_function(model$model, titanic_test_X)
-## End(Not run)
-
 }
