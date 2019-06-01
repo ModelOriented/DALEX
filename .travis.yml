@@ -15,10 +15,7 @@ notifications:
 
 r_packages:
   - archivist
-  - pdp
   - ggplot2
-  - ALEPlot
-  - breakDown
   - covr
 
 after_success:

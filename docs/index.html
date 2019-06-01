@@ -12,7 +12,13 @@
 <script src="jquery.sticky-kit.min.js"></script><script src="pkgdown.js"></script><!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<![endif]--><!-- Google analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-5650686-14"></script><script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-5650686-14');
+</script>
 </head>
 <body>
     <div class="container template-home">
@@ -87,6 +93,8 @@
 <h3 class="hasAnchor">
 <a href="#how-to-use-dalex" class="anchor"></a>How to use DALEX</h3>
 <ul>
+<li>
+<a href="https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/Multilanguages_comparision.html">How to compare models created in different languages</a> crosscomparison of gbm and CatBoost in R / gbm in h2o / gbm in python</li>
 <li><a href="https://rawgit.com/pbiecek/DALEX_docs/master/vignettes/DALEX_and_keras.html">How to use DALEX with keras</a></li>
 <li><a href="https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_parsnip.html">How to use DALEX with parsnip</a></li>
 <li><a href="https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_caret.html">How to use DALEX with caret</a></li>
@@ -123,9 +131,9 @@
 <h2 class="hasAnchor">
 <a href="#install" class="anchor"></a>Install</h2>
 <p>From CRAN</p>
-<pre class="{r}"><code><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages("DALEX")</a></code></pre>
+<pre class="{r}"><code>install.packages("DALEX")</code></pre>
 <p>or from GitHub</p>
-<pre class="{r}"><code><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports"># dependencies
+<pre class="{r}"><code><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports"># dependencies
 devtools::install_github("MI2DataLab/factorMerger")
 devtools::install_github("pbiecek/breakDown")
 
@@ -208,7 +216,7 @@ devtools::install_github("pbiecek/DALEX")</a></code></pre>
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Przemyslaw Biecek <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-8423-1823" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
+<li>Przemyslaw Biecek <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-8423-1823" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" height="16"></a> </li>
 </ul>
 </div>
 

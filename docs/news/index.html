@@ -31,6 +31,15 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
+<!-- Google analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-5650686-14"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-5650686-14');
+</script>
 
   </head>
 
@@ -96,6 +105,21 @@
     </div>
 
     <div class="contents">
+    <div id="dalex-0-4-2" class="section level2">
+<h2 class="hasAnchor">
+<a href="#dalex-0-4-2" class="anchor"></a>DALEX 0.4.2</h2>
+<ul>
+<li>New <code>yhat</code> functions for <code>mlr</code>, <code>h2o</code>, <code>catboost</code> and <code>caret</code> packages (added by Szymon).</li>
+</ul>
+</div>
+    <div id="dalex-0-4-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#dalex-0-4-1" class="anchor"></a>DALEX 0.4.1</h2>
+<ul>
+<li>
+<code><a href="../reference/plot.variable_importance_explainer.html">plot.variable_importance_explainer()</a></code> has now <code>desc_sorting</code> argument. If FALSE then variable importance will be sorted in an increasing order (<a href="https://github.com/pbiecek/DALEX/issues/41">#41</a>).</li>
+</ul>
+</div>
     <div id="dalex-0-4-0" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dalex-0-4-0" class="anchor"></a>DALEX 0.4.0</h2>
@@ -103,11 +127,11 @@
 <li>
 <code>ingredients</code> and <code>iBreakDown</code> are added to additional features (<a href="https://github.com/pbiecek/DALEX/issues/72">#72</a>).</li>
 <li>
-<code><a href="../reference/feature_response.html">feature_response()</a></code> and <code><a href="../reference/variable_response.html">variable_response()</a></code> are marked as Deprecated. It is suggested to use <code><a href="https://www.rdocumentation.org/packages/ingredients/topics/partial_dependency">ingredients::partial_dependency()</a></code>, <code><a href="https://www.rdocumentation.org/packages/ingredients/topics/accumulated_dependency">ingredients::accumulated_dependency()</a></code> instead (<a href="https://github.com/pbiecek/DALEX/issues/74">#74</a>).</li>
+<code><a href="../reference/feature_response.html">feature_response()</a></code> and <code><a href="../reference/variable_response.html">variable_response()</a></code> are marked as Deprecated. It is suggested to use <code><a href="http://www.rdocumentation.org/packages/ingredients/topics/partial_dependency">ingredients::partial_dependency()</a></code>, <code><a href="http://www.rdocumentation.org/packages/ingredients/topics/accumulated_dependency">ingredients::accumulated_dependency()</a></code> instead (<a href="https://github.com/pbiecek/DALEX/issues/74">#74</a>).</li>
 <li>
-<code><a href="../reference/variable_importance.html">variable_importance()</a></code> is marked as Deprecated. It is suggested to use <code><a href="https://www.rdocumentation.org/packages/ingredients/topics/feature_importance">ingredients::feature_importance()</a></code> instead (<a href="https://github.com/pbiecek/DALEX/issues/75">#75</a>).</li>
+<code><a href="../reference/variable_importance.html">variable_importance()</a></code> is marked as Deprecated. It is suggested to use <code><a href="http://www.rdocumentation.org/packages/ingredients/topics/feature_importance">ingredients::feature_importance()</a></code> instead (<a href="https://github.com/pbiecek/DALEX/issues/75">#75</a>).</li>
 <li>
-<code><a href="../reference/prediction_breakdown.html">prediction_breakdown()</a></code> is marked as Deprecated. It is suggested to use <code><a href="https://www.rdocumentation.org/packages/iBreakDown/topics/break_down">iBreakDown::break_down()</a></code> or <code><a href="https://www.rdocumentation.org/packages/iBreakDown/topics/break_down_uncertainty">iBreakDown::shap()</a></code> instead (<a href="https://github.com/pbiecek/DALEX/issues/76">#76</a>).</li>
+<code><a href="../reference/prediction_breakdown.html">prediction_breakdown()</a></code> is marked as Deprecated. It is suggested to use <code><a href="http://www.rdocumentation.org/packages/iBreakDown/topics/break_down">iBreakDown::break_down()</a></code> or <code><a href="http://www.rdocumentation.org/packages/iBreakDown/topics/break_down_uncertainty">iBreakDown::shap()</a></code> instead (<a href="https://github.com/pbiecek/DALEX/issues/76">#76</a>).</li>
 </ul>
 </div>
     <div id="dalex-0-3-1" class="section level2">
@@ -167,9 +191,9 @@
 <h2 class="hasAnchor">
 <a href="#dalex-0-2-5" class="anchor"></a>DALEX 0.2.5</h2>
 <ul>
-<li>Residual distribution plots for model performance are now more legible when multiple models are plotted. The styling of plot and axis titles have also been improved (<a href='https://github.com/kevinykuo'>@kevinykuo</a>).</li>
-<li>The defaults of <code><a href="../reference/prediction_breakdown.html">single_prediction()</a></code> are now consistent with <code><a href="https://www.rdocumentation.org/packages/breakDown/topics/broken">breakDown::broken()</a></code>. Specifically, <code>baseline</code> is now <code>0</code> by default instead of <code>"Intercept"</code>. The user can also specify the <code>baseline</code> and other arguments by passing them to <code>single_prediction</code> (<a href='https://github.com/kevinykuo'>@kevinykuo</a>, <a href="https://github.com/pbiecek/DALEX/issues/39">#39</a>). <strong>WARNING:</strong> Change in the default value of <code>baseline</code>.</li>
-<li>New <code>yhat.*</code> functions help to handle additional parameters to different <code><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict()</a></code> functions.</li>
+<li>Residual distribution plots for model performance are now more legible when multiple models are plotted. The styling of plot and axis titles have also been improved (<a href='http://github.com/kevinykuo'>@kevinykuo</a>).</li>
+<li>The defaults of <code><a href="../reference/prediction_breakdown.html">single_prediction()</a></code> are now consistent with <code><a href="http://www.rdocumentation.org/packages/breakDown/topics/broken">breakDown::broken()</a></code>. Specifically, <code>baseline</code> is now <code>0</code> by default instead of <code>"Intercept"</code>. The user can also specify the <code>baseline</code> and other arguments by passing them to <code>single_prediction</code> (<a href='http://github.com/kevinykuo'>@kevinykuo</a>, <a href="https://github.com/pbiecek/DALEX/issues/39">#39</a>). <strong>WARNING:</strong> Change in the default value of <code>baseline</code>.</li>
+<li>New <code>yhat.*</code> functions help to handle additional parameters to different <code>predict()</code> functions.</li>
 <li>Updated <code>CITATION</code> info</li>
 </ul>
 </div>
@@ -253,6 +277,8 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked contents-mi2">
+        <li><a href="#dalex-0-4-2">0.4.2</a></li>
+        <li><a href="#dalex-0-4-1">0.4.1</a></li>
         <li><a href="#dalex-0-4-0">0.4.0</a></li>
         <li><a href="#dalex-0-3-1">0.3.1</a></li>
         <li><a href="#dalex-0-3">0.3</a></li>

@@ -31,6 +31,15 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
+<!-- Google analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-5650686-14"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-5650686-14');
+</script>
 
   </head>
 
@@ -139,7 +148,7 @@ It's a data frame with calculated average response.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function is set deprecated. It is suggested to use <code><a href='https://www.rdocumentation.org/packages/ingredients/topics/partial_dependency'>partial_dependency</a></code>, <code><a href='https://www.rdocumentation.org/packages/ingredients/topics/accumulated_dependency'>accumulated_dependency</a></code> instead.
+    <p>This function is set deprecated. It is suggested to use <code><a href='http://www.rdocumentation.org/packages/ingredients/topics/partial_dependency'>partial_dependency</a></code>, <code><a href='http://www.rdocumentation.org/packages/ingredients/topics/accumulated_dependency'>accumulated_dependency</a></code> instead.
 Find information how to use these functions here: <a href='https://pbiecek.github.io/PM_VEE/partialDependenceProfiles.html'>https://pbiecek.github.io/PM_VEE/partialDependenceProfiles.html</a> and <a href='https://pbiecek.github.io/PM_VEE/accumulatedLocalProfiles.html'>https://pbiecek.github.io/PM_VEE/accumulatedLocalProfiles.html</a>.</p>
 <p>For factor variables we are using the 'factorMerger' package.
 Please note that the argument <code>type</code> must be set to <code>'factor'</code> to use this method.</p>
@@ -150,26 +159,26 @@ Please note that the argument <code>type</code> must be set to <code>'factor'</c
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>HR</span>$<span class='no'>evaluation</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='no'>HR</span>$<span class='no'>evaluation</span>)
+    <pre class="examples"><div class='input'><span class='no'>HR</span>$<span class='no'>evaluation</span> <span class='kw'>&lt;-</span> <span class='fu'>factor</span>(<span class='no'>HR</span>$<span class='no'>evaluation</span>)
 
-<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
+<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)
 <span class='no'>expl_glm</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_response</span>(<span class='no'>explainer_glm</span>, <span class='st'>"age"</span>, <span class='st'>"pdp"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>expl_glm</span>)</div><div class='img'><img src='variable_response-1.png' alt='' width='700' height='433' /></div><div class='input'>
- </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"randomForest"</span>)
-<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)
+<span class='fu'>plot</span>(<span class='no'>expl_glm</span>)</div><div class='img'><img src='variable_response-1.png' alt='' width='700' height='433' /></div><div class='input'>
+ </div><div class='input'><span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
+<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)
 <span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'>variable_response</span>(<span class='no'>explainer_rf</span>, <span class='kw'>variable</span> <span class='kw'>=</span> <span class='st'>"age"</span>,
                        <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='variable_response-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>)</div><div class='img'><img src='variable_response-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='variable_response-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot</span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>)</div><div class='img'><img src='variable_response-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Example for factor variable (with factorMerger)</span>
 <span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'>variable_response</span>(<span class='no'>explainer_rf</span>, <span class='kw'>variable</span> <span class='kw'>=</span>  <span class='st'>"evaluation"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"factor"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>expl_rf</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
+<span class='fu'>plot</span>(<span class='no'>expl_rf</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
 #&gt; <span class='message'>replace the existing scale.</span></div><div class='img'><img src='variable_response-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>expl_glm</span>  <span class='kw'>&lt;-</span> <span class='fu'>variable_response</span>(<span class='no'>explainer_glm</span>, <span class='kw'>variable</span> <span class='kw'>=</span>  <span class='st'>"evaluation"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"factor"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>expl_glm</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
+<span class='fu'>plot</span>(<span class='no'>expl_glm</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
 #&gt; <span class='message'>replace the existing scale.</span></div><div class='img'><img src='variable_response-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># both models</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
+<span class='fu'>plot</span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
 #&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
 #&gt; <span class='message'>replace the existing scale.</span></div><div class='img'><img src='variable_response-6.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
 </div></pre>
