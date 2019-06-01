@@ -45,6 +45,16 @@
 #' wine_rf_explainer4
 #'  }
 #'
+#'
+
+
+#' @rdname yhat
+#' @export
+explain <- function (model, data = NULL, y = NULL, predict_function = yhat, link = I, ..., label = tail(class(model), 1))
+  UseMethod("explain")
+
+#' @export
+#' @rdname explain
 explain.default <- function(model, data = NULL, y = NULL, predict_function = yhat, link = I, ..., label = tail(class(model), 1)) {
   if (is.null(data)) {
     possible_data <- try(model.frame(model), silent = TRUE)
@@ -74,7 +84,33 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = yha
   explainer
 }
 
+
 #' @export
 #' @rdname explain
-explain <- explain.default
+explain.scikitlearn_model <- function(model, data = NULL, y = NULL, predict_function = yhat, link = I, ..., label = tail(class(model), 1)){
+  if (is.null(data) | is.null(y)) {
+    stop("While using explain() with scikitlearn_model you have to provide data  nad y argument")
+    
+  }
+  
+  # as for issue #15, if data is in the tibble format then needs to be translated to data.frame
+  if ("tbl" %in% class(data)) {
+    data <- as.data.frame(data)
+  }
+  
+  if((is.factor(y) | is.character(y))) {
+    message("Please note that 'y' is a factor. The default loss functions assume numerical outputs (e.g. scores, probabilities, rates). Consider changing the y to the logical or numerical (0-1) vector.")
+  }
+  
+  explainer <- list(model = model$model,
+                    data = data,
+                    y = y,
+                    predict_function = model$predict_function,
+                    link = link,
+                    class = paste(class(model), model$name, sep = "_"),
+                    label = label)
+  explainer <- c(explainer, list(...))
+  class(explainer) <- "explainer"
+  explainer
+}
 
