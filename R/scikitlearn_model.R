@@ -22,7 +22,7 @@
 #' }
 #' 
 #' \bold{Example of Python code}\cr
-#' \code{
+#'
 #' from pandas import DataFrame, read_csv \cr
 #' import pandas as pd\cr
 #' import pickle\cr
@@ -30,7 +30,7 @@
 #' model = sklearn.ensemble.GradientBoostingClassifier() \cr
 #' model = model.fit(titanic_train_X, titanic_train_Y)\cr
 #' pickle.dump(model, open("gbm.pkl", "wb"))\cr
-#' }
+#' 
 #' 
 #' @examples 
 #' ##usage with explain()

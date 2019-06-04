@@ -23,7 +23,7 @@ It's a list with following fields:
 }
 
 \bold{Example of Python code}\cr
-\code{
+
 from pandas import DataFrame, read_csv \cr
 import pandas as pd\cr
 import pickle\cr
@@ -31,7 +31,6 @@ import sklearn.ensemble\cr
 model = sklearn.ensemble.GradientBoostingClassifier() \cr
 model = model.fit(titanic_train_X, titanic_train_Y)\cr
 pickle.dump(model, open("gbm.pkl", "wb"))\cr
-}
 }
 \description{
 scikit-learn models may be lodaed into R enviromente like any other Python object. We may need it to inspect performance of our model 
