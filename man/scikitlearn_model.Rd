@@ -4,7 +4,7 @@
 \alias{scikitlearn_model}
 \title{Wrapper for Python scikit-learn models}
 \usage{
-scikitlearn_model("gbm.pkl")
+scikitlearn_model(path)
 }
 \arguments{
 \item{path}{string - a path to pickle file}

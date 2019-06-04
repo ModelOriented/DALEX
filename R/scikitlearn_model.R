@@ -4,7 +4,7 @@
 #' and compre it with others, using R tools like DALEX. This function creates object that is easy accessible version of model 
 #' exported form python via pickle file.
 #' 
-#' @usage scikitlearn_model("gbm.pkl")
+#' @usage scikitlearn_model(path)
 #' 
 #' @param path string - a path to pickle file
 #' 
