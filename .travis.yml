@@ -3,7 +3,6 @@ sudo: false
 cache: packages
 dist: trusty
 
-
 before_install:
     - sudo apt-get install --yes udunits-bin libproj-dev libgeos-dev libgdal-dev libgdal1-dev libudunits2-dev
 
