@@ -14,3 +14,14 @@
 \description{
 Prints scikitlearn_set class
 }
+\examples{
+library("DALEX")
+library("reticulate")
+have_sklearn <- reticulate::py_module_available("sklearn.ensemble")
+if(have_sklearn) {
+  model <- scikitlearn_model(system.file("extdata", "gbm.pkl", package = "DALEX")) 
+  print(model$params)
+} else {
+  print('Python testing environment is required.')
+}
+}

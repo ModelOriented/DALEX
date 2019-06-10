@@ -2,12 +2,12 @@
 % Please edit documentation in R/scikitlearn_model.R
 \name{scikitlearn_model}
 \alias{scikitlearn_model}
-\title{Wrapper for Python scikit-learn models}
+\title{Wrapper for Python Scikit-Learn Models}
 \usage{
 scikitlearn_model(path)
 }
 \arguments{
-\item{path}{string - a path to pickle file}
+\item{path}{string - a path to the pickle file}
 }
 \value{
 An object of the class 'scikitlearn_model'.
@@ -15,11 +15,12 @@ An object of the class 'scikitlearn_model'.
 It's a list with following fields:
 
 \itemize{
-\item \code{name} name of model
+\item \code{model} it is original model received vie reticiulate function. Use it for computations.
+\item \code{predict_function} predict function extracted from original model. It is adjusted to DALEX demands and therfore fully compatibile. 
 \item \code{type} type model, classification or regression
 \item \code{params} object of class `scikitlearn_set` which in fact is list that consist of parameters of our model.
-\item \code{predict_function} predict function extracted from original model. It is adjusted to DALEX demands and therfore fully compatibile. 
-\item \code{model} it is original model received vie reticiulate function. Use it for computation.
+\item \code{label} name of model
+
 }
 
 \bold{Example of Python code}\cr
@@ -33,36 +34,29 @@ model = model.fit(titanic_train_X, titanic_train_Y)\cr
 pickle.dump(model, open("gbm.pkl", "wb"))\cr
 }
 \description{
-scikit-learn models may be lodaed into R enviromente like any other Python object. We may need it to inspect performance of our model 
-and compre it with others, using R tools like DALEX. This function creates object that is easy accessible version of model 
-exported form python via pickle file.
+scikit-learn models may be loaded into R environment like any other Python object. This function helps to inspect performance of Python model 
+and compare it with other models, using R tools like DALEX. This function creates an object that is easy accessible R version of scikit-learn model 
+exported from Python via pickle file.
 }
 \examples{
-##usage with explain()
+# Usage with explain()
 have_sklearn <- reticulate::py_module_available("sklearn.ensemble")
+library("DALEX")
+library("reticulate")
 
-if(have_sklearn){
-library(DALEX)
-library(reticulate)
-titnic_test <- read.csv(system.file("extdata", "titanic_test.csv", package = "DALEX"))
-model <- scikitlearn_model(system.file("extdata", "gbm.pkl", package = "DALEX")) 
-explainer <- explain(model = model, data = titanic_test[,-18], y = titanic_test$survived)
-model_performance(explainer)
-}else{
-print('Python testing environment is required.')
+if(have_sklearn) {
+   # Explainer build (Keep in mind that 18th column is target)
+   titanic_test <- read.csv(system.file("extdata", "titanic_test.csv", package = "DALEX"))
+   model <- scikitlearn_model(system.file("extdata", "gbm.pkl", package = "DALEX")) 
+   explainer <- explain(model = model, data = titanic_test[,1:17], y = titanic_test$survived)
+   print(model_performance(explainer))
+   
+   # Predictions with newdata
+   predictions <- model$predict_function(model$model, titanic_test[,1:17])
+ 
+} else {
+  print('Python testing environment is required.')
 }
 
-
-## Predictions with nedata
-have_sklearn <- reticulate::py_module_available("sklearn.ensemble")
-if(have_sklearn){
-library(DALEX)
-library(reticulate)
-titnic_test <- read.csv(system.file("extdata", "titanic_test.csv", package = "DALEX"))
-model <- scikitlearn_model(system.file("extdata", "gbm.pkl", package = "DALEX"))
-predictions <- model$predict_function(model$model, titanic_test[,-18])
-}else{
-print('Python testing environment is required.')
-}
 
 }
