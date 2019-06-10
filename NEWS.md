@@ -1,3 +1,7 @@
+DALEX 0.4.3
+----------------------------------------------------------------
+* New support for scikit-learn models via `scikitlearn_model()`
+
 DALEX 0.4.2
 ----------------------------------------------------------------
 * New `yhat` functions for `mlr`, `h2o` and `caret` packages (added by Szymon).
