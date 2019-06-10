@@ -31,7 +31,7 @@ import pickle\cr
 import sklearn.ensemble\cr
 model = sklearn.ensemble.GradientBoostingClassifier() \cr
 model = model.fit(titanic_train_X, titanic_train_Y)\cr
-pickle.dump(model, open("gbm.pkl", "wb"), protocol = 2)\cr
+pickle.dump(model, open("gbm.pkl", "wb"))\cr
 }
 \description{
 scikit-learn models may be loaded into R environment like any other Python object. This function helps to inspect performance of Python model 

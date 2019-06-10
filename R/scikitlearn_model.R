@@ -30,7 +30,7 @@
 #' import sklearn.ensemble\cr
 #' model = sklearn.ensemble.GradientBoostingClassifier() \cr
 #' model = model.fit(titanic_train_X, titanic_train_Y)\cr
-#' pickle.dump(model, open("gbm.pkl", "wb"), protocol = 2)\cr
+#' pickle.dump(model, open("gbm.pkl", "wb"))\cr
 #' 
 #' 
 #' @examples 
