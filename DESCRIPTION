@@ -1,9 +1,8 @@
 Package: DALEX
 Title: Descriptive mAchine Learning EXplanations
 Version: 0.4.3
-Authors@R: person("Przemyslaw", "Biecek", email = "przemyslaw.biecek@gmail.com", 
-    role = c("aut", "cre"),
-    comment = c(ORCID = "0000-0001-8423-1823"))
+Authors@R: c(person("Przemyslaw", "Biecek", email = "przemyslaw.biecek@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-8423-1823")),
+    person("Szymon", "Maksymiuk", role = "ctb"))
 Description: Machine Learning (ML) models are widely used and have various applications in classification 
   or regression. Models created with boosting, bagging, stacking or similar techniques are often
   used due to their high performance, but such black-box models usually lack of interpretability.
