@@ -1,3 +1,8 @@
+DALEX 0.4.4
+----------------------------------------------------------------
+* new color schemes: `colors_breakdown_drwhy()`, `colors_discrete_drwhy()` and `colors_diverging_drwhy()`.
+* in this version the `scikitlearn_model()` is removed as it is not working with python 2.7
+
 DALEX 0.4.3
 ----------------------------------------------------------------
 * New support for scikit-learn models via `scikitlearn_model()`

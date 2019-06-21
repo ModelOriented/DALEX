@@ -1,7 +1,5 @@
 #' DrWhy Theme for ggplot objects
 #'
-#' @param n number of colors for color palette
-#'
 #' @return theme for ggplot2 objects
 #' @export
 #' @rdname theme_drwhy
@@ -46,8 +44,13 @@ theme_drwhy_vertical <- function() {
 }
 
 
+#' DrWhy color palettes for ggplot objects
+#'
+#' @param n number of colors for color palette
+#'
+#' @return color palette as vector of charactes
 #' @export
-#' @rdname theme_drwhy
+#' @rdname colors_drwhy
 colors_discrete_drwhy <- function(n = 2) {
   if (n == 1) return("#4378bf")
   if (n == 2) return(c( "#4378bf", "#8bdcbe"))
@@ -60,14 +63,14 @@ colors_discrete_drwhy <- function(n = 2) {
 
 
 #' @export
-#' @rdname theme_drwhy
+#' @rdname colors_drwhy
 colors_diverging_drwhy <- function() {
   c("#c7f5bf", "#371ea3")
 }
 
 
 #' @export
-#' @rdname theme_drwhy
+#' @rdname colors_drwhy
 colors_breakdown_drwhy <- function() {
   c(`-1` = "#f05a71", `0` = "#371ea3", `1` = "#8bdcbe", X = "#371ea3")
 }

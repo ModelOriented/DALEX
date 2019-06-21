@@ -3,23 +3,11 @@
 \name{theme_drwhy}
 \alias{theme_drwhy}
 \alias{theme_drwhy_vertical}
-\alias{colors_discrete_drwhy}
-\alias{colors_diverging_drwhy}
-\alias{colors_breakdown_drwhy}
 \title{DrWhy Theme for ggplot objects}
 \usage{
 theme_drwhy()
 
 theme_drwhy_vertical()
-
-colors_discrete_drwhy(n = 2)
-
-colors_diverging_drwhy()
-
-colors_breakdown_drwhy()
-}
-\arguments{
-\item{n}{number of colors for color palette}
 }
 \value{
 theme for ggplot2 objects

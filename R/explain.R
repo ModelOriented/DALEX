@@ -45,20 +45,6 @@
 #' wine_rf_explainer4
 #'  }
 #'
-#' # Examples for scikitlearn_model
-#' have_sklearn <- reticulate::py_module_available("sklearn.ensemble")
-#' library("reticulate")
-#'
-#' if(have_sklearn) {
-#'    # Explainer build (Keep in mind that 18th column is target)
-#'    titanic_test <- read.csv(system.file("extdata", "titanic_test.csv", package = "DALEX"))
-#'    model <- scikitlearn_model(system.file("extdata", "gbm.pkl", package = "DALEX"))
-#'    explainer <- explain(model = model, data = titanic_test[,1:17], y = titanic_test$survived)
-#'    print(explainer)
-#'
-#' } else {
-#'   print('Python testing environment is required.')
-#' }
 
 #' @export
 #' @rdname explain
@@ -94,34 +80,4 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = yha
 #' @rdname explain
 #' @export
 explain <- explain.default
-
-
-#' @export
-#' @rdname explain
-explain_scikitlearn_model <- function(model, data = NULL, y = NULL, predict_function = model$predict_function, link = I, ..., label = model$label){
-  if (is.null(data) | is.null(y)) {
-    stop("While using explain() with scikitlearn_model you have to provide data and y argument")
-
-  }
-
-  # as for issue #15, if data is in the tibble format then needs to be translated to data.frame
-  if ("tbl" %in% class(data)) {
-    data <- as.data.frame(data)
-  }
-
-  if((is.factor(y) | is.character(y))) {
-    message("Please note that 'y' is a factor. The default loss functions assume numerical outputs (e.g. scores, probabilities, rates). Consider changing the y to the logical or numerical (0-1) vector.")
-  }
-
-  explainer <- list(model = model$model,
-                    data = data,
-                    y = y,
-                    predict_function = predict_function,
-                    link = link,
-                    class = paste(class(model), model$label, sep = "_"),
-                    label = label)
-  explainer <- c(explainer, list(...))
-  class(explainer) <- "explainer"
-  explainer
-}
 

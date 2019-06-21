@@ -3,7 +3,6 @@
 \name{explain.default}
 \alias{explain.default}
 \alias{explain}
-\alias{explain_scikitlearn_model}
 \title{Create Model Explainer}
 \usage{
 explain.default(model, data = NULL, y = NULL,
@@ -12,10 +11,6 @@ explain.default(model, data = NULL, y = NULL,
 
 explain(model, data = NULL, y = NULL, predict_function = yhat,
   link = I, ..., label = tail(class(model), 1))
-
-explain_scikitlearn_model(model, data = NULL, y = NULL,
-  predict_function = model$predict_function, link = I, ...,
-  label = model$label)
 }
 \arguments{
 \item{model}{object - a model to be explained}
@@ -67,18 +62,4 @@ wine_rf_explainer4 <- explain(wine_rf_model4, data = wine, label = "model_rf")
 wine_rf_explainer4
  }
 
-# Examples for scikitlearn_model
-have_sklearn <- reticulate::py_module_available("sklearn.ensemble")
-library("reticulate")
-
-if(have_sklearn) {
-   # Explainer build (Keep in mind that 18th column is target)
-   titanic_test <- read.csv(system.file("extdata", "titanic_test.csv", package = "DALEX"))
-   model <- scikitlearn_model(system.file("extdata", "gbm.pkl", package = "DALEX"))
-   explainer <- explain(model = model, data = titanic_test[,1:17], y = titanic_test$survived)
-   print(explainer)
-
-} else {
-  print('Python testing environment is required.')
-}
 }
