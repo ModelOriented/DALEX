@@ -85,7 +85,7 @@ plot.variable_response_numeric_explainer <- function(x, ..., use_facets = FALSE)
     geom_point(size = 1) +
     geom_line(size = 1) +
     theme_drwhy() +
-    scale_color_manual(name = "Model", values = theme_drwhy_colors(nlabels)) +
+    scale_color_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
     ggtitle("") +
     xlab(variable_name) + ylab("prediction")
 

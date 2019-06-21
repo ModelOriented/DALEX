@@ -99,7 +99,7 @@ plot.variable_importance_explainer <- function(x, ..., max_vars = 10, bar_width 
   ggplot(ext_expl_df, aes(variable, ymin = dropout_loss.y, ymax = dropout_loss.x, color = label)) +
     geom_hline(data = bestFits, aes(yintercept = dropout_loss, color = label), lty = 3) +
     geom_linerange(size = bar_width) + coord_flip() +
-    scale_color_manual(values = theme_drwhy_colors(nlabels)) +
+    scale_color_manual(values = colors_discrete_drwhy(nlabels)) +
     facet_wrap(~label, ncol = 1, scales = "free_y") + theme_drwhy_vertical() +
     theme(legend.position = "none") +
     ylab("Loss-drop after perturbations") + xlab("")
