@@ -3,7 +3,8 @@
 \name{theme_drwhy}
 \alias{theme_drwhy}
 \alias{theme_drwhy_vertical}
-\alias{theme_drwhy_colors}
+\alias{colors_discrete_drwhy}
+\alias{colors_diverging_drwhy}
 \alias{theme_drwhy_colors_break_down}
 \title{DrWhy Theme for ggplot objects}
 \usage{
@@ -11,7 +12,9 @@ theme_drwhy()
 
 theme_drwhy_vertical()
 
-theme_drwhy_colors(n = 2)
+colors_discrete_drwhy(n = 2)
+
+colors_diverging_drwhy()
 
 theme_drwhy_colors_break_down()
 }

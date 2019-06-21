@@ -57,7 +57,7 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
     pl <-   ggplot(df, aes(abs(diff), color = label)) +
       stat_ecdf(geom = "step") +
       theme_drwhy() +
-      scale_color_manual(name = "Model", values = theme_drwhy_colors(nlabels)) +
+      scale_color_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
       xlab(expression(group("|", residual, "|"))) +
       scale_y_continuous(breaks = seq(0,1,0.1),
                          labels = paste(seq(100,0,-10),"%"),
@@ -69,7 +69,7 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
       stat_boxplot(alpha = 0.4, coef = 1000) +
       stat_summary(fun.y = lossFunction, geom="point", shape = 20, size=10, color="red", fill="red") +
       theme_drwhy_vertical() +
-      scale_fill_manual(name = "Model", values = theme_drwhy_colors(nlabels)) +
+      scale_fill_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
       ylab("") + xlab("") +
       ggtitle(
         expression(paste("Boxplots of ", group("|", residual, "|"))),
