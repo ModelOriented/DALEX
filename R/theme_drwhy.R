@@ -68,6 +68,6 @@ colors_diverging_drwhy <- function() {
 
 #' @export
 #' @rdname theme_drwhy
-theme_drwhy_colors_break_down <- function() {
+colors_breakdown_drwhy <- function() {
   c(`-1` = "#f05a71", `0` = "#371ea3", `1` = "#8bdcbe", X = "#371ea3")
 }
