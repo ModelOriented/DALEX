@@ -74,3 +74,25 @@ colors_diverging_drwhy <- function() {
 colors_breakdown_drwhy <- function() {
   c(`-1` = "#f05a71", `0` = "#371ea3", `1` = "#8bdcbe", X = "#371ea3")
 }
+
+#' @export
+#' @rdname colors_drwhy
+theme_drwhy_colors  <- function(n = 2) {
+  # Deprecated, but print the message only once
+  if (!exists("message_theme_colors", envir = .DALEX.env)) {
+    .DALEX.env$message_theme_colors = TRUE
+    .Deprecated("theme_drwhy_colors()",  msg = "Please note that 'theme_drwhy_colors()' is now deprecated, it is better to use 'colors_discrete_drwhy()' instead.")
+  }
+  colors_discrete_drwhy(n)
+}
+
+#' @export
+#' @rdname colors_drwhy
+theme_drwhy_colors_break_down <- function() {
+  # Deprecated, but print the message only once
+  if (!exists("message_theme_colors_breakdown", envir = .DALEX.env)) {
+    .DALEX.env$message_theme_colors_breakdown = TRUE
+    .Deprecated("theme_drwhy_colors_break_down()",  msg = "Please note that 'theme_drwhy_colors_break_down()' is now deprecated, it is better to use 'colors_breakdown_drwhy' instead.")
+  }
+  colors_breakdown_drwhy()
+}
