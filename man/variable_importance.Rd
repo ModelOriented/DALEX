@@ -25,7 +25,7 @@ It's a data frame with calculated average response.
 }
 \description{
 This function is set deprecated. It is suggested to use \code{\link[ingredients]{feature_importance}} instead.
-Find information how to use these functions here: \url{https://pbiecek.github.io/PM_VEE/variableImportance.html}.
+Find information how to use these functions here: \url{https://pbiecek.github.io/PM_VEE/featureImportance.html}.
 }
 \examples{
  \dontrun{

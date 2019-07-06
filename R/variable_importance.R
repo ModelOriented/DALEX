@@ -1,7 +1,7 @@
 #' Feature Importance Calculated as Loss from Feature Dropout
 #'
 #' This function is set deprecated. It is suggested to use \code{\link[ingredients]{feature_importance}} instead.
-#' Find information how to use these functions here: \url{https://pbiecek.github.io/PM_VEE/variableImportance.html}.
+#' Find information how to use these functions here: \url{https://pbiecek.github.io/PM_VEE/featureImportance.html}.
 #'
 #'
 #' @param explainer a model to be explained, preprocessed by the 'explain' function
@@ -54,7 +54,7 @@ variable_importance <- function(explainer,
   # Deprecated, but print the message only once
   if (!exists("message_variable_importance", envir = .DALEX.env)) {
     .DALEX.env$message_variable_importance = TRUE
-    .Deprecated("ingredients::feature_importance()", package = "ingredients", msg = "Please note that 'variable_importance()' is now deprecated, it is better to use 'ingredients::feature_importance()' instead.\nFind examples and detailed introduction at: https://pbiecek.github.io/PM_VEE/variableImportance.html")
+    .Deprecated("ingredients::feature_importance()", package = "ingredients", msg = "Please note that 'variable_importance()' is now deprecated, it is better to use 'ingredients::feature_importance()' instead.\nFind examples and detailed introduction at: https://pbiecek.github.io/PM_VEE/featureImportance.html")
   }
 
   if (!("explainer" %in% class(explainer))) stop("The variable_importance() function requires an object created with explain() function.")

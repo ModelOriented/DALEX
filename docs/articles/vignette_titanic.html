@@ -116,8 +116,8 @@
 #&gt;                      Number of trees: 500
 #&gt; No. of variables tried at each split: 2
 #&gt; 
-#&gt;           Mean of squared residuals: 0.1426596
-#&gt;                     % Var explained: 34.91</code></pre>
+#&gt;           Mean of squared residuals: 0.1437111
+#&gt;                     % Var explained: 34.43</code></pre>
 </div>
 <div id="explainer-for-titanic-survival" class="section level1">
 <h1 class="hasAnchor">
@@ -136,12 +136,12 @@
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">vi_rf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_importance.html">variable_importance</a></span>(explain_titanic_rf)</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">head</span>(vi_rf)</a></code></pre></div>
 <pre><code>#&gt;       variable dropout_loss            label
-#&gt; 1 _full_model_     115.9783 Random Forest v7
-#&gt; 2      country     115.9783 Random Forest v7
-#&gt; 3        parch     123.0617 Random Forest v7
-#&gt; 4        sibsp     125.0248 Random Forest v7
-#&gt; 5     embarked     129.3838 Random Forest v7
-#&gt; 6          age     143.7783 Random Forest v7</code></pre>
+#&gt; 1 _full_model_     104.1058 Random Forest v7
+#&gt; 2      country     104.1058 Random Forest v7
+#&gt; 3        parch     111.6319 Random Forest v7
+#&gt; 4        sibsp     111.6617 Random Forest v7
+#&gt; 5     embarked     115.1199 Random Forest v7
+#&gt; 6          age     132.1867 Random Forest v7</code></pre>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">plot</span>(vi_rf)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
@@ -157,12 +157,12 @@
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">vr_age  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_response.html">variable_response</a></span>(explain_titanic_rf, <span class="dt">variable =</span>  <span class="st">"age"</span>)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw">head</span>(vr_age)</a></code></pre></div>
 <pre><code>#&gt;           x            y var type            label
-#&gt; 1 0.1666667 0.527003.... age  pdp Random Forest v7
-#&gt; 2 1.6433333 0.560407.... age  pdp Random Forest v7
-#&gt; 3 3.1200000 0.571025.... age  pdp Random Forest v7
-#&gt; 4 4.5966667 0.540513.... age  pdp Random Forest v7
-#&gt; 5 6.0733333 0.526418.... age  pdp Random Forest v7
-#&gt; 6 7.5500000 0.525716.... age  pdp Random Forest v7</code></pre>
+#&gt; 1 0.1666667 0.542791.... age  pdp Random Forest v7
+#&gt; 2 1.6433333 0.561262.... age  pdp Random Forest v7
+#&gt; 3 3.1200000 0.576224.... age  pdp Random Forest v7
+#&gt; 4 4.5966667 0.543444.... age  pdp Random Forest v7
+#&gt; 5 6.0733333 0.527649.... age  pdp Random Forest v7
+#&gt; 6 7.5500000 0.526818.... age  pdp Random Forest v7</code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">plot</span>(vr_age, <span class="dt">use_facets =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
@@ -335,7 +335,7 @@
 #&gt;  [31] gtable_0.3.0        ipred_0.9-6         MatrixModels_0.4-1 
 #&gt;  [34] questionr_0.7.0     kernlab_0.9-27      ddalpha_1.3.3      
 #&gt;  [37] DEoptimR_1.0-8      abind_1.4-5         scales_1.0.0       
-#&gt;  [40] mvtnorm_1.0-10      DBI_1.0.0           miniUI_0.1.1.1     
+#&gt;  [40] mvtnorm_1.0-11      DBI_1.0.0           miniUI_0.1.1.1     
 #&gt;  [43] Rcpp_1.0.1          xtable_1.8-4        spData_0.3.0       
 #&gt;  [46] htmlTable_1.12      magic_1.5-8         units_0.6-2        
 #&gt;  [49] foreign_0.8-70      spdep_1.0-2         proxy_0.4-23       
