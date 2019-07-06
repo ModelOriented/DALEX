@@ -31,6 +31,15 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
+<!-- Google analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-5650686-14"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-5650686-14');
+</script>
 
   </head>
 
@@ -54,7 +63,7 @@
       <ul class="navbar-mi2 nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -95,7 +104,7 @@
     </div>
 
     
-    <p>This function is set deprecated. It is suggested to use <code><a href='https://rdrr.io/pkg/ingredients/man/feature_importance.html'>feature_importance</a></code> instead.
+    <p>This function is set deprecated. It is suggested to use <code><a href='http://www.rdocumentation.org/packages/ingredients/topics/feature_importance'>feature_importance</a></code> instead.
 Find information how to use these functions here: <a href='https://pbiecek.github.io/PM_VEE/variableImportance.html'>https://pbiecek.github.io/PM_VEE/variableImportance.html</a>.</p>
     
 
@@ -138,52 +147,52 @@ It's a data frame with calculated average response.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'> </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"breakDown"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"randomForest"</span>)
-<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)
+    <pre class="examples"><div class='input'> </div><div class='input'><span class='fu'>library</span>(<span class='st'>"breakDown"</span>)
+<span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
+<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)
 <span class='no'>vd_rf</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_importance</span>(<span class='no'>explainer_rf</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)
 <span class='no'>vd_rf</span></div><div class='output co'>#&gt;       variable dropout_loss        label
-#&gt; 1 _full_model_     121.3166 randomForest
-#&gt; 2       status     121.3166 randomForest
-#&gt; 3       gender     141.8442 randomForest
-#&gt; 4   evaluation     143.9736 randomForest
-#&gt; 5          age     148.3067 randomForest
-#&gt; 6       salary     164.7601 randomForest
-#&gt; 7        hours     209.4995 randomForest
-#&gt; 8   _baseline_     288.2361 randomForest</div><div class='input'>
-<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
+#&gt; 1 _full_model_     120.9083 randomForest
+#&gt; 2       status     120.9083 randomForest
+#&gt; 3   evaluation     136.0882 randomForest
+#&gt; 4       gender     141.8207 randomForest
+#&gt; 5          age     144.5874 randomForest
+#&gt; 6       salary     150.5714 randomForest
+#&gt; 7        hours     207.6025 randomForest
+#&gt; 8   _baseline_     277.3188 randomForest</div><div class='input'>
+<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)
-<span class='no'>logit</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span>(<span class='no'>x</span>)/(<span class='fl'>1</span>+<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span>(<span class='no'>x</span>))
+<span class='no'>logit</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'>exp</span>(<span class='no'>x</span>)/(<span class='fl'>1</span>+<span class='fu'>exp</span>(<span class='no'>x</span>))
 <span class='no'>vd_glm</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_importance</span>(<span class='no'>explainer_glm</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>,
                         <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>)
-                                     <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>((<span class='no'>observed</span> - <span class='fu'>logit</span>(<span class='no'>predicted</span>))^<span class='fl'>2</span>))
+                                     <span class='fu'>sum</span>((<span class='no'>observed</span> - <span class='fu'>logit</span>(<span class='no'>predicted</span>))^<span class='fl'>2</span>))
 <span class='no'>vd_glm</span></div><div class='output co'>#&gt;       variable dropout_loss label
-#&gt; 1 _full_model_     259.0897    lm
-#&gt; 2          age     259.0720    lm
-#&gt; 3       status     259.0897    lm
-#&gt; 4       salary     259.1130    lm
-#&gt; 5       gender     259.1157    lm
-#&gt; 6   evaluation     261.8410    lm
-#&gt; 7        hours     283.2528    lm
-#&gt; 8   _baseline_     289.2202    lm</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"xgboost"</span>)
-<span class='no'>model_martix_train</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/model.matrix.html'>model.matrix</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~ <span class='no'>.</span>-<span class='fl'>1</span>, <span class='no'>HR</span>)
-<span class='no'>data_train</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/xgboost/man/xgb.DMatrix.html'>xgb.DMatrix</a></span>(<span class='no'>model_martix_train</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)
-<span class='no'>param</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>max_depth</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>eta</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>silent</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>nthread</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+#&gt; 1 _full_model_     256.2435    lm
+#&gt; 2       salary     256.1909    lm
+#&gt; 3       status     256.2435    lm
+#&gt; 4       gender     256.2675    lm
+#&gt; 5          age     256.3097    lm
+#&gt; 6   evaluation     259.2151    lm
+#&gt; 7        hours     279.2908    lm
+#&gt; 8   _baseline_     281.2700    lm</div><div class='input'>
+<span class='fu'>library</span>(<span class='st'>"xgboost"</span>)
+<span class='no'>model_martix_train</span> <span class='kw'>&lt;-</span> <span class='fu'>model.matrix</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~ <span class='no'>.</span>-<span class='fl'>1</span>, <span class='no'>HR</span>)
+<span class='no'>data_train</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/xgboost/topics/xgb.DMatrix'>xgb.DMatrix</a></span>(<span class='no'>model_martix_train</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)
+<span class='no'>param</span> <span class='kw'>&lt;-</span> <span class='fu'>list</span>(<span class='kw'>max_depth</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>eta</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>silent</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>nthread</span> <span class='kw'>=</span> <span class='fl'>2</span>,
               <span class='kw'>objective</span> <span class='kw'>=</span> <span class='st'>"binary:logistic"</span>, <span class='kw'>eval_metric</span> <span class='kw'>=</span> <span class='st'>"auc"</span>)
-<span class='no'>HR_xgb_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/xgboost/man/xgb.train.html'>xgb.train</a></span>(<span class='no'>param</span>, <span class='no'>data_train</span>, <span class='kw'>nrounds</span> <span class='kw'>=</span> <span class='fl'>50</span>)
+<span class='no'>HR_xgb_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/xgboost/topics/xgb.train'>xgb.train</a></span>(<span class='no'>param</span>, <span class='no'>data_train</span>, <span class='kw'>nrounds</span> <span class='kw'>=</span> <span class='fl'>50</span>)
 <span class='no'>explainer_xgb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_xgb_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>model_martix_train</span>,
                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"xgboost"</span>)
 <span class='no'>vd_xgb</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_importance</span>(<span class='no'>explainer_xgb</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)
 <span class='no'>vd_xgb</span></div><div class='output co'>#&gt;       variable dropout_loss   label
-#&gt; 1 _full_model_      95.7255 xgboost
-#&gt; 2   gendermale      95.7255 xgboost
-#&gt; 3   evaluation     109.8506 xgboost
-#&gt; 4 genderfemale     139.3984 xgboost
-#&gt; 5          age     156.9780 xgboost
-#&gt; 6       salary     165.3316 xgboost
-#&gt; 7        hours     229.9008 xgboost
-#&gt; 8   _baseline_     373.3862 xgboost</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>vd_xgb</span>)</div><div class='img'><img src='variable_importance-1.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
+#&gt; 1 _full_model_     92.38626 xgboost
+#&gt; 2   gendermale     92.38626 xgboost
+#&gt; 3   evaluation    109.72229 xgboost
+#&gt; 4 genderfemale    140.22323 xgboost
+#&gt; 5          age    155.11231 xgboost
+#&gt; 6       salary    155.69566 xgboost
+#&gt; 7        hours    237.72157 xgboost
+#&gt; 8   _baseline_    358.49992 xgboost</div><div class='input'><span class='fu'>plot</span>(<span class='no'>vd_xgb</span>)</div><div class='img'><img src='variable_importance-1.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

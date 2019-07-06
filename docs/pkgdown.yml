@@ -1,6 +1,6 @@
-pandoc: 1.19.2.1
-pkgdown: 1.3.0.9000
-pkgdown_sha: 83f2afb5d2ec85abe29bfd8d67408cdf2bb55f03
+pandoc: 2.3.1
+pkgdown: 1.0.0
+pkgdown_sha: ~
 articles:
   vignette_titanic: vignette_titanic.html
 

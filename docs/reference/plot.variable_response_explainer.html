@@ -31,6 +31,15 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
+<!-- Google analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-5650686-14"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-5650686-14');
+</script>
 
   </head>
 
@@ -54,7 +63,7 @@
       <ul class="navbar-mi2 nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -99,7 +108,7 @@
     
 
     <pre class="usage"><span class='co'># S3 method for variable_response_explainer</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>use_facets</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>use_facets</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -124,26 +133,26 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>HR</span>$<span class='no'>evaluation</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='no'>HR</span>$<span class='no'>evaluation</span>)
+    <pre class="examples"><div class='input'><span class='no'>HR</span>$<span class='no'>evaluation</span> <span class='kw'>&lt;-</span> <span class='fu'>factor</span>(<span class='no'>HR</span>$<span class='no'>evaluation</span>)
 
-<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
+<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)
 <span class='no'>expl_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_response.html'>variable_response</a></span>(<span class='no'>explainer_glm</span>, <span class='st'>"age"</span>, <span class='st'>"pdp"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>expl_glm</span>)</div><div class='img'><img src='plot.variable_response_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'>
- </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"randomForest"</span>)
-<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)
+<span class='fu'>plot</span>(<span class='no'>expl_glm</span>)</div><div class='img'><img src='plot.variable_response_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'>
+ </div><div class='input'><span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
+<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)
 <span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_response.html'>variable_response</a></span>(<span class='no'>explainer_rf</span>, <span class='kw'>variable</span> <span class='kw'>=</span> <span class='st'>"age"</span>,
                        <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='plot.variable_response_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>)</div><div class='img'><img src='plot.variable_response_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='plot.variable_response_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot</span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>)</div><div class='img'><img src='plot.variable_response_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Example for factor variable (with factorMerger)</span>
 <span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_response.html'>variable_response</a></span>(<span class='no'>explainer_rf</span>, <span class='kw'>variable</span> <span class='kw'>=</span>  <span class='st'>"evaluation"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"factor"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Please note that 'variable_response()' is now deprecated, it is better to use 'ingredients::accumulated_dependency()' instead.</span>
-#&gt; <span class='warning'>Find examples and detailed introduction at: https://pbiecek.github.io/PM_VEE/accumulatedLocalProfiles.html</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>expl_rf</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
+#&gt; <span class='warning'>Find examples and detailed introduction at: https://pbiecek.github.io/PM_VEE/accumulatedLocalProfiles.html</span></div><div class='input'><span class='fu'>plot</span>(<span class='no'>expl_rf</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
 #&gt; <span class='message'>replace the existing scale.</span></div><div class='img'><img src='plot.variable_response_explainer-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>expl_glm</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_response.html'>variable_response</a></span>(<span class='no'>explainer_glm</span>, <span class='kw'>variable</span> <span class='kw'>=</span>  <span class='st'>"evaluation"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"factor"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>expl_glm</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
+<span class='fu'>plot</span>(<span class='no'>expl_glm</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
 #&gt; <span class='message'>replace the existing scale.</span></div><div class='img'><img src='plot.variable_response_explainer-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># both models</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
+<span class='fu'>plot</span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
 #&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
 #&gt; <span class='message'>replace the existing scale.</span></div><div class='img'><img src='plot.variable_response_explainer-6.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
 </div></pre>

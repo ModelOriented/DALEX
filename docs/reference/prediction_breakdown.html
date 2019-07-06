@@ -31,6 +31,15 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
+<!-- Google analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-5650686-14"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-5650686-14');
+</script>
 
   </head>
 
@@ -54,7 +63,7 @@
       <ul class="navbar-mi2 nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -95,7 +104,7 @@
     </div>
 
     
-    <p>This function is set deprecated. It is suggested to use <code><a href='https://rdrr.io/pkg/iBreakDown/man/break_down.html'>break_down</a></code> instead.
+    <p>This function is set deprecated. It is suggested to use <code><a href='http://www.rdocumentation.org/packages/iBreakDown/topics/break_down'>break_down</a></code> instead.
 Find information how to use these functions here: <a href='https://pbiecek.github.io/PM_VEE/breakDown.html'>https://pbiecek.github.io/PM_VEE/breakDown.html</a>.</p>
     
 
@@ -114,7 +123,7 @@ Find information how to use these functions here: <a href='https://pbiecek.githu
     </tr>
     <tr>
       <th>...</th>
-      <td><p>other parameters that will be passed to <code><a href='https://rdrr.io/pkg/breakDown/man/broken.default.html'>breakDown::broken.default()</a></code></p></td>
+      <td><p>other parameters that will be passed to <code><a href='http://www.rdocumentation.org/packages/breakDown/topics/broken.default'>breakDown::broken.default()</a></code></p></td>
     </tr>
     </table>
     
@@ -129,17 +138,17 @@ It's a data frame with calculated average response.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"breakDown"</span>)
-<span class='no'>new.wine</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>citric.acid</span> <span class='kw'>=</span> <span class='fl'>0.35</span>,
+    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='st'>"breakDown"</span>)
+<span class='no'>new.wine</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>citric.acid</span> <span class='kw'>=</span> <span class='fl'>0.35</span>,
      <span class='kw'>sulphates</span> <span class='kw'>=</span> <span class='fl'>0.6</span>,
      <span class='kw'>alcohol</span> <span class='kw'>=</span> <span class='fl'>12.5</span>,
      <span class='kw'>pH</span> <span class='kw'>=</span> <span class='fl'>3.36</span>,
      <span class='kw'>residual.sugar</span> <span class='kw'>=</span> <span class='fl'>4.8</span>)
 
-<span class='no'>wine_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
+<span class='no'>wine_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
 <span class='no'>wine_lm_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>wine_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>)
 <span class='no'>wine_lm_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_breakdown</span>(<span class='no'>wine_lm_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>wine_lm_predict4</span>)</div><div class='output co'>#&gt;                              variable contribution  variable_name
+<span class='fu'>head</span>(<span class='no'>wine_lm_predict4</span>)</div><div class='output co'>#&gt;                              variable contribution  variable_name
 #&gt; 1                         (Intercept)   5.87790935      Intercept
 #&gt; alcohol              + alcohol = 12.5   0.70174103        alcohol
 #&gt; pH                        + pH = 3.36   0.05780936             pH
@@ -152,28 +161,28 @@ It's a data frame with calculated average response.</p>
 #&gt; pH                       3.36    6.637460    1        3 model_4v
 #&gt; sulphates                 0.6    6.686119    1        4 model_4v
 #&gt; citric.acid              0.35    6.686119    0        5 model_4v
-#&gt; residual.sugar            4.8    6.648226   -1        6 model_4v</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>wine_lm_predict4</span>)</div><div class='img'><img src='prediction_breakdown-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"randomForest"</span>)
-<span class='no'>wine_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
+#&gt; residual.sugar            4.8    6.648226   -1        6 model_4v</div><div class='input'><span class='fu'>plot</span>(<span class='no'>wine_lm_predict4</span>)</div><div class='img'><img src='prediction_breakdown-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><div class='input'><span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
+<span class='no'>wine_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
 <span class='no'>wine_rf_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>wine_rf_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_rf"</span>)
 <span class='no'>wine_rf_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_breakdown</span>(<span class='no'>wine_rf_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>wine_rf_predict4</span>)</div><div class='output co'>#&gt;                              variable contribution  variable_name
-#&gt; 1                         (Intercept)    5.8810250      Intercept
-#&gt; alcohol              + alcohol = 12.5    0.5856796        alcohol
-#&gt; residual.sugar + residual.sugar = 4.8    0.1914315 residual.sugar
-#&gt; sulphates           + sulphates = 0.6    0.2521082      sulphates
-#&gt; pH                        + pH = 3.36    0.3159358             pH
+<span class='fu'>head</span>(<span class='no'>wine_rf_predict4</span>)</div><div class='output co'>#&gt;                              variable contribution  variable_name
+#&gt; 1                         (Intercept)    5.8816897      Intercept
+#&gt; alcohol              + alcohol = 12.5    0.5922455        alcohol
+#&gt; sulphates           + sulphates = 0.6    0.1925095      sulphates
+#&gt; residual.sugar + residual.sugar = 4.8    0.2666629 residual.sugar
+#&gt; pH                        + pH = 3.36    0.2781199             pH
 #&gt; citric.acid      + citric.acid = 0.35    0.0000000    citric.acid
 #&gt;                variable_value cummulative sign position    label
-#&gt; 1                           1    5.881025    1        1 model_rf
-#&gt; alcohol                  12.5    6.466705    1        2 model_rf
-#&gt; residual.sugar            4.8    6.658136    1        3 model_rf
-#&gt; sulphates                 0.6    6.910244    1        4 model_rf
-#&gt; pH                       3.36    7.226180    1        5 model_rf
-#&gt; citric.acid              0.35    7.226180    0        6 model_rf</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>wine_rf_predict4</span>)</div><div class='img'><img src='prediction_breakdown-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"gbm"</span>)
+#&gt; 1                           1    5.881690    1        1 model_rf
+#&gt; alcohol                  12.5    6.473935    1        2 model_rf
+#&gt; sulphates                 0.6    6.666445    1        3 model_rf
+#&gt; residual.sugar            4.8    6.933108    1        4 model_rf
+#&gt; pH                       3.36    7.211227    1        5 model_rf
+#&gt; citric.acid              0.35    7.211227    0        6 model_rf</div><div class='input'><span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>)</div><div class='img'><img src='prediction_breakdown-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>library</span>(<span class='st'>"gbm"</span>)
 <span class='co'># create a gbm model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/gbm/man/gbm.html'>gbm</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>,
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/gbm/topics/gbm'>gbm</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>,
              <span class='kw'>distribution</span> <span class='kw'>=</span> <span class='st'>"gaussian"</span>,
              <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
              <span class='kw'>interaction.depth</span> <span class='kw'>=</span> <span class='fl'>4</span>,
@@ -182,25 +191,25 @@ It's a data frame with calculated average response.</p>
              <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
  <span class='co'># make an explainer for the model</span>
  <span class='no'>explainer_gbm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span>
-         <span class='kw'>function</span>(<span class='no'>model</span>, <span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>model</span>, <span class='no'>x</span>, <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>1000</span>))
+         <span class='kw'>function</span>(<span class='no'>model</span>, <span class='no'>x</span>) <span class='fu'>predict</span>(<span class='no'>model</span>, <span class='no'>x</span>, <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>1000</span>))
  <span class='co'># create a new observation</span>
  <span class='no'>exp_sgn</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_breakdown</span>(<span class='no'>explainer_gbm</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>)
- <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>exp_sgn</span>)</div><div class='output co'>#&gt;                              variable contribution  variable_name
-#&gt; 1                         (Intercept)   5.87722947      Intercept
-#&gt; alcohol              + alcohol = 12.5   0.65020093        alcohol
-#&gt; pH                        + pH = 3.36   0.16113342             pH
-#&gt; sulphates           + sulphates = 0.6   0.11524056      sulphates
-#&gt; residual.sugar + residual.sugar = 4.8   0.04349639 residual.sugar
+ <span class='fu'>head</span>(<span class='no'>exp_sgn</span>)</div><div class='output co'>#&gt;                              variable contribution  variable_name
+#&gt; 1                         (Intercept)   5.87805095      Intercept
+#&gt; alcohol              + alcohol = 12.5   0.65003490        alcohol
+#&gt; pH                        + pH = 3.36   0.15837667             pH
+#&gt; sulphates           + sulphates = 0.6   0.13939640      sulphates
+#&gt; residual.sugar + residual.sugar = 4.8   0.04042056 residual.sugar
 #&gt; citric.acid      + citric.acid = 0.35   0.00000000    citric.acid
 #&gt;                variable_value cummulative sign position label
-#&gt; 1                           1    5.877229    1        1   gbm
-#&gt; alcohol                  12.5    6.527430    1        2   gbm
-#&gt; pH                       3.36    6.688564    1        3   gbm
-#&gt; sulphates                 0.6    6.803804    1        4   gbm
-#&gt; residual.sugar            4.8    6.847301    1        5   gbm
-#&gt; citric.acid              0.35    6.847301    0        6   gbm</div><div class='input'> <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>exp_sgn</span>)</div><div class='img'><img src='prediction_breakdown-3.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; 1                           1    5.878051    1        1   gbm
+#&gt; alcohol                  12.5    6.528086    1        2   gbm
+#&gt; pH                       3.36    6.686463    1        3   gbm
+#&gt; sulphates                 0.6    6.825859    1        4   gbm
+#&gt; residual.sugar            4.8    6.866279    1        5   gbm
+#&gt; citric.acid              0.35    6.866279    0        6   gbm</div><div class='input'> <span class='fu'>plot</span>(<span class='no'>exp_sgn</span>)</div><div class='img'><img src='prediction_breakdown-3.png' alt='' width='700' height='433' /></div><div class='input'>
  <span class='no'>exp_sgn</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_breakdown</span>(<span class='no'>explainer_gbm</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>, <span class='kw'>baseline</span> <span class='kw'>=</span> <span class='fl'>0</span>)
- <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>exp_sgn</span>)</div><div class='img'><img src='prediction_breakdown-4.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
+ <span class='fu'>plot</span>(<span class='no'>exp_sgn</span>)</div><div class='img'><img src='prediction_breakdown-4.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
