@@ -5,8 +5,7 @@
 \alias{single_variable}
 \title{Marginal Response for a Single Variable}
 \usage{
-variable_response(explainer, variable, type = "pdp",
-  trans = explainer$link, ...)
+variable_response(explainer, variable, type = "pdp", trans = I, ...)
 }
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the 'explain' function}

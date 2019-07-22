@@ -55,7 +55,7 @@
 #' plot(expl_rf, expl_glm)
 #'  }
 #'
-variable_response <- function(explainer, variable, type = "pdp", trans = explainer$link, ...) {
+variable_response <- function(explainer, variable, type = "pdp", trans = I, ...) {
   # Deprecated
   if (type == "pdp") {
     if (!exists("message_partial_dependency", envir = .DALEX.env)) {

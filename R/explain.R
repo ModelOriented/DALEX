@@ -33,7 +33,7 @@
 #' @rdname explain
 #' @export
 #' @importFrom stats predict
-#' @importFrom utils head tail installed.packages
+#' @importFrom utils head tail installed.packages methods
 #'
 #' @examples
 #' library("breakDown")

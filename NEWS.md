@@ -1,3 +1,7 @@
+DALEX 0.4.5
+----------------------------------------------------------------
+* the `explain()` function is more verbose. With `verbose = TRUE` (default) it prints detailed information about elements of an explainer ([#95](https://github.com/pbiecek/DALEX/issues/95)).
+
 DALEX 0.4.4
 ----------------------------------------------------------------
 * new color schemes: `colors_breakdown_drwhy()`, `colors_discrete_drwhy()` and `colors_diverging_drwhy()`.
