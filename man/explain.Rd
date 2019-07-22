@@ -61,6 +61,7 @@ wine_lm_explainer4 <- explain(wine_lm_model4, data = wine, label = "model_4v")
 wine_lm_explainer4
 
 wine_lm <- explain(wine_lm_model4)
+wine_lm <- explain(wine_lm_model4, verbose = FALSE)
 wine_lm <- explain(wine_lm_model4, data = wine, label = "model_4v", predict_function = predict)
 wine_lm <- explain(wine_lm_model4, data = wine, label = "model_4v", y = wine$quality)
 wine_lm <- explain(wine_lm_model4, data = wine, label = "model_4v", y = wine$quality,

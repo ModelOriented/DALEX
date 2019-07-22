@@ -109,11 +109,11 @@ This function creates a unified representation of a model, which can be further 
     
 
     <pre class="usage"><span class='fu'>explain.default</span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>yhat</span>, <span class='kw'>link</span> <span class='kw'>=</span> <span class='no'>I</span>, <span class='no'>...</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'>tail</span>(<span class='fu'>class</span>(<span class='no'>model</span>),
-  <span class='fl'>1</span>))
+  <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>residual_function</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>,
+  <span class='kw'>label</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
-<span class='fu'>explain</span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>yhat</span>,
-  <span class='kw'>link</span> <span class='kw'>=</span> <span class='no'>I</span>, <span class='no'>...</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'>tail</span>(<span class='fu'>class</span>(<span class='no'>model</span>), <span class='fl'>1</span>))</pre>
+<span class='fu'>explain</span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>residual_function</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -128,15 +128,15 @@ This function creates a unified representation of a model, which can be further 
     </tr>
     <tr>
       <th>y</th>
-      <td><p>numeric vector with outputs / scores. Currently used only by <code><a href='variable_importance.html'>variable_dropout()</a></code> explainer.</p></td>
+      <td><p>numeric vector with outputs / scores. If provided then it shall have the same size as <code>data</code></p></td>
     </tr>
     <tr>
       <th>predict_function</th>
       <td><p>function that takes two arguments: model and new data and returns numeric vector with predictions</p></td>
     </tr>
     <tr>
-      <th>link</th>
-      <td><p>function - a transformation/link function that shall be applied to raw model predictions</p></td>
+      <th>residual_function</th>
+      <td><p>function that takes three arguments: model, data and response vector y. It should return a numeric vector with model residuals for given data. If not provided, response residuals (\(y-\hat{y}\)) are calculated.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -145,6 +145,10 @@ This function creates a unified representation of a model, which can be further 
     <tr>
       <th>label</th>
       <td><p>character - the name of the model. By default it's extracted from the 'class' attribute of the model</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>if TRUE (default) then diagnostic messages will be printed</p></td>
     </tr>
     </table>
     
@@ -155,24 +159,33 @@ This function creates a unified representation of a model, which can be further 
 <ul>
 <li><p><code>model</code> the explained model</p></li>
 <li><p><code>data</code> the dataset used for training</p></li>
+<li><p><code>y</code> response for observations from <code>data</code></p></li>
+<li><p><code>y_hat</code> calculated predictions</p></li>
+<li><p><code>residuals</code> calculated residuals</p></li>
 <li><p><code>predict_function</code> function that may be used for model predictions, shall return a single numerical value for each observation.</p></li>
+<li><p><code>residual_function</code> function that returns residuals, shall return a single numerical value for each observation.</p></li>
 <li><p><code>class</code> class/classes of a model</p></li>
-<li><p><code>label</code> label, by default it's the last value from the <code>class</code> vector, but may be set to any character.</p></li>
 </ul>
 
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Please NOTE, that the <code>model</code> is actually the only required argument.
-But some explainers may require that others will be provided too.</p>
+    <p>Please NOTE, that the <code>model</code> is the only required argument.
+But some explainers may require that other arguments will be provided too.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='st'>"breakDown"</span>)
 
 <span class='no'>wine_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
-<span class='no'>wine_lm_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>wine_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>)
-<span class='no'>wine_lm_explainer4</span></div><div class='output co'>#&gt; Model label:  model_4v 
+<span class='no'>wine_lm_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>wine_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label:  model_4v 
+#&gt;   -&gt; data:  4898  rows  12  cols 
+#&gt;   -&gt; target variable is not specified! (WARNING)
+#&gt;   -&gt; predict function:  yhat.lm  will be used (default)
+#&gt;   -&gt; predicted values:  numerical, min =  4.880047 , mean =  5.877909 , max =  7.867825  
+#&gt;   -&gt; residual function: difference between y and yhat (default)
+#&gt; A new explainer has been created!</div><div class='input'><span class='no'>wine_lm_explainer4</span></div><div class='output co'>#&gt; Model label:  model_4v 
 #&gt; Model class:  lm 
 #&gt; Data head  :
 #&gt;   fixed.acidity volatile.acidity citric.acid residual.sugar chlorides
@@ -184,10 +197,48 @@ But some explainers may require that others will be provided too.</p>
 #&gt;   quality
 #&gt; 1       6
 #&gt; 2       6</div><div class='input'>
+<span class='no'>wine_lm</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>wine_lm_model4</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label:  lm  (default)
+#&gt;   -&gt; data:  4898  rows  5  cols (extracted from model)
+#&gt;   -&gt; target variable is not specified! (WARNING)
+#&gt;   -&gt; predict function:  yhat.lm  will be used (default)
+#&gt;   -&gt; predicted values:  numerical, min =  4.880047 , mean =  5.877909 , max =  7.867825  
+#&gt;   -&gt; residual function: difference between y and yhat (default)
+#&gt; A new explainer has been created!</div><div class='input'><span class='no'>wine_lm</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>wine_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>predict</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label:  model_4v 
+#&gt;   -&gt; data:  4898  rows  12  cols 
+#&gt;   -&gt; target variable is not specified! (WARNING)
+#&gt;   -&gt; predict function:  predict 
+#&gt;   -&gt; predicted values:  numerical, min =  4.880047 , mean =  5.877909 , max =  7.867825  
+#&gt;   -&gt; residual function: difference between y and yhat (default)
+#&gt; A new explainer has been created!</div><div class='input'><span class='no'>wine_lm</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>wine_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>wine</span>$<span class='no'>quality</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label:  model_4v 
+#&gt;   -&gt; data:  4898  rows  12  cols 
+#&gt;   -&gt; target variable:  4898  values 
+#&gt;   -&gt; predict function:  yhat.lm  will be used (default)
+#&gt;   -&gt; predicted values:  numerical, min =  4.880047 , mean =  5.877909 , max =  7.867825  
+#&gt;   -&gt; residual function: difference between y and yhat (default)
+#&gt;   -&gt; residuals:  numerical, min =  -3.560372 , mean =  2.063749e-13 , max =  3.071497  
+#&gt; A new explainer has been created!</div><div class='input'><span class='no'>wine_lm</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>wine_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>wine</span>$<span class='no'>quality</span>,
+                                   <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>predict</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label:  model_4v 
+#&gt;   -&gt; data:  4898  rows  12  cols 
+#&gt;   -&gt; target variable:  4898  values 
+#&gt;   -&gt; predict function:  predict 
+#&gt;   -&gt; predicted values:  numerical, min =  4.880047 , mean =  5.877909 , max =  7.867825  
+#&gt;   -&gt; residual function: difference between y and yhat (default)
+#&gt;   -&gt; residuals:  numerical, min =  -3.560372 , mean =  2.063749e-13 , max =  3.071497  
+#&gt; A new explainer has been created!</div><div class='input'>
  </div><div class='input'><span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
 <span class='no'>wine_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
-<span class='no'>wine_rf_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>wine_rf_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_rf"</span>)
-<span class='no'>wine_rf_explainer4</span></div><div class='output co'>#&gt; Model label:  model_rf 
+<span class='no'>wine_rf_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>wine_rf_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_rf"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label:  model_rf 
+#&gt;   -&gt; data:  4898  rows  12  cols 
+#&gt;   -&gt; target variable is not specified! (WARNING)
+#&gt;   -&gt; predict function:  yhat.randomForest  will be used (default)
+#&gt;   -&gt; predicted values:  numerical, min =  4.018965 , mean =  5.881318 , max =  7.88486  
+#&gt;   -&gt; residual function: difference between y and yhat (default)
+#&gt; A new explainer has been created!</div><div class='input'><span class='no'>wine_rf_explainer4</span></div><div class='output co'>#&gt; Model label:  model_rf 
 #&gt; Model class:  randomForest.formula,randomForest 
 #&gt; Data head  :
 #&gt;   fixed.acidity volatile.acidity citric.acid residual.sugar chlorides

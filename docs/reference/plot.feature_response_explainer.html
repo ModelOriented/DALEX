@@ -136,8 +136,14 @@
     <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='st'>"DALEX"</span>)
 
 <span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
-<span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)
-<span class='no'>expl_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='feature_response.html'>feature_response</a></span>(<span class='no'>explainer_glm</span>, <span class='st'>"hours"</span>, <span class='st'>"pdp"</span>)
+<span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label:  lm  (default)
+#&gt;   -&gt; data:  7847  rows  6  cols 
+#&gt;   -&gt; target variable is not specified! (WARNING)
+#&gt;   -&gt; predict function:  yhat.glm  will be used (default)
+#&gt;   -&gt; predicted values:  numerical, min =  0.00861694 , mean =  0.3638333 , max =  0.7822214  
+#&gt;   -&gt; residual function: difference between y and yhat (default)
+#&gt; A new explainer has been created!</div><div class='input'><span class='no'>expl_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='feature_response.html'>feature_response</a></span>(<span class='no'>explainer_glm</span>, <span class='st'>"hours"</span>, <span class='st'>"pdp"</span>)
 <span class='fu'>head</span>(<span class='no'>expl_glm</span>)</div><div class='output co'>#&gt;          x         y   var type label
 #&gt; 1 35.00000 0.6453431 hours  pdp    lm
 #&gt; 2 35.89955 0.6251385 hours  pdp    lm
@@ -147,8 +153,14 @@
 #&gt; 6 39.49777 0.5407016 hours  pdp    lm</div><div class='input'><span class='fu'>plot</span>(<span class='no'>expl_glm</span>)</div><div class='img'><img src='plot.feature_response_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'>
  </div><div class='input'><span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
 <span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>status</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)
-<span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)
-<span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='feature_response.html'>feature_response</a></span>(<span class='no'>explainer_rf</span>, <span class='kw'>feature</span> <span class='kw'>=</span> <span class='st'>"hours"</span>,
+<span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label:  randomForest  (default)
+#&gt;   -&gt; data:  7847  rows  6  cols 
+#&gt;   -&gt; target variable is not specified! (WARNING)
+#&gt;   -&gt; predict function:  yhat.randomForest  will be used (default)
+#&gt;   -&gt; predicted values:  numerical, min =  0 , mean =  0.3333333 , max =  1  
+#&gt;   -&gt; residual function: difference between y and yhat (default)
+#&gt; A new explainer has been created!</div><div class='input'><span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='feature_response.html'>feature_response</a></span>(<span class='no'>explainer_rf</span>, <span class='kw'>feature</span> <span class='kw'>=</span> <span class='st'>"hours"</span>,
                        <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>)
 <span class='fu'>head</span>(<span class='no'>expl_rf</span>)</div><div class='output co'>#&gt;          x         y   var type              label
 #&gt; 1 35.00000 0.5153970 hours  pdp randomForest.fired

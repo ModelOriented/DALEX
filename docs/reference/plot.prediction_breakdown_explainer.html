@@ -159,17 +159,30 @@ Or the default <code>round()</code> to have the same precision for all component
      <span class='kw'>residual.sugar</span> <span class='kw'>=</span> <span class='fl'>4.8</span>)
 
 <span class='no'>wine_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
-<span class='no'>wine_lm_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>wine_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>)
-<span class='no'>wine_lm_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prediction_breakdown.html'>prediction_breakdown</a></span>(<span class='no'>wine_lm_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Please note that 'prediction_breakdown()' is now deprecated, it is better to use 'iBreakDown::break_down()' instead.</span>
+<span class='no'>wine_lm_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>wine_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label:  model_4v 
+#&gt;   -&gt; data:  4898  rows  12  cols 
+#&gt;   -&gt; target variable is not specified! (WARNING)
+#&gt;   -&gt; predict function:  yhat.lm  will be used (default)
+#&gt;   -&gt; predicted values:  numerical, min =  4.880047 , mean =  5.877909 , max =  7.867825  
+#&gt;   -&gt; residual function: difference between y and yhat (default)
+#&gt; A new explainer has been created!</div><div class='input'><span class='no'>wine_lm_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prediction_breakdown.html'>prediction_breakdown</a></span>(<span class='no'>wine_lm_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Please note that 'prediction_breakdown()' is now deprecated, it is better to use 'iBreakDown::break_down()' instead.</span>
 #&gt; <span class='warning'>Find examples and detailed introduction at: https://pbiecek.github.io/PM_VEE/breakDown.html</span></div><div class='input'><span class='fu'>plot</span>(<span class='no'>wine_lm_predict4</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
 <span class='no'>wine_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
-<span class='no'>wine_rf_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>wine_rf_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_rf"</span>)
-<span class='no'>wine_rf_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prediction_breakdown.html'>prediction_breakdown</a></span>(<span class='no'>wine_rf_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>)
+<span class='no'>wine_rf_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>wine_rf_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_rf"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label:  model_rf 
+#&gt;   -&gt; data:  4898  rows  12  cols 
+#&gt;   -&gt; target variable is not specified! (WARNING)
+#&gt;   -&gt; predict function:  yhat.randomForest  will be used (default)
+#&gt;   -&gt; predicted values:  numerical, min =  4.080872 , mean =  5.881587 , max =  7.891082  
+#&gt;   -&gt; residual function: difference between y and yhat (default)
+#&gt; A new explainer has been created!</div><div class='input'><span class='no'>wine_rf_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prediction_breakdown.html'>prediction_breakdown</a></span>(<span class='no'>wine_rf_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>)
 <span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># both models</span>
 <span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>, <span class='no'>wine_lm_predict4</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'>library</span>(<span class='st'>"gbm"</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: survival</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: lattice</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: splines</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: parallel</span></div><div class='output co'>#&gt; <span class='message'>Loaded gbm 2.1.3</span></div><div class='input'><span class='co'># create a gbm model</span>
+<span class='fu'>library</span>(<span class='st'>"gbm"</span>)
+<span class='co'># create a gbm model</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/gbm/topics/gbm'>gbm</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>,
              <span class='kw'>distribution</span> <span class='kw'>=</span> <span class='st'>"gaussian"</span>,
              <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
@@ -179,8 +192,14 @@ Or the default <code>round()</code> to have the same precision for all component
              <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
  <span class='co'># make an explainer for the model</span>
  <span class='no'>explainer_gbm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span>
-         <span class='kw'>function</span>(<span class='no'>model</span>, <span class='no'>x</span>) <span class='fu'>predict</span>(<span class='no'>model</span>, <span class='no'>x</span>, <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>1000</span>))
- <span class='co'># create a new observation</span>
+         <span class='kw'>function</span>(<span class='no'>model</span>, <span class='no'>x</span>) <span class='fu'>predict</span>(<span class='no'>model</span>, <span class='no'>x</span>, <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>1000</span>))</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label:  gbm  (default)
+#&gt;   -&gt; data:  4898  rows  12  cols 
+#&gt;   -&gt; target variable is not specified! (WARNING)
+#&gt;   -&gt; predict function:  function(model, x) predict(model, x, n.trees = 1000) 
+#&gt;   -&gt; predicted values:  numerical, min =  4.697126 , mean =  5.877306 , max =  7.153383  
+#&gt;   -&gt; residual function: difference between y and yhat (default)
+#&gt; A new explainer has been created!</div><div class='input'> <span class='co'># create a new observation</span>
  <span class='no'>exp_sgn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prediction_breakdown.html'>prediction_breakdown</a></span>(<span class='no'>explainer_gbm</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>)
  <span class='fu'>head</span>(<span class='no'>exp_sgn</span>)</div><div class='output co'>#&gt;                              variable contribution  variable_name
 #&gt; 1                         (Intercept)   5.87730600      Intercept

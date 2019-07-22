@@ -128,8 +128,14 @@
     <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='st'>"breakDown"</span>)
 
 <span class='no'>wine_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
-<span class='no'>wine_lm_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>wine_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>)
-<span class='no'>wine_lm_explainer4</span></div><div class='output co'>#&gt; Model label:  model_4v 
+<span class='no'>wine_lm_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>wine_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label:  model_4v 
+#&gt;   -&gt; data:  4898  rows  12  cols 
+#&gt;   -&gt; target variable is not specified! (WARNING)
+#&gt;   -&gt; predict function:  yhat.lm  will be used (default)
+#&gt;   -&gt; predicted values:  numerical, min =  4.880047 , mean =  5.877909 , max =  7.867825  
+#&gt;   -&gt; residual function: difference between y and yhat (default)
+#&gt; A new explainer has been created!</div><div class='input'><span class='no'>wine_lm_explainer4</span></div><div class='output co'>#&gt; Model label:  model_4v 
 #&gt; Model class:  lm 
 #&gt; Data head  :
 #&gt;   fixed.acidity volatile.acidity citric.acid residual.sugar chlorides
@@ -143,8 +149,14 @@
 #&gt; 2       6</div><div class='input'>
  </div><div class='input'><span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
 <span class='no'>wine_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
-<span class='no'>wine_rf_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>wine_rf_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_rf"</span>)
-<span class='no'>wine_rf_explainer4</span></div><div class='output co'>#&gt; Model label:  model_rf 
+<span class='no'>wine_rf_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>wine_rf_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_rf"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label:  model_rf 
+#&gt;   -&gt; data:  4898  rows  12  cols 
+#&gt;   -&gt; target variable is not specified! (WARNING)
+#&gt;   -&gt; predict function:  yhat.randomForest  will be used (default)
+#&gt;   -&gt; predicted values:  numerical, min =  4.055746 , mean =  5.881677 , max =  7.901375  
+#&gt;   -&gt; residual function: difference between y and yhat (default)
+#&gt; A new explainer has been created!</div><div class='input'><span class='no'>wine_rf_explainer4</span></div><div class='output co'>#&gt; Model label:  model_rf 
 #&gt; Model class:  randomForest.formula,randomForest 
 #&gt; Data head  :
 #&gt;   fixed.acidity volatile.acidity citric.acid residual.sugar chlorides
