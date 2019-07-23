@@ -67,9 +67,9 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     # label not specified
     # try to extract something
     label <- tail(class(model), 1)
-    verbose_cat("  -> model label: ", label, " (default)\n", verbose = verbose)
+    verbose_cat("  -> model label      : ", label, " (default)\n", verbose = verbose)
   } else {
-    verbose_cat("  -> model label: ", label, "\n", verbose = verbose)
+    verbose_cat("  -> model label      : ", label, "\n", verbose = verbose)
   }
 
   # REPORT: checks for data
@@ -79,31 +79,31 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     possible_data <- try(model.frame(model), silent = TRUE)
     if (class(possible_data) != "try-error") {
       data <- possible_data
-      verbose_cat("  -> data: ", nrow(data), " rows ", ncol(data), " cols (extracted from model)\n", verbose = verbose)
+      verbose_cat("  -> data             : ", nrow(data), " rows ", ncol(data), " cols (extracted from model)\n", verbose = verbose)
     } else {
       verbose_cat("  -> no data avaliable! (WARNING)\n", verbose = verbose)
     }
   } else {
-    verbose_cat("  -> data: ", nrow(data), " rows ", ncol(data), " cols \n", verbose = verbose)
+    verbose_cat("  -> data             : ", nrow(data), " rows ", ncol(data), " cols \n", verbose = verbose)
   }
   # as for issue #15, if data is in the tibble format then needs to be translated to data.frame
   if ("tbl" %in% class(data)) {
     data <- as.data.frame(data)
-    verbose_cat("  -> data: tibbble converted into a data.frame \n", verbose = verbose)
+    verbose_cat("  -> data             :  tibbble converted into a data.frame \n", verbose = verbose)
   }
 
   # REPORT: checks for y
   if (is.null(y)) {
     # y not specified
-    verbose_cat("  -> target variable is not specified! (WARNING)\n", verbose = verbose)
+    verbose_cat("  -> target variable  :  not specified! (WARNING)\n", verbose = verbose)
   } else {
-    verbose_cat("  -> target variable: ", length(y), " values \n", verbose = verbose)
+    verbose_cat("  -> target variable  : ", length(y), " values \n", verbose = verbose)
     if (length(y) != nrow(data)) {
-      verbose_cat("  -> target variable: length of 'y; is different than number of rows in 'data' (WARNING) \n", verbose = verbose)
+      verbose_cat("  -> target variable  :  length of 'y; is different than number of rows in 'data' (WARNING) \n", verbose = verbose)
     }
     if ((is.factor(y) | is.character(y))) {
-      verbose_cat("  -> target variable: Please note that 'y' is a factor.", verbose = verbose)
-      verbose_cat("  -> target variable: Consider changing the 'y' to a logical or numerical vector.", verbose = verbose)
+      verbose_cat("  -> target variable  :  Please note that 'y' is a factor.", verbose = verbose)
+      verbose_cat("  -> target variable  :  Consider changing the 'y' to a logical or numerical vector.", verbose = verbose)
     }
   }
 
@@ -117,21 +117,21 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     class(yhat_functions) = "character"
     matching_yhat <- intersect(paste0("yhat.", class(model)), yhat_functions)
     if (length(matching_yhat) == 0) {
-      verbose_cat("  -> predict function: yhat.default will be used (default)\n", verbose = verbose)
+      verbose_cat("  -> predict function : yhat.default will be used (default)\n", verbose = verbose)
     } else {
-      verbose_cat("  -> predict function: ",matching_yhat[1]," will be used (default)\n", verbose = verbose)
+      verbose_cat("  -> predict function : ",matching_yhat[1]," will be used (default)\n", verbose = verbose)
     }
   } else {
-    verbose_cat("  -> predict function: ", deparse(substitute(predict_function)), "\n", verbose = verbose)
+    verbose_cat("  -> predict function : ", deparse(substitute(predict_function)), "\n", verbose = verbose)
   }
   # if data is specified then we may test predict_function
   y_hat <- NULL
   if (!is.null(data) & verbose & !is.null(predict_function)) {
     y_hat <- predict_function(model, data)
     if ((is.factor(y_hat) | is.character(y_hat))) {
-      verbose_cat("  -> predicted values:  factor (WARNING) with levels: ", paste(unique(y_hat), collapse = ", "), "\n", verbose = verbose)
+      verbose_cat("  -> predicted values :  factor (WARNING) with levels: ", paste(unique(y_hat), collapse = ", "), "\n", verbose = verbose)
     } else {
-      verbose_cat("  -> predicted values:  numerical, min = ", min(y_hat), ", mean = ", mean(y_hat), ", max = ", max(y_hat), " \n", verbose = verbose)
+      verbose_cat("  -> predicted values :  numerical, min = ", min(y_hat), ", mean = ", mean(y_hat), ", max = ", max(y_hat), " \n", verbose = verbose)
     }
   }
 
@@ -143,7 +143,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
       residual_function <- function(model, data, y) {
         y - predict_function(model, data)
       }
-      verbose_cat("  -> residual function: difference between y and yhat (default)\n", verbose = verbose)
+      verbose_cat("  -> residual function:  difference between y and yhat (default)\n", verbose = verbose)
     }
   } else {
     verbose_cat("  -> residual function: ", deparse(substitute(residual_function)), "\n", verbose = verbose)
@@ -153,9 +153,9 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
   if (!is.null(data) & !is.null(residual_function) & !is.null(y) & verbose) {
     residuals <- residual_function(model, data, y)
     if ((is.factor(residuals) | is.character(residuals))) {
-      verbose_cat("  -> residuals:  factor (WARNING) with levels: ", paste(unique(residuals), collapse = ", "), "\n", verbose = verbose)
+      verbose_cat("  -> residuals        :  factor (WARNING) with levels: ", paste(unique(residuals), collapse = ", "), "\n", verbose = verbose)
     } else {
-      verbose_cat("  -> residuals:  numerical, min = ", min(residuals), ", mean = ", mean(residuals), ", max = ", max(residuals), " \n", verbose = verbose)
+      verbose_cat("  -> residuals        :  numerical, min = ", min(residuals), ", mean = ", mean(residuals), ", max = ", max(residuals), " \n", verbose = verbose)
     }
   }
 
