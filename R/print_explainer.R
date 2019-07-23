@@ -7,17 +7,17 @@
 #' @import ggplot2
 #'
 #' @examples
-#' library("breakDown")
 #'
-#' wine_lm_model4 <- lm(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine)
-#' wine_lm_explainer4 <- explain(wine_lm_model4, data = wine, label = "model_4v")
-#' wine_lm_explainer4
+#' aps_lm_model4 <- lm(m2.price~., data = apartments)
+#' aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, y = apartments$m2.price, 
+#'                              label = "model_4v")
+#' aps_lm_explainer4
 #'
 #'  \dontrun{
 #' library("randomForest")
-#' wine_rf_model4 <- randomForest(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine)
-#' wine_rf_explainer4 <- explain(wine_rf_model4, data = wine, label = "model_rf")
-#' wine_rf_explainer4
+#' HR_rf_model4 <- randomForest(as.factor(status == "fired")~., data = HR, ntree = 100)
+#' HR_rf_explainer4 <- explain(HR_rf_model4, data = HR, label = "model_rf")
+#' HR_rf_explainer4
 #'  }
 #'
 print.explainer <- function(x, ...) {

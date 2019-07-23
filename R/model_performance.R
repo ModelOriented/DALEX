@@ -9,7 +9,7 @@
 #' @examples
 #'  \dontrun{
 #' library("randomForest")
-#' HR_rf_model <- randomForest(status == "fired"~., data = HR, ntree = 100)
+#' HR_rf_model <- randomForest(as.factor(status == "fired")~., data = HR, ntree = 100)
 #' explainer_rf  <- explain(HR_rf_model, data = HR, y = HR$status == "fired")
 #' model_performance(explainer_rf)
 #'
