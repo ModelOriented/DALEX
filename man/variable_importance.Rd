@@ -29,14 +29,14 @@ Find information how to use these functions here: \url{https://pbiecek.github.io
 }
 \examples{
  \dontrun{
-library("breakDown")
+library(DALEX)
 library("randomForest")
-HR_rf_model <- randomForest(status == "fired"~., data = HR, ntree = 100)
+HR_rf_model <- randomForest(as.factor(status == "fired")~., data = HR, ntree = 100)
 explainer_rf  <- explain(HR_rf_model, data = HR, y = HR$status == "fired")
 vd_rf <- variable_importance(explainer_rf, type = "raw")
 vd_rf
 
-HR_glm_model <- glm(status == "fired"~., data = HR, family = "binomial")
+HR_glm_model <- glm(as.factor(status == "fired")~., data = HR, family = "binomial")
 explainer_glm <- explain(HR_glm_model, data = HR, y = HR$status == "fired")
 logit <- function(x) exp(x)/(1+exp(x))
 vd_glm <- variable_importance(explainer_glm, type = "raw",
@@ -54,7 +54,6 @@ explainer_xgb <- explain(HR_xgb_model, data = model_martix_train,
                      y = HR$status == "fired", label = "xgboost")
 vd_xgb <- variable_importance(explainer_xgb, type = "raw")
 vd_xgb
-plot(vd_xgb)
  }
 
 }

@@ -23,30 +23,36 @@ This function is set deprecated. It is suggested to use \code{\link[iBreakDown]{
 Find information how to use these functions here: \url{https://pbiecek.github.io/PM_VEE/breakDown.html}.
 }
 \examples{
-library("breakDown")
-new.wine <- data.frame(citric.acid = 0.35,
-     sulphates = 0.6,
-     alcohol = 12.5,
-     pH = 3.36,
-     residual.sugar = 4.8)
+new_dragon <- data.frame(year_of_birth = 200,
+     height = 80,
+     weight = 12.5,
+     scars = 0,
+     number_of_lost_teeth  = 5)
 
-wine_lm_model4 <- lm(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine)
-wine_lm_explainer4 <- explain(wine_lm_model4, data = wine, label = "model_4v")
-wine_lm_predict4 <- prediction_breakdown(wine_lm_explainer4, observation = new.wine)
-head(wine_lm_predict4)
-plot(wine_lm_predict4)
+dragon_lm_model4 <- lm(life_length ~ year_of_birth + height + 
+                                     weight + scars + number_of_lost_teeth, 
+                       data = dragons)
+dragon_lm_explainer4 <- explain(dragon_lm_model4, data = dragons, y = dragons$year_of_birth, 
+                                label = "model_4v")
+dragon_lm_predict4 <- prediction_breakdown(dragon_lm_explainer4, observation = new_dragon)
+head(dragon_lm_predict4)
+plot(dragon_lm_predict4)
 
 \dontrun{
 library("randomForest")
-wine_rf_model4 <- randomForest(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine)
-wine_rf_explainer4 <- explain(wine_rf_model4, data = wine, label = "model_rf")
-wine_rf_predict4 <- prediction_breakdown(wine_rf_explainer4, observation = new.wine)
-head(wine_rf_predict4)
-plot(wine_rf_predict4)
+dragon_rf_model4 <- randomForest(life_length ~ year_of_birth + height + 
+                                               weight + scars + number_of_lost_teeth, 
+                                 data = dragons)
+dragon_rf_explainer4 <- explain(dragon_rf_model4, data = dragons, y = dragons$year_of_birth, 
+                                label = "model_rf")
+dragon_rf_predict4 <- prediction_breakdown(dragon_rf_explainer4, observation = new_dragon)
+head(dragon_rf_predict4)
+plot(dragon_rf_predict4)
 
 library("gbm")
 # create a gbm model
-model <- gbm(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine,
+model <- gbm(life_length ~ year_of_birth + height + weight + scars + 
+                           number_of_lost_teeth, data = dragons,
              distribution = "gaussian",
              n.trees = 1000,
              interaction.depth = 4,
@@ -54,14 +60,14 @@ model <- gbm(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine,
              n.minobsinnode = 10,
              verbose = FALSE)
  # make an explainer for the model
- explainer_gbm <- explain(model, data = wine, predict_function =
+ explainer_gbm <- explain(model, data = dragons, predict_function =
          function(model, x) predict(model, x, n.trees = 1000))
  # create a new observation
- exp_sgn <- prediction_breakdown(explainer_gbm, observation = new.wine)
+ exp_sgn <- prediction_breakdown(explainer_gbm, observation = new_dragon)
  head(exp_sgn)
  plot(exp_sgn)
 
- exp_sgn <- prediction_breakdown(explainer_gbm, observation = new.wine, baseline = 0)
+ exp_sgn <- prediction_breakdown(explainer_gbm, observation = new_dragon, baseline = 0)
  plot(exp_sgn)
  }
 
