@@ -13,13 +13,13 @@
 #' @examples
 #'  \dontrun{
 #' library("randomForest")
-#' HR_rf_model <- randomForest(as.factor(status == "fired")~., data = HR, ntree = 100)
+#' HR_rf_model <- randomForest(status == "fired"~., data = HR, ntree = 100)
 #' explainer_rf  <- explain(HR_rf_model, data = HR, y = HR$status == "fired")
 #' mp_rf <- model_performance(explainer_rf)
 #' plot(mp_rf)
 #' plot(mp_rf, geom = "boxplot", show_outliers = 1)
 #'
-#' HR_rf_model2 <- randomForest(as.factor(status == "fired")~age + hours, data = HR, ntree = 100)
+#' HR_rf_model2 <- randomForest(status == "fired"~age + hours, data = HR, ntree = 100)
 #' explainer_rf2  <- explain(HR_rf_model2, data = HR, y = HR$status == "fired")
 #' mp_rf2 <- model_performance(explainer_rf2)
 #' plot(mp_rf, mp_rf2)

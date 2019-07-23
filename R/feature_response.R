@@ -29,6 +29,7 @@
 #' @export
 #'
 #' @examples
+#' library("DALEX")
 #'
 #' HR_glm_model <- glm(status == "fired" ~ ., data = HR, family = "binomial")
 #' explainer_glm <- explain(HR_glm_model, data = HR)

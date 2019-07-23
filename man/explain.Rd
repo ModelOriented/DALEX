@@ -54,23 +54,24 @@ Please NOTE, that the \code{model} is the only required argument.
 But some explainers may require that other arguments will be provided too.
 }
 \examples{
+library("breakDown")
 
-aps_lm_model4 <- lm(m2.price ~., data = apartments)
-aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, label = "model_4v")
-aps_lm_explainer4
+wine_lm_model4 <- lm(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine)
+wine_lm_explainer4 <- explain(wine_lm_model4, data = wine, label = "model_4v")
+wine_lm_explainer4
 
-aps_lm <- explain(aps_lm_model4)
-aps_lm <- explain(aps_lm_model4, verbose = FALSE)
-aps_lm <- explain(aps_lm_model4, data = apartments, label = "model_4v", predict_function = predict)
-aps_lm <- explain(aps_lm_model4, data = apartments, label = "model_4v", y = apartments$m2.price)
-aps_lm <- explain(aps_lm_model4, data = apartments, label = "model_4v", y = apartments$m2.price,
+wine_lm <- explain(wine_lm_model4)
+wine_lm <- explain(wine_lm_model4, verbose = FALSE)
+wine_lm <- explain(wine_lm_model4, data = wine, label = "model_4v", predict_function = predict)
+wine_lm <- explain(wine_lm_model4, data = wine, label = "model_4v", y = wine$quality)
+wine_lm <- explain(wine_lm_model4, data = wine, label = "model_4v", y = wine$quality,
                                    predict_function = predict)
 
  \dontrun{
 library("randomForest")
-aps_rf_model4 <- randomForest(m2.price ~., data = apartments)
-aps_rf_explainer4 <- explain(aps_rf_model4, data = apartments, label = "model_rf")
-aps_rf_explainer4
+wine_rf_model4 <- randomForest(quality ~ pH + residual.sugar + sulphates + alcohol, data = wine)
+wine_rf_explainer4 <- explain(wine_rf_model4, data = wine, label = "model_rf")
+wine_rf_explainer4
  }
 
 }

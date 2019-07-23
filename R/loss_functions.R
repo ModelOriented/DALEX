@@ -12,8 +12,8 @@
 #' @examples
 #'  \dontrun{
 #' library("randomForest")
-#' HR_rf_model <- randomForest(as.factor(status == "fired")~., data = HR, ntree = 100)
-#' loss_sum_of_squares(as.numeric(HR$status == "fired"), yhat(HR_rf_model))
+#' HR_rf_model <- randomForest(status~., data = HR, ntree = 100)
+#' loss_cross_entropy(HR$status, yhat(HR_rf_model))
 #'  }
 #' @export
 loss_cross_entropy = function(observed, predicted, p_min = 0.0001, na.rm = TRUE) {

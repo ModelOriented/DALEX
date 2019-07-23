@@ -20,6 +20,7 @@ a ggplot2 object
 Function 'plot.variable_response_explainer' plots marginal responses for one or more explainers.
 }
 \examples{
+library("DALEX")
 
 HR_glm_model <- glm(status == "fired" ~., data = HR, family = "binomial")
 explainer_glm <- explain(HR_glm_model, data = HR)
@@ -29,7 +30,7 @@ plot(expl_glm)
 
  \dontrun{
 library("randomForest")
-HR_rf_model <- randomForest(as.factor(status == "fired" )~., data = HR, ntree = 100)
+HR_rf_model <- randomForest(status~., data = HR, ntree = 100)
 explainer_rf  <- explain(HR_rf_model, data = HR)
 expl_rf  <- feature_response(explainer_rf, feature = "hours",
                        type = "pdp")
