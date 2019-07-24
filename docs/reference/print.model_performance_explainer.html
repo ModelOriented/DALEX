@@ -128,18 +128,18 @@
     <pre class="examples"><div class='input'> </div><div class='input'><span class='fu'>library</span>(<span class='st'>"breakDown"</span>)
 <span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
 <span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label:  randomForest  (default)
-#&gt;   -&gt; data:  7847  rows  6  cols 
-#&gt;   -&gt; target variable:  7847  values 
-#&gt;   -&gt; predict function:  yhat.randomForest  will be used (default)
-#&gt;   -&gt; predicted values:  numerical, min =  0.08053318 , mean =  0.363013 , max =  0.808286  
-#&gt;   -&gt; residual function: difference between y and yhat (default)
-#&gt;   -&gt; residuals:  numerical, min =  -0.7529963 , mean =  0.0008203395 , max =  0.8378446  
+#&gt;   -&gt; model label       :  randomForest  (default)
+#&gt;   -&gt; data              :  7847  rows  6  cols 
+#&gt;   -&gt; target variable   :  7847  values 
+#&gt;   -&gt; predict function  :  yhat.randomForest  will be used (default)
+#&gt;   -&gt; predicted values  :  numerical, min =  0.06785083 , mean =  0.3634871 , max =  0.8383401  
+#&gt;   -&gt; residual function :  difference between y and yhat (default)
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7785778 , mean =  0.0003461681 , max =  0.8588441  
 #&gt; A new explainer has been created!</div><div class='input'><span class='no'>mp_ex_rf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_rf</span>)
-<span class='no'>mp_ex_rf</span></div><div class='output co'>#&gt;         0%        10%        20%        30%        40%        50%        60% 
-#&gt; -0.8378446 -0.5110409 -0.3842675 -0.2903031  0.0948022  0.1221344  0.1644356 
-#&gt;        70%        80%        90%       100% 
-#&gt;  0.2119668  0.2912953  0.3958685  0.7529963 </div><div class='input'><span class='fu'>plot</span>(<span class='no'>mp_ex_rf</span>)</div><div class='img'><img src='print.model_performance_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
+<span class='no'>mp_ex_rf</span></div><div class='output co'>#&gt;          0%         10%         20%         30%         40%         50% 
+#&gt; -0.85884407 -0.49676964 -0.37107895 -0.25906940  0.08349451  0.11438320 
+#&gt;         60%         70%         80%         90%        100% 
+#&gt;  0.15676214  0.20195635  0.27752813  0.39395091  0.77857781 </div><div class='input'><span class='fu'>plot</span>(<span class='no'>mp_ex_rf</span>)</div><div class='img'><img src='print.model_performance_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

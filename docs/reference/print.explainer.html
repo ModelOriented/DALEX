@@ -125,49 +125,38 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='st'>"breakDown"</span>)
-
-<span class='no'>wine_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
-<span class='no'>wine_lm_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>wine_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label:  model_4v 
-#&gt;   -&gt; data:  4898  rows  12  cols 
-#&gt;   -&gt; target variable is not specified! (WARNING)
-#&gt;   -&gt; predict function:  yhat.lm  will be used (default)
-#&gt;   -&gt; predicted values:  numerical, min =  4.880047 , mean =  5.877909 , max =  7.867825  
-#&gt;   -&gt; residual function: difference between y and yhat (default)
-#&gt; A new explainer has been created!</div><div class='input'><span class='no'>wine_lm_explainer4</span></div><div class='output co'>#&gt; Model label:  model_4v 
+    <pre class="examples"><div class='input'>
+<span class='no'>aps_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>m2.price</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>)
+<span class='no'>aps_lm_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>aps_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>apartments</span>$<span class='no'>m2.price</span>,
+                             <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label       :  model_4v 
+#&gt;   -&gt; data              :  1000  rows  6  cols 
+#&gt;   -&gt; target variable   :  1000  values 
+#&gt;   -&gt; predict function  :  yhat.lm  will be used (default)
+#&gt;   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  
+#&gt;   -&gt; residual function :  difference between y and yhat (default)
+#&gt;   -&gt; residuals         :  numerical, min =  -247.4728 , mean =  2.093656e-14 , max =  469.0023  
+#&gt; A new explainer has been created!</div><div class='input'><span class='no'>aps_lm_explainer4</span></div><div class='output co'>#&gt; Model label:  model_4v 
 #&gt; Model class:  lm 
 #&gt; Data head  :
-#&gt;   fixed.acidity volatile.acidity citric.acid residual.sugar chlorides
-#&gt; 1           7.0             0.27        0.36           20.7     0.045
-#&gt; 2           6.3             0.30        0.34            1.6     0.049
-#&gt;   free.sulfur.dioxide total.sulfur.dioxide density  pH sulphates alcohol
-#&gt; 1                  45                  170   1.001 3.0      0.45     8.8
-#&gt; 2                  14                  132   0.994 3.3      0.49     9.5
-#&gt;   quality
-#&gt; 1       6
-#&gt; 2       6</div><div class='input'>
+#&gt;   m2.price construction.year surface floor no.rooms    district
+#&gt; 1     5897              1953      25     3        1 Srodmiescie
+#&gt; 2     1818              1992     143     9        5     Bielany</div><div class='input'>
  </div><div class='input'><span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
-<span class='no'>wine_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
-<span class='no'>wine_rf_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>wine_rf_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_rf"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label:  model_rf 
-#&gt;   -&gt; data:  4898  rows  12  cols 
-#&gt;   -&gt; target variable is not specified! (WARNING)
-#&gt;   -&gt; predict function:  yhat.randomForest  will be used (default)
-#&gt;   -&gt; predicted values:  numerical, min =  4.055746 , mean =  5.881677 , max =  7.901375  
-#&gt;   -&gt; residual function: difference between y and yhat (default)
-#&gt; A new explainer has been created!</div><div class='input'><span class='no'>wine_rf_explainer4</span></div><div class='output co'>#&gt; Model label:  model_rf 
+<span class='no'>HR_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='fu'>as.factor</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)
+<span class='no'>HR_rf_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_rf"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label       :  model_rf 
+#&gt;   -&gt; data              :  7847  rows  6  cols 
+#&gt;   -&gt; target variable   :  not specified! (WARNING)
+#&gt;   -&gt; predict function  :  yhat.randomForest  will be used (default)
+#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.3589346 , max =  1  
+#&gt;   -&gt; residual function :  difference between y and yhat (default)
+#&gt; A new explainer has been created!</div><div class='input'><span class='no'>HR_rf_explainer4</span></div><div class='output co'>#&gt; Model label:  model_rf 
 #&gt; Model class:  randomForest.formula,randomForest 
 #&gt; Data head  :
-#&gt;   fixed.acidity volatile.acidity citric.acid residual.sugar chlorides
-#&gt; 1           7.0             0.27        0.36           20.7     0.045
-#&gt; 2           6.3             0.30        0.34            1.6     0.049
-#&gt;   free.sulfur.dioxide total.sulfur.dioxide density  pH sulphates alcohol
-#&gt; 1                  45                  170   1.001 3.0      0.45     8.8
-#&gt; 2                  14                  132   0.994 3.3      0.49     9.5
-#&gt;   quality
-#&gt; 1       6
-#&gt; 2       6</div><div class='input'> </div><div class='input'>
+#&gt;   gender      age    hours evaluation salary status
+#&gt; 1   male 32.58267 41.88626          3      1  fired
+#&gt; 2 female 41.21104 36.34339          2      5  fired</div><div class='input'> </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

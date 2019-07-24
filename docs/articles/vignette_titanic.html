@@ -76,7 +76,7 @@
       <h1>Survival on the RMS Titanic</h1>
                         <h4 class="author">Przemyslaw Biecek</h4>
             
-            <h4 class="date">2019-07-22</h4>
+            <h4 class="date">2019-07-24</h4>
       
       
       <div class="hidden name"><code>vignette_titanic.Rmd</code></div>
@@ -116,7 +116,7 @@
 #&gt;                      Number of trees: 500
 #&gt; No. of variables tried at each split: 2
 #&gt; 
-#&gt;           Mean of squared residuals: 0.1429747
+#&gt;           Mean of squared residuals: 0.1429739
 #&gt;                     % Var explained: 34.77</code></pre>
 </div>
 <div id="explainer-for-titanic-survival" class="section level1">
@@ -129,13 +129,13 @@
 <a class="sourceLine" id="cb5-4" data-line-number="4">                      <span class="dt">y =</span> titanic<span class="op">$</span>survived <span class="op">==</span><span class="st"> "yes"</span>, </a>
 <a class="sourceLine" id="cb5-5" data-line-number="5">                      <span class="dt">label =</span> <span class="st">"Random Forest v7"</span>)</a></code></pre></div>
 <pre><code>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label:  Random Forest v7 
-#&gt;   -&gt; data:  2099  rows  8  cols 
-#&gt;   -&gt; target variable:  2099  values 
-#&gt;   -&gt; predict function:  yhat.randomForest  will be used (default)
-#&gt;   -&gt; predicted values:  numerical, min =  0.008744274 , mean =  0.3243867 , max =  0.9902456  
-#&gt;   -&gt; residual function: difference between y and yhat (default)
-#&gt;   -&gt; residuals:  numerical, min =  -0.7856235 , mean =  5.350942e-05 , max =  0.9175369  
+#&gt;   -&gt; model label       :  Random Forest v7 
+#&gt;   -&gt; data              :  2099  rows  8  cols 
+#&gt;   -&gt; target variable   :  2099  values 
+#&gt;   -&gt; predict function  :  yhat.randomForest  will be used (default)
+#&gt;   -&gt; predicted values  :  numerical, min =  0.0100393 , mean =  0.3247522 , max =  0.9912599  
+#&gt;   -&gt; residual function :  difference between y and yhat (default)
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7974475 , mean =  -0.0003119571 , max =  0.9090073  
 #&gt; A new explainer has been created!</code></pre>
 </div>
 <div id="variable-importance-plots" class="section level1">
@@ -145,12 +145,12 @@
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">vi_rf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_importance.html">variable_importance</a></span>(explain_titanic_rf)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw">head</span>(vi_rf)</a></code></pre></div>
 <pre><code>#&gt;       variable dropout_loss            label
-#&gt; 1 _full_model_     100.4685 Random Forest v7
-#&gt; 2      country     100.4685 Random Forest v7
-#&gt; 3        sibsp     108.2059 Random Forest v7
-#&gt; 4        parch     109.0330 Random Forest v7
-#&gt; 5     embarked     115.7951 Random Forest v7
-#&gt; 6         fare     128.9557 Random Forest v7</code></pre>
+#&gt; 1 _full_model_     112.2006 Random Forest v7
+#&gt; 2      country     112.2006 Random Forest v7
+#&gt; 3        parch     119.7396 Random Forest v7
+#&gt; 4        sibsp     119.9944 Random Forest v7
+#&gt; 5     embarked     120.9810 Random Forest v7
+#&gt; 6         fare     141.0752 Random Forest v7</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">plot</span>(vi_rf)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
@@ -166,12 +166,12 @@
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">vr_age  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_response.html">variable_response</a></span>(explain_titanic_rf, <span class="dt">variable =</span>  <span class="st">"age"</span>)</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw">head</span>(vr_age)</a></code></pre></div>
 <pre><code>#&gt;           x            y var type            label
-#&gt; 1 0.1666667 0.527114.... age  pdp Random Forest v7
-#&gt; 2 1.6433333 0.550941.... age  pdp Random Forest v7
-#&gt; 3 3.1200000 0.569191.... age  pdp Random Forest v7
-#&gt; 4 4.5966667 0.541310.... age  pdp Random Forest v7
-#&gt; 5 6.0733333 0.525691.... age  pdp Random Forest v7
-#&gt; 6 7.5500000 0.523118.... age  pdp Random Forest v7</code></pre>
+#&gt; 1 0.1666667 0.520024.... age  pdp Random Forest v7
+#&gt; 2 1.6433333 0.542696.... age  pdp Random Forest v7
+#&gt; 3 3.1200000 0.555383.... age  pdp Random Forest v7
+#&gt; 4 4.5966667 0.530768.... age  pdp Random Forest v7
+#&gt; 5 6.0733333 0.516041.... age  pdp Random Forest v7
+#&gt; 6 7.5500000 0.515482.... age  pdp Random Forest v7</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">plot</span>(vr_age, <span class="dt">use_facets =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
@@ -234,13 +234,13 @@
 <a class="sourceLine" id="cb17-6" data-line-number="6">                       <span class="dt">predict_function =</span> <span class="cf">function</span>(m,x) <span class="kw">predict</span>(m, x, <span class="dt">type=</span><span class="st">"fitted"</span>),</a>
 <a class="sourceLine" id="cb17-7" data-line-number="7">                       <span class="dt">label =</span> <span class="st">"Logistic regression"</span>)</a></code></pre></div>
 <pre><code>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label:  Logistic regression 
-#&gt;   -&gt; data:  2099  rows  9  cols 
-#&gt;   -&gt; target variable:  2099  values 
-#&gt;   -&gt; predict function:  function(m, x) predict(m, x, type = "fitted") 
-#&gt;   -&gt; predicted values:  numerical, min =  0.003695743 , mean =  0.3244402 , max =  0.9827164  
-#&gt;   -&gt; residual function: difference between y and yhat (default)
-#&gt;   -&gt; residuals:  numerical, min =  -0.9827164 , mean =  -2.869171e-09 , max =  0.9716889  
+#&gt;   -&gt; model label       :  Logistic regression 
+#&gt;   -&gt; data              :  2099  rows  9  cols 
+#&gt;   -&gt; target variable   :  2099  values 
+#&gt;   -&gt; predict function  :  function(m, x) predict(m, x, type = "fitted") 
+#&gt;   -&gt; predicted values  :  numerical, min =  0.003695743 , mean =  0.3244402 , max =  0.9827164  
+#&gt;   -&gt; residual function :  difference between y and yhat (default)
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9827164 , mean =  -2.869171e-09 , max =  0.9716889  
 #&gt; A new explainer has been created!</code></pre>
 </div>
 <div id="generalized-boosted-models-gbm" class="section level2">
@@ -255,13 +255,13 @@
 <a class="sourceLine" id="cb21-3" data-line-number="3">                       <span class="dt">predict_function =</span> <span class="cf">function</span>(m,x) <span class="kw">predict</span>(m, x, <span class="dt">n.trees =</span> <span class="dv">15000</span>, <span class="dt">type =</span> <span class="st">"response"</span>),</a>
 <a class="sourceLine" id="cb21-4" data-line-number="4">                       <span class="dt">label =</span> <span class="st">"Generalized Boosted Models"</span>)</a></code></pre></div>
 <pre><code>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label:  Generalized Boosted Models 
-#&gt;   -&gt; data:  2099  rows  9  cols 
-#&gt;   -&gt; target variable:  2099  values 
-#&gt;   -&gt; predict function:  function(m, x) predict(m, x, n.trees = 15000, type = "response") 
-#&gt;   -&gt; predicted values:  numerical, min =  0.02158963 , mean =  0.3243051 , max =  0.9735076  
-#&gt;   -&gt; residual function: difference between y and yhat (default)
-#&gt;   -&gt; residuals:  numerical, min =  -0.9712691 , mean =  0.0001351497 , max =  0.9589979  
+#&gt;   -&gt; model label       :  Generalized Boosted Models 
+#&gt;   -&gt; data              :  2099  rows  9  cols 
+#&gt;   -&gt; target variable   :  2099  values 
+#&gt;   -&gt; predict function  :  function(m, x) predict(m, x, n.trees = 15000, type = "response") 
+#&gt;   -&gt; predicted values  :  numerical, min =  0.02190968 , mean =  0.3245395 , max =  0.9736567  
+#&gt;   -&gt; residual function :  difference between y and yhat (default)
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9720268 , mean =  -9.926306e-05 , max =  0.9591663  
 #&gt; A new explainer has been created!</code></pre>
 </div>
 <div id="support-vector-machines-svm" class="section level2">
@@ -275,13 +275,13 @@
 <a class="sourceLine" id="cb23-6" data-line-number="6">                       <span class="dt">y =</span> titanic<span class="op">$</span>survived <span class="op">==</span><span class="st"> "yes"</span>, </a>
 <a class="sourceLine" id="cb23-7" data-line-number="7">                       <span class="dt">label =</span> <span class="st">"Support Vector Machines"</span>)</a></code></pre></div>
 <pre><code>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label:  Support Vector Machines 
-#&gt;   -&gt; data:  2099  rows  9  cols 
-#&gt;   -&gt; target variable:  2099  values 
-#&gt;   -&gt; predict function:  yhat.svm  will be used (default)
-#&gt;   -&gt; predicted values:  numerical, min =  0.08536956 , mean =  0.3277033 , max =  0.9594245  
-#&gt;   -&gt; residual function: difference between y and yhat (default)
-#&gt;   -&gt; residuals:  numerical, min =  -0.858992 , mean =  -0.003263099 , max =  0.8914921  
+#&gt;   -&gt; model label       :  Support Vector Machines 
+#&gt;   -&gt; data              :  2099  rows  9  cols 
+#&gt;   -&gt; target variable   :  2099  values 
+#&gt;   -&gt; predict function  :  yhat.svm  will be used (default)
+#&gt;   -&gt; predicted values  :  numerical, min =  0.08485811 , mean =  0.3252319 , max =  0.9578605  
+#&gt;   -&gt; residual function :  difference between y and yhat (default)
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8551461 , mean =  -0.0007916921 , max =  0.8922776  
 #&gt; A new explainer has been created!</code></pre>
 </div>
 <div id="k-nearest-neighbours-knn" class="section level2">
@@ -295,13 +295,13 @@
 <a class="sourceLine" id="cb25-6" data-line-number="6">                       <span class="dt">predict_function =</span> <span class="cf">function</span>(m,x) <span class="kw">predict</span>(m, x)[,<span class="dv">2</span>],</a>
 <a class="sourceLine" id="cb25-7" data-line-number="7">                       <span class="dt">label =</span> <span class="st">"k-Nearest Neighbours"</span>)</a></code></pre></div>
 <pre><code>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label:  k-Nearest Neighbours 
-#&gt;   -&gt; data:  2099  rows  9  cols 
-#&gt;   -&gt; target variable:  2099  values 
-#&gt;   -&gt; predict function:  function(m, x) predict(m, x)[, 2] 
-#&gt;   -&gt; predicted values:  numerical, min =  0 , mean =  0.3110276 , max =  1  
-#&gt;   -&gt; residual function: difference between y and yhat (default)
-#&gt;   -&gt; residuals:  numerical, min =  -0.8 , mean =  0.01341259 , max =  0.9285714  
+#&gt;   -&gt; model label       :  k-Nearest Neighbours 
+#&gt;   -&gt; data              :  2099  rows  9  cols 
+#&gt;   -&gt; target variable   :  2099  values 
+#&gt;   -&gt; predict function  :  function(m, x) predict(m, x)[, 2] 
+#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.3110276 , max =  1  
+#&gt;   -&gt; residual function :  difference between y and yhat (default)
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8 , mean =  0.01341259 , max =  0.9285714  
 #&gt; A new explainer has been created!</code></pre>
 </div>
 <div id="variable-performance" class="section level2">

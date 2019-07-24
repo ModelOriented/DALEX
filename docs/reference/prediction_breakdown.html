@@ -138,63 +138,85 @@ It's a data frame with calculated average response.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='st'>"breakDown"</span>)
-<span class='no'>new.wine</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>citric.acid</span> <span class='kw'>=</span> <span class='fl'>0.35</span>,
-     <span class='kw'>sulphates</span> <span class='kw'>=</span> <span class='fl'>0.6</span>,
-     <span class='kw'>alcohol</span> <span class='kw'>=</span> <span class='fl'>12.5</span>,
-     <span class='kw'>pH</span> <span class='kw'>=</span> <span class='fl'>3.36</span>,
-     <span class='kw'>residual.sugar</span> <span class='kw'>=</span> <span class='fl'>4.8</span>)
+    <pre class="examples"><div class='input'><span class='no'>new_dragon</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>year_of_birth</span> <span class='kw'>=</span> <span class='fl'>200</span>,
+     <span class='kw'>height</span> <span class='kw'>=</span> <span class='fl'>80</span>,
+     <span class='kw'>weight</span> <span class='kw'>=</span> <span class='fl'>12.5</span>,
+     <span class='kw'>scars</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+     <span class='kw'>number_of_lost_teeth</span>  <span class='kw'>=</span> <span class='fl'>5</span>)
 
-<span class='no'>wine_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
-<span class='no'>wine_lm_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>wine_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label:  model_4v 
-#&gt;   -&gt; data:  4898  rows  12  cols 
-#&gt;   -&gt; target variable is not specified! (WARNING)
-#&gt;   -&gt; predict function:  yhat.lm  will be used (default)
-#&gt;   -&gt; predicted values:  numerical, min =  4.880047 , mean =  5.877909 , max =  7.867825  
-#&gt;   -&gt; residual function: difference between y and yhat (default)
-#&gt; A new explainer has been created!</div><div class='input'><span class='no'>wine_lm_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_breakdown</span>(<span class='no'>wine_lm_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>)
-<span class='fu'>head</span>(<span class='no'>wine_lm_predict4</span>)</div><div class='output co'>#&gt;                              variable contribution  variable_name
-#&gt; 1                         (Intercept)   5.87790935      Intercept
-#&gt; alcohol              + alcohol = 12.5   0.70174103        alcohol
-#&gt; pH                        + pH = 3.36   0.05780936             pH
-#&gt; sulphates           + sulphates = 0.6   0.04865885      sulphates
-#&gt; citric.acid      + citric.acid = 0.35   0.00000000    citric.acid
-#&gt; residual.sugar + residual.sugar = 4.8  -0.03789283 residual.sugar
-#&gt;                variable_value cummulative sign position    label
-#&gt; 1                           1    5.877909    1        1 model_4v
-#&gt; alcohol                  12.5    6.579650    1        2 model_4v
-#&gt; pH                       3.36    6.637460    1        3 model_4v
-#&gt; sulphates                 0.6    6.686119    1        4 model_4v
-#&gt; citric.acid              0.35    6.686119    0        5 model_4v
-#&gt; residual.sugar            4.8    6.648226   -1        6 model_4v</div><div class='input'><span class='fu'>plot</span>(<span class='no'>wine_lm_predict4</span>)</div><div class='img'><img src='prediction_breakdown-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>dragon_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>life_length</span> ~ <span class='no'>year_of_birth</span> + <span class='no'>height</span> +
+                                     <span class='no'>weight</span> + <span class='no'>scars</span> + <span class='no'>number_of_lost_teeth</span>,
+                       <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>)
+<span class='no'>dragon_lm_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>dragon_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>dragons</span>$<span class='no'>year_of_birth</span>,
+                                <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label       :  model_4v 
+#&gt;   -&gt; data              :  2000  rows  8  cols 
+#&gt;   -&gt; target variable   :  2000  values 
+#&gt;   -&gt; predict function  :  yhat.lm  will be used (default)
+#&gt;   -&gt; predicted values  :  numerical, min =  541.1056 , mean =  1370.986 , max =  3928.189  
+#&gt;   -&gt; residual function :  difference between y and yhat (default)
+#&gt;   -&gt; residuals         :  numerical, min =  -5421.316 , mean =  -1450.523 , max =  1176.912  
+#&gt; A new explainer has been created!</div><div class='input'><span class='no'>dragon_lm_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_breakdown</span>(<span class='no'>dragon_lm_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
+<span class='fu'>head</span>(<span class='no'>dragon_lm_predict4</span>)</div><div class='output co'>#&gt;                                        variable contribution
+#&gt; 1                                   (Intercept)  1370.985690
+#&gt; scars                               + scars = 0  -397.299680
+#&gt; number_of_lost_teeth + number_of_lost_teeth = 5  -302.277210
+#&gt; height                            + height = 80    -9.733909
+#&gt; year_of_birth             + year_of_birth = 200    -6.638641
+#&gt; weight                          + weight = 12.5    -0.972658
+#&gt;                             variable_name variable_value cummulative sign
+#&gt; 1                               Intercept              1   1370.9857    1
+#&gt; scars                               scars              0    973.6860   -1
+#&gt; number_of_lost_teeth number_of_lost_teeth              5    671.4088   -1
+#&gt; height                             height             80    661.6749   -1
+#&gt; year_of_birth               year_of_birth            200    655.0363   -1
+#&gt; weight                             weight           12.5    654.0636   -1
+#&gt;                      position    label
+#&gt; 1                           1 model_4v
+#&gt; scars                       2 model_4v
+#&gt; number_of_lost_teeth        3 model_4v
+#&gt; height                      4 model_4v
+#&gt; year_of_birth               5 model_4v
+#&gt; weight                      6 model_4v</div><div class='input'><span class='fu'>plot</span>(<span class='no'>dragon_lm_predict4</span>)</div><div class='img'><img src='prediction_breakdown-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div><div class='input'><span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
-<span class='no'>wine_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
-<span class='no'>wine_rf_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>wine_rf_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_rf"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label:  model_rf 
-#&gt;   -&gt; data:  4898  rows  12  cols 
-#&gt;   -&gt; target variable is not specified! (WARNING)
-#&gt;   -&gt; predict function:  yhat.randomForest  will be used (default)
-#&gt;   -&gt; predicted values:  numerical, min =  4.086734 , mean =  5.88169 , max =  7.890258  
-#&gt;   -&gt; residual function: difference between y and yhat (default)
-#&gt; A new explainer has been created!</div><div class='input'><span class='no'>wine_rf_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_breakdown</span>(<span class='no'>wine_rf_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>)
-<span class='fu'>head</span>(<span class='no'>wine_rf_predict4</span>)</div><div class='output co'>#&gt;                              variable contribution  variable_name
-#&gt; 1                         (Intercept)    5.8816897      Intercept
-#&gt; alcohol              + alcohol = 12.5    0.5922455        alcohol
-#&gt; sulphates           + sulphates = 0.6    0.1925095      sulphates
-#&gt; residual.sugar + residual.sugar = 4.8    0.2666629 residual.sugar
-#&gt; pH                        + pH = 3.36    0.2781199             pH
-#&gt; citric.acid      + citric.acid = 0.35    0.0000000    citric.acid
-#&gt;                variable_value cummulative sign position    label
-#&gt; 1                           1    5.881690    1        1 model_rf
-#&gt; alcohol                  12.5    6.473935    1        2 model_rf
-#&gt; sulphates                 0.6    6.666445    1        3 model_rf
-#&gt; residual.sugar            4.8    6.933108    1        4 model_rf
-#&gt; pH                       3.36    7.211227    1        5 model_rf
-#&gt; citric.acid              0.35    7.211227    0        6 model_rf</div><div class='input'><span class='fu'>plot</span>(<span class='no'>wine_rf_predict4</span>)</div><div class='img'><img src='prediction_breakdown-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>dragon_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>life_length</span> ~ <span class='no'>year_of_birth</span> + <span class='no'>height</span> +
+                                               <span class='no'>weight</span> + <span class='no'>scars</span> + <span class='no'>number_of_lost_teeth</span>,
+                                 <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>)
+<span class='no'>dragon_rf_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>dragon_rf_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>dragons</span>$<span class='no'>year_of_birth</span>,
+                                <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_rf"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label       :  model_rf 
+#&gt;   -&gt; data              :  2000  rows  8  cols 
+#&gt;   -&gt; target variable   :  2000  values 
+#&gt;   -&gt; predict function  :  yhat.randomForest  will be used (default)
+#&gt;   -&gt; predicted values  :  numerical, min =  646.6838 , mean =  1369.984 , max =  3124.953  
+#&gt;   -&gt; residual function :  difference between y and yhat (default)
+#&gt;   -&gt; residuals         :  numerical, min =  -4695.953 , mean =  -1449.521 , max =  967.4731  
+#&gt; A new explainer has been created!</div><div class='input'><span class='no'>dragon_rf_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_breakdown</span>(<span class='no'>dragon_rf_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
+<span class='fu'>head</span>(<span class='no'>dragon_rf_predict4</span>)</div><div class='output co'>#&gt;                                        variable contribution
+#&gt; 1                                   (Intercept)   1369.98384
+#&gt; scars                               + scars = 0   -276.74307
+#&gt; number_of_lost_teeth + number_of_lost_teeth = 5   -268.40211
+#&gt; weight                          + weight = 12.5     14.67167
+#&gt; year_of_birth             + year_of_birth = 200     14.12063
+#&gt; height                            + height = 80    182.45780
+#&gt;                             variable_name variable_value cummulative sign
+#&gt; 1                               Intercept              1   1369.9838    1
+#&gt; scars                               scars              0   1093.2408   -1
+#&gt; number_of_lost_teeth number_of_lost_teeth              5    824.8387   -1
+#&gt; weight                             weight           12.5    839.5103    1
+#&gt; year_of_birth               year_of_birth            200    853.6310    1
+#&gt; height                             height             80   1036.0888    1
+#&gt;                      position    label
+#&gt; 1                           1 model_rf
+#&gt; scars                       2 model_rf
+#&gt; number_of_lost_teeth        3 model_rf
+#&gt; weight                      4 model_rf
+#&gt; year_of_birth               5 model_rf
+#&gt; height                      6 model_rf</div><div class='input'><span class='fu'>plot</span>(<span class='no'>dragon_rf_predict4</span>)</div><div class='img'><img src='prediction_breakdown-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'>library</span>(<span class='st'>"gbm"</span>)
 <span class='co'># create a gbm model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/gbm/topics/gbm'>gbm</a></span>(<span class='no'>quality</span> ~ <span class='no'>pH</span> + <span class='no'>residual.sugar</span> + <span class='no'>sulphates</span> + <span class='no'>alcohol</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>,
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/gbm/topics/gbm'>gbm</a></span>(<span class='no'>life_length</span> ~ <span class='no'>year_of_birth</span> + <span class='no'>height</span> + <span class='no'>weight</span> + <span class='no'>scars</span> +
+                           <span class='no'>number_of_lost_teeth</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>,
              <span class='kw'>distribution</span> <span class='kw'>=</span> <span class='st'>"gaussian"</span>,
              <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
              <span class='kw'>interaction.depth</span> <span class='kw'>=</span> <span class='fl'>4</span>,
@@ -202,31 +224,38 @@ It's a data frame with calculated average response.</p>
              <span class='kw'>n.minobsinnode</span> <span class='kw'>=</span> <span class='fl'>10</span>,
              <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
  <span class='co'># make an explainer for the model</span>
- <span class='no'>explainer_gbm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span>
+ <span class='no'>explainer_gbm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span>
          <span class='kw'>function</span>(<span class='no'>model</span>, <span class='no'>x</span>) <span class='fu'>predict</span>(<span class='no'>model</span>, <span class='no'>x</span>, <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>1000</span>))</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label:  gbm  (default)
-#&gt;   -&gt; data:  4898  rows  12  cols 
-#&gt;   -&gt; target variable is not specified! (WARNING)
-#&gt;   -&gt; predict function:  function(model, x) predict(model, x, n.trees = 1000) 
-#&gt;   -&gt; predicted values:  numerical, min =  4.702658 , mean =  5.878051 , max =  7.244154  
-#&gt;   -&gt; residual function: difference between y and yhat (default)
+#&gt;   -&gt; model label       :  gbm  (default)
+#&gt;   -&gt; data              :  2000  rows  8  cols 
+#&gt;   -&gt; target variable   :  not specified! (WARNING)
+#&gt;   -&gt; predict function  :  function(model, x) predict(model, x, n.trees = 1000) 
+#&gt;   -&gt; predicted values  :  numerical, min =  585.942 , mean =  1370.963 , max =  3567.821  
+#&gt;   -&gt; residual function :  difference between y and yhat (default)
 #&gt; A new explainer has been created!</div><div class='input'> <span class='co'># create a new observation</span>
- <span class='no'>exp_sgn</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_breakdown</span>(<span class='no'>explainer_gbm</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>)
- <span class='fu'>head</span>(<span class='no'>exp_sgn</span>)</div><div class='output co'>#&gt;                              variable contribution  variable_name
-#&gt; 1                         (Intercept)   5.87805095      Intercept
-#&gt; alcohol              + alcohol = 12.5   0.65003490        alcohol
-#&gt; pH                        + pH = 3.36   0.15837667             pH
-#&gt; sulphates           + sulphates = 0.6   0.13939640      sulphates
-#&gt; residual.sugar + residual.sugar = 4.8   0.04042056 residual.sugar
-#&gt; citric.acid      + citric.acid = 0.35   0.00000000    citric.acid
-#&gt;                variable_value cummulative sign position label
-#&gt; 1                           1    5.878051    1        1   gbm
-#&gt; alcohol                  12.5    6.528086    1        2   gbm
-#&gt; pH                       3.36    6.686463    1        3   gbm
-#&gt; sulphates                 0.6    6.825859    1        4   gbm
-#&gt; residual.sugar            4.8    6.866279    1        5   gbm
-#&gt; citric.acid              0.35    6.866279    0        6   gbm</div><div class='input'> <span class='fu'>plot</span>(<span class='no'>exp_sgn</span>)</div><div class='img'><img src='prediction_breakdown-3.png' alt='' width='700' height='433' /></div><div class='input'>
- <span class='no'>exp_sgn</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_breakdown</span>(<span class='no'>explainer_gbm</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new.wine</span>, <span class='kw'>baseline</span> <span class='kw'>=</span> <span class='fl'>0</span>)
+ <span class='no'>exp_sgn</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_breakdown</span>(<span class='no'>explainer_gbm</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
+ <span class='fu'>head</span>(<span class='no'>exp_sgn</span>)</div><div class='output co'>#&gt;                                        variable  contribution
+#&gt; 1                                   (Intercept) 1370.96312605
+#&gt; scars                               + scars = 0 -388.37059527
+#&gt; number_of_lost_teeth + number_of_lost_teeth = 5 -302.19501452
+#&gt; weight                          + weight = 12.5   -0.16735659
+#&gt; height                            + height = 80    0.09309097
+#&gt; year_of_birth             + year_of_birth = 200   19.23393828
+#&gt;                             variable_name variable_value cummulative sign
+#&gt; 1                               Intercept              1   1370.9631    1
+#&gt; scars                               scars              0    982.5925   -1
+#&gt; number_of_lost_teeth number_of_lost_teeth              5    680.3975   -1
+#&gt; weight                             weight           12.5    680.2302   -1
+#&gt; height                             height             80    680.3233    1
+#&gt; year_of_birth               year_of_birth            200    699.5572    1
+#&gt;                      position label
+#&gt; 1                           1   gbm
+#&gt; scars                       2   gbm
+#&gt; number_of_lost_teeth        3   gbm
+#&gt; weight                      4   gbm
+#&gt; height                      5   gbm
+#&gt; year_of_birth               6   gbm</div><div class='input'> <span class='fu'>plot</span>(<span class='no'>exp_sgn</span>)</div><div class='img'><img src='prediction_breakdown-3.png' alt='' width='700' height='433' /></div><div class='input'>
+ <span class='no'>exp_sgn</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_breakdown</span>(<span class='no'>explainer_gbm</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>, <span class='kw'>baseline</span> <span class='kw'>=</span> <span class='fl'>0</span>)
  <span class='fu'>plot</span>(<span class='no'>exp_sgn</span>)</div><div class='img'><img src='prediction_breakdown-4.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
 </div></pre>
   </div>

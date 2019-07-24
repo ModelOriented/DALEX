@@ -178,16 +178,15 @@ Please note that the argument <code>type</code> must be set to <code>'factor'</c
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='st'>"DALEX"</span>)
-
+    <pre class="examples"><div class='input'>
 <span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label:  lm  (default)
-#&gt;   -&gt; data:  7847  rows  6  cols 
-#&gt;   -&gt; target variable is not specified! (WARNING)
-#&gt;   -&gt; predict function:  yhat.glm  will be used (default)
-#&gt;   -&gt; predicted values:  numerical, min =  0.00861694 , mean =  0.3638333 , max =  0.7822214  
-#&gt;   -&gt; residual function: difference between y and yhat (default)
+#&gt;   -&gt; model label       :  lm  (default)
+#&gt;   -&gt; data              :  7847  rows  6  cols 
+#&gt;   -&gt; target variable   :  not specified! (WARNING)
+#&gt;   -&gt; predict function  :  yhat.glm  will be used (default)
+#&gt;   -&gt; predicted values  :  numerical, min =  0.00861694 , mean =  0.3638333 , max =  0.7822214  
+#&gt;   -&gt; residual function :  difference between y and yhat (default)
 #&gt; A new explainer has been created!</div><div class='input'><span class='no'>expl_glm</span> <span class='kw'>&lt;-</span> <span class='fu'>feature_response</span>(<span class='no'>explainer_glm</span>, <span class='st'>"age"</span>, <span class='st'>"pdp"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Please note that 'feature_response()' is now deprecated, it is better to use 'ingredients::partial_dependency()' instead.</span>
 #&gt; <span class='warning'>Find examples and detailed introduction at: https://pbiecek.github.io/PM_VEE/partialDependenceProfiles.html</span></div><div class='input'><span class='fu'>head</span>(<span class='no'>expl_glm</span>)</div><div class='output co'>#&gt;          x         y var type label
 #&gt; 1 20.00389 0.3690356 age  pdp    lm
@@ -199,20 +198,20 @@ Please note that the argument <code>type</code> must be set to <code>'factor'</c
  </div><div class='input'><span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
 <span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>status</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)
 <span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label:  randomForest  (default)
-#&gt;   -&gt; data:  7847  rows  6  cols 
-#&gt;   -&gt; target variable is not specified! (WARNING)
-#&gt;   -&gt; predict function:  yhat.randomForest  will be used (default)
-#&gt;   -&gt; predicted values:  numerical, min =  0 , mean =  0.3333333 , max =  1  
-#&gt;   -&gt; residual function: difference between y and yhat (default)
+#&gt;   -&gt; model label       :  randomForest  (default)
+#&gt;   -&gt; data              :  7847  rows  6  cols 
+#&gt;   -&gt; target variable   :  not specified! (WARNING)
+#&gt;   -&gt; predict function  :  yhat.randomForest  will be used (default)
+#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.3333333 , max =  1  
+#&gt;   -&gt; residual function :  difference between y and yhat (default)
 #&gt; A new explainer has been created!</div><div class='input'><span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'>feature_response</span>(<span class='no'>explainer_rf</span>, <span class='kw'>feature</span> <span class='kw'>=</span> <span class='st'>"age"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>)
 <span class='fu'>head</span>(<span class='no'>expl_rf</span>)</div><div class='output co'>#&gt;          x         y var type              label
-#&gt; 1 20.00389 0.3856225 age  pdp randomForest.fired
-#&gt; 2 20.80378 0.3752899 age  pdp randomForest.fired
-#&gt; 3 21.60368 0.3691487 age  pdp randomForest.fired
-#&gt; 4 22.40357 0.3791678 age  pdp randomForest.fired
-#&gt; 5 23.20346 0.3822212 age  pdp randomForest.fired
-#&gt; 6 24.00336 0.3886785 age  pdp randomForest.fired</div><div class='input'><span class='fu'>plot</span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='feature_response-2.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; 1 20.00389 0.3863859 age  pdp randomForest.fired
+#&gt; 2 20.80378 0.3677571 age  pdp randomForest.fired
+#&gt; 3 21.60368 0.3694393 age  pdp randomForest.fired
+#&gt; 4 22.40357 0.3773251 age  pdp randomForest.fired
+#&gt; 5 23.20346 0.3813368 age  pdp randomForest.fired
+#&gt; 6 24.00336 0.3866293 age  pdp randomForest.fired</div><div class='input'><span class='fu'>plot</span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='feature_response-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'>feature_response</span>(<span class='no'>explainer_rf</span>, <span class='kw'>feature</span> <span class='kw'>=</span> <span class='st'>"age"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>,
                        <span class='kw'>which_class</span> <span class='kw'>=</span> <span class='fl'>2</span>)
 <span class='fu'>plot</span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='feature_response-3.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>

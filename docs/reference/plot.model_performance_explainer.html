@@ -148,47 +148,49 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'> </div><div class='input'><span class='fu'>library</span>(<span class='st'>"randomForest"</span>)
-<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label:  randomForest  (default)
-#&gt;   -&gt; data:  7847  rows  6  cols 
-#&gt;   -&gt; target variable:  7847  values 
-#&gt;   -&gt; predict function:  yhat.randomForest  will be used (default)
-#&gt;   -&gt; predicted values:  numerical, min =  0.0515876 , mean =  0.3635831 , max =  0.8304181  
-#&gt;   -&gt; residual function: difference between y and yhat (default)
-#&gt;   -&gt; residuals:  numerical, min =  -0.7621131 , mean =  0.0002502438 , max =  0.8670427  
+<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='fu'>as.factor</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)
+<span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label       :  randomForest  (default)
+#&gt;   -&gt; data              :  7847  rows  6  cols 
+#&gt;   -&gt; target variable   :  7847  values 
+#&gt;   -&gt; predict function  :  yhat.randomForest  will be used (default)
+#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.3604002 , max =  1  
+#&gt;   -&gt; residual function :  difference between y and yhat (default)
+#&gt;   -&gt; residuals         :  numerical, min =  -0.76 , mean =  0.003433159 , max =  0.71  
 #&gt; A new explainer has been created!</div><div class='input'><span class='no'>mp_rf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_rf</span>)
 <span class='fu'>plot</span>(<span class='no'>mp_rf</span>)</div><div class='img'><img src='plot.model_performance_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot</span>(<span class='no'>mp_rf</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"boxplot"</span>, <span class='kw'>show_outliers</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='img'><img src='plot.model_performance_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>HR_rf_model2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>age</span> + <span class='no'>hours</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf2</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model2</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label:  randomForest  (default)
-#&gt;   -&gt; data:  7847  rows  6  cols 
-#&gt;   -&gt; target variable:  7847  values 
-#&gt;   -&gt; predict function:  yhat.randomForest  will be used (default)
-#&gt;   -&gt; predicted values:  numerical, min =  -1.282308e-16 , mean =  0.3639208 , max =  0.9975  
-#&gt;   -&gt; residual function: difference between y and yhat (default)
-#&gt;   -&gt; residuals:  numerical, min =  -0.5635 , mean =  -8.75069e-05 , max =  0.6133333  
+<span class='no'>HR_rf_model2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='fu'>as.factor</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)~<span class='no'>age</span> + <span class='no'>hours</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)
+<span class='no'>explainer_rf2</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model2</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label       :  randomForest  (default)
+#&gt;   -&gt; data              :  7847  rows  6  cols 
+#&gt;   -&gt; target variable   :  7847  values 
+#&gt;   -&gt; predict function  :  yhat.randomForest  will be used (default)
+#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.3643023 , max =  1  
+#&gt;   -&gt; residual function :  difference between y and yhat (default)
+#&gt;   -&gt; residuals         :  numerical, min =  -0.47 , mean =  -0.000468969 , max =  0.48  
 #&gt; A new explainer has been created!</div><div class='input'><span class='no'>mp_rf2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_rf2</span>)
 <span class='fu'>plot</span>(<span class='no'>mp_rf</span>, <span class='no'>mp_rf2</span>)</div><div class='img'><img src='plot.model_performance_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"glm"</span>,
                     <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>m</span>,<span class='no'>x</span>) <span class='fu'>predict.glm</span>(<span class='no'>m</span>,<span class='no'>x</span>,<span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"response"</span>))</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label:  glm 
-#&gt;   -&gt; data:  7847  rows  6  cols 
-#&gt;   -&gt; target variable:  7847  values 
-#&gt;   -&gt; predict function:  function(m, x) predict.glm(m, x, type = "response") 
-#&gt;   -&gt; predicted values:  numerical, min =  0.00861694 , mean =  0.3638333 , max =  0.7822214  
-#&gt;   -&gt; residual function: difference between y and yhat (default)
-#&gt;   -&gt; residuals:  numerical, min =  -0.7755901 , mean =  -1.293796e-13 , max =  0.9820537  
+#&gt;   -&gt; model label       :  glm 
+#&gt;   -&gt; data              :  7847  rows  6  cols 
+#&gt;   -&gt; target variable   :  7847  values 
+#&gt;   -&gt; predict function  :  function(m, x) predict.glm(m, x, type = "response") 
+#&gt;   -&gt; predicted values  :  numerical, min =  0.00861694 , mean =  0.3638333 , max =  0.7822214  
+#&gt;   -&gt; residual function :  difference between y and yhat (default)
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7755901 , mean =  -1.293796e-13 , max =  0.9820537  
 #&gt; A new explainer has been created!</div><div class='input'><span class='no'>mp_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_glm</span>)
 <span class='fu'>plot</span>(<span class='no'>mp_glm</span>)</div><div class='img'><img src='plot.model_performance_explainer-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>HR_lm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)
 <span class='no'>explainer_lm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_lm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label:  lm  (default)
-#&gt;   -&gt; data:  7847  rows  6  cols 
-#&gt;   -&gt; target variable:  7847  values 
-#&gt;   -&gt; predict function:  yhat.lm  will be used (default)
-#&gt;   -&gt; predicted values:  numerical, min =  -0.2620918 , mean =  0.3638333 , max =  0.7150183  
-#&gt;   -&gt; residual function: difference between y and yhat (default)
-#&gt;   -&gt; residuals:  numerical, min =  -0.7083516 , mean =  3.062251e-14 , max =  1.138386  
+#&gt;   -&gt; model label       :  lm  (default)
+#&gt;   -&gt; data              :  7847  rows  6  cols 
+#&gt;   -&gt; target variable   :  7847  values 
+#&gt;   -&gt; predict function  :  yhat.lm  will be used (default)
+#&gt;   -&gt; predicted values  :  numerical, min =  -0.2620918 , mean =  0.3638333 , max =  0.7150183  
+#&gt;   -&gt; residual function :  difference between y and yhat (default)
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7083516 , mean =  3.062251e-14 , max =  1.138386  
 #&gt; A new explainer has been created!</div><div class='input'><span class='no'>mp_lm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_lm</span>)
 <span class='fu'>plot</span>(<span class='no'>mp_lm</span>)</div><div class='img'><img src='plot.model_performance_explainer-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'>plot</span>(<span class='no'>mp_rf</span>, <span class='no'>mp_glm</span>, <span class='no'>mp_lm</span>)</div><div class='img'><img src='plot.model_performance_explainer-6.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot</span>(<span class='no'>mp_rf</span>, <span class='no'>mp_glm</span>, <span class='no'>mp_lm</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"boxplot"</span>)</div><div class='img'><img src='plot.model_performance_explainer-7.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot</span>(<span class='no'>mp_rf</span>, <span class='no'>mp_glm</span>, <span class='no'>mp_lm</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"boxplot"</span>, <span class='kw'>show_outliers</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='img'><img src='plot.model_performance_explainer-8.png' alt='' width='700' height='433' /></div><div class='input'> </div><div class='input'>
