@@ -7,7 +7,7 @@
 #'
 #' @return numeric - value of the loss function
 #'
-#' @aliases loss_cross_entropy loss_sum_of_squares loss_root_mean_square loss_accuracy loss_one_auc
+#' @aliases loss_cross_entropy loss_sum_of_squares loss_root_mean_square loss_accuracy loss_one_minus_auc
 #' @export
 #' @examples
 #'  \dontrun{
@@ -32,7 +32,7 @@ loss_accuracy <-  function(observed, predicted, na.rm = TRUE) mean(observed == p
 
 #' @export
 # Alicja Gosiewska (agosiewska) is the author of this function
-loss_one_auc <- function(observed, predicted){
+loss_one_minus_auc <- function(observed, predicted){
 
   pred <- data.frame(fitted.values = predicted,
              y = observed)
