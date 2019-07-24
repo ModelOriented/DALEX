@@ -14,6 +14,7 @@
 #' @param ... other parameters
 #' @param label character - the name of the model. By default it's extracted from the 'class' attribute of the model
 #' @param verbose if TRUE (default) then diagnostic messages will be printed
+#' @param precalculate if TRUE (default) then 'predicted_values' and 'residuals' are calculated when explainer is created. This will happenn also if 'verbose' is TRUE
 #'
 #' @return An object of the class 'explainer'.
 #'
@@ -58,7 +59,7 @@
 
 #' @export
 #' @rdname explain
-explain.default <- function(model, data = NULL, y = NULL, predict_function = NULL, residual_function = NULL, ..., label = NULL, verbose = TRUE) {
+explain.default <- function(model, data = NULL, y = NULL, predict_function = NULL, residual_function = NULL, ..., label = NULL, verbose = TRUE, precalculate = TRUE) {
   verbose_cat("Preparation of a new explainer is initiated\n", verbose = verbose)
 
   # REPORT: checks for model label
@@ -125,7 +126,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
   }
   # if data is specified then we may test predict_function
   y_hat <- NULL
-  if (!is.null(data) & verbose & !is.null(predict_function)) {
+  if (!is.null(data) & !is.null(predict_function) & (verbose | precalculate)) {
     y_hat <- predict_function(model, data)
     if ((is.factor(y_hat) | is.character(y_hat))) {
       verbose_cat("  -> predicted values  :  factor (WARNING) with levels: ", paste(unique(y_hat), collapse = ", "), "\n", verbose = verbose)
@@ -149,7 +150,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
   }
   # if data is specified then we may test residual_function
   residuals <- NULL
-  if (!is.null(data) & !is.null(residual_function) & !is.null(y) & verbose) {
+  if (!is.null(data) & !is.null(residual_function) & !is.null(y) & (verbose | precalculate)) {
     residuals <- residual_function(model, data, y)
     if ((is.factor(residuals) | is.character(residuals))) {
       verbose_cat("  -> residuals         :  factor (WARNING) with levels: ", paste(unique(residuals), collapse = ", "), "\n", verbose = verbose)
