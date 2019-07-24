@@ -5,6 +5,7 @@
 \alias{loss_sum_of_squares}
 \alias{loss_root_mean_square}
 \alias{loss_accuracy}
+\alias{loss_one_auc}
 \title{Preimplemented Loss Functions}
 \usage{
 loss_cross_entropy(observed, predicted, p_min = 1e-04, na.rm = TRUE)
