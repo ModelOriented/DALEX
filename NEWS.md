@@ -1,3 +1,12 @@
+DALEX 0.4.6
+----------------------------------------------------------------
+* Examples updated. Now they use only datasets available from DALEX.
+* yhat.H2ORegressionModel and yhat.H2OBinomialModel moved to DALEXtra and merged into explain_h2o() function.
+* yhat.WrappedModelmoved to DALEXtra and merged as explain_mlr() function.
+* Wrapper for scikit-learn models restored in DALEXtra package.
+* loss_one_auc function added to loss_functions.R. It uses 1-auc to compute loss. Function created by Alicja Gosiewska.
+* Extension for DALEX avaiable at https://github.com/ModelOriented/DALEXtra
+
 DALEX 0.4.5
 ----------------------------------------------------------------
 * the `explain()` function is more verbose. With `verbose = TRUE` (default) it prints detailed information about elements of an explainer ([#95](https://github.com/pbiecek/DALEX/issues/95)).
