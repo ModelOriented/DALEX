@@ -11,7 +11,6 @@
 # #' \item class `catboost.Model` - models created with `catboost` package
 #' \item class `cv.glmnet` and `glmnet` - models created with `glmnet` package
 #' \item class `glm` - generalized linear models
-#' \item class `H2OBinomialModel` and `H2ORegressionModel` - models created with `h2o` package
 #' \item class `model_fit` - models created with `parsnip` package
 #' \item class `lm` - linear models created with `stats::lm`
 #' \item class `ranger` - models created with `ranger` package
@@ -101,21 +100,6 @@ yhat.ranger <- function(X.model, newdata, ...) {
 
 #' @rdname yhat
 #' @export
-# WrappedModel is a class of models created with mlr
-yhat.WrappedModel <- function(X.model, newdata, ...) {
-  if (X.model$task.desc$type == "classif") {
-    pred <- predict(X.model, newdata = newdata)
-    response <- pred$data[, 1]
-  }
-  if (X.model$task.desc$type == "regr") {
-    pred <- predict(X.model, newdata = newdata)
-    response <- pred$data[, 1]
-  }
-  response
-}
-
-#' @rdname yhat
-#' @export
 yhat.model_fit <- function(X.model, newdata, ...) {
   if (X.model$spec$mode == "classification") {
     response <- as.data.frame(predict(X.model, newdata, type = "prob"))[,2]
@@ -147,23 +131,6 @@ yhat.default <- function(X.model, newdata, ...) {
   as.numeric(predict(X.model, newdata, ...))
 }
 
-
-#' @rdname yhat
-#' @export
-yhat.H2ORegressionModel <- function(X.model, newdata, ...) {
-  newdata_h2o <- h2o::as.h2o(newdata)
-  as.vector(h2o::h2o.predict(X.model, newdata = newdata_h2o))
-
-}
-
-
-#' @rdname yhat
-#' @export
-yhat.H2OBinomialModel <- function(X.model, newdata, ...) {
-  newdata_h2o <- h2o::as.h2o(newdata)
-  res <- as.data.frame(h2o::h2o.predict(X.model, newdata = newdata_h2o))
-  res$p1
-}
 
 
 

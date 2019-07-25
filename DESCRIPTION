@@ -1,6 +1,6 @@
 Package: DALEX
 Title: Descriptive mAchine Learning EXplanations
-Version: 0.4.5
+Version: 0.4.6
 Authors@R: c(person("Przemyslaw", "Biecek", email = "przemyslaw.biecek@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-8423-1823")),
     person("Szymon", "Maksymiuk", role = "ctb"))
 Description: Machine Learning (ML) models are widely used and have various applications in classification 
@@ -22,19 +22,17 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 Imports: ggplot2
-Suggests: gbm,
-  randomForest,
-  xgboost,
-  ALEPlot,
-  ingredients,
-  iBreakDown,
+Suggests: ALEPlot,
   breakDown,
-  pdp,
-  factorMerger,
-  ggpubr,
-  testthat,
   dplyr,
-  h2o,
-  reticulate
+  factorMerger,
+  gbm,
+  ggpubr,
+  iBreakDown,
+  ingredients,
+  pdp,
+  randomForest,
+  testthat,
+  xgboost
 URL: https://pbiecek.github.io/DALEX/
 BugReports: https://github.com/pbiecek/DALEX/issues
