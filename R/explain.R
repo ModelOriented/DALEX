@@ -128,11 +128,16 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
   # if data is specified then we may test predict_function
   y_hat <- NULL
   if (!is.null(data) & !is.null(predict_function) & (verbose | precalculate)) {
-    y_hat <- predict_function(model, data)
-    if ((is.factor(y_hat) | is.character(y_hat))) {
-      verbose_cat("  -> predicted values  :  factor (\033[31mWARNING\033[39m) with levels: ", paste(unique(y_hat), collapse = ", "), "\n", verbose = verbose)
+    y_hat <- try(predict_function(model, data), silent = TRUE)
+    if (class(y_hat) == "try-error") {
+      y_hat <- NULL
+      verbose_cat("  -> predicted values  :  the predict_function returns an error when executed (\033[31mWARNING\033[39m) \n", verbose = verbose)
     } else {
-      verbose_cat("  -> predicted values  :  numerical, min = ", min(y_hat), ", mean = ", mean(y_hat), ", max = ", max(y_hat), " \n", verbose = verbose)
+      if ((is.factor(y_hat) | is.character(y_hat))) {
+        verbose_cat("  -> predicted values  :  factor (\033[31mWARNING\033[39m) with levels: ", paste(unique(y_hat), collapse = ", "), "\n", verbose = verbose)
+      } else {
+        verbose_cat("  -> predicted values  :  numerical, min = ", min(y_hat), ", mean = ", mean(y_hat), ", max = ", max(y_hat), " \n", verbose = verbose)
+      }
     }
   }
 
@@ -152,11 +157,16 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
   # if data is specified then we may test residual_function
   residuals <- NULL
   if (!is.null(data) & !is.null(residual_function) & !is.null(y) & (verbose | precalculate)) {
-    residuals <- residual_function(model, data, y)
-    if ((is.factor(residuals) | is.character(residuals))) {
-      verbose_cat("  -> residuals         :  factor (\033[31mWARNING\033[39m) with levels: ", paste(unique(residuals), collapse = ", "), "\n", verbose = verbose)
+    residuals <- try(residual_function(model, data, y), silent = TRUE)
+    if (class(residuals) == "try-error") {
+      residuals <- NULL
+      verbose_cat("  -> residuals         :  the residual_function returns an error when executed (\033[31mWARNING\033[39m) \n", verbose = verbose)
     } else {
-      verbose_cat("  -> residuals         :  numerical, min = ", min(residuals), ", mean = ", mean(residuals), ", max = ", max(residuals), " \n", verbose = verbose)
+      if ((is.factor(residuals) | is.character(residuals))) {
+        verbose_cat("  -> residuals         :  factor (\033[31mWARNING\033[39m) with levels: ", paste(unique(residuals), collapse = ", "), "\n", verbose = verbose)
+      } else {
+        verbose_cat("  -> residuals         :  numerical, min = ", min(residuals), ", mean = ", mean(residuals), ", max = ", max(residuals), " \n", verbose = verbose)
+      }
     }
   }
 
