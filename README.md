@@ -3,9 +3,9 @@
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/DALEX)](https://cran.r-project.org/package=DALEX)
 [![Downloads](http://cranlogs.r-pkg.org/badges/DALEX)](http://cran.rstudio.com/package=DALEX)
 [![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/DALEX?color=orange)](http://cranlogs.r-pkg.org/badges/grand-total/DALEX)
-[![Build Status](https://api.travis-ci.org/pbiecek/DALEX.png)](https://travis-ci.org/pbiecek/DALEX)
+[![Build Status](https://api.travis-ci.org/ModelOriented/DALEX.png)](https://travis-ci.org/ModelOriented/DALEX)
 [![Coverage
-Status](https://img.shields.io/codecov/c/github/pbiecek/DALEX/master.svg)](https://codecov.io/github/pbiecek/DALEX?branch=master)
+Status](https://img.shields.io/codecov/c/github/ModelOriented/DALEX/master.svg)](https://codecov.io/github/ModelOriented/DALEX?branch=master)
 
 ## DALEX: Descriptive mAchine Learning EXplanations
 
@@ -59,12 +59,8 @@ install.packages("DALEX")
 or from GitHub
 
 ```{r}
-# dependencies
-devtools::install_github("MI2DataLab/factorMerger")
-devtools::install_github("pbiecek/breakDown")
-
 # DALEX package
-devtools::install_github("pbiecek/DALEX")
+devtools::install_github("ModelOriented/DALEX")
 ```
 
 ## Cheatsheets

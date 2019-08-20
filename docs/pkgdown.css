@@ -1,13 +1,24 @@
-/* Sticker footer */
-body > .container {
-  display: flex;
-  padding-top: 60px;
-  min-height: calc(100vh);
-  flex-direction: column;
+/* Sticky footer */
+
+/**
+ * Basic idea: https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/
+ * Details: https://github.com/philipwalton/solved-by-flexbox/blob/master/assets/css/components/site.css
+ *
+ * .Site -> body > .container
+ * .Site-content -> body > .container .row
+ * .footer -> footer
+ *
+ * Key idea seems to be to ensure that .container and __all its parents__
+ * have height set to 100%
+ *
+ */
+
+html, body {
+  height: 100%;
 }
 
 body > .container .row {
-  flex: 1;
+  flex: 1 0 auto;
 }
 
 footer {
@@ -16,6 +27,7 @@ footer {
   border-top: 1px solid #e5e5e5;
   color: #666;
   display: flex;
+  flex-shrink: 0;
 }
 footer p {
   margin-bottom: 0;
@@ -36,6 +48,17 @@ img.icon {
 
 img {
   max-width: 100%;
+}
+
+/* Fix bug in bootstrap (only seen in firefox) */
+summary {
+  display: list-item;
+}
+
+/* Typographic tweaking ---------------------------------*/
+
+.contents .page-header {
+  margin-top: calc(-60px + 1em);
 }
 
 /* Section anchors ---------------------------------*/
@@ -71,21 +94,13 @@ a.anchor {
   margin-top: -60px;
 }
 
-/* Static header placement on mobile devices */
-@media (max-width: 767px) {
-  .navbar-fixed-top {
-    position: absolute;
-  }
-  .navbar {
-    padding: 0;
-  }
-}
-
-
 /* Sidebar --------------------------*/
 
 #sidebar {
   margin-top: 30px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 70px;
 }
 #sidebar h2 {
   font-size: 1.5em;
@@ -100,16 +115,34 @@ a.anchor {
   margin-bottom: 0.5em;
 }
 
+#sidebar .nav nav-pills .nav-stacked > li > a:focus, .nav-pills > li > a:focus {
+  background-color: #4a3c89 !important;
+	color: #fff;
+}
+#sidebar .nav nav-pills .nav-stacked > li.active > a, .nav-pills > li.active > a{
+    background-color: #370f54 !important;
+}
+#sidebar .nav nav-pills .nav-stacked > li > a, .nav-pills > li > a{
+  background-color: #4a3c89 !important;
+	color: #fff;
+}
+
+.orcid {
+  height: 16px;
+  /* margins are required by official ORCID trademark and display guidelines */
+  margin-left:4px;
+  margin-right:4px;
+  vertical-align: middle;
+}
+
 /* Reference index & topics ----------------------------------------------- */
 
 .ref-index th {font-weight: normal;}
-.ref-index h2 {font-size: 20px;}
 
 .ref-index td {vertical-align: top;}
+.ref-index .icon {width: 40px;}
 .ref-index .alias {width: 40%;}
-.ref-index .title {width: 60%;}
-
-.ref-index .alias {width: 40%;}
+.ref-index-icons .alias {width: calc(40% - 40px);}
 .ref-index .title {width: 60%;}
 
 .ref-arguments th {text-align: right; padding-right: 10px;}
@@ -137,6 +170,12 @@ pre, code {
   color: #333;
 }
 
+pre code {
+  overflow: auto;
+  word-wrap: normal;
+  white-space: pre;
+}
+
 pre .img {
   margin: 5px 0;
 }
@@ -150,10 +189,9 @@ pre .img img {
 code a, pre a {
   color: #375f84;
 }
-table {
-    display: block;
-    overflow: auto;
-	width: 100% !important;
+
+a.sourceLine:hover {
+  text-decoration: none;
 }
 
 .fl      {color: #1514b5;}
@@ -166,44 +204,51 @@ table {
 .error   { color: orange;  font-weight: bolder;}
 .warning { color: #6A0366; font-weight: bolder;}
 
-.navbar-mi2logo {
-    float: left;
-	margin-right: 15px;
-	margin-top: 2px;
-}
-.navbar-mi2 {
-	background-color: #4a3c89;
-    color: #fff !important;
-	margin-right: 0px;
-}
-.navbar-mi2 > li > a {
-    color: #fff !important;
-}
-.navbar-mi2 > .active > a{
-    background-color: #370f54 !important;
-}
-.navbar-mi2 > .open > a:focus, .nav-pills> .open > a:focus{
-    background-color: #370f54 !important;
-}
-.dropdown-menu > .active > a, .dropdown-menu > .active > a:focus{
-    background-color: #370f54 !important;
+/* Clipboard --------------------------*/
+
+.hasCopyButton {
+  position: relative;
 }
 
- .contents-mi2 > li > a:focus, .nav-pills > li > a:focus {
-    background-color: #4a3c89 !important;
-	color: #fff;
-}
- .contents-mi2 > li.active > a, .nav-pills > li.active > a{
-    background-color: #370f54 !important;
-}
- .contents-mi2 > li > a, .nav-pills > li > a{
-    background-color: #4a3c89 !important;
-	color: #fff;
+.btn-copy-ex {
+  position: absolute;
+  right: 0;
+  top: 0;
+  visibility: hidden;
 }
 
-.sidebar-logo {
-	display:block;
-	margin-left:auto;
-	margin-right:auto;
-	text-align: justify;
+.hasCopyButton:hover button.btn-copy-ex {
+  visibility: visible;
+}
+
+/* headroom.js ------------------------ */
+
+.headroom {
+  will-change: transform;
+  transition: transform 200ms linear;
+}
+.headroom--pinned {
+  transform: translateY(0%);
+}
+.headroom--unpinned {
+  transform: translateY(-100%);
+}
+
+/* mark.js ----------------------------*/
+
+mark {
+  background-color: rgba(255, 255, 51, 0.5);
+  border-bottom: 2px solid rgba(255, 153, 51, 0.3);
+  padding: 1px;
+}
+
+/* vertical spacing after htmlwidgets */
+.html-widget {
+  margin-bottom: 10px;
+}
+
+/* fontawesome ------------------------ */
+
+.fab {
+    font-family: "Font Awesome 5 Brands" !important;
 }
