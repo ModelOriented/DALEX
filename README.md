@@ -1,4 +1,4 @@
-# DALEX <img src="man/figures/logo.png" align="right" />
+# Overview
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/DALEX)](https://cran.r-project.org/package=DALEX)
 [![Downloads](http://cranlogs.r-pkg.org/badges/DALEX)](http://cran.rstudio.com/package=DALEX)
@@ -7,22 +7,35 @@
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/ModelOriented/DALEX/master.svg)](https://codecov.io/github/ModelOriented/DALEX?branch=master)
 
-## DALEX: Descriptive mAchine Learning EXplanations
+The `DALEX` package (Descriptive mAchine Learning EXplanations) helps to understand how complex models are working. The main function `explain()` creates a wrapper around a predictive model. Wrapped models may then be explored and compared with a collection of local and global explainers, methods developed in the area of Interpretable Machine Learning/eXplainable ARtificial Intelligence. 
+
+The philosophy behind `DALEX` explanations is described in the [Predictive Models: Explore, Explain, and Debug](https://pbiecek.github.io/PM_VEE/) e-book. `DALEX` is a part of [DrWhy.AI](http://DrWhy.AI) universe. 
+
+
+# Installation
+
+```{r}
+# the easiest way to get DALEX is to install it from CRAN:
+install.packages("DALEX")
+
+# Or the the development version from GitHub:
+# install.packages("devtools")
+devtools::install_github("ModelOriented/DALEX")
+```
+
+# Cheatsheet
+
+![PM_VEE_local](misc/cheatsheet_local_explainers.png)
+
+# Learn more 
 
 Machine Learning models are widely used and have various applications in classification or regression tasks. Due to increasing computational power, availability of new data sources and new methods, ML models are more and more complex. Models created with techniques like boosting, bagging of neural networks are true black boxes. It is hard to trace the link between input variables and model outcomes. They are use because of high performance, but lack of interpretability is one of their weakest sides.
 
 In many applications we need to know, understand or prove how input variables are used in the model and what impact do they have on final model prediction. `DALEX` is a set of tools that help to understand how complex models are working.
 
-Find more about DALEX in this [Gentle introduction to DALEX with examples](https://pbiecek.github.io/DALEX_docs/).
+### DALEX show-cases
 
-`DALEX` is a part of [DrWhy.AI](http://DrWhy.AI) universe. Find more aout the uniform grammar of model explanations in the [Predictive Models: Visual Exploration, Explanation and Debugging](https://pbiecek.github.io/PM_VEE/) e-book.
-
-Experimental Python version [pyDALEX](https://github.com/MI2DataLab/pyDALEX).
-
-## DALEX Stories
-
-### How to use DALEX
-
+* [Gentle introduction to DALEX with examples](https://pbiecek.github.io/DALEX_docs/) showt introduction to the `DALEX` package.
 * [How to compare models created in different languages](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/Multilanguages_comparision.html) crosscomparison of gbm and CatBoost in R / gbm in h2o / gbm in python
 * [How to use DALEX for fraud detection](https://rawgit.com/pbiecek/DALEX_docs/master/vignettes/DALEXverse%20and%20fraud%20detection.html)
 * [How to use DALEX with keras](https://rawgit.com/pbiecek/DALEX_docs/master/vignettes/DALEX_and_keras.html)
@@ -42,49 +55,6 @@ Experimental Python version [pyDALEX](https://github.com/MI2DataLab/pyDALEX).
 * [Talk about DALEX at STWUR May 2018 (in Polish)](https://github.com/STWUR/eRementarz-29-05-2018)
 * [Talk about DALEX at BayArea 2018](https://github.com/pbiecek/Talks/blob/master/2018/DALEX_BayArea.pdf)
 * [Talk about DALEX at PyData Warsaw 2018](https://github.com/pbiecek/Talks/blob/master/2018/DALEX_PyDataWarsaw2018.pdf)
-
-### Notebooks
-
-* [An interactive notebook with examples:](https://mybinder.org/v2/gh/pbiecek/DALEX_docs/master?filepath=jupyter-notebooks%2FDALEX.ipynb) [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/pbiecek/DALEX_docs/master?filepath=jupyter-notebooks%2FDALEX.ipynb)
-
-
-## Install
-
-From CRAN
-
-```{r}
-install.packages("DALEX")
-```
-
-or from GitHub
-
-```{r}
-# DALEX package
-devtools::install_github("ModelOriented/DALEX")
-```
-
-## Cheatsheets
-
-![PM_VEE_local](misc/cheatsheet_local_explainers.png)
-
-![DALEX_local](misc/DALEX_local.png)
-
-![Roadmap](https://raw.githubusercontent.com/pbiecek/DALEX_docs/master/images/Explain.png)
-
-![DALEX_intro](misc/DALEX_intro.png)
-
-
-## Single Variable
-
-![DALEX_single_variable](misc/DALEX_single_variable.png)
-
-## Single Prediction
-
-![DALEX_single_prediction](misc/DALEX_single_prediction.png)
-
-## Variable Drop-out / Importance
-
-![DALEX_variable_dropout](misc/DALEX_variable_dropout.png)
 
 
 ## Why
