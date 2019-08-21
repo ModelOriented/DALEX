@@ -16,7 +16,7 @@ Description: Machine Learning (ML) models are widely used and have various appli
   (Fisher at al. 2018) <arXiv:1801.01489>.
   All these explainers can be plotted with generic plot() function and compared across different models.
   'DALEX' is a part of the 'DrWhy.AI' universe (Biecek 2018) <arXiv:1806.08915>.
-Depends: R (>= 3.0)
+Depends: R (>= 3.5)
 License: GPL
 Encoding: UTF-8
 LazyData: true
@@ -24,7 +24,6 @@ RoxygenNote: 6.1.1
 Imports: ggplot2
 Suggests: ALEPlot,
   breakDown,
-  dplyr,
   factorMerger,
   gbm,
   ggpubr,
@@ -32,7 +31,6 @@ Suggests: ALEPlot,
   ingredients,
   pdp,
   randomForest,
-  testthat,
-  xgboost
-URL: https://pbiecek.github.io/DALEX/
-BugReports: https://github.com/pbiecek/DALEX/issues
+  testthat
+URL: https://ModelOriented.github.io/DALEX/, https://github.com/ModelOriented/DALEX
+BugReports: https://github.com/ModelOriented/DALEX/issues
