@@ -1,18 +1,19 @@
-# Overview
+# DALEX <img src="man/figures/logo.png" align="right" width="120"/>
 
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/DALEX)](https://cran.r-project.org/package=DALEX)
-[![Downloads](http://cranlogs.r-pkg.org/badges/DALEX)](http://cran.rstudio.com/package=DALEX)
-[![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/DALEX?color=orange)](http://cranlogs.r-pkg.org/badges/grand-total/DALEX)
 [![Build Status](https://api.travis-ci.org/ModelOriented/DALEX.png)](https://travis-ci.org/ModelOriented/DALEX)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/ModelOriented/DALEX/master.svg)](https://codecov.io/github/ModelOriented/DALEX?branch=master)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/DALEX)](https://cran.r-project.org/package=DALEX)
+[![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/DALEX?color=orange)](http://cranlogs.r-pkg.org/badges/grand-total/DALEX)
 
-The `DALEX` package (Descriptive mAchine Learning EXplanations) helps to understand how complex models are working. The main function `explain()` creates a wrapper around a predictive model. Wrapped models may then be explored and compared with a collection of local and global explainers, methods developed in the area of Interpretable Machine Learning/eXplainable ARtificial Intelligence. 
+## Overview
 
-The philosophy behind `DALEX` explanations is described in the [Predictive Models: Explore, Explain, and Debug](https://pbiecek.github.io/PM_VEE/) e-book. `DALEX` is a part of [DrWhy.AI](http://DrWhy.AI) universe. 
+The `DALEX` package (Descriptive mAchine Learning EXplanations) helps to understand how complex models are working. The main function `explain()` creates a wrapper around a predictive model. Wrapped models may then be explored and compared with a collection of local and global explainers. Recent developents from the area of Interpretable Machine Learning/eXplainable Artificial Intelligence. 
+
+The philosophy behind `DALEX` explanations is described in the [Predictive Models: Explore, Explain, and Debug](https://pbiecek.github.io/PM_VEE/) e-book. The `DALEX` package is a part of [DrWhy.AI](http://DrWhy.AI) universe. 
 
 
-# Installation
+## Installation
 
 ```{r}
 # the easiest way to get DALEX is to install it from CRAN:
@@ -23,11 +24,11 @@ install.packages("DALEX")
 devtools::install_github("ModelOriented/DALEX")
 ```
 
-# Cheatsheet
+## Cheatsheet
 
-![PM_VEE_local](misc/cheatsheet_local_explainers.png)
+<a href="https://github.com/ModelOriented/DALEX/raw/Release_prep/misc/cheatsheet_local_explainers.png"><img src="https://github.com/ModelOriented/DALEX/raw/Release_prep/misc/cheatsheet_local_explainers.png" width="300"/></a>
 
-# Learn more 
+## Learn more 
 
 Machine Learning models are widely used and have various applications in classification or regression tasks. Due to increasing computational power, availability of new data sources and new methods, ML models are more and more complex. Models created with techniques like boosting, bagging of neural networks are true black boxes. It is hard to trace the link between input variables and model outcomes. They are use because of high performance, but lack of interpretability is one of their weakest sides.
 
