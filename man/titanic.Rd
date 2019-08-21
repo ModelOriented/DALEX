@@ -3,6 +3,7 @@
 \docType{data}
 \name{titanic}
 \alias{titanic}
+\alias{titanic_imputed}
 \title{Passengers and Crew on the RMS Titanic}
 \format{a data frame with 2207 rows and 11 columns}
 \source{
@@ -13,6 +14,7 @@ in \code{sibsp} and \code{parch} was adopoted from a data set obtained from \url
 }
 \usage{
 data(titanic)
+data(titanic_imputed)
 }
 \description{
 The \code{titanic} data is a complete list of passengers and crew members on  the RMS Titanic.
@@ -41,6 +43,14 @@ is truely missing for a few regular passengers.
 \item sibsp an ordered factor specifying the number if siblings/spouses aboard; adopted from Vanderbild data set (see below).
 \item parch an ordered factor specifying the number of parents/children aboard; adopted from Vanderbild data set (see below).
 \item survived a factor with two levels (\code{no} and \code{yes}) specifying whether the person has survived the sinking.
+}
+
+NOTE: The \code{titanic_imputed} dataset use following imputation rules.
+\itemize{
+\item Missing `age` is replaced with the mean of the observed ones, i.e., 30.
+\item Missing country is coded by “X”.
+\item For sibsp and parch, missing values are replaced by the most frequently observed value, i.e., 0.
+\item For fare, mean fare for a given class is used, i.e., 0 pounds for crew, 89 pounds for the 1st, 22 pounds for the 2nd, and 13 pounds for the 3rd class.
 }
 }
 \references{

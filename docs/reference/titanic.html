@@ -86,7 +86,7 @@ Titanic on April 15, 1912." />
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.4.6</span>
+          <span class="version version-default">0.4.7</span>
         </div>
       </div>
     </div>
@@ -94,7 +94,7 @@ Titanic on April 15, 1912." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -142,7 +142,8 @@ Titanic on April 15, 1912.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>titanic</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>titanic</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>titanic_imputed</span>)</pre>
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
@@ -176,6 +177,12 @@ is truely missing for a few regular passengers.</p>
 <li><p>sibsp an ordered factor specifying the number if siblings/spouses aboard; adopted from Vanderbild data set (see below).</p></li>
 <li><p>parch an ordered factor specifying the number of parents/children aboard; adopted from Vanderbild data set (see below).</p></li>
 <li><p>survived a factor with two levels (<code>no</code> and <code>yes</code>) specifying whether the person has survived the sinking.</p></li>
+</ul>
+    <p>NOTE: The <code>titanic_imputed</code> dataset use following imputation rules.</p><ul>
+<li><p>Missing `age` is replaced with the mean of the observed ones, i.e., 30.</p></li>
+<li><p>Missing country is coded by “X”.</p></li>
+<li><p>For sibsp and parch, missing values are replaced by the most frequently observed value, i.e., 0.</p></li>
+<li><p>For fare, mean fare for a given class is used, i.e., 0 pounds for crew, 89 pounds for the 1st, 22 pounds for the 2nd, and 13 pounds for the 3rd class.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>

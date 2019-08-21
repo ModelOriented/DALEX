@@ -16,7 +16,7 @@ explain(model, data = NULL, y = NULL, predict_function = NULL,
 \arguments{
 \item{model}{object - a model to be explained}
 
-\item{data}{data.frame or matrix - data that was used for fitting. If not provided then will be extracted from the model}
+\item{data}{data.frame or matrix - data that was used for fitting. If not provided then will be extracted from the model. Data should be passed without target column (this shall be provided as the \code{y} argument). NOTE: If target variable is present in the \code{data}, some of the functionalities my not work properly.}
 
 \item{y}{numeric vector with outputs / scores. If provided then it shall have the same size as \code{data}}
 
