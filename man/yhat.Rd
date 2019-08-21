@@ -64,6 +64,5 @@ Currently supported packages are:
 \item class `randomForest` - random forest models created with `randomForest` package
 \item class `svm` - support vector machines models created with the `e1071` package
 \item class `train` - models created with `caret` package
-\item class `WrappedModel` - models created with `mlr` package
 }
 }
