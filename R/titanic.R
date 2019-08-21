@@ -27,15 +27,26 @@
 #' \item survived a factor with two levels (\code{no} and \code{yes}) specifying whether the person has survived the sinking.
 #' }
 #'
+#' NOTE: The \code{titanic_imputed} dataset use following imputation rules.
+#' \itemize{
+#' \item Missing `age` is replaced with the mean of the observed ones, i.e., 30.
+#' \item Missing country is coded by “X”.
+#' \item For sibsp and parch, missing values are replaced by the most frequently observed value, i.e., 0.
+#' \item For fare, mean fare for a given class is used, i.e., 0 pounds for crew, 89 pounds for the 1st, 22 pounds for the 2nd, and 13 pounds for the 3rd class.
+#' }
+#'
 #' @docType data
 #' @keywords titanic
 #' @name titanic
+#' @aliases titanic_imputed
 #' @references   \url{https://www.encyclopedia-titanica.org}, \url{http://biostat.mc.vanderbilt.edu/DataSets} and \url{https://CRAN.R-project.org/package=stablelearner}
 #' @source This dataset was copied from the \code{stablelearner} package and went through few variable
 #' transformations. The complete list of persons on the RMS titanic was downloaded from
 #' \url{https://www.encyclopedia-titanica.org} on April 5, 2016. The  information given
 #' in \code{sibsp} and \code{parch} was adopoted from a data set obtained from \url{http://biostat.mc.vanderbilt.edu/DataSets}.
-#' @usage data(titanic)
+#' @usage
+#' data(titanic)
+#' data(titanic_imputed)
 #' @format a data frame with 2207 rows and 11 columns
 NULL
 
