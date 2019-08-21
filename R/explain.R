@@ -7,7 +7,7 @@
 #' But some explainers may require that other arguments will be provided too.
 #'
 #' @param model object - a model to be explained
-#' @param data data.frame or matrix - data that was used for fitting. If not provided then will be extracted from the model
+#' @param data data.frame or matrix - data that was used for fitting. If not provided then will be extracted from the model. Data should be passed without target column (y parameter). If not, some of the functionalities my not work.
 #' @param y numeric vector with outputs / scores. If provided then it shall have the same size as \code{data}
 #' @param predict_function function that takes two arguments: model and new data and returns numeric vector with predictions
 #' @param residual_function function that takes three arguments: model, data and response vector y. It should return a numeric vector with model residuals for given data. If not provided, response residuals (\eqn{y-\hat{y}}) are calculated.
@@ -97,6 +97,10 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     # y not specified
     verbose_cat("  -> target variable   :  not specified! (\033[31mWARNING\033[39m)\n", verbose = verbose)
   } else {
+    if (is.data.frame(y)){
+      y <- unlist(y, use.names = FALSE)
+      verbose_cat("  -> target variable   :  Passed 'y' as data frame. Converted to a vector. (\033[90mNOTE\033[39m)\n", verbose = verbose)
+    }
     verbose_cat("  -> target variable   : ", length(y), " values \n", verbose = verbose)
     if (length(y) != nrow(data)) {
       verbose_cat("  -> target variable   :  length of 'y; is different than number of rows in 'data' (\033[31mWARNING\033[39m) \n", verbose = verbose)
@@ -105,6 +109,11 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
       verbose_cat("  -> target variable   :  Please note that 'y' is a factor.  (\033[31mWARNING\033[39m)\n", verbose = verbose)
       verbose_cat("  -> target variable   :  Consider changing the 'y' to a logical or numerical vector.\n", verbose = verbose)
       verbose_cat("  -> target variable   :  Otherwise I will not be able to calculate residuals or loss function.\n", verbose = verbose)
+    }
+    if (is_y_in_data(data, y)) {
+      verbose_cat("  -> target variable   :  Column identical to `y` has been found in data.  (\033[31mWARNING\033[39m)\n", verbose = verbose)
+      verbose_cat("  -> target variable   :  It is highly recommended to pass `data` without `y` column\n", verbose = verbose)
+      verbose_cat("  -> target variable   :  Otherwise some functionalities may work in a inappropriate way \n", verbose = verbose)
     }
   }
 
@@ -192,6 +201,12 @@ verbose_cat <- function(..., verbose = TRUE) {
   if (verbose) {
     cat(...)
   }
+}
+
+is_y_in_data <- function(data, y) {
+  any(sapply(data, function(x) {
+    all(as.character(x) == as.character(y))
+  }))
 }
 
 #' @rdname explain
