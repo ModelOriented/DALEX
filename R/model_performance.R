@@ -29,10 +29,22 @@ model_performance <- function(explainer, ...) {
   if (!("explainer" %in% class(explainer))) stop("The model_performance() function requires an object created with explain() function.")
   if (is.null(explainer$data)) stop("The model_performance() function requires explainers created with specified 'data' parameter.")
   if (is.null(explainer$y)) stop("The model_performance() function requires explainers created with specified 'y' parameter.")
-
+  # Check since explain could have been run with precalculate = FALSE
+  if (is.null(explainer$y_hat)){
+    predicted <- explainer$predict_function(explainer$model, explainer$data, ...)
+  } else {
+    predicted <- explainer$y_hat
+  }
   observed <- explainer$y
-  predicted <- explainer$predict_function(explainer$model, explainer$data, ...)
-  residuals <- data.frame(predicted, observed, diff = predicted - observed)
+  # Check since explain could have been run with precalculate = FALSE
+  if (is.null(explainer$residuals)){
+    diff <- predicted - observed
+  } else {
+    # Negative to save constistency. model_performance used to use `predicted - observed` when explain precalculates `observed - predicted`
+    diff <- -explainer$residuals
+  }
+
+  residuals <- data.frame(predicted, observed, diff = diff)
 
   class(residuals) <- c("model_performance_explainer", "data.frame")
   residuals$label <- explainer$label

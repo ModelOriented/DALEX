@@ -24,7 +24,6 @@ RoxygenNote: 6.1.1
 Imports: ggplot2
 Suggests: ALEPlot,
   breakDown,
-  dplyr,
   factorMerger,
   gbm,
   ggpubr,
@@ -32,7 +31,6 @@ Suggests: ALEPlot,
   ingredients,
   pdp,
   randomForest,
-  testthat,
-  xgboost
+  testthat
 URL: https://ModelOriented.github.io/DALEX/, https://github.com/ModelOriented/DALEX
 BugReports: https://github.com/ModelOriented/DALEX/issues

@@ -2,9 +2,23 @@ context("Check model_performance() function")
 
 mp_lm <- model_performance(explainer_regr_lm)
 mp_rf <- model_performance(explainer_regr_rf)
+explainer_regr_lm_non_precalculate <- explain(model_regr_lm, data = apartments_test[1:1000, ], y = apartments_test$m2.price[1:1000], precalculate = FALSE)
 
 test_that("Output format",{
   expect_is(mp_lm, "model_performance_explainer")
+  expect_error(print(mp_lm), NA)
+})
+
+test_that("If checks", {
+  expect_error(model_performance("error"))
+  data_null_explainer_regr_lm <- explainer_regr_lm
+  data_null_explainer_regr_lm$data <- NULL
+  expect_error(model_performance(data_null_explainer_regr_lm))
+  y_null_explainer_regr_lm <- explainer_regr_lm
+  y_null_explainer_regr_lm$y <- NULL
+  y_null_explainer_regr_lm$y_hat <- NULL
+  expect_error(model_performance(y_null_explainer_regr_lm))
+  expect_error(model_performance(explainer_regr_lm_non_precalculate), NA)
 })
 
 test_that("Output format - plot",{
