@@ -3,7 +3,7 @@
 \name{prediction_breakdown}
 \alias{prediction_breakdown}
 \alias{single_prediction}
-\title{Explanations for a Prediction Breakdown}
+\title{Calculate Break Down Explanations}
 \usage{
 prediction_breakdown(explainer, observation, ...)
 }
@@ -29,10 +29,10 @@ new_dragon <- data.frame(year_of_birth = 200,
      scars = 0,
      number_of_lost_teeth  = 5)
 
-dragon_lm_model4 <- lm(life_length ~ year_of_birth + height + 
-                                     weight + scars + number_of_lost_teeth, 
+dragon_lm_model4 <- lm(life_length ~ year_of_birth + height +
+                                     weight + scars + number_of_lost_teeth,
                        data = dragons)
-dragon_lm_explainer4 <- explain(dragon_lm_model4, data = dragons, y = dragons$year_of_birth, 
+dragon_lm_explainer4 <- explain(dragon_lm_model4, data = dragons, y = dragons$year_of_birth,
                                 label = "model_4v")
 dragon_lm_predict4 <- prediction_breakdown(dragon_lm_explainer4, observation = new_dragon)
 head(dragon_lm_predict4)
@@ -40,10 +40,10 @@ plot(dragon_lm_predict4)
 
 \dontrun{
 library("randomForest")
-dragon_rf_model4 <- randomForest(life_length ~ year_of_birth + height + 
-                                               weight + scars + number_of_lost_teeth, 
+dragon_rf_model4 <- randomForest(life_length ~ year_of_birth + height +
+                                               weight + scars + number_of_lost_teeth,
                                  data = dragons)
-dragon_rf_explainer4 <- explain(dragon_rf_model4, data = dragons, y = dragons$year_of_birth, 
+dragon_rf_explainer4 <- explain(dragon_rf_model4, data = dragons, y = dragons$year_of_birth,
                                 label = "model_rf")
 dragon_rf_predict4 <- prediction_breakdown(dragon_rf_explainer4, observation = new_dragon)
 head(dragon_rf_predict4)
@@ -51,7 +51,7 @@ plot(dragon_rf_predict4)
 
 library("gbm")
 # create a gbm model
-model <- gbm(life_length ~ year_of_birth + height + weight + scars + 
+model <- gbm(life_length ~ year_of_birth + height + weight + scars +
                            number_of_lost_teeth, data = dragons,
              distribution = "gaussian",
              n.trees = 1000,

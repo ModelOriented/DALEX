@@ -2,7 +2,7 @@
 % Please edit documentation in R/model_performance.R
 \name{print.model_performance_explainer}
 \alias{print.model_performance_explainer}
-\title{Model Performance Summary}
+\title{Print Model Performance Summary}
 \usage{
 \method{print}{model_performance_explainer}(x, ...)
 }
@@ -12,7 +12,7 @@
 \item{...}{other parameters}
 }
 \description{
-Model Performance Summary
+Print Model Performance Summary
 }
 \examples{
  \dontrun{

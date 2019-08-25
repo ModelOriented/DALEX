@@ -4,7 +4,7 @@
 \name{titanic}
 \alias{titanic}
 \alias{titanic_imputed}
-\title{Passengers and Crew on the RMS Titanic}
+\title{Passengers and Crew on the RMS Titanic Data}
 \format{a data frame with 2207 rows and 11 columns}
 \source{
 This dataset was copied from the \code{stablelearner} package and went through few variable

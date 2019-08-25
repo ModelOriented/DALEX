@@ -2,7 +2,7 @@
 % Please edit documentation in R/model_performance.R
 \name{model_performance}
 \alias{model_performance}
-\title{Model Performance Plots}
+\title{Calculate Model Performance}
 \usage{
 model_performance(explainer, ...)
 }
@@ -15,7 +15,7 @@ model_performance(explainer, ...)
 An object of the class 'model_performance_explainer'.
 }
 \description{
-Model Performance Plots
+Calculate Model Performance
 }
 \examples{
  \dontrun{

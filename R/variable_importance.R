@@ -1,4 +1,4 @@
-#' Feature Importance Calculated as Loss from Feature Dropout
+#' Calculate Feature Importance Explanations as Loss from Feature Dropout
 #'
 #' This function is set deprecated. It is suggested to use \code{\link[ingredients]{feature_importance}} instead.
 #' Find information how to use these functions here: \url{https://pbiecek.github.io/PM_VEE/featureImportance.html}.
@@ -24,7 +24,7 @@
 #' explainer_rf  <- explain(HR_rf_model, data = HR, y = HR$status == "fired")
 #' vd_rf <- variable_importance(explainer_rf, type = "raw")
 #' vd_rf
-#' 
+#'
 #' HR_glm_model <- glm(as.factor(status == "fired")~., data = HR, family = "binomial")
 #' explainer_glm <- explain(HR_glm_model, data = HR, y = HR$status == "fired")
 #' logit <- function(x) exp(x)/(1+exp(x))
@@ -32,7 +32,7 @@
 #'                         loss_function = function(observed, predicted)
 #'                                      sum((observed - logit(predicted))^2))
 #' vd_glm
-#' 
+#'
 #' library("xgboost")
 #' model_martix_train <- model.matrix(status == "fired" ~ .-1, HR)
 #' data_train <- xgb.DMatrix(model_martix_train, label = HR$status == "fired")

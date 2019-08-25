@@ -1,6 +1,6 @@
-#' Prints Explainer Summary
+#' Print Explainer Summary
 #'
-#' @param x a model expaliner created with the `explain` function
+#' @param x a model explainer created with the `explain` function
 #' @param ... other parameters
 #'
 #' @export
@@ -9,7 +9,7 @@
 #' @examples
 #'
 #' aps_lm_model4 <- lm(m2.price~., data = apartments)
-#' aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, y = apartments$m2.price, 
+#' aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, y = apartments$m2.price,
 #'                              label = "model_4v")
 #' aps_lm_explainer4
 #'

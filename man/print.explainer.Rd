@@ -2,22 +2,22 @@
 % Please edit documentation in R/print_explainer.R
 \name{print.explainer}
 \alias{print.explainer}
-\title{Prints Explainer Summary}
+\title{Print Explainer Summary}
 \usage{
 \method{print}{explainer}(x, ...)
 }
 \arguments{
-\item{x}{a model expaliner created with the `explain` function}
+\item{x}{a model explainer created with the `explain` function}
 
 \item{...}{other parameters}
 }
 \description{
-Prints Explainer Summary
+Print Explainer Summary
 }
 \examples{
 
 aps_lm_model4 <- lm(m2.price~., data = apartments)
-aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, y = apartments$m2.price, 
+aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, y = apartments$m2.price,
                              label = "model_4v")
 aps_lm_explainer4
 

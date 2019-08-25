@@ -1,4 +1,4 @@
-#' Plots Marginal Model Explanations (Single Variable Responses)
+#' Plot Marginal Model Explanations (Single Variable Responses)
 #'
 #' Function 'plot.variable_response_explainer' plots marginal responses for one or more explainers.
 #'

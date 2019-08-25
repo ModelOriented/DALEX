@@ -3,7 +3,7 @@
 \name{variable_importance}
 \alias{variable_importance}
 \alias{variable_dropout}
-\title{Feature Importance Calculated as Loss from Feature Dropout}
+\title{Calculate Feature Importance Explanations as Loss from Feature Dropout}
 \usage{
 variable_importance(explainer, loss_function = loss_sum_of_squares, ...,
   type = "raw", n_sample = 1000)

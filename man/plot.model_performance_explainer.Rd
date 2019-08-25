@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_model_performance.R
 \name{plot.model_performance_explainer}
 \alias{plot.model_performance_explainer}
-\title{Model Performance Plots}
+\title{Plot Model Performance Explanations}
 \usage{
 \method{plot}{model_performance_explainer}(x, ..., geom = "ecdf",
   show_outliers = 0, ptlabel = "name", lossFunction = function(x)
@@ -25,7 +25,7 @@
 An object of the class 'model_performance_explainer'.
 }
 \description{
-Model Performance Plots
+Plot Model Performance Explanations
 }
 \examples{
  \dontrun{

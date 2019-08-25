@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_variable_importance.R
 \name{plot.variable_importance_explainer}
 \alias{plot.variable_importance_explainer}
-\title{Plots Global Model Explanations (Variable Importance)}
+\title{Plot Variable Importance Explanations}
 \usage{
 \method{plot}{variable_importance_explainer}(x, ..., max_vars = 10,
   bar_width = 10, show_baseline = FALSE, desc_sorting = TRUE)

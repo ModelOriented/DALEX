@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_prediction_breakdown.R
 \name{plot.prediction_breakdown_explainer}
 \alias{plot.prediction_breakdown_explainer}
-\title{Plots Local Explanations (Single Prediction)}
+\title{Plot Break Down Explanations (Single Prediction)}
 \usage{
 \method{plot}{prediction_breakdown_explainer}(x, ...,
   add_contributions = TRUE, vcolors = c(`-1` = "#f05a71", `0` =
@@ -39,7 +39,7 @@ new_dragon <- data.frame(year_of_birth = 200,
      scars = 0,
      number_of_lost_teeth  = 5)
 
-dragon_lm_model4 <- lm(life_length ~ year_of_birth + height + 
+dragon_lm_model4 <- lm(life_length ~ year_of_birth + height +
                                      weight + scars + number_of_lost_teeth,
                        data = dragons)
 dragon_lm_explainer4 <- explain(dragon_lm_model4, data = dragons, y = dragons$year_of_birth,
@@ -48,7 +48,7 @@ dragon_lm_predict4 <- prediction_breakdown(dragon_lm_explainer4, observation = n
 plot(dragon_lm_predict4)
 
 library("randomForest")
-dragon_rf_model4 <- randomForest(life_length ~ year_of_birth + height + weight + 
+dragon_rf_model4 <- randomForest(life_length ~ year_of_birth + height + weight +
                                                scars + number_of_lost_teeth,
                                  data = dragons)
 dragon_rf_explainer4 <- explain(dragon_rf_model4, data = dragons, y = dragons$year_of_birth,

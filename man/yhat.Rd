@@ -12,7 +12,7 @@
 \alias{yhat.model_fit}
 \alias{yhat.train}
 \alias{yhat.default}
-\title{Wrapper over the predict function}
+\title{Wrap Various Predict Functions}
 \usage{
 yhat(X.model, newdata, ...)
 
@@ -47,7 +47,7 @@ yhat(X.model, newdata, ...)
 An numeric matrix of predictions
 }
 \description{
-This function is a wrapper over the predict function.
+This function is a wrapper over various predict functions for different models and differnt model structures.
 The wrapper returns a single numeric score for each new observation.
 To do this it uses different extraction techniques for models from different classes,
 like for classification random forest is forces the output to be probabilities

@@ -1,4 +1,6 @@
-#' Prints Natural Language Descriptions
+#' Print Natural Language Descriptions
+#'
+#' Generic function
 #'
 #' @param x an individual explainer produced with the `describe()` function
 #' @param ... other arguments

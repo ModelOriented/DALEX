@@ -1,4 +1,4 @@
-#' Passengers and Crew on the RMS Titanic
+#' Passengers and Crew on the RMS Titanic Data
 #'
 #' The \code{titanic} data is a complete list of passengers and crew members on  the RMS Titanic.
 #' It includes a variable indicating whether a person did  survive the sinking of the RMS

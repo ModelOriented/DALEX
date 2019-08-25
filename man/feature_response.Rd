@@ -4,7 +4,7 @@
 \alias{feature_response}
 \alias{feature_response.explainer}
 \alias{feature_response.default}
-\title{Marginal Response for a Single Feature}
+\title{Calculate Marginal Response for a Single Feature}
 \usage{
 feature_response(x, ...)
 

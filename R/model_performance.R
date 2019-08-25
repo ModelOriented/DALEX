@@ -1,4 +1,4 @@
-#' Model Performance Plots
+#' Calculate Model Performance
 #'
 #' @param explainer a model to be explained, preprocessed by the 'explain' function
 #' @param ... other parameters
@@ -52,7 +52,7 @@ model_performance <- function(explainer, ...) {
 }
 
 
-#' Model Performance Summary
+#' Print Model Performance Summary
 #'
 #' @param x a model to be explained, object of the class 'model_performance_explainer'
 #' @param ... other parameters

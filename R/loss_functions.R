@@ -1,4 +1,4 @@
-#' Preimplemented Loss Functions
+#' Calculate Loss Functions
 #'
 #' @param predicted predicted scores, either vector of matrix, these are returned from the model specific `predict_function()``
 #' @param observed observed scores or labels, these are supplied as explainer specific `y`
@@ -15,21 +15,26 @@
 #' HR_rf_model <- randomForest(as.factor(status == "fired")~., data = HR, ntree = 100)
 #' loss_sum_of_squares(as.numeric(HR$status == "fired"), yhat(HR_rf_model))
 #'  }
+#' @rdname loss_functions
 #' @export
 loss_cross_entropy <- function(observed, predicted, p_min = 0.0001, na.rm = TRUE) {
   p <- sapply(seq_along(observed), function(i)  predicted[i, observed[i]] )
   sum(-log(pmax(p, p_min)), na.rm = TRUE)
 }
 
+#' @rdname loss_functions
 #' @export
 loss_sum_of_squares <- function(observed, predicted, na.rm = TRUE) sum((observed - predicted)^2, na.rm = na.rm)
 
+#' @rdname loss_functions
 #' @export
 loss_root_mean_square <- function(observed, predicted, na.rm = TRUE) sqrt(mean((observed - predicted)^2, na.rm = na.rm))
 
+#' @rdname loss_functions
 #' @export
 loss_accuracy <-  function(observed, predicted, na.rm = TRUE) mean(observed == predicted, na.rm = na.rm)
 
+#' @rdname loss_functions
 #' @export
 # Alicja Gosiewska (agosiewska) is the author of this function
 loss_one_minus_auc <- function(observed, predicted){

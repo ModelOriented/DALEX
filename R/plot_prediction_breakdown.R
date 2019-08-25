@@ -1,4 +1,4 @@
-#' Plots Local Explanations (Single Prediction)
+#' Plot Break Down Explanations (Single Prediction)
 #'
 #' Function 'plot.single_prediction_explainer' plots break down plots for a single prediction.
 #'
@@ -24,7 +24,7 @@
 #'      scars = 0,
 #'      number_of_lost_teeth  = 5)
 #'
-#' dragon_lm_model4 <- lm(life_length ~ year_of_birth + height + 
+#' dragon_lm_model4 <- lm(life_length ~ year_of_birth + height +
 #'                                      weight + scars + number_of_lost_teeth,
 #'                        data = dragons)
 #' dragon_lm_explainer4 <- explain(dragon_lm_model4, data = dragons, y = dragons$year_of_birth,
@@ -33,7 +33,7 @@
 #' plot(dragon_lm_predict4)
 #'
 #' library("randomForest")
-#' dragon_rf_model4 <- randomForest(life_length ~ year_of_birth + height + weight + 
+#' dragon_rf_model4 <- randomForest(life_length ~ year_of_birth + height + weight +
 #'                                                scars + number_of_lost_teeth,
 #'                                  data = dragons)
 #' dragon_rf_explainer4 <- explain(dragon_rf_model4, data = dragons, y = dragons$year_of_birth,

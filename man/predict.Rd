@@ -2,7 +2,7 @@
 % Please edit documentation in R/predict_explainer.R
 \name{predict.explainer}
 \alias{predict.explainer}
-\title{Wrapper over the predict function}
+\title{Calculate Predictions for Explainer}
 \usage{
 \method{predict}{explainer}(object, newdata, ...)
 }

@@ -1,6 +1,6 @@
-#' Wrapper over the predict function
+#' Wrap Various Predict Functions
 #'
-#' This function is a wrapper over the predict function.
+#' This function is a wrapper over various predict functions for different models and differnt model structures.
 #' The wrapper returns a single numeric score for each new observation.
 #' To do this it uses different extraction techniques for models from different classes,
 #' like for classification random forest is forces the output to be probabilities
@@ -8,7 +8,6 @@
 #'
 #' Currently supported packages are:
 #' \itemize{
-# #' \item class `catboost.Model` - models created with `catboost` package
 #' \item class `cv.glmnet` and `glmnet` - models created with `glmnet` package
 #' \item class `glm` - generalized linear models
 #' \item class `model_fit` - models created with `parsnip` package

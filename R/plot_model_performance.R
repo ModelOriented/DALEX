@@ -1,4 +1,4 @@
-#' Model Performance Plots
+#' Plot Model Performance Explanations
 #'
 #' @param x a model to be explained, preprocessed by the 'explain' function
 #' @param ... other parameters

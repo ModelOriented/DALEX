@@ -2,7 +2,7 @@
 % Please edit documentation in R/print_description.R
 \name{print.description}
 \alias{print.description}
-\title{Prints Natural Language Descriptions}
+\title{Print Natural Language Descriptions}
 \usage{
 \method{print}{description}(x, ...)
 }
@@ -12,5 +12,5 @@
 \item{...}{other arguments}
 }
 \description{
-Prints Natural Language Descriptions
+Generic function
 }

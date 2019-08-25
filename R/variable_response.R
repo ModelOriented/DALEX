@@ -1,4 +1,4 @@
-#' Marginal Response for a Single Variable
+#' Calculate Marginal Response Explanations for a Single Variable
 #'
 #' Calculates the average model response as a function of a single selected variable.
 #' Use the 'type' parameter to select the type of marginal response to be calculated.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_feature_response.R
 \name{plot.feature_response_explainer}
 \alias{plot.feature_response_explainer}
-\title{Plots Marginal Model Explanations (Single Variable Responses)}
+\title{Plot Marginal Model Explanations (Single Variable Responses)}
 \usage{
 \method{plot}{feature_response_explainer}(x, ..., use_facets = FALSE)
 }

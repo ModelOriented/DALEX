@@ -1,4 +1,4 @@
-#' Wrapper over the predict function
+#' Calculate Predictions for Explainer
 #'
 #' This function works for explain objects. It calles embeded predict function.
 #'
