@@ -47,6 +47,6 @@
 #' @usage
 #' data(titanic)
 #' data(titanic_imputed)
-#' @format a data frame with 2207 rows and 11 columns
+#' @format a data frame with 2207 rows and 9 columns
 NULL
 

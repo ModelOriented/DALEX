@@ -7,17 +7,18 @@
 \method{plot}{feature_response_explainer}(x, ..., use_facets = FALSE)
 }
 \arguments{
-\item{x}{a single variable exlainer produced with the 'single_feature' function}
+\item{x}{a single variable exlainer produced with the \code{\link{single_feature}} function}
 
 \item{...}{other explainers that shall be plotted together}
 
-\item{use_facets}{logical. If TRUE then separate models are on different facets}
+\item{use_facets}{logical. If \code{TRUE} then separate models are on different facets}
 }
 \value{
 a ggplot2 object
 }
 \description{
-Function 'plot.variable_response_explainer' plots marginal responses for one or more explainers.
+Function \code{\link{plot.variable_response_explainer}} plots
+marginal responses for one or more explainers.
 }
 \examples{
 

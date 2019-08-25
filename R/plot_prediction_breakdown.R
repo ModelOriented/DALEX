@@ -1,12 +1,13 @@
 #' Plot Break Down Explanations (Single Prediction)
 #'
-#' Function 'plot.single_prediction_explainer' plots break down plots for a single prediction.
+#' Function \code{\link{plot.single_prediction_explainer}}
+#' plots break down plots for a single prediction.
 #'
-#' @param x a single prediction exlainer produced with the 'single_prediction' function
+#' @param x a single prediction exlainer produced with the \code{\link{single_prediction}} function
 #' @param ... other explainers that shall be plotted together
 #' @param add_contributions shall variable contributions to be added on plot?
 #' @param vcolors named vector with colors
-#' @param digits number of decimal places (round) or significant digits (signif) to be used.
+#' @param digits number of decimal places \code{round} or significant digits \code{signif} to be used.
 #' See the \code{rounding_function} argument
 #' @param rounding_function function that is to used for rounding numbers.
 #' It may be \code{signif()} which keeps a specified number of significant digits.

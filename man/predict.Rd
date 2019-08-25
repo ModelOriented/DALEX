@@ -7,7 +7,7 @@
 \method{predict}{explainer}(object, newdata, ...)
 }
 \arguments{
-\item{object}{a model to be explained, object of the class 'explainer'}
+\item{object}{a model to be explained, object of the class \code{explainer}}
 
 \item{newdata}{data.frame or matrix - observations for prediction}
 
@@ -17,7 +17,7 @@
 An numeric matrix of predictions
 }
 \description{
-This function works for explain objects. It calles embeded predict function.
+This is a generic \code{predict()} function works for \code{explainer} objects.
 }
 \examples{
 HR_glm_model <- glm(status == "fired"~., data = HR, family = "binomial")

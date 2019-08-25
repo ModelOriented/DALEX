@@ -7,21 +7,22 @@
 model_performance(explainer, ...)
 }
 \arguments{
-\item{explainer}{a model to be explained, preprocessed by the 'explain' function}
+\item{explainer}{a model to be explained, preprocessed by the \code{\link{explain}} function}
 
 \item{...}{other parameters}
 }
 \value{
-An object of the class 'model_performance_explainer'.
+An object of the class \code{model_performance_explainer}.
 }
 \description{
-Calculate Model Performance
+Prepare a data frame with model residuals.
 }
 \examples{
  \dontrun{
 library("randomForest")
 HR_rf_model <- randomForest(as.factor(status == "fired")~., data = HR, ntree = 100)
 explainer_rf  <- explain(HR_rf_model, data = HR, y = HR$status == "fired")
+# resulting dataframe has predicted values and residuals
 model_performance(explainer_rf)
 
 HR_glm_model <- glm(status == "fired"~., data = HR, family = "binomial")

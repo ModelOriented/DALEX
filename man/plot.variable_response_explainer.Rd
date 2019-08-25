@@ -7,7 +7,7 @@
 \method{plot}{variable_response_explainer}(x, ..., use_facets = FALSE)
 }
 \arguments{
-\item{x}{a single variable exlainer produced with the 'single_variable' function}
+\item{x}{a single variable exlainer produced with the \code{\link{single_variable}} function}
 
 \item{...}{other explainers that shall be plotted together}
 
@@ -17,7 +17,8 @@
 a ggplot2 object
 }
 \description{
-Function 'plot.variable_response_explainer' plots marginal responses for one or more explainers.
+Function \code{\link{plot.variable_response_explainer}}
+plots marginal responses for one or more explainers.
 }
 \examples{
 HR$evaluation <- factor(HR$evaluation)

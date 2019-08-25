@@ -23,7 +23,7 @@ Values are generated in a way to:
 
 \itemize{
 \item gender - gender of an employee.
-\item age - gender of an employee in the moment of evaluation.
+\item age - age of an employee in the moment of evaluation.
 \item hours - average number of working hours per week.
 \item evaluation - evaluation in the scale 2 (bad) - 5 (very good).
 \item salary - level of salary in the scale 0 (lowest) - 5 (highest).

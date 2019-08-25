@@ -1,10 +1,15 @@
 #' Plot Variable Importance Explanations
 #'
-#' Function \code{plot.variable_dropout_explainer} plots dropouts for variables used in the model.
-#' It uses output from \code{variable_dropout} function that corresponds to permutation based measure of variable importance.
-#' Variables are sorted in the same order in all panels. The order depends on the average drop out loss. In different panels variable contributions may not look like sorted if variable importance is different in different in different mdoels.
+#' Function \code{\link{plot.variable_dropout_explainer}} plots dropouts
+#' for variables used in the model.
+#' It uses output from \code{variable_dropout} function that corresponds
+#' to permutation based measure of variable importance.
+#' Variables are sorted in the same order in all panels.
+#' The order depends on the average drop out loss.
+#' In different panels variable contributions may not look like sorted
+#' if variable importance is different in different in different mdoels.
 #'
-#' @param x a variable dropout exlainer produced with the 'variable_dropout' function
+#' @param x a variable dropout exlainer produced with the \code{\link{variable_dropout}} function
 #' @param ... other explainers that shall be plotted together
 #' @param max_vars maximum number of variables that shall be presented for for each model
 #' @param bar_width width of bars. By default 10
@@ -65,8 +70,8 @@ plot.variable_importance_explainer <- function(x, ..., max_vars = 10, bar_width 
   }
 
   # combine all explainers in a single frame
-  ## remove in 0.4  dfl <- c(list(x), list(...))
-  ## remove in 0.4  expl_df <- do.call(rbind, dfl)
+  ## removed in v0.4  dfl <- c(list(x), list(...))
+  ## removed in v0.4  expl_df <- do.call(rbind, dfl)
   expl_df <- combine_explainers(x, ...)
 
   # add an additional column that serve as a baseline

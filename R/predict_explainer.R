@@ -1,8 +1,8 @@
 #' Calculate Predictions for Explainer
 #'
-#' This function works for explain objects. It calles embeded predict function.
+#' This is a generic \code{predict()} function works for \code{explainer} objects.
 #'
-#' @param object a model to be explained, object of the class 'explainer'
+#' @param object a model to be explained, object of the class \code{explainer}
 #' @param newdata data.frame or matrix - observations for prediction
 #' @param ... other parameters that will be passed to the predict function
 #'

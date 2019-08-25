@@ -1,9 +1,11 @@
 #' Calculate Model Performance
 #'
-#' @param explainer a model to be explained, preprocessed by the 'explain' function
+#' Prepare a data frame with model residuals.
+#'
+#' @param explainer a model to be explained, preprocessed by the \code{\link{explain}} function
 #' @param ... other parameters
 #'
-#' @return An object of the class 'model_performance_explainer'.
+#' @return An object of the class \code{model_performance_explainer}.
 #' @references Predictive Models: Visual Exploration, Explanation and Debugging \url{https://pbiecek.github.io/PM_VEE/}
 #' @export
 #' @examples
@@ -11,6 +13,7 @@
 #' library("randomForest")
 #' HR_rf_model <- randomForest(as.factor(status == "fired")~., data = HR, ntree = 100)
 #' explainer_rf  <- explain(HR_rf_model, data = HR, y = HR$status == "fired")
+#' # resulting dataframe has predicted values and residuals
 #' model_performance(explainer_rf)
 #'
 #' HR_glm_model <- glm(status == "fired"~., data = HR, family = "binomial")

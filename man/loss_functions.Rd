@@ -19,11 +19,11 @@ loss_accuracy(observed, predicted, na.rm = TRUE)
 loss_one_minus_auc(observed, predicted)
 }
 \arguments{
-\item{observed}{observed scores or labels, these are supplied as explainer specific `y`}
+\item{observed}{observed scores or labels, these are supplied as explainer specific \code{y}}
 
-\item{predicted}{predicted scores, either vector of matrix, these are returned from the model specific `predict_function()``}
+\item{predicted}{predicted scores, either vector of matrix, these are returned from the model specific \code{predict_function()}}
 
-\item{p_min}{for cross entropy, minimal value for probability to make sure that `log` will not explode}
+\item{p_min}{for cross entropy, minimal value for probability to make sure that \code{log} will not explode}
 
 \item{na.rm}{logical, should missing values be removed?}
 }

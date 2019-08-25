@@ -104,7 +104,6 @@ theme_drwhy_colors_break_down <- function() {
 #' @rdname theme_drwhy
 theme_mi2 <- function() {
   # sans instead of Tahoma to avoid problems with fonts
-  # please fix some day
   theme(axis.ticks = element_line(linetype = "blank"),
         axis.title = element_text(family = "sans"),
         plot.title = element_text(family = "sans"),

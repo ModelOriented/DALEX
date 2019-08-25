@@ -1,10 +1,11 @@
 #' Plot Marginal Model Explanations (Single Variable Responses)
 #'
-#' Function 'plot.variable_response_explainer' plots marginal responses for one or more explainers.
+#' Function \code{\link{plot.variable_response_explainer}} plots
+#' marginal responses for one or more explainers.
 #'
-#' @param x a single variable exlainer produced with the 'single_feature' function
+#' @param x a single variable exlainer produced with the \code{\link{single_feature}} function
 #' @param ... other explainers that shall be plotted together
-#' @param use_facets logical. If TRUE then separate models are on different facets
+#' @param use_facets logical. If \code{TRUE} then separate models are on different facets
 #'
 #' @return a ggplot2 object
 #' @export

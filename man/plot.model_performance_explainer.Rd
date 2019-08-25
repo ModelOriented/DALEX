@@ -9,7 +9,7 @@
   sqrt(mean(x^2)))
 }
 \arguments{
-\item{x}{a model to be explained, preprocessed by the 'explain' function}
+\item{x}{a model to be explained, preprocessed by the \code{\link{explain}} function}
 
 \item{...}{other parameters}
 
@@ -22,7 +22,7 @@
 \item{lossFunction}{function that calculates the loss for a model based on model residuals. By default it's the root mean square.}
 }
 \value{
-An object of the class 'model_performance_explainer'.
+An object of the class \code{model_performance_explainer}.
 }
 \description{
 Plot Model Performance Explanations

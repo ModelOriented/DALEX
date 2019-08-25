@@ -10,7 +10,7 @@
   rounding_function = round)
 }
 \arguments{
-\item{x}{a single prediction exlainer produced with the 'single_prediction' function}
+\item{x}{a single prediction exlainer produced with the \code{\link{single_prediction}} function}
 
 \item{...}{other explainers that shall be plotted together}
 
@@ -18,7 +18,7 @@
 
 \item{vcolors}{named vector with colors}
 
-\item{digits}{number of decimal places (round) or significant digits (signif) to be used.
+\item{digits}{number of decimal places \code{round} or significant digits \code{signif} to be used.
 See the \code{rounding_function} argument}
 
 \item{rounding_function}{function that is to used for rounding numbers.
@@ -29,7 +29,8 @@ Or the default \code{round()} to have the same precision for all components}
 a ggplot2 object
 }
 \description{
-Function 'plot.single_prediction_explainer' plots break down plots for a single prediction.
+Function \code{\link{plot.single_prediction_explainer}}
+plots break down plots for a single prediction.
 }
 \examples{
  \dontrun{
