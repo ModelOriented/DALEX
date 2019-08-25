@@ -3,7 +3,7 @@
 #' Function \code{\link{plot.variable_response_explainer}} plots
 #' marginal responses for one or more explainers.
 #'
-#' @param x a single variable exlainer produced with the \code{\link{single_feature}} function
+#' @param x a single variable exlainer produced with the \code{single_feature} function
 #' @param ... other explainers that shall be plotted together
 #' @param use_facets logical. If \code{TRUE} then separate models are on different facets
 #'

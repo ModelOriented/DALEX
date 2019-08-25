@@ -1,6 +1,6 @@
 #' Plot Break Down Explanations (Single Prediction)
 #'
-#' Function \code{\link{plot.single_prediction_explainer}}
+#' Function \code{plot.single_prediction_explainer}
 #' plots break down plots for a single prediction.
 #'
 #' @param x a single prediction exlainer produced with the \code{\link{single_prediction}} function

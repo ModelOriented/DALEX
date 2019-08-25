@@ -29,7 +29,7 @@ Or the default \code{round()} to have the same precision for all components}
 a ggplot2 object
 }
 \description{
-Function \code{\link{plot.single_prediction_explainer}}
+Function \code{plot.single_prediction_explainer}
 plots break down plots for a single prediction.
 }
 \examples{

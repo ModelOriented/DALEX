@@ -24,7 +24,7 @@
 a ggplot2 object
 }
 \description{
-Function \code{\link{plot.variable_dropout_explainer}} plots dropouts
+Function \code{plot.variable_dropout_explainer} plots dropouts
 for variables used in the model.
 It uses output from \code{variable_dropout} function that corresponds
 to permutation based measure of variable importance.

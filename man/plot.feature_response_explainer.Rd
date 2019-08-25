@@ -7,7 +7,7 @@
 \method{plot}{feature_response_explainer}(x, ..., use_facets = FALSE)
 }
 \arguments{
-\item{x}{a single variable exlainer produced with the \code{\link{single_feature}} function}
+\item{x}{a single variable exlainer produced with the \code{single_feature} function}
 
 \item{...}{other explainers that shall be plotted together}
 
