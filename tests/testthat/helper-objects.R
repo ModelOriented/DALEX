@@ -1,3 +1,9 @@
+# stops waring messages
+assign("message_variable_importance", value = TRUE, envir = DALEX:::.DALEX.env)
+assign("message_prediction_breakdown", value = TRUE, envir = DALEX:::.DALEX.env)
+assign("message_partial_dependency", value = TRUE, envir = DALEX:::.DALEX.env)
+assign("message_accumulated_dependency", value = TRUE, envir = DALEX:::.DALEX.env)
+
 library(randomForest)
 
 # models
