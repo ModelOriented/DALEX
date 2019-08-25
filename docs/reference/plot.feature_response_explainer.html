@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plots Marginal Model Explanations (Single Variable Responses) — plot.feature_response_explainer • DALEX</title>
+<title>Plot Marginal Model Explanations (Single Variable Responses) — plot.feature_response_explainer • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -35,7 +35,7 @@
 
 
 
-<meta property="og:title" content="Plots Marginal Model Explanations (Single Variable Responses) — plot.feature_response_explainer" />
+<meta property="og:title" content="Plot Marginal Model Explanations (Single Variable Responses) — plot.feature_response_explainer" />
 
 <meta property="og:description" content="Function 'plot.variable_response_explainer' plots marginal responses for one or more explainers." />
 
@@ -92,7 +92,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -114,7 +114,12 @@
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-        
+        <li>
+  <a href="https://github.com/ModelOriented/DALEX">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -127,8 +132,8 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plots Marginal Model Explanations (Single Variable Responses)</h1>
-    
+    <h1>Plot Marginal Model Explanations (Single Variable Responses)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/R/plot_feature_response.R'><code>R/plot_feature_response.R</code></a></small>
     <div class="hidden name"><code>plot.feature_response_explainer.Rd</code></div>
     </div>
 
@@ -139,7 +144,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for feature_response_explainer</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>use_facets</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>use_facets</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -165,7 +170,7 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
+<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  (<span style='color: #BBBB00;'>default</span><span>)
 #&gt;   -&gt; data              :  7847  rows  6  cols 
@@ -174,15 +179,15 @@
 #&gt;   -&gt; predicted values  :  numerical, min =  0.00861694 , mean =  0.3638333 , max =  0.7822214  
 #&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
 #&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'><span class='no'>expl_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='feature_response.html'>feature_response</a></span>(<span class='no'>explainer_glm</span>, <span class='st'>"hours"</span>, <span class='st'>"pdp"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>expl_glm</span>)</div><div class='output co'>#&gt;          x         y   var type label
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>expl_glm</span>)</div><div class='output co'>#&gt;          x         y   var type label
 #&gt; 1 35.00000 0.6453431 hours  pdp    lm
 #&gt; 2 35.89955 0.6251385 hours  pdp    lm
 #&gt; 3 36.79911 0.6045067 hours  pdp    lm
 #&gt; 4 37.69866 0.5835110 hours  pdp    lm
 #&gt; 5 38.59822 0.5622188 hours  pdp    lm
-#&gt; 6 39.49777 0.5407016 hours  pdp    lm</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>expl_glm</span>)</div><div class='img'><img src='plot.feature_response_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'>
- </div></span><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"randomForest"</span>)
-<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> )~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)
+#&gt; 6 39.49777 0.5407016 hours  pdp    lm</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>expl_glm</span>)</div><div class='img'><img src='plot.feature_response_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'>
+ </div></span><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"randomForest"</span>)
+<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>as.factor</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> )~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)
 <span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  randomForest  (<span style='color: #BBBB00;'>default</span><span>)
 #&gt;   -&gt; data              :  7847  rows  6  cols 
@@ -192,14 +197,14 @@
 #&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
 #&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'><span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='feature_response.html'>feature_response</a></span>(<span class='no'>explainer_rf</span>, <span class='kw'>feature</span> <span class='kw'>=</span> <span class='st'>"hours"</span>,
                        <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>expl_rf</span>)</div><div class='output co'>#&gt;          x         y   var type        label
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>expl_rf</span>)</div><div class='output co'>#&gt;          x         y   var type        label
 #&gt; 1 35.00000 0.5160265 hours  pdp randomForest
 #&gt; 2 35.89955 0.6238448 hours  pdp randomForest
 #&gt; 3 36.79911 0.6143838 hours  pdp randomForest
 #&gt; 4 37.69866 0.6024468 hours  pdp randomForest
 #&gt; 5 38.59822 0.6282503 hours  pdp randomForest
-#&gt; 6 39.49777 0.6086224 hours  pdp randomForest</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='plot.feature_response_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>)</div><div class='img'><img src='plot.feature_response_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>, <span class='kw'>use_facets</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='plot.feature_response_explainer-4.png' alt='' width='700' height='433' /></div><div class='input'> </div></span><div class='input'>
+#&gt; 6 39.49777 0.6086224 hours  pdp randomForest</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='plot.feature_response_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>)</div><div class='img'><img src='plot.feature_response_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>, <span class='kw'>use_facets</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='plot.feature_response_explainer-4.png' alt='' width='700' height='433' /></div><div class='input'> </div></span><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

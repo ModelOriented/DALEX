@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Marginal Response for a Single Feature — feature_response • DALEX</title>
+<title>Calculate Marginal Response for a Single Feature — feature_response • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -35,7 +35,7 @@
 
 
 
-<meta property="og:title" content="Marginal Response for a Single Feature — feature_response" />
+<meta property="og:title" content="Calculate Marginal Response for a Single Feature — feature_response" />
 
 <meta property="og:description" content="Calculates the average model response as a function of a single selected variable.
 Use the 'type' parameter to select the type of marginal response to be calculated.
@@ -97,7 +97,7 @@ and 'ALEPlot' (Dan Apley (2017). ALEPlot: Accumulated Local Effects Plots and Pa
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -119,7 +119,12 @@ and 'ALEPlot' (Dan Apley (2017). ALEPlot: Accumulated Local Effects Plots and Pa
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-        
+        <li>
+  <a href="https://github.com/ModelOriented/DALEX">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -132,8 +137,8 @@ and 'ALEPlot' (Dan Apley (2017). ALEPlot: Accumulated Local Effects Plots and Pa
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Marginal Response for a Single Feature</h1>
-    
+    <h1>Calculate Marginal Response for a Single Feature</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/R/feature_response.R'><code>R/feature_response.R</code></a></small>
     <div class="hidden name"><code>feature_response.Rd</code></div>
     </div>
 
@@ -156,7 +161,7 @@ and 'ALEPlot' (Dan Apley (2017). ALEPlot: Accumulated Local Effects Plots and Pa
 
 <span class='co'># S3 method for default</span>
 <span class='fu'>feature_response</span>(<span class='no'>x</span>, <span class='no'>data</span>, <span class='no'>predict_function</span>, <span class='no'>feature</span>,
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='no'>x</span>)[<span class='fl'>1</span>], <span class='kw'>which_class</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/class'>class</a></span>(<span class='no'>x</span>)[<span class='fl'>1</span>], <span class='kw'>which_class</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -203,7 +208,7 @@ It's a data frame with calculated average response.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function is set deprecated. It is suggested to use <code><a href='https://rdrr.io/pkg/ingredients/man/partial_dependency.html'>partial_dependency</a></code>, <code><a href='https://rdrr.io/pkg/ingredients/man/accumulated_dependency.html'>accumulated_dependency</a></code> instead.
+    <p>This function is set deprecated. It is suggested to use <code><a href='https://www.rdocumentation.org/packages/ingredients/topics/partial_dependency'>partial_dependency</a></code>, <code><a href='https://www.rdocumentation.org/packages/ingredients/topics/accumulated_dependency'>accumulated_dependency</a></code> instead.
 Find information how to use these functions here: <a href='https://pbiecek.github.io/PM_VEE/partialDependenceProfiles.html'>https://pbiecek.github.io/PM_VEE/partialDependenceProfiles.html</a> and <a href='https://pbiecek.github.io/PM_VEE/accumulatedLocalProfiles.html'>https://pbiecek.github.io/PM_VEE/accumulatedLocalProfiles.html</a>.</p>
 <p>For factor variables we are using the 'factorMerger' package.
 Please note that the argument <code>type</code> must be set to <code>'factor'</code> to use this method.</p>
@@ -215,7 +220,7 @@ Please note that the argument <code>type</code> must be set to <code>'factor'</c
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
+<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  (<span style='color: #BBBB00;'>default</span><span>)
 #&gt;   -&gt; data              :  7847  rows  6  cols 
@@ -224,32 +229,32 @@ Please note that the argument <code>type</code> must be set to <code>'factor'</c
 #&gt;   -&gt; predicted values  :  numerical, min =  0.00861694 , mean =  0.3638333 , max =  0.7822214  
 #&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
 #&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'><span class='no'>expl_glm</span> <span class='kw'>&lt;-</span> <span class='fu'>feature_response</span>(<span class='no'>explainer_glm</span>, <span class='st'>"age"</span>, <span class='st'>"pdp"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Please note that 'feature_response()' is now deprecated, it is better to use 'ingredients::partial_dependency()' instead.</span>
-#&gt; <span class='warning'>Find examples and detailed introduction at: https://pbiecek.github.io/PM_VEE/partialDependenceProfiles.html</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>expl_glm</span>)</div><div class='output co'>#&gt;          x         y var type label
+#&gt; <span class='warning'>Find examples and detailed introduction at: https://pbiecek.github.io/PM_VEE/partialDependenceProfiles.html</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>expl_glm</span>)</div><div class='output co'>#&gt;          x         y var type label
 #&gt; 1 20.00389 0.3690356 age  pdp    lm
 #&gt; 2 20.80378 0.3688270 age  pdp    lm
 #&gt; 3 21.60368 0.3686184 age  pdp    lm
 #&gt; 4 22.40357 0.3684098 age  pdp    lm
 #&gt; 5 23.20346 0.3682013 age  pdp    lm
-#&gt; 6 24.00336 0.3679928 age  pdp    lm</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>expl_glm</span>)</div><div class='img'><img src='feature_response-1.png' alt='' width='700' height='433' /></div><div class='input'>
- </div></span><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"randomForest"</span>)
-<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='no'>status</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)
+#&gt; 6 24.00336 0.3679928 age  pdp    lm</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>expl_glm</span>)</div><div class='img'><img src='feature_response-1.png' alt='' width='700' height='433' /></div><div class='input'>
+ </div></span><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"randomForest"</span>)
+<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>status</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)
 <span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  randomForest  (<span style='color: #BBBB00;'>default</span><span>)
 #&gt;   -&gt; data              :  7847  rows  6  cols 
 #&gt;   -&gt; target variable   :  not specified! (</span><span style='color: #BB0000;'>WARNING</span><span>)
-#&gt;   -&gt; predict function  :  yhat.randomForest  will be used (</span><span style='color: #BBBB00;'>default</span><span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.3333333 , max =  1  
+#&gt;   -&gt; predict function  :  yhat.randomForest  will be used (</span><span style='color: #BBBB00;'>default</span><span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: warunek posiada długość &gt; 1 i tylko pierwszy element będzie użyty</span></div><div class='output co'>#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.3333333 , max =  1  
 #&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
 #&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'><span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'>feature_response</span>(<span class='no'>explainer_rf</span>, <span class='kw'>feature</span> <span class='kw'>=</span> <span class='st'>"age"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>expl_rf</span>)</div><div class='output co'>#&gt;          x         y var type              label
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>expl_rf</span>)</div><div class='output co'>#&gt;          x         y var type              label
 #&gt; 1 20.00389 0.3863859 age  pdp randomForest.fired
 #&gt; 2 20.80378 0.3677571 age  pdp randomForest.fired
 #&gt; 3 21.60368 0.3694393 age  pdp randomForest.fired
 #&gt; 4 22.40357 0.3773251 age  pdp randomForest.fired
 #&gt; 5 23.20346 0.3813368 age  pdp randomForest.fired
-#&gt; 6 24.00336 0.3866293 age  pdp randomForest.fired</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='feature_response-2.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; 6 24.00336 0.3866293 age  pdp randomForest.fired</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='feature_response-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'>feature_response</span>(<span class='no'>explainer_rf</span>, <span class='kw'>feature</span> <span class='kw'>=</span> <span class='st'>"age"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>,
                        <span class='kw'>which_class</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='feature_response-3.png' alt='' width='700' height='433' /></div><div class='input'> </div></span><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='feature_response-3.png' alt='' width='700' height='433' /></div><div class='input'> </div></span><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

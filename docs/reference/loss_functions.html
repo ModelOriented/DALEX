@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>MI^2 Theme — theme_mi2 • DALEX</title>
+<title>Calculate Loss Functions — loss_cross_entropy • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -35,9 +35,9 @@
 
 
 
-<meta property="og:title" content="MI^2 Theme — theme_mi2" />
+<meta property="og:title" content="Calculate Loss Functions — loss_cross_entropy" />
 
-<meta property="og:description" content="MI^2 Theme" />
+<meta property="og:description" content="Calculate Loss Functions" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -132,31 +132,67 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>MI^2 Theme</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/R/theme_mi2.R'><code>R/theme_mi2.R</code></a></small>
-    <div class="hidden name"><code>theme_mi2.Rd</code></div>
+    <h1>Calculate Loss Functions</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/R/loss_functions.R'><code>R/loss_functions.R</code></a></small>
+    <div class="hidden name"><code>loss_functions.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>MI^2 Theme</p>
+    <p>Calculate Loss Functions</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>theme_mi2</span>()</pre>
-        
+    <pre class="usage"><span class='fu'>loss_cross_entropy</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>, <span class='kw'>p_min</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='fu'>loss_sum_of_squares</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='fu'>loss_root_mean_square</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='fu'>loss_accuracy</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='fu'>loss_one_minus_auc</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>observed</th>
+      <td><p>observed scores or labels, these are supplied as explainer specific `y`</p></td>
+    </tr>
+    <tr>
+      <th>predicted</th>
+      <td><p>predicted scores, either vector of matrix, these are returned from the model specific `predict_function()``</p></td>
+    </tr>
+    <tr>
+      <th>p_min</th>
+      <td><p>for cross entropy, minimal value for probability to make sure that `log` will not explode</p></td>
+    </tr>
+    <tr>
+      <th>na.rm</th>
+      <td><p>logical, should missing values be removed?</p></td>
+    </tr>
+    </table>
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>theme object that can be added to ggplot2 plots</p>
+    <p>numeric - value of the loss function</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'> </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"randomForest"</span>)
+<span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>as.factor</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)
+<span class='fu'>loss_sum_of_squares</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>as.numeric</a></span>(<span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>), <span class='fu'><a href='yhat.html'>yhat</a></span>(<span class='no'>HR_rf_model</span>))</div><div class='output co'>#&gt; [1] 924.2118</div><div class='input'> </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

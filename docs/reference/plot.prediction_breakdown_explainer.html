@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plots Local Explanations (Single Prediction) — plot.prediction_breakdown_explainer • DALEX</title>
+<title>Plot Break Down Explanations (Single Prediction) — plot.prediction_breakdown_explainer • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -35,7 +35,7 @@
 
 
 
-<meta property="og:title" content="Plots Local Explanations (Single Prediction) — plot.prediction_breakdown_explainer" />
+<meta property="og:title" content="Plot Break Down Explanations (Single Prediction) — plot.prediction_breakdown_explainer" />
 
 <meta property="og:description" content="Function 'plot.single_prediction_explainer' plots break down plots for a single prediction." />
 
@@ -92,7 +92,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -114,7 +114,12 @@
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-        
+        <li>
+  <a href="https://github.com/ModelOriented/DALEX">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -127,8 +132,8 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plots Local Explanations (Single Prediction)</h1>
-    
+    <h1>Plot Break Down Explanations (Single Prediction)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/R/plot_prediction_breakdown.R'><code>R/plot_prediction_breakdown.R</code></a></small>
     <div class="hidden name"><code>plot.prediction_breakdown_explainer.Rd</code></div>
     </div>
 
@@ -139,8 +144,8 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for prediction_breakdown_explainer</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='no'>...</span>,
-  <span class='kw'>add_contributions</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>vcolors</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>`-1`</span> <span class='kw'>=</span> <span class='st'>"#f05a71"</span>, <span class='kw'>`0`</span> <span class='kw'>=</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>x</span>, <span class='no'>...</span>,
+  <span class='kw'>add_contributions</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>vcolors</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>`-1`</span> <span class='kw'>=</span> <span class='st'>"#f05a71"</span>, <span class='kw'>`0`</span> <span class='kw'>=</span>
   <span class='st'>"#371ea3"</span>, <span class='kw'>`1`</span> <span class='kw'>=</span> <span class='st'>"#8bdcbe"</span>, <span class='kw'>X</span> <span class='kw'>=</span> <span class='st'>"#371ea3"</span>), <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>3</span>,
   <span class='kw'>rounding_function</span> <span class='kw'>=</span> <span class='no'>round</span>)</pre>
     
@@ -171,8 +176,8 @@ See the <code>rounding_function</code> argument</p></td>
     <tr>
       <th>rounding_function</th>
       <td><p>function that is to used for rounding numbers.
-It may be <code><a href='https://rdrr.io/r/base/Round.html'>signif()</a></code> which keeps a specified number of significant digits.
-Or the default <code><a href='https://rdrr.io/r/base/Round.html'>round()</a></code> to have the same precision for all components</p></td>
+It may be <code><a href='https://www.rdocumentation.org/packages/base/topics/Round'>signif()</a></code> which keeps a specified number of significant digits.
+Or the default <code><a href='https://www.rdocumentation.org/packages/base/topics/Round'>round()</a></code> to have the same precision for all components</p></td>
     </tr>
     </table>
     
@@ -182,13 +187,13 @@ Or the default <code><a href='https://rdrr.io/r/base/Round.html'>round()</a></co
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'> </div><div class='input'><span class='no'>new_dragon</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>year_of_birth</span> <span class='kw'>=</span> <span class='fl'>200</span>,
+    <pre class="examples"><div class='input'> </div><div class='input'><span class='no'>new_dragon</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>year_of_birth</span> <span class='kw'>=</span> <span class='fl'>200</span>,
      <span class='kw'>height</span> <span class='kw'>=</span> <span class='fl'>80</span>,
      <span class='kw'>weight</span> <span class='kw'>=</span> <span class='fl'>12.5</span>,
      <span class='kw'>scars</span> <span class='kw'>=</span> <span class='fl'>0</span>,
      <span class='kw'>number_of_lost_teeth</span>  <span class='kw'>=</span> <span class='fl'>5</span>)
 
-<span class='no'>dragon_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>life_length</span> ~ <span class='no'>year_of_birth</span> + <span class='no'>height</span> +
+<span class='no'>dragon_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>life_length</span> ~ <span class='no'>year_of_birth</span> + <span class='no'>height</span> +
                                      <span class='no'>weight</span> + <span class='no'>scars</span> + <span class='no'>number_of_lost_teeth</span>,
                        <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>)
 <span class='no'>dragon_lm_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>dragon_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>dragons</span>$<span class='no'>year_of_birth</span>,
@@ -201,9 +206,9 @@ Or the default <code><a href='https://rdrr.io/r/base/Round.html'>round()</a></co
 #&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
 #&gt;   -&gt; residuals         :  numerical, min =  -5421.316 , mean =  -1450.523 , max =  1176.912  
 #&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'><span class='no'>dragon_lm_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prediction_breakdown.html'>prediction_breakdown</a></span>(<span class='no'>dragon_lm_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Please note that 'prediction_breakdown()' is now deprecated, it is better to use 'iBreakDown::break_down()' instead.</span>
-#&gt; <span class='warning'>Find examples and detailed introduction at: https://pbiecek.github.io/PM_VEE/breakDown.html</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dragon_lm_predict4</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"randomForest"</span>)
-<span class='no'>dragon_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='no'>life_length</span> ~ <span class='no'>year_of_birth</span> + <span class='no'>height</span> + <span class='no'>weight</span> +
+#&gt; <span class='warning'>Find examples and detailed introduction at: https://pbiecek.github.io/PM_VEE/breakDown.html</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>dragon_lm_predict4</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"randomForest"</span>)
+<span class='no'>dragon_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>life_length</span> ~ <span class='no'>year_of_birth</span> + <span class='no'>height</span> + <span class='no'>weight</span> +
                                                <span class='no'>scars</span> + <span class='no'>number_of_lost_teeth</span>,
                                  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>)
 <span class='no'>dragon_rf_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>dragon_rf_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>dragons</span>$<span class='no'>year_of_birth</span>,
@@ -216,11 +221,11 @@ Or the default <code><a href='https://rdrr.io/r/base/Round.html'>round()</a></co
 #&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
 #&gt;   -&gt; residuals         :  numerical, min =  -4719.351 , mean =  -1449.43 , max =  984.6438  
 #&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'><span class='no'>dragon_rf_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prediction_breakdown.html'>prediction_breakdown</a></span>(<span class='no'>dragon_rf_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dragon_rf_predict4</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>dragon_rf_predict4</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># both models</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dragon_rf_predict4</span>, <span class='no'>dragon_lm_predict4</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"gbm"</span>)</div><div class='output co'>#&gt; <span class='message'>Loaded gbm 2.1.5</span></div><div class='input'><span class='co'># create a gbm model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/gbm/man/gbm.html'>gbm</a></span>(<span class='no'>life_length</span> ~ <span class='no'>year_of_birth</span> + <span class='no'>height</span> + <span class='no'>weight</span> + <span class='no'>scars</span> + <span class='no'>number_of_lost_teeth</span>,
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>dragon_rf_predict4</span>, <span class='no'>dragon_lm_predict4</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"gbm"</span>)</div><div class='output co'>#&gt; <span class='message'>Loaded gbm 2.1.5</span></div><div class='input'><span class='co'># create a gbm model</span>
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/gbm/topics/gbm'>gbm</a></span>(<span class='no'>life_length</span> ~ <span class='no'>year_of_birth</span> + <span class='no'>height</span> + <span class='no'>weight</span> + <span class='no'>scars</span> + <span class='no'>number_of_lost_teeth</span>,
              <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>,
              <span class='kw'>distribution</span> <span class='kw'>=</span> <span class='st'>"gaussian"</span>,
              <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
@@ -230,7 +235,7 @@ Or the default <code><a href='https://rdrr.io/r/base/Round.html'>round()</a></co
              <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
  <span class='co'># make an explainer for the model</span>
  <span class='no'>explainer_gbm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span>
-         <span class='kw'>function</span>(<span class='no'>model</span>, <span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>model</span>, <span class='no'>x</span>, <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>1000</span>))</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+         <span class='kw'>function</span>(<span class='no'>model</span>, <span class='no'>x</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>model</span>, <span class='no'>x</span>, <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>1000</span>))</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  gbm  (</span><span style='color: #BBBB00;'>default</span><span>)
 #&gt;   -&gt; data              :  2000  rows  8  cols 
 #&gt;   -&gt; target variable   :  not specified! (</span><span style='color: #BB0000;'>WARNING</span><span>)
@@ -239,7 +244,7 @@ Or the default <code><a href='https://rdrr.io/r/base/Round.html'>round()</a></co
 #&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
 #&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'> <span class='co'># create a new observation</span>
  <span class='no'>exp_sgn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prediction_breakdown.html'>prediction_breakdown</a></span>(<span class='no'>explainer_gbm</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
- <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>exp_sgn</span>)</div><div class='output co'>#&gt;                                        variable contribution
+ <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>exp_sgn</span>)</div><div class='output co'>#&gt;                                        variable contribution
 #&gt; 1                                   (Intercept) 1371.0376415
 #&gt; scars                               + scars = 0 -388.5560672
 #&gt; number_of_lost_teeth + number_of_lost_teeth = 5 -300.6659541
@@ -259,9 +264,9 @@ Or the default <code><a href='https://rdrr.io/r/base/Round.html'>round()</a></co
 #&gt; number_of_lost_teeth        3   gbm
 #&gt; weight                      4   gbm
 #&gt; height                      5   gbm
-#&gt; year_of_birth               6   gbm</div><div class='input'> <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>exp_sgn</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-4.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; year_of_birth               6   gbm</div><div class='input'> <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>exp_sgn</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-4.png' alt='' width='700' height='433' /></div><div class='input'>
  <span class='no'>exp_sgn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prediction_breakdown.html'>prediction_breakdown</a></span>(<span class='no'>explainer_gbm</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>, <span class='kw'>baseline</span> <span class='kw'>=</span> <span class='fl'>0</span>)
- <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>exp_sgn</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-5.png' alt='' width='700' height='433' /></div><div class='input'> </div></span><div class='input'>
+ <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>exp_sgn</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-5.png' alt='' width='700' height='433' /></div><div class='input'> </div></span><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

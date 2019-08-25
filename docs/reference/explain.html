@@ -93,7 +93,7 @@ This function creates a unified representation of a model, which can be further 
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -115,7 +115,12 @@ This function creates a unified representation of a model, which can be further 
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-        
+        <li>
+  <a href="https://github.com/ModelOriented/DALEX">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -129,7 +134,7 @@ This function creates a unified representation of a model, which can be further 
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Create Model Explainer</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/R/explain.R'><code>R/explain.R</code></a></small>
     <div class="hidden name"><code>explain.Rd</code></div>
     </div>
 
@@ -185,7 +190,8 @@ This function creates a unified representation of a model, which can be further 
     </tr>
     <tr>
       <th>precalculate</th>
-      <td><p>if TRUE (default) then 'predicted_values' and 'residuals' are calculated when explainer is created. This will happenn also if 'verbose' is TRUE</p></td>
+      <td><p>if TRUE (default) then <code>predicted_values</code> and <code>residual</code> are calculated when explainer is created.
+This will happen also if <code>verbose</code> is TRUE. Set both <code>verbose</code> and <code>precalculate</code> to FALSE to omit calculations.</p></td>
     </tr>
     </table>
     
@@ -213,7 +219,7 @@ But some explainers may require that other arguments will be provided too.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>aps_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>m2.price</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>)
+<span class='no'>aps_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>m2.price</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>)
 <span class='no'>aps_lm_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>aps_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  model_4v 
 #&gt;   -&gt; data              :  1000  rows  6  cols 
@@ -264,7 +270,7 @@ But some explainers may require that other arguments will be provided too.</p>
 #&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
 #&gt;   -&gt; residuals         :  numerical, min =  -247.4728 , mean =  2.093656e-14 , max =  469.0023  
 #&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'>
- </div></span><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"randomForest"</span>)</div><div class='output co'>#&gt; <span class='message'>randomForest 4.6-14</span></div><div class='output co'>#&gt; <span class='message'>Type rfNews() to see new features/changes/bug fixes.</span></div><div class='input'><span class='no'>aps_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='no'>m2.price</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>)
+ </div></span><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"randomForest"</span>)</div><div class='output co'>#&gt; <span class='message'>randomForest 4.6-14</span></div><div class='output co'>#&gt; <span class='message'>Type rfNews() to see new features/changes/bug fixes.</span></div><div class='input'><span class='no'>aps_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>m2.price</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>)
 <span class='no'>aps_rf_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>aps_rf_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_rf"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  model_rf 
 #&gt;   -&gt; data              :  1000  rows  6  cols 

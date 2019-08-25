@@ -1,5 +1,7 @@
-# misc functions
-# complain explainers for the plot() functions
+# internal function
+# combine explainers for the plot() functions
+# if more than one explainer is provided,
+# then this function merge explainers into a single dataframe
 combine_explainers <- function(x, ...) {
   df <- x
   df$label <- as.character(df$label)
