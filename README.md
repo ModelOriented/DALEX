@@ -1,4 +1,4 @@
-# DALEX <img src="man/figures/logo.png" align="right" width="120"/>
+# Descriptive mAchine Learning EXplanations <img src="man/figures/logo.png" align="right" width="150"/>
 
 [![Build Status](https://api.travis-ci.org/ModelOriented/DALEX.png)](https://travis-ci.org/ModelOriented/DALEX)
 [![Coverage
@@ -26,7 +26,7 @@ devtools::install_github("ModelOriented/DALEX")
 
 ## Cheatsheet
 
-<a href="https://github.com/ModelOriented/DALEX/raw/Release_prep/misc/cheatsheet_local_explainers.png"><img src="https://github.com/ModelOriented/DALEX/raw/Release_prep/misc/cheatsheet_local_explainers.png" width="300"/></a>
+<a href="https://github.com/ModelOriented/DALEX/raw/Release_prep/misc/cheatsheet_local_explainers.png"><img src="https://github.com/ModelOriented/DALEX/raw/Release_prep/misc/cheatsheet_local_explainers.png" width="500"/></a>
 
 ## Learn more 
 

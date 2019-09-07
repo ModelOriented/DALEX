@@ -36,13 +36,12 @@
 
 
 <meta property="og:title" content="Passengers and Crew on the RMS Titanic Data — titanic" />
-
 <meta property="og:description" content="The titanic data is a complete list of passengers and crew members on  the RMS Titanic.
 It includes a variable indicating whether a person did  survive the sinking of the RMS
 Titanic on April 15, 1912." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -63,6 +62,7 @@ Titanic on April 15, 1912." />
 
  gtag('config', 'UA-5650686-14');
 </script>
+
   </head>
 
   <body>
@@ -79,9 +79,6 @@ Titanic on April 15, 1912." />
       </button>
 
       <div class="navbar-brand-container">
-      <a class = "navbar-mi2logo" href="http://DrWhy.AI/">
-    <img src = "https://github.com/ModelOriented/DrWhyTemplate/blob/master/inst/pkgdown/assets/drwhy_znak_violet_small.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
-	  </a>
         <a class="navbar-brand" href="../index.html">DALEX</a>
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
@@ -94,7 +91,7 @@ Titanic on April 15, 1912." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -118,7 +115,7 @@ Titanic on April 15, 1912." />
 </li>
         <li>
   <a href="https://github.com/ModelOriented/DALEX">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -129,6 +126,7 @@ Titanic on April 15, 1912." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -140,27 +138,24 @@ Titanic on April 15, 1912." />
     </div>
 
     <div class="ref-description">
-    
     <p>The <code>titanic</code> data is a complete list of passengers and crew members on  the RMS Titanic.
 It includes a variable indicating whether a person did  survive the sinking of the RMS
 Titanic on April 15, 1912.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>titanic</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>titanic_imputed</span>)</pre>
-        
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>titanic</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>titanic_imputed</span>)</pre>
+
+
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
     <p>a data frame with 2207 rows and 9 columns</p>
-    
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
     <p>This dataset was copied from the <code>stablelearner</code> package and went through few variable
 transformations. The complete list of persons on the RMS titanic was downloaded from
 <a href='https://www.encyclopedia-titanica.org'>https://www.encyclopedia-titanica.org</a> on April 5, 2016. The  information given
 in <code>sibsp</code> and <code>parch</code> was adopoted from a data set obtained from <a href='http://biostat.mc.vanderbilt.edu/DataSets'>http://biostat.mc.vanderbilt.edu/DataSets</a>.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This dataset was copied from the <code>stablelearner</code> package and went through few variable
@@ -183,34 +178,31 @@ is truely missing for a few regular passengers.</p>
 <li><p>parch an ordered factor specifying the number of parents/children aboard; adopted from Vanderbild data set (see below).</p></li>
 <li><p>survived a factor with two levels (<code>no</code> and <code>yes</code>) specifying whether the person has survived the sinking.</p></li>
 </ul>
-    <p>NOTE: The <code>titanic_imputed</code> dataset use following imputation rules.</p><ul>
+
+<p>NOTE: The <code>titanic_imputed</code> dataset use following imputation rules.</p><ul>
 <li><p>Missing `age` is replaced with the mean of the observed ones, i.e., 30.</p></li>
 <li><p>Missing country is coded by “X”.</p></li>
 <li><p>For sibsp and parch, missing values are replaced by the most frequently observed value, i.e., 0.</p></li>
 <li><p>For fare, mean fare for a given class is used, i.e., 0 pounds for crew, 89 pounds for the 1st, 22 pounds for the 2nd, and 13 pounds for the 3rd class.</p></li>
 </ul>
-    
+
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p><a href='https://www.encyclopedia-titanica.org'>https://www.encyclopedia-titanica.org</a>, <a href='http://biostat.mc.vanderbilt.edu/DataSets'>http://biostat.mc.vanderbilt.edu/DataSets</a> and <a href='https://CRAN.R-project.org/package=stablelearner'>https://CRAN.R-project.org/package=stablelearner</a></p>
-    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      
       <li><a href="#format">Format</a></li>
-
       <li><a href="#source">Source</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#references">References</a></li>
-          </ul>
+    </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="author">
@@ -219,11 +211,14 @@ is truely missing for a few regular passengers.</p>
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

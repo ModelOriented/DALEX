@@ -16,14 +16,14 @@
   used due to their high performance, but such black-box models usually lack of interpretability.
   DALEX package contains various explainers that help to understand the link between input variables and model output.
   The single_variable() explainer extracts conditional response of a model as a function of a single selected variable.
-  It is a wrapper over packages 'pdp' (Greenwell 2017) &lt;doi:10.32614/RJ-2017-016&gt;, 
-  'ALEPlot' (Apley 2018) &lt;arXiv:1612.08468&gt;  and 'factorMerger' (Sitko and Biecek 2017) &lt;arXiv:1709.04412&gt;.
+  It is a wrapper over packages pdp (Greenwell 2017) &lt;doi:10.32614/RJ-2017-016&gt;, 
+  ALEPlot (Apley 2018) &lt;arXiv:1612.08468&gt;  and factorMerger (Sitko and Biecek 2017) &lt;arXiv:1709.04412&gt;.
   The single_prediction() explainer attributes parts of a model prediction to particular variables used in the model.
-  It is a wrapper over 'breakDown' package (Staniak and Biecek 2018) &lt;doi:10.32614/RJ-2018-072&gt;.
+  It is a wrapper over breakDown package (Staniak and Biecek 2018) &lt;doi:10.32614/RJ-2018-072&gt;.
   The variable_dropout() explainer calculates variable importance scores based on variable shuffling 
   (Fisher at al. 2018) &lt;arXiv:1801.01489&gt;.
   All these explainers can be plotted with generic plot() function and compared across different models.
-  'DALEX' is a part of the 'DrWhy.AI' universe (Biecek 2018) &lt;arXiv:1806.08915&gt;.">
+  DALEX is a part of the DrWhy.AI universe (Biecek 2018) &lt;arXiv:1806.08915&gt;.">
 <meta property="og:image" content="/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -50,8 +50,6 @@
       </button>
 
       <div class="navbar-brand-container">
-      <a class="navbar-mi2logo" href="http://DrWhy.AI/">
-    <img src="https://github.com/ModelOriented/DrWhyTemplate/blob/master/inst/pkgdown/assets/drwhy_znak_violet_small.jpg?raw=true" alt="MI2" height="46" title="MI2"></a>
         <a class="navbar-brand" href="index.html">DALEX</a>
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
@@ -64,7 +62,7 @@
       <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -88,7 +86,7 @@
 </li>
         <li>
   <a href="https://github.com/ModelOriented/DALEX">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -101,11 +99,12 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="dalex-" class="section level1">
+<div id="descriptive-machine-learning-explanations" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#dalex-" class="anchor"></a>DALEX <img src="reference/figures/logo.png" align="right" width="120">
+<a href="#descriptive-machine-learning-explanations" class="anchor"></a>Descriptive mAchine Learning EXplanations <img src="reference/figures/logo.png" align="right" width="150">
 </h1></div>
 
 <div id="overview" class="section level2">
@@ -117,12 +116,12 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<pre class="{r}"><code># the easiest way to get DALEX is to install it from CRAN:
+<pre class="{r}"><code><a href="https://rdrr.io/r/utils/install.packages.html"># the easiest way to get DALEX is to install it from CRAN:
 install.packages("DALEX")
 
 # Or the the development version from GitHub:
 # install.packages("devtools")
-devtools::install_github("ModelOriented/DALEX")</code></pre>
+devtools::install_github("ModelOriented/DALEX")</a></code></pre>
 </div>
 <div id="cheatsheet" class="section level2">
 <h2 class="hasAnchor">
@@ -208,6 +207,12 @@ devtools::install_github("ModelOriented/DALEX")</code></pre>
 <li>GPL</li>
 </ul>
 </div>
+<div class="community">
+<h2>Community</h2>
+<ul class="list-unstyled">
+<li><a href="CONTRIBUTING.html">Contributing guide</a></li>
+</ul>
+</div>
 <div class="citation">
 <h2>Citation</h2>
 <ul class="list-unstyled">
@@ -217,7 +222,7 @@ devtools::install_github("ModelOriented/DALEX")</code></pre>
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Przemyslaw Biecek <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-8423-1823" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
+<li>Przemyslaw Biecek <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-8423-1823" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
 <li><a href="authors.html">All authors...</a></li>
 </ul>
 </div>
@@ -234,16 +239,19 @@ devtools::install_github("ModelOriented/DALEX")</code></pre>
 </div>
 </div>
 
+
       <footer><div class="author">
   <p>
     Developed by Przemyslaw Biecek.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

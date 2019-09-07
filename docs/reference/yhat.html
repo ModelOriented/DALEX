@@ -36,15 +36,14 @@
 
 
 <meta property="og:title" content="Wrap Various Predict Functions — yhat" />
-
 <meta property="og:description" content="This function is a wrapper over various predict functions for different models and differnt model structures.
 The wrapper returns a single numeric score for each new observation.
 To do this it uses different extraction techniques for models from different classes,
 like for classification random forest is forces the output to be probabilities
 not classes itself." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -65,6 +64,7 @@ not classes itself." />
 
  gtag('config', 'UA-5650686-14');
 </script>
+
   </head>
 
   <body>
@@ -81,9 +81,6 @@ not classes itself." />
       </button>
 
       <div class="navbar-brand-container">
-      <a class = "navbar-mi2logo" href="http://DrWhy.AI/">
-    <img src = "https://github.com/ModelOriented/DrWhyTemplate/blob/master/inst/pkgdown/assets/drwhy_znak_violet_small.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
-	  </a>
         <a class="navbar-brand" href="../index.html">DALEX</a>
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
@@ -96,7 +93,7 @@ not classes itself." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -120,7 +117,7 @@ not classes itself." />
 </li>
         <li>
   <a href="https://github.com/ModelOriented/DALEX">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -131,6 +128,7 @@ not classes itself." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -142,13 +140,11 @@ not classes itself." />
     </div>
 
     <div class="ref-description">
-    
     <p>This function is a wrapper over various predict functions for different models and differnt model structures.
 The wrapper returns a single numeric score for each new observation.
 To do this it uses different extraction techniques for models from different classes,
 like for classification random forest is forces the output to be probabilities
 not classes itself.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>yhat</span>(<span class='no'>X.model</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)
@@ -182,7 +178,7 @@ not classes itself.</p>
 
 <span class='co'># S3 method for default</span>
 <span class='fu'>yhat</span>(<span class='no'>X.model</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -199,11 +195,10 @@ not classes itself.</p>
       <td><p>other parameters that will be passed to the predict function</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An numeric matrix of predictions</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Currently supported packages are:</p><ul>
@@ -216,21 +211,20 @@ not classes itself.</p>
 <li><p>class `svm` - support vector machines models created with the `e1071` package</p></li>
 <li><p>class `train` - models created with `caret` package</p></li>
 </ul>
-    
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-          </ul>
+    </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="author">
@@ -239,11 +233,14 @@ not classes itself.</p>
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
