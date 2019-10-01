@@ -86,7 +86,7 @@ and 'ALEPlot' (Dan Apley (2017). ALEPlot: Accumulated Local Effects Plots and Pa
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.4.7</span>
+          <span class="version version-default">0.4.8</span>
         </div>
       </div>
     </div>
@@ -215,13 +215,13 @@ Please note that the argument <code>type</code> must be set to <code>'factor'</c
     <pre class="examples"><div class='input'>
 <span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  lm  (<span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  7847  rows  6  cols 
-#&gt;   -&gt; target variable   :  not specified! (</span><span style='color: #BB0000;'>WARNING</span><span>)
-#&gt;   -&gt; predict function  :  yhat.glm  will be used (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; target variable   :  not specified! ( </span><span style='color: #BB0000;'> WARNING </span><span> )
+#&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  0.00861694 , mean =  0.3638333 , max =  0.7822214  
-#&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
-#&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'><span class='no'>expl_glm</span> <span class='kw'>&lt;-</span> <span class='fu'>feature_response</span>(<span class='no'>explainer_glm</span>, <span class='st'>"age"</span>, <span class='st'>"pdp"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Please note that 'feature_response()' is now deprecated, it is better to use 'ingredients::partial_dependency()' instead.</span>
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>expl_glm</span> <span class='kw'>&lt;-</span> <span class='fu'>feature_response</span>(<span class='no'>explainer_glm</span>, <span class='st'>"age"</span>, <span class='st'>"pdp"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Please note that 'feature_response()' is now deprecated, it is better to use 'ingredients::partial_dependency()' instead.</span>
 #&gt; <span class='warning'>Find examples and detailed introduction at: https://pbiecek.github.io/PM_VEE/partialDependenceProfiles.html</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>expl_glm</span>)</div><div class='output co'>#&gt;          x         y var type label
 #&gt; 1 20.00389 0.3690356 age  pdp    lm
 #&gt; 2 20.80378 0.3688270 age  pdp    lm
@@ -233,12 +233,12 @@ Please note that the argument <code>type</code> must be set to <code>'factor'</c
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"randomForest"</span>)
 <span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='no'>status</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)
 <span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  randomForest  (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; model label       :  randomForest  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  7847  rows  6  cols 
-#&gt;   -&gt; target variable   :  not specified! (</span><span style='color: #BB0000;'>WARNING</span><span>)
-#&gt;   -&gt; predict function  :  yhat.randomForest  will be used (</span><span style='color: #BBBB00;'>default</span><span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.3333333 , max =  1  
-#&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
-#&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'><span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'>feature_response</span>(<span class='no'>explainer_rf</span>, <span class='kw'>feature</span> <span class='kw'>=</span> <span class='st'>"age"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>)
+#&gt;   -&gt; target variable   :  not specified! ( </span><span style='color: #BB0000;'> WARNING </span><span> )
+#&gt;   -&gt; predict function  :  yhat.randomForest  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )</div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.3333333 , max =  1  
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'>feature_response</span>(<span class='no'>explainer_rf</span>, <span class='kw'>feature</span> <span class='kw'>=</span> <span class='st'>"age"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>expl_rf</span>)</div><div class='output co'>#&gt;          x         y var type              label
 #&gt; 1 20.00389 0.3863859 age  pdp randomForest.fired
 #&gt; 2 20.80378 0.3677571 age  pdp randomForest.fired

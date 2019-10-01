@@ -82,7 +82,7 @@ This function creates a unified representation of a model, which can be further 
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.4.7</span>
+          <span class="version version-default">0.4.8</span>
         </div>
       </div>
     </div>
@@ -143,11 +143,12 @@ This function creates a unified representation of a model, which can be further 
 
     <pre class="usage"><span class='fu'>explain.default</span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>residual_function</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>,
-  <span class='kw'>label</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>precalculate</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+  <span class='kw'>label</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>precalculate</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>colorize</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='fu'>explain</span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>residual_function</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>precalculate</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>precalculate</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>colorize</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -186,7 +187,11 @@ This function creates a unified representation of a model, which can be further 
     </tr>
     <tr>
       <th>precalculate</th>
-      <td><p>if TRUE (default) then <code>predicted_values</code> and <code>residual</code> are calculated when explainer is created.
+      <td><p>if TRUE (default) then <code>predicted_values</code> and <code>residual</code> are calculated when explainer is created.</p></td>
+    </tr>
+    <tr>
+      <th>colorize</th>
+      <td><p>if TRUE (default) then <code>WARNINGS</code>, <code>ERRORS</code> and <code>NOTES</code> are colorized. Will work only in the R console.
 This will happen also if <code>verbose</code> is TRUE. Set both <code>verbose</code> and <code>precalculate</code> to FALSE to omit calculations.</p></td>
     </tr>
     </table>
@@ -217,11 +222,11 @@ But some explainers may require that other arguments will be provided too.</p>
 <span class='no'>aps_lm_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>aps_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  model_4v 
 #&gt;   -&gt; data              :  1000  rows  6  cols 
-#&gt;   -&gt; target variable   :  not specified! (<span style='color: #BB0000;'>WARNING</span><span>)
-#&gt;   -&gt; predict function  :  yhat.lm  will be used (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; target variable   :  not specified! ( <span style='color: #BB0000;'> WARNING </span><span> )
+#&gt;   -&gt; predict function  :  yhat.lm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  
-#&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
-#&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'><span class='no'>aps_lm_explainer4</span></div><div class='output co'>#&gt; Model label:  model_4v 
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>aps_lm_explainer4</span></div><div class='output co'>#&gt; Model label:  model_4v 
 #&gt; Model class:  lm 
 #&gt; Data head  :
 #&gt;   m2.price construction.year surface floor no.rooms    district
@@ -230,13 +235,13 @@ But some explainers may require that other arguments will be provided too.</p>
 <span class='co'># various parameters for the explain function</span>
 <span class='co'># all defaults</span>
 <span class='no'>aps_lm</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>aps_lm_model4</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  lm  (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  1000  rows  6  cols (</span><span style='color: #BBBB00;'>extracted from the model</span><span>)
-#&gt;   -&gt; target variable   :  not specified! (</span><span style='color: #BB0000;'>WARNING</span><span>)
-#&gt;   -&gt; predict function  :  yhat.lm  will be used (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; target variable   :  not specified! ( </span><span style='color: #BB0000;'> WARNING </span><span> )
+#&gt;   -&gt; predict function  :  yhat.lm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  
-#&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
-#&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'>
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='co'># silent execution</span>
 <span class='no'>aps_lm</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>aps_lm_model4</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
@@ -244,45 +249,45 @@ But some explainers may require that other arguments will be provided too.</p>
 <span class='no'>aps_lm</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>aps_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>predict</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  model_4v 
 #&gt;   -&gt; data              :  1000  rows  6  cols 
-#&gt;   -&gt; target variable   :  not specified! (</span><span style='color: #BB0000;'>WARNING</span><span>)
+#&gt;   -&gt; target variable   :  not specified! ( </span><span style='color: #BB0000;'> WARNING </span><span> )
 #&gt;   -&gt; predict function  :  predict 
 #&gt;   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  
-#&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
-#&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'>
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='co'># set target variable</span>
 <span class='no'>aps_lm</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>aps_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>apartments</span>$<span class='no'>m2.price</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  model_4v 
 #&gt;   -&gt; data              :  1000  rows  6  cols 
 #&gt;   -&gt; target variable   :  1000  values 
-#&gt;   -&gt; data              :  A column identical to the target variable `y` has been found in the `data`.  (</span><span style='color: #BB0000;'>WARNING</span><span>)
+#&gt;   -&gt; data              :  A column identical to the target variable `y` has been found in the `data`.  ( </span><span style='color: #BB0000;'> WARNING </span><span> )
 #&gt;   -&gt; data              :  It is highly recommended to pass `data` without the target variable column
-#&gt;   -&gt; predict function  :  yhat.lm  will be used (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; predict function  :  yhat.lm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  
-#&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -247.4728 , mean =  2.093656e-14 , max =  469.0023  
-#&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'><span class='no'>aps_lm</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>aps_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>apartments</span>$<span class='no'>m2.price</span>,
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>aps_lm</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>aps_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>apartments</span>$<span class='no'>m2.price</span>,
                                    <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>predict</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  model_4v 
 #&gt;   -&gt; data              :  1000  rows  6  cols 
 #&gt;   -&gt; target variable   :  1000  values 
-#&gt;   -&gt; data              :  A column identical to the target variable `y` has been found in the `data`.  (</span><span style='color: #BB0000;'>WARNING</span><span>)
+#&gt;   -&gt; data              :  A column identical to the target variable `y` has been found in the `data`.  ( </span><span style='color: #BB0000;'> WARNING </span><span> )
 #&gt;   -&gt; data              :  It is highly recommended to pass `data` without the target variable column
 #&gt;   -&gt; predict function  :  predict 
 #&gt;   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  
-#&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -247.4728 , mean =  2.093656e-14 , max =  469.0023  
-#&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'>
- <span class='co'># \dontrun{</span>
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
+<span class='co'># \dontrun{</span>
 <span class='co'># more complex model</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"randomForest"</span>)</div><div class='output co'>#&gt; <span class='message'>randomForest 4.6-14</span></div><div class='output co'>#&gt; <span class='message'>Type rfNews() to see new features/changes/bug fixes.</span></div><div class='input'><span class='no'>aps_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='no'>m2.price</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>)
 <span class='no'>aps_rf_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>aps_rf_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_rf"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  model_rf 
 #&gt;   -&gt; data              :  1000  rows  6  cols 
-#&gt;   -&gt; target variable   :  not specified! (</span><span style='color: #BB0000;'>WARNING</span><span>)
-#&gt;   -&gt; predict function  :  yhat.randomForest  will be used (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; target variable   :  not specified! ( </span><span style='color: #BB0000;'> WARNING </span><span> )
+#&gt;   -&gt; predict function  :  yhat.randomForest  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  1969.945 , mean =  3487.686 , max =  5796.451  
-#&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
-#&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'><span class='no'>aps_rf_explainer4</span></div><div class='output co'>#&gt; Model label:  model_rf 
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>aps_rf_explainer4</span></div><div class='output co'>#&gt; Model label:  model_rf 
 #&gt; Model class:  randomForest.formula,randomForest 
 #&gt; Data head  :
 #&gt;   m2.price construction.year surface floor no.rooms    district

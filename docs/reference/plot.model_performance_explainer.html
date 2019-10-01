@@ -81,7 +81,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.4.7</span>
+          <span class="version version-default">0.4.8</span>
         </div>
       </div>
     </div>
@@ -182,25 +182,25 @@
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"randomForest"</span>)
 <span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)
 <span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  randomForest  (<span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; model label       :  randomForest  ( <span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  7847  rows  6  cols 
 #&gt;   -&gt; target variable   :  7847  values 
-#&gt;   -&gt; predict function  :  yhat.randomForest  will be used (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; predict function  :  yhat.randomForest  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.3604002 , max =  1  
-#&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.76 , mean =  0.003433159 , max =  0.71  
-#&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'><span class='no'>mp_rf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_rf</span>)
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>mp_rf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_rf</span>)
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_rf</span>)</div><div class='img'><img src='plot.model_performance_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_rf</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"boxplot"</span>, <span class='kw'>show_outliers</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='img'><img src='plot.model_performance_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>HR_rf_model2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)~<span class='no'>age</span> + <span class='no'>hours</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)
 <span class='no'>explainer_rf2</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model2</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  randomForest  (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; model label       :  randomForest  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  7847  rows  6  cols 
 #&gt;   -&gt; target variable   :  7847  values 
-#&gt;   -&gt; predict function  :  yhat.randomForest  will be used (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; predict function  :  yhat.randomForest  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.3643023 , max =  1  
-#&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.47 , mean =  -0.000468969 , max =  0.48  
-#&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'><span class='no'>mp_rf2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_rf2</span>)
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>mp_rf2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_rf2</span>)
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_rf</span>, <span class='no'>mp_rf2</span>)</div><div class='img'><img src='plot.model_performance_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"glm"</span>,
@@ -210,20 +210,20 @@
 #&gt;   -&gt; target variable   :  7847  values 
 #&gt;   -&gt; predict function  :  function(m, x) predict.glm(m, x, type = "response") 
 #&gt;   -&gt; predicted values  :  numerical, min =  0.00861694 , mean =  0.3638333 , max =  0.7822214  
-#&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.7755901 , mean =  -1.293796e-13 , max =  0.9820537  
-#&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'><span class='no'>mp_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_glm</span>)
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>mp_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_glm</span>)
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_glm</span>)</div><div class='img'><img src='plot.model_performance_explainer-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>HR_lm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)
 <span class='no'>explainer_lm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_lm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  lm  (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  7847  rows  6  cols 
 #&gt;   -&gt; target variable   :  7847  values 
-#&gt;   -&gt; predict function  :  yhat.lm  will be used (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; predict function  :  yhat.lm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  -0.2620918 , mean =  0.3638333 , max =  0.7150183  
-#&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.7083516 , mean =  3.062251e-14 , max =  1.138386  
-#&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'><span class='no'>mp_lm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_lm</span>)
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>mp_lm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_lm</span>)
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_lm</span>)</div><div class='img'><img src='plot.model_performance_explainer-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_rf</span>, <span class='no'>mp_glm</span>, <span class='no'>mp_lm</span>)</div><div class='img'><img src='plot.model_performance_explainer-6.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_rf</span>, <span class='no'>mp_glm</span>, <span class='no'>mp_lm</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"boxplot"</span>)</div><div class='img'><img src='plot.model_performance_explainer-7.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_rf</span>, <span class='no'>mp_glm</span>, <span class='no'>mp_lm</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"boxplot"</span>, <span class='kw'>show_outliers</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='img'><img src='plot.model_performance_explainer-8.png' alt='' width='700' height='433' /></div><div class='input'> # }
 

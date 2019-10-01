@@ -82,7 +82,7 @@ Find information how to use these functions here: https://pbiecek.github.io/PM_V
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.4.7</span>
+          <span class="version version-default">0.4.8</span>
         </div>
       </div>
     </div>
@@ -183,11 +183,11 @@ It's a data frame with calculated average response.</p>
 #&gt;   -&gt; model label       :  model_4v 
 #&gt;   -&gt; data              :  2000  rows  8  cols 
 #&gt;   -&gt; target variable   :  2000  values 
-#&gt;   -&gt; predict function  :  yhat.lm  will be used (<span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; predict function  :  yhat.lm  will be used ( <span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  541.1056 , mean =  1370.986 , max =  3928.189  
-#&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -5421.316 , mean =  -1450.523 , max =  1176.912  
-#&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'><span class='no'>dragon_lm_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_breakdown</span>(<span class='no'>dragon_lm_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>dragon_lm_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_breakdown</span>(<span class='no'>dragon_lm_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>dragon_lm_predict4</span>)</div><div class='output co'>#&gt;                                        variable contribution
 #&gt; 1                                   (Intercept)  1370.985690
 #&gt; scars                               + scars = 0  -397.299680
@@ -219,25 +219,25 @@ It's a data frame with calculated average response.</p>
 #&gt;   -&gt; model label       :  model_rf 
 #&gt;   -&gt; data              :  2000  rows  8  cols 
 #&gt;   -&gt; target variable   :  2000  values 
-#&gt;   -&gt; predict function  :  yhat.randomForest  will be used (</span><span style='color: #BBBB00;'>default</span><span>)
-#&gt;   -&gt; predicted values  :  numerical, min =  658.8083 , mean =  1370.187 , max =  3136.482  
-#&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
-#&gt;   -&gt; residuals         :  numerical, min =  -4707.482 , mean =  -1449.724 , max =  952.2788  
-#&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'><span class='no'>dragon_rf_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_breakdown</span>(<span class='no'>dragon_rf_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
+#&gt;   -&gt; predict function  :  yhat.randomForest  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; predicted values  :  numerical, min =  649.4039 , mean =  1370.249 , max =  3121.17  
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; residuals         :  numerical, min =  -4692.17 , mean =  -1449.787 , max =  945.6483  
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>dragon_rf_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_breakdown</span>(<span class='no'>dragon_rf_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>dragon_rf_predict4</span>)</div><div class='output co'>#&gt;                                        variable contribution
-#&gt; 1                                   (Intercept)   1370.18684
-#&gt; scars                               + scars = 0   -280.09869
-#&gt; number_of_lost_teeth + number_of_lost_teeth = 5   -264.30428
-#&gt; year_of_birth             + year_of_birth = 200     15.13145
-#&gt; weight                          + weight = 12.5     11.10472
-#&gt; height                            + height = 80    182.97607
+#&gt; 1                                   (Intercept)   1370.24915
+#&gt; scars                               + scars = 0   -276.07535
+#&gt; number_of_lost_teeth + number_of_lost_teeth = 5   -264.37578
+#&gt; year_of_birth             + year_of_birth = 200     12.34065
+#&gt; weight                          + weight = 12.5     12.88477
+#&gt; height                            + height = 80    161.99126
 #&gt;                             variable_name variable_value cummulative sign
-#&gt; 1                               Intercept              1   1370.1868    1
-#&gt; scars                               scars              0   1090.0882   -1
-#&gt; number_of_lost_teeth number_of_lost_teeth              5    825.7839   -1
-#&gt; year_of_birth               year_of_birth            200    840.9153    1
-#&gt; weight                             weight           12.5    852.0200    1
-#&gt; height                             height             80   1034.9961    1
+#&gt; 1                               Intercept              1   1370.2492    1
+#&gt; scars                               scars              0   1094.1738   -1
+#&gt; number_of_lost_teeth number_of_lost_teeth              5    829.7980   -1
+#&gt; year_of_birth               year_of_birth            200    842.1387    1
+#&gt; weight                             weight           12.5    855.0234    1
+#&gt; height                             height             80   1017.0147    1
 #&gt;                      position    label
 #&gt; 1                           1 model_rf
 #&gt; scars                       2 model_rf
@@ -258,28 +258,28 @@ It's a data frame with calculated average response.</p>
  <span class='co'># make an explainer for the model</span>
  <span class='no'>explainer_gbm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>, <span class='kw'>predict_function</span> <span class='kw'>=</span>
          <span class='kw'>function</span>(<span class='no'>model</span>, <span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>model</span>, <span class='no'>x</span>, <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>1000</span>))</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  gbm  (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; model label       :  gbm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  2000  rows  8  cols 
-#&gt;   -&gt; target variable   :  not specified! (</span><span style='color: #BB0000;'>WARNING</span><span>)
+#&gt;   -&gt; target variable   :  not specified! ( </span><span style='color: #BB0000;'> WARNING </span><span> )
 #&gt;   -&gt; predict function  :  function(model, x) predict(model, x, n.trees = 1000) 
-#&gt;   -&gt; predicted values  :  numerical, min =  584.4894 , mean =  1370.945 , max =  3559.007  
-#&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
-#&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'> <span class='co'># create a new observation</span>
+#&gt;   -&gt; predicted values  :  numerical, min =  583.2023 , mean =  1371.028 , max =  3579.932  
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'> <span class='co'># create a new observation</span>
  <span class='no'>exp_sgn</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_breakdown</span>(<span class='no'>explainer_gbm</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>exp_sgn</span>)</div><div class='output co'>#&gt;                                        variable contribution
-#&gt; 1                                   (Intercept) 1370.9448893
-#&gt; scars                               + scars = 0 -388.6147269
-#&gt; number_of_lost_teeth + number_of_lost_teeth = 5 -300.1455408
-#&gt; weight                          + weight = 12.5   -0.1212867
-#&gt; height                            + height = 80    0.2155553
-#&gt; year_of_birth             + year_of_birth = 200   21.7120730
+#&gt; 1                                   (Intercept) 1371.0275042
+#&gt; scars                               + scars = 0 -388.0750332
+#&gt; number_of_lost_teeth + number_of_lost_teeth = 5 -303.5010785
+#&gt; weight                          + weight = 12.5   -0.1232589
+#&gt; height                            + height = 80    0.2021862
+#&gt; year_of_birth             + year_of_birth = 200   21.0270377
 #&gt;                             variable_name variable_value cummulative sign
-#&gt; 1                               Intercept              1   1370.9449    1
-#&gt; scars                               scars              0    982.3302   -1
-#&gt; number_of_lost_teeth number_of_lost_teeth              5    682.1846   -1
-#&gt; weight                             weight           12.5    682.0633   -1
-#&gt; height                             height             80    682.2789    1
-#&gt; year_of_birth               year_of_birth            200    703.9910    1
+#&gt; 1                               Intercept              1   1371.0275    1
+#&gt; scars                               scars              0    982.9525   -1
+#&gt; number_of_lost_teeth number_of_lost_teeth              5    679.4514   -1
+#&gt; weight                             weight           12.5    679.3281   -1
+#&gt; height                             height             80    679.5303    1
+#&gt; year_of_birth               year_of_birth            200    700.5574    1
 #&gt;                      position label
 #&gt; 1                           1   gbm
 #&gt; scars                       2   gbm

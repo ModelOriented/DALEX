@@ -88,7 +88,7 @@ if variable importance is different in different in different mdoels." />
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.4.7</span>
+          <span class="version version-default">0.4.8</span>
         </div>
       </div>
     </div>
@@ -196,57 +196,72 @@ if variable importance is different in different in different mdoels.</p>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"randomForest"</span>)
 <span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>100</span>)
 <span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  randomForest  (<span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; model label       :  randomForest  ( <span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  7847  rows  6  cols 
 #&gt;   -&gt; target variable   :  7847  values 
-#&gt;   -&gt; predict function  :  yhat.randomForest  will be used (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; predict function  :  yhat.randomForest  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.3616465 , max =  1  
-#&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.77 , mean =  0.002186823 , max =  0.76  
-#&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'><span class='no'>vd_rf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_importance.html'>variable_importance</a></span>(<span class='no'>explainer_rf</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Please note that 'variable_importance()' is now deprecated, it is better to use 'ingredients::feature_importance()' instead.</span>
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>vd_rf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_importance.html'>variable_importance</a></span>(<span class='no'>explainer_rf</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Please note that 'variable_importance()' is now deprecated, it is better to use 'ingredients::feature_importance()' instead.</span>
 #&gt; <span class='warning'>Find examples and detailed introduction at: https://pbiecek.github.io/PM_VEE/featureImportance.html</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>vd_rf</span>)</div><div class='output co'>#&gt;       variable dropout_loss        label
-#&gt; 1 _full_model_      40.2320 randomForest
-#&gt; 2       status      40.2320 randomForest
-#&gt; 3   evaluation     100.3944 randomForest
-#&gt; 4       gender     106.4699 randomForest
-#&gt; 5          age     132.5090 randomForest
-#&gt; 6       salary     151.8582 randomForest</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>vd_rf</span>)</div><div class='img'><img src='plot.variable_importance_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; 1 _full_model_      44.0444 randomForest
+#&gt; 2       status      44.0444 randomForest
+#&gt; 3   evaluation     101.0558 randomForest
+#&gt; 4       gender     119.3167 randomForest
+#&gt; 5          age     146.6240 randomForest
+#&gt; 6       salary     159.0781 randomForest</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>vd_rf</span>)</div><div class='img'><img src='plot.variable_importance_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  lm  (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  7847  rows  6  cols 
 #&gt;   -&gt; target variable   :  7847  values 
-#&gt;   -&gt; predict function  :  yhat.glm  will be used (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  0.00861694 , mean =  0.3638333 , max =  0.7822214  
-#&gt;   -&gt; residual function :  difference between y and yhat (</span><span style='color: #BBBB00;'>default</span><span>)
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.7755901 , mean =  -1.293796e-13 , max =  0.9820537  
-#&gt; </span><span style='color: #00BB00;'>A new explainer has been created!</span><span></div><div class='input'><span class='no'>logit</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span>(<span class='no'>x</span>)/(<span class='fl'>1</span>+<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span>(<span class='no'>x</span>))
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>logit</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span>(<span class='no'>x</span>)/(<span class='fl'>1</span>+<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span>(<span class='no'>x</span>))
 <span class='no'>vd_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_importance.html'>variable_importance</a></span>(<span class='no'>explainer_glm</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>,
                         <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>)
                                    <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>((<span class='no'>observed</span> - <span class='fu'>logit</span>(<span class='no'>predicted</span>))^<span class='fl'>2</span>))
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>vd_glm</span>)</div><div class='output co'>#&gt;       variable dropout_loss label
-#&gt; 1 _full_model_     259.0632    lm
-#&gt; 2       salary     259.0569    lm
-#&gt; 3       status     259.0632    lm
-#&gt; 4          age     259.0833    lm
-#&gt; 5       gender     259.1525    lm
-#&gt; 6   evaluation     263.4810    lm</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>vd_glm</span>)</div><div class='img'><img src='plot.variable_importance_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"xgboost"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in library("xgboost"): there is no package called ‘xgboost’</span></div><div class='input'><span class='no'>model_martix_train</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/model.matrix.html'>model.matrix</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>-<span class='fl'>1</span>, <span class='no'>HR</span>)
-<span class='no'>data_train</span> <span class='kw'>&lt;-</span> <span class='fu'>xgb.DMatrix</span>(<span class='no'>model_martix_train</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in xgb.DMatrix(model_martix_train, label = HR$status == "fired"): could not find function "xgb.DMatrix"</span></div><div class='input'><span class='no'>param</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>max_depth</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>eta</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>silent</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>nthread</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+#&gt; 1 _full_model_     254.3514    lm
+#&gt; 2       gender     254.2625    lm
+#&gt; 3          age     254.3328    lm
+#&gt; 4       status     254.3514    lm
+#&gt; 5       salary     254.3697    lm
+#&gt; 6   evaluation     259.1741    lm</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>vd_glm</span>)</div><div class='img'><img src='plot.variable_importance_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"xgboost"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: package ‘xgboost’ was built under R version 3.5.2</span></div><div class='input'><span class='no'>model_martix_train</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/model.matrix.html'>model.matrix</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>-<span class='fl'>1</span>, <span class='no'>HR</span>)
+<span class='no'>data_train</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/xgboost/man/xgb.DMatrix.html'>xgb.DMatrix</a></span>(<span class='no'>model_martix_train</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)
+<span class='no'>param</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>max_depth</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>eta</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>silent</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>nthread</span> <span class='kw'>=</span> <span class='fl'>2</span>,
               <span class='kw'>objective</span> <span class='kw'>=</span> <span class='st'>"binary:logistic"</span>, <span class='kw'>eval_metric</span> <span class='kw'>=</span> <span class='st'>"auc"</span>)
-<span class='no'>HR_xgb_model</span> <span class='kw'>&lt;-</span> <span class='fu'>xgb.train</span>(<span class='no'>param</span>, <span class='no'>data_train</span>, <span class='kw'>nrounds</span> <span class='kw'>=</span> <span class='fl'>50</span>)</div><div class='output co'>#&gt; <span class='error'>Error in xgb.train(param, data_train, nrounds = 50): could not find function "xgb.train"</span></div><div class='input'><span class='no'>explainer_xgb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_xgb_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>model_martix_train</span>,
+<span class='no'>HR_xgb_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/xgboost/man/xgb.train.html'>xgb.train</a></span>(<span class='no'>param</span>, <span class='no'>data_train</span>, <span class='kw'>nrounds</span> <span class='kw'>=</span> <span class='fl'>50</span>)
+<span class='no'>explainer_xgb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_xgb_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>model_martix_train</span>,
                                     <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"xgboost"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  xgboost 
 #&gt;   -&gt; data              :  7847  rows  6  cols 
-#&gt;   -&gt; target variable   :  7847  values </div><div class='output co'>#&gt; <span class='error'>Error in paste0("yhat.", class(model)): object 'HR_xgb_model' not found</span></div><div class='input'><span class='no'>vd_xgb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_importance.html'>variable_importance</a></span>(<span class='no'>explainer_xgb</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in "explainer" %in% class(explainer): object 'explainer_xgb' not found</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>vd_xgb</span>)</div><div class='output co'>#&gt; <span class='error'>Error in head(vd_xgb): object 'vd_xgb' not found</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>vd_xgb</span>)</div><div class='output co'>#&gt; <span class='error'>Error in plot(vd_xgb): object 'vd_xgb' not found</span></div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>vd_rf</span>, <span class='no'>vd_glm</span>, <span class='no'>vd_xgb</span>, <span class='kw'>bar_width</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div><div class='output co'>#&gt; <span class='error'>Error in combine_explainers(x, ...): object 'vd_xgb' not found</span></div><div class='input'>
+#&gt;   -&gt; target variable   :  7847  values 
+#&gt;   -&gt; predict function  : yhat.default will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; predicted values  :  numerical, min =  1.687903e-06 , mean =  0.363713 , max =  0.9996712  
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9885727 , mean =  0.0001203494 , max =  0.9970635  
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>vd_xgb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_importance.html'>variable_importance</a></span>(<span class='no'>explainer_xgb</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>vd_xgb</span>)</div><div class='output co'>#&gt;       variable dropout_loss   label
+#&gt; 1 _full_model_     108.3493 xgboost
+#&gt; 2   gendermale     108.3493 xgboost
+#&gt; 3   evaluation     123.0438 xgboost
+#&gt; 4 genderfemale     167.7759 xgboost
+#&gt; 5          age     169.1616 xgboost
+#&gt; 6       salary     180.2870 xgboost</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>vd_xgb</span>)</div><div class='img'><img src='plot.variable_importance_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>vd_rf</span>, <span class='no'>vd_glm</span>, <span class='no'>vd_xgb</span>, <span class='kw'>bar_width</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div><div class='img'><img src='plot.variable_importance_explainer-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># NOTE:</span>
 <span class='co'># if you like to have all importances hooked to 0, you can do this as well</span>
 <span class='no'>vd_rf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_importance.html'>variable_importance</a></span>(<span class='no'>explainer_rf</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"difference"</span>)
 <span class='no'>vd_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_importance.html'>variable_importance</a></span>(<span class='no'>explainer_glm</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"difference"</span>,
                         <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>)
                                    <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>((<span class='no'>observed</span> - <span class='fu'>logit</span>(<span class='no'>predicted</span>))^<span class='fl'>2</span>))
-<span class='no'>vd_xgb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_importance.html'>variable_importance</a></span>(<span class='no'>explainer_xgb</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"difference"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in "explainer" %in% class(explainer): object 'explainer_xgb' not found</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>vd_rf</span>, <span class='no'>vd_glm</span>, <span class='no'>vd_xgb</span>, <span class='kw'>bar_width</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div><div class='output co'>#&gt; <span class='error'>Error in combine_explainers(x, ...): object 'vd_xgb' not found</span></div><div class='input'> # }
+<span class='no'>vd_xgb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_importance.html'>variable_importance</a></span>(<span class='no'>explainer_xgb</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"difference"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>vd_rf</span>, <span class='no'>vd_glm</span>, <span class='no'>vd_xgb</span>, <span class='kw'>bar_width</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div><div class='img'><img src='plot.variable_importance_explainer-5.png' alt='' width='700' height='433' /></div><div class='input'> # }
 
 </div></span></pre>
   </div>
