@@ -50,7 +50,8 @@ library("DALEX")
 explain_titanic_rf <- explain(model_titanic_rf, 
                       data = titanic[,-9],
                       y = titanic$survived == "yes", 
-                      label = "Random Forest v7")
+                      label = "Random Forest v7",
+                      colorize = FALSE)
 ```
 
 # Variable importance plots
@@ -153,7 +154,8 @@ model_titanic_gbm <- gbm(survived == "yes" ~ class + gender + age + sibsp +
 explain_titanic_gbm <- explain(model_titanic_gbm, data = titanic, 
                        y = titanic$survived == "yes", 
                        predict_function = function(m,x) predict(m, x, n.trees = 15000, type = "response"),
-                       label = "Generalized Boosted Models")
+                       label = "Generalized Boosted Models",
+                       colorize = FALSE)
 ```
  
 ## Support Vector Machines (SVM)
@@ -165,7 +167,8 @@ model_titanic_svm <- svm(survived == "yes" ~ class + gender + age + sibsp +
              type = "C-classification", probability = TRUE)
 explain_titanic_svm <- explain(model_titanic_svm, data = titanic, 
                        y = titanic$survived == "yes", 
-                       label = "Support Vector Machines")
+                       label = "Support Vector Machines",
+                       colorize = FALSE)
 ```
  
 ## k-Nearest Neighbours (kNN)
@@ -177,7 +180,8 @@ model_titanic_knn <- knn3(survived == "yes" ~ class + gender + age + sibsp +
 explain_titanic_knn <- explain(model_titanic_knn, data = titanic, 
                        y = titanic$survived == "yes", 
                        predict_function = function(m,x) predict(m, x)[,2],
-                       label = "k-Nearest Neighbours")
+                       label = "k-Nearest Neighbours",
+                       colorize = FALSE)
 ```
 
 ## Variable performance

@@ -7,11 +7,12 @@
 \usage{
 explain.default(model, data = NULL, y = NULL,
   predict_function = NULL, residual_function = NULL, ...,
-  label = NULL, verbose = TRUE, precalculate = TRUE)
+  label = NULL, verbose = TRUE, precalculate = TRUE,
+  colorize = TRUE)
 
 explain(model, data = NULL, y = NULL, predict_function = NULL,
   residual_function = NULL, ..., label = NULL, verbose = TRUE,
-  precalculate = TRUE)
+  precalculate = TRUE, colorize = TRUE)
 }
 \arguments{
 \item{model}{object - a model to be explained}
@@ -30,7 +31,9 @@ explain(model, data = NULL, y = NULL, predict_function = NULL,
 
 \item{verbose}{if TRUE (default) then diagnostic messages will be printed}
 
-\item{precalculate}{if TRUE (default) then \code{predicted_values} and \code{residual} are calculated when explainer is created.
+\item{precalculate}{if TRUE (default) then \code{predicted_values} and \code{residual} are calculated when explainer is created.}
+
+\item{colorize}{if TRUE (default) then \code{WARNINGS}, \code{ERRORS} and \code{NOTES} are colorized. Will work only in the R console.
 This will happen also if \code{verbose} is TRUE. Set both \code{verbose} and \code{precalculate} to FALSE to omit calculations.}
 }
 \value{
@@ -78,7 +81,7 @@ aps_lm <- explain(aps_lm_model4, data = apartments, label = "model_4v", y = apar
 aps_lm <- explain(aps_lm_model4, data = apartments, label = "model_4v", y = apartments$m2.price,
                                    predict_function = predict)
 
- \dontrun{
+\dontrun{
 # more complex model
 library("randomForest")
 aps_rf_model4 <- randomForest(m2.price ~., data = apartments)

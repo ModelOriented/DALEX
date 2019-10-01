@@ -1,6 +1,10 @@
+DALEX 0.4.8
+----------------------------------------------------------------
+* new argument `colorize` in the `explain()` as requested in ([#112](https://github.com/ModelOriented/DALEX/issues/112)).
+
 DALEX 0.4.7
 ----------------------------------------------------------------
-* new dataset `titanic_imputed` as requeted in ([#104](https://github.com/ModelOriented/DALEX/issues/104)).
+* new dataset `titanic_imputed` as requested in ([#104](https://github.com/ModelOriented/DALEX/issues/104)).
 * the `explain()` function now detects if target variable `y` is present in the `data` as requested in  ([#103](https://github.com/ModelOriented/DALEX/issues/103)).
 * the DALEX GitHub repository is transfered from `pbiecek/DALEX` to [ModelOriented/DALEX](https://github.com/ModelOriented/DALEX/).
 
