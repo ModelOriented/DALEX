@@ -94,7 +94,7 @@
       <h1>Survival on the RMS Titanic</h1>
                         <h4 class="author">Przemyslaw Biecek</h4>
             
-            <h4 class="date">2019-10-01</h4>
+            <h4 class="date">2019-10-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/DALEX/blob/master/vignettes/vignette_titanic.Rmd"><code>vignettes/vignette_titanic.Rmd</code></a></small>
       <div class="hidden name"><code>vignette_titanic.Rmd</code></div>
@@ -134,8 +134,8 @@
 #&gt;                      Number of trees: 500
 #&gt; No. of variables tried at each split: 2
 #&gt; 
-#&gt;           Mean of squared residuals: 0.1427886
-#&gt;                     % Var explained: 34.85</code></pre>
+#&gt;           Mean of squared residuals: 0.1432805
+#&gt;                     % Var explained: 34.63</code></pre>
 </div>
 <div id="explainer-for-titanic-survival" class="section level1">
 <h1 class="hasAnchor">
@@ -152,9 +152,9 @@
 #&gt;   -&gt; data              :  2099  rows  8  cols 
 #&gt;   -&gt; target variable   :  2099  values 
 #&gt;   -&gt; predict function  :  yhat.randomForest  will be used (  default  )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.01427471 , mean =  0.3240678 , max =  0.9911059  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.0102167 , mean =  0.32495 , max =  0.9905042  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7933525 , mean =  0.0003723679 , max =  0.9098434  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7905312 , mean =  -0.0005098183 , max =  0.910826  
 #&gt;   A new explainer has been created!</code></pre>
 </div>
 <div id="variable-importance-plots" class="section level1">
@@ -164,12 +164,12 @@
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">vi_rf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_importance.html">variable_importance</a></span>(explain_titanic_rf)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(vi_rf)</a></code></pre></div>
 <pre><code>#&gt;       variable dropout_loss            label
-#&gt; 1 _full_model_     108.9084 Random Forest v7
-#&gt; 2      country     108.9084 Random Forest v7
-#&gt; 3        sibsp     117.4128 Random Forest v7
-#&gt; 4        parch     118.4902 Random Forest v7
-#&gt; 5     embarked     121.1563 Random Forest v7
-#&gt; 6         fare     136.1001 Random Forest v7</code></pre>
+#&gt; 1 _full_model_     106.1047 Random Forest v7
+#&gt; 2      country     106.1047 Random Forest v7
+#&gt; 3        sibsp     112.6754 Random Forest v7
+#&gt; 4        parch     113.1266 Random Forest v7
+#&gt; 5     embarked     116.4094 Random Forest v7
+#&gt; 6         fare     133.0584 Random Forest v7</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(vi_rf)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
@@ -185,12 +185,12 @@
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">vr_age  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_response.html">variable_response</a></span>(explain_titanic_rf, <span class="dt">variable =</span>  <span class="st">"age"</span>)</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(vr_age)</a></code></pre></div>
 <pre><code>#&gt;           x            y var type            label
-#&gt; 1 0.1666667 0.519366.... age  pdp Random Forest v7
-#&gt; 2 1.6433333 0.561608.... age  pdp Random Forest v7
-#&gt; 3 3.1200000 0.577325.... age  pdp Random Forest v7
-#&gt; 4 4.5966667 0.552780.... age  pdp Random Forest v7
-#&gt; 5 6.0733333 0.531785.... age  pdp Random Forest v7
-#&gt; 6 7.5500000 0.531887.... age  pdp Random Forest v7</code></pre>
+#&gt; 1 0.1666667 0.529938.... age  pdp Random Forest v7
+#&gt; 2 1.6433333 0.564367.... age  pdp Random Forest v7
+#&gt; 3 3.1200000 0.581823.... age  pdp Random Forest v7
+#&gt; 4 4.5966667 0.548413.... age  pdp Random Forest v7
+#&gt; 5 6.0733333 0.532661.... age  pdp Random Forest v7
+#&gt; 6 7.5500000 0.531328.... age  pdp Random Forest v7</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(vr_age, <span class="dt">use_facets =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
@@ -279,9 +279,9 @@
 #&gt;   -&gt; data              :  2099  rows  9  cols 
 #&gt;   -&gt; target variable   :  2099  values 
 #&gt;   -&gt; predict function  :  function(m, x) predict(m, x, n.trees = 15000, type = "response") 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.0002856809 , mean =  0.3259728 , max =  0.9981336  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.0004318428 , mean =  0.3264202 , max =  0.9985632  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.9454422 , mean =  -0.001532618 , max =  0.9677231  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9514907 , mean =  -0.001979954 , max =  0.9606458  
 #&gt;   A new explainer has been created!</code></pre>
 </div>
 <div id="support-vector-machines-svm" class="section level2">
@@ -300,9 +300,9 @@
 #&gt;   -&gt; data              :  2099  rows  9  cols 
 #&gt;   -&gt; target variable   :  2099  values 
 #&gt;   -&gt; predict function  :  yhat.svm  will be used (  default  )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.0863863 , mean =  0.3265084 , max =  0.9571083  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.08569293 , mean =  0.3246578 , max =  0.956285  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.854007 , mean =  -0.002068236 , max =  0.8905647  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8518538 , mean =  -0.0002176127 , max =  0.8914724  
 #&gt;   A new explainer has been created!</code></pre>
 </div>
 <div id="k-nearest-neighbours-knn" class="section level2">
