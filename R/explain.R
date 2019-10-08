@@ -16,6 +16,7 @@
 #' @param verbose if TRUE (default) then diagnostic messages will be printed
 #' @param precalculate if TRUE (default) then \code{predicted_values} and \code{residual} are calculated when explainer is created.
 #' @param colorize if TRUE (default) then \code{WARNINGS}, \code{ERRORS} and \code{NOTES} are colorized. Will work only in the R console.
+#' @param model_info a named list (package, version, type) containg information about model. If NULL, DALEX will seek for information on it's own.
 #' This will happen also if \code{verbose} is TRUE. Set both \code{verbose} and \code{precalculate} to FALSE to omit calculations.
 #'
 #' @return An object of the class \code{explainer}.
@@ -30,7 +31,7 @@
 #' \item \code{residuals} calculated residuals
 #' \item \code{predict_function} function that may be used for model predictions, shall return a single numerical value for each observation.
 #' \item \code{residual_function} function that returns residuals, shall return a single numerical value for each observation.
-#' \item \code{class} class/classes of a model
+#' \item \code{model_info} named list contating basic information about model, like package, version of package and type.
 #' }
 #'
 #' @rdname explain
@@ -71,7 +72,7 @@
 #' @export
 #' @rdname explain
 explain.default <- function(model, data = NULL, y = NULL, predict_function = NULL, residual_function = NULL, ...,
-                            label = NULL, verbose = TRUE, precalculate = TRUE, colorize = TRUE) {
+                            label = NULL, verbose = TRUE, precalculate = TRUE, colorize = TRUE, model_info = NULL) {
   verbose_cat("Preparation of a new explainer is initiated\n", verbose = verbose)
 
   # set colors
@@ -201,6 +202,11 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
       }
     }
   }
+  if (is.null(model_info)) {
+    model_info <- model_info(model)
+        verbose_cat("  -> model_info        :  Task type not specified, assuming", model_info$type, "(", color_codes$red_start,"WARNING",color_codes$red_end, ")", "\n", verbose = verbose)
+
+  }
 
   # READY to create an explainer
 
@@ -210,8 +216,8 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
                     predict_function = predict_function,
                     y_hat = y_hat,
                     residuals = residuals,
-                    class = class(model),
-                    label = label)
+                    label = label,
+                    model_info = model_info)
   explainer <- c(explainer, list(...))
   class(explainer) <- "explainer"
 

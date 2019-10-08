@@ -8,11 +8,11 @@
 explain.default(model, data = NULL, y = NULL,
   predict_function = NULL, residual_function = NULL, ...,
   label = NULL, verbose = TRUE, precalculate = TRUE,
-  colorize = TRUE)
+  colorize = TRUE, model_info = NULL)
 
 explain(model, data = NULL, y = NULL, predict_function = NULL,
   residual_function = NULL, ..., label = NULL, verbose = TRUE,
-  precalculate = TRUE, colorize = TRUE)
+  precalculate = TRUE, colorize = TRUE, model_info = NULL)
 }
 \arguments{
 \item{model}{object - a model to be explained}
@@ -33,7 +33,9 @@ explain(model, data = NULL, y = NULL, predict_function = NULL,
 
 \item{precalculate}{if TRUE (default) then \code{predicted_values} and \code{residual} are calculated when explainer is created.}
 
-\item{colorize}{if TRUE (default) then \code{WARNINGS}, \code{ERRORS} and \code{NOTES} are colorized. Will work only in the R console.
+\item{colorize}{if TRUE (default) then \code{WARNINGS}, \code{ERRORS} and \code{NOTES} are colorized. Will work only in the R console.}
+
+\item{model_info}{a named list (package, version, type) containg information about model. If NULL, DALEX will seek for information on it's own.
 This will happen also if \code{verbose} is TRUE. Set both \code{verbose} and \code{precalculate} to FALSE to omit calculations.}
 }
 \value{
@@ -49,7 +51,7 @@ It's a list with following fields:
 \item \code{residuals} calculated residuals
 \item \code{predict_function} function that may be used for model predictions, shall return a single numerical value for each observation.
 \item \code{residual_function} function that returns residuals, shall return a single numerical value for each observation.
-\item \code{class} class/classes of a model
+\item \code{model_info} named list contating basic information about model, like package, version of package and type.
 }
 }
 \description{
