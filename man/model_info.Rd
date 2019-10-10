@@ -14,30 +14,32 @@
 \alias{model_info.default}
 \title{Exract info from model}
 \usage{
-model_info(model)
+model_info(model, ...)
 
-\method{model_info}{lm}(model)
+\method{model_info}{lm}(model, ...)
 
-\method{model_info}{randomForest}(model)
+\method{model_info}{randomForest}(model, ...)
 
-\method{model_info}{svm}(model)
+\method{model_info}{svm}(model, ...)
 
-\method{model_info}{glm}(model)
+\method{model_info}{glm}(model, ...)
 
-\method{model_info}{glmnet}(model)
+\method{model_info}{glmnet}(model, ...)
 
-\method{model_info}{cv.glmnet}(model)
+\method{model_info}{cv.glmnet}(model, ...)
 
-\method{model_info}{ranger}(model)
+\method{model_info}{ranger}(model, ...)
 
-\method{model_info}{model_fit}(model)
+\method{model_info}{model_fit}(model, ...)
 
-\method{model_info}{train}(model)
+\method{model_info}{train}(model, ...)
 
-\method{model_info}{default}(model)
+\method{model_info}{default}(model, ...)
 }
 \arguments{
-\item{model}{- model object
+\item{model}{- model object}
+
+\item{...}{- another arguments
 
 Currently supported packages are:
 \itemize{

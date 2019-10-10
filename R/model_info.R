@@ -5,6 +5,7 @@
 #' are stored
 #'
 #' @param model - model object
+#' @param ... - another arguments
 #'
 #' Currently supported packages are:
 #' \itemize{
@@ -22,13 +23,13 @@
 #'
 #' @rdname model_info
 #' @export
-model_info <- function(model)
+model_info <- function(model, ...)
   UseMethod("model_info")
 
 
 #' @rdname model_info
 #' @export
-model_info.lm <- function(model) {
+model_info.lm <- function(model, ...) {
   type <- "regression"
   package <- "base"
   ver <- utils::packageVersion("base")
@@ -39,7 +40,7 @@ model_info.lm <- function(model) {
 
 #' @rdname model_info
 #' @export
-model_info.randomForest <- function(model) {
+model_info.randomForest <- function(model, ...) {
   type <- model$type
   package <- "randomForest"
   ver <- utils::packageVersion("randomForest")
@@ -50,7 +51,7 @@ model_info.randomForest <- function(model) {
 
 #' @rdname model_info
 #' @export
-model_info.svm <- function(model) {
+model_info.svm <- function(model, ...) {
   if (model$type == 0) {
     type <- "classification"
   } else {
@@ -65,7 +66,7 @@ model_info.svm <- function(model) {
 
 #' @rdname model_info
 #' @export
-model_info.glm <- function (model) {
+model_info.glm <- function(model, ...) {
   type <- "regression"
   package <- "stats"
   ver <- utils::packageVersion("stats")
@@ -77,7 +78,7 @@ model_info.glm <- function (model) {
 
 #' @rdname model_info
 #' @export
-model_info.glmnet <- function (model) {
+model_info.glmnet <- function(model, ...) {
   type <- "regression"
   package <- "glmnet"
   ver <- utils::packageVersion("glmnet")
@@ -88,7 +89,7 @@ model_info.glmnet <- function (model) {
 
 #' @rdname model_info
 #' @export
-model_info.cv.glmnet <- function (model) {
+model_info.cv.glmnet <- function(model, ...) {
   type <- "regression"
   package <- "glmnet"
   ver <- utils::packageVersion("glmnet")
@@ -99,7 +100,7 @@ model_info.cv.glmnet <- function (model) {
 
 #' @rdname model_info
 #' @export
-model_info.ranger <- function (model) {
+model_info.ranger <- function(model, ...) {
   if (model$treetype == "Regression") {
     type <- "regression"
   } else {
@@ -114,7 +115,7 @@ model_info.ranger <- function (model) {
 
 #' @rdname model_info
 #' @export
-model_info.model_fit <- function (model) {
+model_info.model_fit <- function(model, ...) {
   type <- model$spec$mode
   package_wrapper <- "parsnip"
   ver_wrapper <- utils::packageVersion("parsnip")
@@ -127,7 +128,7 @@ model_info.model_fit <- function (model) {
 
 #' @rdname model_info
 #' @export
-model_info.train <- function (model) {
+model_info.train <- function(model, ...) {
   type <- model$modelType
   package_wrapper <- "caret"
   ver_wrapper <- utils::packageVersion("caret")
@@ -140,7 +141,7 @@ model_info.train <- function (model) {
 
 #' @rdname model_info
 #' @export
-model_info.default <- function (model) {
+model_info.default <- function(model, ...) {
   type <- "regression"
   package <- paste("Model of class:", class(model), "package unrecognized")
   ver <- "Unknown"
