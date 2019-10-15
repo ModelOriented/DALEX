@@ -4,14 +4,16 @@
 \alias{update_data}
 \title{Update data of an explainer object}
 \usage{
-update_data(explainer, new_data, new_y)
+update_data(explainer, data, y = NULL, verbose = TRUE)
 }
 \arguments{
 \item{explainer}{- explainer object that is supposed to be updated.}
 
-\item{new_data}{- new data, is going to be passed to an explainer}
+\item{data}{- new data, is going to be passed to an explainer}
 
-\item{new_y}{- new y, is going to be passed to an explainer}
+\item{y}{- new y, is going to be passed to an explainer}
+
+\item{verbose}{- logical, indicates if information about update should be printed}
 }
 \value{
 updated explainer object
@@ -22,6 +24,6 @@ Function allows users to update data an y of any explainer in a unified way. It 
 \examples{
 aps_lm_model4 <- lm(m2.price ~., data = apartments)
 aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, label = "model_4v")
-new_explainer <- update_data(aps_lm_explainer4, new_data = apartmentsTest, new_y = apartmentsTest$m2.price)
+explainer <- update_data(aps_lm_explainer4, data = apartmentsTest, y = apartmentsTest$m2.price)
 
 }

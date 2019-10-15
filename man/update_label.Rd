@@ -4,12 +4,14 @@
 \alias{update_label}
 \title{Update label of explainer object}
 \usage{
-update_label(explainer, new_label)
+update_label(explainer, label, verbose = TRUE)
 }
 \arguments{
 \item{explainer}{- explainer object that is supposed to be updated.}
 
-\item{new_label}{- new label, is going to be passed to an explainer}
+\item{label}{- new label, is going to be passed to an explainer}
+
+\item{verbose}{- logical, indicates if information about update should be printed}
 }
 \value{
 updated explainer object
@@ -20,5 +22,5 @@ Function allows users to update label of any explainer in a unified way. It does
 \examples{
 aps_lm_model4 <- lm(m2.price ~., data = apartments)
 aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, label = "model_4v")
-new_explainer <- update_label(aps_lm_explainer4, new_label = "new_lm")
+explainer <- update_label(aps_lm_explainer4, label = "lm")
 }

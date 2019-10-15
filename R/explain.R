@@ -204,7 +204,12 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
   }
   if (is.null(model_info)) {
     model_info <- model_info(model)
-        verbose_cat("  -> model_info        :  Task type not specified, assuming", model_info$type, "(", color_codes$red_start,"WARNING",color_codes$red_end, ")", "\n", verbose = verbose)
+    verbose_cat("  -> model_info        :  model_info not specified, assuming type:", model_info$type, "(", color_codes$yellow_start,"default",color_codes$yellow_end, ")", "\n", verbose = verbose)
+    verbose_cat("  -> model_info        :  package:", model_info$package[1], as.character(model_info$ver[1]), "(", color_codes$yellow_start,"default",color_codes$yellow_end, ")", "\n", verbose = verbose)
+
+  } else {
+    verbose_cat("  -> model_info        :  Task type:", model_info$type, "\n", verbose = verbose)
+    verbose_cat("  -> model_info        :  package:", model_info$package[1], as.character(model_info$ver[1]), "\n", verbose = verbose)
 
   }
 

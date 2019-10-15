@@ -1,6 +1,8 @@
 DALEX 0.4.8
 ----------------------------------------------------------------
 * new argument `colorize` in the `explain()` as requested in ([#112](https://github.com/ModelOriented/DALEX/issues/112)).
+* new generic function `model_info()`. It will extract basic irnformation like model package nam version and task type. ([#109](https://github.com/ModelOriented/DALEX/issues/109), [#110](https://github.com/ModelOriented/DALEX/issues/110))
+* new functions `update_data()` and `update_label()`. ([#114](https://github.com/ModelOriented/DALEX/issues/114))) 
 
 DALEX 0.4.7
 ----------------------------------------------------------------

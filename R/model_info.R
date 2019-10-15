@@ -31,8 +31,8 @@ model_info <- function(model, ...)
 #' @export
 model_info.lm <- function(model, ...) {
   type <- "regression"
-  package <- "base"
-  ver <- utils::packageVersion("base")
+  package <- "stats"
+  ver <- utils::packageVersion("stats")
   model_info <- list(package = package, ver = ver, type = type)
   class(model_info) <- "model_info"
   model_info
@@ -121,7 +121,7 @@ model_info.model_fit <- function(model, ...) {
   ver_wrapper <- utils::packageVersion("parsnip")
   package <- model$spec$engine
   ver <- utils::packageVersion(package)
-  model_info <- list(package = list(wrapper = package_wrapper, package = package), ver = list(wrapper = ver_wrapper, package = ver), type = type)
+  model_info <- list(package = c(wrapper = package_wrapper, package = package), ver = c(wrapper = ver_wrapper, package = ver), type = type)
   class(model_info) <- "model_info"
   model_info
 }
@@ -134,7 +134,7 @@ model_info.train <- function(model, ...) {
   ver_wrapper <- utils::packageVersion("caret")
   package <- model$modelInfo$library
   ver <- utils::packageVersion(package)
-  model_info <- list(package = list(wrapper = package_wrapper, package = package), ver = list(wrapper = ver_wrapper, package = ver), type = type)
+  model_info <- c(package = list(wrapper = package_wrapper, package = package), ver = c(wrapper = ver_wrapper, package = ver), type = type)
   class(model_info) <- "model_info"
   model_info
 }
@@ -160,13 +160,17 @@ model_info.default <- function(model, ...) {
 #' @export
 print.model_info <- function(x, ...) {
  if (length(x$package) == 2) {
-   cat(paste("Wrapper package:", x$package$wrapper, "\n"))
-   cat(paste("Wrapper package version:", x$ver$wrapper, "\n"))
-   cat(paste("Package:", x$package$package, "\n"))
-   cat(paste("Package version:", x$ver$package, "\n"))
+   cat(paste("Wrapper package:", x$package["wrapper"], "\n"))
+   cat(paste("Wrapper package version:", x$ver["wrapper"], "\n"))
+   cat(paste("Package:", x$package["package"], "\n"))
+   cat(paste("Package version:", x$ver["package"], "\n"))
  } else {
    cat(paste("Package:", x$package, "\n"))
    cat(paste("Package version:", x$ver, "\n"))
  }
   cat(paste("Task type:", x$type))
 }
+
+color_codes <- list(yellow_start = "\033[33m", yellow_end = "\033[39m",
+                    red_start = "\033[31m", red_end = "\033[39m",
+                    green_start = "\033[32m", green_end = "\033[39m")
