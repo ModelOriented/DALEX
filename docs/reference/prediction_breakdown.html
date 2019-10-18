@@ -187,6 +187,7 @@ It's a data frame with calculated average response.</p>
 #&gt;   -&gt; predicted values  :  numerical, min =  541.1056 , mean =  1370.986 , max =  3928.189  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -5421.316 , mean =  -1450.523 , max =  1176.912  
+#&gt;   -&gt; model_info        :  package stats , ver. 3.6.1 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>dragon_lm_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_breakdown</span>(<span class='no'>dragon_lm_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>dragon_lm_predict4</span>)</div><div class='output co'>#&gt;                                        variable contribution
 #&gt; 1                                   (Intercept)  1370.985690
@@ -220,30 +221,31 @@ It's a data frame with calculated average response.</p>
 #&gt;   -&gt; data              :  2000  rows  8  cols 
 #&gt;   -&gt; target variable   :  2000  values 
 #&gt;   -&gt; predict function  :  yhat.randomForest  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  649.4039 , mean =  1370.249 , max =  3121.17  
+#&gt;   -&gt; predicted values  :  numerical, min =  649.8207 , mean =  1369.919 , max =  3173.684  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -4692.17 , mean =  -1449.787 , max =  945.6483  
+#&gt;   -&gt; residuals         :  numerical, min =  -4744.684 , mean =  -1449.457 , max =  975.6451  
+#&gt;   -&gt; model_info        :  package randomForest , ver. 4.6.14 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>dragon_rf_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_breakdown</span>(<span class='no'>dragon_rf_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>dragon_rf_predict4</span>)</div><div class='output co'>#&gt;                                        variable contribution
-#&gt; 1                                   (Intercept)   1370.24915
-#&gt; scars                               + scars = 0   -276.07535
-#&gt; number_of_lost_teeth + number_of_lost_teeth = 5   -264.37578
-#&gt; year_of_birth             + year_of_birth = 200     12.34065
-#&gt; weight                          + weight = 12.5     12.88477
-#&gt; height                            + height = 80    161.99126
+#&gt; 1                                   (Intercept)   1369.91937
+#&gt; scars                               + scars = 0   -278.21287
+#&gt; number_of_lost_teeth + number_of_lost_teeth = 5   -269.07292
+#&gt; weight                          + weight = 12.5     13.87218
+#&gt; year_of_birth             + year_of_birth = 200     10.46813
+#&gt; height                            + height = 80    161.89754
 #&gt;                             variable_name variable_value cummulative sign
-#&gt; 1                               Intercept              1   1370.2492    1
-#&gt; scars                               scars              0   1094.1738   -1
-#&gt; number_of_lost_teeth number_of_lost_teeth              5    829.7980   -1
-#&gt; year_of_birth               year_of_birth            200    842.1387    1
-#&gt; weight                             weight           12.5    855.0234    1
-#&gt; height                             height             80   1017.0147    1
+#&gt; 1                               Intercept              1   1369.9194    1
+#&gt; scars                               scars              0   1091.7065   -1
+#&gt; number_of_lost_teeth number_of_lost_teeth              5    822.6336   -1
+#&gt; weight                             weight           12.5    836.5058    1
+#&gt; year_of_birth               year_of_birth            200    846.9739    1
+#&gt; height                             height             80   1008.8714    1
 #&gt;                      position    label
 #&gt; 1                           1 model_rf
 #&gt; scars                       2 model_rf
 #&gt; number_of_lost_teeth        3 model_rf
-#&gt; year_of_birth               4 model_rf
-#&gt; weight                      5 model_rf
+#&gt; weight                      4 model_rf
+#&gt; year_of_birth               5 model_rf
 #&gt; height                      6 model_rf</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dragon_rf_predict4</span>)</div><div class='img'><img src='prediction_breakdown-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"gbm"</span>)
 <span class='co'># create a gbm model</span>
@@ -262,24 +264,25 @@ It's a data frame with calculated average response.</p>
 #&gt;   -&gt; data              :  2000  rows  8  cols 
 #&gt;   -&gt; target variable   :  not specified! ( </span><span style='color: #BB0000;'> WARNING </span><span> )
 #&gt;   -&gt; predict function  :  function(model, x) predict(model, x, n.trees = 1000) 
-#&gt;   -&gt; predicted values  :  numerical, min =  583.2023 , mean =  1371.028 , max =  3579.932  
+#&gt;   -&gt; predicted values  :  numerical, min =  588.2198 , mean =  1370.98 , max =  3573.622  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; model_info        :  package Model of class: gbm package unrecognized , ver. Unknown , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'> <span class='co'># create a new observation</span>
  <span class='no'>exp_sgn</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_breakdown</span>(<span class='no'>explainer_gbm</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
- <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>exp_sgn</span>)</div><div class='output co'>#&gt;                                        variable contribution
-#&gt; 1                                   (Intercept) 1371.0275042
-#&gt; scars                               + scars = 0 -388.0750332
-#&gt; number_of_lost_teeth + number_of_lost_teeth = 5 -303.5010785
-#&gt; weight                          + weight = 12.5   -0.1232589
-#&gt; height                            + height = 80    0.2021862
-#&gt; year_of_birth             + year_of_birth = 200   21.0270377
+ <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>exp_sgn</span>)</div><div class='output co'>#&gt;                                        variable  contribution
+#&gt; 1                                   (Intercept) 1370.98012604
+#&gt; scars                               + scars = 0 -388.24291651
+#&gt; number_of_lost_teeth + number_of_lost_teeth = 5 -303.04766440
+#&gt; weight                          + weight = 12.5   -0.12440080
+#&gt; height                            + height = 80    0.05019729
+#&gt; year_of_birth             + year_of_birth = 200   18.61321576
 #&gt;                             variable_name variable_value cummulative sign
-#&gt; 1                               Intercept              1   1371.0275    1
-#&gt; scars                               scars              0    982.9525   -1
-#&gt; number_of_lost_teeth number_of_lost_teeth              5    679.4514   -1
-#&gt; weight                             weight           12.5    679.3281   -1
-#&gt; height                             height             80    679.5303    1
-#&gt; year_of_birth               year_of_birth            200    700.5574    1
+#&gt; 1                               Intercept              1   1370.9801    1
+#&gt; scars                               scars              0    982.7372   -1
+#&gt; number_of_lost_teeth number_of_lost_teeth              5    679.6895   -1
+#&gt; weight                             weight           12.5    679.5651   -1
+#&gt; height                             height             80    679.6153    1
+#&gt; year_of_birth               year_of_birth            200    698.2286    1
 #&gt;                      position label
 #&gt; 1                           1   gbm
 #&gt; scars                       2   gbm

@@ -203,6 +203,7 @@ Or the default <code><a href='https://rdrr.io/r/base/Round.html'>round()</a></co
 #&gt;   -&gt; predicted values  :  numerical, min =  541.1056 , mean =  1370.986 , max =  3928.189  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -5421.316 , mean =  -1450.523 , max =  1176.912  
+#&gt;   -&gt; model_info        :  package stats , ver. 3.6.1 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>dragon_lm_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prediction_breakdown.html'>prediction_breakdown</a></span>(<span class='no'>dragon_lm_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Please note that 'prediction_breakdown()' is now deprecated, it is better to use 'iBreakDown::break_down()' instead.</span>
 #&gt; <span class='warning'>Find examples and detailed introduction at: https://pbiecek.github.io/PM_VEE/breakDown.html</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dragon_lm_predict4</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"randomForest"</span>)
@@ -215,14 +216,15 @@ Or the default <code><a href='https://rdrr.io/r/base/Round.html'>round()</a></co
 #&gt;   -&gt; data              :  2000  rows  8  cols 
 #&gt;   -&gt; target variable   :  2000  values 
 #&gt;   -&gt; predict function  :  yhat.randomForest  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  653.0238 , mean =  1369.892 , max =  3148.351  
+#&gt;   -&gt; predicted values  :  numerical, min =  653.59 , mean =  1369.778 , max =  3198.306  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -4719.351 , mean =  -1449.43 , max =  984.6438  
+#&gt;   -&gt; residuals         :  numerical, min =  -4769.306 , mean =  -1449.316 , max =  972.8836  
+#&gt;   -&gt; model_info        :  package randomForest , ver. 4.6.14 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>dragon_rf_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prediction_breakdown.html'>prediction_breakdown</a></span>(<span class='no'>dragon_rf_explainer4</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dragon_rf_predict4</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># both models</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dragon_rf_predict4</span>, <span class='no'>dragon_lm_predict4</span>)</div><div class='img'><img src='plot.prediction_breakdown_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"gbm"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: package ‘gbm’ was built under R version 3.5.2</span></div><div class='output co'>#&gt; <span class='message'>Loaded gbm 2.1.5</span></div><div class='input'><span class='co'># create a gbm model</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"gbm"</span>)</div><div class='output co'>#&gt; <span class='message'>Loaded gbm 2.1.5</span></div><div class='input'><span class='co'># create a gbm model</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/gbm/man/gbm.html'>gbm</a></span>(<span class='no'>life_length</span> ~ <span class='no'>year_of_birth</span> + <span class='no'>height</span> + <span class='no'>weight</span> + <span class='no'>scars</span> + <span class='no'>number_of_lost_teeth</span>,
              <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>,
              <span class='kw'>distribution</span> <span class='kw'>=</span> <span class='st'>"gaussian"</span>,
@@ -238,24 +240,25 @@ Or the default <code><a href='https://rdrr.io/r/base/Round.html'>round()</a></co
 #&gt;   -&gt; data              :  2000  rows  8  cols 
 #&gt;   -&gt; target variable   :  not specified! ( </span><span style='color: #BB0000;'> WARNING </span><span> )
 #&gt;   -&gt; predict function  :  function(model, x) predict(model, x, n.trees = 1000) 
-#&gt;   -&gt; predicted values  :  numerical, min =  587.8115 , mean =  1371.038 , max =  3561.186  
+#&gt;   -&gt; predicted values  :  numerical, min =  584.7895 , mean =  1371.065 , max =  3573.42  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; model_info        :  package Model of class: gbm package unrecognized , ver. Unknown , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'> <span class='co'># create a new observation</span>
  <span class='no'>exp_sgn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prediction_breakdown.html'>prediction_breakdown</a></span>(<span class='no'>explainer_gbm</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>exp_sgn</span>)</div><div class='output co'>#&gt;                                        variable contribution
-#&gt; 1                                   (Intercept) 1371.0376415
-#&gt; scars                               + scars = 0 -388.5560672
-#&gt; number_of_lost_teeth + number_of_lost_teeth = 5 -300.6659541
-#&gt; weight                          + weight = 12.5   -0.0783210
-#&gt; height                            + height = 80    0.3300856
-#&gt; year_of_birth             + year_of_birth = 200   21.0743728
+#&gt; 1                                   (Intercept) 1371.0647157
+#&gt; scars                               + scars = 0 -387.6409823
+#&gt; number_of_lost_teeth + number_of_lost_teeth = 5 -305.2343789
+#&gt; weight                          + weight = 12.5   -0.1604932
+#&gt; height                            + height = 80    0.4687166
+#&gt; year_of_birth             + year_of_birth = 200   20.4083979
 #&gt;                             variable_name variable_value cummulative sign
-#&gt; 1                               Intercept              1   1371.0376    1
-#&gt; scars                               scars              0    982.4816   -1
-#&gt; number_of_lost_teeth number_of_lost_teeth              5    681.8156   -1
-#&gt; weight                             weight           12.5    681.7373   -1
-#&gt; height                             height             80    682.0674    1
-#&gt; year_of_birth               year_of_birth            200    703.1418    1
+#&gt; 1                               Intercept              1   1371.0647    1
+#&gt; scars                               scars              0    983.4237   -1
+#&gt; number_of_lost_teeth number_of_lost_teeth              5    678.1894   -1
+#&gt; weight                             weight           12.5    678.0289   -1
+#&gt; height                             height             80    678.4976    1
+#&gt; year_of_birth               year_of_birth            200    698.9060    1
 #&gt;                      position label
 #&gt; 1                           1   gbm
 #&gt; scars                       2   gbm
