@@ -30,7 +30,6 @@
 #' NOTE: The \code{titanic_imputed} dataset use following imputation rules.
 #' \itemize{
 #' \item Missing `age` is replaced with the mean of the observed ones, i.e., 30.
-#' \item Missing country is coded by “X”.
 #' \item For sibsp and parch, missing values are replaced by the most frequently observed value, i.e., 0.
 #' \item For fare, mean fare for a given class is used, i.e., 0 pounds for crew, 89 pounds for the 1st, 22 pounds for the 2nd, and 13 pounds for the 3rd class.
 #' }

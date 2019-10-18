@@ -6,13 +6,14 @@
 \title{Create Model Explainer}
 \usage{
 explain.default(model, data = NULL, y = NULL,
-  predict_function = NULL, residual_function = NULL, ...,
-  label = NULL, verbose = TRUE, precalculate = TRUE,
+  predict_function = NULL, residual_function = NULL, weights = NULL,
+  ..., label = NULL, verbose = TRUE, precalculate = TRUE,
   colorize = TRUE, model_info = NULL)
 
 explain(model, data = NULL, y = NULL, predict_function = NULL,
-  residual_function = NULL, ..., label = NULL, verbose = TRUE,
-  precalculate = TRUE, colorize = TRUE, model_info = NULL)
+  residual_function = NULL, weights = NULL, ..., label = NULL,
+  verbose = TRUE, precalculate = TRUE, colorize = TRUE,
+  model_info = NULL)
 }
 \arguments{
 \item{model}{object - a model to be explained}
@@ -24,6 +25,8 @@ explain(model, data = NULL, y = NULL, predict_function = NULL,
 \item{predict_function}{function that takes two arguments: model and new data and returns numeric vector with predictions}
 
 \item{residual_function}{function that takes three arguments: model, data and response vector y. It should return a numeric vector with model residuals for given data. If not provided, response residuals (\eqn{y-\hat{y}}) are calculated.}
+
+\item{weights}{numeric vector with sampling weights. By default it's \code{NULL}. If provided then it shall have the same length as \code{data}}
 
 \item{...}{other parameters}
 
@@ -47,6 +50,7 @@ It's a list with following fields:
 \item \code{model} the explained model.
 \item \code{data} the dataset used for training.
 \item \code{y} response for observations from \code{data}.
+\item \code{weights} sample weights for \code{data}. \code{NULL} if weights are not specified.
 \item \code{y_hat} calculated predictions.
 \item \code{residuals} calculated residuals.
 \item \code{predict_function} function that may be used for model predictions, shall return a single numerical value for each observation.
@@ -84,13 +88,17 @@ aps_lm <- explain(aps_lm_model4, data = apartments, label = "model_4v", predict_
 aps_lm <- explain(aps_lm_model4, data = apartments, label = "model_4v", y = apartments$m2.price)
 aps_lm <- explain(aps_lm_model4, data = apartments, label = "model_4v", y = apartments$m2.price,
                                    predict_function = predict)
+
+\dontrun{
 # set model_info
 model_info <- list(package = "stats", ver = "3.6.1", type = "regression")
 aps_lm_model4 <- lm(m2.price ~., data = apartments)
 aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, label = "model_4v",
                              model_info = model_info)
 
-\dontrun{
+aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, label = "model_4v",
+                             weights = as.numeric(apartments$construction.year > 2000))
+
 # more complex model
 library("randomForest")
 aps_rf_model4 <- randomForest(m2.price ~., data = apartments)
