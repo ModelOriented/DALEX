@@ -1,3 +1,7 @@
+DALEX 0.4.9
+----------------------------------------------------------------
+* updated `titanic_imputed` ([#113](https://github.com/ModelOriented/DALEX/issues/113)).
+
 DALEX 0.4.8
 ----------------------------------------------------------------
 * new argument `colorize` in the `explain()` as requested in ([#112](https://github.com/ModelOriented/DALEX/issues/112)).
