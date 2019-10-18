@@ -61,3 +61,11 @@ This generic function let user extract base information about model. The functio
 contain about package of model, version and task type. For wrappers like \code{mlr} or \code{caret} both, package and wrapper inforamtion
 are stored
 }
+\examples{
+aps_lm_model4 <- lm(m2.price ~., data = apartments)
+model_info(aps_lm_model4)
+
+model_regr_rf <- randomForest::randomForest(m2.price~., data = apartments, ntree = 50)
+model_info(model_regr_rf)
+
+}

@@ -15,22 +15,24 @@
 #' @param label character - the name of the model. By default it's extracted from the 'class' attribute of the model
 #' @param verbose if TRUE (default) then diagnostic messages will be printed
 #' @param precalculate if TRUE (default) then \code{predicted_values} and \code{residual} are calculated when explainer is created.
-#' @param colorize if TRUE (default) then \code{WARNINGS}, \code{ERRORS} and \code{NOTES} are colorized. Will work only in the R console.
-#' @param model_info a named list (package, version, type) containg information about model. If NULL, DALEX will seek for information on it's own.
 #' This will happen also if \code{verbose} is TRUE. Set both \code{verbose} and \code{precalculate} to FALSE to omit calculations.
+#' @param colorize if TRUE (default) then \code{WARNINGS}, \code{ERRORS} and \code{NOTES} are colorized. Will work only in the R console.
+#' @param model_info a named list (\code{package}, \code{version}, \code{type}) containg information about model. If \code{NULL}, \code{DALEX} will seek for information on it's own.
 #'
 #' @return An object of the class \code{explainer}.
 #'
 #' It's a list with following fields:
 #'
 #' \itemize{
-#' \item \code{model} the explained model
-#' \item \code{data} the dataset used for training
-#' \item \code{y} response for observations from \code{data}
-#' \item \code{y_hat} calculated predictions
-#' \item \code{residuals} calculated residuals
+#' \item \code{model} the explained model.
+#' \item \code{data} the dataset used for training.
+#' \item \code{y} response for observations from \code{data}.
+#' \item \code{y_hat} calculated predictions.
+#' \item \code{residuals} calculated residuals.
 #' \item \code{predict_function} function that may be used for model predictions, shall return a single numerical value for each observation.
 #' \item \code{residual_function} function that returns residuals, shall return a single numerical value for each observation.
+#' \item \code{class} class/classes of a model.
+#' \item \code{label} label of explainer.
 #' \item \code{model_info} named list contating basic information about model, like package, version of package and type.
 #' }
 #'
@@ -59,6 +61,11 @@
 #' aps_lm <- explain(aps_lm_model4, data = apartments, label = "model_4v", y = apartments$m2.price)
 #' aps_lm <- explain(aps_lm_model4, data = apartments, label = "model_4v", y = apartments$m2.price,
 #'                                    predict_function = predict)
+#' # set model_info
+#' model_info <- list(package = "stats", ver = "3.6.1", type = "regression")
+#' aps_lm_model4 <- lm(m2.price ~., data = apartments)
+#' aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, label = "model_4v",
+#'                              model_info = model_info)
 #'
 #' \dontrun{
 #' # more complex model
@@ -203,14 +210,11 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     }
   }
   if (is.null(model_info)) {
+    # extract defaults
     model_info <- model_info(model)
-    verbose_cat("  -> model_info        :  model_info not specified, assuming type:", model_info$type, "(", color_codes$yellow_start,"default",color_codes$yellow_end, ")", "\n", verbose = verbose)
-    verbose_cat("  -> model_info        :  package:", model_info$package[1], as.character(model_info$ver[1]), "(", color_codes$yellow_start,"default",color_codes$yellow_end, ")", "\n", verbose = verbose)
-
+    verbose_cat("  -> model_info        :  package", model_info$package[1], ", ver.", model_info$ver[1], ", task", model_info$type, "(", color_codes$yellow_start,"default",color_codes$yellow_end, ")", "\n", verbose = verbose)
   } else {
-    verbose_cat("  -> model_info        :  Task type:", model_info$type, "\n", verbose = verbose)
-    verbose_cat("  -> model_info        :  package:", model_info$package[1], as.character(model_info$ver[1]), "\n", verbose = verbose)
-
+    verbose_cat("  -> model_info        :  package", model_info$package[1], ", ver.", model_info$ver[1], ", task", model_info$type, "\n", verbose = verbose)
   }
 
   # READY to create an explainer
@@ -221,6 +225,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
                     predict_function = predict_function,
                     y_hat = y_hat,
                     residuals = residuals,
+                    class = class(model),
                     label = label,
                     model_info = model_info)
   explainer <- c(explainer, list(...))

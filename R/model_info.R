@@ -23,6 +23,14 @@
 #'
 #' @rdname model_info
 #' @export
+#'
+#' @examples
+#' aps_lm_model4 <- lm(m2.price ~., data = apartments)
+#' model_info(aps_lm_model4)
+#'
+#' model_regr_rf <- randomForest::randomForest(m2.price~., data = apartments, ntree = 50)
+#' model_info(model_regr_rf)
+#'
 model_info <- function(model, ...)
   UseMethod("model_info")
 
@@ -32,7 +40,7 @@ model_info <- function(model, ...)
 model_info.lm <- function(model, ...) {
   type <- "regression"
   package <- "stats"
-  ver <- utils::packageVersion("stats")
+  ver <- as.character(utils::packageVersion("stats"))
   model_info <- list(package = package, ver = ver, type = type)
   class(model_info) <- "model_info"
   model_info
@@ -43,7 +51,7 @@ model_info.lm <- function(model, ...) {
 model_info.randomForest <- function(model, ...) {
   type <- model$type
   package <- "randomForest"
-  ver <- utils::packageVersion("randomForest")
+  ver <- as.character(utils::packageVersion("randomForest"))
   model_info <- list(package = package, ver = ver, type = type)
   class(model_info) <- "model_info"
   model_info
@@ -58,7 +66,7 @@ model_info.svm <- function(model, ...) {
     type <- "regression"
   }
   package <- "e1071"
-  ver <- utils::packageVersion("e1071")
+  ver <- as.character(utils::packageVersion("e1071"))
   model_info <- list(package = package, ver = ver, type = type)
   class(model_info) <- "model_info"
   model_info
@@ -69,7 +77,7 @@ model_info.svm <- function(model, ...) {
 model_info.glm <- function(model, ...) {
   type <- "regression"
   package <- "stats"
-  ver <- utils::packageVersion("stats")
+  ver <- as.character(utils::packageVersion("stats"))
   model_info <- list(package = package, ver = ver, type = type)
   class(model_info) <- "model_info"
   model_info
@@ -81,7 +89,7 @@ model_info.glm <- function(model, ...) {
 model_info.glmnet <- function(model, ...) {
   type <- "regression"
   package <- "glmnet"
-  ver <- utils::packageVersion("glmnet")
+  ver <- as.character(utils::packageVersion("glmnet"))
   model_info <- list(package = package, ver = ver, type = type)
   class(model_info) <- "model_info"
   model_info
@@ -92,7 +100,7 @@ model_info.glmnet <- function(model, ...) {
 model_info.cv.glmnet <- function(model, ...) {
   type <- "regression"
   package <- "glmnet"
-  ver <- utils::packageVersion("glmnet")
+  ver <- as.character(utils::packageVersion("glmnet"))
   model_info <- list(package = package, ver = ver, type = type)
   class(model_info) <- "model_info"
   model_info
@@ -107,7 +115,7 @@ model_info.ranger <- function(model, ...) {
     type <- "classification"
   }
   package <- "ranger"
-  ver <- utils::packageVersion("ranger")
+  ver <- as.character(utils::packageVersion("ranger"))
   model_info <- list(package = package, ver = ver, type = type)
   class(model_info) <- "model_info"
   model_info
@@ -118,9 +126,9 @@ model_info.ranger <- function(model, ...) {
 model_info.model_fit <- function(model, ...) {
   type <- model$spec$mode
   package_wrapper <- "parsnip"
-  ver_wrapper <- utils::packageVersion("parsnip")
+  ver_wrapper <- as.character(utils::packageVersion("parsnip"))
   package <- model$spec$engine
-  ver <- utils::packageVersion(package)
+  ver <- as.character(utils::packageVersion(package))
   model_info <- list(package = c(wrapper = package_wrapper, package = package), ver = c(wrapper = ver_wrapper, package = ver), type = type)
   class(model_info) <- "model_info"
   model_info
@@ -131,9 +139,9 @@ model_info.model_fit <- function(model, ...) {
 model_info.train <- function(model, ...) {
   type <- model$modelType
   package_wrapper <- "caret"
-  ver_wrapper <- utils::packageVersion("caret")
+  ver_wrapper <- as.character(utils::packageVersion("caret"))
   package <- model$modelInfo$library
-  ver <- utils::packageVersion(package)
+  ver <- as.character(utils::packageVersion(package))
   model_info <- c(package = list(wrapper = package_wrapper, package = package), ver = c(wrapper = ver_wrapper, package = ver), type = type)
   class(model_info) <- "model_info"
   model_info
