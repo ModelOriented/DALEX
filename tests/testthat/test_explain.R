@@ -1,5 +1,7 @@
 context("Check explain() function")
 
+source("helper-objects.R")
+
 test_that("Type of data in the explainer",{
   linear_model <- lm(m2.price ~ construction.year + surface + floor + no.rooms + district, data = apartments)
 
@@ -7,9 +9,22 @@ test_that("Type of data in the explainer",{
   explainer_lm1 <- explain(linear_model)
   explainer_lm2 <- explain(linear_model, verbose = FALSE)
   explainer_lm4 <- explain(linear_model, data = apartments, label = "model_4v", y = apartments$m2.price)
-
+  model_info <- list(package = "stats", ver = "3.6.1", type = "regression")
+  explainer_lm5 <- explain(linear_model, data = apartments, label = "model_4v", y = apartments$m2.price, model_info = model_info)
   expect_true(is.data.frame(explainer_lm1$data))
   expect_is(explainer_lm1, "explainer")
   expect_is(explainer_lm2, "explainer")
   expect_is(explainer_lm4, "explainer")
+})
+
+test_that("model_info work correctly", {
+  mi1 <- model_info(model_classif_glm)
+  mi2 <- model_info(model_classif_rf)
+  mi3 <- model_info(model_regr_rf)
+  mi4 <- model_info(model_regr_lm)
+
+  expect_is(mi1, "model_info")
+  expect_is(mi2, "model_info")
+  expect_is(mi3, "model_info")
+  expect_is(mi4, "model_info")
 })
