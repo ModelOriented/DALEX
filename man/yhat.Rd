@@ -11,6 +11,7 @@
 \alias{yhat.ranger}
 \alias{yhat.model_fit}
 \alias{yhat.train}
+\alias{yhat.gbm}
 \alias{yhat.default}
 \title{Wrap Various Predict Functions}
 \usage{
@@ -33,6 +34,8 @@ yhat(X.model, newdata, ...)
 \method{yhat}{model_fit}(X.model, newdata, ...)
 
 \method{yhat}{train}(X.model, newdata, ...)
+
+\method{yhat}{gbm}(X.model, newdata, ...)
 
 \method{yhat}{default}(X.model, newdata, ...)
 }
