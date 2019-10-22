@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Dragon Data — dragons • DALEX</title>
+<title>Update data of an explainer object — update_data • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -35,9 +35,8 @@
 
 
 
-<meta property="og:title" content="Dragon Data — dragons" />
-<meta property="og:description" content="Datasets dragons and dragons_test are artificial, generated form the same ground truth model, 
-but with sometimes different data distridution." />
+<meta property="og:title" content="Update data of an explainer object — update_data" />
+<meta property="og:description" content="Function allows users to update data an y of any explainer in a unified way. It doesn't require knowledge about structre of an explainer." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -131,45 +130,63 @@ but with sometimes different data distridution." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Dragon Data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/R/dragons.R'><code>R/dragons.R</code></a></small>
-    <div class="hidden name"><code>dragons.Rd</code></div>
+    <h1>Update data of an explainer object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/R/update.R'><code>R/update.R</code></a></small>
+    <div class="hidden name"><code>update_data.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Datasets <code>dragons</code> and <code>dragons_test</code> are artificial, generated form the same ground truth model, 
-but with sometimes different data distridution.</p>
+    <p>Function allows users to update data an y of any explainer in a unified way. It doesn't require knowledge about structre of an explainer.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>dragons</span>)</pre>
+    <pre class="usage"><span class='fu'>update_data</span>(<span class='no'>explainer</span>, <span class='no'>data</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>explainer</th>
+      <td><p>- explainer object that is supposed to be updated.</p></td>
+    </tr>
+    <tr>
+      <th>data</th>
+      <td><p>- new data, is going to be passed to an explainer</p></td>
+    </tr>
+    <tr>
+      <th>y</th>
+      <td><p>- new y, is going to be passed to an explainer</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>- logical, indicates if information about update should be printed</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data frame with 2000 rows and 8 columns</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <p>updated explainer object</p>
 
-    <p>Values are generated in a way to:
-- have nonlinearity in year_of_birth and height
-- have concept drift in the test set</p>
-<ul>
-<li><p>year_of_birth - year in which the dragon was born. Negative year means year BC, eg: -1200 = 1201 BC</p></li>
-<li><p>year_of_discovery - year in which the dragon was found.</p></li>
-<li><p>height - height of the dragon in yards.</p></li>
-<li><p>weight - weight of the dragon in tons.</p></li>
-<li><p>scars - number of scars.</p></li>
-<li><p>colour - colour of the dragon.</p></li>
-<li><p>number_of_lost_teeth - number of teeth that the dragon lost.</p></li>
-<li><p>life_length - life length of the dragon.</p></li>
-</ul>
-
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>aps_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>m2.price</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>)
+<span class='no'>aps_lm_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>aps_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label       :  model_4v 
+#&gt;   -&gt; data              :  1000  rows  6  cols 
+#&gt;   -&gt; target variable   :  not specified! ( <span style='color: #BB0000;'> WARNING </span><span> )
+#&gt;   -&gt; predict function  :  yhat.lm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; model_info        :  package stats , ver. 3.6.1 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer</span> <span class='kw'>&lt;-</span> <span class='fu'>update_data</span>(<span class='no'>aps_lm_explainer4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartmentsTest</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>apartmentsTest</span>$<span class='no'>m2.price</span>)</div><div class='output co'>#&gt;   -&gt; data              :  9000  rows  6  cols 
+#&gt;   -&gt; target variable   :  9000  values 
+#&gt;  </span><span style='color: #00BB00;'> An explainer has been updated! </span><span> </div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#format">Format</a></li>
-      <li><a href="#details">Details</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
