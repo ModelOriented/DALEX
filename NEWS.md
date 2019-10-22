@@ -1,6 +1,7 @@
 DALEX 0.4.9
 ----------------------------------------------------------------
 * updated `titanic_imputed` ([#113](https://github.com/ModelOriented/DALEX/issues/113)).
+* addes support for `gbm` package models in `model_info()` and `yhat()`
 
 DALEX 0.4.8
 ----------------------------------------------------------------

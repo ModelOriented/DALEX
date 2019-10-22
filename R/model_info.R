@@ -17,6 +17,7 @@
 #' \item class `randomForest` - random forest models created with `randomForest` package
 #' \item class `svm` - support vector machines models created with the `e1071` package
 #' \item class `train` - models created with `caret` package
+#' \item class `gbm` - models created with `gbm` package
 #' }
 #'
 #' @return A named list of class \code{model_info}
@@ -120,6 +121,22 @@ model_info.ranger <- function(model, ...) {
   class(model_info) <- "model_info"
   model_info
 }
+
+#' @rdname model_info
+#' @export
+model_info.gbm <- function(model, ...) {
+  if (model$distribution == "bernoulli") {
+    type <- "classification"
+  } else {
+    type <- "regression"
+  }
+  package <- "gbm"
+  ver <- as.character(utils::packageVersion("gbm"))
+  model_info <- list(package = package, ver = ver, type = type)
+  class(model_info) <- "model_info"
+  model_info
+}
+
 
 #' @rdname model_info
 #' @export

@@ -5,6 +5,7 @@
 \alias{yhat.lm}
 \alias{yhat.randomForest}
 \alias{yhat.svm}
+\alias{yhat.gbm}
 \alias{yhat.glm}
 \alias{yhat.cv.glmnet}
 \alias{yhat.glmnet}
@@ -21,6 +22,8 @@ yhat(X.model, newdata, ...)
 \method{yhat}{randomForest}(X.model, newdata, ...)
 
 \method{yhat}{svm}(X.model, newdata, ...)
+
+\method{yhat}{gbm}(X.model, newdata, ...)
 
 \method{yhat}{glm}(X.model, newdata, ...)
 
@@ -64,5 +67,6 @@ Currently supported packages are:
 \item class `randomForest` - random forest models created with `randomForest` package
 \item class `svm` - support vector machines models created with the `e1071` package
 \item class `train` - models created with `caret` package
+\item class `gbm` - models created with `gbm` package
 }
 }
