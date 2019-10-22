@@ -9,6 +9,7 @@
 #' @param model object - a model to be explained
 #' @param data data.frame or matrix - data that was used for fitting. If not provided then will be extracted from the model. Data should be passed without target column (this shall be provided as the \code{y} argument). NOTE: If target variable is present in the \code{data}, some of the functionalities my not work properly.
 #' @param y numeric vector with outputs / scores. If provided then it shall have the same size as \code{data}
+#' @param weights numeric vector with sampling weights. By default it's \code{NULL}. If provided then it shall have the same length as \code{data}
 #' @param predict_function function that takes two arguments: model and new data and returns numeric vector with predictions
 #' @param residual_function function that takes three arguments: model, data and response vector y. It should return a numeric vector with model residuals for given data. If not provided, response residuals (\eqn{y-\hat{y}}) are calculated.
 #' @param ... other parameters
@@ -27,6 +28,7 @@
 #' \item \code{model} the explained model.
 #' \item \code{data} the dataset used for training.
 #' \item \code{y} response for observations from \code{data}.
+#' \item \code{weights} sample weights for \code{data}. \code{NULL} if weights are not specified.
 #' \item \code{y_hat} calculated predictions.
 #' \item \code{residuals} calculated residuals.
 #' \item \code{predict_function} function that may be used for model predictions, shall return a single numerical value for each observation.
@@ -68,6 +70,15 @@
 #'                              model_info = model_info)
 #'
 #' \dontrun{
+#' # set model_info
+#' model_info <- list(package = "stats", ver = "3.6.1", type = "regression")
+#' aps_lm_model4 <- lm(m2.price ~., data = apartments)
+#' aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, label = "model_4v",
+#'                              model_info = model_info)
+#'
+#' aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, label = "model_4v",
+#'                              weights = as.numeric(apartments$construction.year > 2000))
+#'
 #' # more complex model
 #' library("randomForest")
 #' aps_rf_model4 <- randomForest(m2.price ~., data = apartments)
@@ -78,16 +89,15 @@
 
 #' @export
 #' @rdname explain
-explain.default <- function(model, data = NULL, y = NULL, predict_function = NULL, residual_function = NULL, ...,
-                            label = NULL, verbose = TRUE, precalculate = TRUE, colorize = TRUE, model_info = NULL) {
+explain.default <- function(model, data = NULL, y = NULL, predict_function = NULL,
+                            residual_function = NULL, weights = NULL, ...,
+                            label = NULL, verbose = TRUE, precalculate = TRUE,
+                            colorize = TRUE, model_info = NULL) {
+
   verbose_cat("Preparation of a new explainer is initiated\n", verbose = verbose)
 
-  # set colors
-  if (colorize) {
-    color_codes <- list(yellow_start = "\033[33m", yellow_end = "\033[39m",
-                        red_start = "\033[31m", red_end = "\033[39m",
-                        green_start = "\033[32m", green_end = "\033[39m")
-  } else {
+  # if requested, remove colors
+  if (!colorize) {
     color_codes <- list(yellow_start = "", yellow_end = "",
                         red_start = "", red_end = "",
                         green_start = "", green_end = "")
@@ -134,7 +144,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     }
     verbose_cat("  -> target variable   : ", length(y), " values \n", verbose = verbose)
     if (length(y) != nrow(data)) {
-      verbose_cat("  -> target variable   :  length of 'y; is different than number of rows in 'data' (",color_codes$red_start,"WARNING",color_codes$red_end,") \n", verbose = verbose)
+      verbose_cat("  -> target variable   :  length of 'y' is different than number of rows in 'data' (",color_codes$red_start,"WARNING",color_codes$red_end,") \n", verbose = verbose)
     }
     if ((is.factor(y) | is.character(y))) {
       verbose_cat("  -> target variable   :  Please note that 'y' is a factor.  (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
@@ -145,6 +155,21 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     if (!is.null(data) & is_y_in_data(data, y)) {
       verbose_cat("  -> data              :  A column identical to the target variable `y` has been found in the `data`.  (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
       verbose_cat("  -> data              :  It is highly recommended to pass `data` without the target variable column\n", verbose = verbose)
+    }
+  }
+
+  # REPORT: checks for weights
+  if (is.null(weights)) {
+    # weights not specified
+    # do nothing
+  } else {
+    if (is.data.frame(weights)) {
+      weights <- unlist(weights, use.names = FALSE)
+      verbose_cat("  -> sampling weights  :  Argument 'weights' was a data frame. Converted to a vector. (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
+    }
+    verbose_cat("  -> sampling weights  : ", length(weights), " values (",color_codes$yellow_start,"note that not all explanations handle weights",color_codes$yellow_end,")\n", verbose = verbose)
+    if (length(weights) != nrow(data)) {
+      verbose_cat("  -> sampling weights  :  length of 'weights' is different than number of rows in 'data' (",color_codes$red_start,"WARNING",color_codes$red_end,") \n", verbose = verbose)
     }
   }
 
@@ -227,7 +252,8 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
                     residuals = residuals,
                     class = class(model),
                     label = label,
-                    model_info = model_info)
+                    model_info = model_info,
+                    weights = weights)
   explainer <- c(explainer, list(...))
   class(explainer) <- "explainer"
 
@@ -252,4 +278,12 @@ is_y_in_data <- function(data, y) {
 #' @rdname explain
 #' @export
 explain <- explain.default
+
+
+#
+# colors for WARNING, NOTE, DEFAULT
+#
+color_codes <- list(yellow_start = "\033[33m", yellow_end = "\033[39m",
+                    red_start = "\033[31m", red_end = "\033[39m",
+                    green_start = "\033[32m", green_end = "\033[39m")
 

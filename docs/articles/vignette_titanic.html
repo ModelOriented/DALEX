@@ -42,7 +42,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.4.8</span>
+          <span class="version version-default">0.4.9</span>
         </div>
       </div>
     </div>
@@ -94,7 +94,7 @@
       <h1>Survival on the RMS Titanic</h1>
                         <h4 class="author">Przemyslaw Biecek</h4>
             
-            <h4 class="date">2019-10-04</h4>
+            <h4 class="date">2019-10-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/DALEX/blob/master/vignettes/vignette_titanic.Rmd"><code>vignettes/vignette_titanic.Rmd</code></a></small>
       <div class="hidden name"><code>vignette_titanic.Rmd</code></div>
@@ -134,8 +134,8 @@
 #&gt;                      Number of trees: 500
 #&gt; No. of variables tried at each split: 2
 #&gt; 
-#&gt;           Mean of squared residuals: 0.1432805
-#&gt;                     % Var explained: 34.63</code></pre>
+#&gt;           Mean of squared residuals: 0.142664
+#&gt;                     % Var explained: 34.91</code></pre>
 </div>
 <div id="explainer-for-titanic-survival" class="section level1">
 <h1 class="hasAnchor">
@@ -152,9 +152,10 @@
 #&gt;   -&gt; data              :  2099  rows  8  cols 
 #&gt;   -&gt; target variable   :  2099  values 
 #&gt;   -&gt; predict function  :  yhat.randomForest  will be used (  default  )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.0102167 , mean =  0.32495 , max =  0.9905042  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.009981657 , mean =  0.3242091 , max =  0.9933246  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7905312 , mean =  -0.0005098183 , max =  0.910826  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7988777 , mean =  0.0002310698 , max =  0.9081437  
+#&gt;   -&gt; model_info        :  package randomForest , ver. 4.6.14 , task regression (  default  ) 
 #&gt;   A new explainer has been created!</code></pre>
 </div>
 <div id="variable-importance-plots" class="section level1">
@@ -164,12 +165,12 @@
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">vi_rf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_importance.html">variable_importance</a></span>(explain_titanic_rf)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(vi_rf)</a></code></pre></div>
 <pre><code>#&gt;       variable dropout_loss            label
-#&gt; 1 _full_model_     106.1047 Random Forest v7
-#&gt; 2      country     106.1047 Random Forest v7
-#&gt; 3        sibsp     112.6754 Random Forest v7
-#&gt; 4        parch     113.1266 Random Forest v7
-#&gt; 5     embarked     116.4094 Random Forest v7
-#&gt; 6         fare     133.0584 Random Forest v7</code></pre>
+#&gt; 1 _full_model_     112.9948 Random Forest v7
+#&gt; 2      country     112.9948 Random Forest v7
+#&gt; 3        sibsp     119.1718 Random Forest v7
+#&gt; 4        parch     119.5607 Random Forest v7
+#&gt; 5     embarked     122.9149 Random Forest v7
+#&gt; 6          age     139.8190 Random Forest v7</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(vi_rf)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
@@ -185,12 +186,12 @@
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">vr_age  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_response.html">variable_response</a></span>(explain_titanic_rf, <span class="dt">variable =</span>  <span class="st">"age"</span>)</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(vr_age)</a></code></pre></div>
 <pre><code>#&gt;           x            y var type            label
-#&gt; 1 0.1666667 0.529938.... age  pdp Random Forest v7
-#&gt; 2 1.6433333 0.564367.... age  pdp Random Forest v7
-#&gt; 3 3.1200000 0.581823.... age  pdp Random Forest v7
-#&gt; 4 4.5966667 0.548413.... age  pdp Random Forest v7
-#&gt; 5 6.0733333 0.532661.... age  pdp Random Forest v7
-#&gt; 6 7.5500000 0.531328.... age  pdp Random Forest v7</code></pre>
+#&gt; 1 0.1666667 0.522337.... age  pdp Random Forest v7
+#&gt; 2 1.6433333 0.551710.... age  pdp Random Forest v7
+#&gt; 3 3.1200000 0.571852.... age  pdp Random Forest v7
+#&gt; 4 4.5966667 0.544128.... age  pdp Random Forest v7
+#&gt; 5 6.0733333 0.526360.... age  pdp Random Forest v7
+#&gt; 6 7.5500000 0.529100.... age  pdp Random Forest v7</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(vr_age, <span class="dt">use_facets =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
@@ -260,6 +261,7 @@
 #&gt;   -&gt; predicted values  :  numerical, min =  0.003695743 , mean =  0.3244402 , max =  0.9827164  
 #&gt;   -&gt; residual function :  difference between y and yhat ( [33m default [39m )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9827164 , mean =  -2.869171e-09 , max =  0.9716889  
+#&gt;   -&gt; model_info        :  package stats , ver. 3.6.1 , task regression ( [33m default [39m ) 
 #&gt;  [32m A new explainer has been created! [39m</code></pre>
 </div>
 <div id="generalized-boosted-models-gbm" class="section level2">
@@ -279,9 +281,10 @@
 #&gt;   -&gt; data              :  2099  rows  9  cols 
 #&gt;   -&gt; target variable   :  2099  values 
 #&gt;   -&gt; predict function  :  function(m, x) predict(m, x, n.trees = 15000, type = "response") 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.0004318428 , mean =  0.3264202 , max =  0.9985632  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.000529105 , mean =  0.3235548 , max =  0.9987801  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.9514907 , mean =  -0.001979954 , max =  0.9606458  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9328674 , mean =  0.0008854337 , max =  0.9688859  
+#&gt;   -&gt; model_info        :  package Model of class: gbm package unrecognized , ver. Unknown , task regression (  default  ) 
 #&gt;   A new explainer has been created!</code></pre>
 </div>
 <div id="support-vector-machines-svm" class="section level2">
@@ -300,9 +303,10 @@
 #&gt;   -&gt; data              :  2099  rows  9  cols 
 #&gt;   -&gt; target variable   :  2099  values 
 #&gt;   -&gt; predict function  :  yhat.svm  will be used (  default  )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.08569293 , mean =  0.3246578 , max =  0.956285  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.08623387 , mean =  0.3279397 , max =  0.9585829  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8518538 , mean =  -0.0002176127 , max =  0.8914724  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8573536 , mean =  -0.003499489 , max =  0.8905733  
+#&gt;   -&gt; model_info        :  package e1071 , ver. 1.7.2 , task classification (  default  ) 
 #&gt;   A new explainer has been created!</code></pre>
 </div>
 <div id="k-nearest-neighbours-knn" class="section level2">
@@ -324,6 +328,7 @@
 #&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.3110276 , max =  1  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.8 , mean =  0.01341259 , max =  0.9285714  
+#&gt;   -&gt; model_info        :  package Model of class: knn3 package unrecognized , ver. Unknown , task regression (  default  ) 
 #&gt;   A new explainer has been created!</code></pre>
 </div>
 <div id="variable-performance" class="section level2">
@@ -367,13 +372,13 @@
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session info</h1>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</a></code></pre></div>
-<pre><code>#&gt; R version 3.5.0 (2018-04-23)
+<pre><code>#&gt; R version 3.6.1 (2019-07-05)
 #&gt; Platform: x86_64-apple-darwin15.6.0 (64-bit)
-#&gt; Running under: macOS  10.14.4
+#&gt; Running under: macOS Mojave 10.14.4
 #&gt; 
 #&gt; Matrix products: default
-#&gt; BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
-#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
 #&gt; 
 #&gt; locale:
 #&gt; [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -385,48 +390,48 @@
 #&gt;  [1] caret_6.0-84        e1071_1.7-2         gbm_2.1.5          
 #&gt;  [4] rms_5.1-3.1         SparseM_1.77        Hmisc_4.2-0        
 #&gt;  [7] ggplot2_3.2.1       Formula_1.2-3       survival_2.44-1.1  
-#&gt; [10] lattice_0.20-38     randomForest_4.6-14 DALEX_0.4.8        
+#&gt; [10] lattice_0.20-38     randomForest_4.6-14 DALEX_0.4.9        
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
 #&gt;   [1] TH.data_1.0-10      colorspace_1.4-1    ggsignif_0.6.0     
 #&gt;   [4] deldir_0.1-23       class_7.3-15        rprojroot_1.3-2    
-#&gt;   [7] htmlTable_1.13.1    base64enc_0.1-3     fs_1.3.1           
+#&gt;   [7] htmlTable_1.13.2    base64enc_0.1-3     fs_1.3.1           
 #&gt;  [10] rstudioapi_0.10     proxy_0.4-23        ggpubr_0.2.3       
 #&gt;  [13] MatrixModels_0.4-1  lubridate_1.7.4     prodlim_2018.04.18 
-#&gt;  [16] mvtnorm_1.0-11      codetools_0.2-16    splines_3.5.0      
-#&gt;  [19] knitr_1.24          cluster_2.1.0       shiny_1.3.2        
-#&gt;  [22] compiler_3.5.0      backports_1.1.4     assertthat_0.2.1   
-#&gt;  [25] Matrix_1.2-17       lazyeval_0.2.2      later_0.8.0        
-#&gt;  [28] acepack_1.4.1       htmltools_0.3.6     quantreg_5.51      
-#&gt;  [31] tools_3.5.0         coda_0.19-3         gtable_0.3.0       
-#&gt;  [34] agricolae_1.3-1     glue_1.3.1          reshape2_1.4.3     
-#&gt;  [37] dplyr_0.8.3         gmodels_2.18.1      Rcpp_1.0.2         
-#&gt;  [40] pkgdown_1.4.1       spdep_1.1-2         gdata_2.18.0       
-#&gt;  [43] nlme_3.1-141        iterators_1.0.12    timeDate_3043.102  
-#&gt;  [46] gower_0.2.1         xfun_0.9            stringr_1.4.0      
-#&gt;  [49] mime_0.7            miniUI_0.1.1.1      breakDown_0.2.0    
-#&gt;  [52] gtools_3.8.1        polspline_1.1.15    zoo_1.8-6          
-#&gt;  [55] LearnBayes_2.15.1   MASS_7.3-51.4       scales_1.0.0       
-#&gt;  [58] ipred_0.9-9         promises_1.0.1      sandwich_2.5-1     
-#&gt;  [61] expm_0.999-4        RColorBrewer_1.1-2  yaml_2.2.0         
-#&gt;  [64] memoise_1.1.0       gridExtra_2.3       rpart_4.1-15       
-#&gt;  [67] latticeExtra_0.6-28 stringi_1.4.3       highr_0.8          
-#&gt;  [70] klaR_0.6-14         AlgDesign_1.1-7.3   desc_1.2.0         
-#&gt;  [73] foreach_1.4.7       checkmate_1.9.4     boot_1.3-23        
-#&gt;  [76] lava_1.6.6          spData_0.3.0        rlang_0.4.0        
-#&gt;  [79] pkgconfig_2.0.3     evaluate_0.14       purrr_0.3.2        
-#&gt;  [82] sf_0.7-7            recipes_0.1.7       htmlwidgets_1.3    
-#&gt;  [85] labeling_0.3        cowplot_1.0.0       tidyselect_0.2.5   
-#&gt;  [88] factorMerger_0.4.0  plyr_1.8.4          magrittr_1.5       
-#&gt;  [91] R6_2.4.0            generics_0.0.2      multcomp_1.4-10    
-#&gt;  [94] combinat_0.0-8      DBI_1.0.0           pillar_1.4.2       
-#&gt;  [97] foreign_0.8-72      withr_2.1.2         units_0.6-4        
-#&gt; [100] sp_1.3-1            nnet_7.3-12         tibble_2.1.3       
-#&gt; [103] crayon_1.3.4        questionr_0.7.0     KernSmooth_2.23-15 
-#&gt; [106] rmarkdown_1.15      grid_3.5.0          data.table_1.12.2  
-#&gt; [109] ModelMetrics_1.2.2  digest_0.6.21       classInt_0.4-1     
-#&gt; [112] pdp_0.7.0           xtable_1.8-4        httpuv_1.5.2       
-#&gt; [115] stats4_3.5.0        munsell_0.5.0</code></pre>
+#&gt;  [16] mvtnorm_1.0-11      codetools_0.2-16    splines_3.6.1      
+#&gt;  [19] knitr_1.25          cluster_2.1.0       shiny_1.4.0        
+#&gt;  [22] compiler_3.6.1      backports_1.1.5     assertthat_0.2.1   
+#&gt;  [25] Matrix_1.2-17       fastmap_1.0.1       lazyeval_0.2.2     
+#&gt;  [28] later_1.0.0         acepack_1.4.1       htmltools_0.4.0    
+#&gt;  [31] quantreg_5.51       tools_3.6.1         coda_0.19-3        
+#&gt;  [34] gtable_0.3.0        agricolae_1.3-1     glue_1.3.1         
+#&gt;  [37] reshape2_1.4.3      dplyr_0.8.3         gmodels_2.18.1     
+#&gt;  [40] Rcpp_1.0.2          pkgdown_1.4.1       spdep_1.1-3        
+#&gt;  [43] gdata_2.18.0        nlme_3.1-140        iterators_1.0.12   
+#&gt;  [46] timeDate_3043.102   gower_0.2.1         xfun_0.10          
+#&gt;  [49] stringr_1.4.0       mime_0.7            miniUI_0.1.1.1     
+#&gt;  [52] breakDown_0.1.6     gtools_3.8.1        polspline_1.1.16   
+#&gt;  [55] zoo_1.8-6           LearnBayes_2.15.1   MASS_7.3-51.4      
+#&gt;  [58] scales_1.0.0        ipred_0.9-9         promises_1.1.0     
+#&gt;  [61] sandwich_2.5-1      expm_0.999-4        RColorBrewer_1.1-2 
+#&gt;  [64] yaml_2.2.0          memoise_1.1.0       gridExtra_2.3      
+#&gt;  [67] rpart_4.1-15        latticeExtra_0.6-28 stringi_1.4.3      
+#&gt;  [70] highr_0.8           klaR_0.6-14         AlgDesign_1.1-7.3  
+#&gt;  [73] desc_1.2.0          foreach_1.4.7       checkmate_1.9.4    
+#&gt;  [76] boot_1.3-22         lava_1.6.6          spData_0.3.2       
+#&gt;  [79] rlang_0.4.0         pkgconfig_2.0.3     evaluate_0.14      
+#&gt;  [82] purrr_0.3.2         sf_0.8-0            recipes_0.1.7      
+#&gt;  [85] htmlwidgets_1.5.1   labeling_0.3        cowplot_1.0.0      
+#&gt;  [88] tidyselect_0.2.5    factorMerger_0.4.0  plyr_1.8.4         
+#&gt;  [91] magrittr_1.5        R6_2.4.0            generics_0.0.2     
+#&gt;  [94] multcomp_1.4-10     combinat_0.0-8      DBI_1.0.0          
+#&gt;  [97] pillar_1.4.2        foreign_0.8-71      withr_2.1.2        
+#&gt; [100] units_0.6-5         sp_1.3-1            nnet_7.3-12        
+#&gt; [103] tibble_2.1.3        crayon_1.3.4        questionr_0.7.0    
+#&gt; [106] KernSmooth_2.23-15  rmarkdown_1.16      grid_3.6.1         
+#&gt; [109] data.table_1.12.2   ModelMetrics_1.2.2  digest_0.6.21      
+#&gt; [112] classInt_0.4-1      pdp_0.7.0           xtable_1.8-4       
+#&gt; [115] httpuv_1.5.2        stats4_3.6.1        munsell_0.5.0</code></pre>
 </div>
   </div>
 

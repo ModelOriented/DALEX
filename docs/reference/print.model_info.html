@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Dragon Data — dragons • DALEX</title>
+<title>Print model_info — print.model_info • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -35,9 +35,8 @@
 
 
 
-<meta property="og:title" content="Dragon Data — dragons" />
-<meta property="og:description" content="Datasets dragons and dragons_test are artificial, generated form the same ground truth model, 
-but with sometimes different data distridution." />
+<meta property="og:title" content="Print model_info — print.model_info" />
+<meta property="og:description" content="Function prints object of class model_info created with model_info" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -131,45 +130,37 @@ but with sometimes different data distridution." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Dragon Data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/R/dragons.R'><code>R/dragons.R</code></a></small>
-    <div class="hidden name"><code>dragons.Rd</code></div>
+    <h1>Print model_info</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/R/model_info.R'><code>R/model_info.R</code></a></small>
+    <div class="hidden name"><code>print.model_info.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Datasets <code>dragons</code> and <code>dragons_test</code> are artificial, generated form the same ground truth model, 
-but with sometimes different data distridution.</p>
+    <p>Function prints object of class <code>model_info</code> created with <code><a href='model_info.html'>model_info</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>dragons</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for model_info</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
-
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>a data frame with 2000 rows and 8 columns</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Values are generated in a way to:
-- have nonlinearity in year_of_birth and height
-- have concept drift in the test set</p>
-<ul>
-<li><p>year_of_birth - year in which the dragon was born. Negative year means year BC, eg: -1200 = 1201 BC</p></li>
-<li><p>year_of_discovery - year in which the dragon was found.</p></li>
-<li><p>height - height of the dragon in yards.</p></li>
-<li><p>weight - weight of the dragon in tons.</p></li>
-<li><p>scars - number of scars.</p></li>
-<li><p>colour - colour of the dragon.</p></li>
-<li><p>number_of_lost_teeth - number of teeth that the dragon lost.</p></li>
-<li><p>life_length - life length of the dragon.</p></li>
-</ul>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>- an object of class <code>model_info</code></p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>- other parameters</p></td>
+    </tr>
+    </table>
 
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#format">Format</a></li>
-      <li><a href="#details">Details</a></li>
+      <li><a href="#arguments">Arguments</a></li>
     </ul>
 
   </div>
