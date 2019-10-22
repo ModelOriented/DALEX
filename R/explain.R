@@ -63,6 +63,11 @@
 #' aps_lm <- explain(aps_lm_model4, data = apartments, label = "model_4v", y = apartments$m2.price)
 #' aps_lm <- explain(aps_lm_model4, data = apartments, label = "model_4v", y = apartments$m2.price,
 #'                                    predict_function = predict)
+#' # set model_info
+#' model_info <- list(package = "stats", ver = "3.6.1", type = "regression")
+#' aps_lm_model4 <- lm(m2.price ~., data = apartments)
+#' aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, label = "model_4v",
+#'                              model_info = model_info)
 #'
 #' \dontrun{
 #' # set model_info
@@ -88,6 +93,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
                             residual_function = NULL, weights = NULL, ...,
                             label = NULL, verbose = TRUE, precalculate = TRUE,
                             colorize = TRUE, model_info = NULL) {
+
   verbose_cat("Preparation of a new explainer is initiated\n", verbose = verbose)
 
   # if requested, remove colors

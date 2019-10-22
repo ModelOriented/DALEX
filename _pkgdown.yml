@@ -1,3 +1,4 @@
+
 template:
   package: DrWhyTemplate
   default_assets: false
@@ -54,3 +55,4 @@ reference:
     - HR
     - titanic
     - titanic_imputed
+
