@@ -83,21 +83,6 @@ model_info.glm <- function(model, ...) {
   model_info
 }
 
-#' @rdname model_info
-#' @export
-model_info.gbm <- function(model, ...) {
-  if (model$distribution == "bernoulli") {
-    type <- "classification"
-  } else {
-    type <- "regression"
-  }
-  package <- "gbm"
-  ver <- as.character(utils::packageVersion("gbm"))
-  model_info <- list(package = package, ver = ver, type = type)
-  class(model_info) <- "model_info"
-  model_info
-}
-
 
 #' @rdname model_info
 #' @export

@@ -6,7 +6,6 @@
 \alias{model_info.randomForest}
 \alias{model_info.svm}
 \alias{model_info.glm}
-\alias{model_info.gbm}
 \alias{model_info.glmnet}
 \alias{model_info.cv.glmnet}
 \alias{model_info.ranger}
@@ -24,8 +23,6 @@ model_info(model, ...)
 \method{model_info}{svm}(model, ...)
 
 \method{model_info}{glm}(model, ...)
-
-\method{model_info}{gbm}(model, ...)
 
 \method{model_info}{glmnet}(model, ...)
 
