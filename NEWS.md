@@ -2,6 +2,7 @@ DALEX 0.4.9
 ----------------------------------------------------------------
 * updated `titanic_imputed` ([#113](https://github.com/ModelOriented/DALEX/issues/113)).
 * added `weights` to the explainer. Note that not all explanations know how to handle weights ([#118](https://github.com/ModelOriented/DALEX/issues/118)).
+* `yhat()` and `model_info()` now support models created with `gbm` package.
 
 DALEX 0.4.8
 ----------------------------------------------------------------

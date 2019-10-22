@@ -67,7 +67,7 @@ yhat.svm <- function(X.model, newdata, ...) {
 #' @rdname yhat
 #' @export
 yhat.gbm <- function(X.model, newdata, ...) {
-  n.trees <- length(X.model$trees)
+  n.trees <- X.model$n.trees
   if (X.model$distribution == "bernoulli") {
     response <- predict(X.model, newdata = newdata, n.trees = n.trees, type = "response")
   } else {

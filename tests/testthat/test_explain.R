@@ -37,3 +37,10 @@ test_that("model_info work correctly", {
   expect_is(mi6, "model_info")
   expect_error(mi6, NA)
 })
+
+test_that("update_* work", {
+  linear_model <- lm(m2.price ~ construction.year + surface + floor + no.rooms + district, data = apartments)
+  explainer_lm0 <- explain(linear_model, colorize = FALSE)
+  expect_is(update_label(explainer_lm0, "new_label"), "explainer")
+  expect_is(update_data(explainer_lm0, apartments, as.data.frame(apartments$m2.price)), "explainer")
+})
