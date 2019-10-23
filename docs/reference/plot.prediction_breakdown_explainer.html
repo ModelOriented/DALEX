@@ -242,7 +242,7 @@ Or the default <code><a href='https://rdrr.io/r/base/Round.html'>round()</a></co
 #&gt;   -&gt; predict function  :  function(model, x) predict(model, x, n.trees = 1000) 
 #&gt;   -&gt; predicted values  :  numerical, min =  584.7895 , mean =  1371.065 , max =  3573.42  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; model_info        :  package Model of class: gbm package unrecognized , ver. Unknown , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  package gbm , ver. 2.1.5 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'> <span class='co'># create a new observation</span>
  <span class='no'>exp_sgn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prediction_breakdown.html'>prediction_breakdown</a></span>(<span class='no'>explainer_gbm</span>, <span class='kw'>observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>exp_sgn</span>)</div><div class='output co'>#&gt;                                        variable contribution
