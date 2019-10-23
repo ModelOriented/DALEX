@@ -9,6 +9,7 @@
 \alias{model_info.glmnet}
 \alias{model_info.cv.glmnet}
 \alias{model_info.ranger}
+\alias{model_info.gbm}
 \alias{model_info.model_fit}
 \alias{model_info.train}
 \alias{model_info.default}
@@ -29,6 +30,8 @@ model_info(model, ...)
 \method{model_info}{cv.glmnet}(model, ...)
 
 \method{model_info}{ranger}(model, ...)
+
+\method{model_info}{gbm}(model, ...)
 
 \method{model_info}{model_fit}(model, ...)
 
@@ -51,6 +54,7 @@ Currently supported packages are:
 \item class `randomForest` - random forest models created with `randomForest` package
 \item class `svm` - support vector machines models created with the `e1071` package
 \item class `train` - models created with `caret` package
+\item class `gbm` - models created with `gbm` package
 }}
 }
 \value{

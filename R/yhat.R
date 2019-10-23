@@ -16,6 +16,7 @@
 #' \item class `randomForest` - random forest models created with `randomForest` package
 #' \item class `svm` - support vector machines models created with the `e1071` package
 #' \item class `train` - models created with `caret` package
+#' \item class `gbm` - models created with `gbm` package
 #' }
 #'
 #' @param X.model object - a model to be explained
@@ -62,6 +63,19 @@ yhat.svm <- function(X.model, newdata, ...) {
   }
   pred
 }
+
+#' @rdname yhat
+#' @export
+yhat.gbm <- function(X.model, newdata, ...) {
+  n.trees <- X.model$n.trees
+  if (X.model$distribution == "bernoulli") {
+    response <- predict(X.model, newdata = newdata, n.trees = n.trees, type = "response")
+  } else {
+    response <- predict(X.model, newdata = newdata, n.trees = n.trees)
+  }
+  response
+}
+
 
 #' @rdname yhat
 #' @export
