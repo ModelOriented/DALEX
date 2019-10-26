@@ -13,7 +13,7 @@ The `DALEX` package (Descriptive mAchine Learning EXplanations) helps to underst
 
 The philosophy behind `DALEX` explanations is described in the [Predictive Models: Explore, Explain, and Debug](https://pbiecek.github.io/PM_VEE/) e-book. The `DALEX` package is a part of [DrWhy.AI](http://DrWhy.AI) universe. 
 
-If you work with `scikitlearn`, `keras`, `H2O`, `mljar` or `mlr`, you may be interested in the `DALEXtra` package. It is an extension pack for `DALEX` with easy to use connectors to models created in these libraries.
+If you work with `scikitlearn`, `keras`, `H2O`, `mljar` or `mlr`, you may be interested in the [DALEXtra](https://github.com/ModelOriented/DALEXtra) package. It is an extension pack for `DALEX` with easy to use connectors to models created in these libraries.
 
 ## Installation
 
