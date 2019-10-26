@@ -13,6 +13,7 @@ The `DALEX` package (Descriptive mAchine Learning EXplanations) helps to underst
 
 The philosophy behind `DALEX` explanations is described in the [Predictive Models: Explore, Explain, and Debug](https://pbiecek.github.io/PM_VEE/) e-book. The `DALEX` package is a part of [DrWhy.AI](http://DrWhy.AI) universe. 
 
+If you work with `scikitlearn`, `keras`, `H2O`, `mljar` or `mlr`, you may be interested in the `DALEXtra` package. It is an extension pack for `DALEX` with easy to use connectors to models created in these libraries.
 
 ## Installation
 
@@ -27,7 +28,7 @@ devtools::install_github("ModelOriented/DALEX")
 
 ## Cheatsheet
 
-<a href="https://github.com/ModelOriented/DALEX/raw/Release_prep/misc/cheatsheet_local_explainers.png"><img src="https://github.com/ModelOriented/DALEX/raw/Release_prep/misc/cheatsheet_local_explainers.png" width="500"/></a>
+<a href="https://github.com/ModelOriented/DALEX/raw/master/misc/cheatsheet_local_explainers.png"><img src="https://github.com/ModelOriented/DALEX/raw/master/misc/cheatsheet_local_explainers.png" width="500"/></a>
 
 ## Learn more 
 
@@ -37,6 +38,7 @@ In many applications we need to know, understand or prove how input variables ar
 
 ### DALEX show-cases
 
+* [XAI in the jungle of competing frameworks for machine learning](https://medium.com/@ModelOriented/xai-in-the-jungle-of-competing-frameworks-for-machine-learning-fa6e96a99644)
 * [Gentle introduction to DALEX with examples](https://pbiecek.github.io/DALEX_docs/) showt introduction to the `DALEX` package.
 * [How to compare models created in different languages](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/Multilanguages_comparision.html) crosscomparison of gbm and CatBoost in R / gbm in h2o / gbm in python
 * [How to use DALEX for fraud detection](https://rawgit.com/pbiecek/DALEX_docs/master/vignettes/DALEXverse%20and%20fraud%20detection.html)
