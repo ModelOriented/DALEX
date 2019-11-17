@@ -144,7 +144,7 @@ model_info.model_fit <- function(model, ...) {
   type <- model$spec$mode
   package_wrapper <- "parsnip"
   ver_wrapper <- as.character(utils::packageVersion("parsnip"))
-  package <- model$spec$engine
+  package <- model$spec$method$libs
   ver <- as.character(utils::packageVersion(package))
   model_info <- list(package = c(wrapper = package_wrapper, package = package), ver = c(wrapper = ver_wrapper, package = ver), type = type)
   class(model_info) <- "model_info"
