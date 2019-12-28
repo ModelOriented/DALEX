@@ -5,15 +5,35 @@
 \alias{explain}
 \title{Create Model Explainer}
 \usage{
-explain.default(model, data = NULL, y = NULL,
-  predict_function = NULL, residual_function = NULL, weights = NULL,
-  ..., label = NULL, verbose = TRUE, precalculate = TRUE,
-  colorize = TRUE, model_info = NULL)
+explain.default(
+  model,
+  data = NULL,
+  y = NULL,
+  predict_function = NULL,
+  residual_function = NULL,
+  weights = NULL,
+  ...,
+  label = NULL,
+  verbose = TRUE,
+  precalculate = TRUE,
+  colorize = TRUE,
+  model_info = NULL
+)
 
-explain(model, data = NULL, y = NULL, predict_function = NULL,
-  residual_function = NULL, weights = NULL, ..., label = NULL,
-  verbose = TRUE, precalculate = TRUE, colorize = TRUE,
-  model_info = NULL)
+explain(
+  model,
+  data = NULL,
+  y = NULL,
+  predict_function = NULL,
+  residual_function = NULL,
+  weights = NULL,
+  ...,
+  label = NULL,
+  verbose = TRUE,
+  precalculate = TRUE,
+  colorize = TRUE,
+  model_info = NULL
+)
 }
 \arguments{
 \item{model}{object - a model to be explained}

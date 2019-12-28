@@ -1,6 +1,6 @@
 Package: DALEX
 Title: Descriptive mAchine Learning EXplanations
-Version: 0.4.9
+Version: 0.5.0
 Authors@R: c(person("Przemyslaw", "Biecek", email = "przemyslaw.biecek@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-8423-1823")),
     person("Szymon", "Maksymiuk", role = "ctb"))
 Description: Machine Learning (ML) models are widely used and have various applications in classification 
@@ -20,7 +20,7 @@ Depends: R (>= 3.5)
 License: GPL
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Imports: ggplot2
 Suggests: ALEPlot,
   breakDown,

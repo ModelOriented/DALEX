@@ -8,11 +8,18 @@
 \usage{
 feature_response(x, ...)
 
-\method{feature_response}{explainer}(x, feature, type = "pdp",
-  which_class = NULL, ...)
+\method{feature_response}{explainer}(x, feature, type = "pdp", which_class = NULL, ...)
 
-\method{feature_response}{default}(x, data, predict_function, feature,
-  type = "pdp", label = class(x)[1], which_class = NULL, ...)
+\method{feature_response}{default}(
+  x,
+  data,
+  predict_function,
+  feature,
+  type = "pdp",
+  label = class(x)[1],
+  which_class = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{a model to be explained, or an explainer created with function `DALEX::explain()`.}

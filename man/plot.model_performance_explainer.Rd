@@ -4,9 +4,14 @@
 \alias{plot.model_performance_explainer}
 \title{Plot Model Performance Explanations}
 \usage{
-\method{plot}{model_performance_explainer}(x, ..., geom = "ecdf",
-  show_outliers = 0, ptlabel = "name", lossFunction = function(x)
-  sqrt(mean(x^2)))
+\method{plot}{model_performance_explainer}(
+  x,
+  ...,
+  geom = "ecdf",
+  show_outliers = 0,
+  ptlabel = "name",
+  lossFunction = function(x) sqrt(mean(x^2))
+)
 }
 \arguments{
 \item{x}{a model to be explained, preprocessed by the \code{\link{explain}} function}

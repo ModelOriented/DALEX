@@ -5,8 +5,13 @@
 \alias{variable_dropout}
 \title{Calculate Feature Importance Explanations as Loss from Feature Dropout}
 \usage{
-variable_importance(explainer, loss_function = loss_sum_of_squares, ...,
-  type = "raw", n_sample = 1000)
+variable_importance(
+  explainer,
+  loss_function = loss_sum_of_squares,
+  ...,
+  type = "raw",
+  n_sample = 1000
+)
 }
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the 'explain' function}

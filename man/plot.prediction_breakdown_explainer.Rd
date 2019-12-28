@@ -4,10 +4,14 @@
 \alias{plot.prediction_breakdown_explainer}
 \title{Plot Break Down Explanations (Single Prediction)}
 \usage{
-\method{plot}{prediction_breakdown_explainer}(x, ...,
-  add_contributions = TRUE, vcolors = c(`-1` = "#f05a71", `0` =
-  "#371ea3", `1` = "#8bdcbe", X = "#371ea3"), digits = 3,
-  rounding_function = round)
+\method{plot}{prediction_breakdown_explainer}(
+  x,
+  ...,
+  add_contributions = TRUE,
+  vcolors = c(`-1` = "#f05a71", `0` = "#371ea3", `1` = "#8bdcbe", X = "#371ea3"),
+  digits = 3,
+  rounding_function = round
+)
 }
 \arguments{
 \item{x}{a single prediction exlainer produced with the \code{\link{single_prediction}} function}

@@ -1,3 +1,8 @@
+DALEX 0.5
+----------------------------------------------------------------
+* updated `model_performance`  ([#130](https://github.com/ModelOriented/DALEX/issues/130)).
+
+
 DALEX 0.4.9
 ----------------------------------------------------------------
 * updated `titanic_imputed` ([#113](https://github.com/ModelOriented/DALEX/issues/113)).

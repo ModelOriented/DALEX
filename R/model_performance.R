@@ -41,10 +41,10 @@ model_performance <- function(explainer, ...) {
   observed <- explainer$y
   # Check since explain could have been run with precalculate = FALSE
   if (is.null(explainer$residuals)){
-    diff <- predicted - observed
+    diff <- observed - predicted
   } else {
-    # Negative to save constistency. model_performance used to use `predicted - observed` when explain precalculates `observed - predicted`
-    diff <- -explainer$residuals
+    # changed according to #130
+    diff <- explainer$residuals
   }
 
   residuals <- data.frame(predicted, observed, diff = diff)

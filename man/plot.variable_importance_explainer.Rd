@@ -4,8 +4,14 @@
 \alias{plot.variable_importance_explainer}
 \title{Plot Variable Importance Explanations}
 \usage{
-\method{plot}{variable_importance_explainer}(x, ..., max_vars = 10,
-  bar_width = 10, show_baseline = FALSE, desc_sorting = TRUE)
+\method{plot}{variable_importance_explainer}(
+  x,
+  ...,
+  max_vars = 10,
+  bar_width = 10,
+  show_baseline = FALSE,
+  desc_sorting = TRUE
+)
 }
 \arguments{
 \item{x}{a variable dropout exlainer produced with the \code{\link{variable_dropout}} function}
