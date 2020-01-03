@@ -1,7 +1,7 @@
 DALEX 0.5
 ----------------------------------------------------------------
 * updated `model_performance`  ([#130](https://github.com/ModelOriented/DALEX/issues/130)).
-
+* updated `variable_importance`, not it calls the `ingredients::variable_importance` ([#131](https://github.com/ModelOriented/DALEX/issues/131)).
 
 DALEX 0.4.9
 ----------------------------------------------------------------

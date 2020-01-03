@@ -2,8 +2,8 @@
 % Please edit documentation in R/variable_importance.R
 \name{variable_importance}
 \alias{variable_importance}
-\alias{variable_dropout}
-\title{Calculate Feature Importance Explanations as Loss from Feature Dropout}
+\alias{feature_importance}
+\title{Calculate Variable Importance Explanations as Loss from Variable Dropout}
 \usage{
 variable_importance(
   explainer,
@@ -25,12 +25,12 @@ variable_importance(
 \item{n_sample}{number of observations that should be sampled for calculation of variable importance. If negative then variable importance will be calculated on whole dataset (no sampling).}
 }
 \value{
-An object of the class 'variable_leverage_explainer'.
+An object of the class 'feature_importance'.
 It's a data frame with calculated average response.
 }
 \description{
-This function is set deprecated. It is suggested to use \code{\link[ingredients]{feature_importance}} instead.
-Find information how to use these functions here: \url{https://pbiecek.github.io/PM_VEE/featureImportance.html}.
+From DALEX version 0.5 this function calls the \code{\link[ingredients]{feature_importance}}
+Find information how to use this function here: \url{https://pbiecek.github.io/PM_VEE/featureImportance.html}.
 }
 \examples{
  \dontrun{

@@ -8,21 +8,21 @@
   x,
   ...,
   max_vars = 10,
+  show_boxplots = TRUE,
   bar_width = 10,
-  show_baseline = FALSE,
   desc_sorting = TRUE
 )
 }
 \arguments{
-\item{x}{a variable dropout exlainer produced with the \code{\link{variable_dropout}} function}
+\item{x}{a variable importance explainer produced with the \code{\link{variable_importance}} function}
 
 \item{...}{other explainers that shall be plotted together}
 
 \item{max_vars}{maximum number of variables that shall be presented for for each model}
 
-\item{bar_width}{width of bars. By default 10}
+\item{show_boxplots}{logical if TRUE (default) boxplot will be plotted to show permutation data.}
 
-\item{show_baseline}{logical. Should the baseline be included?}
+\item{bar_width}{width of bars. By default 10}
 
 \item{desc_sorting}{logical. Should the bars be sorted descending? By default TRUE}
 }
@@ -30,14 +30,13 @@
 a ggplot2 object
 }
 \description{
-Function \code{plot.variable_dropout_explainer} plots dropouts
-for variables used in the model.
-It uses output from \code{variable_dropout} function that corresponds
+Function \code{plot.variable_importance_explainer} plots permutational importance
+of variables used in the model.
+It uses output from \code{variable_importance} function that corresponds
 to permutation based measure of variable importance.
 Variables are sorted in the same order in all panels.
-The order depends on the average drop out loss.
 In different panels variable contributions may not look like sorted
-if variable importance is different in different in different mdoels.
+if variable importance is different in different models.
 }
 \examples{
 

@@ -1,19 +1,18 @@
 #' Plot Variable Importance Explanations
 #'
-#' Function \code{plot.variable_dropout_explainer} plots dropouts
-#' for variables used in the model.
-#' It uses output from \code{variable_dropout} function that corresponds
+#' Function \code{plot.variable_importance_explainer} plots permutational importance
+#' of variables used in the model.
+#' It uses output from \code{variable_importance} function that corresponds
 #' to permutation based measure of variable importance.
 #' Variables are sorted in the same order in all panels.
-#' The order depends on the average drop out loss.
 #' In different panels variable contributions may not look like sorted
-#' if variable importance is different in different in different mdoels.
+#' if variable importance is different in different models.
 #'
-#' @param x a variable dropout exlainer produced with the \code{\link{variable_dropout}} function
+#' @param x a variable importance explainer produced with the \code{\link{variable_importance}} function
 #' @param ... other explainers that shall be plotted together
 #' @param max_vars maximum number of variables that shall be presented for for each model
 #' @param bar_width width of bars. By default 10
-#' @param show_baseline logical. Should the baseline be included?
+#' @param show_boxplots logical if TRUE (default) boxplot will be plotted to show permutation data.
 #' @param desc_sorting logical. Should the bars be sorted descending? By default TRUE
 #'
 #' @importFrom stats model.frame reorder
@@ -63,49 +62,11 @@
 #' plot(vd_rf, vd_glm, vd_xgb, bar_width = 4)
 #'  }
 #'
-plot.variable_importance_explainer <- function(x, ..., max_vars = 10, bar_width = 10, show_baseline = FALSE, desc_sorting = TRUE) {
-
-  if (!is.logical(desc_sorting)){
-    stop("desc_sorting is not logical")
-  }
-
-  # combine all explainers in a single frame
-  ## removed in v0.4  dfl <- c(list(x), list(...))
-  ## removed in v0.4  expl_df <- do.call(rbind, dfl)
-  expl_df <- combine_explainers(x, ...)
-
-  # add an additional column that serve as a baseline
-  bestFits <- expl_df[expl_df$variable == "_full_model_", ]
-  ext_expl_df <- merge(expl_df, bestFits[,c("label", "dropout_loss")], by = "label")
-
-  # set the order of variables depending on their contribution
-  reorder_levels <- ext_expl_df$dropout_loss.x - ext_expl_df$dropout_loss.y
-
-  ext_expl_df$variable <- reorder(ext_expl_df$variable,
-                                  reorder_levels * ifelse(desc_sorting, 1, -1),
-                                  mean)
-
-  # for each model leave only max_vars
-  trimmed_parts <- lapply(unique(ext_expl_df$label), function(label) {
-    tmp <- ext_expl_df[ext_expl_df$label == label, ]
-    tmp[tail(order(tmp$dropout_loss.x), max_vars), ]
-  })
-  ext_expl_df <- do.call(rbind, trimmed_parts)
-
-  if (!show_baseline) {
-    ext_expl_df <- ext_expl_df[ext_expl_df$variable != "_baseline_" &
-                                 ext_expl_df$variable != "_full_model_", ]
-  }
-
-  variable <- dropout_loss.x <- dropout_loss.y <- dropout_loss <- label <- NULL
-  nlabels <- length(unique(bestFits$label))
-  # plot it
-  ggplot(ext_expl_df, aes(variable, ymin = dropout_loss.y, ymax = dropout_loss.x, color = label)) +
-    geom_hline(data = bestFits, aes(yintercept = dropout_loss, color = label), lty = 3) +
-    geom_linerange(size = bar_width) + coord_flip() +
-    scale_color_manual(values = colors_discrete_drwhy(nlabels)) +
-    facet_wrap(~label, ncol = 1, scales = "free_y") + theme_drwhy_vertical() +
-    theme(legend.position = "none") +
-    ylab("Loss-drop after perturbations") + xlab("")
+plot.variable_importance_explainer <- function(x, ..., max_vars = 10, show_boxplots = TRUE, bar_width = 10, desc_sorting = TRUE) {
+  # from DALEX version 0.5 this function is a copy of ingredients::plot.feature_importance_explainer
+  ingredients:::plot.feature_importance_explainer(x, ...,
+                       max_vars = max_vars, show_boxplots = show_boxplots,
+                       bar_width = bar_width,
+                       desc_sorting = desc_sorting)
 }
 
