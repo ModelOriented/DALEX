@@ -42,7 +42,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.5.0</span>
+          <span class="version version-default">0.9.1</span>
         </div>
       </div>
     </div>
@@ -94,7 +94,7 @@
       <h1>Survival on the RMS Titanic</h1>
                         <h4 class="author">Przemyslaw Biecek</h4>
             
-            <h4 class="date">2020-01-03</h4>
+            <h4 class="date">2020-01-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/DALEX/blob/master/vignettes/vignette_titanic.Rmd"><code>vignettes/vignette_titanic.Rmd</code></a></small>
       <div class="hidden name"><code>vignette_titanic.Rmd</code></div>
@@ -134,8 +134,8 @@
 #&gt;                      Number of trees: 500
 #&gt; No. of variables tried at each split: 2
 #&gt; 
-#&gt;           Mean of squared residuals: 0.1429223
-#&gt;                     % Var explained: 34.79</code></pre>
+#&gt;           Mean of squared residuals: 0.1433466
+#&gt;                     % Var explained: 34.6</code></pre>
 </div>
 <div id="explainer-for-titanic-survival" class="section level1">
 <h1 class="hasAnchor">
@@ -152,9 +152,9 @@
 #&gt;   -&gt; data              :  2099  rows  8  cols 
 #&gt;   -&gt; target variable   :  2099  values 
 #&gt;   -&gt; predict function  :  yhat.randomForest  will be used (  default  )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.0111657 , mean =  0.3246128 , max =  0.991562  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.008049652 , mean =  0.3244124 , max =  0.9909982  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8033602 , mean =  -0.0001725717 , max =  0.8980491  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8098703 , mean =  2.780417e-05 , max =  0.9008542  
 #&gt;   -&gt; model_info        :  package randomForest , ver. 4.6.14 , task regression (  default  ) 
 #&gt;   A new explainer has been created!</code></pre>
 </div>
@@ -164,13 +164,13 @@
 <p>Use the <code><a href="../reference/variable_importance.html">variable_importance()</a></code> explainer to present importance of particular features. Note that <code>type = "difference"</code> normalizes dropouts, and now they all start in 0.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">vi_rf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_importance.html">variable_importance</a></span>(explain_titanic_rf)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(vi_rf)</a></code></pre></div>
-<pre><code>#&gt;       variable permutation dropout_loss            label
-#&gt; 1 _full_model_           0     112.8697 Random Forest v7
-#&gt; 2      country           0     112.8697 Random Forest v7
-#&gt; 3        parch           0     120.4375 Random Forest v7
-#&gt; 4        sibsp           0     121.8209 Random Forest v7
-#&gt; 5     embarked           0     124.0801 Random Forest v7
-#&gt; 6         fare           0     141.3068 Random Forest v7</code></pre>
+<pre><code>#&gt;       variable mean_dropout_loss            label
+#&gt; 1 _full_model_          111.2399 Random Forest v7
+#&gt; 2      country          111.2399 Random Forest v7
+#&gt; 3        parch          118.9799 Random Forest v7
+#&gt; 4        sibsp          119.4899 Random Forest v7
+#&gt; 5     embarked          122.4268 Random Forest v7
+#&gt; 6          age          138.7515 Random Forest v7</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(vi_rf)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
@@ -186,12 +186,12 @@
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">vr_age  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_response.html">variable_response</a></span>(explain_titanic_rf, <span class="dt">variable =</span>  <span class="st">"age"</span>)</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(vr_age)</a></code></pre></div>
 <pre><code>#&gt;           x            y var type            label
-#&gt; 1 0.1666667 0.521477.... age  pdp Random Forest v7
-#&gt; 2 1.6433333 0.562317.... age  pdp Random Forest v7
-#&gt; 3 3.1200000 0.573681.... age  pdp Random Forest v7
-#&gt; 4 4.5966667 0.546640.... age  pdp Random Forest v7
-#&gt; 5 6.0733333 0.528638.... age  pdp Random Forest v7
-#&gt; 6 7.5500000 0.527079.... age  pdp Random Forest v7</code></pre>
+#&gt; 1 0.1666667 0.526859.... age  pdp Random Forest v7
+#&gt; 2 1.6433333 0.560565.... age  pdp Random Forest v7
+#&gt; 3 3.1200000 0.578678.... age  pdp Random Forest v7
+#&gt; 4 4.5966667 0.555749.... age  pdp Random Forest v7
+#&gt; 5 6.0733333 0.532443.... age  pdp Random Forest v7
+#&gt; 6 7.5500000 0.529760.... age  pdp Random Forest v7</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(vr_age, <span class="dt">use_facets =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
@@ -234,7 +234,7 @@
 <a class="sourceLine" id="cb16-8" data-line-number="8">  <span class="dt">embarked =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="st">"Southampton"</span>, <span class="dt">levels =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Belfast"</span>, <span class="st">"Cherbourg"</span>, <span class="st">"Queenstown"</span>, <span class="st">"Southampton"</span>))</a>
 <a class="sourceLine" id="cb16-9" data-line-number="9">)</a>
 <a class="sourceLine" id="cb16-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb16-11" data-line-number="11">sp_rf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prediction_breakdown.html">single_prediction</a></span>(explain_titanic_rf, new_passanger)</a>
+<a class="sourceLine" id="cb16-11" data-line-number="11">sp_rf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_attribution.html">variable_attribution</a></span>(explain_titanic_rf, new_passanger)</a>
 <a class="sourceLine" id="cb16-12" data-line-number="12"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(sp_rf)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 <p>It looks like the most important feature for this passenger is <code>age</code> and <code>sex</code>. After all his odds for survival are higher than for the average passenger. Mainly because of the young age and despite of being a male.</p>
@@ -281,9 +281,9 @@
 #&gt;   -&gt; data              :  2099  rows  9  cols 
 #&gt;   -&gt; target variable   :  2099  values 
 #&gt;   -&gt; predict function  :  function(m, x) predict(m, x, n.trees = 15000, type = "response") 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.0001721364 , mean =  0.3202981 , max =  0.998943  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.000168873 , mean =  0.3269469 , max =  0.9983187  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.9198106 , mean =  0.004142148 , max =  0.9683729  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9419231 , mean =  -0.00250671 , max =  0.9688193  
 #&gt;   -&gt; model_info        :  package gbm , ver. 2.1.5 , task classification (  default  ) 
 #&gt;   A new explainer has been created!</code></pre>
 </div>
@@ -303,9 +303,9 @@
 #&gt;   -&gt; data              :  2099  rows  9  cols 
 #&gt;   -&gt; target variable   :  2099  values 
 #&gt;   -&gt; predict function  :  yhat.svm  will be used (  default  )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.0850537 , mean =  0.3257859 , max =  0.9581148  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.08512312 , mean =  0.3258246 , max =  0.9580634  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8558122 , mean =  -0.001345679 , max =  0.8920179  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8557199 , mean =  -0.001384363 , max =  0.891942  
 #&gt;   -&gt; model_info        :  package e1071 , ver. 1.7.2 , task classification (  default  ) 
 #&gt;   A new explainer has been created!</code></pre>
 </div>
@@ -360,11 +360,11 @@
 <div id="instance-level-explanations-1" class="section level1">
 <h1 class="hasAnchor">
 <a href="#instance-level-explanations-1" class="anchor"></a>Instance level explanations</h1>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">sp_rf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prediction_breakdown.html">single_prediction</a></span>(explain_titanic_rf, new_passanger)</a>
-<a class="sourceLine" id="cb30-2" data-line-number="2">sp_lmr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prediction_breakdown.html">single_prediction</a></span>(explain_titanic_lmr, new_passanger)</a>
-<a class="sourceLine" id="cb30-3" data-line-number="3">sp_gbm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prediction_breakdown.html">single_prediction</a></span>(explain_titanic_gbm, new_passanger)</a>
-<a class="sourceLine" id="cb30-4" data-line-number="4">sp_svm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prediction_breakdown.html">single_prediction</a></span>(explain_titanic_svm, new_passanger)</a>
-<a class="sourceLine" id="cb30-5" data-line-number="5">sp_knn &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prediction_breakdown.html">single_prediction</a></span>(explain_titanic_knn, new_passanger)</a>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">sp_rf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_attribution.html">variable_attribution</a></span>(explain_titanic_rf, new_passanger)</a>
+<a class="sourceLine" id="cb30-2" data-line-number="2">sp_lmr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_attribution.html">variable_attribution</a></span>(explain_titanic_lmr, new_passanger)</a>
+<a class="sourceLine" id="cb30-3" data-line-number="3">sp_gbm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_attribution.html">variable_attribution</a></span>(explain_titanic_gbm, new_passanger)</a>
+<a class="sourceLine" id="cb30-4" data-line-number="4">sp_svm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_attribution.html">variable_attribution</a></span>(explain_titanic_svm, new_passanger)</a>
+<a class="sourceLine" id="cb30-5" data-line-number="5">sp_knn &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_attribution.html">variable_attribution</a></span>(explain_titanic_knn, new_passanger)</a>
 <a class="sourceLine" id="cb30-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(sp_rf, sp_lmr, sp_gbm, sp_svm, sp_knn)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-16-1.png" width="480"></p>
 </div>
@@ -390,7 +390,7 @@
 #&gt;  [1] caret_6.0-84        e1071_1.7-2         gbm_2.1.5          
 #&gt;  [4] rms_5.1-3.1         SparseM_1.77        Hmisc_4.2-0        
 #&gt;  [7] ggplot2_3.2.1       Formula_1.2-3       survival_2.44-1.1  
-#&gt; [10] lattice_0.20-38     randomForest_4.6-14 DALEX_0.5.0        
+#&gt; [10] lattice_0.20-38     randomForest_4.6-14 DALEX_0.9.1        
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
 #&gt;   [1] TH.data_1.0-10      colorspace_1.4-1    ggsignif_0.6.0     
@@ -398,19 +398,19 @@
 #&gt;   [7] htmlTable_1.13.2    base64enc_0.1-3     fs_1.3.1           
 #&gt;  [10] rstudioapi_0.10     proxy_0.4-23        ggpubr_0.2.4       
 #&gt;  [13] farver_2.0.1        MatrixModels_0.4-1  lubridate_1.7.4    
-#&gt;  [16] prodlim_2018.04.18  mvtnorm_1.0-11      codetools_0.2-16   
-#&gt;  [19] splines_3.6.1       knitr_1.26          cluster_2.1.0      
-#&gt;  [22] shiny_1.4.0         compiler_3.6.1      backports_1.1.5    
-#&gt;  [25] assertthat_0.2.1    Matrix_1.2-17       fastmap_1.0.1      
-#&gt;  [28] lazyeval_0.2.2      later_1.0.0         quantreg_5.51      
-#&gt;  [31] acepack_1.4.1       htmltools_0.4.0     tools_3.6.1        
-#&gt;  [34] coda_0.19-3         gtable_0.3.0        agricolae_1.3-1    
-#&gt;  [37] glue_1.3.1          reshape2_1.4.3      dplyr_0.8.3        
-#&gt;  [40] gmodels_2.18.1      Rcpp_1.0.3          pkgdown_1.4.1      
-#&gt;  [43] spdep_1.1-3         gdata_2.18.0        nlme_3.1-140       
-#&gt;  [46] iterators_1.0.12    timeDate_3043.102   gower_0.2.1        
-#&gt;  [49] xfun_0.11           stringr_1.4.0       mime_0.7           
-#&gt;  [52] miniUI_0.1.1.1      lifecycle_0.1.0     breakDown_0.1.6    
+#&gt;  [16] prodlim_2018.04.18  mvtnorm_1.0-11      iBreakDown_0.9.9   
+#&gt;  [19] codetools_0.2-16    splines_3.6.1       knitr_1.26         
+#&gt;  [22] cluster_2.1.0       shiny_1.4.0         compiler_3.6.1     
+#&gt;  [25] backports_1.1.5     assertthat_0.2.1    Matrix_1.2-17      
+#&gt;  [28] fastmap_1.0.1       lazyeval_0.2.2      later_1.0.0        
+#&gt;  [31] quantreg_5.51       acepack_1.4.1       htmltools_0.4.0    
+#&gt;  [34] tools_3.6.1         coda_0.19-3         gtable_0.3.0       
+#&gt;  [37] agricolae_1.3-1     glue_1.3.1          reshape2_1.4.3     
+#&gt;  [40] dplyr_0.8.3         gmodels_2.18.1      Rcpp_1.0.3         
+#&gt;  [43] pkgdown_1.4.1       spdep_1.1-3         gdata_2.18.0       
+#&gt;  [46] nlme_3.1-140        iterators_1.0.12    timeDate_3043.102  
+#&gt;  [49] gower_0.2.1         xfun_0.11           stringr_1.4.0      
+#&gt;  [52] mime_0.7            miniUI_0.1.1.1      lifecycle_0.1.0    
 #&gt;  [55] gtools_3.8.1        polspline_1.1.16    zoo_1.8-6          
 #&gt;  [58] LearnBayes_2.15.1   MASS_7.3-51.4       scales_1.1.0       
 #&gt;  [61] ipred_0.9-9         promises_1.1.0      sandwich_2.5-1     

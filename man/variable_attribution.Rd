@@ -5,15 +5,15 @@
 \alias{variable_attribution_break_down}
 \alias{variable_attribution_ibreak_down}
 \alias{variable_attribution_shap}
-\title{Instance Level Variable Attribution as Break Down Explanations}
+\title{Instance Level Variable Attribution as Break Down or SHAP Explanations}
 \usage{
+variable_attribution(explainer, new_observation, ..., type = "break_down")
+
 variable_attribution_break_down(explainer, new_observation, ...)
 
 variable_attribution_ibreak_down(explainer, new_observation, ...)
 
 variable_attribution_shap(explainer, new_observation, ...)
-
-variable_attribution(explainer, new_observation, ..., type = "break_down")
 }
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the 'explain' function}
@@ -29,7 +29,8 @@ An object of the class 'single_prediction_explainer'.
 It's a data frame with calculated average response.
 }
 \description{
-From DALEX version 1.0 this function calls the \code{\link[iBreakDown]{break_down}}
+From DALEX version 1.0 this function calls the \code{\link[iBreakDown]{break_down}} or
+\code{\link[iBreakDown]{shap}} functions from the \code{iBreakDown} package.
 Find information how to use this function here: \url{https://pbiecek.github.io/PM_VEE/breakDown.html}.
 }
 \examples{

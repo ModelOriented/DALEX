@@ -80,7 +80,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.5.0</span>
+          <span class="version version-default">0.9.1</span>
         </div>
       </div>
     </div>
@@ -133,12 +133,14 @@
       <small>Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="dalex-0-5" class="section level2">
+    <div id="dalex-1-0" class="section level2">
 <h2 class="hasAnchor">
-<a href="#dalex-0-5" class="anchor"></a>DALEX 0.5</h2>
+<a href="#dalex-1-0" class="anchor"></a>DALEX 1.0</h2>
 <ul>
-<li>updated <code>model_performance</code> (<a href="https://github.com/ModelOriented/DALEX/issues/130"><a href='https://github.com/ModelOriented/DALEX/issues/130'>#130</a></a>).</li>
+<li>
+<code>prediction_breakdown</code> moved to <code>variable_attribution</code> and now it calls <code><a href="https://rdrr.io/pkg/iBreakDown/man/break_down.html">iBreakDown::break_down</a></code> (<a href="https://github.com/ModelOriented/DALEX/issues/131"><a href='https://github.com/ModelOriented/DALEX/issues/130'>#130</a></a>).</li>
 <li>updated <code>variable_importance</code>, not it calls the <code>ingredients::variable_importance</code> (<a href="https://github.com/ModelOriented/DALEX/issues/131"><a href='https://github.com/ModelOriented/DALEX/issues/131'>#131</a></a>).</li>
+<li>updated <code>model_performance</code> (<a href="https://github.com/ModelOriented/DALEX/issues/130"><a href='https://github.com/ModelOriented/DALEX/issues/130'>#130</a></a>).</li>
 </ul>
 </div>
     <div id="dalex-0-4-9" class="section level2">
@@ -216,7 +218,7 @@
 <a href="#dalex-0-4-1" class="anchor"></a>DALEX 0.4.1</h2>
 <ul>
 <li>
-<code><a href="../reference/plot.variable_importance_explainer.html">plot.variable_importance_explainer()</a></code> has now <code>desc_sorting</code> argument. If FALSE then variable importance will be sorted in an increasing order (<a href="https://github.com/pbiecek/DALEX/issues/41"><a href='https://github.com/ModelOriented/DALEX/issues/41'>#41</a></a>).</li>
+<code>plot.variable_importance_explainer()</code> has now <code>desc_sorting</code> argument. If FALSE then variable importance will be sorted in an increasing order (<a href="https://github.com/pbiecek/DALEX/issues/41"><a href='https://github.com/ModelOriented/DALEX/issues/41'>#41</a></a>).</li>
 </ul>
 </div>
     <div id="dalex-0-4-0" class="section level2">
@@ -230,7 +232,7 @@
 <li>
 <code><a href="../reference/variable_importance.html">variable_importance()</a></code> is marked as Deprecated. It is suggested to use <code><a href="https://rdrr.io/pkg/ingredients/man/feature_importance.html">ingredients::feature_importance()</a></code> instead (<a href="https://github.com/pbiecek/DALEX/issues/75"><a href='https://github.com/ModelOriented/DALEX/issues/75'>#75</a></a>).</li>
 <li>
-<code><a href="../reference/prediction_breakdown.html">prediction_breakdown()</a></code> is marked as Deprecated. It is suggested to use <code><a href="https://rdrr.io/pkg/iBreakDown/man/break_down.html">iBreakDown::break_down()</a></code> or <code><a href="https://rdrr.io/pkg/iBreakDown/man/break_down_uncertainty.html">iBreakDown::shap()</a></code> instead (<a href="https://github.com/pbiecek/DALEX/issues/76"><a href='https://github.com/ModelOriented/DALEX/issues/76'>#76</a></a>).</li>
+<code>prediction_breakdown()</code> is marked as Deprecated. It is suggested to use <code><a href="https://rdrr.io/pkg/iBreakDown/man/break_down.html">iBreakDown::break_down()</a></code> or <code><a href="https://rdrr.io/pkg/iBreakDown/man/break_down_uncertainty.html">iBreakDown::shap()</a></code> instead (<a href="https://github.com/pbiecek/DALEX/issues/76"><a href='https://github.com/ModelOriented/DALEX/issues/76'>#76</a></a>).</li>
 </ul>
 </div>
     <div id="dalex-0-3-1" class="section level2">
@@ -265,9 +267,9 @@
 <li>temporally there is a duplicated <code>single_variable</code> and <code>single_feature</code>
 </li>
 <li>Added new <code><a href="../reference/theme_drwhy.html">theme_drwhy()</a></code>.</li>
-<li>New arguments in the <code><a href="../reference/plot.variable_importance_explainer.html">plot.variable_importance_explainer()</a></code>. Namely <code>bar_width</code> with widths of bars and <code>show_baseline</code> if baseline shall be included in these plots.</li>
+<li>New arguments in the <code>plot.variable_importance_explainer()</code>. Namely <code>bar_width</code> with widths of bars and <code>show_baseline</code> if baseline shall be included in these plots.</li>
 <li>New skin in the <code><a href="../reference/plot.variable_response_explainer.html">plot.variable_response_explainer()</a></code>.</li>
-<li>New skin in the <code><a href="../reference/plot.prediction_breakdown_explainer.html">plot.prediction_breakdown_explainer()</a></code>.</li>
+<li>New skin in the <code>plot.prediction_breakdown_explainer()</code>.</li>
 </ul>
 </div>
     <div id="dalex-0-2-7" class="section level2">
@@ -291,7 +293,7 @@
 <a href="#dalex-0-2-5" class="anchor"></a>DALEX 0.2.5</h2>
 <ul>
 <li>Residual distribution plots for model performance are now more legible when multiple models are plotted. The styling of plot and axis titles have also been improved (<a href='https://github.com/kevinykuo'>@kevinykuo</a>).</li>
-<li>The defaults of <code><a href="../reference/prediction_breakdown.html">single_prediction()</a></code> are now consistent with <code><a href="https://rdrr.io/pkg/breakDown/man/broken.html">breakDown::broken()</a></code>. Specifically, <code>baseline</code> is now <code>0</code> by default instead of <code>"Intercept"</code>. The user can also specify the <code>baseline</code> and other arguments by passing them to <code>single_prediction</code> (<a href='https://github.com/kevinykuo'>@kevinykuo</a>, <a href="https://github.com/pbiecek/DALEX/issues/39"><a href='https://github.com/ModelOriented/DALEX/issues/39'>#39</a></a>). <strong>WARNING:</strong> Change in the default value of <code>baseline</code>.</li>
+<li>The defaults of <code>single_prediction()</code> are now consistent with <code><a href="https://rdrr.io/pkg/breakDown/man/broken.html">breakDown::broken()</a></code>. Specifically, <code>baseline</code> is now <code>0</code> by default instead of <code>"Intercept"</code>. The user can also specify the <code>baseline</code> and other arguments by passing them to <code>single_prediction</code> (<a href='https://github.com/kevinykuo'>@kevinykuo</a>, <a href="https://github.com/pbiecek/DALEX/issues/39"><a href='https://github.com/ModelOriented/DALEX/issues/39'>#39</a></a>). <strong>WARNING:</strong> Change in the default value of <code>baseline</code>.</li>
 <li>New <code>yhat.*</code> functions help to handle additional parameters to different <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> functions.</li>
 <li>Updated <code>CITATION</code> info</li>
 </ul>
@@ -332,7 +334,7 @@
 <h2 class="hasAnchor">
 <a href="#dalex-0-2-0" class="anchor"></a>DALEX 0.2.0</h2>
 <ul>
-<li>New names for some functions: <code><a href="../reference/model_performance.html">model_performance()</a></code>, <code><a href="../reference/variable_importance.html">variable_importance()</a></code>, <code><a href="../reference/variable_response.html">variable_response()</a></code>, <code>outlier_detection()</code>, <code><a href="../reference/prediction_breakdown.html">prediction_breakdown()</a></code>. Old names are now deprecated but still working. (<a href="https://github.com/pbiecek/DALEX/issues/12"><a href='https://github.com/ModelOriented/DALEX/issues/12'>#12</a></a>)</li>
+<li>New names for some functions: <code><a href="../reference/model_performance.html">model_performance()</a></code>, <code><a href="../reference/variable_importance.html">variable_importance()</a></code>, <code><a href="../reference/variable_response.html">variable_response()</a></code>, <code>outlier_detection()</code>, <code>prediction_breakdown()</code>. Old names are now deprecated but still working. (<a href="https://github.com/pbiecek/DALEX/issues/12"><a href='https://github.com/ModelOriented/DALEX/issues/12'>#12</a></a>)</li>
 <li>A new dataset <code>apartments</code> - will be used in examples</li>
 <li>
 <code><a href="../reference/variable_importance.html">variable_importance()</a></code> allows work on full dataset if <code>n_sample</code> is negative</li>
@@ -364,7 +366,7 @@
 <li>
 <code><a href="../reference/explain.html">explain()</a></code> function implemented</li>
 <li>
-<code><a href="../reference/prediction_breakdown.html">single_prediction()</a></code> function implemented</li>
+<code>single_prediction()</code> function implemented</li>
 <li>
 <code><a href="../reference/variable_response.html">single_variable()</a></code> function implemented</li>
 </ul>
@@ -375,7 +377,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#dalex-0-5">0.5</a></li>
+        <li><a href="#dalex-1-0">1.0</a></li>
         <li><a href="#dalex-0-4-9">0.4.9</a></li>
         <li><a href="#dalex-0-4-8">0.4.8</a></li>
         <li><a href="#dalex-0-4-7">0.4.7</a></li>

@@ -40,6 +40,7 @@ HR_rf_model <- randomForest(as.factor(status == "fired")~., data = HR, ntree = 1
 explainer_rf  <- explain(HR_rf_model, data = HR, y = HR$status == "fired")
 vd_rf <- variable_importance(explainer_rf, type = "raw")
 head(vd_rf, 8)
+plot(vd_rf)
 
 HR_glm_model <- glm(as.factor(status == "fired")~., data = HR, family = "binomial")
 explainer_glm <- explain(HR_glm_model, data = HR, y = HR$status == "fired")
@@ -59,6 +60,7 @@ explainer_xgb <- explain(HR_xgb_model, data = model_martix_train,
                      y = HR$status == "fired", label = "xgboost")
 vd_xgb <- variable_importance(explainer_xgb, type = "raw")
 head(vd_xgb, 8)
+plot(vd_xgb)
  }
 
 }

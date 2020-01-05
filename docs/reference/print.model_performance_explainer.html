@@ -81,7 +81,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.5.0</span>
+          <span class="version version-default">0.9.1</span>
         </div>
       </div>
     </div>
@@ -165,15 +165,15 @@
 #&gt;   -&gt; data              :  7847  rows  6  cols 
 #&gt;   -&gt; target variable   :  7847  values 
 #&gt;   -&gt; predict function  :  yhat.randomForest  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.05513295 , mean =  0.3636177 , max =  0.8023008  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.0554526 , mean =  0.3640464 , max =  0.8372866  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7614013 , mean =  0.0002156307 , max =  0.862949  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7435101 , mean =  -0.000213132 , max =  0.8617736  
 #&gt;   -&gt; model_info        :  package randomForest , ver. 4.6.14 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>mp_ex_rf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_rf</span>)
 <span class='no'>mp_ex_rf</span></div><div class='output co'>#&gt;          0%         10%         20%         30%         40%         50% 
-#&gt; -0.76140128 -0.39874986 -0.29648429 -0.22080579 -0.16655645 -0.11493511 
+#&gt; -0.74351007 -0.40434599 -0.28802319 -0.20938006 -0.15796258 -0.10562643 
 #&gt;         60%         70%         80%         90%        100% 
-#&gt; -0.07817642  0.27580449  0.39006282  0.50402845  0.86294900 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_ex_rf</span>)</div><div class='img'><img src='print.model_performance_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'> # }
+#&gt; -0.07038009  0.27486831  0.37264920  0.49310484  0.86177362 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_ex_rf</span>)</div><div class='img'><img src='print.model_performance_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'> # }
 
 </div></span></pre>
   </div>

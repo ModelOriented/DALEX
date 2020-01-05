@@ -1,6 +1,7 @@
-#' Instance Level Variable Attribution as Break Down Explanations
+#' Instance Level Variable Attribution as Break Down or SHAP Explanations
 #'
-#' From DALEX version 1.0 this function calls the \code{\link[iBreakDown]{break_down}}
+#' From DALEX version 1.0 this function calls the \code{\link[iBreakDown]{break_down}} or
+#' \code{\link[iBreakDown]{shap}} functions from the \code{iBreakDown} package.
 #' Find information how to use this function here: \url{https://pbiecek.github.io/PM_VEE/breakDown.html}.
 #'
 #' @param explainer a model to be explained, preprocessed by the 'explain' function
@@ -13,8 +14,6 @@
 #'
 #' @aliases variable_attribution_break_down variable_attribution variable_attribution_ibreak_down variable_attribution_shap
 #' @references Predictive Models: Explore, Explain, and Debug. Human-Centered Interpretable Machine Learning \url{https://pbiecek.github.io/PM_VEE/}
-#' @export
-#' @name variable_attribution
 #' @examples
 #' new_dragon <- data.frame(year_of_birth = 200,
 #'      height = 80,
@@ -63,6 +62,19 @@
 #'  plot(exp_sgn)
 #'  }
 #'
+#' @name variable_attribution
+#' @export
+variable_attribution <- function(explainer, new_observation, ..., type = "break_down") {
+  switch (type,
+          "break_down" = variable_attribution_break_down(explainer, new_observation, ...),
+          "ibreak_down" = variable_attribution_ibreak_down(explainer, new_observation, ...),
+          "shap" = variable_attribution_shap(explainer, new_observation, ...),
+          stop("The type argument shall be either 'shap' or 'break_down'")
+  )
+}
+
+#' @name variable_attribution
+#' @export
 variable_attribution_break_down <- function(explainer, new_observation, ...) {
   # run checks against the explainer objects
   if (!("explainer" %in% class(explainer))) stop("The variable_attribution_breakdown() function requires an object created with explain() function.")
@@ -99,16 +111,5 @@ variable_attribution_shap <- function(explainer, new_observation, ...) {
   iBreakDown::shap(explainer,
                          new_observation = new_observation,
                          ...)
-}
-
-#' @name variable_attribution
-#' @export
-variable_attribution <- function(explainer, new_observation, ..., type = "break_down") {
-  switch (type,
-          "break_down" = variable_attribution_break_down(explainer, new_observation, ...),
-          "ibreak_down" = variable_attribution_ibreak_down(explainer, new_observation, ...),
-          "shap" = variable_attribution_shap(explainer, new_observation, ...),
-          stop("The type argument shall be either 'shap' or 'break_down'")
-  )
 }
 

@@ -12,6 +12,18 @@ reference:
     - print.explainer
     - update_label
     - update_data
+  - title: Explanations
+    desc: Function that generate and plot explanations from model explainers
+    contents:
+    - variable_attribution
+    - variable_importance
+    - feature_response
+    - model_performance
+    - variable_response
+    - plot.feature_response_explainer
+    - plot.model_performance_explainer
+    - plot.variable_response_explainer
+    - print.model_performance_explainer
   - title: Core functions
     desc: Shared functions for the DrWhy.AI universe
     contents:
@@ -30,21 +42,6 @@ reference:
     - colors_breakdown_drwhy
     - theme_drwhy
     - theme_drwhy_vertical
-    - theme_drwhy_colors
-    - theme_drwhy_colors_break_down
-    - theme_mi2
-  - title: Explanations
-    desc: Function that generate and plot explanations from model explainers
-    contents:
-    - feature_response
-    - model_performance
-    - variable_attribution
-    - variable_importance
-    - variable_response
-    - plot.feature_response_explainer
-    - plot.model_performance_explainer
-    - plot.variable_response_explainer
-    - print.model_performance_explainer
   - title: Datasets
     desc: New datasets
     contents:

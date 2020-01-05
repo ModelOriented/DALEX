@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate Variable Importance Explanations as Loss from Variable Dropout — variable_importance • DALEX</title>
+<title>Dataset Level Variable Importance as Change in Loss Function after Variable Permutations — variable_importance • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Calculate Variable Importance Explanations as Loss from Variable Dropout — variable_importance" />
-<meta property="og:description" content="From DALEX version 0.5 this function calls the feature_importance
+<meta property="og:title" content="Dataset Level Variable Importance as Change in Loss Function after Variable Permutations — variable_importance" />
+<meta property="og:description" content="From DALEX version 1.0 this function calls the feature_importance
 Find information how to use this function here: https://pbiecek.github.io/PM_VEE/featureImportance.html." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -82,7 +82,7 @@ Find information how to use this function here: https://pbiecek.github.io/PM_VEE
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.5.0</span>
+          <span class="version version-default">0.9.1</span>
         </div>
       </div>
     </div>
@@ -131,13 +131,13 @@ Find information how to use this function here: https://pbiecek.github.io/PM_VEE
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate Variable Importance Explanations as Loss from Variable Dropout</h1>
+    <h1>Dataset Level Variable Importance as Change in Loss Function after Variable Permutations</h1>
     <small class="dont-index">Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/R/variable_importance.R'><code>R/variable_importance.R</code></a></small>
     <div class="hidden name"><code>variable_importance.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>From DALEX version 0.5 this function calls the <code><a href='https://rdrr.io/pkg/ingredients/man/feature_importance.html'>feature_importance</a></code>
+    <p>From DALEX version 1.0 this function calls the <code><a href='https://rdrr.io/pkg/ingredients/man/feature_importance.html'>feature_importance</a></code>
 Find information how to use this function here: <a href='https://pbiecek.github.io/PM_VEE/featureImportance.html'>https://pbiecek.github.io/PM_VEE/featureImportance.html</a>.</p>
     </div>
 
@@ -180,7 +180,7 @@ Find information how to use this function here: <a href='https://pbiecek.github.
 It's a data frame with calculated average response.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Predictive Models: Visual Exploration, Explanation and Debugging <a href='https://pbiecek.github.io/PM_VEE/'>https://pbiecek.github.io/PM_VEE/</a></p>
+    <p>Predictive Models: Explore, Explain, and Debug. Human-Centered Interpretable Machine Learning <a href='https://pbiecek.github.io/PM_VEE/'>https://pbiecek.github.io/PM_VEE/</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'> <span class='co'># \dontrun{</span>
@@ -192,100 +192,20 @@ It's a data frame with calculated average response.</p>
 #&gt;   -&gt; data              :  7847  rows  6  cols 
 #&gt;   -&gt; target variable   :  7847  values 
 #&gt;   -&gt; predict function  :  yhat.randomForest  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.3569096 , max =  1  
+#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.3577061 , max =  1  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.74 , mean =  0.006923665 , max =  0.69  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.76 , mean =  0.006127182 , max =  0.81  
 #&gt;   -&gt; model_info        :  package randomForest , ver. 4.6.14 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>vd_rf</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_importance</span>(<span class='no'>explainer_rf</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)
-<span class='no'>vd_rf</span></div><div class='output co'>#&gt;        variable permutation dropout_loss        label
-#&gt; 1  _full_model_           0     41.76964 randomForest
-#&gt; 2        status           0     41.76964 randomForest
-#&gt; 3    evaluation           0    100.93660 randomForest
-#&gt; 4        gender           0    109.87826 randomForest
-#&gt; 5           age           0    141.22331 randomForest
-#&gt; 6        salary           0    159.75282 randomForest
-#&gt; 7         hours           0    234.52464 randomForest
-#&gt; 8    _baseline_           0    382.57564 randomForest
-#&gt; 9  _full_model_           1     37.17240 randomForest
-#&gt; 10       gender           1     88.96940 randomForest
-#&gt; 11          age           1    127.53740 randomForest
-#&gt; 12        hours           1    226.77990 randomForest
-#&gt; 13   evaluation           1     87.89400 randomForest
-#&gt; 14       salary           1    157.71420 randomForest
-#&gt; 15       status           1     37.17240 randomForest
-#&gt; 16   _baseline_           1    393.73240 randomForest
-#&gt; 17 _full_model_           2     43.23610 randomForest
-#&gt; 18       gender           2    115.24630 randomForest
-#&gt; 19          age           2    138.78750 randomForest
-#&gt; 20        hours           2    242.63740 randomForest
-#&gt; 21   evaluation           2    102.04350 randomForest
-#&gt; 22       salary           2    158.08390 randomForest
-#&gt; 23       status           2     43.23610 randomForest
-#&gt; 24   _baseline_           2    390.47610 randomForest
-#&gt; 25 _full_model_           3     43.01690 randomForest
-#&gt; 26       gender           3    120.08420 randomForest
-#&gt; 27          age           3    144.70360 randomForest
-#&gt; 28        hours           3    230.72280 randomForest
-#&gt; 29   evaluation           3    110.56340 randomForest
-#&gt; 30       salary           3    157.78910 randomForest
-#&gt; 31       status           3     43.01690 randomForest
-#&gt; 32   _baseline_           3    372.53690 randomForest
-#&gt; 33 _full_model_           4     45.46120 randomForest
-#&gt; 34       gender           4    122.78680 randomForest
-#&gt; 35          age           4    151.17180 randomForest
-#&gt; 36        hours           4    236.61900 randomForest
-#&gt; 37   evaluation           4    102.00630 randomForest
-#&gt; 38       salary           4    181.19600 randomForest
-#&gt; 39       status           4     45.46120 randomForest
-#&gt; 40   _baseline_           4    365.04120 randomForest
-#&gt; 41 _full_model_           5     36.28410 randomForest
-#&gt; 42       gender           5    104.16530 randomForest
-#&gt; 43          age           5    124.26600 randomForest
-#&gt; 44        hours           5    220.42540 randomForest
-#&gt; 45   evaluation           5     88.91780 randomForest
-#&gt; 46       salary           5    145.38730 randomForest
-#&gt; 47       status           5     36.28410 randomForest
-#&gt; 48   _baseline_           5    355.46410 randomForest
-#&gt; 49 _full_model_           6     42.42490 randomForest
-#&gt; 50       gender           6    105.58730 randomForest
-#&gt; 51          age           6    148.02340 randomForest
-#&gt; 52        hours           6    231.19580 randomForest
-#&gt; 53   evaluation           6    102.22850 randomForest
-#&gt; 54       salary           6    153.16380 randomForest
-#&gt; 55       status           6     42.42490 randomForest
-#&gt; 56   _baseline_           6    397.38490 randomForest
-#&gt; 57 _full_model_           7     39.32180 randomForest
-#&gt; 58       gender           7    111.24530 randomForest
-#&gt; 59          age           7    132.41920 randomForest
-#&gt; 60        hours           7    231.60440 randomForest
-#&gt; 61   evaluation           7     97.12540 randomForest
-#&gt; 62       salary           7    169.21830 randomForest
-#&gt; 63       status           7     39.32180 randomForest
-#&gt; 64   _baseline_           7    386.22180 randomForest
-#&gt; 65 _full_model_           8     40.80940 randomForest
-#&gt; 66       gender           8    100.08670 randomForest
-#&gt; 67          age           8    143.74580 randomForest
-#&gt; 68        hours           8    229.86080 randomForest
-#&gt; 69   evaluation           8     97.56510 randomForest
-#&gt; 70       salary           8    158.77750 randomForest
-#&gt; 71       status           8     40.80940 randomForest
-#&gt; 72   _baseline_           8    391.18940 randomForest
-#&gt; 73 _full_model_           9     47.11480 randomForest
-#&gt; 74       gender           9    119.53050 randomForest
-#&gt; 75          age           9    156.49260 randomForest
-#&gt; 76        hours           9    251.14820 randomForest
-#&gt; 77   evaluation           9    116.21320 randomForest
-#&gt; 78       salary           9    158.04130 randomForest
-#&gt; 79       status           9     47.11480 randomForest
-#&gt; 80   _baseline_           9    381.81480 randomForest
-#&gt; 81 _full_model_          10     42.85480 randomForest
-#&gt; 82       gender          10    111.08080 randomForest
-#&gt; 83          age          10    145.08580 randomForest
-#&gt; 84        hours          10    244.25270 randomForest
-#&gt; 85   evaluation          10    104.80880 randomForest
-#&gt; 86       salary          10    158.15680 randomForest
-#&gt; 87       status          10     42.85480 randomForest
-#&gt; 88   _baseline_          10    391.89480 randomForest</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>vd_rf</span>, <span class='fl'>8</span>)</div><div class='output co'>#&gt;       variable mean_dropout_loss        label
+#&gt; 1 _full_model_          41.55981 randomForest
+#&gt; 2       status          41.55981 randomForest
+#&gt; 3   evaluation         104.60198 randomForest
+#&gt; 4       gender         114.61354 randomForest
+#&gt; 5          age         141.77534 randomForest
+#&gt; 6       salary         158.79501 randomForest
+#&gt; 7        hours         234.74700 randomForest
+#&gt; 8   _baseline_         380.18781 randomForest</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>vd_rf</span>)</div><div class='img'><img src='variable_importance-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
@@ -300,95 +220,15 @@ It's a data frame with calculated average response.</p>
 <span class='no'>vd_glm</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_importance</span>(<span class='no'>explainer_glm</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>,
                         <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>)
                                      <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>((<span class='no'>observed</span> - <span class='fu'>logit</span>(<span class='no'>predicted</span>))^<span class='fl'>2</span>))
-<span class='no'>vd_glm</span></div><div class='output co'>#&gt;        variable permutation dropout_loss label
-#&gt; 1  _full_model_           0     258.4282    lm
-#&gt; 2        salary           0     258.4238    lm
-#&gt; 3           age           0     258.4257    lm
-#&gt; 4        status           0     258.4282    lm
-#&gt; 5        gender           0     258.4470    lm
-#&gt; 6    evaluation           0     261.3087    lm
-#&gt; 7         hours           0     281.4606    lm
-#&gt; 8    _baseline_           0     286.7014    lm
-#&gt; 9  _full_model_           1     259.1452    lm
-#&gt; 10       gender           1     259.2419    lm
-#&gt; 11          age           1     259.1541    lm
-#&gt; 12        hours           1     284.0400    lm
-#&gt; 13   evaluation           1     260.5347    lm
-#&gt; 14       salary           1     259.1199    lm
-#&gt; 15       status           1     259.1452    lm
-#&gt; 16   _baseline_           1     287.8232    lm
-#&gt; 17 _full_model_           2     253.7079    lm
-#&gt; 18       gender           2     253.7485    lm
-#&gt; 19          age           2     253.6923    lm
-#&gt; 20        hours           2     278.7608    lm
-#&gt; 21   evaluation           2     256.1560    lm
-#&gt; 22       salary           2     253.6976    lm
-#&gt; 23       status           2     253.7079    lm
-#&gt; 24   _baseline_           2     282.3140    lm
-#&gt; 25 _full_model_           3     257.4809    lm
-#&gt; 26       gender           3     257.5091    lm
-#&gt; 27          age           3     257.4876    lm
-#&gt; 28        hours           3     279.0031    lm
-#&gt; 29   evaluation           3     261.5541    lm
-#&gt; 30       salary           3     257.4538    lm
-#&gt; 31       status           3     257.4809    lm
-#&gt; 32   _baseline_           3     289.3067    lm
-#&gt; 33 _full_model_           4     260.6942    lm
-#&gt; 34       gender           4     260.8145    lm
-#&gt; 35          age           4     260.6510    lm
-#&gt; 36        hours           4     280.9057    lm
-#&gt; 37   evaluation           4     263.5866    lm
-#&gt; 38       salary           4     260.7561    lm
-#&gt; 39       status           4     260.6942    lm
-#&gt; 40   _baseline_           4     287.1395    lm
-#&gt; 41 _full_model_           5     261.3595    lm
-#&gt; 42       gender           5     261.3248    lm
-#&gt; 43          age           5     261.3830    lm
-#&gt; 44        hours           5     284.8542    lm
-#&gt; 45   evaluation           5     266.2467    lm
-#&gt; 46       salary           5     261.3048    lm
-#&gt; 47       status           5     261.3595    lm
-#&gt; 48   _baseline_           5     285.8004    lm
-#&gt; 49 _full_model_           6     257.0093    lm
-#&gt; 50       gender           6     257.0038    lm
-#&gt; 51          age           6     257.0109    lm
-#&gt; 52        hours           6     281.7537    lm
-#&gt; 53   evaluation           6     259.9046    lm
-#&gt; 54       salary           6     257.0364    lm
-#&gt; 55       status           6     257.0093    lm
-#&gt; 56   _baseline_           6     285.3527    lm
-#&gt; 57 _full_model_           7     257.9950    lm
-#&gt; 58       gender           7     257.9382    lm
-#&gt; 59          age           7     257.9567    lm
-#&gt; 60        hours           7     279.8604    lm
-#&gt; 61   evaluation           7     260.7751    lm
-#&gt; 62       salary           7     257.9063    lm
-#&gt; 63       status           7     257.9950    lm
-#&gt; 64   _baseline_           7     284.5591    lm
-#&gt; 65 _full_model_           8     258.8784    lm
-#&gt; 66       gender           8     258.9457    lm
-#&gt; 67          age           8     258.8955    lm
-#&gt; 68        hours           8     281.1779    lm
-#&gt; 69   evaluation           8     260.6615    lm
-#&gt; 70       salary           8     258.8827    lm
-#&gt; 71       status           8     258.8784    lm
-#&gt; 72   _baseline_           8     289.5499    lm
-#&gt; 73 _full_model_           9     258.9713    lm
-#&gt; 74       gender           9     258.9337    lm
-#&gt; 75          age           9     258.9509    lm
-#&gt; 76        hours           9     284.2877    lm
-#&gt; 77   evaluation           9     260.1911    lm
-#&gt; 78       salary           9     259.0331    lm
-#&gt; 79       status           9     258.9713    lm
-#&gt; 80   _baseline_           9     286.1805    lm
-#&gt; 81 _full_model_          10     259.0405    lm
-#&gt; 82       gender          10     259.0094    lm
-#&gt; 83          age          10     259.0753    lm
-#&gt; 84        hours          10     279.9629    lm
-#&gt; 85   evaluation          10     263.4765    lm
-#&gt; 86       salary          10     259.0472    lm
-#&gt; 87       status          10     259.0405    lm
-#&gt; 88   _baseline_          10     288.9881    lm</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>vd_glm</span>, <span class='fl'>8</span>)</div><div class='output co'>#&gt;       variable mean_dropout_loss label
+#&gt; 1 _full_model_          257.3012    lm
+#&gt; 2       status          257.3012    lm
+#&gt; 3          age          257.3021    lm
+#&gt; 4       salary          257.3160    lm
+#&gt; 5       gender          257.3431    lm
+#&gt; 6   evaluation          261.1554    lm
+#&gt; 7        hours          281.5432    lm
+#&gt; 8   _baseline_          286.1361    lm</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"xgboost"</span>)
 <span class='no'>model_martix_train</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/model.matrix.html'>model.matrix</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~ <span class='no'>.</span>-<span class='fl'>1</span>, <span class='no'>HR</span>)
 <span class='no'>data_train</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/xgboost/man/xgb.DMatrix.html'>xgb.DMatrix</a></span>(<span class='no'>model_martix_train</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)
@@ -406,95 +246,15 @@ It's a data frame with calculated average response.</p>
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9885727 , mean =  0.0001203494 , max =  0.9970635  
 #&gt;   -&gt; model_info        :  package Model of class: xgb.Booster package unrecognized , ver. Unknown , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>vd_xgb</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_importance</span>(<span class='no'>explainer_xgb</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)
-<span class='no'>vd_xgb</span></div><div class='output co'>#&gt;        variable permutation dropout_loss   label
-#&gt; 1  _full_model_           0    100.97363 xgboost
-#&gt; 2    gendermale           0    100.97363 xgboost
-#&gt; 3    evaluation           0    115.35822 xgboost
-#&gt; 4  genderfemale           0    158.40170 xgboost
-#&gt; 5           age           0    164.95427 xgboost
-#&gt; 6        salary           0    173.90679 xgboost
-#&gt; 7         hours           0    244.47729 xgboost
-#&gt; 8    _baseline_           0    365.52545 xgboost
-#&gt; 9  _full_model_           1    108.26494 xgboost
-#&gt; 10 genderfemale           1    166.51667 xgboost
-#&gt; 11   gendermale           1    108.26494 xgboost
-#&gt; 12          age           1    166.88516 xgboost
-#&gt; 13        hours           1    240.09920 xgboost
-#&gt; 14   evaluation           1    121.87649 xgboost
-#&gt; 15       salary           1    179.65218 xgboost
-#&gt; 16   _baseline_           1    365.99301 xgboost
-#&gt; 17 _full_model_           2    100.46233 xgboost
-#&gt; 18 genderfemale           2    154.57483 xgboost
-#&gt; 19   gendermale           2    100.46233 xgboost
-#&gt; 20          age           2    161.22867 xgboost
-#&gt; 21        hours           2    253.09020 xgboost
-#&gt; 22   evaluation           2    116.68716 xgboost
-#&gt; 23       salary           2    177.31644 xgboost
-#&gt; 24   _baseline_           2    374.87524 xgboost
-#&gt; 25 _full_model_           3    111.93708 xgboost
-#&gt; 26 genderfemale           3    180.84931 xgboost
-#&gt; 27   gendermale           3    111.93708 xgboost
-#&gt; 28          age           3    183.81939 xgboost
-#&gt; 29        hours           3    256.24900 xgboost
-#&gt; 30   evaluation           3    125.14850 xgboost
-#&gt; 31       salary           3    185.83464 xgboost
-#&gt; 32   _baseline_           3    371.27604 xgboost
-#&gt; 33 _full_model_           4     94.90846 xgboost
-#&gt; 34 genderfemale           4    152.61192 xgboost
-#&gt; 35   gendermale           4     94.90846 xgboost
-#&gt; 36          age           4    152.44962 xgboost
-#&gt; 37        hours           4    232.02912 xgboost
-#&gt; 38   evaluation           4    113.99401 xgboost
-#&gt; 39       salary           4    182.55946 xgboost
-#&gt; 40   _baseline_           4    367.28781 xgboost
-#&gt; 41 _full_model_           5     95.98169 xgboost
-#&gt; 42 genderfemale           5    150.03256 xgboost
-#&gt; 43   gendermale           5     95.98169 xgboost
-#&gt; 44          age           5    167.57465 xgboost
-#&gt; 45        hours           5    242.74541 xgboost
-#&gt; 46   evaluation           5    104.76312 xgboost
-#&gt; 47       salary           5    156.43255 xgboost
-#&gt; 48   _baseline_           5    363.45684 xgboost
-#&gt; 49 _full_model_           6     97.62927 xgboost
-#&gt; 50 genderfemale           6    156.00427 xgboost
-#&gt; 51   gendermale           6     97.62927 xgboost
-#&gt; 52          age           6    164.69964 xgboost
-#&gt; 53        hours           6    245.36334 xgboost
-#&gt; 54   evaluation           6    116.02958 xgboost
-#&gt; 55       salary           6    172.83240 xgboost
-#&gt; 56   _baseline_           6    365.82481 xgboost
-#&gt; 57 _full_model_           7     97.38328 xgboost
-#&gt; 58 genderfemale           7    158.39516 xgboost
-#&gt; 59   gendermale           7     97.38328 xgboost
-#&gt; 60          age           7    154.56435 xgboost
-#&gt; 61        hours           7    248.24239 xgboost
-#&gt; 62   evaluation           7    109.38396 xgboost
-#&gt; 63       salary           7    169.87290 xgboost
-#&gt; 64   _baseline_           7    371.05115 xgboost
-#&gt; 65 _full_model_           8    101.03019 xgboost
-#&gt; 66 genderfemale           8    161.25667 xgboost
-#&gt; 67   gendermale           8    101.03019 xgboost
-#&gt; 68          age           8    169.89728 xgboost
-#&gt; 69        hours           8    238.72604 xgboost
-#&gt; 70   evaluation           8    118.62153 xgboost
-#&gt; 71       salary           8    175.65289 xgboost
-#&gt; 72   _baseline_           8    330.58521 xgboost
-#&gt; 73 _full_model_           9    103.02672 xgboost
-#&gt; 74 genderfemale           9    155.56565 xgboost
-#&gt; 75   gendermale           9    103.02672 xgboost
-#&gt; 76          age           9    165.44346 xgboost
-#&gt; 77        hours           9    253.63567 xgboost
-#&gt; 78   evaluation           9    117.55907 xgboost
-#&gt; 79       salary           9    170.99225 xgboost
-#&gt; 80   _baseline_           9    369.66208 xgboost
-#&gt; 81 _full_model_          10     99.11237 xgboost
-#&gt; 82 genderfemale          10    148.20996 xgboost
-#&gt; 83   gendermale          10     99.11237 xgboost
-#&gt; 84          age          10    162.98049 xgboost
-#&gt; 85        hours          10    234.59254 xgboost
-#&gt; 86   evaluation          10    109.51875 xgboost
-#&gt; 87       salary          10    167.92220 xgboost
-#&gt; 88   _baseline_          10    375.24234 xgboost</div><div class='input'> # }
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>vd_xgb</span>, <span class='fl'>8</span>)</div><div class='output co'>#&gt;       variable mean_dropout_loss   label
+#&gt; 1 _full_model_          96.40313 xgboost
+#&gt; 2   gendermale          96.40313 xgboost
+#&gt; 3   evaluation         111.67033 xgboost
+#&gt; 4 genderfemale         147.64346 xgboost
+#&gt; 5          age         155.80725 xgboost
+#&gt; 6       salary         170.08833 xgboost
+#&gt; 7        hours         238.63683 xgboost
+#&gt; 8   _baseline_         356.16911 xgboost</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>vd_xgb</span>)</div><div class='img'><img src='variable_importance-2.png' alt='' width='700' height='433' /></div><div class='input'> # }
 
 </div></span></pre>
   </div>
