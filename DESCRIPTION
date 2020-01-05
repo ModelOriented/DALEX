@@ -5,7 +5,7 @@ Authors@R: c(person("Przemyslaw", "Biecek", email = "przemyslaw.biecek@gmail.com
     person("Szymon", "Maksymiuk", role = "ctb"))
 Description:  Unverified black box model is the path to the failure. Opaqueness leads to distrust. 
   Distrust leads to ignoration. Ignoration leads to rejection. 
-  DALEX package xrays any model and helps to explore and explain model behaviour.
+  DALEX package xrays any model and helps to explore and explain its behaviour.
   Machine Learning (ML) models are widely used and have various applications in classification 
   or regression. Models created with boosting, bagging, stacking or similar techniques are often
   used due to their high performance. But such black-box models usually lack of direct interpretability.
@@ -15,18 +15,18 @@ Description:  Unverified black box model is the path to the failure. Opaqueness 
   All model explainers are model agnostic and can be compared across different models.
   DALEX package is the cornerstone for 'DrWhy.AI' universe of packages for visual model exploration.
   Find more details in (Biecek 2018) <arXiv:1806.08915>.
-Depends: R (>= 3.5)
 License: GPL
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.0.2
+Depends: R (>= 3.5)
 Imports: 
-  ggplot2,
-  ingredients
+  ggplot2
 Suggests: 
+  ingredients,
+  iBreakDown,
   gbm,
   ggpubr,
-  iBreakDown,
   randomForest,
   testthat,
   ALEPlot,

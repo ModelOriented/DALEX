@@ -3,7 +3,7 @@
 \name{variable_importance}
 \alias{variable_importance}
 \alias{feature_importance}
-\title{Calculate Variable Importance Explanations as Change in Loss Function after Variable Permutations}
+\title{Dataset Level Variable Importance as Change in Loss Function after Variable Permutations}
 \usage{
 variable_importance(
   explainer,
@@ -29,7 +29,7 @@ An object of the class 'feature_importance'.
 It's a data frame with calculated average response.
 }
 \description{
-From DALEX version 0.5 this function calls the \code{\link[ingredients]{feature_importance}}
+From DALEX version 1.0 this function calls the \code{\link[ingredients]{feature_importance}}
 Find information how to use this function here: \url{https://pbiecek.github.io/PM_VEE/featureImportance.html}.
 }
 \examples{
@@ -63,5 +63,5 @@ head(vd_xgb, 8)
 
 }
 \references{
-Predictive Models: Visual Exploration, Explanation and Debugging \url{https://pbiecek.github.io/PM_VEE/}
+Predictive Models: Explore, Explain, and Debug. Human-Centered Interpretable Machine Learning \url{https://pbiecek.github.io/PM_VEE/}
 }

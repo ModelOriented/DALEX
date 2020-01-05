@@ -123,7 +123,7 @@ new_passanger <- data.frame(
   embarked = factor("Southampton", levels = c("Belfast", "Cherbourg", "Queenstown", "Southampton"))
 )
 
-sp_rf <- single_prediction(explain_titanic_rf, new_passanger)
+sp_rf <- variable_attribution(explain_titanic_rf, new_passanger)
 plot(sp_rf)
 ```
 
@@ -211,11 +211,11 @@ plot(vr_age_rf, vr_age_lmr, vr_age_gbm, vr_age_svm, vr_age_knn, use_facets = TRU
 # Instance level explanations
 
 ```{r, fig.width=5, fig.height=8}
-sp_rf <- single_prediction(explain_titanic_rf, new_passanger)
-sp_lmr <- single_prediction(explain_titanic_lmr, new_passanger)
-sp_gbm <- single_prediction(explain_titanic_gbm, new_passanger)
-sp_svm <- single_prediction(explain_titanic_svm, new_passanger)
-sp_knn <- single_prediction(explain_titanic_knn, new_passanger)
+sp_rf <- variable_attribution(explain_titanic_rf, new_passanger)
+sp_lmr <- variable_attribution(explain_titanic_lmr, new_passanger)
+sp_gbm <- variable_attribution(explain_titanic_gbm, new_passanger)
+sp_svm <- variable_attribution(explain_titanic_svm, new_passanger)
+sp_knn <- variable_attribution(explain_titanic_knn, new_passanger)
 plot(sp_rf, sp_lmr, sp_gbm, sp_svm, sp_knn)
 ```
 

@@ -38,13 +38,11 @@ reference:
     contents:
     - feature_response
     - model_performance
-    - prediction_breakdown
+    - variable_attribution
     - variable_importance
     - variable_response
     - plot.feature_response_explainer
     - plot.model_performance_explainer
-    - plot.prediction_breakdown_explainer
-    - plot.variable_importance_explainer
     - plot.variable_response_explainer
     - print.model_performance_explainer
   - title: Datasets
