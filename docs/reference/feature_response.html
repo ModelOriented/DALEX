@@ -86,7 +86,7 @@ and 'ALEPlot' (Dan Apley (2017). ALEPlot: Accumulated Local Effects Plots and Pa
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.4.9</span>
+          <span class="version version-default">0.5.0</span>
         </div>
       </div>
     </div>
@@ -152,12 +152,19 @@ and 'ALEPlot' (Dan Apley (2017). ALEPlot: Accumulated Local Effects Plots and Pa
     <pre class="usage"><span class='fu'>feature_response</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for explainer</span>
-<span class='fu'>feature_response</span>(<span class='no'>x</span>, <span class='no'>feature</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>,
-  <span class='kw'>which_class</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+<span class='fu'>feature_response</span>(<span class='no'>x</span>, <span class='no'>feature</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>, <span class='kw'>which_class</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>feature_response</span>(<span class='no'>x</span>, <span class='no'>data</span>, <span class='no'>predict_function</span>, <span class='no'>feature</span>,
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='no'>x</span>)[<span class='fl'>1</span>], <span class='kw'>which_class</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>feature_response</span>(
+  <span class='no'>x</span>,
+  <span class='no'>data</span>,
+  <span class='no'>predict_function</span>,
+  <span class='no'>feature</span>,
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>,
+  <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='no'>x</span>)[<span class='fl'>1</span>],
+  <span class='kw'>which_class</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

@@ -81,7 +81,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.4.9</span>
+          <span class="version version-default">0.5.0</span>
         </div>
       </div>
     </div>
@@ -140,9 +140,14 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for model_performance_explainer</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"ecdf"</span>,
-  <span class='kw'>show_outliers</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>ptlabel</span> <span class='kw'>=</span> <span class='st'>"name"</span>, <span class='kw'>lossFunction</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>)
-  <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span>^<span class='fl'>2</span>)))</pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(
+  <span class='no'>x</span>,
+  <span class='no'>...</span>,
+  <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"ecdf"</span>,
+  <span class='kw'>show_outliers</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>ptlabel</span> <span class='kw'>=</span> <span class='st'>"name"</span>,
+  <span class='kw'>lossFunction</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span>^<span class='fl'>2</span>))
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

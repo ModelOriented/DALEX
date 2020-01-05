@@ -5,25 +5,23 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Descriptive mAchine Learning EXplanations • DALEX</title>
+<title>Diagnose, understAnd, expLore, dEbug and eXplain machine learning models • DALEX</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="dalexverse.css" rel="stylesheet">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="dalexverse-2.css" rel="stylesheet">
 <link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Descriptive mAchine Learning EXplanations">
-<meta property="og:description" content="Machine Learning (ML) models are widely used and have various applications in classification 
+<script src="pkgdown.js"></script><meta property="og:title" content="Diagnose, understAnd, expLore, dEbug and eXplain machine learning models">
+<meta property="og:description" content="Black box model is the path to the failure. Opaqueness leads to distrust. 
+  Distrust leads to ignoration. Ignoration leads to rejection.
+  Machine Learning (ML) models are widely used and have various applications in classification 
   or regression. Models created with boosting, bagging, stacking or similar techniques are often
-  used due to their high performance, but such black-box models usually lack of interpretability.
-  DALEX package contains various explainers that help to understand the link between input variables and model output.
-  The single_variable() explainer extracts conditional response of a model as a function of a single selected variable.
-  It is a wrapper over packages pdp (Greenwell 2017) &lt;doi:10.32614/RJ-2017-016&gt;, 
-  ALEPlot (Apley 2018) &lt;arXiv:1612.08468&gt;  and factorMerger (Sitko and Biecek 2017) &lt;arXiv:1709.04412&gt;.
-  The single_prediction() explainer attributes parts of a model prediction to particular variables used in the model.
-  It is a wrapper over breakDown package (Staniak and Biecek 2018) &lt;doi:10.32614/RJ-2018-072&gt;.
-  The variable_dropout() explainer calculates variable importance scores based on variable shuffling 
-  (Fisher at al. 2018) &lt;arXiv:1801.01489&gt;.
-  All these explainers can be plotted with generic plot() function and compared across different models.
-  DALEX is a part of the DrWhy.AI universe (Biecek 2018) &lt;arXiv:1806.08915&gt;.">
+  used due to their high performance. But such black-box models usually lack of direct interpretability.
+  DALEX package contains various methods that help to understand the link between input variables 
+  and model output. Implemented methods help to explore model on the level of a single instance 
+  as well as a level of the whole dataset.
+  All model explainers are model agnostic and can be compared across different models.
+  DALEX package is the cornerstone for DrWhy.AI universe of packages for visual model exploration.
+  Find more details in (Biecek 2018) &lt;arXiv:1806.08915&gt;.">
 <meta property="og:image" content="/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -54,7 +52,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.4.9</span>
+          <span class="version version-default">0.5.0</span>
         </div>
       </div>
     </div>
