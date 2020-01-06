@@ -6,7 +6,7 @@ quick.installed.packages <- function() {
 }
 
 .onAttach <- function(...) {
-  addons <- setdiff(c("ingredients", "iBreakDown", "ALEPlot", "breakDown", "pdp", "factorMerger", "ggpubr"),
+  addons <- setdiff(c("ingredients", "iBreakDown", "ggpubr"),
                     quick.installed.packages())
 
   packageStartupMessage("Welcome to DALEX (version: ", utils::packageVersion("DALEX"), ").\n",

@@ -15,6 +15,9 @@ The philosophy behind `DALEX` explanations is described in the [Predictive Model
 
 If you work with `scikitlearn`, `keras`, `H2O`, `mljar` or `mlr`, you may be interested in the [DALEXtra](https://github.com/ModelOriented/DALEXtra) package. It is an extension pack for `DALEX` with easy to use connectors to models created in these libraries.
 
+<a href="https://pbiecek.github.io/PM_VEE/introduction.html#bookstructure"><img src="DALEXpiramide.png" width="600"/></a>
+
+
 ## Installation
 
 ```{r}
@@ -26,15 +29,16 @@ install.packages("DALEX")
 devtools::install_github("ModelOriented/DALEX")
 ```
 
-## Cheatsheet
-
-<a href="https://github.com/ModelOriented/DALEX/raw/master/misc/cheatsheet_local_explainers.png"><img src="https://github.com/ModelOriented/DALEX/raw/master/misc/cheatsheet_local_explainers.png" width="500"/></a>
-
 ## Learn more 
 
 Machine Learning models are widely used and have various applications in classification or regression tasks. Due to increasing computational power, availability of new data sources and new methods, ML models are more and more complex. Models created with techniques like boosting, bagging of neural networks are true black boxes. It is hard to trace the link between input variables and model outcomes. They are use because of high performance, but lack of interpretability is one of their weakest sides.
 
 In many applications we need to know, understand or prove how input variables are used in the model and what impact do they have on final model prediction. `DALEX` is a set of tools that help to understand how complex models are working.
+
+## Cheatsheet
+
+<a href="https://github.com/ModelOriented/DALEX/raw/master/misc/cheatsheet_local_explainers.png"><img src="https://github.com/ModelOriented/DALEX/raw/master/misc/cheatsheet_local_explainers.png" width="500"/></a>
+
 
 ### DALEX show-cases
 

@@ -1,6 +1,7 @@
 DALEX 1.0
 ----------------------------------------------------------------
-* `prediction_breakdown` moved to `variable_attribution` and now it calls `iBreakDown::break_down` ([#130](https://github.com/ModelOriented/DALEX/issues/131)).
+* `variable_response` and `feature_response` moved to `variable_effect` and now it calls `ingredients::partial_dependency` ([#131](https://github.com/ModelOriented/DALEX/issues/131)).
+* `prediction_breakdown` moved to `variable_attribution` and now it calls `iBreakDown::break_down` ([#131](https://github.com/ModelOriented/DALEX/issues/131)).
 * updated `variable_importance`, not it calls the `ingredients::variable_importance` ([#131](https://github.com/ModelOriented/DALEX/issues/131)).
 * updated `model_performance`  ([#130](https://github.com/ModelOriented/DALEX/issues/130)).
 

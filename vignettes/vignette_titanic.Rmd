@@ -68,14 +68,14 @@ plot(vi_rf)
 
 As we see the most important feature is `Sex`. Next three importnat features are `Pclass`, `Age` and `Fare`. Let's see the link between model response and these features.
 
-Such univariate relation can be calculated with `variable_response()`.
+Such univariate relation can be calculated with `variable_effect()`.
 
 ## Age
 
 Kids 5 years old and younger have much higher survival probability.
 
 ```{r}
-vr_age  <- variable_response(explain_titanic_rf, variable =  "age")
+vr_age  <- variable_effect(explain_titanic_rf, variables =  "age")
 head(vr_age)
 plot(vr_age, use_facets = TRUE)
 ```
@@ -85,7 +85,7 @@ plot(vr_age, use_facets = TRUE)
 Passangers in the first class have much higher survival probability.
 
 ```{r}
-vr_class  <- variable_response(explain_titanic_rf, variable =  "class")
+vr_class  <- variable_effect(explain_titanic_rf, variables =  "class")
 plot(vr_class)
 ```
 
@@ -94,7 +94,7 @@ plot(vr_class)
 Very cheap tickets are linked with lower chances.
 
 ```{r}
-vr_fare  <- variable_response(explain_titanic_rf, variable =  "fare")
+vr_fare  <- variable_effect(explain_titanic_rf, variables =  "fare")
 plot(vr_fare, use_facets = TRUE)
 ```
 
@@ -103,7 +103,7 @@ plot(vr_fare, use_facets = TRUE)
 Passangers that embarked from C have highest survival.
 
 ```{r}
-vr_embarked  <- variable_response(explain_titanic_rf, variable =  "embarked")
+vr_embarked  <- variable_effect(explain_titanic_rf, variables =  "embarked")
 plot(vr_embarked)
 ```
 
@@ -199,11 +199,11 @@ plot(vi_rf, vi_lmr, vi_gbm, vi_svm, vi_knn, bar_width = 4)
 ## Single variable
 
 ```{r, fig.width=5, fig.height=5}
-vr_age_rf  <- variable_response(explain_titanic_rf, variable =  "age")
-vr_age_lmr  <- variable_response(explain_titanic_lmr, variable =  "age")
-vr_age_gbm  <- variable_response(explain_titanic_gbm, variable =  "age")
-vr_age_svm  <- variable_response(explain_titanic_svm, variable =  "age")
-vr_age_knn  <- variable_response(explain_titanic_knn, variable =  "age")
+vr_age_rf  <- variable_effect(explain_titanic_rf, variables =  "age")
+vr_age_lmr  <- variable_effect(explain_titanic_lmr, variables =  "age")
+vr_age_gbm  <- variable_effect(explain_titanic_gbm, variables =  "age")
+vr_age_svm  <- variable_effect(explain_titanic_svm, variables =  "age")
+vr_age_knn  <- variable_effect(explain_titanic_knn, variables =  "age")
 plot(vr_age_rf, vr_age_lmr, vr_age_gbm, vr_age_svm, vr_age_knn)
 plot(vr_age_rf, vr_age_lmr, vr_age_gbm, vr_age_svm, vr_age_knn, use_facets = TRUE)
 ```

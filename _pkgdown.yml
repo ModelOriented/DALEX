@@ -17,15 +17,12 @@ reference:
     contents:
     - variable_attribution
     - variable_importance
-    - feature_response
+    - variable_effect
     - model_performance
-    - variable_response
-    - plot.feature_response_explainer
     - plot.model_performance_explainer
-    - plot.variable_response_explainer
     - print.model_performance_explainer
-  - title: Core functions
-    desc: Shared functions for the DrWhy.AI universe
+  - title: Shared functions
+    desc: Shared functions for packages from the DrWhy.AI universe
     contents:
     - install_dependencies
     - print.description
@@ -43,11 +40,11 @@ reference:
     - theme_drwhy
     - theme_drwhy_vertical
   - title: Datasets
-    desc: New datasets
+    desc: Datasets used in Examples and Vignettes
     contents:
     - apartments
-    - dragons
-    - HR
     - titanic
     - titanic_imputed
+    - dragons
+    - HR
 
