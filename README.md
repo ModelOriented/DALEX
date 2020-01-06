@@ -1,4 +1,4 @@
-# Descriptive mAchine Learning EXplanations <img src="man/figures/logo.png" align="right" width="150"/>
+# Diagnose, understAnd, expLore, dEbug and eXplain machine learning models <img src="man/figures/logo.png" align="right" width="150"/>
 
 [![Build Status](https://api.travis-ci.org/ModelOriented/DALEX.png)](https://travis-ci.org/ModelOriented/DALEX)
 [![Coverage
@@ -9,7 +9,9 @@ Status](https://img.shields.io/codecov/c/github/ModelOriented/DALEX/master.svg)]
 
 ## Overview
 
-The `DALEX` package (Descriptive mAchine Learning EXplanations) helps to understand how complex models are working. The main function `explain()` creates a wrapper around a predictive model. Wrapped models may then be explored and compared with a collection of local and global explainers. Recent developents from the area of Interpretable Machine Learning/eXplainable Artificial Intelligence. 
+Unverified black box model is the path to the failure. Opaqueness leads to distrust. Distrust leads to ignoration. Ignoration leads to rejection. 
+
+The `DALEX` package xrays any model and helps to explore and explain its behaviour, helps to understand how complex models are working. The main function `explain()` creates a wrapper around a predictive model. Wrapped models may then be explored and compared with a collection of local and global explainers. Recent developents from the area of Interpretable Machine Learning/eXplainable Artificial Intelligence. 
 
 The philosophy behind `DALEX` explanations is described in the [Predictive Models: Explore, Explain, and Debug](https://pbiecek.github.io/PM_VEE/) e-book. The `DALEX` package is a part of [DrWhy.AI](http://DrWhy.AI) universe. 
 

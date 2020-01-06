@@ -134,8 +134,8 @@
 #&gt;                      Number of trees: 500
 #&gt; No. of variables tried at each split: 2
 #&gt; 
-#&gt;           Mean of squared residuals: 0.1425971
-#&gt;                     % Var explained: 34.94</code></pre>
+#&gt;           Mean of squared residuals: 0.1429882
+#&gt;                     % Var explained: 34.76</code></pre>
 </div>
 <div id="explainer-for-titanic-survival" class="section level1">
 <h1 class="hasAnchor">
@@ -152,9 +152,9 @@
 #&gt;   -&gt; data              :  2099  rows  8  cols 
 #&gt;   -&gt; target variable   :  2099  values 
 #&gt;   -&gt; predict function  :  yhat.randomForest  will be used (  default  )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.01199233 , mean =  0.3247501 , max =  0.9914629  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.007647857 , mean =  0.324321 , max =  0.9918327  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8037955 , mean =  -0.000309927 , max =  0.9011284  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.782597 , mean =  0.0001191597 , max =  0.9035002  
 #&gt;   -&gt; model_info        :  package randomForest , ver. 4.6.14 , task regression (  default  ) 
 #&gt;   A new explainer has been created!</code></pre>
 </div>
@@ -165,12 +165,12 @@
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">vi_rf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_importance.html">variable_importance</a></span>(explain_titanic_rf)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(vi_rf)</a></code></pre></div>
 <pre><code>#&gt;       variable mean_dropout_loss            label
-#&gt; 1 _full_model_          109.5086 Random Forest v7
-#&gt; 2      country          109.5086 Random Forest v7
-#&gt; 3        parch          117.7475 Random Forest v7
-#&gt; 4        sibsp          117.7923 Random Forest v7
-#&gt; 5     embarked          120.9249 Random Forest v7
-#&gt; 6         fare          139.8922 Random Forest v7</code></pre>
+#&gt; 1 _full_model_          112.8638 Random Forest v7
+#&gt; 2      country          112.8638 Random Forest v7
+#&gt; 3        parch          120.1363 Random Forest v7
+#&gt; 4        sibsp          121.1588 Random Forest v7
+#&gt; 5     embarked          124.6938 Random Forest v7
+#&gt; 6         fare          142.0032 Random Forest v7</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(vi_rf)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
@@ -187,12 +187,12 @@
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(vr_age)</a></code></pre></div>
 <pre><code>#&gt; Top profiles    : 
 #&gt;   _vname_          _label_        _x_    _yhat_ _ids_
-#&gt; 1     age Random Forest v7  0.1666667 0.5303377     0
-#&gt; 2     age Random Forest v7  2.0000000 0.5691870     0
-#&gt; 3     age Random Forest v7  4.0000000 0.5769348     0
-#&gt; 4     age Random Forest v7  7.0000000 0.5388756     0
-#&gt; 5     age Random Forest v7  9.0000000 0.5384940     0
-#&gt; 6     age Random Forest v7 13.0000000 0.4843346     0</code></pre>
+#&gt; 1     age Random Forest v7  0.1666667 0.5287876     0
+#&gt; 2     age Random Forest v7  2.0000000 0.5609795     0
+#&gt; 3     age Random Forest v7  4.0000000 0.5594695     0
+#&gt; 4     age Random Forest v7  7.0000000 0.5292187     0
+#&gt; 5     age Random Forest v7  9.0000000 0.5297403     0
+#&gt; 6     age Random Forest v7 13.0000000 0.4784188     0</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(vr_age, <span class="dt">use_facets =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
@@ -282,9 +282,9 @@
 #&gt;   -&gt; data              :  2099  rows  9  cols 
 #&gt;   -&gt; target variable   :  2099  values 
 #&gt;   -&gt; predict function  :  function(m, x) predict(m, x, n.trees = 15000, type = "response") 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.0002913519 , mean =  0.3263857 , max =  0.9983742  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.0001458708 , mean =  0.322447 , max =  0.9984808  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.9399841 , mean =  -0.001945538 , max =  0.9608351  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9384621 , mean =  0.001993254 , max =  0.9589537  
 #&gt;   -&gt; model_info        :  package gbm , ver. 2.1.5 , task classification (  default  ) 
 #&gt;   A new explainer has been created!</code></pre>
 </div>
@@ -304,9 +304,9 @@
 #&gt;   -&gt; data              :  2099  rows  9  cols 
 #&gt;   -&gt; target variable   :  2099  values 
 #&gt;   -&gt; predict function  :  yhat.svm  will be used (  default  )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.08460287 , mean =  0.3258601 , max =  0.9587374  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.08638015 , mean =  0.3277075 , max =  0.9581973  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8570875 , mean =  -0.001419935 , max =  0.8924774  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8565142 , mean =  -0.00326728 , max =  0.8904463  
 #&gt;   -&gt; model_info        :  package e1071 , ver. 1.7.2 , task classification (  default  ) 
 #&gt;   A new explainer has been created!</code></pre>
 </div>
