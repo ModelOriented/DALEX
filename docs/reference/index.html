@@ -156,7 +156,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="predict.html">predict(<i>&lt;explainer&gt;</i>)</a></code> </p>
+          <p><code><a href="predict.html">predict(<i>&lt;explainer&gt;</i>)</a></code> <code><a href="predict.html">model_prediction()</a></code> </p>
         </td>
         <td><p>Calculate Predictions for Explainer</p></td>
       </tr><tr>
@@ -200,9 +200,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="feature_response.html">feature_response()</a></code> </p>
+          <p><code><a href="variable_effect.html">variable_effect()</a></code> <code><a href="variable_effect.html">variable_effect_partial_dependency()</a></code> <code><a href="variable_effect.html">variable_effect_accumulated_dependency()</a></code> </p>
         </td>
-        <td><p>Calculate Marginal Response for a Single Feature</p></td>
+        <td><p>Dataset Level Variable Effect as Partial Dependency Profile or Accumulated Local Effects</p></td>
       </tr><tr>
         
         <td>
@@ -212,27 +212,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="variable_response.html">variable_response()</a></code> </p>
-        </td>
-        <td><p>Calculate Marginal Response Explanations for a Single Variable</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot.feature_response_explainer.html">plot(<i>&lt;feature_response_explainer&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Plot Marginal Model Explanations (Single Variable Responses)</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="plot.model_performance_explainer.html">plot(<i>&lt;model_performance_explainer&gt;</i>)</a></code> </p>
         </td>
         <td><p>Plot Model Performance Explanations</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot.variable_response_explainer.html">plot(<i>&lt;variable_response_explainer&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Plot Marginal Model Explanations (Single Variable Responses)</p></td>
       </tr><tr>
         
         <td>
@@ -243,8 +225,8 @@
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-core-functions" class="hasAnchor"><a href="#section-core-functions" class="anchor"></a>Core functions</h2>
-          <p class="section-desc"><p>Shared functions for the DrWhy.AI universe</p></p>
+          <h2 id="section-shared-functions" class="hasAnchor"><a href="#section-shared-functions" class="anchor"></a>Shared functions</h2>
+          <p class="section-desc"><p>Shared functions for packages from the DrWhy.AI universe</p></p>
         </th>
       </tr>
       <tr>
@@ -300,7 +282,7 @@
       <tr>
         <th colspan="2">
           <h2 id="section-datasets" class="hasAnchor"><a href="#section-datasets" class="anchor"></a>Datasets</h2>
-          <p class="section-desc"><p>New datasets</p></p>
+          <p class="section-desc"><p>Datasets used in Examples and Vignettes</p></p>
         </th>
       </tr>
       <tr>
@@ -309,6 +291,12 @@
           <p><code><a href="apartments.html">apartments</a></code> </p>
         </td>
         <td><p>Apartments Data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="titanic.html">titanic</a></code> <code><a href="titanic.html">titanic_imputed</a></code> </p>
+        </td>
+        <td><p>Passengers and Crew on the RMS Titanic Data</p></td>
       </tr><tr>
         
         <td>
@@ -321,12 +309,6 @@
           <p><code><a href="HR.html">HR</a></code> </p>
         </td>
         <td><p>Human Resources Data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="titanic.html">titanic</a></code> <code><a href="titanic.html">titanic_imputed</a></code> </p>
-        </td>
-        <td><p>Passengers and Crew on the RMS Titanic Data</p></td>
       </tr>
     </tbody>
     </table>
@@ -337,7 +319,7 @@
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#section-explainers">Explainers</a></li>
       <li><a href="#section-explanations">Explanations</a></li>
-      <li><a href="#section-core-functions">Core functions</a></li>
+      <li><a href="#section-shared-functions">Shared functions</a></li>
       <li><a href="#section-datasets">Datasets</a></li>
     </ul>
   </div>

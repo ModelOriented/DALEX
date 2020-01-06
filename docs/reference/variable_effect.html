@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate Predictions for Explainer — predict.explainer • DALEX</title>
+<title>Dataset Level Variable Effect as Partial Dependency Profile or Accumulated Local Effects — variable_effect • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -35,8 +35,10 @@
 
 
 
-<meta property="og:title" content="Calculate Predictions for Explainer — predict.explainer" />
-<meta property="og:description" content="This is a generic predict() function works for explainer objects." />
+<meta property="og:title" content="Dataset Level Variable Effect as Partial Dependency Profile or Accumulated Local Effects — variable_effect" />
+<meta property="og:description" content="From DALEX version 1.0 this function calls the accumulated_dependency or
+partial_dependency from the ingredients package.
+Find information how to use this function here: https://pbiecek.github.io/PM_VEE/partialDependenceProfiles.html." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -130,61 +132,67 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate Predictions for Explainer</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/R/model_prediction.R'><code>R/model_prediction.R</code></a></small>
-    <div class="hidden name"><code>predict.Rd</code></div>
+    <h1>Dataset Level Variable Effect as Partial Dependency Profile or Accumulated Local Effects</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/R/variable_effect.R'><code>R/variable_effect.R</code></a></small>
+    <div class="hidden name"><code>variable_effect.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This is a generic <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code> function works for <code>explainer</code> objects.</p>
+    <p>From DALEX version 1.0 this function calls the <code><a href='https://rdrr.io/pkg/ingredients/man/accumulated_dependency.html'>accumulated_dependency</a></code> or
+<code><a href='https://rdrr.io/pkg/ingredients/man/partial_dependency.html'>partial_dependency</a></code> from the <code>ingredients</code> package.
+Find information how to use this function here: <a href='https://pbiecek.github.io/PM_VEE/partialDependenceProfiles.html'>https://pbiecek.github.io/PM_VEE/partialDependenceProfiles.html</a>.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for explainer</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>object</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>variable_effect</span>(<span class='no'>explainer</span>, <span class='no'>variables</span>, <span class='no'>...</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"partial_dependency"</span>)
 
-<span class='fu'>model_prediction</span>(<span class='no'>explainer</span>, <span class='no'>new_data</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>variable_effect_partial_dependency</span>(<span class='no'>explainer</span>, <span class='no'>variables</span>, <span class='no'>...</span>)
+
+<span class='fu'>variable_effect_accumulated_dependency</span>(<span class='no'>explainer</span>, <span class='no'>variables</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>object</th>
-      <td><p>a model to be explained, object of the class <code>explainer</code></p></td>
+      <th>explainer</th>
+      <td><p>a model to be explained, preprocessed by the 'explain' function</p></td>
     </tr>
     <tr>
-      <th>newdata</th>
-      <td><p>data.frame or matrix - observations for prediction</p></td>
+      <th>variables</th>
+      <td><p>character - name of variables to be explained</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>other parameters that will be passed to the predict function</p></td>
+      <td><p>other parameters</p></td>
     </tr>
     <tr>
-      <th>explainer</th>
-      <td><p>a model to be explained, object of the class <code>explainer</code></p></td>
-    </tr>
-    <tr>
-      <th>new_data</th>
-      <td><p>data.frame or matrix - observations for prediction</p></td>
+      <th>type</th>
+      <td><p>character - type of the response to be calculated.
+Currently following options are implemented: 'partial_dependency' for Partial Dependency and 'accumulated_dependency' for Accumulated Local Effects</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An numeric matrix of predictions</p>
+    <p>An object of the class 'aggregated_profiles_explainer'.
+It's a data frame with calculated average response.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Predictive Models: Explore, Explain, and Debug. Human-Centered Interpretable Machine Learning <a href='https://pbiecek.github.io/PM_VEE/'>https://pbiecek.github.io/PM_VEE/</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
+    <pre class="examples"><div class='input'><span class='no'>HR</span>$<span class='no'>evaluation</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='no'>HR</span>$<span class='no'>evaluation</span>)
+
+<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  7847  rows  6  cols 
 #&gt;   -&gt; target variable   :  not specified! ( </span><span style='color: #BB0000;'> WARNING </span><span> )
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.00861694 , mean =  0.3638333 , max =  0.7822214  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.0080342 , mean =  0.3638333 , max =  0.7717605  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; model_info        :  package stats , ver. 3.6.1 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>explainer_glm</span>, <span class='no'>HR</span>[<span class='fl'>1</span>:<span class='fl'>3</span>,])</div><div class='output co'>#&gt;         1         2         3 
-#&gt; 0.5139357 0.7384469 0.6412859 </div><div class='input'>
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>expl_glm</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_effect</span>(<span class='no'>explainer_glm</span>, <span class='st'>"age"</span>, <span class='st'>"partial_dependency"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>expl_glm</span>)</div><div class='img'><img src='variable_effect-1.png' alt='' width='700' height='433' /></div><div class='input'>
  <span class='co'># \dontrun{</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"randomForest"</span>)
 <span class='no'>HR_rf_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The response has five or fewer unique values.  Are you sure you want to do regression?</span></div><div class='input'><span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
@@ -192,11 +200,15 @@
 #&gt;   -&gt; data              :  7847  rows  6  cols 
 #&gt;   -&gt; target variable   :  not specified! ( </span><span style='color: #BB0000;'> WARNING </span><span> )
 #&gt;   -&gt; predict function  :  yhat.randomForest  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.06827343 , mean =  0.3636757 , max =  0.80614  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.06784964 , mean =  0.3635191 , max =  0.8013112  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; model_info        :  package randomForest , ver. 4.6.14 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>explainer_rf</span>, <span class='no'>HR</span>[<span class='fl'>1</span>:<span class='fl'>3</span>,])</div><div class='output co'>#&gt;         1         2         3 
-#&gt; 0.5358666 0.7630408 0.7092822 </div><div class='input'> # }
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'>variable_effect</span>(<span class='no'>explainer_rf</span>, <span class='kw'>variables</span> <span class='kw'>=</span> <span class='st'>"age"</span>,
+                       <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"partial_dependency"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='variable_effect-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>expl_rf</span>, <span class='no'>expl_glm</span>)</div><div class='img'><img src='variable_effect-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Example for factor variable (with factorMerger)</span>
+<span class='no'>expl_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'>variable_effect</span>(<span class='no'>explainer_rf</span>, <span class='kw'>variables</span> <span class='kw'>=</span>  <span class='st'>"evaluation"</span>)</div><div class='output co'>#&gt; <span class='message'>'variable_type' changed to 'categorical' due to lack of numerical variables.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>expl_rf</span>)</div><div class='img'><img src='variable_effect-4.png' alt='' width='700' height='433' /></div><div class='input'> # }
+
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -204,6 +216,7 @@
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#references">References</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
