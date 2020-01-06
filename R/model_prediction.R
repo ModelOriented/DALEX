@@ -22,16 +22,16 @@
 #'  }
 #' @rdname predict
 #' @export
-predict.explainer <- function(object, newdata, ...) {
-  model <- object$model
-  predict_function <- object$predict_function
-  predict_function(model, newdata, ...)
-}
-
-#' @rdname predict
-#' @export
 model_prediction  <- function(explainer, new_data, ...) {
   model <- explainer$model
   predict_function <- explainer$predict_function
   predict_function(model, new_data, ...)
+}
+
+#' @rdname predict
+#' @export
+predict.explainer <- function(object, newdata, ...) {
+  model <- object$model
+  predict_function <- object$predict_function
+  predict_function(model, newdata, ...)
 }

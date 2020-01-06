@@ -15,7 +15,7 @@ The philosophy behind `DALEX` explanations is described in the [Predictive Model
 
 If you work with `scikitlearn`, `keras`, `H2O`, `mljar` or `mlr`, you may be interested in the [DALEXtra](https://github.com/ModelOriented/DALEXtra) package. It is an extension pack for `DALEX` with easy to use connectors to models created in these libraries.
 
-<a href="https://pbiecek.github.io/PM_VEE/introduction.html#bookstructure"><img src="DALEXpiramide.png" width="600"/></a>
+<center><a href="https://pbiecek.github.io/PM_VEE/introduction.html#bookstructure"><img src="misc/DALEXpiramide.png" width="600"/></a></center>
 
 
 ## Installation
