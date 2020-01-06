@@ -156,42 +156,44 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="predict.html">predict(<i>&lt;explainer&gt;</i>)</a></code> <code><a href="predict.html">model_prediction()</a></code> </p>
-        </td>
-        <td><p>Calculate Predictions for Explainer</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="print.explainer.html">print(<i>&lt;explainer&gt;</i>)</a></code> </p>
         </td>
         <td><p>Print Explainer Summary</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="update_label.html">update_label()</a></code> </p>
-        </td>
-        <td><p>Update label of explainer object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="update_data.html">update_data()</a></code> </p>
-        </td>
-        <td><p>Update data of an explainer object</p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-explanations" class="hasAnchor"><a href="#section-explanations" class="anchor"></a>Explanations</h2>
-          <p class="section-desc"><p>Function that generate and plot explanations from model explainers</p></p>
+          <h2 id="section-instance-level-explanations" class="hasAnchor"><a href="#section-instance-level-explanations" class="anchor"></a>Instance Level Explanations</h2>
+          <p class="section-desc"><p>Functions that generate and plot instance/local level explanations from model explainers</p></p>
         </th>
       </tr>
       <tr>
+        
+        <td>
+          <p><code><a href="predict.html">model_prediction()</a></code> <code><a href="predict.html">predict(<i>&lt;explainer&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Calculate Predictions for Explainer</p></td>
+      </tr><tr>
         
         <td>
           <p><code><a href="variable_attribution.html">variable_attribution()</a></code> <code><a href="variable_attribution.html">variable_attribution_break_down()</a></code> <code><a href="variable_attribution.html">variable_attribution_ibreak_down()</a></code> <code><a href="variable_attribution.html">variable_attribution_shap()</a></code> </p>
         </td>
         <td><p>Instance Level Variable Attribution as Break Down or SHAP Explanations</p></td>
       </tr><tr>
+        
+        <td>
+          <p><code><a href="variable_profile.html">variable_profile()</a></code> </p>
+        </td>
+        <td><p>Instance Level Variable Effect as Ceteris Paribus Profile</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-dataset-level-explanations" class="hasAnchor"><a href="#section-dataset-level-explanations" class="anchor"></a>Dataset Level Explanations</h2>
+          <p class="section-desc"><p>Functions that generate and plot dataset/global level explanations from model explainers</p></p>
+        </th>
+      </tr>
+      <tr>
         
         <td>
           <p><code><a href="variable_importance.html">variable_importance()</a></code> </p>
@@ -225,6 +227,20 @@
     </tbody><tbody>
       <tr>
         <th colspan="2">
+          <h2 id="section-model-performance-measures" class="hasAnchor"><a href="#section-model-performance-measures" class="anchor"></a>Model performance measures</h2>
+          <p class="section-desc"><p>Model performance measures for packages from the DrWhy.AI universe</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="loss_functions.html">loss_cross_entropy()</a></code> <code><a href="loss_functions.html">loss_sum_of_squares()</a></code> <code><a href="loss_functions.html">loss_root_mean_square()</a></code> <code><a href="loss_functions.html">loss_accuracy()</a></code> <code><a href="loss_functions.html">loss_one_minus_auc()</a></code> </p>
+        </td>
+        <td><p>Calculate Loss Functions</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
           <h2 id="section-shared-functions" class="hasAnchor"><a href="#section-shared-functions" class="anchor"></a>Shared functions</h2>
           <p class="section-desc"><p>Shared functions for packages from the DrWhy.AI universe</p></p>
         </th>
@@ -232,9 +248,15 @@
       <tr>
         
         <td>
-          <p><code><a href="install_dependencies.html">install_dependencies()</a></code> </p>
+          <p><code><a href="update_label.html">update_label()</a></code> </p>
         </td>
-        <td><p>Install all dependencies for the DALEX package</p></td>
+        <td><p>Update label of explainer object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="update_data.html">update_data()</a></code> </p>
+        </td>
+        <td><p>Update data of an explainer object</p></td>
       </tr><tr>
         
         <td>
@@ -262,9 +284,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="loss_functions.html">loss_cross_entropy()</a></code> <code><a href="loss_functions.html">loss_sum_of_squares()</a></code> <code><a href="loss_functions.html">loss_root_mean_square()</a></code> <code><a href="loss_functions.html">loss_accuracy()</a></code> <code><a href="loss_functions.html">loss_one_minus_auc()</a></code> </p>
+          <p><code><a href="install_dependencies.html">install_dependencies()</a></code> </p>
         </td>
-        <td><p>Calculate Loss Functions</p></td>
+        <td><p>Install all dependencies for the DALEX package</p></td>
       </tr><tr>
         
         <td>
@@ -318,7 +340,9 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#section-explainers">Explainers</a></li>
-      <li><a href="#section-explanations">Explanations</a></li>
+      <li><a href="#section-instance-level-explanations">Instance Level Explanations</a></li>
+      <li><a href="#section-dataset-level-explanations">Dataset Level Explanations</a></li>
+      <li><a href="#section-model-performance-measures">Model performance measures</a></li>
       <li><a href="#section-shared-functions">Shared functions</a></li>
       <li><a href="#section-datasets">Datasets</a></li>
     </ul>

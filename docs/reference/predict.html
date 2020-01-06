@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate Predictions for Explainer — predict.explainer • DALEX</title>
+<title>Calculate Predictions for Explainer — model_prediction • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -35,7 +35,7 @@
 
 
 
-<meta property="og:title" content="Calculate Predictions for Explainer — predict.explainer" />
+<meta property="og:title" content="Calculate Predictions for Explainer — model_prediction" />
 <meta property="og:description" content="This is a generic predict() function works for explainer objects." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -139,20 +139,20 @@
     <p>This is a generic <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code> function works for <code>explainer</code> objects.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for explainer</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>object</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>model_prediction</span>(<span class='no'>explainer</span>, <span class='no'>new_data</span>, <span class='no'>...</span>)
 
-<span class='fu'>model_prediction</span>(<span class='no'>explainer</span>, <span class='no'>new_data</span>, <span class='no'>...</span>)</pre>
+<span class='co'># S3 method for explainer</span>
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>object</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>object</th>
+      <th>explainer</th>
       <td><p>a model to be explained, object of the class <code>explainer</code></p></td>
     </tr>
     <tr>
-      <th>newdata</th>
+      <th>new_data</th>
       <td><p>data.frame or matrix - observations for prediction</p></td>
     </tr>
     <tr>
@@ -160,11 +160,11 @@
       <td><p>other parameters that will be passed to the predict function</p></td>
     </tr>
     <tr>
-      <th>explainer</th>
+      <th>object</th>
       <td><p>a model to be explained, object of the class <code>explainer</code></p></td>
     </tr>
     <tr>
-      <th>new_data</th>
+      <th>newdata</th>
       <td><p>data.frame or matrix - observations for prediction</p></td>
     </tr>
     </table>
