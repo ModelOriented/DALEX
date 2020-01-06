@@ -25,13 +25,9 @@ Imports:
 Suggests: 
   ingredients,
   iBreakDown,
-  gbm,
   ggpubr,
+  gbm,
   randomForest,
-  testthat,
-  ALEPlot,
-  breakDown,
-  factorMerger,
-  pdp
+  testthat
 URL: https://ModelOriented.github.io/DALEX/, https://github.com/ModelOriented/DALEX
 BugReports: https://github.com/ModelOriented/DALEX/issues
