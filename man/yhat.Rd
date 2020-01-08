@@ -12,6 +12,7 @@
 \alias{yhat.ranger}
 \alias{yhat.model_fit}
 \alias{yhat.train}
+\alias{yhat.lrm}
 \alias{yhat.default}
 \title{Wrap Various Predict Functions}
 \usage{
@@ -36,6 +37,8 @@ yhat(X.model, newdata, ...)
 \method{yhat}{model_fit}(X.model, newdata, ...)
 
 \method{yhat}{train}(X.model, newdata, ...)
+
+\method{yhat}{lrm}(X.model, newdata, ...)
 
 \method{yhat}{default}(X.model, newdata, ...)
 }
@@ -68,5 +71,6 @@ Currently supported packages are:
 \item class `svm` - support vector machines models created with the `e1071` package
 \item class `train` - models created with `caret` package
 \item class `gbm` - models created with `gbm` package
+\item class `lrm` - models created with `rms` package
 }
 }
