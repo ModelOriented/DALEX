@@ -3,20 +3,15 @@
 \name{theme_drwhy}
 \alias{theme_drwhy}
 \alias{theme_drwhy_vertical}
-\alias{theme_mi2}
 \title{DrWhy Theme for ggplot objects}
 \usage{
 theme_drwhy()
 
 theme_drwhy_vertical()
-
-theme_mi2()
 }
 \value{
 theme for ggplot2 objects
 }
 \description{
 DrWhy Theme for ggplot objects
-
-MI^2 Theme
 }

@@ -80,7 +80,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.4.9</span>
+          <span class="version version-default">0.9.1</span>
         </div>
       </div>
     </div>
@@ -156,16 +156,96 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="predict.html">predict(<i>&lt;explainer&gt;</i>)</a></code> </p>
+          <p><code><a href="print.explainer.html">print(<i>&lt;explainer&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Print Explainer Summary</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-instance-level-explanations" class="hasAnchor"><a href="#section-instance-level-explanations" class="anchor"></a>Instance Level Explanations</h2>
+          <p class="section-desc"><p>Functions that generate and plot instance/local level explanations from model explainers</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="predict.html">model_prediction()</a></code> <code><a href="predict.html">predict(<i>&lt;explainer&gt;</i>)</a></code> </p>
         </td>
         <td><p>Calculate Predictions for Explainer</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="print.explainer.html">print(<i>&lt;explainer&gt;</i>)</a></code> </p>
+          <p><code><a href="variable_attribution.html">variable_attribution()</a></code> <code><a href="variable_attribution.html">variable_attribution_break_down()</a></code> <code><a href="variable_attribution.html">variable_attribution_ibreak_down()</a></code> <code><a href="variable_attribution.html">variable_attribution_shap()</a></code> </p>
         </td>
-        <td><p>Print Explainer Summary</p></td>
+        <td><p>Instance Level Variable Attribution as Break Down or SHAP Explanations</p></td>
       </tr><tr>
+        
+        <td>
+          <p><code><a href="variable_profile.html">variable_profile()</a></code> </p>
+        </td>
+        <td><p>Instance Level Variable Effect as Ceteris Paribus Profile</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-dataset-level-explanations" class="hasAnchor"><a href="#section-dataset-level-explanations" class="anchor"></a>Dataset Level Explanations</h2>
+          <p class="section-desc"><p>Functions that generate and plot dataset/global level explanations from model explainers</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="variable_importance.html">variable_importance()</a></code> </p>
+        </td>
+        <td><p>Dataset Level Variable Importance as Change in Loss Function after Variable Permutations</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="variable_effect.html">variable_effect()</a></code> <code><a href="variable_effect.html">variable_effect_partial_dependency()</a></code> <code><a href="variable_effect.html">variable_effect_accumulated_dependency()</a></code> </p>
+        </td>
+        <td><p>Dataset Level Variable Effect as Partial Dependency Profile or Accumulated Local Effects</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="model_performance.html">model_performance()</a></code> </p>
+        </td>
+        <td><p>Calculate Model Performance</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plot.model_performance_explainer.html">plot(<i>&lt;model_performance_explainer&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Plot Model Performance Explanations</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="print.model_performance_explainer.html">print(<i>&lt;model_performance_explainer&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Print Model Performance Summary</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-model-performance-measures" class="hasAnchor"><a href="#section-model-performance-measures" class="anchor"></a>Model performance measures</h2>
+          <p class="section-desc"><p>Model performance measures for packages from the DrWhy.AI universe</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="loss_functions.html">loss_cross_entropy()</a></code> <code><a href="loss_functions.html">loss_sum_of_squares()</a></code> <code><a href="loss_functions.html">loss_root_mean_square()</a></code> <code><a href="loss_functions.html">loss_accuracy()</a></code> <code><a href="loss_functions.html">loss_one_minus_auc()</a></code> </p>
+        </td>
+        <td><p>Calculate Loss Functions</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-shared-functions" class="hasAnchor"><a href="#section-shared-functions" class="anchor"></a>Shared functions</h2>
+          <p class="section-desc"><p>Shared functions for packages from the DrWhy.AI universe</p></p>
+        </th>
+      </tr>
+      <tr>
         
         <td>
           <p><code><a href="update_label.html">update_label()</a></code> </p>
@@ -177,20 +257,6 @@
           <p><code><a href="update_data.html">update_data()</a></code> </p>
         </td>
         <td><p>Update data of an explainer object</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-core-functions" class="hasAnchor"><a href="#section-core-functions" class="anchor"></a>Core functions</h2>
-          <p class="section-desc"><p>Shared functions for the DrWhy.AI universe</p></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="install_dependencies.html">install_dependencies()</a></code> </p>
-        </td>
-        <td><p>Install all dependencies for the DALEX package</p></td>
       </tr><tr>
         
         <td>
@@ -218,101 +284,27 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="loss_functions.html">loss_cross_entropy()</a></code> <code><a href="loss_functions.html">loss_sum_of_squares()</a></code> <code><a href="loss_functions.html">loss_root_mean_square()</a></code> <code><a href="loss_functions.html">loss_accuracy()</a></code> <code><a href="loss_functions.html">loss_one_minus_auc()</a></code> </p>
+          <p><code><a href="install_dependencies.html">install_dependencies()</a></code> </p>
         </td>
-        <td><p>Calculate Loss Functions</p></td>
+        <td><p>Install all dependencies for the DALEX package</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="colors_drwhy.html">colors_discrete_drwhy()</a></code> <code><a href="colors_drwhy.html">colors_diverging_drwhy()</a></code> <code><a href="colors_drwhy.html">colors_breakdown_drwhy()</a></code> <code><a href="colors_drwhy.html">theme_drwhy_colors()</a></code> <code><a href="colors_drwhy.html">theme_drwhy_colors_break_down()</a></code> </p>
+          <p><code><a href="colors_drwhy.html">colors_discrete_drwhy()</a></code> <code><a href="colors_drwhy.html">colors_diverging_drwhy()</a></code> <code><a href="colors_drwhy.html">colors_breakdown_drwhy()</a></code> </p>
         </td>
         <td><p>DrWhy color palettes for ggplot objects</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="theme_drwhy.html">theme_drwhy()</a></code> <code><a href="theme_drwhy.html">theme_drwhy_vertical()</a></code> <code><a href="theme_drwhy.html">theme_mi2()</a></code> </p>
+          <p><code><a href="theme_drwhy.html">theme_drwhy()</a></code> <code><a href="theme_drwhy.html">theme_drwhy_vertical()</a></code> </p>
         </td>
         <td><p>DrWhy Theme for ggplot objects</p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-explanations" class="hasAnchor"><a href="#section-explanations" class="anchor"></a>Explanations</h2>
-          <p class="section-desc"><p>Function that generate and plot explanations from model explainers</p></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="feature_response.html">feature_response()</a></code> </p>
-        </td>
-        <td><p>Calculate Marginal Response for a Single Feature</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="model_performance.html">model_performance()</a></code> </p>
-        </td>
-        <td><p>Calculate Model Performance</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="prediction_breakdown.html">prediction_breakdown()</a></code> </p>
-        </td>
-        <td><p>Calculate Break Down Explanations</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="variable_importance.html">variable_importance()</a></code> </p>
-        </td>
-        <td><p>Calculate Feature Importance Explanations as Loss from Feature Dropout</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="variable_response.html">variable_response()</a></code> </p>
-        </td>
-        <td><p>Calculate Marginal Response Explanations for a Single Variable</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot.feature_response_explainer.html">plot(<i>&lt;feature_response_explainer&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Plot Marginal Model Explanations (Single Variable Responses)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot.model_performance_explainer.html">plot(<i>&lt;model_performance_explainer&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Plot Model Performance Explanations</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot.prediction_breakdown_explainer.html">plot(<i>&lt;prediction_breakdown_explainer&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Plot Break Down Explanations (Single Prediction)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot.variable_importance_explainer.html">plot(<i>&lt;variable_importance_explainer&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Plot Variable Importance Explanations</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot.variable_response_explainer.html">plot(<i>&lt;variable_response_explainer&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Plot Marginal Model Explanations (Single Variable Responses)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="print.model_performance_explainer.html">print(<i>&lt;model_performance_explainer&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Print Model Performance Summary</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
           <h2 id="section-datasets" class="hasAnchor"><a href="#section-datasets" class="anchor"></a>Datasets</h2>
-          <p class="section-desc"><p>New datasets</p></p>
+          <p class="section-desc"><p>Datasets used in Examples and Vignettes</p></p>
         </th>
       </tr>
       <tr>
@@ -321,6 +313,12 @@
           <p><code><a href="apartments.html">apartments</a></code> </p>
         </td>
         <td><p>Apartments Data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="titanic.html">titanic</a></code> <code><a href="titanic.html">titanic_imputed</a></code> </p>
+        </td>
+        <td><p>Passengers and Crew on the RMS Titanic Data</p></td>
       </tr><tr>
         
         <td>
@@ -333,12 +331,6 @@
           <p><code><a href="HR.html">HR</a></code> </p>
         </td>
         <td><p>Human Resources Data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="titanic.html">titanic</a></code> <code><a href="titanic.html">titanic_imputed</a></code> </p>
-        </td>
-        <td><p>Passengers and Crew on the RMS Titanic Data</p></td>
       </tr>
     </tbody>
     </table>
@@ -348,8 +340,10 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#section-explainers">Explainers</a></li>
-      <li><a href="#section-core-functions">Core functions</a></li>
-      <li><a href="#section-explanations">Explanations</a></li>
+      <li><a href="#section-instance-level-explanations">Instance Level Explanations</a></li>
+      <li><a href="#section-dataset-level-explanations">Dataset Level Explanations</a></li>
+      <li><a href="#section-model-performance-measures">Model performance measures</a></li>
+      <li><a href="#section-shared-functions">Shared functions</a></li>
       <li><a href="#section-datasets">Datasets</a></li>
     </ul>
   </div>

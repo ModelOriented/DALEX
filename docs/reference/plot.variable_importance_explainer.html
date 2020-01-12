@@ -36,14 +36,13 @@
 
 
 <meta property="og:title" content="Plot Variable Importance Explanations — plot.variable_importance_explainer" />
-<meta property="og:description" content="Function plot.variable_dropout_explainer plots dropouts
-for variables used in the model.
-It uses output from variable_dropout function that corresponds
+<meta property="og:description" content="Function plot.variable_importance_explainer plots permutational importance
+of variables used in the model.
+It uses output from variable_importance function that corresponds
 to permutation based measure of variable importance.
 Variables are sorted in the same order in all panels.
-The order depends on the average drop out loss.
 In different panels variable contributions may not look like sorted
-if variable importance is different in different in different mdoels." />
+if variable importance is different in different models." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -88,7 +87,7 @@ if variable importance is different in different in different mdoels." />
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.4.9</span>
+          <span class="version version-default">0.9.1</span>
         </div>
       </div>
     </div>
@@ -143,26 +142,31 @@ if variable importance is different in different in different mdoels." />
     </div>
 
     <div class="ref-description">
-    <p>Function <code>plot.variable_dropout_explainer</code> plots dropouts
-for variables used in the model.
-It uses output from <code>variable_dropout</code> function that corresponds
+    <p>Function <code>plot.variable_importance_explainer</code> plots permutational importance
+of variables used in the model.
+It uses output from <code>variable_importance</code> function that corresponds
 to permutation based measure of variable importance.
 Variables are sorted in the same order in all panels.
-The order depends on the average drop out loss.
 In different panels variable contributions may not look like sorted
-if variable importance is different in different in different mdoels.</p>
+if variable importance is different in different models.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for variable_importance_explainer</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>max_vars</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>bar_width</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>show_baseline</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>desc_sorting</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(
+  <span class='no'>x</span>,
+  <span class='no'>...</span>,
+  <span class='kw'>max_vars</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>show_boxplots</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>bar_width</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>desc_sorting</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>a variable dropout exlainer produced with the <code><a href='variable_importance.html'>variable_dropout</a></code> function</p></td>
+      <td><p>a variable importance explainer produced with the <code><a href='variable_importance.html'>variable_importance</a></code> function</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -173,12 +177,12 @@ if variable importance is different in different in different mdoels.</p>
       <td><p>maximum number of variables that shall be presented for for each model</p></td>
     </tr>
     <tr>
-      <th>bar_width</th>
-      <td><p>width of bars. By default 10</p></td>
+      <th>show_boxplots</th>
+      <td><p>logical if TRUE (default) boxplot will be plotted to show permutation data.</p></td>
     </tr>
     <tr>
-      <th>show_baseline</th>
-      <td><p>logical. Should the baseline be included?</p></td>
+      <th>bar_width</th>
+      <td><p>width of bars. By default 10</p></td>
     </tr>
     <tr>
       <th>desc_sorting</th>
@@ -204,14 +208,14 @@ if variable importance is different in different in different mdoels.</p>
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.79 , mean =  0.003591181 , max =  0.73  
 #&gt;   -&gt; model_info        :  package randomForest , ver. 4.6.14 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>vd_rf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_importance.html'>variable_importance</a></span>(<span class='no'>explainer_rf</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Please note that 'variable_importance()' is now deprecated, it is better to use 'ingredients::feature_importance()' instead.</span>
-#&gt; <span class='warning'>Find examples and detailed introduction at: https://pbiecek.github.io/PM_VEE/featureImportance.html</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>vd_rf</span>)</div><div class='output co'>#&gt;       variable dropout_loss        label
-#&gt; 1 _full_model_      41.3497 randomForest
-#&gt; 2       status      41.3497 randomForest
-#&gt; 3   evaluation     106.5955 randomForest
-#&gt; 4       gender     110.0892 randomForest
-#&gt; 5          age     136.6094 randomForest
-#&gt; 6       salary     168.9275 randomForest</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>vd_rf</span>)</div><div class='img'><img src='plot.variable_importance_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>vd_rf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_importance.html'>variable_importance</a></span>(<span class='no'>explainer_rf</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>vd_rf</span>)</div><div class='output co'>#&gt;       variable mean_dropout_loss        label
+#&gt; 1 _full_model_           42.6078 randomForest
+#&gt; 2       status           42.6078 randomForest
+#&gt; 3   evaluation          104.5722 randomForest
+#&gt; 4       gender          113.1229 randomForest
+#&gt; 5          age          143.7953 randomForest
+#&gt; 6       salary          159.6907 randomForest</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>vd_rf</span>)</div><div class='img'><img src='plot.variable_importance_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
@@ -226,13 +230,13 @@ if variable importance is different in different in different mdoels.</p>
 <span class='no'>vd_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_importance.html'>variable_importance</a></span>(<span class='no'>explainer_glm</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>,
                         <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>)
                                    <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>((<span class='no'>observed</span> - <span class='fu'>logit</span>(<span class='no'>predicted</span>))^<span class='fl'>2</span>))
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>vd_glm</span>)</div><div class='output co'>#&gt;       variable dropout_loss label
-#&gt; 1 _full_model_     252.4582    lm
-#&gt; 2       salary     252.4335    lm
-#&gt; 3       status     252.4582    lm
-#&gt; 4          age     252.4794    lm
-#&gt; 5       gender     252.5045    lm
-#&gt; 6   evaluation     258.0256    lm</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>vd_glm</span>)</div><div class='img'><img src='plot.variable_importance_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>vd_glm</span>)</div><div class='output co'>#&gt;       variable mean_dropout_loss label
+#&gt; 1 _full_model_          255.2277    lm
+#&gt; 2       status          255.2277    lm
+#&gt; 3       gender          255.2339    lm
+#&gt; 4       salary          255.2351    lm
+#&gt; 5          age          255.2535    lm
+#&gt; 6   evaluation          258.6368    lm</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>vd_glm</span>)</div><div class='img'><img src='plot.variable_importance_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"xgboost"</span>)
 <span class='no'>model_martix_train</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/model.matrix.html'>model.matrix</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>~<span class='no'>.</span>-<span class='fl'>1</span>, <span class='no'>HR</span>)
 <span class='no'>data_train</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/xgboost/man/xgb.DMatrix.html'>xgb.DMatrix</a></span>(<span class='no'>model_martix_train</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)
@@ -250,13 +254,13 @@ if variable importance is different in different in different mdoels.</p>
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9885727 , mean =  0.0001203494 , max =  0.9970635  
 #&gt;   -&gt; model_info        :  package Model of class: xgb.Booster package unrecognized , ver. Unknown , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>vd_xgb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='variable_importance.html'>variable_importance</a></span>(<span class='no'>explainer_xgb</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>vd_xgb</span>)</div><div class='output co'>#&gt;       variable dropout_loss   label
-#&gt; 1 _full_model_     103.4188 xgboost
-#&gt; 2   gendermale     103.4188 xgboost
-#&gt; 3   evaluation     120.0331 xgboost
-#&gt; 4          age     162.1217 xgboost
-#&gt; 5 genderfemale     162.3769 xgboost
-#&gt; 6       salary     166.7934 xgboost</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>vd_xgb</span>)</div><div class='img'><img src='plot.variable_importance_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>vd_xgb</span>)</div><div class='output co'>#&gt;       variable mean_dropout_loss   label
+#&gt; 1 _full_model_          96.34825 xgboost
+#&gt; 2   gendermale          96.34825 xgboost
+#&gt; 3   evaluation         111.75957 xgboost
+#&gt; 4 genderfemale         150.87151 xgboost
+#&gt; 5          age         158.40277 xgboost
+#&gt; 6       salary         164.91239 xgboost</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>vd_xgb</span>)</div><div class='img'><img src='plot.variable_importance_explainer-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>vd_rf</span>, <span class='no'>vd_glm</span>, <span class='no'>vd_xgb</span>, <span class='kw'>bar_width</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div><div class='img'><img src='plot.variable_importance_explainer-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># NOTE:</span>
 <span class='co'># if you like to have all importances hooked to 0, you can do this as well</span>

@@ -8,51 +8,50 @@ reference:
     desc: Functions that generate model adapters
     contents:
     - explain
-    - predict.explainer
     - print.explainer
-    - update_label
-    - update_data
-  - title: Core functions
-    desc: Shared functions for the DrWhy.AI universe
+  - title: Instance Level Explanations
+    desc: Functions that generate and plot instance/local level explanations from model explainers
     contents:
-    - install_dependencies
-    - print.description
-    - yhat
-    - model_info
-    - print.model_info
+    - model_prediction
+    - variable_attribution
+    - variable_profile
+  - title: Dataset Level Explanations
+    desc: Functions that generate and plot dataset/global level explanations from model explainers
+    contents:
+    - variable_importance
+    - variable_effect
+    - model_performance
+    - plot.model_performance_explainer
+    - print.model_performance_explainer
+  - title: Model performance measures
+    desc: Model performance measures for packages from the DrWhy.AI universe
+    contents:
     - loss_cross_entropy
     - loss_one_minus_auc
     - loss_accuracy
     - loss_root_mean_square
     - loss_sum_of_squares
+  - title: Shared functions
+    desc: Shared functions for packages from the DrWhy.AI universe
+    contents:
+    - update_label
+    - update_data
+    - print.description
+    - yhat
+    - model_info
+    - print.model_info
+    - install_dependencies
     - colors_discrete_drwhy
     - colors_diverging_drwhy
     - colors_breakdown_drwhy
     - theme_drwhy
     - theme_drwhy_vertical
-    - theme_drwhy_colors
-    - theme_drwhy_colors_break_down
-    - theme_mi2
-  - title: Explanations
-    desc: Function that generate and plot explanations from model explainers
-    contents:
-    - feature_response
-    - model_performance
-    - prediction_breakdown
-    - variable_importance
-    - variable_response
-    - plot.feature_response_explainer
-    - plot.model_performance_explainer
-    - plot.prediction_breakdown_explainer
-    - plot.variable_importance_explainer
-    - plot.variable_response_explainer
-    - print.model_performance_explainer
   - title: Datasets
-    desc: New datasets
+    desc: Datasets used in Examples and Vignettes
     contents:
     - apartments
-    - dragons
-    - HR
     - titanic
     - titanic_imputed
+    - dragons
+    - HR
 

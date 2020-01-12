@@ -17,6 +17,7 @@
 #' \item class `svm` - support vector machines models created with the `e1071` package
 #' \item class `train` - models created with `caret` package
 #' \item class `gbm` - models created with `gbm` package
+#' \item class `lrm` - models created with `rms` package
 #' }
 #'
 #' @param X.model object - a model to be explained
@@ -134,6 +135,13 @@ yhat.train <- function(X.model, newdata, ...) {
 
   }
   response
+}
+
+
+#' @rdname yhat
+#' @export
+yhat.lrm <- function(X.model, newdata, ...) {
+  predict(X.model, newdata = newdata, type = "fitted")
 }
 
 
