@@ -173,6 +173,14 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     }
   }
 
+  if (is.null(model_info)) {
+    # extract defaults
+    model_info <- model_info(model)
+    verbose_cat("  -> model_info        :  package", model_info$package[1], ", ver.", model_info$ver[1], ", task", model_info$type, "(", color_codes$yellow_start,"default",color_codes$yellow_end, ")", "\n", verbose = verbose)
+  } else {
+    verbose_cat("  -> model_info        :  package", model_info$package[1], ", ver.", model_info$ver[1], ", task", model_info$type, "\n", verbose = verbose)
+  }
+
   # REPORT: checks for predict_function
   if (is.null(predict_function)) {
     # predict_function not specified
@@ -186,6 +194,9 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
       verbose_cat("  -> predict function  : yhat.default will be used (",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
     } else {
       verbose_cat("  -> predict function  : ",matching_yhat[1]," will be used (",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
+      if (model_info$type == "classification") {
+        verbose_cat("  -> predict function  : ",matching_yhat[1]," may treat 1st class as significant in case of multilabel target. (",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
+      }
     }
   } else {
     verbose_cat("  -> predict function  : ", deparse(substitute(predict_function)), "\n", verbose = verbose)
@@ -234,14 +245,6 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
       }
     }
   }
-  if (is.null(model_info)) {
-    # extract defaults
-    model_info <- model_info(model)
-    verbose_cat("  -> model_info        :  package", model_info$package[1], ", ver.", model_info$ver[1], ", task", model_info$type, "(", color_codes$yellow_start,"default",color_codes$yellow_end, ")", "\n", verbose = verbose)
-  } else {
-    verbose_cat("  -> model_info        :  package", model_info$package[1], ", ver.", model_info$ver[1], ", task", model_info$type, "\n", verbose = verbose)
-  }
-
   # READY to create an explainer
 
   explainer <- list(model = model,
