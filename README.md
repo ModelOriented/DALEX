@@ -1,4 +1,4 @@
-# Diagnose, understAnd, expLore, dEbug and eXplain machine learning models <img src="man/figures/logo.png" align="right" width="150"/>
+# moDel Agnostic Language for Exploration and eXplanation <img src="man/figures/logo.png" align="right" width="150"/>
 
 [![Build Status](https://api.travis-ci.org/ModelOriented/DALEX.png)](https://travis-ci.org/ModelOriented/DALEX)
 [![Coverage
@@ -13,7 +13,7 @@ Unverified black box model is the path to the failure. Opaqueness leads to distr
 
 The `DALEX` package xrays any model and helps to explore and explain its behaviour, helps to understand how complex models are working. The main function `explain()` creates a wrapper around a predictive model. Wrapped models may then be explored and compared with a collection of local and global explainers. Recent developents from the area of Interpretable Machine Learning/eXplainable Artificial Intelligence. 
 
-The philosophy behind `DALEX` explanations is described in the [Predictive Models: Explore, Explain, and Debug](https://pbiecek.github.io/PM_VEE/) e-book. The `DALEX` package is a part of [DrWhy.AI](http://DrWhy.AI) universe. 
+The philosophy behind `DALEX` explanations is described in the [Explanatory Model Analysis](https://pbiecek.github.io/PM_VEE/) e-book. The `DALEX` package is a part of [DrWhy.AI](http://DrWhy.AI) universe. 
 
 If you work with `scikitlearn`, `keras`, `H2O`, `mljar` or `mlr`, you may be interested in the [DALEXtra](https://github.com/ModelOriented/DALEXtra) package. It is an extension pack for `DALEX` with easy to use connectors to models created in these libraries.
 
