@@ -1,7 +1,11 @@
 context("Check yhat() and model_info() functions")
 
+source("helper-objects.R")
+
+
 test_that("Output is numeric or model_info", {
   skip_if_no_travis()
+  e1071::svm(as.factor(survived)~., data = titanic_imputed, num.trees = 50, probability = TRUE)
   library("randomForest")
   library("e1071")
   library("gbm")
