@@ -4,8 +4,6 @@
 \alias{colors_discrete_drwhy}
 \alias{colors_diverging_drwhy}
 \alias{colors_breakdown_drwhy}
-\alias{theme_drwhy_colors}
-\alias{theme_drwhy_colors_break_down}
 \title{DrWhy color palettes for ggplot objects}
 \usage{
 colors_discrete_drwhy(n = 2)
@@ -13,10 +11,6 @@ colors_discrete_drwhy(n = 2)
 colors_diverging_drwhy()
 
 colors_breakdown_drwhy()
-
-theme_drwhy_colors(n = 2)
-
-theme_drwhy_colors_break_down()
 }
 \arguments{
 \item{n}{number of colors for color palette}

@@ -2,8 +2,8 @@
 % Please edit documentation in R/variable_importance.R
 \name{variable_importance}
 \alias{variable_importance}
-\alias{variable_dropout}
-\title{Calculate Feature Importance Explanations as Loss from Feature Dropout}
+\alias{feature_importance}
+\title{Dataset Level Variable Importance as Change in Loss Function after Variable Permutations}
 \usage{
 variable_importance(
   explainer,
@@ -25,12 +25,12 @@ variable_importance(
 \item{n_sample}{number of observations that should be sampled for calculation of variable importance. If negative then variable importance will be calculated on whole dataset (no sampling).}
 }
 \value{
-An object of the class 'variable_leverage_explainer'.
+An object of the class 'feature_importance'.
 It's a data frame with calculated average response.
 }
 \description{
-This function is set deprecated. It is suggested to use \code{\link[ingredients]{feature_importance}} instead.
-Find information how to use these functions here: \url{https://pbiecek.github.io/PM_VEE/featureImportance.html}.
+From DALEX version 1.0 this function calls the \code{\link[ingredients]{feature_importance}}
+Find information how to use this function here: \url{https://pbiecek.github.io/PM_VEE/featureImportance.html}.
 }
 \examples{
  \dontrun{
@@ -39,7 +39,8 @@ library("randomForest")
 HR_rf_model <- randomForest(as.factor(status == "fired")~., data = HR, ntree = 100)
 explainer_rf  <- explain(HR_rf_model, data = HR, y = HR$status == "fired")
 vd_rf <- variable_importance(explainer_rf, type = "raw")
-vd_rf
+head(vd_rf, 8)
+plot(vd_rf)
 
 HR_glm_model <- glm(as.factor(status == "fired")~., data = HR, family = "binomial")
 explainer_glm <- explain(HR_glm_model, data = HR, y = HR$status == "fired")
@@ -47,7 +48,7 @@ logit <- function(x) exp(x)/(1+exp(x))
 vd_glm <- variable_importance(explainer_glm, type = "raw",
                         loss_function = function(observed, predicted)
                                      sum((observed - logit(predicted))^2))
-vd_glm
+head(vd_glm, 8)
 
 library("xgboost")
 model_martix_train <- model.matrix(status == "fired" ~ .-1, HR)
@@ -58,10 +59,11 @@ HR_xgb_model <- xgb.train(param, data_train, nrounds = 50)
 explainer_xgb <- explain(HR_xgb_model, data = model_martix_train,
                      y = HR$status == "fired", label = "xgboost")
 vd_xgb <- variable_importance(explainer_xgb, type = "raw")
-vd_xgb
+head(vd_xgb, 8)
+plot(vd_xgb)
  }
 
 }
 \references{
-Predictive Models: Visual Exploration, Explanation and Debugging \url{https://pbiecek.github.io/PM_VEE/}
+Predictive Models: Explore, Explain, and Debug. Human-Centered Interpretable Machine Learning \url{https://pbiecek.github.io/PM_VEE/}
 }

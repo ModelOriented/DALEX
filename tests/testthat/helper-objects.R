@@ -8,7 +8,7 @@ library(randomForest)
 
 # models
 model_classif_glm <- glm(status == "fired"~., data = HR, family = "binomial")
-model_classif_rf <- randomForest::randomForest(status == "fired"~., data = HR, ntree = 50)
+suppressWarnings(model_classif_rf <- randomForest::randomForest(status == "fired"~., data = HR, ntree = 50))
 model_regr_rf <- randomForest::randomForest(m2.price~., data = apartments, ntree = 50)
 model_regr_lm <- lm(m2.price~., data = apartments)
 library("gbm")

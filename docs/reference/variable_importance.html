@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate Feature Importance Explanations as Loss from Feature Dropout — variable_importance • DALEX</title>
+<title>Dataset Level Variable Importance as Change in Loss Function after Variable Permutations — variable_importance • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -35,9 +35,9 @@
 
 
 
-<meta property="og:title" content="Calculate Feature Importance Explanations as Loss from Feature Dropout — variable_importance" />
-<meta property="og:description" content="This function is set deprecated. It is suggested to use feature_importance instead.
-Find information how to use these functions here: https://pbiecek.github.io/PM_VEE/featureImportance.html." />
+<meta property="og:title" content="Dataset Level Variable Importance as Change in Loss Function after Variable Permutations — variable_importance" />
+<meta property="og:description" content="From DALEX version 1.0 this function calls the feature_importance
+Find information how to use this function here: https://pbiecek.github.io/PM_VEE/featureImportance.html." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -82,7 +82,7 @@ Find information how to use these functions here: https://pbiecek.github.io/PM_V
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.4.9</span>
+          <span class="version version-default">0.9.1</span>
         </div>
       </div>
     </div>
@@ -131,18 +131,23 @@ Find information how to use these functions here: https://pbiecek.github.io/PM_V
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate Feature Importance Explanations as Loss from Feature Dropout</h1>
+    <h1>Dataset Level Variable Importance as Change in Loss Function after Variable Permutations</h1>
     <small class="dont-index">Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/R/variable_importance.R'><code>R/variable_importance.R</code></a></small>
     <div class="hidden name"><code>variable_importance.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function is set deprecated. It is suggested to use <code><a href='https://rdrr.io/pkg/ingredients/man/feature_importance.html'>feature_importance</a></code> instead.
-Find information how to use these functions here: <a href='https://pbiecek.github.io/PM_VEE/featureImportance.html'>https://pbiecek.github.io/PM_VEE/featureImportance.html</a>.</p>
+    <p>From DALEX version 1.0 this function calls the <code><a href='https://rdrr.io/pkg/ingredients/man/feature_importance.html'>feature_importance</a></code>
+Find information how to use this function here: <a href='https://pbiecek.github.io/PM_VEE/featureImportance.html'>https://pbiecek.github.io/PM_VEE/featureImportance.html</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>variable_importance</span>(<span class='no'>explainer</span>, <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='no'>loss_sum_of_squares</span>, <span class='no'>...</span>,
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>, <span class='kw'>n_sample</span> <span class='kw'>=</span> <span class='fl'>1000</span>)</pre>
+    <pre class="usage"><span class='fu'>variable_importance</span>(
+  <span class='no'>explainer</span>,
+  <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='no'>loss_sum_of_squares</span>,
+  <span class='no'>...</span>,
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>,
+  <span class='kw'>n_sample</span> <span class='kw'>=</span> <span class='fl'>1000</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,11 +176,11 @@ Find information how to use these functions here: <a href='https://pbiecek.githu
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the class 'variable_leverage_explainer'.
+    <p>An object of the class 'feature_importance'.
 It's a data frame with calculated average response.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Predictive Models: Visual Exploration, Explanation and Debugging <a href='https://pbiecek.github.io/PM_VEE/'>https://pbiecek.github.io/PM_VEE/</a></p>
+    <p>Predictive Models: Explore, Explain, and Debug. Human-Centered Interpretable Machine Learning <a href='https://pbiecek.github.io/PM_VEE/'>https://pbiecek.github.io/PM_VEE/</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'> <span class='co'># \dontrun{</span>
@@ -187,20 +192,20 @@ It's a data frame with calculated average response.</p>
 #&gt;   -&gt; data              :  7847  rows  6  cols 
 #&gt;   -&gt; target variable   :  7847  values 
 #&gt;   -&gt; predict function  :  yhat.randomForest  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.3602574 , max =  1  
+#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.359582 , max =  1  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.78 , mean =  0.003575889 , max =  0.72  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.78 , mean =  0.004251306 , max =  0.73  
 #&gt;   -&gt; model_info        :  package randomForest , ver. 4.6.14 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>vd_rf</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_importance</span>(<span class='no'>explainer_rf</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)
-<span class='no'>vd_rf</span></div><div class='output co'>#&gt;       variable dropout_loss        label
-#&gt; 1 _full_model_      42.6005 randomForest
-#&gt; 2       status      42.6005 randomForest
-#&gt; 3   evaluation     101.5413 randomForest
-#&gt; 4       gender     122.3624 randomForest
-#&gt; 5       salary     152.4049 randomForest
-#&gt; 6          age     155.2858 randomForest
-#&gt; 7        hours     253.8395 randomForest
-#&gt; 8   _baseline_     379.8805 randomForest</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>vd_rf</span>, <span class='fl'>8</span>)</div><div class='output co'>#&gt;       variable mean_dropout_loss        label
+#&gt; 1 _full_model_          42.68985 randomForest
+#&gt; 2       status          42.68985 randomForest
+#&gt; 3   evaluation          98.33692 randomForest
+#&gt; 4       gender         108.64300 randomForest
+#&gt; 5          age         138.56864 randomForest
+#&gt; 6       salary         158.32621 randomForest
+#&gt; 7        hours         238.76891 randomForest
+#&gt; 8   _baseline_         378.67785 randomForest</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>vd_rf</span>)</div><div class='img'><img src='variable_importance-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
@@ -215,15 +220,15 @@ It's a data frame with calculated average response.</p>
 <span class='no'>vd_glm</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_importance</span>(<span class='no'>explainer_glm</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>,
                         <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>)
                                      <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>((<span class='no'>observed</span> - <span class='fu'>logit</span>(<span class='no'>predicted</span>))^<span class='fl'>2</span>))
-<span class='no'>vd_glm</span></div><div class='output co'>#&gt;       variable dropout_loss label
-#&gt; 1 _full_model_     261.0755    lm
-#&gt; 2          age     261.0646    lm
-#&gt; 3       status     261.0755    lm
-#&gt; 4       gender     261.0987    lm
-#&gt; 5       salary     261.1019    lm
-#&gt; 6   evaluation     264.7749    lm
-#&gt; 7        hours     284.6519    lm
-#&gt; 8   _baseline_     289.1370    lm</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>vd_glm</span>, <span class='fl'>8</span>)</div><div class='output co'>#&gt;       variable mean_dropout_loss label
+#&gt; 1 _full_model_          256.6684    lm
+#&gt; 2       status          256.6684    lm
+#&gt; 3       salary          256.6710    lm
+#&gt; 4          age          256.6789    lm
+#&gt; 5       gender          256.7532    lm
+#&gt; 6   evaluation          260.0517    lm
+#&gt; 7        hours          280.3911    lm
+#&gt; 8   _baseline_          284.7747    lm</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"xgboost"</span>)
 <span class='no'>model_martix_train</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/model.matrix.html'>model.matrix</a></span>(<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span> ~ <span class='no'>.</span>-<span class='fl'>1</span>, <span class='no'>HR</span>)
 <span class='no'>data_train</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/xgboost/man/xgb.DMatrix.html'>xgb.DMatrix</a></span>(<span class='no'>model_martix_train</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"fired"</span>)
@@ -241,15 +246,15 @@ It's a data frame with calculated average response.</p>
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9885727 , mean =  0.0001203494 , max =  0.9970635  
 #&gt;   -&gt; model_info        :  package Model of class: xgb.Booster package unrecognized , ver. Unknown , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>vd_xgb</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_importance</span>(<span class='no'>explainer_xgb</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)
-<span class='no'>vd_xgb</span></div><div class='output co'>#&gt;       variable dropout_loss   label
-#&gt; 1 _full_model_     106.1746 xgboost
-#&gt; 2   gendermale     106.1746 xgboost
-#&gt; 3   evaluation     121.9043 xgboost
-#&gt; 4 genderfemale     160.8617 xgboost
-#&gt; 5          age     164.3886 xgboost
-#&gt; 6       salary     174.6288 xgboost
-#&gt; 7        hours     242.9944 xgboost
-#&gt; 8   _baseline_     362.7457 xgboost</div><div class='input'> # }
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>vd_xgb</span>, <span class='fl'>8</span>)</div><div class='output co'>#&gt;       variable mean_dropout_loss   label
+#&gt; 1 _full_model_          100.2547 xgboost
+#&gt; 2   gendermale          100.2547 xgboost
+#&gt; 3   evaluation          115.8766 xgboost
+#&gt; 4 genderfemale          153.5447 xgboost
+#&gt; 5          age          159.7107 xgboost
+#&gt; 6       salary          173.0309 xgboost
+#&gt; 7        hours          237.0950 xgboost
+#&gt; 8   _baseline_          361.7923 xgboost</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>vd_xgb</span>)</div><div class='img'><img src='variable_importance-2.png' alt='' width='700' height='433' /></div><div class='input'> # }
 
 </div></span></pre>
   </div>
