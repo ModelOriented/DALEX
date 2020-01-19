@@ -87,8 +87,6 @@
 #'  }
 #'
 
-#' @export
-#' @rdname explain
 explain.default <- function(model, data = NULL, y = NULL, predict_function = NULL,
                             residual_function = NULL, weights = NULL, ...,
                             label = NULL, verbose = TRUE, precalculate = TRUE,
