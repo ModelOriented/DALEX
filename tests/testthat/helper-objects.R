@@ -28,4 +28,9 @@ explainer_regr_lm <- explain(model_regr_lm, data = apartments_test[1:1000, ], y 
 explainer_wo_data  <- explain(model_classif_ranger, data = NULL)
 
 
+skip_if_no_travis <- function() {
+  if (!"TRAVIS" %in% names(Sys.getenv())) {
+    skip("TRAVIS entry needed for tests")
+  }
+}
 

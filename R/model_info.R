@@ -162,7 +162,7 @@ model_info.train <- function(model, ...) {
     package <- "stats"
   }
   ver <- as.character(utils::packageVersion(package))
-  model_info <- c(package = list(wrapper = package_wrapper, package = package), ver = c(wrapper = ver_wrapper, package = ver), type = type)
+  model_info <- list(package = c(wrapper = package_wrapper, package = package), ver = c(wrapper = ver_wrapper, package = ver), type = type)
   class(model_info) <- "model_info"
   model_info
 }

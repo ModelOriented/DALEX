@@ -4,6 +4,10 @@ vi_ranger <- variable_importance(explainer_regr_ranger, n_sample = 100)
 vi_lm <- variable_importance(explainer_regr_lm, n_sample = 100)
 vi_ranger_ratio <- variable_importance(explainer_regr_ranger, n_sample = 100, type = "ratio")
 
+test_that("Description prints properly", {
+  des <- ingredients::describe(vi_ranger)
+  expect_error(print(des), NA)
+})
 
 test_that("y not provided",{
   expect_error(variable_importance(explainer_regr_ranger_wo_y, n_sample = 100))
