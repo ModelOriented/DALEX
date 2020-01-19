@@ -86,7 +86,9 @@
 #' aps_rf_explainer4
 #'  }
 #'
+
 #' @export
+#' @rdname explain
 explain.default <- function(model, data = NULL, y = NULL, predict_function = NULL,
                             residual_function = NULL, weights = NULL, ...,
                             label = NULL, verbose = TRUE, precalculate = TRUE,
@@ -118,7 +120,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     possible_data <- try(model.frame(model), silent = TRUE)
     if (class(possible_data) != "try-error") {
       data <- possible_data
-      verbose_cat("  -> data              : ", nrow(data), " rows ", ncol(data), " cols (\033[33mextracted from the model\033[39m)\n", verbose = verbose)
+      verbose_cat("  -> data              : ", nrow(data), " rows ", ncol(data), " cols", color_codes$yellow_start, "extracted from the model", color_codes$yellow_end, "\n", verbose = verbose)
     } else {
       verbose_cat("  -> no data avaliable! (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
     }
