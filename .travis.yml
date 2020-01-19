@@ -6,6 +6,7 @@ dist: trusty
 before_install:
     - sudo apt-get install --yes udunits-bin libproj-dev libgeos-dev libgdal-dev libgdal1-dev libudunits2-dev
     - export TRAVIS=true
+    - Rscript -e 'install.packages(c("randomForest", "e1071", "kernlab", "gbm", "glmnet", "parsnip", "caret"))'
 
 env:
   global:
@@ -18,13 +19,6 @@ r_packages:
   - archivist
   - ggplot2
   - covr
-  - randomForest
-  - e1071
-  - kernlab
-  - gbm
-  - glmnet
-  - parsnip
-  - caret
 
 r_github_packages:
   - ModelOriented/ingredients
