@@ -32,9 +32,11 @@ explainer_glm <- explain(HR_glm_model, data = HR)
 predict(explainer_glm, HR[1:3,])
 
  \dontrun{
-library("randomForest")
-HR_rf_model <- randomForest(status == "fired" ~., data = HR)
-explainer_rf  <- explain(HR_rf_model, data = HR)
-predict(explainer_rf, HR[1:3,])
+library("ranger")
+HR_ranger_model <- ranger(status~., data = HR, num.trees = 50, probability = TRUE)
+explainer_ranger  <- explain(HR_ranger_model, data = HR)
+predict(explainer_ranger, HR[1:3,])
+
+model_prediction(explainer_ranger, HR[1:3,])
  }
 }

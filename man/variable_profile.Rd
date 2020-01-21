@@ -42,17 +42,17 @@ head(dragon_lm_predict4)
 plot(dragon_lm_predict4)
 
 \dontrun{
-library("randomForest")
-dragon_rf_model4 <- randomForest(life_length ~ year_of_birth + height +
+library("ranger")
+dragon_ranger_model4 <- ranger(life_length ~ year_of_birth + height +
                                                weight + scars + number_of_lost_teeth,
-                                 data = dragons)
-dragon_rf_explainer4 <- explain(dragon_rf_model4, data = dragons, y = dragons$year_of_birth,
-                                label = "model_rf")
-dragon_rf_predict4 <- variable_profile(dragon_rf_explainer4,
-                new_observation = new_dragon,
-                variables = c("year_of_birth", "height", "scars"))
-head(dragon_rf_predict4)
-plot(dragon_rf_predict4)
+                                 data = dragons, num.trees = 50)
+dragon_ranger_explainer4 <- explain(dragon_ranger_model4, data = dragons, y = dragons$year_of_birth,
+                                label = "model_ranger")
+dragon_ranger_predict4 <- variable_profile(dragon_ranger_explainer4,
+                                           new_observation = new_dragon,
+                                           variables = c("year_of_birth", "height", "scars"))
+head(dragon_ranger_predict4)
+plot(dragon_ranger_predict4)
  }
 
 }

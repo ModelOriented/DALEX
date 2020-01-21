@@ -10,22 +10,30 @@
 #' @export
 #' @examples
 #'  \dontrun{
-#' library("randomForest")
-#' HR_rf_model <- randomForest(as.factor(status == "fired")~., data = HR, ntree = 100)
-#' explainer_rf  <- explain(HR_rf_model, data = HR, y = HR$status == "fired")
+#' library("ranger")
+#' titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 100,
+#'                                probability = TRUE)
+#' # It's a good practice to pass data without target variable
+#' explainer_ranger  <- explain(titanic_ranger_model, data = titanic_imputed[,-8],
+#'                              y = titanic_imputed$survived)
 #' # resulting dataframe has predicted values and residuals
-#' model_performance(explainer_rf)
+#' mp_ex_rn <- model_performance(explainer_ranger)
 #'
-#' HR_glm_model <- glm(status == "fired"~., data = HR, family = "binomial")
-#' explainer_glm <- explain(HR_glm_model, data = HR, y = HR$status == "fired",
-#'                     predict_function = function(m,x) predict.glm(m,x,type = "response"))
+#' titanic_glm_model <- glm(survived~., data = titanic_imputed, family = "binomial")
+#' explainer_glm <- explain(titanic_glm_model, data = titanic_imputed[,-8],
+#'                          y = titanic_imputed$survived,
+#'                     predict_function = function(m,x) predict.glm(m,x,type = "response"),
+#'                          label = "glm")
 #' mp_ex_glm <- model_performance(explainer_glm)
 #' mp_ex_glm
 #' plot(mp_ex_glm)
+#' plot(mp_ex_glm, mp_ex_rn)
 #'
-#' HR_lm_model <- lm(status == "fired"~., data = HR)
-#' explainer_lm <- explain(HR_lm_model, data = HR, y = HR$status == "fired")
-#' model_performance(explainer_lm)
+#' titanic_lm_model <- lm(survived~., data = titanic_imputed)
+#' explainer_lm <- explain(titanic_lm_model, data = titanic_imputed[,-8], y = titanic_imputed$survived)
+#' mp_ex_lm <- model_performance(explainer_lm)
+#' plot(mp_ex_lm)
+#' plot(mp_ex_glm, mp_ex_rn, mp_ex_lm)
 #'  }
 #'
 model_performance <- function(explainer, ...) {

@@ -12,32 +12,39 @@
 #' @export
 #' @examples
 #'  \dontrun{
-#' library("randomForest")
-#' HR_rf_model <- randomForest(as.factor(status == "fired")~., data = HR, ntree = 100)
-#' explainer_rf  <- explain(HR_rf_model, data = HR, y = HR$status == "fired")
-#' mp_rf <- model_performance(explainer_rf)
-#' plot(mp_rf)
-#' plot(mp_rf, geom = "boxplot", show_outliers = 1)
+#' library("ranger")
+#' titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 50,
+#'                                probability = TRUE)
+#' explainer_ranger  <- explain(titanic_ranger_model, data = titanic_imputed[,-8],
+#'                              y = titanic_imputed$survived)
+#' mp_ranger <- model_performance(explainer_ranger)
+#' plot(mp_ranger)
+#' plot(mp_ranger, geom = "boxplot", show_outliers = 1)
 #'
-#' HR_rf_model2 <- randomForest(as.factor(status == "fired")~age + hours, data = HR, ntree = 100)
-#' explainer_rf2  <- explain(HR_rf_model2, data = HR, y = HR$status == "fired")
-#' mp_rf2 <- model_performance(explainer_rf2)
-#' plot(mp_rf, mp_rf2)
+#' titanic_ranger_model2 <- ranger(survived~gender + fare, data = titanic_imputed,
+#'                                 num.trees = 50, probability = TRUE)
+#' explainer_ranger2  <- explain(titanic_ranger_model2, data = titanic_imputed[,-8],
+#'                               y = titanic_imputed$survived,
+#'                               label = "ranger2")
+#' mp_ranger2 <- model_performance(explainer_ranger2)
+#' plot(mp_ranger, mp_ranger2)
 #'
-#' HR_glm_model <- glm(status == "fired"~., data = HR, family = "binomial")
-#' explainer_glm <- explain(HR_glm_model, data = HR, y = HR$status == "fired", label = "glm",
+#' titanic_glm_model <- glm(survived~., data = titanic_imputed, family = "binomial")
+#' explainer_glm <- explain(titanic_glm_model, data = titanic_imputed[,-8],
+#'                          y = titanic_imputed$survived, label = "glm",
 #'                     predict_function = function(m,x) predict.glm(m,x,type = "response"))
 #' mp_glm <- model_performance(explainer_glm)
 #' plot(mp_glm)
 #'
-#' HR_lm_model <- lm(status == "fired"~., data = HR)
-#' explainer_lm <- explain(HR_lm_model, data = HR, y = HR$status == "fired")
+#' titanic_lm_model <- lm(survived~., data = titanic_imputed)
+#' explainer_lm <- explain(titanic_lm_model, data = titanic_imputed[,-8],
+#'                         y = titanic_imputed$survived, label = "lm")
 #' mp_lm <- model_performance(explainer_lm)
 #' plot(mp_lm)
 #'
-#' plot(mp_rf, mp_glm, mp_lm)
-#' plot(mp_rf, mp_glm, mp_lm, geom = "boxplot")
-#' plot(mp_rf, mp_glm, mp_lm, geom = "boxplot", show_outliers = 1)
+#' plot(mp_ranger, mp_glm, mp_lm)
+#' plot(mp_ranger, mp_glm, mp_lm, geom = "boxplot")
+#' plot(mp_ranger, mp_glm, mp_lm, geom = "boxplot", show_outliers = 1)
 #'  }
 #'
 plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outliers = 0, ptlabel = "name", lossFunction = function(x) sqrt(mean(x^2))) {

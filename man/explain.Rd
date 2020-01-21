@@ -109,14 +109,14 @@ aps_lm <- explain(aps_lm_model4, data = apartments, label = "model_4v", y = apar
 aps_lm <- explain(aps_lm_model4, data = apartments, label = "model_4v", y = apartments$m2.price,
                                    predict_function = predict)
 # set model_info
-model_info <- list(package = "stats", ver = "3.6.1", type = "regression")
+model_info <- list(package = "stats", ver = "3.6.2", type = "regression")
 aps_lm_model4 <- lm(m2.price ~., data = apartments)
 aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, label = "model_4v",
                              model_info = model_info)
 
 \dontrun{
 # set model_info
-model_info <- list(package = "stats", ver = "3.6.1", type = "regression")
+model_info <- list(package = "stats", ver = "3.6.2", type = "regression")
 aps_lm_model4 <- lm(m2.price ~., data = apartments)
 aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, label = "model_4v",
                              model_info = model_info)
@@ -125,10 +125,10 @@ aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, label = "model_4v
                              weights = as.numeric(apartments$construction.year > 2000))
 
 # more complex model
-library("randomForest")
-aps_rf_model4 <- randomForest(m2.price ~., data = apartments)
-aps_rf_explainer4 <- explain(aps_rf_model4, data = apartments, label = "model_rf")
-aps_rf_explainer4
+library("ranger")
+aps_ranger_model4 <- ranger(m2.price ~., data = apartments, num.trees = 50)
+aps_ranger_explainer4 <- explain(aps_ranger_model4, data = apartments, label = "model_ranger")
+aps_ranger_explainer4
  }
 
 }

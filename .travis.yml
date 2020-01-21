@@ -24,6 +24,5 @@ r_github_packages:
   - ModelOriented/iBreakDown
 
 after_success:
-  - export TRAVIS=true
   - Rscript -e 'library(covr); codecov()'
 

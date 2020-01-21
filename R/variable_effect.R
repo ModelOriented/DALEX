@@ -17,25 +17,24 @@
 #' @export
 #'
 #' @examples
-#' HR$evaluation <- factor(HR$evaluation)
-#'
-#' HR_glm_model <- glm(status == "fired"~., data = HR, family = "binomial")
-#' explainer_glm <- explain(HR_glm_model, data = HR)
-#' expl_glm <- variable_effect(explainer_glm, "age", "partial_dependency")
+#' titanic_glm_model <- glm(survived~., data = titanic_imputed, family = "binomial")
+#' explainer_glm <- explain(titanic_glm_model, data = titanic_imputed)
+#' expl_glm <- variable_effect(explainer_glm, "fare", "partial_dependency")
 #' plot(expl_glm)
 #'
 #'  \dontrun{
-#' library("randomForest")
-#' HR_rf_model <- randomForest(status == "fired" ~., data = HR)
-#' explainer_rf  <- explain(HR_rf_model, data = HR)
-#' expl_rf  <- variable_effect(explainer_rf, variables = "age",
-#'                        type = "partial_dependency")
-#' plot(expl_rf)
-#' plot(expl_rf, expl_glm)
+#' library("ranger")
+#' titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 50,
+#'                                probability = TRUE)
+#' explainer_ranger  <- explain(titanic_ranger_model, data = titanic_imputed)
+#' expl_ranger  <- variable_effect(explainer_ranger, variables = "fare",
+#'                             type = "partial_dependency")
+#' plot(expl_ranger)
+#' plot(expl_ranger, expl_glm)
 #'
 #' # Example for factor variable (with factorMerger)
-#' expl_rf  <- variable_effect(explainer_rf, variables =  "evaluation")
-#' plot(expl_rf)
+#' expl_ranger_factor  <- variable_effect(explainer_ranger, variables =  "class")
+#' plot(expl_ranger_factor)
 #'  }
 #'
 
