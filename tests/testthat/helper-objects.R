@@ -19,6 +19,55 @@ model_multiclassif_ranger_prob <- ranger(status~., data = HR, num.trees = 50, pr
 p_fun_ranger <- function(model, x) predict(model, x)$predictions
 p_fun_glm <- function(model, x) predict(model, x, type = "response")
 
+predict.randomForest <- function(X.model, newdata, type) {
+  if (X.model$type == "classification") {
+    pred <- data.frame(rep(0.5, times = 100), rep(0.5, times = 100))
+  } else {
+    pred <- rep(1, times = 100)
+  }
+  pred
+}
+
+predict.svm <- function(X.model, newdata, ...) {
+  if (X.model$type == 0) {
+    pred <- list(1)
+    attr(pred, "probabilities") <- data.frame(rep(0.5, times = 100), rep(0.5, times = 100))
+  } else {
+    pred <- rep(1, times = 100)
+  }
+  pred
+}
+
+predict.gbm <- function(X.model, newdata, ...) {
+  rep(0.14, times = 100)
+}
+
+predict.glmnet <- predict.cv.glmnet <- function(X.model, newdata, ...) {
+  rep(0.14, times = 100)
+}
+
+predict.model_fit <- function(X.model, newdata, ...) {
+  if (X.model$spec$mode == "classification") {
+    response <- data.frame(rep(0.5, times = 100), rep(0.5, times = 100))
+  }
+  if (X.model$spec$mode == "regression") {
+    response <- list(a = 1)
+    response$.pred <- rep(0.5, times = 100)
+  }
+  response
+}
+
+predict.train <- function(X.model, newdata, type, ...) {
+  if (X.model$modelType == "Classification") {
+    response <- data.frame(rep(0.5, times = 100), rep(0.5, times = 100))
+  }
+  if (X.model$modelType == "Regression") {
+    response <- rep(0.5, times = 100)
+
+  }
+  response
+}
+
 
 explainer_classif_ranger  <- explain(model_classif_ranger, data = titanic_imputed, y = titanic_imputed$survived)
 explainer_classif_glm  <- explain(model_classif_glm, data = HR, predict_function = p_fun_glm)
@@ -27,7 +76,7 @@ explainer_regr_ranger_wo_y <- explain(model_regr_ranger, data = apartments_test[
 explainer_regr_lm <- explain(model_regr_lm, data = apartments_test[1:1000, ], y = apartments_test$m2.price[1:1000])
 explainer_wo_data  <- explain(model_classif_ranger, data = NULL)
 
-#
+
 # skip_if_no_codecov <- function() {
 #   if (!"CODECOV" %in% names(Sys.getenv())) {
 #     skip("CODECOV entry needed for tests")
