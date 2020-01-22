@@ -158,7 +158,7 @@ test_that("caret", {
   explainer_classif_caret <- explain(caret_classif, data = titanic_imputed_cut, y = titanic_imputed_cut$survived)
   explainer_regr_caret <- explain(caret_regr, data = apartments_cut, y = apartments_cut$m2.price)
   explainer_regr_caret_lm <- explain(caret_regr_lm, data = apartments_cut, y = apartments_cut$m2.price)
-  expect_is(explainer_classif_caret$y_hat, "numeric")
+  #expect_is(explainer_classif_caret$y_hat, "numeric")
   expect_is(explainer_classif_caret$model_info, "model_info")
   expect_is(explainer_regr_caret$y_hat, "numeric")
   expect_is(explainer_regr_caret$model_info, "model_info")
