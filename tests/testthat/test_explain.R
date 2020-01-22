@@ -3,8 +3,6 @@ context("Check explain() function")
 source("helper-objects.R")
 
 test_that("Type of data in the explainer and label",{
-
-
   explainer_ranger_1 <- explain(model_classif_ranger, label = "Test")
   explainer_ranger_2 <- explain(model_classif_ranger, data = titanic_imputed, label = "Test 2")
   explainer_lm_1 <- explain(model_regr_lm)

@@ -14,8 +14,10 @@ test_that("randomForest", {
   #skip_if_no_codecov()
   # model_classif_rf <- randomForest(as.factor(survived)~., data = titanic_imputed_cut, num.trees = 50, probability = TRUE)
   # model_regr_rf <- randomForest(m2.price~., data = apartments_cut, num.trees = 50)
-  load(system.file("tests/objects_for_tests", "model_classif_rf.RData", package = "DALEX"))
-  load(system.file("tests/objects_for_tests", "model_regr_rf.RData", package = "DALEX"))
+
+
+  load("./../objects_for_tests/model_classif_rf.RData")
+  load("./../objects_for_tests/model_regr_rf.RData")
 
   # predict.randomForest <- function(X.model, newdata, type) {
   #   if (X.model$type == "classification") {
@@ -25,7 +27,6 @@ test_that("randomForest", {
   #   }
   #   pred
   # }
-
   explainer_classif_rf <- explain(model_classif_rf, data = titanic_imputed_cut, y = titanic_imputed_cut$survived)
   explainer_regr_rf <- explain(model_regr_rf, data = apartments_cut, y = apartments_cut$m2.price)
   expect_is(explainer_classif_rf$y_hat, "numeric")
@@ -39,8 +40,8 @@ test_that("svm", {
   #skip_if_no_codecov()
   # model_classif_svm <- svm(as.factor(survived)~., data = titanic_imputed_cut, num.trees = 50, probability = TRUE)
   # model_regr_svm <- svm(m2.price~., data = apartments_cut, num.trees = 50)
-  load(system.file("tests/objects_for_tests", "model_classif_svm.RData", package = "DALEX"))
-  load(system.file("tests/objects_for_tests", "model_regr_svm.RData", package = "DALEX"))
+  load("./../objects_for_tests/model_classif_svm.RData")
+  load("./../objects_for_tests/model_regr_svm.RData")
 
   # predict.svm <- function(X.model, newdata, ...) {
   #   if (X.model$type == 0) {
@@ -66,8 +67,8 @@ test_that("gbm", {
   # model_classif_gbm <- gbm(as.factor(survived)~., data = titanic_imputed_cut, distribution = "bernoulli",
   #                          n.trees = 50)
   # model_regr_gbm <- gbm(m2.price~., data = apartments_cut, n.trees = 50, distribution = "gaussian")
-  load(system.file("tests/objects_for_tests", "model_classif_gbm.RData", package = "DALEX"))
-  load(system.file("tests/objects_for_tests", "model_regr_gbm.RData", package = "DALEX"))
+  load("./../objects_for_tests/model_classif_gbm.RData")
+  load("./../objects_for_tests/model_regr_gbm.RData")
 
   # predict.gbm <- function(X.model, newdata, ...) {
   #   rep(0.14, times = 100)
@@ -87,8 +88,8 @@ test_that("glmnet and cvglmnet", {
   # model_regr_glm <- glmnet(matrix(rnorm(100 * 20), 100, 20), rnorm(100))
   #
   # model_regr_cvglm <- cv.glmnet(matrix(rnorm(100 * 20), 100, 20), rnorm(100))
-  load(system.file("tests/objects_for_tests", "model_regr_glm.RData", package = "DALEX"))
-  load(system.file("tests/objects_for_tests", "model_regr_cvglm.RData", package = "DALEX"))
+  load("./../objects_for_tests/model_regr_glm.RData")
+  load("./../objects_for_tests/model_regr_cvglm.RData")
 
   # predict.glmnet <- predict.cv.glmnet <- function(X.model, newdata, ...) {
   #   rep(0.14, times = 100)
@@ -112,8 +113,8 @@ test_that("parsnip", {
   # parsnip_classif <- svm_rbf(mode = "classification", rbf_sigma = 0.2)
   # parsnip_classif <- set_engine(parsnip_classif, "kernlab")
   # parsnip_classif <- fit(parsnip_classif, as.factor(survived) ~ ., data = titanic_imputed_cut)
-  load(system.file("tests/objects_for_tests", "parsnip_regr.RData", package = "DALEX"))
-  load(system.file("tests/objects_for_tests", "parsnip_classif.RData", package = "DALEX"))
+  load("./../objects_for_tests/parsnip_regr.RData")
+  load("./../objects_for_tests/parsnip_classif.RData")
 
   # predict.model_fit <- function(X.model, newdata, probability) {
   #   if (X.model$spec$mode == "classification") {
@@ -139,9 +140,9 @@ test_that("caret", {
   # caret_regr <- train(m2.price~., data = apartments_cut, method="rf", ntree = 50)
   # caret_regr_lm <- train(m2.price~., data = apartments_cut, method="lm")
   # caret_classif <- train(as.factor(survived)~., data = titanic_imputed_cut, method="rf", ntree = 50)
-  load(system.file("tests/objects_for_tests", "caret_regr.RData", package = "DALEX"))
-  load(system.file("tests/objects_for_tests", "caret_classif.RData", package = "DALEX"))
-  load(system.file("tests/objects_for_tests", "caret_regr_lm.RData", package = "DALEX"))
+  load("./../objects_for_tests/caret_regr.RData")
+  load("./../objects_for_tests/caret_classif.RData")
+  load("./../objects_for_tests/caret_regr_lm.RData")
 
   # predict.train <- function(X.model, newdata, probability) {
   #   if (X.model$modelType == "Classification") {
