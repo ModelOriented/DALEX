@@ -36,13 +36,12 @@
 
 
 <meta property="og:title" content="Exract info from model — model_info" />
-
 <meta property="og:description" content="This generic function let user extract base information about model. The function returns a named list of class model_info that
 contain about package of model, version and task type. For wrappers like mlr or caret both, package and wrapper inforamtion
 are stored" />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -139,11 +138,9 @@ are stored" />
     </div>
 
     <div class="ref-description">
-    
     <p>This generic function let user extract base information about model. The function returns a named list of class <code>model_info</code> that
 contain about package of model, version and task type. For wrappers like <code>mlr</code> or <code>caret</code> both, package and wrapper inforamtion
 are stored</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='no'>...</span>)
@@ -180,7 +177,7 @@ are stored</p>
 
 <span class='co'># S3 method for default</span>
 <span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -204,21 +201,19 @@ are stored</p>
 </ul></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A named list of class <code>model_info</code></p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>aps_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>m2.price</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>)
 <span class='fu'>model_info</span>(<span class='no'>aps_lm_model4</span>)</div><div class='output co'>#&gt; Package: stats 
 #&gt; Package version: 3.6.1 
 #&gt; Task type: regression</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
-<span class='no'>model_regr_rf</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>ranger</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>m2.price</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>50</span>)
-<span class='fu'>model_info</span>(<span class='no'>model_regr_rf</span>)</div><div class='output co'>#&gt; Package: ranger 
-#&gt; Package version: 0.12.1 
+<span class='no'>model_regr_rf</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>randomForest</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='no'>m2.price</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>50</span>)
+<span class='fu'>model_info</span>(<span class='no'>model_regr_rf</span>)</div><div class='output co'>#&gt; Package: randomForest 
+#&gt; Package version: 4.6.14 
 #&gt; Task type: regression</div><div class='input'>
 </div></pre>
   </div>
@@ -226,9 +221,7 @@ are stored</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

@@ -36,15 +36,14 @@
 
 
 <meta property="og:title" content="Wrap Various Predict Functions — yhat" />
-
 <meta property="og:description" content="This function is a wrapper over various predict functions for different models and differnt model structures.
 The wrapper returns a single numeric score for each new observation.
 To do this it uses different extraction techniques for models from different classes,
 like for classification random forest is forces the output to be probabilities
 not classes itself." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -141,13 +140,11 @@ not classes itself." />
     </div>
 
     <div class="ref-description">
-    
     <p>This function is a wrapper over various predict functions for different models and differnt model structures.
 The wrapper returns a single numeric score for each new observation.
 To do this it uses different extraction techniques for models from different classes,
 like for classification random forest is forces the output to be probabilities
 not classes itself.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>yhat</span>(<span class='no'>X.model</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)
@@ -182,12 +179,9 @@ not classes itself.</p>
 <span class='co'># S3 method for train</span>
 <span class='fu'>yhat</span>(<span class='no'>X.model</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)
 
-<span class='co'># S3 method for lrm</span>
-<span class='fu'>yhat</span>(<span class='no'>X.model</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)
-
 <span class='co'># S3 method for default</span>
 <span class='fu'>yhat</span>(<span class='no'>X.model</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -204,11 +198,10 @@ not classes itself.</p>
       <td><p>other parameters that will be passed to the predict function</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An numeric matrix of predictions</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Currently supported packages are:</p><ul>
@@ -221,21 +214,17 @@ not classes itself.</p>
 <li><p>class `svm` - support vector machines models created with the `e1071` package</p></li>
 <li><p>class `train` - models created with `caret` package</p></li>
 <li><p>class `gbm` - models created with `gbm` package</p></li>
-<li><p>class `lrm` - models created with `rms` package</p></li>
 </ul>
 
-    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-          </ul>
+    </ul>
 
   </div>
 </div>
