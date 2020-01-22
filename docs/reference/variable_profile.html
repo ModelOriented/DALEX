@@ -36,11 +36,12 @@
 
 
 <meta property="og:title" content="Instance Level Variable Effect as Ceteris Paribus Profile — variable_profile" />
+
 <meta property="og:description" content="From DALEX version 1.0 this function calls the ceteris_paribus from the ingredients package.
 Find information how to use this function here: https://pbiecek.github.io/PM_VEE/ceterisParibus.html." />
+
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
-
 
 
 
@@ -137,12 +138,14 @@ Find information how to use this function here: https://pbiecek.github.io/PM_VEE
     </div>
 
     <div class="ref-description">
+    
     <p>From DALEX version 1.0 this function calls the <code><a href='https://rdrr.io/pkg/ingredients/man/ceteris_paribus.html'>ceteris_paribus</a></code> from the <code>ingredients</code> package.
 Find information how to use this function here: <a href='https://pbiecek.github.io/PM_VEE/ceterisParibus.html'>https://pbiecek.github.io/PM_VEE/ceterisParibus.html</a>.</p>
+    
     </div>
 
     <pre class="usage"><span class='fu'>variable_profile</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='no'>variables</span>, <span class='no'>...</span>)</pre>
-
+    
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -163,14 +166,16 @@ Find information how to use this function here: <a href='https://pbiecek.github.
       <td><p>other parameters</p></td>
     </tr>
     </table>
-
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An object of the class 'ceteris_paribus_explainer'.
 It's a data frame with calculated average response.</p>
+    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Predictive Models: Explore, Explain, and Debug. Human-Centered Interpretable Machine Learning <a href='https://pbiecek.github.io/PM_VEE/'>https://pbiecek.github.io/PM_VEE/</a></p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>new_dragon</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>year_of_birth</span> <span class='kw'>=</span> <span class='fl'>200</span>,
@@ -187,11 +192,11 @@ It's a data frame with calculated average response.</p>
 #&gt;   -&gt; model label       :  model_4v 
 #&gt;   -&gt; data              :  2000  rows  8  cols 
 #&gt;   -&gt; target variable   :  2000  values 
-#&gt;   -&gt; predict function  :  yhat.lm  will be used ( <span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; model_info        :  package stats , ver. 3.6.1 , task regression ( <span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; predict function  :  yhat.lm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  541.1056 , mean =  1370.986 , max =  3928.189  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -5421.316 , mean =  -1450.523 , max =  1176.912  
-#&gt;   -&gt; model_info        :  package stats , ver. 3.6.1 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>dragon_lm_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_profile</span>(<span class='no'>dragon_lm_explainer4</span>,
                 <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>,
                 <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"year_of_birth"</span>, <span class='st'>"height"</span>, <span class='st'>"scars"</span>))
@@ -217,55 +222,31 @@ It's a data frame with calculated average response.</p>
 #&gt; 1           200     80   12.5     0                    5 654.0636 model_4v
 #&gt;   _ids_
 #&gt; 1     1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dragon_lm_predict4</span>)</div><div class='img'><img src='variable_profile-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># \dontrun{</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"randomForest"</span>)
-<span class='no'>dragon_rf_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='no'>life_length</span> ~ <span class='no'>year_of_birth</span> + <span class='no'>height</span> +
+</div></span><span class='co'># NOT RUN {</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
+<span class='no'>dragon_ranger_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>life_length</span> ~ <span class='no'>year_of_birth</span> + <span class='no'>height</span> +
                                                <span class='no'>weight</span> + <span class='no'>scars</span> + <span class='no'>number_of_lost_teeth</span>,
-                                 <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>)
-<span class='no'>dragon_rf_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>dragon_rf_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>dragons</span>$<span class='no'>year_of_birth</span>,
-                                <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_rf"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  model_rf 
-#&gt;   -&gt; data              :  2000  rows  8  cols 
-#&gt;   -&gt; target variable   :  2000  values 
-#&gt;   -&gt; predict function  :  yhat.randomForest  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  653.9942 , mean =  1370.032 , max =  3181.431  
-#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -4752.431 , mean =  -1449.57 , max =  955.1293  
-#&gt;   -&gt; model_info        :  package randomForest , ver. 4.6.14 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>dragon_rf_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_profile</span>(<span class='no'>dragon_rf_explainer4</span>,
-                <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>,
-                <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"year_of_birth"</span>, <span class='st'>"height"</span>, <span class='st'>"scars"</span>))
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>dragon_rf_predict4</span>)</div><div class='output co'>#&gt; Top profiles    : 
-#&gt;     year_of_birth height weight scars number_of_lost_teeth   _yhat_
-#&gt; 1        -1999.00     80   12.5     0                    5 1129.882
-#&gt; 1.1      -1962.02     80   12.5     0                    5 1066.091
-#&gt; 1.2      -1927.02     80   12.5     0                    5 1061.018
-#&gt; 1.3      -1859.54     80   12.5     0                    5 1066.094
-#&gt; 1.4      -1812.00     80   12.5     0                    5 1064.986
-#&gt; 1.5      -1780.00     80   12.5     0                    5 1068.100
-#&gt;           _vname_ _ids_  _label_
-#&gt; 1   year_of_birth     1 model_rf
-#&gt; 1.1 year_of_birth     1 model_rf
-#&gt; 1.2 year_of_birth     1 model_rf
-#&gt; 1.3 year_of_birth     1 model_rf
-#&gt; 1.4 year_of_birth     1 model_rf
-#&gt; 1.5 year_of_birth     1 model_rf
-#&gt; 
-#&gt; 
-#&gt; Top observations:
-#&gt;   year_of_birth height weight scars number_of_lost_teeth   _yhat_  _label_
-#&gt; 1           200     80   12.5     0                    5 1009.697 model_rf
-#&gt;   _ids_
-#&gt; 1     1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dragon_rf_predict4</span>)</div><div class='img'><img src='variable_profile-2.png' alt='' width='700' height='433' /></div><div class='input'> # }
+                                 <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>50</span>)
+<span class='no'>dragon_ranger_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>dragon_ranger_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>dragons</span>$<span class='no'>year_of_birth</span>,
+                                <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_ranger"</span>)
+<span class='no'>dragon_ranger_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_profile</span>(<span class='no'>dragon_ranger_explainer4</span>,
+                                           <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>,
+                                           <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"year_of_birth"</span>, <span class='st'>"height"</span>, <span class='st'>"scars"</span>))
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>dragon_ranger_predict4</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dragon_ranger_predict4</span>)
 
-</div></span></pre>
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      
       <li><a href="#value">Value</a></li>
+
       <li><a href="#references">References</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

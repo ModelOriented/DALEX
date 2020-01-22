@@ -36,10 +36,11 @@
 
 
 <meta property="og:title" content="Update label of explainer object — update_label" />
+
 <meta property="og:description" content="Function allows users to update label of any explainer in a unified way. It doesn't require knowledge about structre of an explainer." />
+
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
-
 
 
 
@@ -136,11 +137,13 @@
     </div>
 
     <div class="ref-description">
+    
     <p>Function allows users to update label of any explainer in a unified way. It doesn't require knowledge about structre of an explainer.</p>
+    
     </div>
 
     <pre class="usage"><span class='fu'>update_label</span>(<span class='no'>explainer</span>, <span class='no'>label</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
-
+    
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -157,10 +160,11 @@
       <td><p>- logical, indicates if information about update should be printed</p></td>
     </tr>
     </table>
-
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>updated explainer object</p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>aps_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>m2.price</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>)
@@ -168,10 +172,10 @@
 #&gt;   -&gt; model label       :  model_4v 
 #&gt;   -&gt; data              :  1000  rows  6  cols 
 #&gt;   -&gt; target variable   :  not specified! ( <span style='color: #BB0000;'> WARNING </span><span> )
+#&gt;   -&gt; model_info        :  package stats , ver. 3.6.1 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.lm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; model_info        :  package stats , ver. 3.6.1 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer</span> <span class='kw'>&lt;-</span> <span class='fu'>update_label</span>(<span class='no'>aps_lm_explainer4</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"lm"</span>)</div><div class='output co'>#&gt;   -&gt; model label       :  lm 
 #&gt;  </span><span style='color: #00BB00;'> An explainer has been updated! </span><span> </div></span></pre>
   </div>
@@ -179,7 +183,9 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      
       <li><a href="#value">Value</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
