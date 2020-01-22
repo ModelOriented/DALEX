@@ -6,6 +6,7 @@ DALEX 1.0
 * updated `variable_importance`, not it calls the `ingredients::variable_importance` ([#131](https://github.com/ModelOriented/DALEX/issues/131)).
 * updated `model_performance`  ([#130](https://github.com/ModelOriented/DALEX/issues/130)).
 * added `yhat` for `lrm` models from `rms` package
+* `theme_drwhy` has now left aligned title and subtitle.
 
 DALEX 0.4.9
 ----------------------------------------------------------------

@@ -198,25 +198,28 @@ plot(vi_rf, vi_lmr, vi_gbm, vi_svm, vi_knn, bar_width = 4)
 
 ## Single variable
 
-```{r, fig.width=5, fig.height=5}
+```{r, fig.width=8, fig.height=5}
 vr_age_rf  <- variable_effect(explain_titanic_rf, variables =  "age")
 vr_age_lmr  <- variable_effect(explain_titanic_lmr, variables =  "age")
 vr_age_gbm  <- variable_effect(explain_titanic_gbm, variables =  "age")
 vr_age_svm  <- variable_effect(explain_titanic_svm, variables =  "age")
 vr_age_knn  <- variable_effect(explain_titanic_knn, variables =  "age")
 plot(vr_age_rf, vr_age_lmr, vr_age_gbm, vr_age_svm, vr_age_knn)
-plot(vr_age_rf, vr_age_lmr, vr_age_gbm, vr_age_svm, vr_age_knn, use_facets = TRUE)
 ```
 
 # Instance level explanations
 
-```{r, fig.width=5, fig.height=8}
+```{r, fig.width=6, fig.height=3}
 sp_rf <- variable_attribution(explain_titanic_rf, new_passanger)
+plot(sp_rf)
 sp_lmr <- variable_attribution(explain_titanic_lmr, new_passanger)
+plot(sp_lmr)
 sp_gbm <- variable_attribution(explain_titanic_gbm, new_passanger)
+plot(sp_gbm)
 sp_svm <- variable_attribution(explain_titanic_svm, new_passanger)
+plot(sp_svm)
 sp_knn <- variable_attribution(explain_titanic_knn, new_passanger)
-plot(sp_rf, sp_lmr, sp_gbm, sp_svm, sp_knn)
+plot(sp_knn)
 ```
 
 # Session info
