@@ -29,6 +29,7 @@
 #' aps_lm_model4 <- lm(m2.price ~., data = apartments)
 #' model_info(aps_lm_model4)
 #'
+#' library("ranger")
 #' model_regr_rf <- ranger::ranger(m2.price~., data = apartments, num.trees = 50)
 #' model_info(model_regr_rf)
 #'
@@ -52,10 +53,7 @@ model_info.lm <- function(model, ...) {
 model_info.randomForest <- function(model, ...) {
   type <- model$type
   package <- "randomForest"
-  ver <- try(as.character(utils::packageVersion(package)), silent = TRUE)
-  if (class(ver) == "try-error") {
-    ver <- "Unknown"
-  }
+  ver <- get_pkg_ver_safe(package)
   model_info <- list(package = package, ver = ver, type = type)
   class(model_info) <- "model_info"
   model_info
@@ -70,10 +68,7 @@ model_info.svm <- function(model, ...) {
     type <- "regression"
   }
   package <- "e1071"
-  ver <- try(as.character(utils::packageVersion(package)), silent = TRUE)
-  if (class(ver) == "try-error") {
-    ver <- "Unknown"
-  }
+  ver <- get_pkg_ver_safe(package)
   model_info <- list(package = package, ver = ver, type = type)
   class(model_info) <- "model_info"
   model_info
@@ -84,10 +79,7 @@ model_info.svm <- function(model, ...) {
 model_info.glm <- function(model, ...) {
   type <- "regression"
   package <- "stats"
-  ver <- try(as.character(utils::packageVersion(package)), silent = TRUE)
-  if (class(ver) == "try-error") {
-    ver <- "Unknown"
-  }
+  ver <- get_pkg_ver_safe(package)
   model_info <- list(package = package, ver = ver, type = type)
   class(model_info) <- "model_info"
   model_info
@@ -99,10 +91,7 @@ model_info.glm <- function(model, ...) {
 model_info.glmnet <- function(model, ...) {
   type <- "regression"
   package <- "glmnet"
-  ver <- try(as.character(utils::packageVersion(package)), silent = TRUE)
-  if (class(ver) == "try-error") {
-    ver <- "Unknown"
-  }
+  ver <- get_pkg_ver_safe(package)
   model_info <- list(package = package, ver = ver, type = type)
   class(model_info) <- "model_info"
   model_info
@@ -113,10 +102,7 @@ model_info.glmnet <- function(model, ...) {
 model_info.cv.glmnet <- function(model, ...) {
   type <- "regression"
   package <- "glmnet"
-  ver <- try(as.character(utils::packageVersion(package)), silent = TRUE)
-  if (class(ver) == "try-error") {
-    ver <- "Unknown"
-  }
+  ver <- get_pkg_ver_safe(package)
   model_info <- list(package = package, ver = ver, type = type)
   class(model_info) <- "model_info"
   model_info
@@ -131,10 +117,7 @@ model_info.ranger <- function(model, ...) {
     type <- "classification"
   }
   package <- "ranger"
-  ver <- try(as.character(utils::packageVersion(package)), silent = TRUE)
-  if (class(ver) == "try-error") {
-    ver <- "Unknown"
-  }
+  ver <- get_pkg_ver_safe(package)
   model_info <- list(package = package, ver = ver, type = type)
   class(model_info) <- "model_info"
   model_info
@@ -149,10 +132,7 @@ model_info.gbm <- function(model, ...) {
     type <- "regression"
   }
   package <- "gbm"
-  ver <- try(as.character(utils::packageVersion(package)), silent = TRUE)
-  if (class(ver) == "try-error") {
-    ver <- "Unknown"
-  }
+  ver <- get_pkg_ver_safe(package)
   model_info <- list(package = package, ver = ver, type = type)
   class(model_info) <- "model_info"
   model_info
@@ -164,15 +144,9 @@ model_info.gbm <- function(model, ...) {
 model_info.model_fit <- function(model, ...) {
   type <- model$spec$mode
   package_wrapper <- "parsnip"
-  ver_wrapper <- try(as.character(utils::packageVersion(package_wrapper)), silent = TRUE)
-  if (class(ver_wrapper) == "try-error") {
-    ver_wrapper <- "Unknown"
-  }
+  ver_wrapper <- get_pkg_ver_safe(package_wrapper)
   package <- model$spec$method$libs
-  ver <- try(as.character(utils::packageVersion(package)), silent = TRUE)
-  if (class(ver) == "try-error") {
-    ver <- "Unknown"
-  }
+  ver <- get_pkg_ver_safe(package)
   model_info <- list(package = c(wrapper = package_wrapper, package = package), ver = c(wrapper = ver_wrapper, package = ver), type = type)
   class(model_info) <- "model_info"
   model_info
@@ -183,18 +157,12 @@ model_info.model_fit <- function(model, ...) {
 model_info.train <- function(model, ...) {
   type <- model$modelType
   package_wrapper <- "caret"
-  ver_wrapper <- try(as.character(utils::packageVersion(package_wrapper)), silent = TRUE)
-  if (class(ver_wrapper) == "try-error") {
-    ver_wrapper <- "Unknown"
-  }
+  ver_wrapper <- get_pkg_ver_safe(package_wrapper)
   package <- model$modelInfo$library
   if (is.null(package)) {
     package <- "stats"
   }
-  ver <- try(as.character(utils::packageVersion(package)), silent = TRUE)
-  if (class(ver) == "try-error") {
-    ver <- "Unknown"
-  }
+  ver <- get_pkg_ver_safe(package)
   model_info <- list(package = c(wrapper = package_wrapper, package = package), ver = c(wrapper = ver_wrapper, package = ver), type = type)
   class(model_info) <- "model_info"
   model_info
@@ -232,3 +200,10 @@ print.model_info <- function(x, ...) {
   cat(paste("Task type:", x$type))
 }
 
+get_pkg_ver_safe <- function(package) {
+  ver <- try(as.character(utils::packageVersion(package)), silent = TRUE)
+  if (class(ver) == "try-error") {
+    ver <- "Unknown"
+  }
+  ver
+}

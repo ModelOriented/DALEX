@@ -76,6 +76,15 @@ test_that("predict and residual functions", {
 
 })
 
+test_that("Checks tests", {
+  expect_error(explain(model_classif_ranger, y = titanic_imputed$survived), NA)
+  expect_error(explain(model_classif_ranger, weights = rep(1, times=nrow(titanic_imputed))), NA)
+  expect_error(explain(model_classif_ranger, data = titanic_imputed, y = titanic_imputed$survived, predict_function = "function"), NA)
+  expect_error(explain(model_classif_ranger, data = titanic_imputed, y = titanic_imputed$survived, residual_function = "function"), NA)
+  expect_error(explain(model_classif_ranger, data = titanic_imputed, y = titanic_imputed$survived, label = list(test = "label")), NA)
+})
+
+
 test_that("Suppressing output does not cause erros", {
   expect_error(explain(model_regr_lm, colorize = FALSE, verbose = FALSE, precalculate = FALSE), NA)
   expect_error(explain(model_regr_lm, colorize = FALSE), NA)
