@@ -4,7 +4,7 @@
 #' Find information how to use this function here: \url{https://pbiecek.github.io/PM_VEE/featureImportance.html}.
 #'
 #' @param explainer a model to be explained, preprocessed by the 'explain' function
-#' @param loss_function a function thet will be used to assess variable importance
+#' @param loss_function a function that will be used to assess variable importance
 #' @param ... other parameters
 #' @param type character, type of transformation that should be applied for dropout loss. 'raw' results raw drop lossess, 'ratio' returns \code{drop_loss/drop_loss_full_model} while 'difference' returns \code{drop_loss - drop_loss_full_model}
 #' @param n_sample number of observations that should be sampled for calculation of variable importance. If negative then variable importance will be calculated on whole dataset (no sampling).
