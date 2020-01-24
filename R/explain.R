@@ -206,9 +206,6 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
       verbose_cat("  -> predict function  : yhat.default will be used (",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
     } else {
       verbose_cat("  -> predict function  : ",matching_yhat[1]," will be used (",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
-      if (model_info$type == "classification") {
-        verbose_cat("  -> predict function  : ",matching_yhat[1]," may treat 1st class as significant in case of multilabel target. (",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
-      }
     }
   } else {
     if (!"function" %in% class(predict_function)) {
