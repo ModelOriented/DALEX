@@ -64,14 +64,14 @@
 #' aps_lm <- explain(aps_lm_model4, data = apartments, label = "model_4v", y = apartments$m2.price,
 #'                                    predict_function = predict)
 #' # set model_info
-#' model_info <- list(package = "stats", ver = "3.6.1", type = "regression")
+#' model_info <- list(package = "stats", ver = "3.6.2", type = "regression")
 #' aps_lm_model4 <- lm(m2.price ~., data = apartments)
 #' aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, label = "model_4v",
 #'                              model_info = model_info)
 #'
 #' \dontrun{
 #' # set model_info
-#' model_info <- list(package = "stats", ver = "3.6.1", type = "regression")
+#' model_info <- list(package = "stats", ver = "3.6.2", type = "regression")
 #' aps_lm_model4 <- lm(m2.price ~., data = apartments)
 #' aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, label = "model_4v",
 #'                              model_info = model_info)
@@ -80,13 +80,13 @@
 #'                              weights = as.numeric(apartments$construction.year > 2000))
 #'
 #' # more complex model
-#' library("randomForest")
-#' aps_rf_model4 <- randomForest(m2.price ~., data = apartments)
-#' aps_rf_explainer4 <- explain(aps_rf_model4, data = apartments, label = "model_rf")
-#' aps_rf_explainer4
+#' library("ranger")
+#' aps_ranger_model4 <- ranger(m2.price ~., data = apartments, num.trees = 50)
+#' aps_ranger_explainer4 <- explain(aps_ranger_model4, data = apartments, label = "model_ranger")
+#' aps_ranger_explainer4
 #'  }
 #'
-#' @export
+
 explain.default <- function(model, data = NULL, y = NULL, predict_function = NULL,
                             residual_function = NULL, weights = NULL, ...,
                             label = NULL, verbose = TRUE, precalculate = TRUE,
@@ -108,22 +108,27 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     label <- tail(class(model), 1)
     verbose_cat("  -> model label       : ", label, " (",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
   } else {
+    if (!is.character(label)) {
+      label <- substr(as.character(label), 1 , 15)
+      verbose_cat("  -> model label       : 'label' was not a string class object. Converted. (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
+    }
     verbose_cat("  -> model label       : ", label, "\n", verbose = verbose)
   }
 
   # REPORT: checks for data
   if (is.null(data)) {
-    # data not specified
-    # try to extract something
+    n <- 0
     possible_data <- try(model.frame(model), silent = TRUE)
     if (class(possible_data) != "try-error") {
       data <- possible_data
-      verbose_cat("  -> data              : ", nrow(data), " rows ", ncol(data), " cols (\033[33mextracted from the model\033[39m)\n", verbose = verbose)
+      n <- nrow(data)
+      verbose_cat("  -> data              : ", n, " rows ", ncol(data), " cols", color_codes$yellow_start, "extracted from the model", color_codes$yellow_end, "\n", verbose = verbose)
     } else {
       verbose_cat("  -> no data avaliable! (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
     }
   } else {
-    verbose_cat("  -> data              : ", nrow(data), " rows ", ncol(data), " cols \n", verbose = verbose)
+    n <- nrow(data)
+    verbose_cat("  -> data              : ", n, " rows ", ncol(data), " cols \n", verbose = verbose)
   }
   # as for issue #15, if data is in the tibble format then needs to be translated to data.frame
   if ("tbl" %in% class(data)) {
@@ -131,17 +136,21 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     verbose_cat("  -> data              :  tibbble converted into a data.frame \n", verbose = verbose)
   }
 
-  # REPORT: checks for y
+  # REPORT: checks for y present while data is NULL
   if (is.null(y)) {
     # y not specified
     verbose_cat("  -> target variable   :  not specified! (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
   } else {
+    if (is.null(data)) {
+      verbose_cat("  -> target variable   :  'y' present while data is NULL. (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
+
+    }
     if (is.data.frame(y)) {
       y <- unlist(y, use.names = FALSE)
       verbose_cat("  -> target variable   :  Argument 'y' was a data frame. Converted to a vector. (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
     }
     verbose_cat("  -> target variable   : ", length(y), " values \n", verbose = verbose)
-    if (length(y) != nrow(data)) {
+    if (length(y) != n) {
       verbose_cat("  -> target variable   :  length of 'y' is different than number of rows in 'data' (",color_codes$red_start,"WARNING",color_codes$red_end,") \n", verbose = verbose)
     }
     if ((is.factor(y) | is.character(y))) {
@@ -150,9 +159,11 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
       verbose_cat("  -> target variable   :  Otherwise I will not be able to calculate residuals or loss function.\n", verbose = verbose)
     }
 
-    if (!is.null(data) & is_y_in_data(data, y)) {
-      verbose_cat("  -> data              :  A column identical to the target variable `y` has been found in the `data`.  (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
-      verbose_cat("  -> data              :  It is highly recommended to pass `data` without the target variable column\n", verbose = verbose)
+    if (!is.null(data)) {
+      if (is_y_in_data(data, y)) {
+        verbose_cat("  -> data              :  A column identical to the target variable `y` has been found in the `data`.  (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
+        verbose_cat("  -> data              :  It is highly recommended to pass `data` without the target variable column\n", verbose = verbose)
+      }
     }
   }
 
@@ -161,14 +172,25 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     # weights not specified
     # do nothing
   } else {
+    if (is.null(data)) {
+      verbose_cat("  -> sampling weights  :  'weights' present while data is NULL. (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
+    }
     if (is.data.frame(weights)) {
       weights <- unlist(weights, use.names = FALSE)
       verbose_cat("  -> sampling weights  :  Argument 'weights' was a data frame. Converted to a vector. (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
     }
     verbose_cat("  -> sampling weights  : ", length(weights), " values (",color_codes$yellow_start,"note that not all explanations handle weights",color_codes$yellow_end,")\n", verbose = verbose)
-    if (length(weights) != nrow(data)) {
+    if (length(weights) != n) {
       verbose_cat("  -> sampling weights  :  length of 'weights' is different than number of rows in 'data' (",color_codes$red_start,"WARNING",color_codes$red_end,") \n", verbose = verbose)
     }
+  }
+
+  if (is.null(model_info)) {
+    # extract defaults
+    model_info <- model_info(model)
+    verbose_cat("  -> model_info        :  package", model_info$package[1], ", ver.", model_info$ver[1], ", task", model_info$type, "(", color_codes$yellow_start,"default",color_codes$yellow_end, ")", "\n", verbose = verbose)
+  } else {
+    verbose_cat("  -> model_info        :  package", model_info$package[1], ", ver.", model_info$ver[1], ", task", model_info$type, "\n", verbose = verbose)
   }
 
   # REPORT: checks for predict_function
@@ -186,6 +208,10 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
       verbose_cat("  -> predict function  : ",matching_yhat[1]," will be used (",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
     }
   } else {
+    if (!"function" %in% class(predict_function)) {
+      verbose_cat("  -> predict function  : 'predict_function' is not a 'function' class object! (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
+
+    }
     verbose_cat("  -> predict function  : ", deparse(substitute(predict_function)), "\n", verbose = verbose)
   }
   # if data is specified then we may test predict_function
@@ -215,6 +241,10 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
       verbose_cat("  -> residual function :  difference between y and yhat (",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
     }
   } else {
+    if (!"function" %in% class(residual_function)) {
+      verbose_cat("  -> residual function : 'residual_function' is not a 'function' class object! (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
+
+    }
     verbose_cat("  -> residual function : ", deparse(substitute(residual_function)), "\n", verbose = verbose)
   }
   # if data is specified then we may test residual_function
@@ -232,14 +262,6 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
       }
     }
   }
-  if (is.null(model_info)) {
-    # extract defaults
-    model_info <- model_info(model)
-    verbose_cat("  -> model_info        :  package", model_info$package[1], ", ver.", model_info$ver[1], ", task", model_info$type, "(", color_codes$yellow_start,"default",color_codes$yellow_end, ")", "\n", verbose = verbose)
-  } else {
-    verbose_cat("  -> model_info        :  package", model_info$package[1], ", ver.", model_info$ver[1], ", task", model_info$type, "\n", verbose = verbose)
-  }
-
   # READY to create an explainer
 
   explainer <- list(model = model,

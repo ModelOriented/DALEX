@@ -22,10 +22,13 @@ aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, y = apartments$m2
 aps_lm_explainer4
 
  \dontrun{
-library("randomForest")
-HR_rf_model4 <- randomForest(as.factor(status == "fired")~., data = HR, ntree = 100)
-HR_rf_explainer4 <- explain(HR_rf_model4, data = HR, label = "model_rf")
-HR_rf_explainer4
+library("ranger")
+titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 50,
+                               probability = TRUE)
+explainer_ranger  <- explain(titanic_ranger_model, data = titanic_imputed[,-8],
+                             y = titanic_imputed$survived,
+                             label = "model_ranger")
+explainer_ranger
  }
 
 }

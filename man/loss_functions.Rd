@@ -35,8 +35,13 @@ Calculate Loss Functions
 }
 \examples{
  \dontrun{
-library("randomForest")
-HR_rf_model <- randomForest(as.factor(status == "fired")~., data = HR, ntree = 100)
-loss_sum_of_squares(as.numeric(HR$status == "fired"), yhat(HR_rf_model))
+library("ranger")
+titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 50,
+                               probability = TRUE)
+loss_one_minus_auc(titanic_imputed$survived, yhat(titanic_ranger_model, titanic_imputed))
+
+HR_ranger_model_multi <- ranger(status~., data = HR, num.trees = 50, probability = TRUE)
+loss_cross_entropy(as.numeric(HR$status), yhat(HR_ranger_model_multi, HR))
+
  }
 }

@@ -4,26 +4,78 @@ assign("message_prediction_breakdown", value = TRUE, envir = DALEX:::.DALEX.env)
 assign("message_partial_dependency", value = TRUE, envir = DALEX:::.DALEX.env)
 assign("message_accumulated_dependency", value = TRUE, envir = DALEX:::.DALEX.env)
 
-library(randomForest)
+library("ranger")
+library("DALEX")
 
 # models
 model_classif_glm <- glm(status == "fired"~., data = HR, family = "binomial")
-suppressWarnings(model_classif_rf <- randomForest::randomForest(status == "fired"~., data = HR, ntree = 50))
-model_regr_rf <- randomForest::randomForest(m2.price~., data = apartments, ntree = 50)
+model_classif_ranger <- ranger(survived~., data = titanic_imputed, num.trees = 50, probability = TRUE)
+model_regr_ranger <- ranger(m2.price~., data = apartments, num.trees = 50)
 model_regr_lm <- lm(m2.price~., data = apartments)
-library("gbm")
-gbm1 <- gbm(m2.price ~ ., data = apartments, distribution = "gaussian")
-gbm2 <- gbm(survived~., data = titanic_imputed, distribution = "bernoulli")
+model_multiclassif_ranger <- ranger(status~., data = HR, num.trees = 50)
+model_multiclassif_ranger_prob <- ranger(status~., data = HR, num.trees = 50, probability = TRUE)
 
 # explain()
-p_fun_rf <- function(model, x) predict(model, x)
+p_fun_ranger <- function(model, x) predict(model, x)$predictions
 p_fun_glm <- function(model, x) predict(model, x, type = "response")
-explainer_classif_rf  <- explain(model_classif_rf, data = HR, predict_function = p_fun_rf)
-explainer_classif_glm  <- explain(model_classif_glm, data = HR, predict_function = p_fun_glm)
-explainer_regr_rf <- explain(model_regr_rf, data = apartments_test[1:1000, ], y = apartments_test$m2.price[1:1000])
-explainer_regr_rf_wo_y <- explain(model_regr_rf, data = apartments_test[1:1000, ])
-explainer_regr_lm <- explain(model_regr_lm, data = apartments_test[1:1000, ], y = apartments_test$m2.price[1:1000])
-explainer_wo_data  <- explain(model_classif_rf, data = NULL)
 
+# predict.*** functions are masking the external model specific predict function for tests purpose.
+
+predict.randomForest <- function(X.model, newdata, type) {
+  if (X.model$type == "classification") {
+    pred <- data.frame(rep(0.5, times = nrow(newdata)), rep(0.5, times = nrow(newdata)))
+  } else {
+    pred <- rep(1, times = nrow(newdata))
+  }
+  pred
+}
+
+predict.svm <- function(X.model, newdata, ...) {
+  if (X.model$type == 0) {
+    pred <- list(1)
+    attr(pred, "probabilities") <- data.frame(rep(0.5, times = nrow(newdata)), rep(0.5, times = nrow(newdata)))
+  } else {
+    pred <- rep(1, times = nrow(newdata))
+  }
+  pred
+}
+
+predict.gbm <- function(X.model, newdata, ...) {
+  rep(0.14, times = nrow(newdata))
+}
+
+predict.glmnet <- predict.cv.glmnet <- function(X.model, newdata, ...) {
+  rep(0.14, times = nrow(newdata))
+}
+
+predict.model_fit <- function(X.model, newdata, ...) {
+  if (X.model$spec$mode == "classification") {
+    response <- data.frame(rep(0.5, times = nrow(newdata)), rep(0.5, times = nrow(newdata)))
+  }
+  if (X.model$spec$mode == "regression") {
+    response <- list(a = 1)
+    response$.pred <- rep(0.5, times = nrow(newdata))
+  }
+  response
+}
+
+predict.train <- function(X.model, newdata, type, ...) {
+  if (X.model$modelType == "Classification") {
+    response <- data.frame(rep(0.5, times = nrow(newdata)), rep(0.5, times = nrow(newdata)))
+  }
+  if (X.model$modelType == "Regression") {
+    response <- rep(0.5, times = nrow(newdata))
+
+  }
+  response
+}
+
+
+explainer_classif_ranger  <- explain(model_classif_ranger, data = titanic_imputed, y = titanic_imputed$survived)
+explainer_classif_glm  <- explain(model_classif_glm, data = HR, predict_function = p_fun_glm)
+explainer_regr_ranger <- explain(model_regr_ranger, data = apartments_test[1:1000, ], y = apartments_test$m2.price[1:1000])
+explainer_regr_ranger_wo_y <- explain(model_regr_ranger, data = apartments_test[1:1000, ])
+explainer_regr_lm <- explain(model_regr_lm, data = apartments_test[1:1000, ], y = apartments_test$m2.price[1:1000])
+explainer_wo_data  <- explain(model_classif_ranger, data = NULL)
 
 

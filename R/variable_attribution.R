@@ -32,35 +32,17 @@
 #' plot(dragon_lm_predict4)
 #'
 #' \dontrun{
-#' library("randomForest")
-#' dragon_rf_model4 <- randomForest(life_length ~ year_of_birth + height +
+#' library("ranger")
+#' dragon_ranger_model4 <- ranger(life_length ~ year_of_birth + height +
 #'                                                weight + scars + number_of_lost_teeth,
-#'                                  data = dragons)
-#' dragon_rf_explainer4 <- explain(dragon_rf_model4, data = dragons, y = dragons$year_of_birth,
-#'                                 label = "model_rf")
-#' dragon_rf_predict4 <- variable_attribution_break_down(dragon_rf_explainer4,
-#'                 new_observation = new_dragon)
-#' head(dragon_rf_predict4)
-#' plot(dragon_rf_predict4)
-#'
-#' library("gbm")
-#' # create a gbm model
-#' model <- gbm(life_length ~ year_of_birth + height + weight + scars +
-#'                            number_of_lost_teeth, data = dragons,
-#'              distribution = "gaussian",
-#'              n.trees = 1000,
-#'              interaction.depth = 4,
-#'              shrinkage = 0.01,
-#'              n.minobsinnode = 10,
-#'              verbose = FALSE)
-#'  # make an explainer for the model
-#'  explainer_gbm <- explain(model, data = dragons, predict_function =
-#'          function(model, x) predict(model, x, n.trees = 1000))
-#'  # create a new observation
-#'  exp_sgn <- variable_attribution_break_down(explainer_gbm, new_observation = new_dragon)
-#'  head(exp_sgn)
-#'  plot(exp_sgn)
-#'  }
+#'                                  data = dragons, num.trees = 50)
+#' dragon_ranger_explainer4 <- explain(dragon_ranger_model4, data = dragons, y = dragons$year_of_birth,
+#'                                 label = "model_ranger")
+#' dragon_ranger_predict4 <- variable_attribution_break_down(dragon_ranger_explainer4,
+#'                                                           new_observation = new_dragon)
+#' head(dragon_ranger_predict4)
+#' plot(dragon_ranger_predict4)
+#'}
 #'
 #' @name variable_attribution
 #' @export

@@ -26,8 +26,7 @@ Suggests:
   ingredients,
   iBreakDown,
   ggpubr,
-  gbm,
-  randomForest,
+  ranger,
   testthat
 URL: https://ModelOriented.github.io/DALEX/, https://github.com/ModelOriented/DALEX
 BugReports: https://github.com/ModelOriented/DALEX/issues
