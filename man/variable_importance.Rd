@@ -16,7 +16,7 @@ variable_importance(
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the 'explain' function}
 
-\item{loss_function}{a function thet will be used to assess variable importance}
+\item{loss_function}{a function that will be used to assess variable importance}
 
 \item{...}{other parameters}
 

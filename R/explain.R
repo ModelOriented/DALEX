@@ -273,6 +273,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
                     class = class(model),
                     label = label,
                     model_info = model_info,
+                    residual_function = residual_function,
                     weights = weights)
   explainer <- c(explainer, list(...))
   class(explainer) <- "explainer"

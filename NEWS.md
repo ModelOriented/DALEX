@@ -7,6 +7,7 @@ DALEX 1.0
 * updated `model_performance`  ([#130](https://github.com/ModelOriented/DALEX/issues/130)).
 * added `yhat` for `lrm` models from `rms` package
 * `theme_drwhy` has now left aligned title and subtitle.
+* `residuals_distribution` calculates now diagnostic plots based on residuals ([#143](https://github.com/ModelOriented/DALEX/issues/143)).
 
 DALEX 0.4.9
 ----------------------------------------------------------------
