@@ -104,6 +104,8 @@ yhat.ranger <- function(X.model, newdata, ...) {
   } else {
     # please note, that probability=TRUE should be set during training
     pred <- predict(X.model, newdata, ..., probability = TRUE)$predictions
+    # if newdata has only one row then the vector needs to be transformed into a matrix
+    if (nrow(newdata) == 1) pred <- matrix(pred, nrow = 1)
     if (ncol(pred) == 2) { # binary classification
       pred <- pred[,2]
     }

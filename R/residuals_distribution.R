@@ -19,7 +19,6 @@
 #'
 #' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
 #' @export
-#' @importFrom gower gower_dist
 #' @importFrom stats ks.test
 #' @examples
 #' titanic_glm_model <- glm(survived~., data = titanic_imputed, family = "binomial")
@@ -47,7 +46,7 @@ residuals_distribution <-  function(explainer, new_observation, variables = NULL
     df2 <- data.frame(as.data.frame(-table(cut(residuals_all, cut_points))/length(residuals_all)), direction = "all")
     df <- rbind(df1, df2)
 
-    pl <- ggplot(df, aes(Var1, Freq, fill = direction)) +
+    pl <- ggplot(df, aes_string("Var1", "Freq", fill = "direction")) +
       geom_col() +
       scale_y_continuous("") +
       scale_x_discrete("residuals", labels = as.character(cut_points)) +
@@ -57,6 +56,7 @@ residuals_distribution <-  function(explainer, new_observation, variables = NULL
               paste0("Difference between distributions: D ", signif(test.res$statistic, 3),
                      " p.value ", signif(test.res$p.value, 3)))
   } else {
+    # TODO
 
   }
   pl
