@@ -83,7 +83,7 @@ are stored" />
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.9.1</span>
+          <span class="version version-default">0.9.3</span>
         </div>
       </div>
     </div>
@@ -211,9 +211,10 @@ are stored</p>
 <span class='fu'>model_info</span>(<span class='no'>aps_lm_model4</span>)</div><div class='output co'>#&gt; Package: stats 
 #&gt; Package version: 3.6.1 
 #&gt; Task type: regression</div><div class='input'>
-<span class='no'>model_regr_rf</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>randomForest</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='no'>m2.price</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>50</span>)
-<span class='fu'>model_info</span>(<span class='no'>model_regr_rf</span>)</div><div class='output co'>#&gt; Package: randomForest 
-#&gt; Package version: 4.6.14 
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
+<span class='no'>model_regr_rf</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>ranger</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>m2.price</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>50</span>)
+<span class='fu'>model_info</span>(<span class='no'>model_regr_rf</span>)</div><div class='output co'>#&gt; Package: ranger 
+#&gt; Package version: 0.11.2 
 #&gt; Task type: regression</div><div class='input'>
 </div></pre>
   </div>
