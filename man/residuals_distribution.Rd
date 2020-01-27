@@ -10,14 +10,14 @@ residuals_distribution(
   variables = NULL,
   ...,
   nbins = 20,
-  neighbours = 50,
+  neighbors = 50,
   distance = gower::gower_dist
 )
 }
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the 'explain' function}
 
-\item{new_observation}{a new observarvation for which predictions need to be explained}
+\item{new_observation}{a new observation for which predictions need to be explained}
 
 \item{variables}{character - name of variables to be explained}
 
@@ -25,7 +25,7 @@ residuals_distribution(
 
 \item{nbins}{number of bins for the histogram. By default 20}
 
-\item{neighbours}{number of neighbours for histogram. By default 50.}
+\item{neighbors}{number of neighbors for histogram. By default 50.}
 
 \item{distance}{the distance function, by default the \code{gower_dist()} function.}
 }
@@ -35,13 +35,31 @@ It's a data frame with calculated distribution of residuals.
 }
 \description{
 This function performs local diagnostic of residuals.
-For a single instance its neighbours are identified in the validation data.
-Residuals are calculated for neighbours and plotted agains residuals for all data.
+For a single instance its neighbors are identified in the validation data.
+Residuals are calculated for neighbors and plotted against residuals for all data.
 Find information how to use this function here: \url{https://pbiecek.github.io/ema/localDiagnostics.html}.
 }
 \examples{
-titanic_glm_model <- glm(survived~., data = titanic_imputed, family = "binomial")
-explainer_glm <- explain(titanic_glm_model, data = titanic_imputed)
+library("ranger")
+titanic_glm_model <- ranger(survived ~ gender + age + class + fare + sibsp + parch,
+                     data = titanic_imputed)
+explainer_glm <- explain(titanic_glm_model,
+                         data = titanic_imputed,
+                         y = titanic_imputed$survived)
+johny_d <- titanic_imputed[24, c("gender", "age", "class", "fare", "sibsp", "parch")]
+
+\dontrun{
+residuals_distribution(explainer_glm, johny_d, variables = NULL)
+
+residuals_distribution(explainer_glm, johny_d,
+                       neighbors = 10,
+                       variables = c("age", "fare"))
+
+residuals_distribution(explainer_glm,
+                       johny_d,
+                       neighbors = 10,
+                       variables = c("class", "gender"))
+}
 
 }
 \references{

@@ -15,6 +15,7 @@ reference:
     - model_prediction
     - variable_attribution
     - variable_profile
+    - residuals_distribution
   - title: Dataset Level Explanations
     desc: Functions that generate and plot dataset/global level explanations from model explainers
     contents:
@@ -31,7 +32,7 @@ reference:
     - loss_accuracy
     - loss_root_mean_square
     - loss_sum_of_squares
-  - title: Shared functions
+  - title: Supplementary functions
     desc: Shared functions for packages from the DrWhy.AI universe
     contents:
     - update_label

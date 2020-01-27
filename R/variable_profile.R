@@ -54,7 +54,7 @@ variable_profile <-  function(explainer, new_observation, variables, ...) {
   if (!("explainer" %in% class(explainer))) stop("The variable_profile() function requires an object created with explain() function.")
   if (is.null(explainer$data)) stop("The variable_profile() function requires explainers created with specified 'data' parameter.")
 
-  # call the shap from iBreakDown
+  # call the ceteris_paribus from ingredients
   ingredients::ceteris_paribus(explainer,
                                new_observation = new_observation,
                                variables = variables,

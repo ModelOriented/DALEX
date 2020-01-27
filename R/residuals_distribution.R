@@ -1,18 +1,17 @@
 #' Instance Level Residuals Distribution
 #'
 #' This function performs local diagnostic of residuals.
-#' For a single instance its neighbours are identified in the validation data.
-#' Residuals are calculated for neighbours and plotted agains residuals for all data.
+#' For a single instance its neighbors are identified in the validation data.
+#' Residuals are calculated for neighbors and plotted against residuals for all data.
 #' Find information how to use this function here: \url{https://pbiecek.github.io/ema/localDiagnostics.html}.
 #'
 #' @param explainer a model to be explained, preprocessed by the 'explain' function
-#' @param new_observation a new observarvation for which predictions need to be explained
+#' @param new_observation a new observation for which predictions need to be explained
 #' @param variables character - name of variables to be explained
 #' @param ... other parameters
 #' @param nbins number of bins for the histogram. By default 20
-#' @param neighbours number of neighbours for histogram. By default 50.
+#' @param neighbors number of neighbors for histogram. By default 50.
 #' @param distance the distance function, by default the \code{gower_dist()} function.
-#'
 #'
 #' @return An object of the class 'residuals_distribution_explainer'.
 #' It's a data frame with calculated distribution of residuals.
@@ -20,18 +19,36 @@
 #' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
 #' @export
 #' @importFrom stats ks.test
+#' @importFrom graphics plot
 #' @examples
-#' titanic_glm_model <- glm(survived~., data = titanic_imputed, family = "binomial")
-#' explainer_glm <- explain(titanic_glm_model, data = titanic_imputed)
+#' library("ranger")
+#' titanic_glm_model <- ranger(survived ~ gender + age + class + fare + sibsp + parch,
+#'                      data = titanic_imputed)
+#' explainer_glm <- explain(titanic_glm_model,
+#'                          data = titanic_imputed,
+#'                          y = titanic_imputed$survived)
+#' johny_d <- titanic_imputed[24, c("gender", "age", "class", "fare", "sibsp", "parch")]
 #'
-
+#' \dontrun{
+#' residuals_distribution(explainer_glm, johny_d, variables = NULL)
+#'
+#' residuals_distribution(explainer_glm, johny_d,
+#'                        neighbors = 10,
+#'                        variables = c("age", "fare"))
+#'
+#' residuals_distribution(explainer_glm,
+#'                        johny_d,
+#'                        neighbors = 10,
+#'                        variables = c("class", "gender"))
+#'}
+#'
 #' @name residuals_distribution
 #' @export
-residuals_distribution <-  function(explainer, new_observation, variables = NULL, ..., nbins = 20, neighbours = 50, distance = gower::gower_dist) {
+residuals_distribution <-  function(explainer, new_observation, variables = NULL, ..., nbins = 20, neighbors = 50, distance = gower::gower_dist) {
   if (nrow(new_observation) != 1) stop("The residuals_distribution() function 'new_observation' with a single row.")
   if (is.null(explainer$data)) stop("The explainer needs to have the 'data' slot.")
 
-  neighbours_id <- select_neighbours_id(new_observation, explainer$data, n = neighbours, distance = distance)
+  neighbours_id <- select_neighbours_id(new_observation, explainer$data, n = neighbors, distance = distance)
 
 
   # if variables = NULL then histograms with distribution of residuals are compared against each other
@@ -56,9 +73,23 @@ residuals_distribution <-  function(explainer, new_observation, variables = NULL
               paste0("Difference between distributions: D ", signif(test.res$statistic, 3),
                      " p.value ", signif(test.res$p.value, 3)))
   } else {
-    # TODO
-
+    # if variables is not null then we need to plot either categorical or continouse fidelity plot
+    cp_neighbors <- ingredients::ceteris_paribus(explainer,
+                                                 new_observation = explainer$data[neighbours_id, ],
+                                                 y = explainer$y[neighbours_id],
+                                                 variables = variables,
+                                                 ...)
+    cp_new_instance <- ingredients::ceteris_paribus(explainer,
+                                                 new_observation = new_observation,
+                                                 variables = variables,
+                                                 ...)
+    pl <- plot(cp_neighbors, color = '#ceced9') +
+      ingredients::show_residuals(cp_neighbors, variables = variables) +
+      ingredients::show_observations(cp_new_instance, variables = variables, size = 5) +
+      ingredients::show_profiles(cp_new_instance, variables = variables, size = 2) +
+      ggtitle("Local stability plot")
   }
+  attr(pl, "neighbours_id") <- neighbours_id
   pl
 }
 
