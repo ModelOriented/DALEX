@@ -30,7 +30,7 @@ It's a data frame with calculated average response.
 }
 \description{
 From DALEX version 1.0 this function calls the \code{\link[ingredients]{feature_importance}}
-Find information how to use this function here: \url{https://pbiecek.github.io/PM_VEE/featureImportance.html}.
+Find information how to use this function here: \url{https://pbiecek.github.io/ema/featureImportance.html}.
 }
 \examples{
  \dontrun{
@@ -56,5 +56,5 @@ plot(vi_glm)
 
 }
 \references{
-Predictive Models: Explore, Explain, and Debug. Human-Centered Interpretable Machine Learning \url{https://pbiecek.github.io/PM_VEE/}
+Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
 }

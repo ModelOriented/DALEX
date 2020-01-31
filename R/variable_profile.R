@@ -1,7 +1,7 @@
 #' Instance Level Variable Effect as Ceteris Paribus Profile
 #'
 #' From DALEX version 1.0 this function calls the \code{\link[ingredients]{ceteris_paribus}} from the \code{ingredients} package.
-#' Find information how to use this function here: \url{https://pbiecek.github.io/PM_VEE/ceterisParibus.html}.
+#' Find information how to use this function here: \url{https://pbiecek.github.io/ema/ceterisParibus.html}.
 #'
 #' @param explainer a model to be explained, preprocessed by the 'explain' function
 #' @param new_observation a new observarvation for which predictions need to be explained
@@ -11,7 +11,7 @@
 #' @return An object of the class 'ceteris_paribus_explainer'.
 #' It's a data frame with calculated average response.
 #'
-#' @references Predictive Models: Explore, Explain, and Debug. Human-Centered Interpretable Machine Learning \url{https://pbiecek.github.io/PM_VEE/}
+#' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
 #' @export
 #'
 #' @examples

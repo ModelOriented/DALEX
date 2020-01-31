@@ -21,7 +21,7 @@ It's a data frame with calculated average response.
 }
 \description{
 From DALEX version 1.0 this function calls the \code{\link[ingredients]{ceteris_paribus}} from the \code{ingredients} package.
-Find information how to use this function here: \url{https://pbiecek.github.io/PM_VEE/ceterisParibus.html}.
+Find information how to use this function here: \url{https://pbiecek.github.io/ema/ceterisParibus.html}.
 }
 \examples{
 new_dragon <- data.frame(year_of_birth = 200,
@@ -57,5 +57,5 @@ plot(dragon_ranger_predict4)
 
 }
 \references{
-Predictive Models: Explore, Explain, and Debug. Human-Centered Interpretable Machine Learning \url{https://pbiecek.github.io/PM_VEE/}
+Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
 }
