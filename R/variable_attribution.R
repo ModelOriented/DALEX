@@ -7,7 +7,7 @@
 #' @param explainer a model to be explained, preprocessed by the 'explain' function
 #' @param new_observation a new observarvation for which predictions need to be explained
 #' @param ... other parameters that will be passed to \code{iBreakDown::break_down}
-#' @param type the type of variable attributions. Either 'shap', 'break_down' or 'ibreak_down'.
+#' @param type the type of variable attributions. Either 'shap', 'break_down' or 'break_down_interactions'.
 #'
 #' @return An object of the class 'single_prediction_explainer'.
 #' It's a data frame with calculated average response.
@@ -49,9 +49,9 @@
 variable_attribution <- function(explainer, new_observation, ..., type = "break_down") {
   switch (type,
           "break_down" = variable_attribution_break_down(explainer, new_observation, ...),
-          "ibreak_down" = variable_attribution_ibreak_down(explainer, new_observation, ...),
+          "break_down_interactions" = variable_attribution_break_down_interactions(explainer, new_observation, ...),
           "shap" = variable_attribution_shap(explainer, new_observation, ...),
-          stop("The type argument shall be either 'shap' or 'break_down'")
+          stop("The type argument shall be either 'shap' or 'break_down' or 'break_down_interactions'")
   )
 }
 
@@ -70,10 +70,10 @@ variable_attribution_break_down <- function(explainer, new_observation, ...) {
 
 #' @name variable_attribution
 #' @export
-variable_attribution_ibreak_down <- function(explainer, new_observation, ...) {
+variable_attribution_break_down_interactions <- function(explainer, new_observation, ...) {
   # run checks against the explainer objects
-  if (!("explainer" %in% class(explainer))) stop("The variable_attribution_ibreakdown() function requires an object created with explain() function.")
-  if (is.null(explainer$data)) stop("The variable_attribution_ibreakdown() function requires explainers created with specified 'data' parameter.")
+  if (!("explainer" %in% class(explainer))) stop("The variable_attribution_break_down_interactions() function requires an object created with explain() function.")
+  if (is.null(explainer$data)) stop("The variable_attribution_break_down_interactions() function requires explainers created with specified 'data' parameter.")
 
   # call the break_down
   iBreakDown::break_down(explainer,
