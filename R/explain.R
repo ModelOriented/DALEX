@@ -38,6 +38,7 @@
 #' \item \code{model_info} named list contating basic information about model, like package, version of package and type.
 #' }
 #'
+#' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
 #' @rdname explain
 #' @export
 #' @importFrom stats predict
@@ -224,6 +225,8 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     } else {
       if ((is.factor(y_hat) | is.character(y_hat))) {
         verbose_cat("  -> predicted values  :  factor (",color_codes$red_start,"WARNING",color_codes$red_end,") with levels: ", paste(unique(y_hat), collapse = ", "), "\n", verbose = verbose)
+      } else if (!is.null(dim(y_hat))) {
+        verbose_cat("  -> predicted values  :  data.frame  with dimension: ", dim(y_hat), " (",color_codes$red_start,"WARNING",color_codes$red_end,") some of functionalities may not work \n", verbose = verbose)
       } else {
         verbose_cat("  -> predicted values  :  numerical, min = ", min(y_hat), ", mean = ", mean(y_hat), ", max = ", max(y_hat), " \n", verbose = verbose)
       }

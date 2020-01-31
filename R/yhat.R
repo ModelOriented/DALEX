@@ -117,7 +117,10 @@ yhat.ranger <- function(X.model, newdata, ...) {
 #' @export
 yhat.model_fit <- function(X.model, newdata, ...) {
   if (X.model$spec$mode == "classification") {
-    response <- as.data.frame(predict(X.model, newdata, type = "prob"))[,2]
+    response <- as.data.frame(predict(X.model, newdata, type = "prob"))
+    if (ncol(response) == 2) {
+      response <- response[,2]
+    }
   }
   if (X.model$spec$mode == "regression") {
     pred <- predict(X.model, newdata)
@@ -130,7 +133,10 @@ yhat.model_fit <- function(X.model, newdata, ...) {
 #' @export
 yhat.train <- function(X.model, newdata, ...) {
   if (X.model$modelType == "Classification") {
-    response <- predict(X.model, newdata = newdata, type = "prob")[,2]
+    response <- predict(X.model, newdata = newdata, type = "prob")
+    if (ncol(response) == 2) {
+      response <- response[,2]
+    }
   }
   if (X.model$modelType == "Regression") {
     response <- predict(X.model, newdata = newdata)

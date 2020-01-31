@@ -2,7 +2,7 @@
 #'
 #' From DALEX version 1.0 this function calls the \code{\link[iBreakDown]{break_down}} or
 #' \code{\link[iBreakDown]{shap}} functions from the \code{iBreakDown} package.
-#' Find information how to use this function here: \url{https://pbiecek.github.io/PM_VEE/breakDown.html}.
+#' Find information how to use this function here: \url{https://pbiecek.github.io/ema/breakDown.html}.
 #'
 #' @param explainer a model to be explained, preprocessed by the 'explain' function
 #' @param new_observation a new observarvation for which predictions need to be explained
@@ -13,7 +13,7 @@
 #' It's a data frame with calculated average response.
 #'
 #' @aliases variable_attribution_break_down variable_attribution variable_attribution_ibreak_down variable_attribution_shap
-#' @references Predictive Models: Explore, Explain, and Debug. Human-Centered Interpretable Machine Learning \url{https://pbiecek.github.io/PM_VEE/}
+#' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
 #' @examples
 #' new_dragon <- data.frame(year_of_birth = 200,
 #'      height = 80,
