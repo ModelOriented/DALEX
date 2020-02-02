@@ -37,7 +37,7 @@
 
 <meta property="og:title" content="Instance Level Variable Effect as Ceteris Paribus Profile — variable_profile" />
 <meta property="og:description" content="From DALEX version 1.0 this function calls the ceteris_paribus from the ingredients package.
-Find information how to use this function here: https://pbiecek.github.io/PM_VEE/ceterisParibus.html." />
+Find information how to use this function here: https://pbiecek.github.io/ema/ceterisParibus.html." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -82,7 +82,7 @@ Find information how to use this function here: https://pbiecek.github.io/PM_VEE
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.9.3</span>
+          <span class="version version-default">0.9.4</span>
         </div>
       </div>
     </div>
@@ -104,6 +104,9 @@ Find information how to use this function here: https://pbiecek.github.io/PM_VEE
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/multilabel_classification.html">How to use multilabel classification and DALEX?</a>
+    </li>
     <li>
       <a href="../articles/vignette_titanic.html">Survival on the RMS Titanic</a>
     </li>
@@ -138,10 +141,10 @@ Find information how to use this function here: https://pbiecek.github.io/PM_VEE
 
     <div class="ref-description">
     <p>From DALEX version 1.0 this function calls the <code><a href='https://rdrr.io/pkg/ingredients/man/ceteris_paribus.html'>ceteris_paribus</a></code> from the <code>ingredients</code> package.
-Find information how to use this function here: <a href='https://pbiecek.github.io/PM_VEE/ceterisParibus.html'>https://pbiecek.github.io/PM_VEE/ceterisParibus.html</a>.</p>
+Find information how to use this function here: <a href='https://pbiecek.github.io/ema/ceterisParibus.html'>https://pbiecek.github.io/ema/ceterisParibus.html</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>variable_profile</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='no'>variables</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>variable_profile</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='kw'>variables</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -170,7 +173,7 @@ Find information how to use this function here: <a href='https://pbiecek.github.
 It's a data frame with calculated average response.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Predictive Models: Explore, Explain, and Debug. Human-Centered Interpretable Machine Learning <a href='https://pbiecek.github.io/PM_VEE/'>https://pbiecek.github.io/PM_VEE/</a></p>
+    <p>Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. <a href='https://pbiecek.github.io/ema/'>https://pbiecek.github.io/ema/</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>new_dragon</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>year_of_birth</span> <span class='kw'>=</span> <span class='fl'>200</span>,
@@ -229,20 +232,20 @@ It's a data frame with calculated average response.</p>
 #&gt;   -&gt; target variable   :  2000  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.11.2 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  600.3073 , mean =  1369.351 , max =  3447.177  
+#&gt;   -&gt; predicted values  :  numerical, min =  581.5505 , mean =  1369.063 , max =  3378.231  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -5018.177 , mean =  -1448.889 , max =  1028.315  
+#&gt;   -&gt; residuals         :  numerical, min =  -4921.708 , mean =  -1448.601 , max =  1036.174  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>dragon_ranger_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_profile</span>(<span class='no'>dragon_ranger_explainer4</span>,
                                            <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>,
                                            <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"year_of_birth"</span>, <span class='st'>"height"</span>, <span class='st'>"scars"</span>))
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>dragon_ranger_predict4</span>)</div><div class='output co'>#&gt; Top profiles    : 
 #&gt;     year_of_birth height weight scars number_of_lost_teeth   _yhat_
-#&gt; 1        -1999.00     80   12.5     0                    5 822.8102
-#&gt; 1.1      -1962.02     80   12.5     0                    5 790.8689
-#&gt; 1.2      -1927.02     80   12.5     0                    5 790.8689
-#&gt; 1.3      -1859.54     80   12.5     0                    5 785.8413
-#&gt; 1.4      -1812.00     80   12.5     0                    5 785.8413
-#&gt; 1.5      -1780.00     80   12.5     0                    5 785.8413
+#&gt; 1        -1999.00     80   12.5     0                    5 846.8060
+#&gt; 1.1      -1962.02     80   12.5     0                    5 844.1974
+#&gt; 1.2      -1927.02     80   12.5     0                    5 843.8145
+#&gt; 1.3      -1859.54     80   12.5     0                    5 843.8145
+#&gt; 1.4      -1812.00     80   12.5     0                    5 840.5121
+#&gt; 1.5      -1780.00     80   12.5     0                    5 840.5121
 #&gt;           _vname_ _ids_      _label_
 #&gt; 1   year_of_birth     1 model_ranger
 #&gt; 1.1 year_of_birth     1 model_ranger
@@ -253,8 +256,8 @@ It's a data frame with calculated average response.</p>
 #&gt; 
 #&gt; 
 #&gt; Top observations:
-#&gt;   year_of_birth height weight scars number_of_lost_teeth  _yhat_      _label_
-#&gt; 1           200     80   12.5     0                    5 788.565 model_ranger
+#&gt;   year_of_birth height weight scars number_of_lost_teeth   _yhat_      _label_
+#&gt; 1           200     80   12.5     0                    5 851.6263 model_ranger
 #&gt;   _ids_
 #&gt; 1     1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dragon_ranger_predict4</span>)</div><div class='img'><img src='variable_profile-2.png' alt='' width='700' height='433' /></div><div class='input'> # }
 

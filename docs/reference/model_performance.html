@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate Model Performance — model_performance • DALEX</title>
+<title>Model Performance Measures — model_performance • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -35,8 +35,10 @@
 
 
 
-<meta property="og:title" content="Calculate Model Performance — model_performance" />
-<meta property="og:description" content="Prepare a data frame with model residuals." />
+<meta property="og:title" content="Model Performance Measures — model_performance" />
+<meta property="og:description" content="Function model_performance() calculates various performance measures for classification and regression models.
+For classification models following measures are calculated: F1, accuracy, recall, precision and AUC.
+For regression models following measures are calculated: mean squared error, R squared, median absolute deviation." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -81,7 +83,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.9.3</span>
+          <span class="version version-default">0.9.4</span>
         </div>
       </div>
     </div>
@@ -103,6 +105,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/multilabel_classification.html">How to use multilabel classification and DALEX?</a>
+    </li>
     <li>
       <a href="../articles/vignette_titanic.html">Survival on the RMS Titanic</a>
     </li>
@@ -130,16 +135,18 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate Model Performance</h1>
+    <h1>Model Performance Measures</h1>
     <small class="dont-index">Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/R/model_performance.R'><code>R/model_performance.R</code></a></small>
     <div class="hidden name"><code>model_performance.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Prepare a data frame with model residuals.</p>
+    <p>Function <code>model_performance()</code> calculates various performance measures for classification and regression models.
+For classification models following measures are calculated: F1, accuracy, recall, precision and AUC.
+For regression models following measures are calculated: mean squared error, R squared, median absolute deviation.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>model_performance</span>(<span class='no'>explainer</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>model_performance</span>(<span class='no'>explainer</span>, <span class='no'>...</span>, <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,6 +159,10 @@
       <th>...</th>
       <td><p>other parameters</p></td>
     </tr>
+    <tr>
+      <th>cutoff</th>
+      <td><p>a cutoff for classification models, needed for measures like recall, precision, ACC, F1. By default 0.5.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -159,7 +170,7 @@
     <p>An object of the class <code>model_performance_explainer</code>.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Predictive Models: Visual Exploration, Explanation and Debugging <a href='https://pbiecek.github.io/PM_VEE/'>https://pbiecek.github.io/PM_VEE/</a></p>
+    <p>Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. <a href='https://pbiecek.github.io/ema/'>https://pbiecek.github.io/ema/</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'> <span class='co'># \dontrun{</span>
@@ -194,7 +205,14 @@
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9628583 , mean =  -2.569729e-10 , max =  0.9663346  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>mp_ex_glm</span> <span class='kw'>&lt;-</span> <span class='fu'>model_performance</span>(<span class='no'>explainer_glm</span>)
-<span class='no'>mp_ex_glm</span></div><div class='output co'>#&gt;          0%         10%         20%         30%         40%         50% 
+<span class='no'>mp_ex_glm</span></div><div class='output co'>#&gt; Measures for:  regression
+#&gt; mse      : 0.1475282 
+#&gt; rmse     : 0.384094 
+#&gt; r2       : 0.3244172 
+#&gt; mad      : 0.2085776
+#&gt; 
+#&gt; Residuals:
+#&gt;          0%         10%         20%         30%         40%         50% 
 #&gt; -0.96285832 -0.32240247 -0.23986439 -0.19544185 -0.14842925 -0.11460334 
 #&gt;         60%         70%         80%         90%        100% 
 #&gt; -0.06940964  0.06185475  0.29607060  0.72120412  0.96633458 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_ex_glm</span>)</div><div class='img'><img src='model_performance-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_ex_glm</span>, <span class='no'>mp_ex_rn</span>)</div><div class='img'><img src='model_performance-2.png' alt='' width='700' height='433' /></div><div class='input'>

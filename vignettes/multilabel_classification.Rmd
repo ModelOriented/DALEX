@@ -139,12 +139,13 @@ explain_HR_ranger_residual <- explain(model_HR_ranger,
                               label = "Ranger Multilabel Classification",
                               residual_function = residual_function,
                               colorize = FALSE)
-plot(model_performance(explain_HR_ranger_residual))
 ```
 
 ## model_performance
 
-```{r}
+TODO: this is not implmented for multiclass models
+
+```{r, eval=FALSE}
 mp <- model_performance(explain_HR_ranger_residual)
 plot(mp)
 ```

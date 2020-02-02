@@ -81,7 +81,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.9.3</span>
+          <span class="version version-default">0.9.4</span>
         </div>
       </div>
     </div>
@@ -103,6 +103,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/multilabel_classification.html">How to use multilabel classification and DALEX?</a>
+    </li>
     <li>
       <a href="../articles/vignette_titanic.html">Survival on the RMS Titanic</a>
     </li>
@@ -194,7 +197,7 @@
 #&gt;   -&gt; target variable   :  not specified! ( </span><span style='color: #BB0000;'> WARNING </span><span> )
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.11.2 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.3333333 , max =  0.9985951  
+#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  ( </span><span style='color: #BB0000;'> WARNING </span><span> ) some of functionalities may not work 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>explainer_ranger</span>, <span class='no'>HR</span>[<span class='fl'>1</span>:<span class='fl'>3</span>,])</div><div class='output co'>#&gt;          fired         ok    promoted
 #&gt; [1,] 0.7130313 0.27948712 0.007481569

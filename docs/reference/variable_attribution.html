@@ -38,7 +38,7 @@
 <meta property="og:title" content="Instance Level Variable Attribution as Break Down or SHAP Explanations — variable_attribution" />
 <meta property="og:description" content="From DALEX version 1.0 this function calls the break_down or
 shap functions from the iBreakDown package.
-Find information how to use this function here: https://pbiecek.github.io/PM_VEE/breakDown.html." />
+Find information how to use this function here: https://pbiecek.github.io/ema/breakDown.html." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -83,7 +83,7 @@ Find information how to use this function here: https://pbiecek.github.io/PM_VEE
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.9.3</span>
+          <span class="version version-default">0.9.4</span>
         </div>
       </div>
     </div>
@@ -105,6 +105,9 @@ Find information how to use this function here: https://pbiecek.github.io/PM_VEE
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/multilabel_classification.html">How to use multilabel classification and DALEX?</a>
+    </li>
     <li>
       <a href="../articles/vignette_titanic.html">Survival on the RMS Titanic</a>
     </li>
@@ -140,14 +143,14 @@ Find information how to use this function here: https://pbiecek.github.io/PM_VEE
     <div class="ref-description">
     <p>From DALEX version 1.0 this function calls the <code><a href='https://rdrr.io/pkg/iBreakDown/man/break_down.html'>break_down</a></code> or
 <code><a href='https://rdrr.io/pkg/iBreakDown/man/break_down_uncertainty.html'>shap</a></code> functions from the <code>iBreakDown</code> package.
-Find information how to use this function here: <a href='https://pbiecek.github.io/PM_VEE/breakDown.html'>https://pbiecek.github.io/PM_VEE/breakDown.html</a>.</p>
+Find information how to use this function here: <a href='https://pbiecek.github.io/ema/breakDown.html'>https://pbiecek.github.io/ema/breakDown.html</a>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>variable_attribution</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='no'>...</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"break_down"</span>)
 
 <span class='fu'>variable_attribution_break_down</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='no'>...</span>)
 
-<span class='fu'>variable_attribution_ibreak_down</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='no'>...</span>)
+<span class='fu'>variable_attribution_break_down_interactions</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='no'>...</span>)
 
 <span class='fu'>variable_attribution_shap</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='no'>...</span>)</pre>
 
@@ -168,7 +171,7 @@ Find information how to use this function here: <a href='https://pbiecek.github.
     </tr>
     <tr>
       <th>type</th>
-      <td><p>the type of variable attributions. Either 'shap', 'break_down' or 'ibreak_down'.</p></td>
+      <td><p>the type of variable attributions. Either 'shap', 'break_down' or 'break_down_interactions'.</p></td>
     </tr>
     </table>
 
@@ -178,7 +181,7 @@ Find information how to use this function here: <a href='https://pbiecek.github.
 It's a data frame with calculated average response.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Predictive Models: Explore, Explain, and Debug. Human-Centered Interpretable Machine Learning <a href='https://pbiecek.github.io/PM_VEE/'>https://pbiecek.github.io/PM_VEE/</a></p>
+    <p>Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. <a href='https://pbiecek.github.io/ema/'>https://pbiecek.github.io/ema/</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>new_dragon</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>year_of_birth</span> <span class='kw'>=</span> <span class='fl'>200</span>,
@@ -221,18 +224,18 @@ It's a data frame with calculated average response.</p>
 #&gt;   -&gt; target variable   :  2000  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.11.2 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  575.4154 , mean =  1370.288 , max =  3418.554  
+#&gt;   -&gt; predicted values  :  numerical, min =  591.5096 , mean =  1369.856 , max =  3446.228  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -4989.554 , mean =  -1449.826 , max =  1042.596  
+#&gt;   -&gt; residuals         :  numerical, min =  -4866.684 , mean =  -1449.394 , max =  1047.934  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>dragon_ranger_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_attribution_break_down</span>(<span class='no'>dragon_ranger_explainer4</span>,
                                                           <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>dragon_ranger_predict4</span>)</div><div class='output co'>#&gt;                                        contribution
-#&gt; model_ranger: intercept                    1370.288
-#&gt; model_ranger: scars = 0                    -344.869
-#&gt; model_ranger: number_of_lost_teeth = 5     -304.718
-#&gt; model_ranger: height = 80                   137.060
-#&gt; model_ranger: year_of_birth = 200            13.404
-#&gt; model_ranger: weight = 12                    -7.892</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dragon_ranger_predict4</span>)</div><div class='img'><img src='variable_attribution-2.png' alt='' width='700' height='433' /></div><div class='input'># }
+#&gt; model_ranger: intercept                    1369.856
+#&gt; model_ranger: scars = 0                    -344.621
+#&gt; model_ranger: number_of_lost_teeth = 5     -304.846
+#&gt; model_ranger: height = 80                    78.642
+#&gt; model_ranger: year_of_birth = 200            27.229
+#&gt; model_ranger: weight = 12                     0.097</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dragon_ranger_predict4</span>)</div><div class='img'><img src='variable_attribution-2.png' alt='' width='700' height='433' /></div><div class='input'># }
 
 </div></span></pre>
   </div>

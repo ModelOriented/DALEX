@@ -16,12 +16,16 @@ Print Model Performance Summary
 }
 \examples{
  \dontrun{
-library("randomForest")
-HR_rf_model <- randomForest(status == "fired"~., data = HR, ntree = 100)
-explainer_rf  <- explain(HR_rf_model, data = HR, y = HR$status == "fired")
-mp_ex_rf <- model_performance(explainer_rf)
-mp_ex_rf
-plot(mp_ex_rf)
+library("ranger")
+titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 100,
+                               probability = TRUE)
+# It's a good practice to pass data without target variable
+explainer_ranger  <- explain(titanic_ranger_model, data = titanic_imputed[,-8],
+                             y = titanic_imputed$survived)
+# resulting dataframe has predicted values and residuals
+mp_ex_rn <- model_performance(explainer_ranger)
+mp_ex_rn
+plot(mp_ex_rn)
  }
 
 }

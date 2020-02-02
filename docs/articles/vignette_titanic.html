@@ -42,7 +42,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.9.3</span>
+          <span class="version version-default">0.9.4</span>
         </div>
       </div>
     </div>
@@ -65,6 +65,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/multilabel_classification.html">How to use multilabel classification and DALEX?</a>
+    </li>
+    <li>
       <a href="../articles/vignette_titanic.html">Survival on the RMS Titanic</a>
     </li>
   </ul>
@@ -94,7 +97,7 @@
       <h1>Survival on the RMS Titanic</h1>
                         <h4 class="author">Przemyslaw Biecek</h4>
             
-            <h4 class="date">2020-01-27</h4>
+            <h4 class="date">2020-02-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/DALEX/blob/master/vignettes/vignette_titanic.Rmd"><code>vignettes/vignette_titanic.Rmd</code></a></small>
       <div class="hidden name"><code>vignette_titanic.Rmd</code></div>
@@ -134,8 +137,8 @@
 #&gt;                      Number of trees: 500
 #&gt; No. of variables tried at each split: 2
 #&gt; 
-#&gt;           Mean of squared residuals: 0.1431049
-#&gt;                     % Var explained: 34.71</code></pre>
+#&gt;           Mean of squared residuals: 0.1429127
+#&gt;                     % Var explained: 34.8</code></pre>
 </div>
 <div id="explainer-for-titanic-survival" class="section level1">
 <h1 class="hasAnchor">
@@ -153,9 +156,9 @@
 #&gt;   -&gt; target variable   :  2099  values 
 #&gt;   -&gt; model_info        :  package randomForest , ver. 4.6.14 , task regression (  default  ) 
 #&gt;   -&gt; predict function  :  yhat.randomForest  will be used (  default  )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.007247759 , mean =  0.3241835 , max =  0.9907505  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.006575527 , mean =  0.3242657 , max =  0.9917184  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7806523 , mean =  0.0002567434 , max =  0.9004663  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.782763 , mean =  0.0001744742 , max =  0.9037069  
 #&gt;   A new explainer has been created!</code></pre>
 </div>
 <div id="variable-importance-plots" class="section level1">
@@ -165,12 +168,12 @@
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">vi_rf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_importance.html">variable_importance</a></span>(explain_titanic_rf)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(vi_rf)</a></code></pre></div>
 <pre><code>#&gt;       variable mean_dropout_loss            label
-#&gt; 1 _full_model_          112.4905 Random Forest v7
-#&gt; 2      country          112.4905 Random Forest v7
-#&gt; 3        parch          120.0366 Random Forest v7
-#&gt; 4        sibsp          120.5948 Random Forest v7
-#&gt; 5     embarked          123.8374 Random Forest v7
-#&gt; 6         fare          141.5272 Random Forest v7</code></pre>
+#&gt; 1 _full_model_          113.9533 Random Forest v7
+#&gt; 2      country          113.9533 Random Forest v7
+#&gt; 3        parch          121.2592 Random Forest v7
+#&gt; 4        sibsp          121.7567 Random Forest v7
+#&gt; 5     embarked          125.3003 Random Forest v7
+#&gt; 6         fare          141.9616 Random Forest v7</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(vi_rf)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
@@ -187,12 +190,12 @@
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(vr_age)</a></code></pre></div>
 <pre><code>#&gt; Top profiles    : 
 #&gt;   _vname_          _label_        _x_    _yhat_ _ids_
-#&gt; 1     age Random Forest v7  0.1666667 0.5455153     0
-#&gt; 2     age Random Forest v7  2.0000000 0.5846133     0
-#&gt; 3     age Random Forest v7  4.0000000 0.5851732     0
-#&gt; 4     age Random Forest v7  7.0000000 0.5428117     0
-#&gt; 5     age Random Forest v7  9.0000000 0.5459521     0
-#&gt; 6     age Random Forest v7 13.0000000 0.4903660     0</code></pre>
+#&gt; 1     age Random Forest v7  0.1666667 0.5273638     0
+#&gt; 2     age Random Forest v7  2.0000000 0.5534582     0
+#&gt; 3     age Random Forest v7  4.0000000 0.5590342     0
+#&gt; 4     age Random Forest v7  7.0000000 0.5198898     0
+#&gt; 5     age Random Forest v7  9.0000000 0.5203026     0
+#&gt; 6     age Random Forest v7 13.0000000 0.4745508     0</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(vr_age, <span class="dt">use_facets =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
@@ -283,9 +286,9 @@
 #&gt;   -&gt; target variable   :  2099  values 
 #&gt;   -&gt; model_info        :  package gbm , ver. 2.1.5 , task classification (  default  ) 
 #&gt;   -&gt; predict function  :  function(m, x) predict(m, x, n.trees = 15000, type = "response") 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.0001745899 , mean =  0.3232702 , max =  0.9985303  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.0003041394 , mean =  0.3250952 , max =  0.9985531  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.9342066 , mean =  0.001170031 , max =  0.9605855  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9285564 , mean =  -0.0006550309 , max =  0.9663212  
 #&gt;   A new explainer has been created!</code></pre>
 </div>
 <div id="support-vector-machines-svm" class="section level2">
@@ -305,9 +308,9 @@
 #&gt;   -&gt; target variable   :  2099  values 
 #&gt;   -&gt; model_info        :  package e1071 , ver. 1.7.2 , task classification (  default  ) 
 #&gt;   -&gt; predict function  :  yhat.svm  will be used (  default  )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.08560495 , mean =  0.32554 , max =  0.9572055  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.08503109 , mean =  0.3249242 , max =  0.9573659  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8539263 , mean =  -0.001099813 , max =  0.8914726  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8540709 , mean =  -0.000483957 , max =  0.89213  
 #&gt;   A new explainer has been created!</code></pre>
 </div>
 <div id="k-nearest-neighbours-knn" class="section level2">
@@ -381,7 +384,7 @@
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</a></code></pre></div>
 <pre><code>#&gt; R version 3.6.1 (2019-07-05)
 #&gt; Platform: x86_64-apple-darwin15.6.0 (64-bit)
-#&gt; Running under: macOS Mojave 10.14.4
+#&gt; Running under: macOS Catalina 10.15.3
 #&gt; 
 #&gt; Matrix products: default
 #&gt; BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
@@ -397,7 +400,7 @@
 #&gt;  [1] caret_6.0-84        e1071_1.7-2         gbm_2.1.5          
 #&gt;  [4] rms_5.1-3.1         SparseM_1.77        Hmisc_4.2-0        
 #&gt;  [7] ggplot2_3.2.1       Formula_1.2-3       survival_2.44-1.1  
-#&gt; [10] lattice_0.20-38     randomForest_4.6-14 DALEX_0.9.3        
+#&gt; [10] lattice_0.20-38     randomForest_4.6-14 DALEX_0.9.4        
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
 #&gt;  [1] foreach_1.4.7       splines_3.6.1       prodlim_2018.04.18 
