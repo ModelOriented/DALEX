@@ -49,7 +49,7 @@
 
 #' @name variable_profile
 #' @export
-variable_profile <-  function(explainer, new_observation, variables, ...) {
+variable_profile <-  function(explainer, new_observation, variables = NULL, ...) {
   # run checks against the explainer objects
   if (!("explainer" %in% class(explainer))) stop("The variable_profile() function requires an object created with explain() function.")
   if (is.null(explainer$data)) stop("The variable_profile() function requires explainers created with specified 'data' parameter.")

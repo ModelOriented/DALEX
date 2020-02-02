@@ -2,20 +2,24 @@
 % Please edit documentation in R/model_performance.R
 \name{model_performance}
 \alias{model_performance}
-\title{Calculate Model Performance}
+\title{Model Performance Measures}
 \usage{
-model_performance(explainer, ...)
+model_performance(explainer, ..., cutoff = 0.5)
 }
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the \code{\link{explain}} function}
 
 \item{...}{other parameters}
+
+\item{cutoff}{a cutoff for classification models, needed for measures like recall, precision, ACC, F1. By default 0.5.}
 }
 \value{
 An object of the class \code{model_performance_explainer}.
 }
 \description{
-Prepare a data frame with model residuals.
+Function \code{model_performance()} calculates various performance measures for classification and regression models.
+For classification models following measures are calculated: F1, accuracy, recall, precision and AUC.
+For regression models following measures are calculated: mean squared error, R squared, median absolute deviation.
 }
 \examples{
  \dontrun{

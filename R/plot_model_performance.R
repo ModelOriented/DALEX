@@ -51,7 +51,17 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
   if (!(ptlabel %in% c("name", "index"))){
     stop("The plot.model_performance() function requires label to be name or index.")
   }
-  df <- combine_explainers(x, ...)
+  # extract residuals
+  if (length(list(...)) == 0) {
+    # if single explainer
+    df <- x$residuals
+  } else {
+    # if multiple explainers
+    args <- lapply(list(...),
+                   function(tmp) tmp$residuals)
+    args[["x"]] <- x$residuals
+    df <- do.call(combine_explainers, rev(args))
+  }
 
   df$label <- reorder(df$label, df$diff, lossFunction)
   label <- name <- NULL

@@ -4,7 +4,7 @@
 \alias{variable_profile}
 \title{Instance Level Variable Effect as Ceteris Paribus Profile}
 \usage{
-variable_profile(explainer, new_observation, variables, ...)
+variable_profile(explainer, new_observation, variables = NULL, ...)
 }
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the 'explain' function}

@@ -1,12 +1,16 @@
-#' Calculate Model Performance
+#' Model Performance Measures
 #'
-#' Prepare a data frame with model residuals.
+#' Function \code{model_performance()} calculates various performance measures for classification and regression models.
+#' For classification models following measures are calculated: F1, accuracy, recall, precision and AUC.
+#' For regression models following measures are calculated: mean squared error, R squared, median absolute deviation.
 #'
 #' @param explainer a model to be explained, preprocessed by the \code{\link{explain}} function
 #' @param ... other parameters
+#' @param cutoff a cutoff for classification models, needed for measures like recall, precision, ACC, F1. By default 0.5.
 #'
 #' @return An object of the class \code{model_performance_explainer}.
 #' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
+#' @importFrom stats median
 #' @export
 #' @examples
 #'  \dontrun{
@@ -36,20 +40,22 @@
 #' plot(mp_ex_glm, mp_ex_rn, mp_ex_lm)
 #'  }
 #'
-model_performance <- function(explainer, ...) {
+model_performance <- function(explainer, ..., cutoff = 0.5) {
   if (!("explainer" %in% class(explainer))) stop("The model_performance() function requires an object created with explain() function.")
   if (is.null(explainer$data)) stop("The model_performance() function requires explainers created with specified 'data' parameter.")
   if (is.null(explainer$y)) stop("The model_performance() function requires explainers created with specified 'y' parameter.")
+
   # Check since explain could have been run with precalculate = FALSE
-  if (is.null(explainer$y_hat)){
+  if (is.null(explainer$y_hat)) {
     predicted <- explainer$predict_function(explainer$model, explainer$data, ...)
   } else {
     predicted <- explainer$y_hat
   }
+
   observed <- explainer$y
   # Check since explain could have been run with precalculate = FALSE
-  if (is.null(explainer$residuals)){
-    diff <- observed - predicted
+  if (is.null(explainer$residuals)) {
+    diff <- explainer$residual_function(explainer$model, explainer$data, observed)
   } else {
     # changed according to #130
     diff <- explainer$residuals
@@ -57,10 +63,84 @@ model_performance <- function(explainer, ...) {
 
   residuals <- data.frame(predicted, observed, diff = diff)
 
-  class(residuals) <- c("model_performance_explainer", "data.frame")
+  # get proper measures
+  type <- explainer$model_info$type
+  if (type == "regression") {
+    measures <- list(
+      mse = model_performance_mse(predicted, observed),
+      rmse = model_performance_rmse(predicted, observed),
+      r2 = model_performance_r2(predicted, observed),
+      mad = model_performance_mad(predicted, observed)
+    )
+  } else {
+    tp = sum((observed == 1) * (predicted >= cutoff))
+    fp = sum((observed == 0) * (predicted >= cutoff))
+    tn = sum((observed == 0) * (predicted < cutoff))
+    fn = sum((observed == 1) * (predicted < cutoff))
+
+    measures <- list(
+      recall    = model_performance_recall(tp, fp, tn, fn),
+      precision = model_performance_precision(tp, fp, tn, fn),
+      f1        = model_performance_f1(tp, fp, tn, fn),
+      accuracy  = model_performance_accuracy(tp, fp, tn, fn),
+      auc       = model_performance_auc(predicted, observed)
+    )
+  }
+
   residuals$label <- explainer$label
-  residuals
+
+  structure(list(residuals, measures, type),
+            .Names = c("residuals", "measures", "type"),
+            class = "model_performance_explainer")
 }
+
+
+model_performance_mse <- function(predicted, observed) {
+  mean((predicted - observed)^2, na.rm = TRUE)
+}
+
+model_performance_rmse <- function(predicted, observed) {
+  sqrt(mean((predicted - observed)^2, na.rm = TRUE))
+}
+
+model_performance_r2 <- function(predicted, observed) {
+  1 - model_performance_mse(predicted, observed)/model_performance_mse(mean(observed), observed)
+}
+
+model_performance_mad <- function(predicted, observed) {
+  median(abs(predicted - observed))
+}
+
+model_performance_auc <- function(predicted, observed) {
+  pred <- data.frame(fitted.values = predicted, y = observed)
+  pred_sorted <- pred[order(pred$fitted.values, decreasing = TRUE), ]
+
+  # assuming that y = 0/1 where 1 is the positive
+  TPR <- cumsum(pred_sorted$y)/sum(pred_sorted$y)
+  FPR <- cumsum(1-pred_sorted$y)/sum(1-pred_sorted$y)
+
+  auc <- sum(diff(FPR)*(TPR[-1] + TPR[-length(TPR)])/2)
+  auc
+}
+
+model_performance_recall <- function(tp, fp, tn, fn) {
+  tp/(tp + fn)
+}
+
+model_performance_precision <- function(tp, fp, tn, fn) {
+  tp/(tp + fp)
+}
+
+model_performance_f1 <- function(tp, fp, tn, fn) {
+  recall = tp/(tp + fn)
+  precision = tp/(tp + fp)
+  2 * (precision * recall)/(precision + recall)
+}
+
+model_performance_accuracy <- function(tp, fp, tn, fn) {
+  (tp + tn)/(tp + fp + tn + fn)
+}
+
 
 
 #' Print Model Performance Summary
@@ -81,7 +161,10 @@ model_performance <- function(explainer, ...) {
 #'  }
 #'
 print.model_performance_explainer <- function(x, ...) {
-  print(quantile(x$diff, seq(0, 1, 0.1)))
+  cat("Measures for: ", x$type)
+  cat(paste0("\n",substr(paste0(names(x$measures), "         "), 1, 9), ": ", sapply(x$measures, prettyNum)))
+  cat("\n\nResiduals:\n")
+  print(quantile(x$residuals$diff, seq(0, 1, 0.1)))
 }
 
 
