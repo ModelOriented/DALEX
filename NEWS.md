@@ -8,7 +8,8 @@ DALEX 1.0
 * added `yhat` for `lrm` models from `rms` package
 * `theme_drwhy` has now left aligned title and subtitle.
 * `residuals_distribution` calculates now diagnostic plots based on residuals ([#143](https://github.com/ModelOriented/DALEX/issues/143)).
-* `model_performance` calculated several metrics for classification and regression models ([#146](https://github.com/ModelOriented/DALEX/issues/146)).
+* `model_performance` calculates several metrics for classification and regression models ([#146](https://github.com/ModelOriented/DALEX/issues/146)).
+* `plot.model_performance` now supports ROC charts, LIFT charts, Cummulative Gain charts, histograms, boxplots and ecdf 
 
 DALEX 0.4.9
 ----------------------------------------------------------------

@@ -2,7 +2,7 @@
 #'
 #' @param x a model to be explained, preprocessed by the \code{\link{explain}} function
 #' @param ... other parameters
-#' @param geom either \code{"ecdf"} or \code{"boxplot"} determines how residuals shall be summarized
+#' @param geom either \code{"ecdf"}, \code{"boxplot"}, \code{"gain"}, \code{"lift"} or \code{"histogram"} determines how residuals shall be summarized
 #' @param lossFunction function that calculates the loss for a model based on model residuals. By default it's the root mean square.
 #' @param show_outliers number of largest residuals to be presented (only when geom = boxplot).
 #' @param ptlabel either \code{"name"} or \code{"index"} determines the naming convention of the outliers
@@ -27,7 +27,12 @@
 #'                               y = titanic_imputed$survived,
 #'                               label = "ranger2")
 #' mp_ranger2 <- model_performance(explainer_ranger2)
-#' plot(mp_ranger, mp_ranger2)
+#' plot(mp_ranger, mp_ranger2, geom = "roc")
+#' plot(mp_ranger, mp_ranger2, geom = "lift")
+#' plot(mp_ranger, mp_ranger2, geom = "gain")
+#' plot(mp_ranger, mp_ranger2, geom = "boxplot")
+#' plot(mp_ranger, mp_ranger2, geom = "histogram")
+#' plot(mp_ranger, mp_ranger2, geom = "ecdf")
 #'
 #' titanic_glm_model <- glm(survived~., data = titanic_imputed, family = "binomial")
 #' explainer_glm <- explain(titanic_glm_model, data = titanic_imputed[,-8],
@@ -47,11 +52,13 @@
 #' plot(mp_ranger, mp_glm, mp_lm, geom = "boxplot", show_outliers = 1)
 #'  }
 #'
+#
 plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outliers = 0, ptlabel = "name", lossFunction = function(x) sqrt(mean(x^2))) {
   if (!(ptlabel %in% c("name", "index"))){
     stop("The plot.model_performance() function requires label to be name or index.")
   }
   # extract residuals
+  # combine into a single object
   if (length(list(...)) == 0) {
     # if single explainer
     df <- x$residuals
@@ -64,44 +71,144 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
   }
 
   df$label <- reorder(df$label, df$diff, lossFunction)
-  label <- name <- NULL
   if (ptlabel == "name") {
     df$name <- NULL
     df$name <- rownames(df)
   }
   nlabels <- length(unique(df$label))
-  if (geom == "ecdf") {
-    pl <-   ggplot(df, aes(abs(diff), color = label)) +
-      stat_ecdf(geom = "step") +
-      theme_drwhy() +
-      scale_color_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
-      xlab(expression(group("|", residual, "|"))) +
-      scale_y_continuous(breaks = seq(0,1,0.1),
-                         labels = paste(seq(100,0,-10),"%"),
-                         trans = "reverse",
-                         name = "") +
-      ggtitle(expression(paste("Distribution of ", group("|", residual, "|"))))
-  } else {
-    pl <- ggplot(df, aes(x = label, y = abs(diff), fill = label)) +
-      stat_boxplot(alpha = 0.4, coef = 1000) +
-      stat_summary(fun.y = lossFunction, geom="point", shape = 20, size=10, color="red", fill="red") +
-      theme_drwhy_vertical() +
-      scale_fill_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
-      ylab("") + xlab("") +
-      ggtitle(
-        expression(paste("Boxplots of ", group("|", residual, "|"))),
-        "Red dot stands for root mean square of residuals"
-      ) +
-      coord_flip()
-    if (show_outliers > 0) {
-      df$rank <- unlist(tapply(-abs(df$diff), df$label, rank, ties.method = "min"))
-      df_small <- df[df$rank <= show_outliers,]
-      pl <- pl +
-        geom_point(data = df_small) +
-        geom_text(data = df_small,
-                  aes(label = name), srt = 90,
-                  hjust = -0.2, vjust = 1)
-    }
+  switch(geom,
+          ecdf = plot.model_performance_explainer_ecdf(df, nlabels),
+           boxplot = plot.model_performance_explainer_boxplot(df, show_outliers, lossFunction, nlabels),
+           histogram = plot.model_performance_explainer_histogram(df, nlabels),
+           roc = plot.model_performance_explainer_roc(df, nlabels),
+           gain = plot.model_performance_explainer_gain(df, nlabels),
+           lift = plot.model_performance_explainer_lift(df, nlabels)
+  )
+}
+
+
+plot.model_performance_explainer_ecdf <- function(df, nlabels) {
+  label <- name <- NULL
+  ggplot(df, aes(abs(diff), color = label)) +
+    stat_ecdf(geom = "step") +
+    theme_drwhy() +
+    scale_color_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
+    xlab(expression(group("|", residual, "|"))) +
+    scale_y_continuous(breaks = seq(0,1,0.1),
+                       labels = paste(seq(100,0,-10),"%"),
+                       trans = "reverse",
+                       name = "") +
+    ggtitle(expression(paste("Distribution of ", group("|", residual, "|"))))
+}
+
+plot.model_performance_explainer_boxplot <- function(df, show_outliers, lossFunction, nlabels) {
+  label <- name <- NULL
+  pl <- ggplot(df, aes(x = label, y = abs(diff), fill = label)) +
+    stat_boxplot(alpha = 0.4, coef = 1000) +
+    stat_summary(fun.y = lossFunction, geom = "point", shape = 20, size=10, color="red", fill="red") +
+    theme_drwhy_vertical() +
+    scale_fill_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
+    ylab("") + xlab("") +
+    ggtitle(
+      expression(paste("Boxplots of ", group("|", residual, "|"))),
+      "Red dot stands for root mean square of residuals"
+    ) +
+    coord_flip()
+  if (show_outliers > 0) {
+    df$rank <- unlist(tapply(-abs(df$diff), df$label, rank, ties.method = "min"))
+    df_small <- df[df$rank <= show_outliers,]
+    pl <- pl +
+      geom_point(data = df_small) +
+      geom_text(data = df_small,
+                aes(label = name), srt = 90,
+                hjust = -0.2, vjust = 1)
   }
   pl
+}
+
+plot.model_performance_explainer_histogram <- function(df, nlabels) {
+  observed <- predicted <- label <- NULL
+  ggplot(df, aes(observed - predicted, fill = label)) +
+    geom_histogram(bins = 100) +
+    facet_wrap(~label, ncol = 1) +
+    theme_drwhy() + xlab("residuals") + theme(legend.position = "none") +
+    scale_color_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
+    ggtitle("Histogram for residuals")
+
+}
+
+plot.model_performance_explainer_roc <- function(df, nlabels) {
+  dfl <- split(df, factor(df$label))
+  rocdfl <- lapply(dfl, function(df) {
+    pred_sorted <- df[order(df$predicted, decreasing = TRUE), ]
+
+    # assuming that y = 0/1 where 1 is the positive
+    tpr <- cumsum(pred_sorted$observed)/sum(pred_sorted$observed)
+    fpr <- cumsum(1-pred_sorted$observed)/sum(1-pred_sorted$observed)
+    data.frame(tpr = tpr, fpr = fpr, label = df$label[1])
+  })
+  rocdf <- do.call(rbind, rocdfl)
+
+  fpr <- tpr <- label <- NULL
+  ggplot(rocdf, aes(x = fpr, y = tpr, color = label)) +
+    geom_abline(slope = 1, intercept = 0, color = "grey", lty = 2) +
+    geom_line() +
+    theme_drwhy() +
+    scale_color_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
+    scale_x_continuous("False positive rate", limits = c(0, 1), expand = c(0, 0)) +
+    scale_y_continuous("True positive rate", limits = c(0, 1), expand = c(0, 0)) +
+    coord_fixed() +
+    ggtitle("Receiver Operator Characteristic")
+
+}
+
+plot.model_performance_explainer_gain <- function(df, nlabels) {
+  dfl <- split(df, factor(df$label))
+  rocdfl <- lapply(dfl, function(df) {
+    pred_sorted <- df[order(df$predicted, decreasing = TRUE), ]
+
+    # assuming that y = 0/1 where 1 is the positive
+    lift <- cumsum(pred_sorted$observed)/length(pred_sorted$observed)
+    pr <- seq_along(pred_sorted$observed)/length(pred_sorted$observed)
+    data.frame(lift = lift, pr = pr, label = df$label[1])
+  })
+  rocdf <- do.call(rbind, rocdfl)
+  max_lift <- sum(df$observed)/nrow(df)
+
+  pr <- lift <- label <- NULL
+  ggplot(rocdf, aes(x = pr, y = lift, color = label)) +
+    geom_abline(slope = max_lift, intercept = 0, color = "grey", lty = 2) +
+    geom_line() +
+    theme_drwhy() +
+    scale_color_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
+    scale_x_continuous("Positive rate", limits = c(0, 1), expand = c(0, 0)) +
+    scale_y_continuous("True positive rate",  expand = c(0, 0)) +
+    ggtitle("Cumulative Gains chart")
+
+}
+
+
+plot.model_performance_explainer_lift <- function(df, nlabels) {
+  dfl <- split(df, factor(df$label))
+  rocdfl <- lapply(dfl, function(df) {
+    pred_sorted <- df[order(df$predicted, decreasing = TRUE), ]
+
+    # assuming that y = 0/1 where 1 is the positive
+    lift <- cumsum(pred_sorted$observed)/length(pred_sorted$observed)
+    pr <- seq_along(pred_sorted$observed)/length(pred_sorted$observed)
+    data.frame(lift = lift/pr, pr = pr, label = df$label[1])
+  })
+  rocdf <- do.call(rbind, rocdfl)
+  max_lift <- sum(df$observed)/nrow(df)
+
+  pr <- lift <- label <- NULL
+  ggplot(rocdf, aes(x = pr, y = lift/max_lift, color = label)) +
+    geom_abline(slope = 0, intercept = 1, color = "grey", lty = 2) +
+    geom_line() +
+    theme_drwhy() +
+    scale_color_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
+    scale_x_continuous("Positive rate", limits = c(0, 1), expand = c(0, 0)) +
+    scale_y_continuous("Lift",  expand = c(0, 0)) +
+    ggtitle("Lift chart")
+
 }

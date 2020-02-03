@@ -18,7 +18,7 @@
 
 \item{...}{other parameters}
 
-\item{geom}{either \code{"ecdf"} or \code{"boxplot"} determines how residuals shall be summarized}
+\item{geom}{either \code{"ecdf"}, \code{"boxplot"}, \code{"gain"}, \code{"lift"} or \code{"histogram"} determines how residuals shall be summarized}
 
 \item{show_outliers}{number of largest residuals to be presented (only when geom = boxplot).}
 
@@ -49,7 +49,12 @@ explainer_ranger2  <- explain(titanic_ranger_model2, data = titanic_imputed[,-8]
                               y = titanic_imputed$survived,
                               label = "ranger2")
 mp_ranger2 <- model_performance(explainer_ranger2)
-plot(mp_ranger, mp_ranger2)
+plot(mp_ranger, mp_ranger2, geom = "roc")
+plot(mp_ranger, mp_ranger2, geom = "lift")
+plot(mp_ranger, mp_ranger2, geom = "gain")
+plot(mp_ranger, mp_ranger2, geom = "boxplot")
+plot(mp_ranger, mp_ranger2, geom = "histogram")
+plot(mp_ranger, mp_ranger2, geom = "ecdf")
 
 titanic_glm_model <- glm(survived~., data = titanic_imputed, family = "binomial")
 explainer_glm <- explain(titanic_glm_model, data = titanic_imputed[,-8],
