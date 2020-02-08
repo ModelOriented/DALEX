@@ -17,7 +17,8 @@ explain.default(
   verbose = TRUE,
   precalculate = TRUE,
   colorize = TRUE,
-  model_info = NULL
+  model_info = NULL,
+  type = NULL
 )
 
 explain(
@@ -32,7 +33,8 @@ explain(
   verbose = TRUE,
   precalculate = TRUE,
   colorize = TRUE,
-  model_info = NULL
+  model_info = NULL,
+  type = NULL
 )
 }
 \arguments{
@@ -60,6 +62,8 @@ This will happen also if \code{verbose} is TRUE. Set both \code{verbose} and \co
 \item{colorize}{if TRUE (default) then \code{WARNINGS}, \code{ERRORS} and \code{NOTES} are colorized. Will work only in the R console.}
 
 \item{model_info}{a named list (\code{package}, \code{version}, \code{type}) containg information about model. If \code{NULL}, \code{DALEX} will seek for information on it's own.}
+
+\item{type}{type of a model, either \code{classification} or \code{regression}. If not specified then \code{type} will be extracted from \code{model_info}.}
 }
 \value{
 An object of the class \code{explainer}.
