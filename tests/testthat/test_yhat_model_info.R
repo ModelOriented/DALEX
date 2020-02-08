@@ -27,8 +27,8 @@ test_that("randomForest", {
   #   }
   #   pred
   # }
-  explainer_classif_rf <- explain(model_classif_rf, data = titanic_imputed_cut, y = titanic_imputed_cut$survived)
-  explainer_regr_rf <- explain(model_regr_rf, data = apartments_cut, y = apartments_cut$m2.price)
+  explainer_classif_rf <- explain(model_classif_rf, data = titanic_imputed_cut, y = titanic_imputed_cut$survived, verbose = FALSE)
+  explainer_regr_rf <- explain(model_regr_rf, data = apartments_cut, y = apartments_cut$m2.price, verbose = FALSE)
   expect_is(explainer_classif_rf$y_hat, "numeric")
   expect_is(explainer_classif_rf$model_info, "model_info")
   expect_is(explainer_regr_rf$y_hat, "numeric")
@@ -53,8 +53,8 @@ test_that("svm", {
   #   pred
   # }
 
-  explainer_classif_svm <- explain(model_classif_svm, data = titanic_imputed_cut, y = titanic_imputed_cut$survived)
-  explainer_regr_svm <- explain(model_regr_svm, data = apartments_cut, y = apartments_cut$m2.price)
+  explainer_classif_svm <- explain(model_classif_svm, data = titanic_imputed_cut, y = titanic_imputed_cut$survived, verbose = FALSE)
+  explainer_regr_svm <- explain(model_regr_svm, data = apartments_cut, y = apartments_cut$m2.price, verbose = FALSE)
   expect_is(explainer_classif_svm$y_hat, "numeric")
   expect_is(explainer_classif_svm$model_info, "model_info")
   expect_is(explainer_regr_svm$y_hat, "numeric")
@@ -74,8 +74,8 @@ test_that("gbm", {
   #   rep(0.14, times = 100)
   # }
 
-  explainer_classif_gbm <- explain(model_classif_gbm, data = titanic_imputed_cut, y = titanic_imputed_cut$survived)
-  explainer_regr_gbm <- explain(model_regr_gbm, data = apartments_cut, y = apartments_cut$m2.price)
+  explainer_classif_gbm <- explain(model_classif_gbm, data = titanic_imputed_cut, y = titanic_imputed_cut$survived, verbose = FALSE)
+  explainer_regr_gbm <- explain(model_regr_gbm, data = apartments_cut, y = apartments_cut$m2.price, verbose = FALSE)
   expect_is(explainer_classif_gbm$y_hat, "numeric")
   expect_is(explainer_classif_gbm$model_info, "model_info")
   expect_is(explainer_regr_gbm$y_hat, "numeric")
@@ -95,11 +95,11 @@ test_that("glmnet and cvglmnet", {
   #   rep(0.14, times = 100)
   # }
 
-  explainer_regr_glm <- explain(model_regr_glm, matrix(rnorm(100 * 20), 100, 20), rnorm(100))
+  explainer_regr_glm <- explain(model_regr_glm, matrix(rnorm(100 * 20), 100, 20), rnorm(100), verbose = FALSE)
   expect_is(explainer_regr_glm$y_hat, "numeric")
   expect_is(explainer_regr_glm$model_info, "model_info")
 
-  explainer_regr_cvglm <- explain(model_regr_cvglm, matrix(rnorm(100 * 20), 100, 20), rnorm(100))
+  explainer_regr_cvglm <- explain(model_regr_cvglm, matrix(rnorm(100 * 20), 100, 20), rnorm(100), verbose = FALSE)
   expect_is(explainer_regr_cvglm$y_hat, "numeric")
   expect_is(explainer_regr_cvglm$model_info, "model_info")
 
@@ -126,8 +126,8 @@ test_that("parsnip", {
   #   response
   # }
 
-  explainer_classif_parsnip <- explain(parsnip_classif, data = titanic_imputed_cut, y = titanic_imputed_cut$survived)
-  explainer_regr_parsnip <- explain(parsnip_regr, data = titanic_imputed_cut, y = titanic_imputed_cut$fare)
+  explainer_classif_parsnip <- explain(parsnip_classif, data = titanic_imputed_cut, y = titanic_imputed_cut$survived, verbose = FALSE)
+  explainer_regr_parsnip <- explain(parsnip_regr, data = titanic_imputed_cut, y = titanic_imputed_cut$fare, verbose = FALSE)
   expect_is(explainer_classif_parsnip$y_hat, "numeric")
   expect_is(explainer_classif_parsnip$model_info, "model_info")
   expect_is(explainer_regr_parsnip$y_hat, "numeric")
@@ -155,9 +155,9 @@ test_that("caret", {
   #   response
   # }
 
-  explainer_classif_caret <- explain(caret_classif, data = titanic_imputed_cut, y = titanic_imputed_cut$survived)
-  explainer_regr_caret <- explain(caret_regr, data = apartments_cut, y = apartments_cut$m2.price)
-  explainer_regr_caret_lm <- explain(caret_regr_lm, data = apartments_cut, y = apartments_cut$m2.price)
+  explainer_classif_caret <- explain(caret_classif, data = titanic_imputed_cut, y = titanic_imputed_cut$survived, verbose = FALSE)
+  explainer_regr_caret <- explain(caret_regr, data = apartments_cut, y = apartments_cut$m2.price, verbose = FALSE)
+  explainer_regr_caret_lm <- explain(caret_regr_lm, data = apartments_cut, y = apartments_cut$m2.price, verbose = FALSE)
   #expect_is(explainer_classif_caret$y_hat, "numeric")
   expect_is(explainer_classif_caret$model_info, "model_info")
   expect_is(explainer_regr_caret$y_hat, "numeric")
@@ -172,7 +172,7 @@ test_that("caret", {
 test_that("glm", {
 
 
-  explainer_classif_glm <- explain(model_classif_glm, data = HR)
+  explainer_classif_glm <- explain(model_classif_glm, data = HR, verbose = FALSE)
   expect_is(explainer_classif_glm$y_hat, "numeric")
   expect_is(explainer_classif_glm$model_info, "model_info")
 

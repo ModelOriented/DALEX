@@ -71,11 +71,11 @@ predict.train <- function(X.model, newdata, type, ...) {
 }
 
 
-explainer_classif_ranger  <- explain(model_classif_ranger, data = titanic_imputed, y = titanic_imputed$survived)
-explainer_classif_glm  <- explain(model_classif_glm, data = HR, predict_function = p_fun_glm)
-explainer_regr_ranger <- explain(model_regr_ranger, data = apartments_test[1:1000, ], y = apartments_test$m2.price[1:1000])
-explainer_regr_ranger_wo_y <- explain(model_regr_ranger, data = apartments_test[1:1000, ])
-explainer_regr_lm <- explain(model_regr_lm, data = apartments_test[1:1000, ], y = apartments_test$m2.price[1:1000])
-explainer_wo_data  <- explain(model_classif_ranger, data = NULL)
+explainer_classif_ranger  <- explain(model_classif_ranger, data = titanic_imputed, y = titanic_imputed$survived, verbose = FALSE)
+explainer_classif_glm  <- explain(model_classif_glm, data = HR, predict_function = p_fun_glm, verbose = FALSE)
+explainer_regr_ranger <- explain(model_regr_ranger, data = apartments_test[1:1000, ], y = apartments_test$m2.price[1:1000], verbose = FALSE)
+explainer_regr_ranger_wo_y <- explain(model_regr_ranger, data = apartments_test[1:1000, ], verbose = FALSE)
+explainer_regr_lm <- explain(model_regr_lm, data = apartments_test[1:1000, ], y = apartments_test$m2.price[1:1000], verbose = FALSE)
+explainer_wo_data  <- explain(model_classif_ranger, data = NULL, verbose = FALSE)
 
 
