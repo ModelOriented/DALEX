@@ -114,7 +114,7 @@ plot(shap)
 ```
 
 
-# model_performance and residuals_distribution
+# model_performance and individual_diagnostics
 
 Those two function are merged into one paragraph becasue they require same action in order to get them work with multilabel classification. The most important thing here is to realise that both function are based on residuals. Therfore we need proper residual_function. Let's assume for purpose of that vignette that residual is one minus probability that true class has. 
 
@@ -153,9 +153,9 @@ plot(mp)
 ## residuals_distribution
 
 ```{r}
-rd_all <- residuals_distribution(explain_HR_ranger_residual, HR[1,])
+rd_all <- individual_diagnostics(explain_HR_ranger_residual, HR[1,])
 plot(rd_all)
-rd_salary <- residuals_distribution(explain_HR_ranger_residual, HR[1,], variables = "salary")
+rd_salary <- individual_diagnostics(explain_HR_ranger_residual, HR[1,], variables = "salary")
 plot(rd_salary)
 ```
 # Session info

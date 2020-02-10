@@ -1,4 +1,4 @@
-#' Instance Level Residuals Distribution
+#' Instance Level Residual Diagnostics
 #'
 #' This function performs local diagnostic of residuals.
 #' For a single instance its neighbors are identified in the validation data.
@@ -13,7 +13,7 @@
 #' @param neighbors number of neighbors for histogram. By default 50.
 #' @param distance the distance function, by default the \code{gower_dist()} function.
 #'
-#' @return An object of the class 'residuals_distribution_explainer'.
+#' @return An object of the class 'individual_diagnostics_explainer'.
 #' It's a data frame with calculated distribution of residuals.
 #'
 #' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
@@ -30,22 +30,25 @@
 #' johny_d <- titanic_imputed[24, c("gender", "age", "class", "fare", "sibsp", "parch")]
 #'
 #' \dontrun{
-#' residuals_distribution(explainer_glm, johny_d, variables = NULL)
+#' pl <- individual_diagnostics(explainer_glm, johny_d, variables = NULL)
+#' plot(pl)
 #'
-#' residuals_distribution(explainer_glm, johny_d,
+#' pl <- individual_diagnostics(explainer_glm, johny_d,
 #'                        neighbors = 10,
 #'                        variables = c("age", "fare"))
+#' plot(pl)
 #'
-#' residuals_distribution(explainer_glm,
+#' pl <- individual_diagnostics(explainer_glm,
 #'                        johny_d,
 #'                        neighbors = 10,
 #'                        variables = c("class", "gender"))
+#' plot(pl)
 #'}
 #'
-#' @name residuals_distribution
+#' @name individual_diagnostics
 #' @export
-residuals_distribution <-  function(explainer, new_observation, variables = NULL, ..., nbins = 20, neighbors = 50, distance = gower::gower_dist) {
-  if (nrow(new_observation) != 1) stop("The residuals_distribution() function 'new_observation' with a single row.")
+individual_diagnostics <-  function(explainer, new_observation, variables = NULL, ..., nbins = 20, neighbors = 50, distance = gower::gower_dist) {
+  if (nrow(new_observation) != 1) stop("The individual_diagnostics() function 'new_observation' with a single row.")
   if (is.null(explainer$data)) stop("The explainer needs to have the 'data' slot.")
 
   neighbours_id <- select_neighbours_id(new_observation, explainer$data, n = neighbors, distance = distance)
@@ -61,17 +64,13 @@ residuals_distribution <-  function(explainer, new_observation, variables = NULL
 
     df1 <- data.frame(as.data.frame(table(cut(residuals_sel, cut_points))/length(residuals_sel)), direction = "neighbours")
     df2 <- data.frame(as.data.frame(-table(cut(residuals_all, cut_points))/length(residuals_all)), direction = "all")
-    df <- rbind(df1, df2)
 
-    pl <- ggplot(df, aes_string("Var1", "Freq", fill = "direction")) +
-      geom_col() +
-      scale_y_continuous("") +
-      scale_x_discrete("residuals", labels = as.character(cut_points)) +
-      scale_fill_manual("", values = colors_diverging_drwhy()) +
-      theme_drwhy() + theme(legend.position = "top") +
-      ggtitle("Distribution of residuals",
-              paste0("Difference between distributions: D ", signif(test.res$statistic, 3),
-                     " p.value ", signif(test.res$p.value, 3)))
+    res <- list(variables = variables,
+                histogram_neighbours = df1,
+                histogram_all = df2,
+                test = test.res,
+                cut_points = cut_points,
+                neighbours_id = neighbours_id)
   } else {
     # if variables is not null then we need to plot either categorical or continouse fidelity plot
     cp_neighbors <- ingredients::ceteris_paribus(explainer,
@@ -83,14 +82,13 @@ residuals_distribution <-  function(explainer, new_observation, variables = NULL
                                                  new_observation = new_observation,
                                                  variables = variables,
                                                  ...)
-    pl <- plot(cp_neighbors, color = '#ceced9') +
-      ingredients::show_residuals(cp_neighbors, variables = variables) +
-      ingredients::show_observations(cp_new_instance, variables = variables, size = 5) +
-      ingredients::show_profiles(cp_new_instance, variables = variables, size = 2) +
-      ggtitle("Local stability plot")
+    res <- list(variables = variables,
+                cp_neighbors = cp_neighbors,
+                cp_new_instance = cp_new_instance,
+                neighbours_id = neighbours_id)
   }
-  attr(pl, "neighbours_id") <- neighbours_id
-  pl
+  class(res) <- "individual_diagnostics_explainer"
+  res
 }
 
 
