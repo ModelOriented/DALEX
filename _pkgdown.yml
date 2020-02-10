@@ -14,14 +14,16 @@ reference:
     contents:
     - model_prediction
     - variable_attribution
-    - variable_profile
-    - residuals_distribution
+    - individual_profile
+    - individual_diagnostics
+    - plot.individual_diagnostics_explainer
   - title: Dataset Level Explanations
     desc: Functions that generate and plot dataset/global level explanations from model explainers
     contents:
-    - variable_importance
-    - variable_effect
     - model_performance
+    - variable_importance
+    - variable_profile
+    - residual_diagnostics
     - plot.model_performance_explainer
     - print.model_performance_explainer
   - title: Model performance measures

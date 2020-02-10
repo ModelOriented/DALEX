@@ -26,7 +26,7 @@
 #'                        data = dragons)
 #' dragon_lm_explainer4 <- explain(dragon_lm_model4, data = dragons, y = dragons$year_of_birth,
 #'                                 label = "model_4v")
-#' dragon_lm_predict4 <- variable_profile(dragon_lm_explainer4,
+#' dragon_lm_predict4 <- individual_profile(dragon_lm_explainer4,
 #'                 new_observation = new_dragon,
 #'                 variables = c("year_of_birth", "height", "scars"))
 #' head(dragon_lm_predict4)
@@ -39,7 +39,7 @@
 #'                                  data = dragons, num.trees = 50)
 #' dragon_ranger_explainer4 <- explain(dragon_ranger_model4, data = dragons, y = dragons$year_of_birth,
 #'                                 label = "model_ranger")
-#' dragon_ranger_predict4 <- variable_profile(dragon_ranger_explainer4,
+#' dragon_ranger_predict4 <- individual_profile(dragon_ranger_explainer4,
 #'                                            new_observation = new_dragon,
 #'                                            variables = c("year_of_birth", "height", "scars"))
 #' head(dragon_ranger_predict4)
@@ -47,12 +47,12 @@
 #'  }
 #'
 
-#' @name variable_profile
+#' @name individual_profile
 #' @export
-variable_profile <-  function(explainer, new_observation, variables = NULL, ...) {
+individual_profile <-  function(explainer, new_observation, variables = NULL, ...) {
   # run checks against the explainer objects
-  if (!("explainer" %in% class(explainer))) stop("The variable_profile() function requires an object created with explain() function.")
-  if (is.null(explainer$data)) stop("The variable_profile() function requires explainers created with specified 'data' parameter.")
+  if (!("explainer" %in% class(explainer))) stop("The individual_profile() function requires an object created with explain() function.")
+  if (is.null(explainer$data)) stop("The individual_profile() function requires explainers created with specified 'data' parameter.")
 
   # call the ceteris_paribus from ingredients
   res <- ingredients::ceteris_paribus(explainer,
@@ -62,7 +62,3 @@ variable_profile <-  function(explainer, new_observation, variables = NULL, ...)
   class(res) <- c("variable_profile_explainer", "ceteris_paribus_explainer", "data.frame")
   res
 }
-
-#' @name variable_profile
-#' @export
-individual_profile <- variable_profile

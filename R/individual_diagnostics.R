@@ -30,19 +30,22 @@
 #' johny_d <- titanic_imputed[24, c("gender", "age", "class", "fare", "sibsp", "parch")]
 #'
 #' \dontrun{
-#' pl <- individual_diagnostics(explainer_glm, johny_d, variables = NULL)
-#' plot(pl)
+#' id_johny <- individual_diagnostics(explainer_glm, johny_d, variables = NULL)
+#' id_johny
+#' plot(id_johny)
 #'
-#' pl <- individual_diagnostics(explainer_glm, johny_d,
+#' id_johny <- individual_diagnostics(explainer_glm, johny_d,
 #'                        neighbors = 10,
 #'                        variables = c("age", "fare"))
-#' plot(pl)
+#' id_johny
+#' plot(id_johny)
 #'
-#' pl <- individual_diagnostics(explainer_glm,
+#' id_johny <- individual_diagnostics(explainer_glm,
 #'                        johny_d,
 #'                        neighbors = 10,
 #'                        variables = c("class", "gender"))
-#' plot(pl)
+#' id_johny
+#' plot(id_johny)
 #'}
 #'
 #' @name individual_diagnostics
