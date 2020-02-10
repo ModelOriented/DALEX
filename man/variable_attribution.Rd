@@ -26,7 +26,7 @@ variable_attribution_shap(explainer, new_observation, ...)
 
 \item{...}{other parameters that will be passed to \code{iBreakDown::break_down}}
 
-\item{type}{the type of variable attributions. Either 'shap', 'break_down' or 'break_down_interactions'.}
+\item{type}{the type of variable attributions. Either 'shap', 'oscillations', break_down' or 'break_down_interactions'.}
 }
 \value{
 An object of the class 'single_prediction_explainer'.

@@ -6,7 +6,7 @@
 #' @return An object of the class \code{variable_profile_explainer}.
 #'
 #' @export
-plot.variable_profile_explainer <- function(x, ...) {
+plot.individual_profile_explainer <- function(x, ...) {
   class(x) <- c("ceteris_paribus_explainer", "data.frame")
   plot(x, ...) +
     ingredients::show_observations(x, size = 3, ...)

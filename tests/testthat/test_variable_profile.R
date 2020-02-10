@@ -1,16 +1,16 @@
-context("Check variable_profile() function")
+context("Check individual_profile() function")
 
 
-ranger_cp  <- variable_profile(explainer_classif_ranger, new_observation = titanic_imputed[1,-8], variables = "fare")
-lm_cp <- variable_profile(explainer_regr_lm, new_observation = apartments[1,-1], variables = "surface")
+ranger_cp  <- individual_profile(explainer_classif_ranger, new_observation = titanic_imputed[1,-8], variables = "fare")
+lm_cp <- individual_profile(explainer_regr_lm, new_observation = apartments[1,-1], variables = "surface")
 
 test_that("Data wasn't provided", {
-  expect_error(variable_profile(explainer_wo_data))
+  expect_error(individual_profile(explainer_wo_data))
 
 })
 
 test_that("Wrong object class (not explainer)", {
-  expect_error(variable_profile(c(1,1)))
+  expect_error(individual_profile(c(1,1)))
 })
 
 test_that("Output format",{

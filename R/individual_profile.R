@@ -59,6 +59,6 @@ individual_profile <-  function(explainer, new_observation, variables = NULL, ..
                                new_observation = new_observation,
                                variables = variables,
                                 ...)
-  class(res) <- c("variable_profile_explainer", "ceteris_paribus_explainer", "data.frame")
+  class(res) <- c("individual_profile_explainer", "ceteris_paribus_explainer", "data.frame")
   res
 }

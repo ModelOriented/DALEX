@@ -7,7 +7,7 @@
 #' @param explainer a model to be explained, preprocessed by the 'explain' function
 #' @param new_observation a new observarvation for which predictions need to be explained
 #' @param ... other parameters that will be passed to \code{iBreakDown::break_down}
-#' @param type the type of variable attributions. Either 'shap', 'break_down' or 'break_down_interactions'.
+#' @param type the type of variable attributions. Either 'shap', 'oscillations', break_down' or 'break_down_interactions'.
 #'
 #' @return An object of the class 'single_prediction_explainer'.
 #' It's a data frame with calculated average response.
@@ -52,7 +52,7 @@ variable_attribution <- function(explainer, new_observation, ..., type = "break_
           "break_down_interactions" = variable_attribution_break_down_interactions(explainer, new_observation, ...),
           "shap" = variable_attribution_shap(explainer, new_observation, ...),
           "oscillations" = variable_attribution_oscillations(explainer, new_observation, ...),
-          stop("The type argument shall be either 'shap' or 'break_down' or 'break_down_interactions' or 'ceteris_paribus'")
+          stop("The type argument shall be either 'shap' or 'break_down' or 'break_down_interactions' or 'oscillations'")
   )
 }
 
