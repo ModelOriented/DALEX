@@ -83,7 +83,7 @@ Find information how to use this function here: https://pbiecek.github.io/ema/br
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.9.4</span>
+          <span class="version version-default">0.9.5</span>
         </div>
       </div>
     </div>
@@ -148,6 +148,8 @@ Find information how to use this function here: <a href='https://pbiecek.github.
 
     <pre class="usage"><span class='fu'>variable_attribution</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='no'>...</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"break_down"</span>)
 
+<span class='fu'>variable_attribution_ceteris_paribus</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='no'>...</span>)
+
 <span class='fu'>variable_attribution_break_down</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='no'>...</span>)
 
 <span class='fu'>variable_attribution_break_down_interactions</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='no'>...</span>)
@@ -193,7 +195,7 @@ It's a data frame with calculated average response.</p>
 <span class='no'>dragon_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>life_length</span> ~ <span class='no'>year_of_birth</span> + <span class='no'>height</span> +
                                      <span class='no'>weight</span> + <span class='no'>scars</span> + <span class='no'>number_of_lost_teeth</span>,
                        <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>)
-<span class='no'>dragon_lm_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>dragon_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>dragons</span>$<span class='no'>year_of_birth</span>,
+<span class='no'>dragon_lm_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>dragon_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>dragons</span>$<span class='no'>year_of_birth</span>,
                                 <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  model_4v 
 #&gt;   -&gt; data              :  2000  rows  8  cols 
@@ -217,25 +219,25 @@ It's a data frame with calculated average response.</p>
 <span class='no'>dragon_ranger_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>life_length</span> ~ <span class='no'>year_of_birth</span> + <span class='no'>height</span> +
                                                <span class='no'>weight</span> + <span class='no'>scars</span> + <span class='no'>number_of_lost_teeth</span>,
                                  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>50</span>)
-<span class='no'>dragon_ranger_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>dragon_ranger_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>dragons</span>$<span class='no'>year_of_birth</span>,
+<span class='no'>dragon_ranger_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>dragon_ranger_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>dragons</span>$<span class='no'>year_of_birth</span>,
                                 <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_ranger"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  model_ranger 
 #&gt;   -&gt; data              :  2000  rows  8  cols 
 #&gt;   -&gt; target variable   :  2000  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.11.2 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  591.5096 , mean =  1369.856 , max =  3446.228  
+#&gt;   -&gt; predicted values  :  numerical, min =  578.638 , mean =  1370.46 , max =  3434.705  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -4866.684 , mean =  -1449.394 , max =  1047.934  
+#&gt;   -&gt; residuals         :  numerical, min =  -4863.801 , mean =  -1449.998 , max =  1024.196  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>dragon_ranger_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_attribution_break_down</span>(<span class='no'>dragon_ranger_explainer4</span>,
                                                           <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>dragon_ranger_predict4</span>)</div><div class='output co'>#&gt;                                        contribution
-#&gt; model_ranger: intercept                    1369.856
-#&gt; model_ranger: scars = 0                    -344.621
-#&gt; model_ranger: number_of_lost_teeth = 5     -304.846
-#&gt; model_ranger: height = 80                    78.642
-#&gt; model_ranger: year_of_birth = 200            27.229
-#&gt; model_ranger: weight = 12                     0.097</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dragon_ranger_predict4</span>)</div><div class='img'><img src='variable_attribution-2.png' alt='' width='700' height='433' /></div><div class='input'># }
+#&gt; model_ranger: intercept                    1370.460
+#&gt; model_ranger: scars = 0                    -344.683
+#&gt; model_ranger: number_of_lost_teeth = 5     -304.320
+#&gt; model_ranger: height = 80                   120.379
+#&gt; model_ranger: year_of_birth = 200             9.672
+#&gt; model_ranger: weight = 12                     6.460</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dragon_ranger_predict4</span>)</div><div class='img'><img src='variable_attribution-2.png' alt='' width='700' height='433' /></div><div class='input'># }
 
 </div></span></pre>
   </div>

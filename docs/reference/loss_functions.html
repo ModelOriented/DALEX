@@ -81,7 +81,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.9.4</span>
+          <span class="version version-default">0.9.5</span>
         </div>
       </div>
     </div>
@@ -182,9 +182,9 @@
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
 <span class='no'>titanic_ranger_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>survived</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>50</span>,
                                <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'>loss_one_minus_auc</span>(<span class='no'>titanic_imputed</span>$<span class='no'>survived</span>, <span class='fu'><a href='yhat.html'>yhat</a></span>(<span class='no'>titanic_ranger_model</span>, <span class='no'>titanic_imputed</span>))</div><div class='output co'>#&gt; [1] 0.1032862</div><div class='input'>
+<span class='fu'>loss_one_minus_auc</span>(<span class='no'>titanic_imputed</span>$<span class='no'>survived</span>, <span class='fu'>yhat</span>(<span class='no'>titanic_ranger_model</span>, <span class='no'>titanic_imputed</span>))</div><div class='output co'>#&gt; [1] 0.1054551</div><div class='input'>
 <span class='no'>HR_ranger_model_multi</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>status</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'>loss_cross_entropy</span>(<span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='no'>HR</span>$<span class='no'>status</span>), <span class='fu'><a href='yhat.html'>yhat</a></span>(<span class='no'>HR_ranger_model_multi</span>, <span class='no'>HR</span>))</div><div class='output co'>#&gt; [1] 3033.283</div><div class='input'>
+<span class='fu'>loss_cross_entropy</span>(<span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='no'>HR</span>$<span class='no'>status</span>), <span class='fu'>yhat</span>(<span class='no'>HR_ranger_model_multi</span>, <span class='no'>HR</span>))</div><div class='output co'>#&gt; [1] 3013.47</div><div class='input'>
  # }
 </div></pre>
   </div>
