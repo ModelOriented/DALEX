@@ -5,7 +5,7 @@
 #'
 #' @param explainer a model to be explained, preprocessed by the 'explain' function
 #' @param new_observation a new observarvation for which predictions need to be explained
-#' @param variables character - name of variables to be explained
+#' @param variables character - names of variables to be explained
 #' @param ... other parameters
 #'
 #' @return An object of the class 'ceteris_paribus_explainer'.
@@ -55,10 +55,14 @@ variable_profile <-  function(explainer, new_observation, variables = NULL, ...)
   if (is.null(explainer$data)) stop("The variable_profile() function requires explainers created with specified 'data' parameter.")
 
   # call the ceteris_paribus from ingredients
-  ingredients::ceteris_paribus(explainer,
+  res <- ingredients::ceteris_paribus(explainer,
                                new_observation = new_observation,
                                variables = variables,
                                 ...)
+  class(res) <- c("variable_profile_explainer", "ceteris_paribus_explainer", "data.frame")
+  res
 }
 
-
+#' @name variable_profile
+#' @export
+individual_profile <- variable_profile

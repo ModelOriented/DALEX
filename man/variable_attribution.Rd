@@ -5,10 +5,13 @@
 \alias{variable_attribution_break_down}
 \alias{variable_attribution_ibreak_down}
 \alias{variable_attribution_shap}
+\alias{variable_attribution_ceteris_paribus}
 \alias{variable_attribution_break_down_interactions}
 \title{Instance Level Variable Attribution as Break Down or SHAP Explanations}
 \usage{
 variable_attribution(explainer, new_observation, ..., type = "break_down")
+
+variable_attribution_ceteris_paribus(explainer, new_observation, ...)
 
 variable_attribution_break_down(explainer, new_observation, ...)
 

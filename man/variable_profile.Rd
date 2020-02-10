@@ -2,16 +2,19 @@
 % Please edit documentation in R/variable_profile.R
 \name{variable_profile}
 \alias{variable_profile}
+\alias{individual_profile}
 \title{Instance Level Variable Effect as Ceteris Paribus Profile}
 \usage{
 variable_profile(explainer, new_observation, variables = NULL, ...)
+
+individual_profile(explainer, new_observation, variables = NULL, ...)
 }
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the 'explain' function}
 
 \item{new_observation}{a new observarvation for which predictions need to be explained}
 
-\item{variables}{character - name of variables to be explained}
+\item{variables}{character - names of variables to be explained}
 
 \item{...}{other parameters}
 }

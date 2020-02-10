@@ -5,7 +5,7 @@
 #' Find information how to use this function here: \url{https://pbiecek.github.io/ema/partialDependenceProfiles.html}.
 #'
 #' @param explainer a model to be explained, preprocessed by the 'explain' function
-#' @param variables character - name of variables to be explained
+#' @param variables character - names of variables to be explained
 #' @param type character - type of the response to be calculated.
 #' Currently following options are implemented: 'partial_dependency' for Partial Dependency and 'accumulated_dependency' for Accumulated Local Effects
 #' @param ... other parameters

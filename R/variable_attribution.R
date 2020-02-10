@@ -51,8 +51,23 @@ variable_attribution <- function(explainer, new_observation, ..., type = "break_
           "break_down" = variable_attribution_break_down(explainer, new_observation, ...),
           "break_down_interactions" = variable_attribution_break_down_interactions(explainer, new_observation, ...),
           "shap" = variable_attribution_shap(explainer, new_observation, ...),
-          stop("The type argument shall be either 'shap' or 'break_down' or 'break_down_interactions'")
+          "ceteris_paribus" = variable_attribution_ceteris_paribus(explainer, new_observation, ...),
+          stop("The type argument shall be either 'shap' or 'break_down' or 'break_down_interactions' or 'ceteris_paribus'")
   )
+}
+
+#' @name variable_attribution
+#' @export
+variable_attribution_ceteris_paribus <- function(explainer, new_observation, ...) {
+  # run checks against the explainer objects
+  if (!("explainer" %in% class(explainer))) stop("The variable_attribution_ceteris_paribus() function requires an object created with explain() function.")
+  if (is.null(explainer$data)) stop("The variable_attribution_ceteris_paribus() function requires explainers created with specified 'data' parameter.")
+
+  # call the ceteris_paribus
+  cp <- ingredients::ceteris_paribus(explainer,
+                         new_observation = new_observation,
+                         ...)
+  ingredients::calculate_oscillations(cp)
 }
 
 #' @name variable_attribution
