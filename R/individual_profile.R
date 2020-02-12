@@ -51,8 +51,7 @@
 #' @export
 individual_profile <-  function(explainer, new_observation, variables = NULL, ...) {
   # run checks against the explainer objects
-  if (!("explainer" %in% class(explainer))) stop("The individual_profile() function requires an object created with explain() function.")
-  if (is.null(explainer$data)) stop("The individual_profile() function requires explainers created with specified 'data' parameter.")
+  test_expaliner(explainer, has_data = TRUE, function_name = "individual_profile")
 
   # call the ceteris_paribus from ingredients
   res <- ingredients::ceteris_paribus(explainer,

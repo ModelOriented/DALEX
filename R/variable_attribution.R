@@ -60,8 +60,7 @@ variable_attribution <- function(explainer, new_observation, ..., type = "break_
 #' @export
 variable_attribution_oscillations <- function(explainer, new_observation, ...) {
   # run checks against the explainer objects
-  if (!("explainer" %in% class(explainer))) stop("The variable_attribution_oscillations() function requires an object created with explain() function.")
-  if (is.null(explainer$data)) stop("The variable_attribution_oscillations() function requires explainers created with specified 'data' parameter.")
+  test_expaliner(explainer, has_data = TRUE, function_name = "variable_attribution_oscillations")
 
   # call the ceteris_paribus
   cp <- ingredients::ceteris_paribus(explainer,
@@ -74,8 +73,7 @@ variable_attribution_oscillations <- function(explainer, new_observation, ...) {
 #' @export
 variable_attribution_break_down <- function(explainer, new_observation, ...) {
   # run checks against the explainer objects
-  if (!("explainer" %in% class(explainer))) stop("The variable_attribution_breakdown() function requires an object created with explain() function.")
-  if (is.null(explainer$data)) stop("The variable_attribution_breakdown() function requires explainers created with specified 'data' parameter.")
+  test_expaliner(explainer, has_data = TRUE, function_name = "variable_attribution_break_down")
 
   # call the break_down
   iBreakDown::break_down(explainer,
@@ -87,8 +85,7 @@ variable_attribution_break_down <- function(explainer, new_observation, ...) {
 #' @export
 variable_attribution_break_down_interactions <- function(explainer, new_observation, ...) {
   # run checks against the explainer objects
-  if (!("explainer" %in% class(explainer))) stop("The variable_attribution_break_down_interactions() function requires an object created with explain() function.")
-  if (is.null(explainer$data)) stop("The variable_attribution_break_down_interactions() function requires explainers created with specified 'data' parameter.")
+  test_expaliner(explainer, has_data = TRUE, function_name = "variable_attribution_break_down_interactions")
 
   # call the break_down
   iBreakDown::break_down(explainer,
@@ -101,8 +98,7 @@ variable_attribution_break_down_interactions <- function(explainer, new_observat
 #' @export
 variable_attribution_shap <- function(explainer, new_observation, ...) {
   # run checks against the explainer objects
-  if (!("explainer" %in% class(explainer))) stop("The variable_attribution_shap() function requires an object created with explain() function.")
-  if (is.null(explainer$data)) stop("The variable_attribution_shap() function requires explainers created with specified 'data' parameter.")
+  test_expaliner(explainer, has_data = TRUE, function_name = "variable_attribution_shap")
 
   # call the shap from iBreakDown
   iBreakDown::shap(explainer,

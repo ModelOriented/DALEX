@@ -51,8 +51,7 @@
 #' @name individual_diagnostics
 #' @export
 individual_diagnostics <-  function(explainer, new_observation, variables = NULL, ..., nbins = 20, neighbors = 50, distance = gower::gower_dist) {
-  if (nrow(new_observation) != 1) stop("The individual_diagnostics() function 'new_observation' with a single row.")
-  if (is.null(explainer$data)) stop("The explainer needs to have the 'data' slot.")
+  test_expaliner(explainer, has_data = TRUE, function_name = "individual_diagnostics")
 
   neighbours_id <- select_neighbours_id(new_observation, explainer$data, n = neighbors, distance = distance)
 
