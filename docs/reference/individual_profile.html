@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Instance Level Variable Attribution as Break Down or SHAP Explanations — variable_attribution • DALEX</title>
+<title>Instance Level Variable Effect as Ceteris Paribus Profile — individual_profile • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -35,10 +35,9 @@
 
 
 
-<meta property="og:title" content="Instance Level Variable Attribution as Break Down or SHAP Explanations — variable_attribution" />
-<meta property="og:description" content="From DALEX version 1.0 this function calls the break_down or
-shap functions from the iBreakDown package.
-Find information how to use this function here: https://pbiecek.github.io/ema/breakDown.html." />
+<meta property="og:title" content="Instance Level Variable Effect as Ceteris Paribus Profile — individual_profile" />
+<meta property="og:description" content="From DALEX version 1.0 this function calls the ceteris_paribus from the ingredients package.
+Find information how to use this function here: https://pbiecek.github.io/ema/ceterisParibus.html." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -135,26 +134,17 @@ Find information how to use this function here: https://pbiecek.github.io/ema/br
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Instance Level Variable Attribution as Break Down or SHAP Explanations</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/R/variable_attribution.R'><code>R/variable_attribution.R</code></a></small>
-    <div class="hidden name"><code>variable_attribution.Rd</code></div>
+    <h1>Instance Level Variable Effect as Ceteris Paribus Profile</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/R/individual_profile.R'><code>R/individual_profile.R</code></a></small>
+    <div class="hidden name"><code>individual_profile.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>From DALEX version 1.0 this function calls the <code><a href='https://rdrr.io/pkg/iBreakDown/man/break_down.html'>break_down</a></code> or
-<code><a href='https://rdrr.io/pkg/iBreakDown/man/break_down_uncertainty.html'>shap</a></code> functions from the <code>iBreakDown</code> package.
-Find information how to use this function here: <a href='https://pbiecek.github.io/ema/breakDown.html'>https://pbiecek.github.io/ema/breakDown.html</a>.</p>
+    <p>From DALEX version 1.0 this function calls the <code><a href='https://rdrr.io/pkg/ingredients/man/ceteris_paribus.html'>ceteris_paribus</a></code> from the <code>ingredients</code> package.
+Find information how to use this function here: <a href='https://pbiecek.github.io/ema/ceterisParibus.html'>https://pbiecek.github.io/ema/ceterisParibus.html</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>variable_attribution</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='no'>...</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"break_down"</span>)
-
-<span class='fu'>variable_attribution_oscillations</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='no'>...</span>)
-
-<span class='fu'>variable_attribution_break_down</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='no'>...</span>)
-
-<span class='fu'>variable_attribution_break_down_interactions</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='no'>...</span>)
-
-<span class='fu'>variable_attribution_shap</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>individual_profile</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='kw'>variables</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -168,18 +158,18 @@ Find information how to use this function here: <a href='https://pbiecek.github.
       <td><p>a new observarvation for which predictions need to be explained</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>other parameters that will be passed to <code><a href='https://rdrr.io/pkg/iBreakDown/man/break_down.html'>iBreakDown::break_down</a></code></p></td>
+      <th>variables</th>
+      <td><p>character - names of variables to be explained</p></td>
     </tr>
     <tr>
-      <th>type</th>
-      <td><p>the type of variable attributions. Either 'shap', 'oscillations', break_down' or 'break_down_interactions'.</p></td>
+      <th>...</th>
+      <td><p>other parameters</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the class 'single_prediction_explainer'.
+    <p>An object of the class 'ceteris_paribus_explainer'.
 It's a data frame with calculated average response.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -205,15 +195,31 @@ It's a data frame with calculated average response.</p>
 #&gt;   -&gt; predicted values  :  numerical, min =  541.1056 , mean =  1370.986 , max =  3928.189  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -5421.316 , mean =  -1450.523 , max =  1176.912  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>dragon_lm_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_attribution_break_down</span>(<span class='no'>dragon_lm_explainer4</span>,
-                <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>dragon_lm_predict4</span>)</div><div class='output co'>#&gt;                                    contribution
-#&gt; model_4v: intercept                    1370.986
-#&gt; model_4v: scars = 0                    -397.300
-#&gt; model_4v: number_of_lost_teeth = 5     -302.277
-#&gt; model_4v: height = 80                    -9.734
-#&gt; model_4v: year_of_birth = 200            -6.639
-#&gt; model_4v: weight = 12                    -0.973</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dragon_lm_predict4</span>)</div><div class='img'><img src='variable_attribution-1.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>dragon_lm_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>individual_profile</span>(<span class='no'>dragon_lm_explainer4</span>,
+                <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>,
+                <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"year_of_birth"</span>, <span class='st'>"height"</span>, <span class='st'>"scars"</span>))
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>dragon_lm_predict4</span>)</div><div class='output co'>#&gt; Top profiles    : 
+#&gt;     year_of_birth height weight scars number_of_lost_teeth   _yhat_
+#&gt; 1        -1999.00     80   12.5     0                    5 706.2869
+#&gt; 1.1      -1962.02     80   12.5     0                    5 705.4087
+#&gt; 1.2      -1927.02     80   12.5     0                    5 704.5775
+#&gt; 1.3      -1859.54     80   12.5     0                    5 702.9749
+#&gt; 1.4      -1812.00     80   12.5     0                    5 701.8459
+#&gt; 1.5      -1780.00     80   12.5     0                    5 701.0859
+#&gt;           _vname_ _ids_  _label_
+#&gt; 1   year_of_birth     1 model_4v
+#&gt; 1.1 year_of_birth     1 model_4v
+#&gt; 1.2 year_of_birth     1 model_4v
+#&gt; 1.3 year_of_birth     1 model_4v
+#&gt; 1.4 year_of_birth     1 model_4v
+#&gt; 1.5 year_of_birth     1 model_4v
+#&gt; 
+#&gt; 
+#&gt; Top observations:
+#&gt;   year_of_birth height weight scars number_of_lost_teeth   _yhat_  _label_
+#&gt; 1           200     80   12.5     0                    5 654.0636 model_4v
+#&gt;   _ids_
+#&gt; 1     1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dragon_lm_predict4</span>)</div><div class='img'><img src='individual_profile-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># \dontrun{</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
 <span class='no'>dragon_ranger_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>life_length</span> ~ <span class='no'>year_of_birth</span> + <span class='no'>height</span> +
@@ -226,18 +232,34 @@ It's a data frame with calculated average response.</p>
 #&gt;   -&gt; target variable   :  2000  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.11.2 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  580.5125 , mean =  1369.348 , max =  3480.787  
+#&gt;   -&gt; predicted values  :  numerical, min =  583.916 , mean =  1370.182 , max =  3419.427  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -5051.787 , mean =  -1448.885 , max =  1035.898  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>dragon_ranger_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>variable_attribution_break_down</span>(<span class='no'>dragon_ranger_explainer4</span>,
-                                                          <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>dragon_ranger_predict4</span>)</div><div class='output co'>#&gt;                                        contribution
-#&gt; model_ranger: intercept                    1369.348
-#&gt; model_ranger: scars = 0                    -343.458
-#&gt; model_ranger: number_of_lost_teeth = 5     -297.739
-#&gt; model_ranger: height = 80                    94.407
-#&gt; model_ranger: year_of_birth = 200             9.536
-#&gt; model_ranger: weight = 12                     0.076</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dragon_ranger_predict4</span>)</div><div class='img'><img src='variable_attribution-2.png' alt='' width='700' height='433' /></div><div class='input'># }
+#&gt;   -&gt; residuals         :  numerical, min =  -4931.631 , mean =  -1449.72 , max =  1048.614  
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>dragon_ranger_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>individual_profile</span>(<span class='no'>dragon_ranger_explainer4</span>,
+                                           <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>,
+                                           <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"year_of_birth"</span>, <span class='st'>"height"</span>, <span class='st'>"scars"</span>))
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>dragon_ranger_predict4</span>)</div><div class='output co'>#&gt; Top profiles    : 
+#&gt;     year_of_birth height weight scars number_of_lost_teeth   _yhat_
+#&gt; 1        -1999.00     80   12.5     0                    5 856.5259
+#&gt; 1.1      -1962.02     80   12.5     0                    5 836.1662
+#&gt; 1.2      -1927.02     80   12.5     0                    5 837.5196
+#&gt; 1.3      -1859.54     80   12.5     0                    5 850.3278
+#&gt; 1.4      -1812.00     80   12.5     0                    5 850.3278
+#&gt; 1.5      -1780.00     80   12.5     0                    5 850.3278
+#&gt;           _vname_ _ids_      _label_
+#&gt; 1   year_of_birth     1 model_ranger
+#&gt; 1.1 year_of_birth     1 model_ranger
+#&gt; 1.2 year_of_birth     1 model_ranger
+#&gt; 1.3 year_of_birth     1 model_ranger
+#&gt; 1.4 year_of_birth     1 model_ranger
+#&gt; 1.5 year_of_birth     1 model_ranger
+#&gt; 
+#&gt; 
+#&gt; Top observations:
+#&gt;   year_of_birth height weight scars number_of_lost_teeth  _yhat_      _label_
+#&gt; 1           200     80   12.5     0                    5 803.555 model_ranger
+#&gt;   _ids_
+#&gt; 1     1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dragon_ranger_predict4</span>)</div><div class='img'><img src='individual_profile-2.png' alt='' width='700' height='433' /></div><div class='input'> # }
 
 </div></span></pre>
   </div>

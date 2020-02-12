@@ -150,7 +150,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>ab object with instance level residual diagnostics created with <code>individual_diagnostics</code> function</p></td>
+      <td><p>ab object with instance level residual diagnostics created with <code><a href='individual_diagnostics.html'>individual_diagnostics</a></code> function</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -166,7 +166,7 @@
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
 <span class='no'>titanic_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>survived</span> ~ <span class='no'>gender</span> + <span class='no'>age</span> + <span class='no'>class</span> + <span class='no'>fare</span> + <span class='no'>sibsp</span> + <span class='no'>parch</span>,
                      <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>)
-<span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>titanic_glm_model</span>,
+<span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>titanic_glm_model</span>,
                          <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>,
                          <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>$<span class='no'>survived</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( <span style='color: #BBBB00;'> default </span><span> )
@@ -176,18 +176,18 @@
 #&gt;   -&gt; data              :  It is highly recommended to pass `data` without the target variable column
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.11.2 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.008233482 , mean =  0.3231309 , max =  0.9976819  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.006462575 , mean =  0.3219329 , max =  0.9957373  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7800947 , mean =  -0.0009741708 , max =  0.880139  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7924738 , mean =  0.000223825 , max =  0.8804762  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>johny_d</span> <span class='kw'>&lt;-</span> <span class='no'>titanic_imputed</span>[<span class='fl'>24</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"gender"</span>, <span class='st'>"age"</span>, <span class='st'>"class"</span>, <span class='st'>"fare"</span>, <span class='st'>"sibsp"</span>, <span class='st'>"parch"</span>)]
 
 <span class='co'># \dontrun{</span>
-<span class='no'>pl</span> <span class='kw'>&lt;-</span> <span class='fu'>individual_diagnostics</span>(<span class='no'>explainer_glm</span>, <span class='no'>johny_d</span>, <span class='kw'>variables</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: p-value will be approximate in the presence of ties</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>pl</span>)</div><div class='img'><img src='plot.individual_diagnostics_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>pl</span> <span class='kw'>&lt;-</span> <span class='fu'>individual_diagnostics</span>(<span class='no'>explainer_glm</span>, <span class='no'>johny_d</span>,
+<span class='no'>pl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='individual_diagnostics.html'>individual_diagnostics</a></span>(<span class='no'>explainer_glm</span>, <span class='no'>johny_d</span>, <span class='kw'>variables</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: p-value will be approximate in the presence of ties</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>pl</span>)</div><div class='img'><img src='plot.individual_diagnostics_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>pl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='individual_diagnostics.html'>individual_diagnostics</a></span>(<span class='no'>explainer_glm</span>, <span class='no'>johny_d</span>,
                        <span class='kw'>neighbors</span> <span class='kw'>=</span> <span class='fl'>10</span>,
                        <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"age"</span>, <span class='st'>"fare"</span>))
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>pl</span>)</div><div class='img'><img src='plot.individual_diagnostics_explainer-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>pl</span> <span class='kw'>&lt;-</span> <span class='fu'>individual_diagnostics</span>(<span class='no'>explainer_glm</span>,
+<span class='no'>pl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='individual_diagnostics.html'>individual_diagnostics</a></span>(<span class='no'>explainer_glm</span>,
                        <span class='no'>johny_d</span>,
                        <span class='kw'>neighbors</span> <span class='kw'>=</span> <span class='fl'>10</span>,
                        <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"class"</span>, <span class='st'>"gender"</span>))

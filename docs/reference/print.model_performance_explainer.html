@@ -165,30 +165,30 @@
 <span class='no'>titanic_ranger_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>survived</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>100</span>,
                                <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='co'># It's a good practice to pass data without target variable</span>
-<span class='no'>explainer_ranger</span>  <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>titanic_ranger_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[,-<span class='fl'>8</span>],
+<span class='no'>explainer_ranger</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>titanic_ranger_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[,-<span class='fl'>8</span>],
                              <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>$<span class='no'>survived</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( <span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  2207  rows  7  cols 
 #&gt;   -&gt; target variable   :  2207  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.11.2 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.02001553 , mean =  0.3220581 , max =  0.9958458  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.007375388 , mean =  0.3227432 , max =  0.9923952  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8121733 , mean =  9.869326e-05 , max =  0.8792266  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7883832 , mean =  -0.0005864035 , max =  0.8796169  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='co'># resulting dataframe has predicted values and residuals</span>
-<span class='no'>mp_ex_rn</span> <span class='kw'>&lt;-</span> <span class='fu'>model_performance</span>(<span class='no'>explainer_ranger</span>)
+<span class='no'>mp_ex_rn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_ranger</span>)
 <span class='no'>mp_ex_rn</span></div><div class='output co'>#&gt; Measures for:  classification
-#&gt; recall   : 0.5780591 
-#&gt; precision: 0.8993435 
-#&gt; f1       : 0.7037671 
-#&gt; accuracy : 0.8432261 
-#&gt; auc      : 0.8990068
+#&gt; recall   : 0.5850914 
+#&gt; precision: 0.9043478 
+#&gt; f1       : 0.7105038 
+#&gt; accuracy : 0.8463978 
+#&gt; auc      : 0.8987351
 #&gt; 
 #&gt; Residuals:
 #&gt;          0%         10%         20%         30%         40%         50% 
-#&gt; -0.81217330 -0.24895728 -0.20135467 -0.18419431 -0.16586184 -0.12924811 
+#&gt; -0.78838323 -0.24441333 -0.20305738 -0.18666663 -0.16872497 -0.12725532 
 #&gt;         60%         70%         80%         90%        100% 
-#&gt; -0.10076739  0.02260818  0.23662419  0.61526621  0.87922658 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_ex_rn</span>)</div><div class='img'><img src='print.model_performance_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'> # }
+#&gt; -0.09392278  0.02852114  0.23529339  0.58126550  0.87961690 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_ex_rn</span>)</div><div class='img'><img src='print.model_performance_explainer-1.png' alt='' width='700' height='433' /></div><div class='input'> # }
 
 </div></span></pre>
   </div>

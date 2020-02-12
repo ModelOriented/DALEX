@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Print model_info — print.model_info • DALEX</title>
+<title>Plot Variable Profile Explanations — plot.individual_profile_explainer • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Print model_info — print.model_info" />
-<meta property="og:description" content="Function prints object of class model_info created with model_info" />
+<meta property="og:title" content="Plot Variable Profile Explanations — plot.individual_profile_explainer" />
+<meta property="og:description" content="Plot Variable Profile Explanations" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -133,37 +133,41 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Print model_info</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/R/model_info.R'><code>R/model_info.R</code></a></small>
-    <div class="hidden name"><code>print.model_info.Rd</code></div>
+    <h1>Plot Variable Profile Explanations</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/R/plot_individual_profile_explainer.R'><code>R/plot_individual_profile_explainer.R</code></a></small>
+    <div class="hidden name"><code>plot.individual_profile_explainer.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Function prints object of class <code>model_info</code> created with <code><a href='model_info.html'>model_info</a></code></p>
+    <p>Plot Variable Profile Explanations</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for model_info</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for individual_profile_explainer</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>- an object of class <code>model_info</code></p></td>
+      <td><p>a model to be explained, preprocessed by the <code><a href='explain.html'>explain</a></code> function</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>- other parameters</p></td>
+      <td><p>other parameters</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>An object of the class <code>variable_profile_explainer</code>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
     </ul>
 
   </div>

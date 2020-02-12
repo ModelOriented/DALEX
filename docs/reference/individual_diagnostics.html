@@ -203,7 +203,7 @@ It's a data frame with calculated distribution of residuals.</p>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
 <span class='no'>titanic_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>survived</span> ~ <span class='no'>gender</span> + <span class='no'>age</span> + <span class='no'>class</span> + <span class='no'>fare</span> + <span class='no'>sibsp</span> + <span class='no'>parch</span>,
                      <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>)
-<span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>titanic_glm_model</span>,
+<span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>titanic_glm_model</span>,
                          <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>,
                          <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>$<span class='no'>survived</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( <span style='color: #BBBB00;'> default </span><span> )
@@ -219,16 +219,53 @@ It's a data frame with calculated distribution of residuals.</p>
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>johny_d</span> <span class='kw'>&lt;-</span> <span class='no'>titanic_imputed</span>[<span class='fl'>24</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"gender"</span>, <span class='st'>"age"</span>, <span class='st'>"class"</span>, <span class='st'>"fare"</span>, <span class='st'>"sibsp"</span>, <span class='st'>"parch"</span>)]
 
 <span class='co'># \dontrun{</span>
-<span class='no'>pl</span> <span class='kw'>&lt;-</span> <span class='fu'>individual_diagnostics</span>(<span class='no'>explainer_glm</span>, <span class='no'>johny_d</span>, <span class='kw'>variables</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: p-value will be approximate in the presence of ties</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>pl</span>)</div><div class='img'><img src='individual_diagnostics-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>pl</span> <span class='kw'>&lt;-</span> <span class='fu'>individual_diagnostics</span>(<span class='no'>explainer_glm</span>, <span class='no'>johny_d</span>,
+<span class='no'>id_johny</span> <span class='kw'>&lt;-</span> <span class='fu'>individual_diagnostics</span>(<span class='no'>explainer_glm</span>, <span class='no'>johny_d</span>, <span class='kw'>variables</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: p-value will be approximate in the presence of ties</span></div><div class='input'><span class='no'>id_johny</span></div><div class='output co'>#&gt; 
+#&gt; 	Two-sample Kolmogorov-Smirnov test
+#&gt; 
+#&gt; data:  residuals_all and residuals_sel
+#&gt; D = 0.63784, p-value &lt; 2.2e-16
+#&gt; alternative hypothesis: two-sided
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>id_johny</span>)</div><div class='img'><img src='individual_diagnostics-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>id_johny</span> <span class='kw'>&lt;-</span> <span class='fu'>individual_diagnostics</span>(<span class='no'>explainer_glm</span>, <span class='no'>johny_d</span>,
                        <span class='kw'>neighbors</span> <span class='kw'>=</span> <span class='fl'>10</span>,
                        <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"age"</span>, <span class='st'>"fare"</span>))
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>pl</span>)</div><div class='img'><img src='individual_diagnostics-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>pl</span> <span class='kw'>&lt;-</span> <span class='fu'>individual_diagnostics</span>(<span class='no'>explainer_glm</span>,
+<span class='no'>id_johny</span></div><div class='output co'>#&gt; Top profiles    : 
+#&gt;      gender        age class   fare sibsp parch    _yhat_ _vname_ _ids_ _label_
+#&gt; 24   female  0.1666667   1st 151.16     1     2 0.5066843     age    24  ranger
+#&gt; 24.1 female  2.0000000   1st 151.16     1     2 0.4813177     age    24  ranger
+#&gt; 24.2 female  4.0000000   1st 151.16     1     2 0.5356530     age    24  ranger
+#&gt; 24.3 female  7.0000000   1st 151.16     1     2 0.5400045     age    24  ranger
+#&gt; 24.4 female  9.0000000   1st 151.16     1     2 0.6179122     age    24  ranger
+#&gt; 24.5 female 13.0000000   1st 151.16     1     2 0.6765980     age    24  ranger
+#&gt; 
+#&gt; 
+#&gt; Top observations:
+#&gt;    gender age class   fare sibsp parch    _yhat_ _label_ _ids_
+#&gt; 24 female   2   1st 151.16     1     2 0.4813177  ranger     1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>id_johny</span>)</div><div class='img'><img src='individual_diagnostics-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>id_johny</span> <span class='kw'>&lt;-</span> <span class='fu'>individual_diagnostics</span>(<span class='no'>explainer_glm</span>,
                        <span class='no'>johny_d</span>,
                        <span class='kw'>neighbors</span> <span class='kw'>=</span> <span class='fl'>10</span>,
                        <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"class"</span>, <span class='st'>"gender"</span>))
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>pl</span>)</div><div class='output co'>#&gt; <span class='message'>'variable_type' changed to 'categorical' due to lack of numerical variables.</span></div><div class='output co'>#&gt; <span class='message'>'variable_type' changed to 'categorical' due to lack of numerical variables.</span></div><div class='img'><img src='individual_diagnostics-3.png' alt='' width='700' height='433' /></div><div class='input'># }
+<span class='no'>id_johny</span></div><div class='output co'>#&gt; Top profiles    : 
+#&gt;      gender age            class   fare sibsp parch    _yhat_ _vname_ _ids_
+#&gt; 24   female   2              1st 151.16     1     2 0.4813177   class    24
+#&gt; 24.1 female   2              2nd 151.16     1     2 0.6486141   class    24
+#&gt; 24.2 female   2              3rd 151.16     1     2 0.3316824   class    24
+#&gt; 24.3 female   2        deck crew 151.16     1     2 0.3344475   class    24
+#&gt; 24.4 female   2 engineering crew 151.16     1     2 0.3698111   class    24
+#&gt; 24.5 female   2 restaurant staff 151.16     1     2 0.3742832   class    24
+#&gt;      _label_
+#&gt; 24    ranger
+#&gt; 24.1  ranger
+#&gt; 24.2  ranger
+#&gt; 24.3  ranger
+#&gt; 24.4  ranger
+#&gt; 24.5  ranger
+#&gt; 
+#&gt; 
+#&gt; Top observations:
+#&gt;    gender age class   fare sibsp parch    _yhat_ _label_ _ids_
+#&gt; 24 female   2   1st 151.16     1     2 0.4813177  ranger     1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>id_johny</span>)</div><div class='output co'>#&gt; <span class='message'>'variable_type' changed to 'categorical' due to lack of numerical variables.</span></div><div class='output co'>#&gt; <span class='message'>'variable_type' changed to 'categorical' due to lack of numerical variables.</span></div><div class='img'><img src='individual_diagnostics-3.png' alt='' width='700' height='433' /></div><div class='input'># }
 
 </div></span></pre>
   </div>
