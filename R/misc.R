@@ -30,3 +30,20 @@ combine_explainers <- function(x, ...) {
   }
   df
 }
+
+# test explainer
+# test if the explainer object has all reqired fields
+test_expaliner <- function(explainer,
+                           has_data = FALSE,
+                           has_y = FALSE,
+                           function_name = "variable_profile") {
+  # run checks against the explainer objects
+  if (!("explainer" %in% class(explainer)))
+       stop(paste0("The ",function_name," function requires an object created with explain() function."))
+  if (has_data && is.null(explainer$data))
+    stop(paste0("The ",function_name," function requires explainers created with specified 'data' parameter."))
+  if (has_y && is.null(explainer$y))
+    stop(paste0("The ",function_name," function requires explainers created with specified 'y' parameter."))
+
+  TRUE
+}

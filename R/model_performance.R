@@ -41,9 +41,7 @@
 #'  }
 #'
 model_performance <- function(explainer, ..., cutoff = 0.5) {
-  if (!("explainer" %in% class(explainer))) stop("The model_performance() function requires an object created with explain() function.")
-  if (is.null(explainer$data)) stop("The model_performance() function requires explainers created with specified 'data' parameter.")
-  if (is.null(explainer$y)) stop("The model_performance() function requires explainers created with specified 'y' parameter.")
+  test_expaliner(explainer, has_data = TRUE, has_y = TRUE, function_name = "model_performance")
 
   # Check since explain could have been run with precalculate = FALSE
   if (is.null(explainer$y_hat)) {
