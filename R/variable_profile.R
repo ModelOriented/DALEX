@@ -9,8 +9,13 @@
 #'
 #' @param explainer a model to be explained, preprocessed by the 'explain' function
 #' @param ... other parameters that will be passed to \code{iBreakDown::break_down}
+#' @param groups a variable name that will be used for grouping.
+#' By default \code{NULL} which means that no groups shall be calculated
+#' @param N number of observations used for calculation of aggregated profiles. By default 100.
+#' @param k number of clusters for the hclust function (for clustered profiles)
+#' @param center shall profiles be centered before clustering
 #' @param variables character - names of variables to be explained
-#' @param type the type of variable profile Either 'partial_dependence' or 'accumulated_dependence'.
+#' @param type the type of variable profile Either 'partial' or 'accumulated'.
 #'
 #' @return An object of the class 'variable_profile_explainer'.
 #' It's a data frame with calculated average model responses.
@@ -20,26 +25,44 @@
 #'
 #' @name variable_profile
 #' @export
-variable_profile <- function(explainer, variables = NULL, ..., type = "partial_dependence") {
-  switch (type,
-          "partial_dependence" = variable_profile_partial_dependence(explainer, variables, ...),
-          "accumulated_dependence" = variable_profile_accumulated_dependence(explainer, variables, ...),
-          stop("The type argument shall be either 'partial_dependence' or 'accumulated_dependence'")
-  )
-}
-
-#' @name variable_profile
-#' @export
-variable_profile_partial_dependence <- function(explainer, variables = NULL, ...) {
+variable_profile <- function(explainer, variables = NULL, N = 100, ..., groups = NULL, k = NULL, center = TRUE, type = "partial") {
   # run checks against the explainer objects
-  test_expaliner(explainer, has_data = TRUE, function_name = "variable_profile_partial_dependence")
+  test_expaliner(explainer, has_data = TRUE, function_name = "variable_profile")
 
-}
+  # calculate serveral ceteris profiles and call the aggregate profiles for partial dependency
+  data <- explainer$data
+  if (N < nrow(data)) {
+    # sample N points
+    ndata <- data[sample(1:nrow(data), N),]
+  } else {
+    ndata <- data
+  }
 
-#' @name variable_profile
-#' @export
-variable_profile_accumulated_dependence <- function(explainer, variables = NULL, ...) {
-  # run checks against the explainer objects
-  test_expaliner(explainer, has_data = TRUE, function_name = "variable_profile_accumulated_dependence")
+  cp_profiles <- ingredients::ceteris_paribus(explainer,
+                                              new_observation = ndata,
+                                              variables = variables,
+                                              ...)
+
+  if (is.null(k)) {
+    agr_profiles <- ingredients::aggregate_profiles(cp_profiles, ...,
+                                                    groups = groups,
+                                                    variables = variables,
+                                                    type = type,
+                                                    center = TRUE)
+  } else {
+    agr_profiles <- ingredients::cluster_profiles(cp_profiles,
+                                                  k = k,
+                                                  center = center,
+                                                  variables = variables,
+                                                  ...)
+  }
+
+  # color only for groups
+  color <- if (is.null(k) & is.null(groups)) "#371ea3" else "_label_"
+
+  structure(
+    list(cp_profiles, agr_profiles, color),
+    .Names = c("cp_profiles", "agr_profiles", "color"),
+    class = "variable_profile_explainer")
 
 }

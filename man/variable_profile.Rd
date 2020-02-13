@@ -6,20 +6,34 @@
 \alias{variable_profile_accumulated_dependence}
 \title{Dataset Level Variable Profile as Partial Dependency or Accumulated Local Dependency Explanations}
 \usage{
-variable_profile(explainer, variables = NULL, ..., type = "partial_dependence")
-
-variable_profile_partial_dependence(explainer, variables = NULL, ...)
-
-variable_profile_accumulated_dependence(explainer, variables = NULL, ...)
+variable_profile(
+  explainer,
+  variables = NULL,
+  N = 100,
+  ...,
+  groups = NULL,
+  k = NULL,
+  center = TRUE,
+  type = "partial"
+)
 }
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the 'explain' function}
 
 \item{variables}{character - names of variables to be explained}
 
+\item{N}{number of observations used for calculation of aggregated profiles. By default 100.}
+
 \item{...}{other parameters that will be passed to \code{iBreakDown::break_down}}
 
-\item{type}{the type of variable profile Either 'partial_dependence' or 'accumulated_dependence'.}
+\item{groups}{a variable name that will be used for grouping.
+By default \code{NULL} which means that no groups shall be calculated}
+
+\item{k}{number of clusters for the hclust function (for clustered profiles)}
+
+\item{center}{shall profiles be centered before clustering}
+
+\item{type}{the type of variable profile Either 'partial' or 'accumulated'.}
 }
 \value{
 An object of the class 'variable_profile_explainer'.
