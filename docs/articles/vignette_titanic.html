@@ -42,7 +42,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.9.5</span>
+          <span class="version version-default">0.9.6</span>
         </div>
       </div>
     </div>
@@ -97,7 +97,7 @@
       <h1>Survival on the RMS Titanic</h1>
                         <h4 class="author">Przemyslaw Biecek</h4>
             
-            <h4 class="date">2020-02-12</h4>
+            <h4 class="date">2020-02-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/DALEX/blob/master/vignettes/vignette_titanic.Rmd"><code>vignettes/vignette_titanic.Rmd</code></a></small>
       <div class="hidden name"><code>vignette_titanic.Rmd</code></div>
@@ -137,8 +137,8 @@
 #&gt;                      Number of trees: 500
 #&gt; No. of variables tried at each split: 2
 #&gt; 
-#&gt;           Mean of squared residuals: 0.143055
-#&gt;                     % Var explained: 34.73</code></pre>
+#&gt;           Mean of squared residuals: 0.1427858
+#&gt;                     % Var explained: 34.85</code></pre>
 </div>
 <div id="explainer-for-titanic-survival" class="section level1">
 <h1 class="hasAnchor">
@@ -156,9 +156,9 @@
 #&gt;   -&gt; target variable   :  2099  values 
 #&gt;   -&gt; model_info        :  package randomForest , ver. 4.6.14 , task regression (  default  ) 
 #&gt;   -&gt; predict function  :  yhat.randomForest  will be used (  default  )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.01050394 , mean =  0.3250222 , max =  0.9948738  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.007478856 , mean =  0.3244009 , max =  0.9926256  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.785949 , mean =  -0.0005819426 , max =  0.899851  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7829059 , mean =  3.935656e-05 , max =  0.9010247  
 #&gt;   A new explainer has been created!</code></pre>
 </div>
 <div id="variable-importance-plots" class="section level1">
@@ -168,12 +168,12 @@
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">vi_rf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_importance.html">variable_importance</a></span>(explain_titanic_rf)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(vi_rf)</a></code></pre></div>
 <pre><code>#&gt;       variable mean_dropout_loss            label
-#&gt; 1 _full_model_          109.7369 Random Forest v7
-#&gt; 2      country          109.7369 Random Forest v7
-#&gt; 3        parch          117.1498 Random Forest v7
-#&gt; 4        sibsp          117.7842 Random Forest v7
-#&gt; 5     embarked          121.0172 Random Forest v7
-#&gt; 6         fare          139.4635 Random Forest v7</code></pre>
+#&gt; 1 _full_model_          112.4598 Random Forest v7
+#&gt; 2      country          112.4598 Random Forest v7
+#&gt; 3        sibsp          120.6567 Random Forest v7
+#&gt; 4        parch          120.7379 Random Forest v7
+#&gt; 5     embarked          123.7235 Random Forest v7
+#&gt; 6         fare          141.3377 Random Forest v7</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(vi_rf)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
@@ -181,29 +181,29 @@
 <h1 class="hasAnchor">
 <a href="#variable-effects" class="anchor"></a>Variable effects</h1>
 <p>As we see the most important feature is <code>Sex</code>. Next three importnat features are <code>Pclass</code>, <code>Age</code> and <code>Fare</code>. Let’s see the link between model response and these features.</p>
-<p>Such univariate relation can be calculated with <code><a href="../reference/variable_effect.html">variable_effect()</a></code>.</p>
+<p>Such univariate relation can be calculated with <code><a href="https://rdrr.io/pkg/DALEX/man/variable_effect.html">variable_effect()</a></code>.</p>
 <div id="age" class="section level2">
 <h2 class="hasAnchor">
 <a href="#age" class="anchor"></a>Age</h2>
 <p>Kids 5 years old and younger have much higher survival probability.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">vr_age  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_effect.html">variable_effect</a></span>(explain_titanic_rf, <span class="dt">variables =</span>  <span class="st">"age"</span>)</a>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">vr_age  &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/DALEX/man/variable_effect.html">variable_effect</a></span>(explain_titanic_rf, <span class="dt">variables =</span>  <span class="st">"age"</span>)</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(vr_age)</a></code></pre></div>
 <pre><code>#&gt; Top profiles    : 
 #&gt;   _vname_          _label_        _x_    _yhat_ _ids_
-#&gt; 1     age Random Forest v7  0.1666667 0.5302592     0
-#&gt; 2     age Random Forest v7  2.0000000 0.5647139     0
-#&gt; 3     age Random Forest v7  4.0000000 0.5614111     0
-#&gt; 4     age Random Forest v7  7.0000000 0.5248348     0
-#&gt; 5     age Random Forest v7  9.0000000 0.5255878     0
-#&gt; 6     age Random Forest v7 13.0000000 0.4809717     0</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(vr_age, <span class="dt">use_facets =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+#&gt; 1     age Random Forest v7  0.1666667 0.5271808     0
+#&gt; 2     age Random Forest v7  2.0000000 0.5575765     0
+#&gt; 3     age Random Forest v7  4.0000000 0.5644205     0
+#&gt; 4     age Random Forest v7  7.0000000 0.5376057     0
+#&gt; 5     age Random Forest v7  9.0000000 0.5309193     0
+#&gt; 6     age Random Forest v7 13.0000000 0.4895642     0</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(vr_age)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
 <div id="passanger-class" class="section level2">
 <h2 class="hasAnchor">
 <a href="#passanger-class" class="anchor"></a>Passanger class</h2>
 <p>Passangers in the first class have much higher survival probability.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">vr_class  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_effect.html">variable_effect</a></span>(explain_titanic_rf, <span class="dt">variables =</span>  <span class="st">"class"</span>)</a>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">vr_class  &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/DALEX/man/variable_effect.html">variable_effect</a></span>(explain_titanic_rf, <span class="dt">variables =</span>  <span class="st">"class"</span>)</a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(vr_class)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 </div>
@@ -211,15 +211,15 @@
 <h2 class="hasAnchor">
 <a href="#fare" class="anchor"></a>Fare</h2>
 <p>Very cheap tickets are linked with lower chances.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">vr_fare  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_effect.html">variable_effect</a></span>(explain_titanic_rf, <span class="dt">variables =</span>  <span class="st">"fare"</span>)</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(vr_fare, <span class="dt">use_facets =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">vr_fare  &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/DALEX/man/variable_effect.html">variable_effect</a></span>(explain_titanic_rf, <span class="dt">variables =</span>  <span class="st">"fare"</span>)</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(vr_fare)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
 <div id="embarked" class="section level2">
 <h2 class="hasAnchor">
 <a href="#embarked" class="anchor"></a>Embarked</h2>
 <p>Passangers that embarked from C have highest survival.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">vr_embarked  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_effect.html">variable_effect</a></span>(explain_titanic_rf, <span class="dt">variables =</span>  <span class="st">"embarked"</span>)</a>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">vr_embarked  &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/DALEX/man/variable_effect.html">variable_effect</a></span>(explain_titanic_rf, <span class="dt">variables =</span>  <span class="st">"embarked"</span>)</a>
 <a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(vr_embarked)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>
@@ -286,9 +286,9 @@
 #&gt;   -&gt; target variable   :  2099  values 
 #&gt;   -&gt; model_info        :  package gbm , ver. 2.1.5 , task classification (  default  ) 
 #&gt;   -&gt; predict function  :  function(m, x) predict(m, x, n.trees = 15000, type = "response") 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.0003447639 , mean =  0.3249424 , max =  0.998454  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.0002403903 , mean =  0.3262544 , max =  0.9983579  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.9358751 , mean =  -0.0005021921 , max =  0.9670001  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9421263 , mean =  -0.001814214 , max =  0.9667286  
 #&gt;   A new explainer has been created!</code></pre>
 </div>
 <div id="support-vector-machines-svm" class="section level2">
@@ -308,9 +308,9 @@
 #&gt;   -&gt; target variable   :  2099  values 
 #&gt;   -&gt; model_info        :  package e1071 , ver. 1.7.2 , task classification (  default  ) 
 #&gt;   -&gt; predict function  :  yhat.svm  will be used (  default  )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.08516444 , mean =  0.3258641 , max =  0.9580476  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.08574901 , mean =  0.3266201 , max =  0.9580017  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8556992 , mean =  -0.001423841 , max =  0.8918952  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8558192 , mean =  -0.00217988 , max =  0.891212  
 #&gt;   A new explainer has been created!</code></pre>
 </div>
 <div id="k-nearest-neighbours-knn" class="section level2">
@@ -350,11 +350,11 @@
 <div id="single-variable" class="section level2">
 <h2 class="hasAnchor">
 <a href="#single-variable" class="anchor"></a>Single variable</h2>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">vr_age_rf  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_effect.html">variable_effect</a></span>(explain_titanic_rf, <span class="dt">variables =</span>  <span class="st">"age"</span>)</a>
-<a class="sourceLine" id="cb28-2" data-line-number="2">vr_age_lmr  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_effect.html">variable_effect</a></span>(explain_titanic_lmr, <span class="dt">variables =</span>  <span class="st">"age"</span>)</a>
-<a class="sourceLine" id="cb28-3" data-line-number="3">vr_age_gbm  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_effect.html">variable_effect</a></span>(explain_titanic_gbm, <span class="dt">variables =</span>  <span class="st">"age"</span>)</a>
-<a class="sourceLine" id="cb28-4" data-line-number="4">vr_age_svm  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_effect.html">variable_effect</a></span>(explain_titanic_svm, <span class="dt">variables =</span>  <span class="st">"age"</span>)</a>
-<a class="sourceLine" id="cb28-5" data-line-number="5">vr_age_knn  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_effect.html">variable_effect</a></span>(explain_titanic_knn, <span class="dt">variables =</span>  <span class="st">"age"</span>)</a>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">vr_age_rf  &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/DALEX/man/variable_effect.html">variable_effect</a></span>(explain_titanic_rf, <span class="dt">variables =</span>  <span class="st">"age"</span>)</a>
+<a class="sourceLine" id="cb28-2" data-line-number="2">vr_age_lmr  &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/DALEX/man/variable_effect.html">variable_effect</a></span>(explain_titanic_lmr, <span class="dt">variables =</span>  <span class="st">"age"</span>)</a>
+<a class="sourceLine" id="cb28-3" data-line-number="3">vr_age_gbm  &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/DALEX/man/variable_effect.html">variable_effect</a></span>(explain_titanic_gbm, <span class="dt">variables =</span>  <span class="st">"age"</span>)</a>
+<a class="sourceLine" id="cb28-4" data-line-number="4">vr_age_svm  &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/DALEX/man/variable_effect.html">variable_effect</a></span>(explain_titanic_svm, <span class="dt">variables =</span>  <span class="st">"age"</span>)</a>
+<a class="sourceLine" id="cb28-5" data-line-number="5">vr_age_knn  &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/DALEX/man/variable_effect.html">variable_effect</a></span>(explain_titanic_knn, <span class="dt">variables =</span>  <span class="st">"age"</span>)</a>
 <a class="sourceLine" id="cb28-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(vr_age_rf, vr_age_lmr, vr_age_gbm, vr_age_svm, vr_age_knn)</a></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-15-1.png" width="768"></p>
 </div>
@@ -400,7 +400,7 @@
 #&gt;  [1] caret_6.0-84        e1071_1.7-2         gbm_2.1.5          
 #&gt;  [4] rms_5.1-3.1         SparseM_1.77        Hmisc_4.2-0        
 #&gt;  [7] ggplot2_3.2.1       Formula_1.2-3       survival_2.44-1.1  
-#&gt; [10] lattice_0.20-38     randomForest_4.6-14 DALEX_0.9.5        
+#&gt; [10] lattice_0.20-38     randomForest_4.6-14 DALEX_0.9.6        
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
 #&gt;  [1] foreach_1.4.7       splines_3.6.1       prodlim_2018.04.18 

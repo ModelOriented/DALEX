@@ -42,7 +42,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.9.5</span>
+          <span class="version version-default">0.9.6</span>
         </div>
       </div>
     </div>
@@ -97,7 +97,7 @@
       <h1>How to use multilabel classification and DALEX?</h1>
                         <h4 class="author">Szymon Maksymiuk</h4>
             
-            <h4 class="date">2020-02-12</h4>
+            <h4 class="date">2020-02-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/DALEX/blob/master/vignettes/multilabel_classification.Rmd"><code>vignettes/multilabel_classification.Rmd</code></a></small>
       <div class="hidden name"><code>multilabel_classification.Rmd</code></div>
@@ -141,7 +141,7 @@
 #&gt; Target node size:                 10 
 #&gt; Variable importance mode:         none 
 #&gt; Splitrule:                        gini 
-#&gt; OOB prediction error (Brier s.):  0.2157715</code></pre>
+#&gt; OOB prediction error (Brier s.):  0.2171934</code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"DALEX"</span>)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">explain_HR_ranger &lt;-<span class="st"> </span><span class="kw"><a href="../reference/explain.html">explain</a></span>(model_HR_ranger,</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3">                              <span class="dt">data =</span> HR[,<span class="op">-</span><span class="dv">6</span>],</a>
@@ -185,7 +185,7 @@
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )
 #&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  WARNING  ) some of functionalities may not work 
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  0.008957356 , mean =  1.655962 , max =  2.999884  
+#&gt;   -&gt; residuals         :  numerical, min =  0.00351186 , mean =  1.655962 , max =  3  
 #&gt;   A new explainer has been created!</code></pre>
 <p>And now we can use <code><a href="../reference/variable_importance.html">variable_importance()</a></code></p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">vi &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_importance.html">variable_importance</a></span>(explain_HR_ranger_new_y, <span class="dt">loss_function =</span> loss_cross_entropy)</a>
@@ -196,19 +196,21 @@
 <div id="variable-effects" class="section level1">
 <h1 class="hasAnchor">
 <a href="#variable-effects" class="anchor"></a>Variable effects</h1>
-<p>There is no need for tricks in order to use <code><a href="../reference/variable_effect.html">variable_effect()</a></code>. Our target will be one-hot-encoded, and all of explantions will be performed for each of class separately.</p>
+<p>There is no need for tricks in order to use <code><a href="https://rdrr.io/pkg/DALEX/man/variable_effect.html">variable_effect()</a></code>. Our target will be one-hot-encoded, and all of explantions will be performed for each of class separately.</p>
 <div id="partial_dependency" class="section level2">
 <h2 class="hasAnchor">
 <a href="#partial_dependency" class="anchor"></a>partial_dependency</h2>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">ve_p &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_effect.html">variable_effect</a></span>(explain_HR_ranger, <span class="dt">variables =</span> <span class="st">"salary"</span>, <span class="dt">type =</span> <span class="st">"partial_dependency"</span>)</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(ve_p)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">ve_p &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_profile.html">variable_profile</a></span>(explain_HR_ranger, <span class="dt">variables =</span> <span class="st">"salary"</span>, <span class="dt">type =</span> <span class="st">"partial"</span>)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">ve_p<span class="op">$</span>color =<span class="st"> "_label_"</span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(ve_p)</a></code></pre></div>
 <p><img src="multilabel_classification_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
 <div id="accumulated_dependency" class="section level2">
 <h2 class="hasAnchor">
 <a href="#accumulated_dependency" class="anchor"></a>accumulated_dependency</h2>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">ve_a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_effect.html">variable_effect</a></span>(explain_HR_ranger, <span class="dt">variables =</span> <span class="st">"salary"</span>, <span class="dt">type =</span> <span class="st">"accumulated_dependency"</span>)</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(ve_a)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">ve_a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/variable_profile.html">variable_profile</a></span>(explain_HR_ranger, <span class="dt">variables =</span> <span class="st">"salary"</span>, <span class="dt">type =</span> <span class="st">"accumulated"</span>)</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">ve_a<span class="op">$</span>color =<span class="st"> "_label_"</span></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(ve_a)</a></code></pre></div>
 <p><img src="multilabel_classification_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>
 </div>
@@ -262,7 +264,7 @@
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )
 #&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  WARNING  ) some of functionalities may not work 
 #&gt;   -&gt; residual function :  residual_function 
-#&gt;   -&gt; residuals         :  numerical, min =  0.001005587 , mean =  0.2799438 , max =  0.8960817  
+#&gt;   -&gt; residuals         :  numerical, min =  0.00351186 , mean =  0.2776168 , max =  0.9388625  
 #&gt;   A new explainer has been created!</code></pre>
 <div id="model_performance" class="section level2">
 <h2 class="hasAnchor">
@@ -296,7 +298,7 @@
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt; [1] ranger_0.11.2 DALEX_0.9.5  
+#&gt; [1] ranger_0.11.2 DALEX_0.9.6  
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
 #&gt;  [1] Rcpp_1.0.3        gower_0.2.1       compiler_3.6.1    pillar_1.4.3     
