@@ -5,7 +5,6 @@
 #'
 #' @return An \code{ggplot2} object of the class \code{gg}.
 #'
-#' @export
 #' @examples
 #' library("ranger")
 #' titanic_glm_model <- ranger(survived ~ gender + age + class + fare + sibsp + parch,
@@ -31,6 +30,7 @@
 #' plot(pl)
 #'}
 #'
+#' @export
 plot.individual_diagnostics_explainer <- function(x, ...) {
   # if variables are not specified then gow with histogram
   if (is.null(x$variables)) {

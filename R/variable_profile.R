@@ -24,6 +24,33 @@
 #' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
 #'
 #' @name variable_profile
+#' @examples
+#' titanic_glm_model <- glm(survived~., data = titanic_imputed, family = "binomial")
+#' explainer_glm <- explain(titanic_glm_model, data = titanic_imputed)
+#' expl_glm <- variable_profile(explainer_glm, "fare")
+#' plot(expl_glm)
+#'
+#'  \dontrun{
+#' library("ranger")
+#' titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 50,
+#'                                probability = TRUE)
+#' explainer_ranger  <- explain(titanic_ranger_model, data = titanic_imputed)
+#' expl_ranger <- variable_profile(explainer_ranger)
+#' plot(expl_ranger, geom = "aggregates_profiles")
+#'
+#' vp_ra <- variable_profile(explainer_ranger, type = "partial", variables = c("age", "fare"))
+#' plot(vp_ra, variables = c("age", "fare"), geom = "aggregates_profiles_points")
+#'
+#' vp_ra <- variable_profile(explainer_ranger, type = "partial", k = 3)
+#' plot(vp_ra, geom = "aggregates_profiles")
+#'
+#' vp_ra <- variable_profile(explainer_ranger, type = "partial", groups = "gender")
+#' plot(vp_ra, geom = "aggregates_profiles")
+#'
+#' vp_ra <- variable_profile(explainer_ranger, type = "accumulated")
+#' plot(vp_ra, geom = "aggregates_profiles")
+#'  }
+#'
 #' @export
 variable_profile <- function(explainer, variables = NULL, N = 100, ..., groups = NULL, k = NULL, center = TRUE, type = "partial") {
   # run checks against the explainer objects

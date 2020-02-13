@@ -2,7 +2,7 @@
 #'
 #' Generic function
 #'
-#' @param x ab object with instance level residual diagnostics created with \code{\link{individual_diagnostics}} function
+#' @param x an object with instance level residual diagnostics created with \code{\link{individual_diagnostics}} function
 #' @param ... other parameters
 #'
 #' @export

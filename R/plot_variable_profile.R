@@ -6,8 +6,41 @@
 #'
 #' @return An object of the class \code{ggplot}.
 #'
+#' @examples
+#' titanic_glm_model <- glm(survived~., data = titanic_imputed, family = "binomial")
+#' explainer_glm <- explain(titanic_glm_model, data = titanic_imputed)
+#' expl_glm <- variable_profile(explainer_glm, "fare")
+#' plot(expl_glm)
+#'
+#'  \dontrun{
+#' library("ranger")
+#' titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 50,
+#'                                probability = TRUE)
+#' explainer_ranger  <- explain(titanic_ranger_model, data = titanic_imputed)
+#' expl_ranger <- variable_profile(explainer_ranger)
+#' plot(expl_ranger)
+#' plot(expl_ranger, geom = "aggregates_profiles")
+#'
+#' vp_ra <- variable_profile(explainer_ranger, type = "partial", variables = c("age", "fare"))
+#' plot(vp_ra, variables = c("age", "fare"), geom = "aggregates_profiles_points")
+#'
+#' vp_ra <- variable_profile(explainer_ranger, type = "partial", k = 3)
+#' plot(vp_ra)
+#' plot(vp_ra, geom = "aggregates_profiles")
+#' plot(vp_ra, geom = "aggregates_profiles_points")
+#'
+#' vp_ra <- variable_profile(explainer_ranger, type = "partial", groups = "gender")
+#' plot(vp_ra)
+#' plot(vp_ra, geom = "aggregates_profiles")
+#' plot(vp_ra, geom = "aggregates_profiles_points")
+#'
+#' vp_ra <- variable_profile(explainer_ranger, type = "accumulated")
+#' plot(vp_ra)
+#' plot(vp_ra, geom = "aggregates_profiles")
+#' plot(vp_ra, geom = "aggregates_profiles_points")
+#'  }
+#'
 #' @export
-#
 plot.variable_profile_explainer <- function(x, ..., geom = "aggregates") {
   pl <- switch(geom,
          aggregates = plot.variable_profile_explainer_aggregates(x, ...),
@@ -16,7 +49,6 @@ plot.variable_profile_explainer <- function(x, ..., geom = "aggregates") {
   )
   pl
 }
-
 
 
 plot.variable_profile_explainer_aggregates <- function(x, ...) {

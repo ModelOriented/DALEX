@@ -84,14 +84,16 @@ There is no need for tricks in order to use `variable_effect()`. Our target will
 ## partial_dependency
 
 ```{r}
-ve_p <- variable_effect(explain_HR_ranger, variables = "salary", type = "partial_dependency")
+ve_p <- variable_profile(explain_HR_ranger, variables = "salary", type = "partial")
+ve_p$color = "_label_"
 plot(ve_p)
 ```
 
 ## accumulated_dependency
 
 ```{r}
-ve_a <- variable_effect(explain_HR_ranger, variables = "salary", type = "accumulated_dependency")
+ve_a <- variable_profile(explain_HR_ranger, variables = "salary", type = "accumulated")
+ve_a$color = "_label_"
 plot(ve_a)
 ```
 

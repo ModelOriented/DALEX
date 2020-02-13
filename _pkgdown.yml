@@ -16,6 +16,7 @@ reference:
     - variable_attribution
     - individual_profile
     - individual_diagnostics
+    - print.individual_diagnostics_explainer
     - plot.individual_diagnostics_explainer
   - title: Dataset Level Explanations
     desc: Functions that generate and plot dataset/global level explanations from model explainers
@@ -24,8 +25,10 @@ reference:
     - variable_importance
     - variable_profile
     - residual_diagnostics
-    - plot.model_performance_explainer
+    - print.variable_profile_explainer
+    - plot.variable_profile_explainer
     - print.model_performance_explainer
+    - plot.model_performance_explainer
   - title: Model performance measures
     desc: Model performance measures for packages from the DrWhy.AI universe
     contents:
