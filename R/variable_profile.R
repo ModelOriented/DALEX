@@ -8,19 +8,18 @@
 #' \code{\link[ingredients]{accumulated_dependency}} functions from the \code{ingredients} package.
 #'
 #' @param explainer a model to be explained, preprocessed by the 'explain' function
-#' @param ... other parameters that will be passed to \code{iBreakDown::break_down}
+#' @param ... other parameters that will be passed to \code{ingredients::aggregate_profiles}
 #' @param groups a variable name that will be used for grouping.
 #' By default \code{NULL} which means that no groups shall be calculated
 #' @param N number of observations used for calculation of aggregated profiles. By default 100.
 #' @param k number of clusters for the hclust function (for clustered profiles)
 #' @param center shall profiles be centered before clustering
 #' @param variables character - names of variables to be explained
-#' @param type the type of variable profile Either 'partial' or 'accumulated'.
+#' @param type the type of variable profile Either 'partial', 'conditional' or 'accumulated'.
 #'
 #' @return An object of the class 'variable_profile_explainer'.
 #' It's a data frame with calculated average model responses.
 #'
-#' @aliases variable_profile_partial_dependence variable_profile_accumulated_dependence
 #' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
 #'
 #' @name variable_profile
@@ -36,19 +35,19 @@
 #'                                probability = TRUE)
 #' explainer_ranger  <- explain(titanic_ranger_model, data = titanic_imputed)
 #' expl_ranger <- variable_profile(explainer_ranger)
-#' plot(expl_ranger, geom = "aggregates_profiles")
+#' plot(expl_ranger, geom = "profiles")
 #'
 #' vp_ra <- variable_profile(explainer_ranger, type = "partial", variables = c("age", "fare"))
-#' plot(vp_ra, variables = c("age", "fare"), geom = "aggregates_profiles_points")
+#' plot(vp_ra, variables = c("age", "fare"), geom = "points")
 #'
 #' vp_ra <- variable_profile(explainer_ranger, type = "partial", k = 3)
-#' plot(vp_ra, geom = "aggregates_profiles")
+#' plot(vp_ra, geom = "profiles")
 #'
 #' vp_ra <- variable_profile(explainer_ranger, type = "partial", groups = "gender")
-#' plot(vp_ra, geom = "aggregates_profiles")
+#' plot(vp_ra, geom = "profiles")
 #'
 #' vp_ra <- variable_profile(explainer_ranger, type = "accumulated")
-#' plot(vp_ra, geom = "aggregates_profiles")
+#' plot(vp_ra, geom = "profiles")
 #'  }
 #'
 #' @export

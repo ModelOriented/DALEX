@@ -11,7 +11,7 @@
 
 \item{...}{other parameters}
 
-\item{geom}{either \code{"aggregates"}, \code{"aggregates_profiles"}, \code{"aggregates_profiles_points"} determines which will be plotted}
+\item{geom}{either \code{"aggregates"}, \code{"profiles"}, \code{"points"} determines which will be plotted}
 }
 \value{
 An object of the class \code{ggplot}.
@@ -39,18 +39,18 @@ plot(vp_ra, variables = c("age", "fare"), geom = "aggregates_profiles_points")
 
 vp_ra <- variable_profile(explainer_ranger, type = "partial", k = 3)
 plot(vp_ra)
-plot(vp_ra, geom = "aggregates_profiles")
-plot(vp_ra, geom = "aggregates_profiles_points")
+plot(vp_ra, geom = "profiles")
+plot(vp_ra, geom = "points")
 
 vp_ra <- variable_profile(explainer_ranger, type = "partial", groups = "gender")
 plot(vp_ra)
-plot(vp_ra, geom = "aggregates_profiles")
-plot(vp_ra, geom = "aggregates_profiles_points")
+plot(vp_ra, geom = "profiles")
+plot(vp_ra, geom = "points")
 
 vp_ra <- variable_profile(explainer_ranger, type = "accumulated")
 plot(vp_ra)
-plot(vp_ra, geom = "aggregates_profiles")
-plot(vp_ra, geom = "aggregates_profiles_points")
+plot(vp_ra, geom = "profiles")
+plot(vp_ra, geom = "points")
  }
 
 }

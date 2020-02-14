@@ -2,8 +2,6 @@
 % Please edit documentation in R/variable_profile.R
 \name{variable_profile}
 \alias{variable_profile}
-\alias{variable_profile_partial_dependence}
-\alias{variable_profile_accumulated_dependence}
 \title{Dataset Level Variable Profile as Partial Dependency or Accumulated Local Dependency Explanations}
 \usage{
 variable_profile(
@@ -24,7 +22,7 @@ variable_profile(
 
 \item{N}{number of observations used for calculation of aggregated profiles. By default 100.}
 
-\item{...}{other parameters that will be passed to \code{iBreakDown::break_down}}
+\item{...}{other parameters that will be passed to \code{ingredients::aggregate_profiles}}
 
 \item{groups}{a variable name that will be used for grouping.
 By default \code{NULL} which means that no groups shall be calculated}
@@ -33,7 +31,7 @@ By default \code{NULL} which means that no groups shall be calculated}
 
 \item{center}{shall profiles be centered before clustering}
 
-\item{type}{the type of variable profile Either 'partial' or 'accumulated'.}
+\item{type}{the type of variable profile Either 'partial', 'conditional' or 'accumulated'.}
 }
 \value{
 An object of the class 'variable_profile_explainer'.
@@ -60,19 +58,19 @@ titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 5
                                probability = TRUE)
 explainer_ranger  <- explain(titanic_ranger_model, data = titanic_imputed)
 expl_ranger <- variable_profile(explainer_ranger)
-plot(expl_ranger, geom = "aggregates_profiles")
+plot(expl_ranger, geom = "profiles")
 
 vp_ra <- variable_profile(explainer_ranger, type = "partial", variables = c("age", "fare"))
-plot(vp_ra, variables = c("age", "fare"), geom = "aggregates_profiles_points")
+plot(vp_ra, variables = c("age", "fare"), geom = "points")
 
 vp_ra <- variable_profile(explainer_ranger, type = "partial", k = 3)
-plot(vp_ra, geom = "aggregates_profiles")
+plot(vp_ra, geom = "profiles")
 
 vp_ra <- variable_profile(explainer_ranger, type = "partial", groups = "gender")
-plot(vp_ra, geom = "aggregates_profiles")
+plot(vp_ra, geom = "profiles")
 
 vp_ra <- variable_profile(explainer_ranger, type = "accumulated")
-plot(vp_ra, geom = "aggregates_profiles")
+plot(vp_ra, geom = "profiles")
  }
 
 }

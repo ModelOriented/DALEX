@@ -7,7 +7,7 @@
 \method{print}{individual_diagnostics_explainer}(x, ...)
 }
 \arguments{
-\item{x}{ab object with instance level residual diagnostics created with \code{\link{individual_diagnostics}} function}
+\item{x}{an object with instance level residual diagnostics created with \code{\link{individual_diagnostics}} function}
 
 \item{...}{other parameters}
 }
