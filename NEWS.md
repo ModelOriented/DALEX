@@ -14,6 +14,7 @@ DALEX 1.0
 * `residuals_distributon` is now `individual_diagnostics` and produces objects of the class `individual_diagnostics_explainers`
 * `plot.individual_diagnostics_explainers` now plots objects of the class `individual_diagnostics_explainers`
 * `yhat` for caret models now returns matrix instead of data.frame
+* `model_diagnostics` new function that plots residuals againes selected variable
 
 DALEX 0.4.9
 ----------------------------------------------------------------
