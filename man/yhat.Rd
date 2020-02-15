@@ -13,6 +13,7 @@
 \alias{yhat.model_fit}
 \alias{yhat.train}
 \alias{yhat.lrm}
+\alias{yhat.rpart}
 \alias{yhat.default}
 \title{Wrap Various Predict Functions}
 \usage{
@@ -40,6 +41,8 @@ yhat(X.model, newdata, ...)
 
 \method{yhat}{lrm}(X.model, newdata, ...)
 
+\method{yhat}{rpart}(X.model, newdata, ...)
+
 \method{yhat}{default}(X.model, newdata, ...)
 }
 \arguments{
@@ -62,15 +65,16 @@ not classes itself.
 \details{
 Currently supported packages are:
 \itemize{
-\item class `cv.glmnet` and `glmnet` - models created with `glmnet` package
-\item class `glm` - generalized linear models
-\item class `model_fit` - models created with `parsnip` package
-\item class `lm` - linear models created with `stats::lm`
-\item class `ranger` - models created with `ranger` package
-\item class `randomForest` - random forest models created with `randomForest` package
-\item class `svm` - support vector machines models created with the `e1071` package
-\item class `train` - models created with `caret` package
-\item class `gbm` - models created with `gbm` package
-\item class `lrm` - models created with `rms` package
+\item class \code{cv.glmnet} and \code{glmnet} - models created with \pkg{glmnet} package,
+\item class \code{glm} - generalized linear models created with \link[stats]{glm},
+\item class \code{model_fit} - models created with \pkg{parsnip} package,
+\item class \code{lm} - linear models created with \link[stats]{lm},
+\item class \code{ranger} - models created with \pkg{ranger} package,
+\item class \code{randomForest} - random forest models created with \pkg{randomForest} package,
+\item class \code{svm} - support vector machines models created with the \pkg{e1071} package,
+\item class \code{train} - models created with \pkg{caret} package,
+\item class \code{gbm} - models created with \pkg{gbm} package,
+\item class \code{lrm} - models created with \pkg{rms} package,
+\item class \code{rpart} - models created with \pkg{rpart} package.
 }
 }

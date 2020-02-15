@@ -178,3 +178,38 @@ test_that("glm", {
 
 
 })
+
+test_that("rpart", {
+  #skip_if_no_codecov()
+  # model_classif_rpart <- rpart(as.factor(survived)~., data = titanic_imputed_cut)
+  # model_regr_rpart <- rpart(m2.price~., data = apartments_cut)
+  load("./../objects_for_tests/model_classif_rpart.RData")
+  load("./../objects_for_tests/model_regr_rpart.RData")
+
+  # predict.rpart <- function(X.model, newdata, ...) {
+  #   data.frame(rep(0.5, times = 100), rep(0.5, times = 100))
+  # }
+
+  explainer_classif_rpart <- explain(model_classif_rpart, data = titanic_imputed_cut, y = titanic_imputed_cut$survived, verbose = FALSE)
+  explainer_regr_rpart <- explain(model_regr_rpart, data = apartments_cut, y = apartments_cut$m2.price, verbose = FALSE)
+  expect_is(explainer_classif_rpart$y_hat, "numeric")
+  expect_is(explainer_classif_rpart$model_info, "model_info")
+  expect_is(explainer_regr_rpart$y_hat, "numeric")
+  expect_is(explainer_regr_rpart$model_info, "model_info")
+
+})
+
+test_that("yhat default", {
+  #skip_if_no_codecov()
+  # model_classif_rpart <- rpart(as.factor(survived)~., data = titanic_imputed_cut)
+  # model_regr_rpart <- rpart(m2.price~., data = apartments_cut)
+  load("./../objects_for_tests/model_classif_rpart.RData")
+
+  # predict.rpart <- function(X.model, newdata, ...) {
+  #   data.frame(rep(0.5, times = 100), rep(0.5, times = 100))
+  # }
+  expect_is(DALEX:::yhat.default(model_classif_rpart, titanic_imputed_cut), "numeric")
+  expect_is(DALEX:::yhat.default(model_classif_rpart, apartments_cut), "numeric")
+
+
+})

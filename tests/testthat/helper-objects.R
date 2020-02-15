@@ -70,6 +70,15 @@ predict.train <- function(X.model, newdata, type, ...) {
   response
 }
 
+predict.rpart <- function(X.model, newdata, ...) {
+  if (attr(X.model$terms, "dataClasses")[1] == "factor") {
+    response <-   data.frame(rep(0.5, times = nrow(newdata)), rep(0.5, times = nrow(newdata)))
+  } else {
+    response <- rep(0.5, times = nrow(newdata))
+  }
+  response
+}
+
 
 explainer_classif_ranger  <- explain(model_classif_ranger, data = titanic_imputed, y = titanic_imputed$survived, verbose = FALSE)
 explainer_classif_glm  <- explain(model_classif_glm, data = HR, predict_function = p_fun_glm, verbose = FALSE)
