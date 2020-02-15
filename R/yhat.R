@@ -143,6 +143,9 @@ yhat.train <- function(X.model, newdata, ...) {
     response <- predict(X.model, newdata = newdata)
 
   }
+  # fix for https://github.com/ModelOriented/DALEX/issues/150
+  if (class(response) == "data.frame") response <- as.matrix(response)
+
   response
 }
 

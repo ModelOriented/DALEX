@@ -13,6 +13,7 @@ DALEX 1.0
 * `plot.model_performance` now supports ROC charts, LIFT charts, Cummulative Gain charts, histograms, boxplots and ecdf 
 * `residuals_distributon` is now `individual_diagnostics` and produces objects of the class `individual_diagnostics_explainers`
 * `plot.individual_diagnostics_explainers` now plots objects of the class `individual_diagnostics_explainers`
+* `yhat` for caret models now returns matrix instead of data.frame
 
 DALEX 0.4.9
 ----------------------------------------------------------------
