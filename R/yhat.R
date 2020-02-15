@@ -173,16 +173,20 @@ yhat.rpart <- function(X.model, newdata, ...) {
 #' @export
 yhat.default <- function(X.model, newdata, ...) {
   response <- predict(X.model, newdata, ...)
+  # result is a vector
   if (is.null(dim(response))) {
-    response <- as.numeric(response)
-  } else {
-    if (dim(response)[2] == 1) {
-      response <- as.numeric(response)
-    } else if (dim(response)[2] == 2) {
-      response <- as.numeric(response[,2])
-    }
+    return(as.numeric(response))
   }
-  response
+  # result is a matrix or data.frame with a single column
+  if (ncol(response) == 1) {
+    return(as.numeric(response))
+  }
+  # result is a matrix of data.frame with a two column (binary classification), returns the second
+  if (ncol(response) == 2) {
+    return(as.numeric(response[,2]))
+  }
+  # result is a matrix of data.frame with more than 2 columns (multi label classification)
+  as.matrix(response)
 }
 
 
