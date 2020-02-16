@@ -13,7 +13,7 @@
 #' @param neighbors number of neighbors for histogram. By default 50.
 #' @param distance the distance function, by default the \code{gower_dist()} function.
 #'
-#' @return An object of the class 'individual_diagnostics_explainer'.
+#' @return An object of the class 'predict_diagnostics'.
 #' It's a data frame with calculated distribution of residuals.
 #'
 #' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
@@ -30,17 +30,17 @@
 #' johny_d <- titanic_imputed[24, c("gender", "age", "class", "fare", "sibsp", "parch")]
 #'
 #' \dontrun{
-#' id_johny <- individual_diagnostics(explainer_glm, johny_d, variables = NULL)
+#' id_johny <- predict_diagnostics(explainer_glm, johny_d, variables = NULL)
 #' id_johny
 #' plot(id_johny)
 #'
-#' id_johny <- individual_diagnostics(explainer_glm, johny_d,
+#' id_johny <- predict_diagnostics(explainer_glm, johny_d,
 #'                        neighbors = 10,
 #'                        variables = c("age", "fare"))
 #' id_johny
 #' plot(id_johny)
 #'
-#' id_johny <- individual_diagnostics(explainer_glm,
+#' id_johny <- predict_diagnostics(explainer_glm,
 #'                        johny_d,
 #'                        neighbors = 10,
 #'                        variables = c("class", "gender"))
@@ -48,10 +48,10 @@
 #' plot(id_johny)
 #'}
 #'
-#' @name individual_diagnostics
+#' @name predict_diagnostics
 #' @export
-individual_diagnostics <-  function(explainer, new_observation, variables = NULL, ..., nbins = 20, neighbors = 50, distance = gower::gower_dist) {
-  test_expaliner(explainer, has_data = TRUE, function_name = "individual_diagnostics")
+predict_diagnostics <-  function(explainer, new_observation, variables = NULL, ..., nbins = 20, neighbors = 50, distance = gower::gower_dist) {
+  test_expaliner(explainer, has_data = TRUE, function_name = "predict_diagnostics")
 
   neighbours_id <- select_neighbours_id(new_observation, explainer$data, n = neighbors, distance = distance)
 
@@ -89,9 +89,13 @@ individual_diagnostics <-  function(explainer, new_observation, variables = NULL
                 cp_new_instance = cp_new_instance,
                 neighbours_id = neighbours_id)
   }
-  class(res) <- "individual_diagnostics_explainer"
+  class(res) <- "predict_diagnostics"
   res
 }
+
+#' @name predict_diagnostics
+#' @export
+individual_diagnostics <- predict_diagnostics
 
 
 select_neighbours_id <- function(observation, data, variables = NULL, distance = gower::gower_dist, n = 50, frac = NULL) {

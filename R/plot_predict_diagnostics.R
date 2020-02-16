@@ -1,9 +1,9 @@
 #' Plot Instance Level Residual Diagnostics
 #'
-#' @param x ab object with instance level residual diagnostics created with \code{\link{individual_diagnostics}} function
+#' @param x an object with instance level residual diagnostics created with \code{\link{predict_diagnostics}} function
 #' @param ... other parameters
 #'
-#' @return An \code{ggplot2} object of the class \code{gg}.
+#' @return an \code{ggplot2} object of the class \code{gg}.
 #'
 #' @examples
 #' library("ranger")
@@ -15,15 +15,15 @@
 #' johny_d <- titanic_imputed[24, c("gender", "age", "class", "fare", "sibsp", "parch")]
 #'
 #' \dontrun{
-#' pl <- individual_diagnostics(explainer_glm, johny_d, variables = NULL)
+#' pl <- predict_diagnostics(explainer_glm, johny_d, variables = NULL)
 #' plot(pl)
 #'
-#' pl <- individual_diagnostics(explainer_glm, johny_d,
+#' pl <- predict_diagnostics(explainer_glm, johny_d,
 #'                        neighbors = 10,
 #'                        variables = c("age", "fare"))
 #' plot(pl)
 #'
-#' pl <- individual_diagnostics(explainer_glm,
+#' pl <- predict_diagnostics(explainer_glm,
 #'                        johny_d,
 #'                        neighbors = 10,
 #'                        variables = c("class", "gender"))
@@ -31,7 +31,7 @@
 #'}
 #'
 #' @export
-plot.individual_diagnostics_explainer <- function(x, ...) {
+plot.predict_diagnostics <- function(x, ...) {
   # if variables are not specified then gow with histogram
   if (is.null(x$variables)) {
     df <- rbind(x$histogram_neighbours, x$histogram_all)

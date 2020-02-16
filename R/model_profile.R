@@ -1,13 +1,14 @@
-#' Dataset Level Variable Profile as Partial Dependency or Accumulated Local Dependency Explanations
+#' Dataset Level Variable Profile as Partial Dependence or Accumulated Local Dependence Explanations
 #'
 #' This function calculates explanations on a dataset level set that explore model response as a function of selected variables.
-#' The explanations can be calulated as Partial Dependency Profile or  Accumulated Local Dependency Profile.
+#' The explanations can be calulated as Partial Dependence Profile or  Accumulated Local Dependence Profile.
 #' Find information how to use this function here: \url{https://pbiecek.github.io/ema/partialDependenceProfiles.html}.
+#' The \code{variable_profile} function is a copy of \code{model_profile}.
 #'
 #' Underneath this function calls the \code{\link[ingredients]{partial_dependency}} or
 #' \code{\link[ingredients]{accumulated_dependency}} functions from the \code{ingredients} package.
 #'
-#' @param explainer a model to be explained, preprocessed by the 'explain' function
+#' @param explainer a model to be explained, preprocessed by the \code{explain} function
 #' @param ... other parameters that will be passed to \code{ingredients::aggregate_profiles}
 #' @param groups a variable name that will be used for grouping.
 #' By default \code{NULL} which means that no groups shall be calculated
@@ -15,18 +16,18 @@
 #' @param k number of clusters for the hclust function (for clustered profiles)
 #' @param center shall profiles be centered before clustering
 #' @param variables character - names of variables to be explained
-#' @param type the type of variable profile Either 'partial', 'conditional' or 'accumulated'.
+#' @param type the type of variable profile. Either \code{partial}, \code{conditional} or \code{accumulated}.
 #'
-#' @return An object of the class 'variable_profile_explainer'.
+#' @return An object of the class \code{model_profile}.
 #' It's a data frame with calculated average model responses.
 #'
 #' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
 #'
-#' @name variable_profile
+#' @name model_profile
 #' @examples
 #' titanic_glm_model <- glm(survived~., data = titanic_imputed, family = "binomial")
 #' explainer_glm <- explain(titanic_glm_model, data = titanic_imputed)
-#' expl_glm <- variable_profile(explainer_glm, "fare")
+#' expl_glm <- model_profile(explainer_glm, "fare")
 #' plot(expl_glm)
 #'
 #'  \dontrun{
@@ -34,26 +35,26 @@
 #' titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 50,
 #'                                probability = TRUE)
 #' explainer_ranger  <- explain(titanic_ranger_model, data = titanic_imputed)
-#' expl_ranger <- variable_profile(explainer_ranger)
+#' expl_ranger <- model_profile(explainer_ranger)
 #' plot(expl_ranger, geom = "profiles")
 #'
-#' vp_ra <- variable_profile(explainer_ranger, type = "partial", variables = c("age", "fare"))
+#' vp_ra <- model_profile(explainer_ranger, type = "partial", variables = c("age", "fare"))
 #' plot(vp_ra, variables = c("age", "fare"), geom = "points")
 #'
-#' vp_ra <- variable_profile(explainer_ranger, type = "partial", k = 3)
+#' vp_ra <- model_profile(explainer_ranger, type = "partial", k = 3)
 #' plot(vp_ra, geom = "profiles")
 #'
-#' vp_ra <- variable_profile(explainer_ranger, type = "partial", groups = "gender")
+#' vp_ra <- model_profile(explainer_ranger, type = "partial", groups = "gender")
 #' plot(vp_ra, geom = "profiles")
 #'
-#' vp_ra <- variable_profile(explainer_ranger, type = "accumulated")
+#' vp_ra <- model_profile(explainer_ranger, type = "accumulated")
 #' plot(vp_ra, geom = "profiles")
 #'  }
 #'
 #' @export
-variable_profile <- function(explainer, variables = NULL, N = 100, ..., groups = NULL, k = NULL, center = TRUE, type = "partial") {
+model_profile <- function(explainer, variables = NULL, N = 100, ..., groups = NULL, k = NULL, center = TRUE, type = "partial") {
   # run checks against the explainer objects
-  test_expaliner(explainer, has_data = TRUE, function_name = "variable_profile")
+  test_expaliner(explainer, has_data = TRUE, function_name = "model_profile")
 
   # calculate serveral ceteris profiles and call the aggregate profiles for partial dependency
   data <- explainer$data
@@ -89,6 +90,10 @@ variable_profile <- function(explainer, variables = NULL, N = 100, ..., groups =
   structure(
     list(cp_profiles, agr_profiles, color),
     .Names = c("cp_profiles", "agr_profiles", "color"),
-    class = "variable_profile_explainer")
+    class = "model_profile")
 
 }
+
+#' @name model_profile
+#' @export
+variable_profile <- model_profile

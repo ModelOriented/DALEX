@@ -8,7 +8,7 @@
 #' @export
 install_dependencies <- function(packages = c("ingredients", "iBreakDown", "ggpubr")) {
   sapply(packages, function(package) {
-    cat("\nInstallation of the ",package," initiated.\n")
+    cat("\nInstallation of the ", package, " initiated.\n")
     try(install.packages(package), silent = TRUE)
   })
   invisible(NULL)

@@ -15,6 +15,7 @@ DALEX 1.0
 * `plot.individual_diagnostics_explainers` now plots objects of the class `individual_diagnostics_explainers`
 * `yhat` for caret models now returns matrix instead of data.frame
 * `model_diagnostics` new function that plots residuals againes selected variable
+* names of functions are changed to be compliant with latest version of the XAI pyramide
 
 DALEX 0.4.9
 ----------------------------------------------------------------

@@ -2,7 +2,7 @@
 % Please edit documentation in R/model_performance.R
 \name{model_performance}
 \alias{model_performance}
-\title{Model Performance Measures}
+\title{Dataset Level Model Performance Measures}
 \usage{
 model_performance(explainer, ..., cutoff = 0.5)
 }
@@ -14,7 +14,7 @@ model_performance(explainer, ..., cutoff = 0.5)
 \item{cutoff}{a cutoff for classification models, needed for measures like recall, precision, ACC, F1. By default 0.5.}
 }
 \value{
-An object of the class \code{model_performance_explainer}.
+An object of the class \code{model_performance}.
 }
 \description{
 Function \code{model_performance()} calculates various performance measures for classification and regression models.

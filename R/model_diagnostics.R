@@ -4,11 +4,11 @@
 #' Residuals are calculated and ploted against predictions, true y values or selected variables.
 #' Find information how to use this function here: \url{https://pbiecek.github.io/ema/residualDiagnostic.html}.
 #'
-#' @param explainer a model to be explained, preprocessed by the 'explain' function
+#' @param explainer a model to be explained, preprocessed by the \code{explain} function
 #' @param variables character - name of variables to be explained. Default \code{NULL} stands for all variables
 #' @param ... other parameters
 #'
-#' @return An object of the class 'model_diagnostics_explainer'.
+#' @return An object of the class \code{model_diagnostics}.
 #' It's a data frame with residuals and selected variables.
 #'
 #' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
@@ -76,6 +76,6 @@ model_diagnostics <-  function(explainer, variables = NULL, ...) {
   results$label <- explainer$label
   results$ids <- seq_along(results$label)
 
-  class(results) <- c("model_diagnostics_explainer", "data.frame")
+  class(results) <- c("model_diagnostics", "data.frame")
   results
 }

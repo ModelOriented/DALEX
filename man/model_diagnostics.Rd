@@ -7,14 +7,14 @@
 model_diagnostics(explainer, variables = NULL, ...)
 }
 \arguments{
-\item{explainer}{a model to be explained, preprocessed by the 'explain' function}
+\item{explainer}{a model to be explained, preprocessed by the \code{explain} function}
 
 \item{variables}{character - name of variables to be explained. Default \code{NULL} stands for all variables}
 
 \item{...}{other parameters}
 }
 \value{
-An object of the class 'model_diagnostics_explainer'.
+An object of the class \code{model_diagnostics}.
 It's a data frame with residuals and selected variables.
 }
 \description{

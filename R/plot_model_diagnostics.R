@@ -1,4 +1,4 @@
-#' Plot Dataset Level Diagnostic Explanations
+#' Plot Dataset Level Model Diagnostics
 #'
 #' @param x a data.frame to be explained, preprocessed by the \code{\link{model_diagnostics}} function
 #' @param ... other object to be included to the plot
@@ -31,7 +31,7 @@
 #' plot(diag_ranger, variable = "y", yvariable = "y_hat")
 #'}
 #' @export
-plot.model_diagnostics_explainer <- function(x, ..., variable = "y_hat", yvariable = "residuals", smooth = TRUE) {
+plot.model_diagnostics <- function(x, ..., variable = "y_hat", yvariable = "residuals", smooth = TRUE) {
   dfl <- c(list(x), list(...))
   all_models <- do.call(rbind, dfl)
   class(all_models) <- "data.frame"
@@ -44,13 +44,11 @@ plot.model_diagnostics_explainer <- function(x, ..., variable = "y_hat", yvariab
 
    # add smooth
    if (smooth)
-     pl <- pl +
-         geom_smooth(se = FALSE, color = "grey")
+     pl <- pl + geom_smooth(se = FALSE, color = "grey")
 
    # add hline
    if (yvariable == "residuals")
      pl <- pl + geom_hline(yintercept = 0, color = "grey", lty = 2, size = 1)
 
-    pl +
-      ggtitle("Model diagnostics", paste0(variable, " against ", yvariable))
+    pl + ggtitle("Model diagnostics", paste0(variable, " against ", yvariable))
 }

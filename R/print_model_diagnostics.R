@@ -6,7 +6,7 @@
 #' @param ... other parameters
 #'
 #' @export
-print.model_diagnostics_explainer <- function(x, ...) {
+print.model_diagnostics <- function(x, ...) {
   class(x) = "data.frame"
   print(summary(x))
 }
