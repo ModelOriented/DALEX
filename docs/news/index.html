@@ -80,7 +80,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.9.6</span>
+          <span class="version version-default">0.9.8</span>
         </div>
       </div>
     </div>
@@ -165,6 +165,11 @@
 <li>
 <code>plot.individual_diagnostics_explainers</code> now plots objects of the class <code>individual_diagnostics_explainers</code>
 </li>
+<li>
+<code>yhat</code> for caret models now returns matrix instead of data.frame</li>
+<li>
+<code>model_diagnostics</code> new function that plots residuals againes selected variable</li>
+<li>names of functions are changed to be compliant with latest version of the XAI pyramide</li>
 </ul>
 </div>
     <div id="dalex-0-4-9" class="section level2">
@@ -254,7 +259,7 @@
 <li>
 <code>feature_response()</code> and <code>variable_response()</code> are marked as Deprecated. It is suggested to use <code><a href="https://rdrr.io/pkg/ingredients/man/partial_dependency.html">ingredients::partial_dependency()</a></code>, <code><a href="https://rdrr.io/pkg/ingredients/man/accumulated_dependency.html">ingredients::accumulated_dependency()</a></code> instead (<a href="https://github.com/pbiecek/DALEX/issues/74"><a href='https://github.com/ModelOriented/DALEX/issues/74'>#74</a></a>).</li>
 <li>
-<code><a href="../reference/variable_importance.html">variable_importance()</a></code> is marked as Deprecated. It is suggested to use <code><a href="https://rdrr.io/pkg/ingredients/man/feature_importance.html">ingredients::feature_importance()</a></code> instead (<a href="https://github.com/pbiecek/DALEX/issues/75"><a href='https://github.com/ModelOriented/DALEX/issues/75'>#75</a></a>).</li>
+<code><a href="../reference/model_parts.html">variable_importance()</a></code> is marked as Deprecated. It is suggested to use <code><a href="https://rdrr.io/pkg/ingredients/man/feature_importance.html">ingredients::feature_importance()</a></code> instead (<a href="https://github.com/pbiecek/DALEX/issues/75"><a href='https://github.com/ModelOriented/DALEX/issues/75'>#75</a></a>).</li>
 <li>
 <code>prediction_breakdown()</code> is marked as Deprecated. It is suggested to use <code><a href="https://rdrr.io/pkg/iBreakDown/man/break_down.html">iBreakDown::break_down()</a></code> or <code><a href="https://rdrr.io/pkg/iBreakDown/man/break_down_uncertainty.html">iBreakDown::shap()</a></code> instead (<a href="https://github.com/pbiecek/DALEX/issues/76"><a href='https://github.com/ModelOriented/DALEX/issues/76'>#76</a></a>).</li>
 </ul>
@@ -327,7 +332,7 @@
 <a href="#dalex-0-2-4" class="anchor"></a>DALEX 0.2.4</h2>
 <ul>
 <li>New dataset <code>HR</code> and <code>HRTest</code>. Target variable is a factor with three levels. Is used in examples for classification.</li>
-<li>The <code>plot.model_performance()</code> has now <code>show_outliers</code> parameter. Set it to anything &gt;0 and observations with largest residuals will be presented in the plot. (<a href="https://github.com/pbiecek/DALEX/issues/34"><a href='https://github.com/ModelOriented/DALEX/issues/34'>#34</a></a>)</li>
+<li>The <code><a href="../reference/plot.model_performance.html">plot.model_performance()</a></code> has now <code>show_outliers</code> parameter. Set it to anything &gt;0 and observations with largest residuals will be presented in the plot. (<a href="https://github.com/pbiecek/DALEX/issues/34"><a href='https://github.com/ModelOriented/DALEX/issues/34'>#34</a></a>)</li>
 </ul>
 </div>
     <div id="dalex-0-2-3" class="section level2">
@@ -358,10 +363,10 @@
 <h2 class="hasAnchor">
 <a href="#dalex-0-2-0" class="anchor"></a>DALEX 0.2.0</h2>
 <ul>
-<li>New names for some functions: <code><a href="../reference/model_performance.html">model_performance()</a></code>, <code><a href="../reference/variable_importance.html">variable_importance()</a></code>, <code>variable_response()</code>, <code>outlier_detection()</code>, <code>prediction_breakdown()</code>. Old names are now deprecated but still working. (<a href="https://github.com/pbiecek/DALEX/issues/12"><a href='https://github.com/ModelOriented/DALEX/issues/12'>#12</a></a>)</li>
+<li>New names for some functions: <code><a href="../reference/model_performance.html">model_performance()</a></code>, <code><a href="../reference/model_parts.html">variable_importance()</a></code>, <code>variable_response()</code>, <code>outlier_detection()</code>, <code>prediction_breakdown()</code>. Old names are now deprecated but still working. (<a href="https://github.com/pbiecek/DALEX/issues/12"><a href='https://github.com/ModelOriented/DALEX/issues/12'>#12</a></a>)</li>
 <li>A new dataset <code>apartments</code> - will be used in examples</li>
 <li>
-<code><a href="../reference/variable_importance.html">variable_importance()</a></code> allows work on full dataset if <code>n_sample</code> is negative</li>
+<code><a href="../reference/model_parts.html">variable_importance()</a></code> allows work on full dataset if <code>n_sample</code> is negative</li>
 <li>
 <code>plot_model_performance()</code> uses ecdf or boxplots (depending on <code>geom</code> parameter).</li>
 </ul>
