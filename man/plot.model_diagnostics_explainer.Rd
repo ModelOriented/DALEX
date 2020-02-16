@@ -4,16 +4,18 @@
 \alias{plot.model_diagnostics_explainer}
 \title{Plot Dataset Level Diagnostic Explanations}
 \usage{
-\method{plot}{model_diagnostics_explainer}(x, ..., variable = "y_hat", yvariable = "residuals")
+\method{plot}{model_diagnostics_explainer}(x, ..., variable = "y_hat", yvariable = "residuals", smooth = TRUE)
 }
 \arguments{
 \item{x}{a data.frame to be explained, preprocessed by the \code{\link{model_diagnostics}} function}
 
 \item{...}{other object to be included to the plot}
 
-\item{variable}{character - name of the variable on OX axis to be explained, by default \code{_yhat_}}
+\item{variable}{character - name of the variable on OX axis to be explained, by default \code{y_hat}}
 
-\item{yvariable}{character - name of the variable on OY axis, by default \code{_residuals_}}
+\item{yvariable}{character - name of the variable on OY axis, by default \code{residuals}}
+
+\item{smooth}{logical shall the smooth line be added}
 }
 \value{
 an object of the class \code{model_diagnostics_explainer}.

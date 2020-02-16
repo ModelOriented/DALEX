@@ -2,8 +2,9 @@
 #'
 #' @param x a data.frame to be explained, preprocessed by the \code{\link{model_diagnostics}} function
 #' @param ... other object to be included to the plot
-#' @param variable character - name of the variable on OX axis to be explained, by default \code{_yhat_}
-#' @param yvariable character - name of the variable on OY axis, by default \code{_residuals_}
+#' @param variable character - name of the variable on OX axis to be explained, by default \code{y_hat}
+#' @param yvariable character - name of the variable on OY axis, by default \code{residuals}
+#' @param smooth logical shall the smooth line be added
 #'
 #' @return an object of the class \code{model_diagnostics_explainer}.
 #'
@@ -30,17 +31,21 @@
 #' plot(diag_ranger, variable = "y", yvariable = "y_hat")
 #'}
 #' @export
-plot.model_diagnostics_explainer <- function(x, ..., variable = "y_hat", yvariable = "residuals") {
+plot.model_diagnostics_explainer <- function(x, ..., variable = "y_hat", yvariable = "residuals", smooth = TRUE) {
   dfl <- c(list(x), list(...))
   all_models <- do.call(rbind, dfl)
   class(all_models) <- "data.frame"
   nlabels <- length(unique(all_models$label))
 
-   pl <- ggplot(all_models, aes_string(x = variable, y = yvariable, color = "label")) +
+   pl <- ggplot(all_models, aes_string(x = variable, y = yvariable, color = "label", group = "label")) +
     geom_point(size = 0.1) +
-    geom_smooth(se = FALSE) +
     theme_drwhy() +
     scale_color_manual(name = "Model", values = colors_discrete_drwhy(nlabels))
+
+   # add smooth
+   if (smooth)
+     pl <- pl +
+         geom_smooth(se = FALSE, color = "grey")
 
    # add hline
    if (yvariable == "residuals")

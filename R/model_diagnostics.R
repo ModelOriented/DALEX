@@ -34,6 +34,8 @@
 #' plot(diag_ranger, diag_lm, variable = "y")
 #' plot(diag_ranger, diag_lm, variable = "construction.year")
 #' plot(diag_ranger, variable = "y", yvariable = "y_hat")
+#' plot(diag_ranger, variable = "y", yvariable = "abs_residuals")
+#' plot(diag_ranger, variable = "ids")
 #'}
 #' @name model_diagnostics
 #' @export
@@ -70,7 +72,9 @@ model_diagnostics <-  function(explainer, variables = NULL, ...) {
   } else {
     results$residuals <- explainer$residuals[, 1] # this will work only for first column
   }
+  results$abs_residuals <- abs(results$residuals)
   results$label <- explainer$label
+  results$ids <- seq_along(results$label)
 
   class(results) <- c("model_diagnostics_explainer", "data.frame")
   results

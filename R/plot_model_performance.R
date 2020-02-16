@@ -132,7 +132,7 @@ plot.model_performance_explainer_histogram <- function(df, nlabels) {
     geom_histogram(bins = 100) +
     facet_wrap(~label, ncol = 1) +
     theme_drwhy() + xlab("residuals") + theme(legend.position = "none") +
-    scale_color_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
+    scale_fill_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
     ggtitle("Histogram for residuals")
 
 }

@@ -43,6 +43,8 @@ plot(diag_ranger, diag_lm)
 plot(diag_ranger, diag_lm, variable = "y")
 plot(diag_ranger, diag_lm, variable = "construction.year")
 plot(diag_ranger, variable = "y", yvariable = "y_hat")
+plot(diag_ranger, variable = "y", yvariable = "abs_residuals")
+plot(diag_ranger, variable = "ids")
 }
 }
 \references{
