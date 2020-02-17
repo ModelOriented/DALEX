@@ -121,7 +121,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
   if (is.null(data)) {
     n <- 0
     possible_data <- try(model.frame(model), silent = TRUE)
-    if (class(possible_data) != "try-error") {
+    if (class(possible_data)[1] != "try-error") {
       data <- possible_data
       n <- nrow(data)
       verbose_cat("  -> data              : ", n, " rows ", ncol(data), " cols", color_codes$yellow_start, "extracted from the model", color_codes$yellow_end, "\n", verbose = verbose)
@@ -225,7 +225,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
   y_hat <- NULL
   if (!is.null(data) & !is.null(predict_function) & (verbose | precalculate)) {
     y_hat <- try(predict_function(model, data), silent = TRUE)
-    if (class(y_hat) == "try-error") {
+    if (class(y_hat)[1] == "try-error") {
       y_hat <- NULL
       verbose_cat("  -> predicted values  :  the predict_function returns an error when executed (",color_codes$red_start,"WARNING",color_codes$red_end,") \n", verbose = verbose)
     } else {
@@ -260,7 +260,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
   residuals <- NULL
   if (!is.null(data) & !is.null(residual_function) & !is.null(y) & (verbose | precalculate)) {
     residuals <- try(residual_function(model, data, y), silent = TRUE)
-    if (class(residuals) == "try-error") {
+    if (class(residuals)[1] == "try-error") {
       residuals <- NULL
       verbose_cat("  -> residuals         :  the residual_function returns an error when executed (",color_codes$red_start,"WARNING",color_codes$red_end,") \n", verbose = verbose)
     } else {
