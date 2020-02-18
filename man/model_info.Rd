@@ -12,6 +12,7 @@
 \alias{model_info.gbm}
 \alias{model_info.model_fit}
 \alias{model_info.train}
+\alias{model_info.rpart}
 \alias{model_info.default}
 \title{Exract info from model}
 \usage{
@@ -36,6 +37,8 @@ model_info(model, ...)
 \method{model_info}{model_fit}(model, ...)
 
 \method{model_info}{train}(model, ...)
+
+\method{model_info}{rpart}(model, ...)
 
 \method{model_info}{default}(model, ...)
 }

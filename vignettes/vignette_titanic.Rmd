@@ -77,7 +77,7 @@ Kids 5 years old and younger have much higher survival probability.
 ```{r}
 vr_age  <- variable_effect(explain_titanic_rf, variables =  "age")
 head(vr_age)
-plot(vr_age, use_facets = TRUE)
+plot(vr_age)
 ```
 
 ## Passanger class
@@ -95,7 +95,7 @@ Very cheap tickets are linked with lower chances.
 
 ```{r}
 vr_fare  <- variable_effect(explain_titanic_rf, variables =  "fare")
-plot(vr_fare, use_facets = TRUE)
+plot(vr_fare)
 ```
 
 ## Embarked

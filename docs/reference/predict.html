@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate Predictions for Explainer — model_prediction • DALEX</title>
+<title>Predictions for the Explainer — predict.explainer • DALEX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -35,7 +35,7 @@
 
 
 
-<meta property="og:title" content="Calculate Predictions for Explainer — model_prediction" />
+<meta property="og:title" content="Predictions for the Explainer — predict.explainer" />
 <meta property="og:description" content="This is a generic predict() function works for explainer objects." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -81,7 +81,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.9.4</span>
+          <span class="version version-default">0.9.8</span>
         </div>
       </div>
     </div>
@@ -133,8 +133,8 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate Predictions for Explainer</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/R/model_prediction.R'><code>R/model_prediction.R</code></a></small>
+    <h1>Predictions for the Explainer</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/R/predict.R'><code>R/predict.R</code></a></small>
     <div class="hidden name"><code>predict.Rd</code></div>
     </div>
 
@@ -142,20 +142,20 @@
     <p>This is a generic <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code> function works for <code>explainer</code> objects.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>model_prediction</span>(<span class='no'>explainer</span>, <span class='no'>new_data</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='co'># S3 method for explainer</span>
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>object</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)
 
-<span class='co'># S3 method for explainer</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>object</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>model_prediction</span>(<span class='no'>explainer</span>, <span class='no'>new_data</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>explainer</th>
+      <th>object</th>
       <td><p>a model to be explained, object of the class <code>explainer</code></p></td>
     </tr>
     <tr>
-      <th>new_data</th>
+      <th>newdata</th>
       <td><p>data.frame or matrix - observations for prediction</p></td>
     </tr>
     <tr>
@@ -163,11 +163,11 @@
       <td><p>other parameters that will be passed to the predict function</p></td>
     </tr>
     <tr>
-      <th>object</th>
+      <th>explainer</th>
       <td><p>a model to be explained, object of the class <code>explainer</code></p></td>
     </tr>
     <tr>
-      <th>newdata</th>
+      <th>new_data</th>
       <td><p>data.frame or matrix - observations for prediction</p></td>
     </tr>
     </table>
@@ -200,13 +200,13 @@
 #&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  ( </span><span style='color: #BB0000;'> WARNING </span><span> ) some of functionalities may not work 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>explainer_ranger</span>, <span class='no'>HR</span>[<span class='fl'>1</span>:<span class='fl'>3</span>,])</div><div class='output co'>#&gt;          fired         ok    promoted
-#&gt; [1,] 0.7130313 0.27948712 0.007481569
-#&gt; [2,] 0.9532880 0.04396015 0.002751825
-#&gt; [3,] 0.9616512 0.03525145 0.003097357</div><div class='input'>
+#&gt; [1,] 0.7167511 0.26900993 0.014238976
+#&gt; [2,] 0.9466524 0.04638026 0.006967364
+#&gt; [3,] 0.9694255 0.02763517 0.002939372</div><div class='input'>
 <span class='fu'>model_prediction</span>(<span class='no'>explainer_ranger</span>, <span class='no'>HR</span>[<span class='fl'>1</span>:<span class='fl'>3</span>,])</div><div class='output co'>#&gt;          fired         ok    promoted
-#&gt; [1,] 0.7130313 0.27948712 0.007481569
-#&gt; [2,] 0.9532880 0.04396015 0.002751825
-#&gt; [3,] 0.9616512 0.03525145 0.003097357</div><div class='input'> # }
+#&gt; [1,] 0.7167511 0.26900993 0.014238976
+#&gt; [2,] 0.9466524 0.04638026 0.006967364
+#&gt; [3,] 0.9694255 0.02763517 0.002939372</div><div class='input'> # }
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

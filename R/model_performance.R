@@ -1,4 +1,4 @@
-#' Model Performance Measures
+#' Dataset Level Model Performance Measures
 #'
 #' Function \code{model_performance()} calculates various performance measures for classification and regression models.
 #' For classification models following measures are calculated: F1, accuracy, recall, precision and AUC.
@@ -8,7 +8,7 @@
 #' @param ... other parameters
 #' @param cutoff a cutoff for classification models, needed for measures like recall, precision, ACC, F1. By default 0.5.
 #'
-#' @return An object of the class \code{model_performance_explainer}.
+#' @return An object of the class \code{model_performance}.
 #' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
 #' @importFrom stats median
 #' @export
@@ -41,9 +41,7 @@
 #'  }
 #'
 model_performance <- function(explainer, ..., cutoff = 0.5) {
-  if (!("explainer" %in% class(explainer))) stop("The model_performance() function requires an object created with explain() function.")
-  if (is.null(explainer$data)) stop("The model_performance() function requires explainers created with specified 'data' parameter.")
-  if (is.null(explainer$y)) stop("The model_performance() function requires explainers created with specified 'y' parameter.")
+  test_expaliner(explainer, has_data = TRUE, has_y = TRUE, function_name = "model_performance")
 
   # Check since explain could have been run with precalculate = FALSE
   if (is.null(explainer$y_hat)) {
@@ -91,7 +89,7 @@ model_performance <- function(explainer, ..., cutoff = 0.5) {
 
   structure(list(residuals, measures, type),
             .Names = c("residuals", "measures", "type"),
-            class = "model_performance_explainer")
+            class = "model_performance")
 }
 
 
@@ -140,35 +138,4 @@ model_performance_f1 <- function(tp, fp, tn, fn) {
 model_performance_accuracy <- function(tp, fp, tn, fn) {
   (tp + tn)/(tp + fp + tn + fn)
 }
-
-
-
-#' Print Model Performance Summary
-#'
-#' @param x a model to be explained, object of the class 'model_performance_explainer'
-#' @param ... other parameters
-#'
-#' @importFrom stats quantile
-#' @export
-#' @examples
-#'  \dontrun{
-#' library("ranger")
-#' titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 100,
-#'                                probability = TRUE)
-#' # It's a good practice to pass data without target variable
-#' explainer_ranger  <- explain(titanic_ranger_model, data = titanic_imputed[,-8],
-#'                              y = titanic_imputed$survived)
-#' # resulting dataframe has predicted values and residuals
-#' mp_ex_rn <- model_performance(explainer_ranger)
-#' mp_ex_rn
-#' plot(mp_ex_rn)
-#'  }
-#'
-print.model_performance_explainer <- function(x, ...) {
-  cat("Measures for: ", x$type)
-  cat(paste0("\n",substr(paste0(names(x$measures), "         "), 1, 9), ": ", sapply(x$measures, prettyNum)))
-  cat("\n\nResiduals:\n")
-  print(quantile(x$residuals$diff, seq(0, 1, 0.1)))
-}
-
 

@@ -15,7 +15,7 @@ variable_effect_accumulated_dependency(explainer, variables, ...)
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the 'explain' function}
 
-\item{variables}{character - name of variables to be explained}
+\item{variables}{character - names of variables to be explained}
 
 \item{...}{other parameters}
 

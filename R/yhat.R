@@ -8,16 +8,17 @@
 #'
 #' Currently supported packages are:
 #' \itemize{
-#' \item class `cv.glmnet` and `glmnet` - models created with `glmnet` package
-#' \item class `glm` - generalized linear models
-#' \item class `model_fit` - models created with `parsnip` package
-#' \item class `lm` - linear models created with `stats::lm`
-#' \item class `ranger` - models created with `ranger` package
-#' \item class `randomForest` - random forest models created with `randomForest` package
-#' \item class `svm` - support vector machines models created with the `e1071` package
-#' \item class `train` - models created with `caret` package
-#' \item class `gbm` - models created with `gbm` package
-#' \item class `lrm` - models created with `rms` package
+#' \item class \code{cv.glmnet} and \code{glmnet} - models created with \pkg{glmnet} package,
+#' \item class \code{glm} - generalized linear models created with \link[stats]{glm},
+#' \item class \code{model_fit} - models created with \pkg{parsnip} package,
+#' \item class \code{lm} - linear models created with \link[stats]{lm},
+#' \item class \code{ranger} - models created with \pkg{ranger} package,
+#' \item class \code{randomForest} - random forest models created with \pkg{randomForest} package,
+#' \item class \code{svm} - support vector machines models created with the \pkg{e1071} package,
+#' \item class \code{train} - models created with \pkg{caret} package,
+#' \item class \code{gbm} - models created with \pkg{gbm} package,
+#' \item class \code{lrm} - models created with \pkg{rms} package,
+#' \item class \code{rpart} - models created with \pkg{rpart} package.
 #' }
 #'
 #' @param X.model object - a model to be explained
@@ -117,7 +118,7 @@ yhat.ranger <- function(X.model, newdata, ...) {
 #' @export
 yhat.model_fit <- function(X.model, newdata, ...) {
   if (X.model$spec$mode == "classification") {
-    response <- as.data.frame(predict(X.model, newdata, type = "prob"))
+    response <- as.matrix(predict(X.model, newdata, type = "prob"))
     if (ncol(response) == 2) {
       response <- response[,2]
     }
@@ -142,6 +143,9 @@ yhat.train <- function(X.model, newdata, ...) {
     response <- predict(X.model, newdata = newdata)
 
   }
+  # fix for https://github.com/ModelOriented/DALEX/issues/150
+  if (class(response) == "data.frame") response <- as.matrix(response)
+
   response
 }
 
@@ -152,11 +156,37 @@ yhat.lrm <- function(X.model, newdata, ...) {
   predict(X.model, newdata = newdata, type = "fitted")
 }
 
+#' @rdname yhat
+#' @export
+yhat.rpart <- function(X.model, newdata, ...) {
+  response <- predict(X.model, newdata = newdata)
+  if (!is.null(dim(response))) {
+    if (ncol(response) == 2) {
+      response <- response[,2]
+    }
+  }
+  response
+}
+
 
 #' @rdname yhat
 #' @export
 yhat.default <- function(X.model, newdata, ...) {
-  as.numeric(predict(X.model, newdata, ...))
+  response <- predict(X.model, newdata, ...)
+  # result is a vector
+  if (is.null(dim(response))) {
+    return(as.numeric(response))
+  }
+  # result is a matrix or data.frame with a single column
+  if (ncol(response) == 1) {
+    return(as.numeric(response))
+  }
+  # result is a matrix of data.frame with a two column (binary classification), returns the second
+  if (ncol(response) == 2) {
+    return(as.numeric(response[,2]))
+  }
+  # result is a matrix of data.frame with more than 2 columns (multi label classification)
+  as.matrix(response)
 }
 
 

@@ -10,20 +10,32 @@ reference:
     - explain
     - print.explainer
   - title: Instance Level Explanations
-    desc: Functions that generate and plot instance/local level explanations from model explainers
+    desc: Functions that generate and plot instance/local/predict level explanations
     contents:
-    - model_prediction
-    - variable_attribution
-    - variable_profile
-    - residuals_distribution
+    - predict.explainer
+    - predict_parts
+    - predict_profile
+    - predict_diagnostics
   - title: Dataset Level Explanations
-    desc: Functions that generate and plot dataset/global level explanations from model explainers
+    desc: Functions that generate and plot dataset/global/model level explanations
     contents:
-    - variable_importance
-    - variable_effect
     - model_performance
-    - plot.model_performance_explainer
-    - print.model_performance_explainer
+    - model_parts
+    - model_profile
+    - model_diagnostics
+  - title: Print and Plot functions for Explanations
+    desc: Generic print and plot functions for selected explanations
+    contents:
+    - print.predict_diagnostics
+    - plot.predict_diagnostics
+    - plot.predict_profile
+    - print.model_performance
+    - plot.model_performance
+    - print.model_profile
+    - plot.model_profile
+    - print.model_diagnostics
+    - plot.model_diagnostics
+    - variable_effect
   - title: Model performance measures
     desc: Model performance measures for packages from the DrWhy.AI universe
     contents:

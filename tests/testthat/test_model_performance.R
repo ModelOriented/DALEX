@@ -7,8 +7,8 @@ explainer_regr_lm_non_precalculate <- explain(model_regr_lm, data = apartments_t
                                               y = apartments_test$m2.price[1:1000], precalculate = FALSE, verbose = FALSE)
 
 test_that("Output format",{
-  expect_is(mp_lm, "model_performance_explainer")
-  expect_is(mp_ran_classif, "model_performance_explainer")
+  expect_is(mp_lm, "model_performance")
+  expect_is(mp_ran_classif, "model_performance")
   expect_error(print(mp_lm), NA)
 })
 

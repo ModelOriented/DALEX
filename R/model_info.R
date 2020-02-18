@@ -170,6 +170,21 @@ model_info.train <- function(model, ...) {
 
 #' @rdname model_info
 #' @export
+model_info.rpart <- function(model, ...) {
+  if (attr(model$terms, "dataClasses")[1] == "factor") {
+    type <- "classification"
+  } else {
+    type <- "regression"
+  }
+  package <- "rpart"
+  ver <- get_pkg_ver_safe(package)
+  model_info <- list(package = package, ver = ver, type = type)
+  class(model_info) <- "model_info"
+  model_info
+}
+
+#' @rdname model_info
+#' @export
 model_info.default <- function(model, ...) {
   type <- "regression"
   package <- paste("Model of class:", class(model), "package unrecognized")

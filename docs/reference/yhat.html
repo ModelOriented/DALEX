@@ -85,7 +85,7 @@ not classes itself." />
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.9.4</span>
+          <span class="version version-default">0.9.8</span>
         </div>
       </div>
     </div>
@@ -185,6 +185,9 @@ not classes itself.</p>
 <span class='co'># S3 method for lrm</span>
 <span class='fu'>yhat</span>(<span class='no'>X.model</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)
 
+<span class='co'># S3 method for rpart</span>
+<span class='fu'>yhat</span>(<span class='no'>X.model</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)
+
 <span class='co'># S3 method for default</span>
 <span class='fu'>yhat</span>(<span class='no'>X.model</span>, <span class='no'>newdata</span>, <span class='no'>...</span>)</pre>
 
@@ -211,16 +214,17 @@ not classes itself.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Currently supported packages are:</p><ul>
-<li><p>class `cv.glmnet` and `glmnet` - models created with `glmnet` package</p></li>
-<li><p>class `glm` - generalized linear models</p></li>
-<li><p>class `model_fit` - models created with `parsnip` package</p></li>
-<li><p>class `lm` - linear models created with `stats::lm`</p></li>
-<li><p>class `ranger` - models created with `ranger` package</p></li>
-<li><p>class `randomForest` - random forest models created with `randomForest` package</p></li>
-<li><p>class `svm` - support vector machines models created with the `e1071` package</p></li>
-<li><p>class `train` - models created with `caret` package</p></li>
-<li><p>class `gbm` - models created with `gbm` package</p></li>
-<li><p>class `lrm` - models created with `rms` package</p></li>
+<li><p>class <code>cv.glmnet</code> and <code>glmnet</code> - models created with <span class="pkg">glmnet</span> package,</p></li>
+<li><p>class <code>glm</code> - generalized linear models created with <a href='https://rdrr.io/r/stats/glm.html'>glm</a>,</p></li>
+<li><p>class <code>model_fit</code> - models created with <span class="pkg">parsnip</span> package,</p></li>
+<li><p>class <code>lm</code> - linear models created with <a href='https://rdrr.io/r/stats/lm.html'>lm</a>,</p></li>
+<li><p>class <code>ranger</code> - models created with <span class="pkg">ranger</span> package,</p></li>
+<li><p>class <code>randomForest</code> - random forest models created with <span class="pkg">randomForest</span> package,</p></li>
+<li><p>class <code>svm</code> - support vector machines models created with the <span class="pkg">e1071</span> package,</p></li>
+<li><p>class <code>train</code> - models created with <span class="pkg">caret</span> package,</p></li>
+<li><p>class <code>gbm</code> - models created with <span class="pkg">gbm</span> package,</p></li>
+<li><p>class <code>lrm</code> - models created with <span class="pkg">rms</span> package,</p></li>
+<li><p>class <code>rpart</code> - models created with <span class="pkg">rpart</span> package.</p></li>
 </ul>
 
 

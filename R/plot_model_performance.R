@@ -1,4 +1,4 @@
-#' Plot Model Performance Explanations
+#' Plot Dataset Level Model Performance Explanations
 #'
 #' @param x a model to be explained, preprocessed by the \code{\link{explain}} function
 #' @param ... other parameters
@@ -7,7 +7,7 @@
 #' @param show_outliers number of largest residuals to be presented (only when geom = boxplot).
 #' @param ptlabel either \code{"name"} or \code{"index"} determines the naming convention of the outliers
 #'
-#' @return An object of the class \code{model_performance_explainer}.
+#' @return An object of the class \code{model_performance}.
 #'
 #' @export
 #' @examples
@@ -50,10 +50,10 @@
 #' plot(mp_ranger, mp_glm, mp_lm)
 #' plot(mp_ranger, mp_glm, mp_lm, geom = "boxplot")
 #' plot(mp_ranger, mp_glm, mp_lm, geom = "boxplot", show_outliers = 1)
-#'  }
+#' }
 #'
 #
-plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outliers = 0, ptlabel = "name", lossFunction = function(x) sqrt(mean(x^2))) {
+plot.model_performance <- function(x, ..., geom = "ecdf", show_outliers = 0, ptlabel = "name", lossFunction = function(x) sqrt(mean(x^2))) {
   if (!(ptlabel %in% c("name", "index"))){
     stop("The plot.model_performance() function requires label to be name or index.")
   }
@@ -77,17 +77,17 @@ plot.model_performance_explainer <- function(x, ..., geom = "ecdf", show_outlier
   }
   nlabels <- length(unique(df$label))
   switch(geom,
-          ecdf = plot.model_performance_explainer_ecdf(df, nlabels),
-           boxplot = plot.model_performance_explainer_boxplot(df, show_outliers, lossFunction, nlabels),
-           histogram = plot.model_performance_explainer_histogram(df, nlabels),
-           roc = plot.model_performance_explainer_roc(df, nlabels),
-           gain = plot.model_performance_explainer_gain(df, nlabels),
-           lift = plot.model_performance_explainer_lift(df, nlabels)
+           ecdf = plot.model_performance_ecdf(df, nlabels),
+           boxplot = plot.model_performance_boxplot(df, show_outliers, lossFunction, nlabels),
+           histogram = plot.model_performance_histogram(df, nlabels),
+           roc = plot.model_performance_roc(df, nlabels),
+           gain = plot.model_performance_gain(df, nlabels),
+           lift = plot.model_performance_lift(df, nlabels)
   )
 }
 
 
-plot.model_performance_explainer_ecdf <- function(df, nlabels) {
+plot.model_performance_ecdf <- function(df, nlabels) {
   label <- name <- NULL
   ggplot(df, aes(abs(diff), color = label)) +
     stat_ecdf(geom = "step") +
@@ -101,7 +101,7 @@ plot.model_performance_explainer_ecdf <- function(df, nlabels) {
     ggtitle(expression(paste("Distribution of ", group("|", residual, "|"))))
 }
 
-plot.model_performance_explainer_boxplot <- function(df, show_outliers, lossFunction, nlabels) {
+plot.model_performance_boxplot <- function(df, show_outliers, lossFunction, nlabels) {
   label <- name <- NULL
   pl <- ggplot(df, aes(x = label, y = abs(diff), fill = label)) +
     stat_boxplot(alpha = 0.4, coef = 1000) +
@@ -126,18 +126,18 @@ plot.model_performance_explainer_boxplot <- function(df, show_outliers, lossFunc
   pl
 }
 
-plot.model_performance_explainer_histogram <- function(df, nlabels) {
+plot.model_performance_histogram <- function(df, nlabels) {
   observed <- predicted <- label <- NULL
   ggplot(df, aes(observed - predicted, fill = label)) +
     geom_histogram(bins = 100) +
     facet_wrap(~label, ncol = 1) +
     theme_drwhy() + xlab("residuals") + theme(legend.position = "none") +
-    scale_color_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
+    scale_fill_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
     ggtitle("Histogram for residuals")
 
 }
 
-plot.model_performance_explainer_roc <- function(df, nlabels) {
+plot.model_performance_roc <- function(df, nlabels) {
   dfl <- split(df, factor(df$label))
   rocdfl <- lapply(dfl, function(df) {
     pred_sorted <- df[order(df$predicted, decreasing = TRUE), ]
@@ -162,7 +162,7 @@ plot.model_performance_explainer_roc <- function(df, nlabels) {
 
 }
 
-plot.model_performance_explainer_gain <- function(df, nlabels) {
+plot.model_performance_gain <- function(df, nlabels) {
   dfl <- split(df, factor(df$label))
   rocdfl <- lapply(dfl, function(df) {
     pred_sorted <- df[order(df$predicted, decreasing = TRUE), ]
@@ -188,7 +188,7 @@ plot.model_performance_explainer_gain <- function(df, nlabels) {
 }
 
 
-plot.model_performance_explainer_lift <- function(df, nlabels) {
+plot.model_performance_lift <- function(df, nlabels) {
   dfl <- split(df, factor(df$label))
   rocdfl <- lapply(dfl, function(df) {
     pred_sorted <- df[order(df$predicted, decreasing = TRUE), ]

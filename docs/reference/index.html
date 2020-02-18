@@ -80,7 +80,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.9.4</span>
+          <span class="version version-default">0.9.8</span>
         </div>
       </div>
     </div>
@@ -167,71 +167,133 @@
       <tr>
         <th colspan="2">
           <h2 id="section-instance-level-explanations" class="hasAnchor"><a href="#section-instance-level-explanations" class="anchor"></a>Instance Level Explanations</h2>
-          <p class="section-desc"><p>Functions that generate and plot instance/local level explanations from model explainers</p></p>
+          <p class="section-desc"><p>Functions that generate and plot instance/local/predict level explanations</p></p>
         </th>
       </tr>
       <tr>
         
         <td>
-          <p><code><a href="predict.html">model_prediction()</a></code> <code><a href="predict.html">predict(<i>&lt;explainer&gt;</i>)</a></code> </p>
+          <p><code><a href="predict.html">predict(<i>&lt;explainer&gt;</i>)</a></code> <code><a href="predict.html">model_prediction()</a></code> </p>
         </td>
-        <td><p>Calculate Predictions for Explainer</p></td>
+        <td><p>Predictions for the Explainer</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="variable_attribution.html">variable_attribution()</a></code> <code><a href="variable_attribution.html">variable_attribution_break_down()</a></code> <code><a href="variable_attribution.html">variable_attribution_break_down_interactions()</a></code> <code><a href="variable_attribution.html">variable_attribution_shap()</a></code> </p>
+          <p><code><a href="predict_parts.html">predict_parts()</a></code> <code><a href="predict_parts.html">predict_parts_oscillations()</a></code> <code><a href="predict_parts.html">predict_parts_break_down()</a></code> <code><a href="predict_parts.html">predict_parts_break_down_interactions()</a></code> <code><a href="predict_parts.html">predict_parts_shap()</a></code> <code><a href="predict_parts.html">variable_attribution()</a></code> </p>
         </td>
-        <td><p>Instance Level Variable Attribution as Break Down or SHAP Explanations</p></td>
+        <td><p>Instance Level Parts of the Model Predictions</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="variable_profile.html">variable_profile()</a></code> </p>
+          <p><code><a href="predict_profile.html">predict_profile()</a></code> <code><a href="predict_profile.html">individual_profile()</a></code> </p>
         </td>
-        <td><p>Instance Level Variable Effect as Ceteris Paribus Profile</p></td>
+        <td><p>Instance Level Profile as Ceteris Paribus</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="residuals_distribution.html">residuals_distribution()</a></code> </p>
+          <p><code><a href="predict_diagnostics.html">predict_diagnostics()</a></code> <code><a href="predict_diagnostics.html">individual_diagnostics()</a></code> </p>
         </td>
-        <td><p>Instance Level Residuals Distribution</p></td>
+        <td><p>Instance Level Residual Diagnostics</p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
           <h2 id="section-dataset-level-explanations" class="hasAnchor"><a href="#section-dataset-level-explanations" class="anchor"></a>Dataset Level Explanations</h2>
-          <p class="section-desc"><p>Functions that generate and plot dataset/global level explanations from model explainers</p></p>
+          <p class="section-desc"><p>Functions that generate and plot dataset/global/model level explanations</p></p>
         </th>
       </tr>
       <tr>
         
         <td>
-          <p><code><a href="variable_importance.html">variable_importance()</a></code> </p>
+          <p><code><a href="model_performance.html">model_performance()</a></code> </p>
+        </td>
+        <td><p>Dataset Level Model Performance Measures</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="model_parts.html">model_parts()</a></code> </p>
         </td>
         <td><p>Dataset Level Variable Importance as Change in Loss Function after Variable Permutations</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="model_profile.html">model_profile()</a></code> <code><a href="model_profile.html">variable_profile()</a></code> </p>
+        </td>
+        <td><p>Dataset Level Variable Profile as Partial Dependence or Accumulated Local Dependence Explanations</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="model_diagnostics.html">model_diagnostics()</a></code> </p>
+        </td>
+        <td><p>Dataset Level Model Diagnostics</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-print-and-plot-functions-for-explanations" class="hasAnchor"><a href="#section-print-and-plot-functions-for-explanations" class="anchor"></a>Print and Plot functions for Explanations</h2>
+          <p class="section-desc"><p>Generic print and plot functions for selected explanations</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="print.predict_diagnostics.html">print(<i>&lt;predict_diagnostics&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Print Instance Level Residual Diagnostics</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plot.predict_diagnostics.html">plot(<i>&lt;predict_diagnostics&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Plot Instance Level Residual Diagnostics</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plot.predict_profile.html">plot(<i>&lt;predict_profile&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Plot Variable Profile Explanations</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="print.model_performance.html">print(<i>&lt;model_performance&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Print Dataset Level Model Performance Summary</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plot.model_performance.html">plot(<i>&lt;model_performance&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Plot Dataset Level Model Performance Explanations</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="print.model_profile.html">print(<i>&lt;model_profile&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Print Dataset Level Model Profile</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plot.model_profile.html">plot(<i>&lt;model_profile&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Plot Dataset Level Model Profile Explanations</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="print.model_diagnostics.html">print(<i>&lt;model_diagnostics&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Print Dataset Level Model Diagnostics</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plot.model_diagnostics.html">plot(<i>&lt;model_diagnostics&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Plot Dataset Level Model Diagnostics</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="variable_effect.html">variable_effect()</a></code> <code><a href="variable_effect.html">variable_effect_partial_dependency()</a></code> <code><a href="variable_effect.html">variable_effect_accumulated_dependency()</a></code> </p>
         </td>
         <td><p>Dataset Level Variable Effect as Partial Dependency Profile or Accumulated Local Effects</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="model_performance.html">model_performance()</a></code> </p>
-        </td>
-        <td><p>Model Performance Measures</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot.model_performance_explainer.html">plot(<i>&lt;model_performance_explainer&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Plot Model Performance Explanations</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="print.model_performance_explainer.html">print(<i>&lt;model_performance_explainer&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Print Model Performance Summary</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -351,6 +413,7 @@
       <li><a href="#section-explainers">Explainers</a></li>
       <li><a href="#section-instance-level-explanations">Instance Level Explanations</a></li>
       <li><a href="#section-dataset-level-explanations">Dataset Level Explanations</a></li>
+      <li><a href="#section-print-and-plot-functions-for-explanations">Print and Plot functions for Explanations</a></li>
       <li><a href="#section-model-performance-measures">Model performance measures</a></li>
       <li><a href="#section-supplementary-functions">Supplementary functions</a></li>
       <li><a href="#section-datasets">Datasets</a></li>
