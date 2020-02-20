@@ -16,6 +16,7 @@
 #' @param k number of clusters for the hclust function (for clustered profiles)
 #' @param center shall profiles be centered before clustering
 #' @param variables character - names of variables to be explained
+#' @param variable deprecated, use variables instead
 #' @param type the type of variable profile. Either \code{partial}, \code{conditional} or \code{accumulated}.
 #'
 #' @return An object of the class \code{model_profile}.
@@ -97,3 +98,15 @@ model_profile <- function(explainer, variables = NULL, N = 100, ..., groups = NU
 #' @name model_profile
 #' @export
 variable_profile <- model_profile
+
+#' @name model_profile
+#' @export
+single_variable <- function(explainer, variable, type = "pdp",  ...) {
+  # Deprecated
+  if (!exists("message_partial_dependency", envir = .DALEX.env)) {
+    .DALEX.env$message_partial_dependency = TRUE
+    .Deprecated("ingredients::partial_dependency()", package = "ingredients", msg = "Please note that 'single_variable()' is now deprecated, it is better to use 'ingredients::partial_dependency()' instead.\nFind examples and detailed introduction at: https://pbiecek.github.io/ema/")
+  }
+
+   model_profile(explainer, variables = variable, ...)
+}

@@ -3,6 +3,7 @@
 \name{model_profile}
 \alias{model_profile}
 \alias{variable_profile}
+\alias{single_variable}
 \title{Dataset Level Variable Profile as Partial Dependence or Accumulated Local Dependence Explanations}
 \usage{
 model_profile(
@@ -26,6 +27,8 @@ variable_profile(
   center = TRUE,
   type = "partial"
 )
+
+single_variable(explainer, variable, type = "pdp", ...)
 }
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the \code{explain} function}
@@ -44,6 +47,8 @@ By default \code{NULL} which means that no groups shall be calculated}
 \item{center}{shall profiles be centered before clustering}
 
 \item{type}{the type of variable profile. Either \code{partial}, \code{conditional} or \code{accumulated}.}
+
+\item{variable}{deprecated, use variables instead}
 }
 \value{
 An object of the class \code{model_profile}.
