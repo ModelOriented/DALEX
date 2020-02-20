@@ -55,7 +55,7 @@
 #' @export
 model_profile <- function(explainer, variables = NULL, N = 100, ..., groups = NULL, k = NULL, center = TRUE, type = "partial") {
   # run checks against the explainer objects
-  test_expaliner(explainer, has_data = TRUE, function_name = "model_profile")
+  test_explainer(explainer, has_data = TRUE, function_name = "model_profile")
 
   # calculate serveral ceteris profiles and call the aggregate profiles for partial dependency
   data <- explainer$data

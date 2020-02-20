@@ -45,7 +45,7 @@ model_parts <- function(explainer,
                               type = "variable_importance",
                               n_sample = 1000) {
   # run checks against the explainer objects
-  test_expaliner(explainer, has_data = TRUE, has_y = TRUE, function_name = "model_parts")
+  test_explainer(explainer, has_data = TRUE, has_y = TRUE, function_name = "model_parts")
   if (!(type %in% c("difference", "ratio", "raw", "variable_importance"))) stop("Type shall be one of 'variable_importance', 'difference', 'ratio', 'raw'")
   if (type == "variable_importance") type <- "raw" #it's an alias
 
