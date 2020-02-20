@@ -41,7 +41,7 @@
 #'  }
 #'
 model_performance <- function(explainer, ..., cutoff = 0.5) {
-  test_expaliner(explainer, has_data = TRUE, has_y = TRUE, function_name = "model_performance")
+  test_explainer(explainer, has_data = TRUE, has_y = TRUE, function_name = "model_performance")
 
   # Check since explain could have been run with precalculate = FALSE
   if (is.null(explainer$y_hat)) {

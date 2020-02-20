@@ -40,7 +40,7 @@
 #' @name model_diagnostics
 #' @export
 model_diagnostics <-  function(explainer, variables = NULL, ...) {
-  test_expaliner(explainer, has_data = TRUE, function_name = "model_diagnostics")
+  test_explainer(explainer, has_data = TRUE, function_name = "model_diagnostics")
 
   # if variables = NULL then all variables are added
   # otherwise only selected

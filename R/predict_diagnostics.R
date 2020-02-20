@@ -51,7 +51,7 @@
 #' @name predict_diagnostics
 #' @export
 predict_diagnostics <-  function(explainer, new_observation, variables = NULL, ..., nbins = 20, neighbors = 50, distance = gower::gower_dist) {
-  test_expaliner(explainer, has_data = TRUE, function_name = "predict_diagnostics")
+  test_explainer(explainer, has_data = TRUE, function_name = "predict_diagnostics")
 
   neighbours_id <- select_neighbours_id(new_observation, explainer$data, n = neighbors, distance = distance)
 

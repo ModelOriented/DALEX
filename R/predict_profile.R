@@ -55,7 +55,7 @@
 #' @export
 predict_profile <-  function(explainer, new_observation, variables = NULL, ..., type = "ceteris_paribus") {
   # run checks against the explainer objects
-  test_expaliner(explainer, has_data = TRUE, function_name = "predict_profile")
+  test_explainer(explainer, has_data = TRUE, function_name = "predict_profile")
   if (type != "ceteris_paribus") stop("Currently only ceteris_paribus profiles are implemented")
 
   # call the ceteris_paribus from ingredients

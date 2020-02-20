@@ -62,7 +62,7 @@ predict_parts <- function(explainer, new_observation, ..., type = "break_down") 
 #' @export
 predict_parts_oscillations <- function(explainer, new_observation, ...) {
   # run checks against the explainer objects
-  test_expaliner(explainer, has_data = TRUE, function_name = "predict_parts_oscillations")
+  test_explainer(explainer, has_data = TRUE, function_name = "predict_parts_oscillations")
 
   # call the ceteris_paribus
   cp <- ingredients::ceteris_paribus(explainer,
@@ -75,7 +75,7 @@ predict_parts_oscillations <- function(explainer, new_observation, ...) {
 #' @export
 predict_parts_break_down <- function(explainer, new_observation, ...) {
   # run checks against the explainer objects
-  test_expaliner(explainer, has_data = TRUE, function_name = "predict_parts_break_down")
+  test_explainer(explainer, has_data = TRUE, function_name = "predict_parts_break_down")
 
   # call the break_down
   iBreakDown::break_down(explainer,
@@ -87,7 +87,7 @@ predict_parts_break_down <- function(explainer, new_observation, ...) {
 #' @export
 predict_parts_break_down_interactions <- function(explainer, new_observation, ...) {
   # run checks against the explainer objects
-  test_expaliner(explainer, has_data = TRUE, function_name = "predict_parts_break_down_interactions")
+  test_explainer(explainer, has_data = TRUE, function_name = "predict_parts_break_down_interactions")
 
   # call the break_down
   iBreakDown::break_down(explainer,
@@ -100,7 +100,7 @@ predict_parts_break_down_interactions <- function(explainer, new_observation, ..
 #' @export
 predict_parts_shap <- function(explainer, new_observation, ...) {
   # run checks against the explainer objects
-  test_expaliner(explainer, has_data = TRUE, function_name = "predict_parts_shap")
+  test_explainer(explainer, has_data = TRUE, function_name = "predict_parts_shap")
 
   # call the shap from iBreakDown
   iBreakDown::shap(explainer,

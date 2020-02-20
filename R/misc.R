@@ -33,7 +33,7 @@ combine_explainers <- function(x, ...) {
 
 # test explainer
 # test if the explainer object has all reqired fields
-test_expaliner <- function(explainer,
+test_explainer <- function(explainer,
                            has_data = FALSE,
                            has_y = FALSE,
                            function_name = "variable_profile") {
