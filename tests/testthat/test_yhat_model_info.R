@@ -204,12 +204,13 @@ test_that("yhat default", {
   # model_classif_rpart <- rpart(as.factor(survived)~., data = titanic_imputed_cut)
   # model_regr_rpart <- rpart(m2.price~., data = apartments_cut)
   load("./../objects_for_tests/model_classif_rpart.RData")
+  load("./../objects_for_tests/model_regr_rpart.RData")
 
   # predict.rpart <- function(X.model, newdata, ...) {
   #   data.frame(rep(0.5, times = 100), rep(0.5, times = 100))
   # }
   expect_is(DALEX:::yhat.default(model_classif_rpart, titanic_imputed_cut), "numeric")
-  expect_is(DALEX:::yhat.default(model_classif_rpart, apartments_cut), "numeric")
+  expect_is(DALEX:::yhat.default(model_regr_rpart, apartments_cut), "numeric")
 
 
 })
