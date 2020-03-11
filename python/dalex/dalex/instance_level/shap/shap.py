@@ -170,7 +170,7 @@ def prepare_data_for_shap_plot(x, baseline, prediction, max_vars, rounding_funct
 
     if variable_count > max_vars:
         last_row = max_vars - 1
-        new_x = x.iloc[0:(last_row + 1), :]
+        new_x = x.iloc[0:(last_row + 1), :].copy()
         new_x.iloc[last_row, new_x.columns.get_loc('variable')] = "+ all other factors"
         new_x.iloc[last_row, new_x.columns.get_loc('contribution')] = np.sum(
             x.iloc[last_row:(variable_count - 1), x.columns.get_loc('contribution')])

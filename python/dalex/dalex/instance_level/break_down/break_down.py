@@ -186,14 +186,14 @@ def prepare_data_for_break_down_plot(x, baseline, max_vars, rounding_function, d
 
     x.loc[x["variable_name"] == "", "variable_name"] = "prediction"
 
-    temp = x.iloc[[0, x.shape[0] - 1], :]
-    x = x.drop([0, x.shape[0] - 1])
+    temp = x.iloc[[0, x.shape[0] - 1], :].copy()
+    x.drop([0, x.shape[0] - 1], inplace=True)
 
     variable_count = x.shape[0]
 
     if variable_count > max_vars:
         last_row = max_vars - 1
-        new_x = x.iloc[0:(last_row + 1), :]
+        new_x = x.iloc[0:(last_row + 1), :].copy()
         new_x.iloc[last_row, new_x.columns.get_loc('variable')] = "+ all other factors"
         new_x.iloc[last_row, new_x.columns.get_loc('contribution')] = np.sum(
             x.iloc[last_row:(variable_count - 1), x.columns.get_loc('contribution')])
@@ -212,13 +212,13 @@ def prepare_data_for_break_down_plot(x, baseline, max_vars, rounding_function, d
     x.loc[:, 'cumulative'] = rounding_function(x.loc[:, 'cumulative'], digits)
 
     x['tooltip_text'] = x.apply(lambda row: tooltip_text(row), axis=1)
-    x.loc[[0, x.shape[0] - 1], 'tooltip_text'] = "Average response: " + str(
+    x.iloc[[0, x.shape[0] - 1], x.columns.get_loc('tooltip_text')] = "Average response: " + str(
         x.iloc[0, x.columns.get_loc('cumulative')]) + "<br>Prediction: " + str(
         x.iloc[x.shape[0] - 1, x.columns.get_loc('cumulative')])
 
     x['label_text'] = contribution_to_text(x.iloc[:, x.columns.get_loc("contribution")].tolist())
     x.iloc[0, x.columns.get_loc("label_text")] = x.iloc[0, x.columns.get_loc('cumulative')]
-    x.iloc[x.shape[0]-1, x.columns.get_loc("label_text")] = x.iloc[x.shape[0]-1, x.columns.get_loc('cumulative')]
+    x.iloc[x.shape[0] - 1, x.columns.get_loc("label_text")] = x.iloc[x.shape[0]-1, x.columns.get_loc('cumulative')]
 
     return x
 
