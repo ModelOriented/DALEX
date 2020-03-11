@@ -44,10 +44,21 @@ class CeterisParibus:
                                                                       variable_splits,
                                                                       y)
 
-    def plot(self, cp_list=None, size=2, color="#46bac2", variable_type="numerical", facet_ncol=2,
-             variables=None, chart_title="Ceteris Paribus Profiles", show_observations=True,
-             show_rugs=True):
+    def plot(self, cp_list=None, variable_type="numerical", variables=None, size=2, color="#46bac2", facet_ncol=2,
+             show_observations=True, title="Ceteris Paribus Profiles"):
+        """
+        Plot function for CeterisParibus class.
 
+        :param cp_list: object of CeterisParibus class or list or tuple containing such objects
+        :param variable_type: either "numerical" or "categorical" determines type of variables to plot
+        :param variables: str list, if not None then only variables will be presented
+        :param size: int, width of lines
+        :param color: string, line/bar color
+        :param facet_ncol: int, number of columns on the plot grid
+        :param show_observations show observation points
+        :param title: str, the plot's title
+        """
+        # TODO: add show_rugs
         if variable_type not in ("both", "numerical", "categorical"):
             raise TypeError("variable_type should be 'both' or 'numerical' or 'categorical'")
 
@@ -236,7 +247,7 @@ class CeterisParibus:
                 fig.update_xaxes({'range': min_max})
 
         plot_height = 78 + 71 + facet_nrow*(280+60)
-        fig.update_layout(title_text=chart_title, title_x=0.15, font={'color': "#371ea3"}, template="none",
+        fig.update_layout(title_text=title, title_x=0.15, font={'color': "#371ea3"}, template="none",
                           height=plot_height, margin={'t': 78, 'b': 71, 'r': 30}, hovermode='closest')
 
         fig.show(config={'displaylogo': False, 'staticPlot': False,

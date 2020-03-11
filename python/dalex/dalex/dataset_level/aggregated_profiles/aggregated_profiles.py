@@ -48,13 +48,16 @@ class AggregatedProfiles:
         from dalex.instance_level import CeterisParibus
         if isinstance(ceteris_paribus, CeterisParibus):  # allow for ceteris_paribus to be a single element
             all_profiles = ceteris_paribus.result.copy()
+            all_observations = ceteris_paribus.new_observation.copy()
         elif isinstance(ceteris_paribus, list) or isinstance(ceteris_paribus,
                                                              tuple):  # ceteris_paribus as tuple or array
             all_profiles = None
+            all_observations = None
             for cp in ceteris_paribus:
                 if not isinstance(cp, CeterisParibus):
                     raise TypeError("Some explanations aren't of CeterisParibus class")
                 all_profiles = pd.concat([all_profiles, cp.result.copy()])
+                all_observations = pd.concat([all_observations, cp.new_observation.copy()])
         else:
             raise TypeError(
                 "'ceteris_paribus' should be either Ceteris Paribus object or list/tuple of CeterisParbus objects")
@@ -69,25 +72,37 @@ class AggregatedProfiles:
         all_profiles = create_x(all_profiles, self.variable_type)
 
         self.result = aggregate_profiles(all_profiles, ceteris_paribus, self.type, self.groups, self.intercept, self.span)
-        self.mean_prediction = 0
+        self.mean_prediction = all_observations['_yhat_'].mean()
 
-    def plot(self, ap_list=None, size=2, facet_ncol=2, variables=None,
-             chart_title="Aggregated Profiles"):
+    def plot(self, ap_list=None, variables=None, size=2, facet_ncol=2, title="Aggregated Profiles"):
+        """
+        Plot function for AggregatedProfiles class.
+
+        :param ap_list: object of AggregatedProfiles class or list or tuple containing such objects
+        :param variables: str list, if not None then only variables will be presented
+        :param size: float, width of lines
+        :param facet_ncol: int, number of columns on the plot grid
+        :param title: str, the plot's title
+        """
 
         # are there any other explanation to plot?
         if ap_list is None:
             m = 1
             _result_df = self.result
+            _mean_prediction = [self.mean_prediction]
         elif isinstance(ap_list, AggregatedProfiles):  # allow for list to be a single element
             m = 2
             _result_df = pd.concat([self.result, ap_list.result])
+            _mean_prediction = [self.mean_prediction, ap_list.mean_prediction]
         else:  # list as tuple or array
             m = len(ap_list) + 1
             _result_df = self.result
+            _mean_prediction = [self.mean_prediction]
             for ap in ap_list:
                 if not isinstance(ap, AggregatedProfiles):
                     raise TypeError("Some explanations aren't of AggregatedProfiles class")
                 _result_df = pd.concat([_result_df, ap.result])
+                _mean_prediction += [ap_list.mean_prediction]
 
         # variables to use
         all_variables = _result_df['_vname_'].dropna().unique().tolist()
@@ -119,6 +134,8 @@ class AggregatedProfiles:
 
         colors = get_colors(m, 'line')
 
+        baseline = 0
+
         for i in range(n):
             name = variable_names[i]
             var_df = var_df_dict[name]
@@ -139,7 +156,7 @@ class AggregatedProfiles:
                 for j in range(len(df_list)):
                     df = df_list[j]
 
-                    tt = df.apply(lambda r: tooltip_text(r), axis=1)
+                    tt = df.apply(lambda r: tooltip_text(r, name, _mean_prediction[j]), axis=1)
                     df = df.assign(tooltip_text=tt.values)
 
                     fig.add_scatter(
@@ -171,8 +188,6 @@ class AggregatedProfiles:
                 ret["yhat"] = pd.to_numeric(ret["yhat"])
                 ret = ret.sort_values('xhat')
 
-                baseline = 0
-
                 df_list = [v for k, v in ret.groupby('label', sort=False)]
 
                 for j in range(len(df_list)):
@@ -184,7 +199,7 @@ class AggregatedProfiles:
                     # lt = df.apply(lambda r: label_text(r), axis=1)
                     # df = df.assign(label_text=lt.values)
 
-                    tt = df.apply(lambda r: tooltip_text(r), axis=1)
+                    tt = df.apply(lambda r: tooltip_text(r, name, _mean_prediction[j]), axis=1)
                     df = df.assign(tooltip_text=tt.values)
 
                     fig.add_shape(type='line', x0=baseline, x1=baseline, y0=0, y1=len(df['xhat'].unique()) - 1, yref="paper", xref="x",
@@ -215,7 +230,7 @@ class AggregatedProfiles:
                 fig.update_xaxes({'range': min_max})
 
         plot_height = 78 + 71 + facet_nrow*(280+60)
-        fig.update_layout(title_text=chart_title, title_x=0.15, font={'color': "#371ea3"}, template="none",
+        fig.update_layout(title_text=title, title_x=0.15, font={'color': "#371ea3"}, template="none",
                           height=plot_height, margin={'t': 78, 'b': 71, 'r': 30}, hovermode='closest')
 
         fig.show(config={'displaylogo': False, 'staticPlot': False,
@@ -224,5 +239,6 @@ class AggregatedProfiles:
                                        'hoverClosestCartesian']})
 
 
-def tooltip_text(r):
-    return "todo"
+def tooltip_text(r, variable_name, y_mean):
+    return str(variable_name) + ": " + str(r['xhat']) + "<br>" + "average prediction: " + str(r['yhat']) + "<br>" +\
+           "label: " + str(r['label']) + "<br><br>" + "mean observation prediction: " + "<br>" + str(y_mean)

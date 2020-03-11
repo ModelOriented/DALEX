@@ -42,7 +42,21 @@ class Shap:
              bar_width=16,
              min_max=None,
              vcolors=None,
-             chart_title="Shapley Values"):
+             title="Shapley Values"):
+
+        """
+        Plot function for Shap class.
+
+        :param sh_list: object of Shap class or list or tuple containing such objects
+        :param baseline: float, starting point of bars
+        :param max_vars: int, maximum number of variables that shall be presented for for each model
+        :param digits: int, number of columns in the plot grid
+        :param rounding_function: a function to be used for rounding numbers
+        :param bar_width: float, width of bars
+        :param min_max: 2-tuple of float values, range of x-axis
+        :param vcolors: 3-tuple of str values, color of bars
+        :param title: str, the plot's title
+        """
 
         deleted_indexes = []
 
@@ -155,7 +169,7 @@ class Shap:
         plot_height += (n - 1) * 70
 
         fig.update_xaxes({'range': temp_min_max})
-        fig.update_layout(title_text=chart_title, title_x=0.15, font={'color': "#371ea3"}, template="none",
+        fig.update_layout(title_text=title, title_x=0.15, font={'color': "#371ea3"}, template="none",
                           height=plot_height, margin={'t': 78, 'b': 71, 'r': 30})
 
         fig.show(config={'displaylogo': False, 'staticPlot': False,
@@ -170,7 +184,7 @@ def prepare_data_for_shap_plot(x, baseline, prediction, max_vars, rounding_funct
 
     if variable_count > max_vars:
         last_row = max_vars - 1
-        new_x = x.iloc[0:(last_row + 1), :]
+        new_x = x.iloc[0:(last_row + 1), :].copy()
         new_x.iloc[last_row, new_x.columns.get_loc('variable')] = "+ all other factors"
         new_x.iloc[last_row, new_x.columns.get_loc('contribution')] = np.sum(
             x.iloc[last_row:(variable_count - 1), x.columns.get_loc('contribution')])
@@ -185,7 +199,7 @@ def prepare_data_for_shap_plot(x, baseline, prediction, max_vars, rounding_funct
     tt = x.apply(lambda row: tooltip_text(row, baseline, prediction), axis=1)
     x = x.assign(tooltip_text=tt.values)
 
-    lt = contribution_to_text(x.iloc[:, x.columns.get_loc("contribution")].tolist())
+    lt = label_text(x.iloc[:, x.columns.get_loc("contribution")].tolist())
     x = x.assign(label_text=lt)
 
     return x
@@ -200,7 +214,7 @@ def tooltip_text(row, baseline, prediction):
            row.variable + "<br>" + key_word + " average response <br>by " + str(np.abs(row.contribution))
 
 
-def contribution_to_text(contribution):
+def label_text(contribution):
     def to_text(x):
         if x > 0:
             return "+" + str(x)
