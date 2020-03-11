@@ -28,7 +28,7 @@ def calculate_ceteris_paribus(explainer,
 
     new_observation.loc[:, '_label_'] = explainer.label
 
-    new_observation.loc[:, '_ids_'] = np.arange(new_observation.shape[0])
+    new_observation.loc[:, '_ids_'] = new_observation.index.values
 
     if y is not None:
         new_observation.loc[:, '_y_'] = y
