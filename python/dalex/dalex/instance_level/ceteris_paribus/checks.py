@@ -18,6 +18,9 @@ def check_new_observation(new_observation, explainer):
     if not isinstance(new_observation, (pd.DataFrame,)):
         raise TypeError("new_observation must be the pandas.DataFrame")
 
+    if new_observation.index.unique().shape[0] != new_observation.shape[0]:
+        raise ValueError("Index is not unique")
+
     return new_observation.copy()
 
 

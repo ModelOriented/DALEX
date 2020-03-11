@@ -71,7 +71,6 @@ def single_variable_profile(explainer,
     """
     # remember ids of selected points
     ids = np.repeat(data.index, split_points.shape[0])
-
     new_data = data.loc[ids, :]
     new_data.loc[:, variable] = np.tile(split_points, data.shape[0])
 

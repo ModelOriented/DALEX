@@ -28,6 +28,9 @@ def check_data(data, verbose):
         verbose_cat("  -> data   :  not specified!", verbose=verbose)
 
     if data is not None:
+        if data.index.unique().shape[0] != data.shape[0]:
+            raise ValueError("Index is not unique")
+        
         verbose_cat("  -> data              : " + str(data.shape[0]) + " rows " + str(data.shape[1]) + " cols",
                     verbose=verbose)
 
