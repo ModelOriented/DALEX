@@ -134,7 +134,7 @@ class VariableImportance:
                 df = df_list[i].sort_values('dropout_loss').tail(m)
 
                 # sort rows of df by variable permutation = magic (same as factor in R)
-                df = df.set_index('variable').reindex(perm).reset_index()
+                df = df.set_index('variable').reindex(perm).dropna().reset_index()
 
                 baseline = df.iloc[0, df.columns.get_loc('full_model')]
 
