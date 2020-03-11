@@ -60,13 +60,24 @@ class VariableImportance:
                                                                       self.keep_raw_permutations)
 
     def plot(self,
-             fi_list=None,
+             vi_list=None,
              max_vars=10,
              digits=3,
              rounding_function=np.around,
              bar_width=16,
              split=("model", "variable"),
-             chart_title="Variable Importance"):
+             title="Variable Importance"):
+        """
+        Plot function for VariableImportance class.
+
+        :param vi_list: object of VariableImportance class or list or tuple containing such objects
+        :param max_vars: int, maximum number of variables that shall be presented for for each model
+        :param digits: int, number of columns in the plot grid
+        :param rounding_function: a function to be used for rounding numbers
+        :param bar_width: float, width of bars
+        :param split: either "model" or "feature" determines the plot layout
+        :param title: str, the plot's title
+        """
 
         if isinstance(split, tuple):
             split = split[0]
@@ -75,16 +86,16 @@ class VariableImportance:
             raise TypeError("split should be 'model' or 'variable'")
 
         # are there any other explanations to plot?
-        if fi_list is None:
+        if vi_list is None:
             n = 1
             _result_df = self.result
-        elif isinstance(fi_list, VariableImportance):  # allow for list to be a single element
+        elif isinstance(vi_list, VariableImportance):  # allow for list to be a single element
             n = 2
-            _result_df = pd.concat([self.result, fi_list.result])
+            _result_df = pd.concat([self.result, vi_list.result])
         else:  # list as tuple or array
-            n = len(fi_list) + 1
+            n = len(vi_list) + 1
             _result_df = self.result
-            for fi in fi_list:
+            for fi in vi_list:
                 if not isinstance(fi, VariableImportance):
                     raise TypeError("Some explanations aren't of VariableImportance class")
                 _result_df = pd.concat([_result_df, fi.result])
@@ -237,7 +248,7 @@ class VariableImportance:
         plot_height += (n - 1) * 70
 
         fig.update_xaxes({'range': min_max})
-        fig.update_layout(title_text=chart_title, title_x=0.15, font={'color': "#371ea3"}, template="none",
+        fig.update_layout(title_text=title, title_x=0.15, font={'color': "#371ea3"}, template="none",
                           height=plot_height, margin={'t': 78, 'b': 71, 'r': 30})
 
         fig.show(config={'displaylogo': False, 'staticPlot': False,

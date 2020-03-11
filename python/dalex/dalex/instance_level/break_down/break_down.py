@@ -59,7 +59,20 @@ class BreakDown:
              bar_width=16,
              min_max=None,
              vcolors=None,
-             chart_title="Break Down"):
+             title="Break Down"):
+        """
+        Plot function for BreakDown class.
+
+        :param bd_list: object of BreakDown class or list or tuple containing such objects
+        :param baseline: float, starting point of bars
+        :param max_vars: int, maximum number of variables that shall be presented for for each model
+        :param digits: int, number of columns in the plot grid
+        :param rounding_function: a function to be used for rounding numbers
+        :param bar_width: float, width of bars
+        :param min_max: 2-tuple of float values, range of x-axis
+        :param vcolors: 3-tuple of str values, color of bars
+        :param title: str, the plot's title
+        """
 
         deleted_indexes = []
 
@@ -170,7 +183,7 @@ class BreakDown:
         plot_height += (n-1)*70
 
         fig.update_xaxes({'range': temp_min_max})
-        fig.update_layout(title_text=chart_title, title_x=0.15, font={'color': "#371ea3"}, template="none",
+        fig.update_layout(title_text=title, title_x=0.15, font={'color': "#371ea3"}, template="none",
                           height=plot_height, margin={'t': 78, 'b': 71, 'r': 30})
 
         fig.show(config={
@@ -215,7 +228,7 @@ def prepare_data_for_break_down_plot(x, baseline, max_vars, rounding_function, d
         x.iloc[0, x.columns.get_loc('cumulative')]) + "<br>Prediction: " + str(
         x.iloc[x.shape[0] - 1, x.columns.get_loc('cumulative')])
 
-    x['label_text'] = contribution_to_text(x.iloc[:, x.columns.get_loc("contribution")].tolist())
+    x['label_text'] = label_text(x.iloc[:, x.columns.get_loc("contribution")].tolist())
     x.iloc[0, x.columns.get_loc("label_text")] = x.iloc[0, x.columns.get_loc('cumulative')]
     x.iloc[x.shape[0] - 1, x.columns.get_loc("label_text")] = x.iloc[x.shape[0]-1, x.columns.get_loc('cumulative')]
 
@@ -230,7 +243,7 @@ def tooltip_text(row):
     return row.variable + "<br>" + key_word + " average response <br>by"
 
 
-def contribution_to_text(contribution):
+def label_text(contribution):
     def to_text(x):
         if x > 0:
             return "+" + str(x)
