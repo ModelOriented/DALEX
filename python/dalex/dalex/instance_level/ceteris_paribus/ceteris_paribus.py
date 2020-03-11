@@ -247,7 +247,7 @@ class CeterisParibus:
                 fig.update_xaxes({'range': min_max})
 
         plot_height = 78 + 71 + facet_nrow*(280+60)
-        fig.update_layout(title_text=title, titlve_x=0.15, font={'color': "#371ea3"}, template="none",
+        fig.update_layout(title_text=title, title_x=0.15, font={'color': "#371ea3"}, template="none",
                           height=plot_height, margin={'t': 78, 'b': 71, 'r': 30}, hovermode='closest')
 
         fig.show(config={'displaylogo': False, 'staticPlot': False,
