@@ -164,7 +164,9 @@ class AggregatedProfiles:
                         hovertext=df['tooltip_text'].tolist(),
                         hoverinfo='text',
                         hoverlabel={'bgcolor': 'rgba(0,0,0,0.8)'},
-                        showlegend=False,
+                        legendgroup=df.iloc[0, df.columns.get_loc('_label_')],
+                        name=df.iloc[0, df.columns.get_loc('_label_')],
+                        showlegend=i == 0,
                         row=row, col=col
                     )
 
@@ -204,7 +206,9 @@ class AggregatedProfiles:
                         hovertext=df['tooltip_text'].tolist(),
                         hoverinfo='text',
                         hoverlabel={'bgcolor': 'rgba(0,0,0,0.8)'},
-                        showlegend=False,
+                        legendgroup=df.iloc[0, df.columns.get_loc('_label_')],
+                        name=df.iloc[0, df.columns.get_loc('_label_')],
+                        showlegend=i == 0,
                         row=row, col=col)
 
                 fig.update_yaxes({'type': 'category', 'autorange': 'reversed', 'gridwidth': 2, 'automargin': True,
