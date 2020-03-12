@@ -47,20 +47,20 @@ def shap(explainer,
         yhats_distributions = None
 
     target_yhat = explainer.predict(new_observation)
-    yhatpred = explainer.predict(explainer.data)
-    baseline_yhat = yhatpred.mean()
+    data_yhat = explainer.predict(explainer.data)
+    baseline_yhat = data_yhat.mean()
 
     return result, target_yhat, baseline_yhat, yhats_distributions
 
 
 def calculate_yhats_distributions(explainer):
-    pred = explainer.predict(explainer.data)
+    data_yhat = explainer.predict(explainer.data)
 
     return pd.DataFrame({
         'variable_name': 'all_data',
         'variable': 'all data',
         'id': np.arange(explainer.data.shape[0]),
-        'prediction': pred,
+        'prediction': data_yhat,
         'label': explainer.label
     })
 

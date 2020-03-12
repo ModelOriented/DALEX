@@ -116,12 +116,11 @@ class CeterisParibus:
 
         # prepare clean observations data for tooltips
         m = _obs_df.shape[1]
-        _obs_df.rename(columns={"_yhat_": "yhat", "_label_": "model", "_ids_": "id"}, inplace=True)
         _obs_df = _obs_df.iloc[:, np.concatenate(([m - 1, m - 2, m - 3], list(range(m - 3))))]  # reorder columns
 
         # split obs by id
-        obs_df_list = [v for k, v in _obs_df.groupby('id', sort=False)]
-        obs_df_dict = {e['id'].array[0]: e for e in obs_df_list}
+        obs_df_list = [v for k, v in _obs_df.groupby('_ids_', sort=False)]
+        obs_df_dict = {e['_ids_'].array[0]: e for e in obs_df_list}
 
         # prepare profiles data
         _result_df = _result_df.loc[_result_df['_vname_'].apply(lambda x: x in variable_names), ].reset_index(drop=True)
@@ -142,32 +141,27 @@ class CeterisParibus:
 
         for i in range(n):
             name = variable_names[i]
-            var_df = var_df_dict[name]
+            var_df = var_df_dict[name][[name, "_yhat_", "_ids_", "_vname_"]].rename(
+                columns={name: "_xhat_"}).sort_values('_xhat_')
 
             row = int(np.floor(i/facet_ncol) + 1)
             col = int(np.mod(i, facet_ncol) + 1)
 
             # line plot or bar plot? TODO: add is_numeric and implement 'both'
             if variable_type == "numerical":
-                ret = var_df[[name, "_yhat_", "_ids_", "_vname_"]].rename(
-                    columns={name: "xhat", "_yhat_": "yhat", "_ids_": "id", "_vname_": "vname"})
-                ret["xhat"] = pd.to_numeric(ret["xhat"])
-                ret["yhat"] = pd.to_numeric(ret["yhat"])
-                ret = ret.sort_values('xhat')
-
-                df_list = [v for k, v in ret.groupby('id', sort=False)]
+                df_list = [v for k, v in var_df.groupby('_ids_', sort=False)]
 
                 for j in range(len(df_list)):
                     df = df_list[j]
-                    obs = obs_df_dict[df.iloc[0, df.columns.get_loc('id')]].iloc[0, :]
+                    obs = obs_df_dict[df.iloc[0, df.columns.get_loc('_ids_')]].iloc[0]
 
                     tt = df.apply(lambda r: tooltip_text(obs, r), axis=1)
                     df = df.assign(tooltip_text=tt.values)
 
                     fig.add_scatter(
                         mode='lines',
-                        y=df['yhat'].tolist(),
-                        x=df['xhat'].tolist(),
+                        y=df['_yhat_'].tolist(),
+                        x=df['_xhat_'].tolist(),
                         line={'color': color, 'width': size, 'shape': 'spline'},
                         hovertext=df['tooltip_text'].tolist(),
                         hoverinfo='text',
@@ -179,7 +173,7 @@ class CeterisParibus:
                     if show_observations:
                         fig.add_scatter(
                             mode='markers',
-                            y=[obs.yhat],
+                            y=[obs['_yhat_']],
                             x=[obs[name]],
                             marker={'color': '#371ea3', 'size': size*4},
                             hovertext=[tooltip_text(obs)],
@@ -199,19 +193,15 @@ class CeterisParibus:
                 fig.update_yaxes({'range': min_max})
 
             else:
-                if _obs_df.shape[0] > 1:
+                if len(obs_df_dict) > 1:
                     raise TypeError("Please pick one observation.")
 
-                ret = var_df[[name, "_yhat_", "_ids_", "_vname_"]].rename(
-                    columns={name: "xhat", "_yhat_": "yhat", "_ids_": "id", "_vname_": "vname"})
-                ret["yhat"] = pd.to_numeric(ret["yhat"])
-                df = ret.sort_values('xhat')
+                df = var_df.copy()
+                # there is only one observation in dict
+                obs = obs_df_dict[next(iter(obs_df_dict))].iloc[0]
+                baseline = obs["_yhat_"]
 
-                obs = obs_df_dict[df.iloc[0, df.columns.get_loc('id')]].iloc[0,:]
-                baseline = obs.yhat
-
-                difference = df['yhat'] - baseline
-                df = df.assign(difference=difference.values)
+                df = df.assign(difference=lambda x: x['_yhat_'] - baseline)
 
                 # lt = df.apply(lambda r: label_text(r), axis=1)
                 # df = df.assign(label_text=lt.values)
@@ -219,12 +209,12 @@ class CeterisParibus:
                 tt = df.apply(lambda r: tooltip_text(obs, r), axis=1)
                 df = df.assign(tooltip_text=tt.values)
 
-                fig.add_shape(type='line', x0=baseline, x1=baseline, y0=0, y1=len(df['xhat'].unique()) - 1, yref="paper", xref="x",
-                              line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'}, row=row, col=col)
+                fig.add_shape(type='line', x0=baseline, x1=baseline, y0=0, y1=len(df['_xhat_'].unique()) - 1, yref="paper",
+                              xref="x", line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'}, row=row, col=col)
 
                 fig.add_bar(
                     orientation="h",
-                    y=df['xhat'].tolist(),
+                    y=df['_xhat_'].tolist(),
                     x=df['difference'].tolist(),
                     # textposition="outside",
                     # text=df['label_text'].tolist(),
@@ -260,17 +250,17 @@ def tooltip_text(obs, r=None):
     temp = ""
     if r is not None:
         for var in obs.index:
-            if var == "yhat":
+            if var == "_yhat_":
                 temp += "prediction:<br>" + "- before: " + str(obs[var]) + "<br>" + "- after: " +\
-                        str(r.yhat) + "<br><br>"
-            elif var == r.vname:
-                temp += var + ": " + str(r.xhat) + "</br>"
+                        str(r[var]) + "<br><br>"
+            elif var == r['_vname_']:
+                temp += var + ": " + str(r['_xhat_']) + "</br>"
             else:
                 temp += var + ": " + str(obs[var]) + "</br>"
     else:
         for var in obs.index:
-            if var == "yhat":
-                temp += "prediction:" + str(obs[var]) + "<br>"
+            if var == "_yhat_":
+                temp += "prediction:" + str(obs[var]) + "<br><br>"
             else:
                 temp += var + ": " + str(obs[var]) + "</br>"
     return temp

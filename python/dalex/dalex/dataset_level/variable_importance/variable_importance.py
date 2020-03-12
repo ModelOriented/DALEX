@@ -3,6 +3,7 @@ from plotly.subplots import make_subplots
 
 from .checks import *
 from .utils import calculate_variable_importance
+from ...explainer.theme import get_default_colors
 
 
 class VariableImportance:
@@ -101,30 +102,28 @@ class VariableImportance:
                 _result_df = pd.concat([_result_df, fi.result])
 
         dl = _result_df.loc[_result_df.variable != '_baseline_', 'dropout_loss'].to_numpy()
-        min_max = [np.Inf, -np.Inf]
         min_max_margin = dl.ptp() * 0.15
-        min_max[0] = dl.min() - min_max_margin
-        min_max[1] = dl.max() + min_max_margin
+        min_max = [dl.min() - min_max_margin, dl.max() + min_max_margin]
 
         # take out full model
         best_fits = _result_df[_result_df.variable == '_full_model_']
 
         # this produces dropout_loss_x and dropout_loss_y columns
         _result_df = _result_df.merge(best_fits[['label', 'dropout_loss']], how="left", on="label")
-        _result_df = _result_df[['label', 'variable', 'dropout_loss_x', 'dropout_loss_y']]
-        _result_df.columns = ['label', 'variable', 'dropout_loss', 'full_model']
+        _result_df = _result_df[['label', 'variable', 'dropout_loss_x', 'dropout_loss_y']].rename(
+            columns={'dropout_loss_x': 'dropout_loss', 'dropout_loss_y': 'full_model'})
 
         # remove full_model and baseline
         _result_df = _result_df[(_result_df.variable != '_full_model_') & (_result_df.variable != '_baseline_')]
 
         # calculate order of bars or variable plots (split = 'variable')
         # get variable permutation
-        perm = _result_df[['variable', 'dropout_loss']].groupby('variable').mean().reset_index()
-        perm = perm.sort_values('dropout_loss', ascending=False).variable.values
+        perm = _result_df[['variable', 'dropout_loss']].groupby('variable').mean().reset_index().\
+            sort_values('dropout_loss', ascending=False).variable.values
 
         plot_height = 78 + 71
 
-        colors = get_colors(n, 'bar')
+        colors = get_default_colors(n, 'bar')
 
         if split == "model":
 
@@ -142,15 +141,13 @@ class VariableImportance:
                     m = max_vars
 
                 # take only m variables (for max_vars)
-                df = df_list[i].sort_values('dropout_loss').tail(m)
-
-                # sort rows of df by variable permutation = magic (same as factor in R)
-                df = df.set_index('variable').reindex(perm).dropna().reset_index()
+                # sort rows of df by variable permutation and drop unused variables
+                df = df_list[i].sort_values('dropout_loss').tail(m)\
+                    .set_index('variable').reindex(perm).dropna().reset_index()
 
                 baseline = df.iloc[0, df.columns.get_loc('full_model')]
 
-                difference = df['dropout_loss'] - baseline
-                df = df.assign(difference=difference.values)
+                df = df.assign(difference=lambda x: x['dropout_loss'] - baseline)
 
                 lt = df.apply(lambda row: label_text(row, rounding_function, digits), axis=1)
                 df = df.assign(label_text=lt.values)
@@ -209,8 +206,7 @@ class VariableImportance:
 
                 baseline = 0
 
-                difference = df['dropout_loss'] - df['full_model']
-                df = df.assign(difference=difference.values)
+                df = df.assign(difference=lambda x: x['dropout_loss'] - x['full_model'])
 
                 lt = df.apply(lambda row: label_text(row, rounding_function, digits), axis=1)
                 df = df.assign(label_text=lt.values)
@@ -256,22 +252,6 @@ class VariableImportance:
                                                     'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',
                                                     'toggleSpikelines', 'hoverCompareCartesian',
                                                     'hoverClosestCartesian']})
-
-
-def get_colors(n, type):
-    bar_colors = {
-        1: ["#46bac2"],
-        2: ["#46bac2", "#4378bf"],
-        3: ["#8bdcbe", "#4378bf", "#46bac2"],
-        4: ["#46bac2", "#371ea3", "#8bdcbe", "#4378bf"],
-        5: ["#8bdcbe", "#f05a71", "#371ea3", "#46bac2", "#ffa58c"],
-        6: ["#8bdcbe", "#f05a71", "#371ea3", "#46bac2", "#ae2c87", "#ffa58c"],
-        7: ["#8bdcbe", "#f05a71", "#371ea3", "#46bac2", "#ae2c87", "#ffa58c", "#4378bf"]
-    }
-
-    # TODO: different colors for line
-    if type == "bar" or type == "line":
-        return bar_colors[n]
 
 
 def label_text(row, rounding_function, digits):

@@ -69,7 +69,7 @@ def split_over_variables_and_labels(split_profile, type, groups, span):
     if split_profile.shape[0] == 0:
         return None
 
-    if not pd.api.types.is_string_dtype(split_profile['_x_']):
+    if np.issubdtype(split_profile['_x_'].dtype, np.number):
         # for continuous variables we will calculate weighted average
         # where weights come from gaussian kernel and distance between points
         # scaling factor, range if the range i > 0

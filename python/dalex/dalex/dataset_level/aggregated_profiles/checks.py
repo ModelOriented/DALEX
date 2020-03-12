@@ -1,4 +1,3 @@
-import pandas as pd
 import numpy as np
 
 
@@ -24,7 +23,7 @@ def prepare_numerical_categorical(all_variables, all_profiles, variable_type):
     # only numerical or only factors?
     is_numeric = np.empty_like(all_variables, bool)
     for i, var in enumerate(all_variables):
-        is_numeric[i] = not pd.api.types.is_string_dtype(all_profiles[var])
+        is_numeric[i] = np.issubdtype(all_profiles[var].dtype, np.number)
 
     if variable_type == 'numerical':
         vnames = all_variables[is_numeric]
