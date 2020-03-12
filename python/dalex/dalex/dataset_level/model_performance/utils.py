@@ -29,9 +29,9 @@ def auc(y_pred, y_true):
     tpr = df.loc[:, 'y_true'].cumsum() / df.loc[:, 'y_true'].sum()
     fpr = (1 - df.loc[:, 'y_true']).cumsum() / (1 - df.loc[:, 'y_true']).sum()
 
-    auc = (np.diff(fpr) * (tpr.iloc[1:].values + tpr.iloc[:-1].values) / 2).sum()
+    _auc = (np.diff(fpr) * (tpr.iloc[1:].values + tpr.iloc[:-1].values) / 2).sum()
 
-    return auc
+    return _auc
 
 
 def recall(tp, fp, tn, fn):
@@ -43,9 +43,9 @@ def precision(tp, fp, tn, fn):
 
 
 def f1(tp, fp, tn, fn):
-    recall = tp/(tp + fn)
-    precision = tp/(tp + fp)
-    return  2 * (precision * recall)/(precision + recall)
+    _recall = recall(tp, fp, tn, fn)
+    _precision = precision(tp, fp, tn, fn)
+    return 2 * (_precision * _recall)/(_precision + _recall)
 
 
 def accuracy(tp, fp, tn, fn):

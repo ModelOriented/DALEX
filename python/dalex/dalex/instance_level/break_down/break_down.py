@@ -3,6 +3,7 @@ from plotly.subplots import make_subplots
 
 from .checks import *
 from .utils import local_interactions
+from ...explainer.theme import get_break_down_colors
 
 
 class BreakDown:
@@ -110,7 +111,7 @@ class BreakDown:
         plot_height = 78 + 71
 
         if vcolors is None:
-            vcolors = ["#371ea3", "#8bdcbe", "#f05a71"]
+            vcolors = get_break_down_colors()
 
         if min_max is None:
             temp_min_max = [np.Inf, -np.Inf]

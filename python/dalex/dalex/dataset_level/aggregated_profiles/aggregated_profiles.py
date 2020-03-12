@@ -1,8 +1,11 @@
+import pandas as pd
+
 from .checks import *
 from .utils import aggregate_profiles
 
 from plotly.subplots import make_subplots
-from ...dataset_level.variable_importance.variable_importance import get_colors
+from ...explainer.theme import get_default_colors
+
 
 class AggregatedProfiles:
     """
@@ -116,7 +119,7 @@ class AggregatedProfiles:
 
         variable_names = all_variables
         n = len(variable_names)
-        is_x_numeric = not pd.api.types.is_string_dtype(_result_df['_x_'])
+        is_x_numeric = np.issubdtype(_result_df['_x_'].dtype, np.number)
 
         dl = _result_df['_yhat_'].to_numpy()
         min_max = [np.Inf, -np.Inf]
@@ -132,27 +135,21 @@ class AggregatedProfiles:
         fig = make_subplots(rows=facet_nrow, cols=facet_ncol, horizontal_spacing=0.1,
                             vertical_spacing=0.3/n, x_title='prediction', subplot_titles=variable_names)
 
-        colors = get_colors(m, 'line')
+        colors = get_default_colors(m, 'line')
 
         baseline = 0
 
         for i in range(n):
             name = variable_names[i]
-            var_df = var_df_dict[name]
+            var_df = var_df_dict[name].sort_values('_x_')
 
             row = int(np.floor(i/facet_ncol) + 1)
             col = int(np.mod(i, facet_ncol) + 1)
 
+            df_list = [v for k, v in var_df.groupby('_label_', sort=False)]
+
             # line plot or bar plot? TODO: add is_numeric and implement 'both'
             if is_x_numeric:
-                ret = var_df[['_x_', "_yhat_", "_vname_", "_label_"]].rename(
-                    columns={'_x_': "xhat", "_yhat_": "yhat", "_vname_": "vname", "_label_": "label"})
-                ret["xhat"] = pd.to_numeric(ret["xhat"])
-                ret["yhat"] = pd.to_numeric(ret["yhat"])
-                ret = ret.sort_values('xhat')
-
-                df_list = [v for k, v in ret.groupby('label', sort=False)]
-
                 for j in range(len(df_list)):
                     df = df_list[j]
 
@@ -161,13 +158,15 @@ class AggregatedProfiles:
 
                     fig.add_scatter(
                         mode='lines',
-                        y=df['yhat'].tolist(),
-                        x=df['xhat'].tolist(),
+                        y=df['_yhat_'].tolist(),
+                        x=df['_x_'].tolist(),
                         line={'color': colors[j], 'width': size, 'shape': 'spline'},
                         hovertext=df['tooltip_text'].tolist(),
                         hoverinfo='text',
                         hoverlabel={'bgcolor': 'rgba(0,0,0,0.8)'},
-                        showlegend=False,
+                        legendgroup=df.iloc[0, df.columns.get_loc('_label_')],
+                        name=df.iloc[0, df.columns.get_loc('_label_')],
+                        showlegend=i == 0,
                         row=row, col=col
                     )
 
@@ -182,19 +181,10 @@ class AggregatedProfiles:
                 fig.update_yaxes({'range': min_max})
 
             else:
-
-                ret = var_df[['_x_', "_yhat_", "_vname_", "_label_"]].rename(
-                    columns={'_x_': "xhat", "_yhat_": "yhat", "_vname_": "vname", "_label_": "label"})
-                ret["yhat"] = pd.to_numeric(ret["yhat"])
-                ret = ret.sort_values('xhat')
-
-                df_list = [v for k, v in ret.groupby('label', sort=False)]
-
                 for j in range(len(df_list)):
                     df = df_list[j]
 
-                    difference = df['yhat'] - baseline
-                    df = df.assign(difference=difference.values)
+                    df = df.assign(difference=lambda x: x['_yhat_'] - baseline)
 
                     # lt = df.apply(lambda r: label_text(r), axis=1)
                     # df = df.assign(label_text=lt.values)
@@ -202,12 +192,12 @@ class AggregatedProfiles:
                     tt = df.apply(lambda r: tooltip_text(r, name, _mean_prediction[j]), axis=1)
                     df = df.assign(tooltip_text=tt.values)
 
-                    fig.add_shape(type='line', x0=baseline, x1=baseline, y0=0, y1=len(df['xhat'].unique()) - 1, yref="paper", xref="x",
+                    fig.add_shape(type='line', x0=baseline, x1=baseline, y0=0, y1=len(df['_x_'].unique()) - 1, yref="paper", xref="x",
                                   line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'}, row=row, col=col)
 
                     fig.add_bar(
                         orientation="h",
-                        y=df['xhat'].tolist(),
+                        y=df['_x_'].tolist(),
                         x=df['difference'].tolist(),
                         # textposition="outside",
                         # text=df['label_text'].tolist(),
@@ -216,7 +206,9 @@ class AggregatedProfiles:
                         hovertext=df['tooltip_text'].tolist(),
                         hoverinfo='text',
                         hoverlabel={'bgcolor': 'rgba(0,0,0,0.8)'},
-                        showlegend=False,
+                        legendgroup=df.iloc[0, df.columns.get_loc('_label_')],
+                        name=df.iloc[0, df.columns.get_loc('_label_')],
+                        showlegend=i == 0,
                         row=row, col=col)
 
                 fig.update_yaxes({'type': 'category', 'autorange': 'reversed', 'gridwidth': 2, 'automargin': True,
@@ -240,5 +232,5 @@ class AggregatedProfiles:
 
 
 def tooltip_text(r, variable_name, y_mean):
-    return str(variable_name) + ": " + str(r['xhat']) + "<br>" + "average prediction: " + str(r['yhat']) + "<br>" +\
-           "label: " + str(r['label']) + "<br><br>" + "mean observation prediction: " + "<br>" + str(y_mean)
+    return str(variable_name) + ": " + str(r['_x_']) + "<br>" + "average prediction: " + str(r['_yhat_']) + "<br>" +\
+           "label: " + str(r['_label_']) + "<br><br>" + "mean observation prediction: " + "<br>" + str(y_mean)

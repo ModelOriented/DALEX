@@ -45,11 +45,10 @@ def loss_after_permutation(explainer, loss_function, variables, n_sample):
     observed = explainer.y[sampled_rows]
 
     # loss on the full model or when outcomes are permuted
-    loss_full = loss_function(observed, explainer.predict_function(explainer.model, sampled_data))
+    loss_full = loss_function(observed, explainer.predict(sampled_data))
 
     sampled_rows2 = np.random.choice(range(observed.shape[0]), observed.shape[0], False)
-    loss_baseline = loss_function(observed[sampled_rows2],
-                                       explainer.predict_function(explainer.model, sampled_data))
+    loss_baseline = loss_function(observed[sampled_rows2], explainer.predict(sampled_data))
 
     loss_features = {}
     for variables_set_key in variables:
@@ -57,7 +56,7 @@ def loss_after_permutation(explainer, loss_function, variables, n_sample):
         ndf.loc[:, variables[variables_set_key]] = ndf.iloc[
             np.random.choice(range(ndf.shape[0]), ndf.shape[0], False), :].loc[:, variables[variables_set_key]].values
 
-        predicted = explainer.predict_function(explainer.model, ndf)
+        predicted = explainer.predict(ndf)
 
         loss_features[variables_set_key] = loss_function(observed, predicted)
 

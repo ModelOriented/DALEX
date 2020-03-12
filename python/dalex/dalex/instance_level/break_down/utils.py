@@ -15,8 +15,8 @@ def local_interactions(explainer,
     # this will work only for data.frames
 
     # set target
-    target_yhat = explainer.predict_function(explainer.model, new_observation)
-    baseline_yhat = np.mean(explainer.predict_function(explainer.model, explainer.data))
+    target_yhat = explainer.predict(new_observation)
+    baseline_yhat = np.mean(explainer.predict(explainer.data))
 
     # 1d changes
     # how the average would change if single variable is changed
@@ -183,7 +183,7 @@ def calculate_contributions_along_path(explainer,
 
             step += 1
 
-            yhats_pred = explainer.predict_function(explainer.model, current_data)
+            yhats_pred = explainer.predict(current_data)
 
             if keep_distributions:
                 yhats.append(
@@ -208,8 +208,7 @@ def calculate_contributions_along_path(explainer,
     # extract values
     selected_values = selected.apply(lambda row: nice_pair(new_observation,
                                                            row['ind1'],
-                                                           row[
-                                                               'ind2'] if not ind2_is_None else None),
+                                                           row['ind2'] if not ind2_is_None else None),
                                      axis=1)
 
     # prepare values
