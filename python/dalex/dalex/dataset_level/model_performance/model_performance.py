@@ -1,14 +1,23 @@
 from .utils import *
 
+import plotly.graph_objects as go
+
 
 class ModelPerformance:
     def __init__(self,
                  model_type,
                  cutoff=0.5):
+        """
+        Constructor for ModelPerformance.
+
+        :param model_type: either "regression" or "classification" determines measures to calculate
+        :param cutoff: float, a cutoff for classification models, needed for measures like recall, precision, ACC, F1
+        """
 
         self.cutoff = cutoff
         self.model_type = model_type
         self.result = None
+        self.residuals = None
 
     def fit(self, explainer):
 
@@ -16,6 +25,11 @@ class ModelPerformance:
             y_pred = explainer.y_hat
         else:
             y_pred = explainer.predict(explainer.data)
+
+        if explainer.residuals is not None:
+            _residuals = explainer.residuals
+        else:
+            _residuals = explainer.residual_function(explainer.data, explainer.y)
 
         y_true = explainer.y
 
@@ -53,6 +67,75 @@ class ModelPerformance:
                 'accuracy': [accuracy_],
                 'auc': [auc_]
             })
-
         else:
             raise ValueError("'model_type' must be 'regression' or 'classification'")
+
+        _residuals = pd.DataFrame({
+            'y_hat': y_pred,
+            'y': y_true,
+            'residuals': _residuals,
+            'label': explainer.label
+        })
+
+        self.residuals = _residuals
+
+    def plot(self, mp_list=None, title="1 - Distribution of |residual|"):
+        """
+        Plot function for ModelPerformance class.
+
+        :param mp_list: object of ModelPerformance class or list or tuple containing such objects
+        :param title: str, the plot's title
+        """
+
+        # are there any other explanations to plot?
+        if mp_list is None:
+            n = 1
+            _residuals_df_list = [self.residuals]
+        elif isinstance(mp_list, ModelPerformance):  # allow for list to be a single element
+            n = 2
+            _residuals_df_list = [self.residuals, mp_list.residuals]
+        else:  # list as tuple or array
+            n = len(mp_list) + 1
+            _residuals_df_list = [self.residuals]
+            for mp in mp_list:
+                if not isinstance(mp, ModelPerformance):
+                    raise TypeError("Some explanations aren't of ModelPerformance class")
+                _residuals_df_list += [mp.residuals]
+
+        fig = go.Figure()
+
+        for i in range(n):
+            _residuals_df = _residuals_df_list[i]
+            _abs_residuals = np.abs(_residuals_df['residuals'])
+            _unique_abs_residuals = np.unique(_abs_residuals)
+            fig.add_scatter(
+                x=_unique_abs_residuals,
+                y=1-ecdf(_abs_residuals)(_unique_abs_residuals),
+                line_shape='hv',
+                name=_residuals_df.iloc[0, _residuals_df.columns.get_loc('label')]
+            )
+
+        fig.update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True, 'ticks': 'outside',
+                          'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True, 'tickformat': ',.0%'})
+
+        fig.update_xaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True, 'ticks': "outside",
+                          'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True, 'title_text': '|residual|'})
+
+        fig.update_layout(title_text=title, title_x=0.15, font={'color': "#371ea3"}, template="none",
+                          margin={'t': 78, 'b': 71, 'r': 30})
+
+        fig.show(config={'displaylogo': False, 'staticPlot': False,
+                         'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d', 'zoom2d',
+                                                    'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',
+                                                    'toggleSpikelines', 'hoverCompareCartesian',
+                                                    'hoverClosestCartesian']})
+
+
+def ecdf(x):
+    # https://community.plot.ly/t/plot-the-empirical-cdf/29045
+    x = np.sort(x)
+
+    def result(v):
+        return np.searchsorted(x, v, side='right') / x.size
+
+    return result

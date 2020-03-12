@@ -96,10 +96,10 @@ class VariableImportance:
         else:  # list as tuple or array
             n = len(vi_list) + 1
             _result_df = self.result
-            for fi in vi_list:
-                if not isinstance(fi, VariableImportance):
+            for vi in vi_list:
+                if not isinstance(vi, VariableImportance):
                     raise TypeError("Some explanations aren't of VariableImportance class")
-                _result_df = pd.concat([_result_df, fi.result])
+                _result_df = pd.concat([_result_df, vi.result])
 
         dl = _result_df.loc[_result_df.variable != '_baseline_', 'dropout_loss'].to_numpy()
         min_max_margin = dl.ptp() * 0.15

@@ -133,7 +133,7 @@ def check_residual_function(residual_function, predict_function, model, data, y,
     if residual_function is None:
         # residual_function not specified
         # try the default
-        residual_function = lambda data, y: y - predict_function(model, data)
+        residual_function = lambda _model, _data, _y: _y - predict_function(_model, _data)
 
         verbose_cat("  -> residual function : difference between y and yhat", verbose=verbose)
     else:
@@ -143,7 +143,7 @@ def check_residual_function(residual_function, predict_function, model, data, y,
     residuals = None
     if data is not None and y is not None and (verbose or precalculate):
         try:
-            residuals = residual_function(data, y)
+            residuals = residual_function(model, data, y)
             verbose_cat(
                 "  -> residuals         : min = " + str(np.min(residuals)) + ", mean = " + str(np.mean(residuals)) +
                 ", max = " + str(np.max(residuals)), verbose=verbose)
