@@ -201,7 +201,7 @@ def prepare_data_for_break_down_plot(x, baseline, max_vars, rounding_function, d
     x.loc[x["variable_name"] == "", "variable_name"] = "prediction"
 
     temp = x.iloc[[0, x.shape[0] - 1], :].copy()
-    x.drop([0, x.shape[0] - 1], inplace=True)
+    x = x.drop([0, x.shape[0] - 1])
 
     variable_count = x.shape[0]
 
