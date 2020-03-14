@@ -20,15 +20,18 @@ If you work with `scikitlearn`, `keras`, `H2O`, `mljar` or `mlr`, you may be int
 <center><a href="https://pbiecek.github.io/ema/introduction.html#bookstructure"><img src="misc/DALEXpiramide.png" width="800"/></a></center>
 
 
-## Installation
+## Installation 
 
-```{r}
-# the easiest way to get DALEX is to install it from CRAN:
+The easiest way to get the **R** version of DALEX is to install it from [CRAN](https://cran.r-project.org/package=DALEX)
+
+```
 install.packages("DALEX")
+```
 
-# Or the the development version from GitHub:
-# install.packages("devtools")
-devtools::install_github("ModelOriented/DALEX")
+The **Python** version of dalex is avaiale on [pip](https://pypi.org/project/dalex/)
+
+```
+pip install dalex
 ```
 
 ## Learn more 
