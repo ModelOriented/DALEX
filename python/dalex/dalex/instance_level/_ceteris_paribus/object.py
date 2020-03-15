@@ -1,6 +1,7 @@
 from warnings import warn
 from plotly.subplots import make_subplots
 
+from dalex.instance_level._ceteris_paribus.plot import tooltip_text
 from .checks import *
 from .utils import calculate_ceteris_paribus, calculate_variable_split
 
@@ -129,10 +130,8 @@ class CeterisParibus:
         _result_df = _result_df.loc[_result_df['_vname_'].apply(lambda x: x in variable_names), ].reset_index(drop=True)
 
         dl = _result_df['_yhat_'].to_numpy()
-        min_max = [np.Inf, -np.Inf]
         min_max_margin = dl.ptp() * 0.15
-        min_max[0] = dl.min() - min_max_margin
-        min_max[1] = dl.max() + min_max_margin
+        min_max = [dl.min() - min_max_margin, dl.max() + min_max_margin]
 
         # split var by variable
         var_df_list = [v for k, v in _result_df.groupby('_vname_', sort=False)]
@@ -247,24 +246,4 @@ class CeterisParibus:
             'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d', 'zoom2d', 'pan2d',
                                        'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines', 'hoverCompareCartesian',
                                        'hoverClosestCartesian']})
-
-
-def tooltip_text(obs, r=None):
-    temp = ""
-    if r is not None:
-        for var in obs.index:
-            if var == "_yhat_":
-                temp += "prediction:<br>" + "- before: " + str(obs[var]) + "<br>" + "- after: " +\
-                        str(r[var]) + "<br><br>"
-            elif var == r['_vname_']:
-                temp += var + ": " + str(r['_xhat_']) + "</br>"
-            else:
-                temp += var + ": " + str(obs[var]) + "</br>"
-    else:
-        for var in obs.index:
-            if var == "_yhat_":
-                temp += "prediction:" + str(obs[var]) + "<br><br>"
-            else:
-                temp += var + ": " + str(obs[var]) + "</br>"
-    return temp
 

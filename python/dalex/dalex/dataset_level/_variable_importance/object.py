@@ -1,6 +1,7 @@
 import pandas as pd
 from plotly.subplots import make_subplots
 
+from dalex.dataset_level._variable_importance.plot import label_text, tooltip_text
 from .checks import *
 from .utils import calculate_variable_importance
 from ..._explainer.theme import get_default_colors
@@ -252,22 +253,4 @@ class VariableImportance:
                                                     'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',
                                                     'toggleSpikelines', 'hoverCompareCartesian',
                                                     'hoverClosestCartesian']})
-
-
-def label_text(row, rounding_function, digits):
-    if row.difference > 0:
-        key_word = "+"
-    else:
-        key_word = ""
-    return key_word + str(rounding_function(np.abs(row.difference), digits))
-
-
-def tooltip_text(row, rounding_function, digits):
-    if row.difference > 0:
-        key_word = "+"
-    else:
-        key_word = ""
-    return "Model: " + row.label + " loss after<br>variable: " + row.variable + " is permuted: " +\
-           str(rounding_function(row.dropout_loss, digits)) + "<br>" +\
-           "Drop-out loss change: " + key_word + str(rounding_function(np.abs(row.difference), digits))
 

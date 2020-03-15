@@ -1,3 +1,4 @@
+from dalex.dataset_level._model_performance.plot import ecdf
 from .utils import *
 
 import plotly.graph_objects as go
@@ -108,6 +109,7 @@ class ModelPerformance:
             _residuals_df = _residuals_df_list[i]
             _abs_residuals = np.abs(_residuals_df['residuals'])
             _unique_abs_residuals = np.unique(_abs_residuals)
+
             fig.add_scatter(
                 x=_unique_abs_residuals,
                 y=1-ecdf(_abs_residuals)(_unique_abs_residuals),
@@ -130,12 +132,3 @@ class ModelPerformance:
                                                     'toggleSpikelines', 'hoverCompareCartesian',
                                                     'hoverClosestCartesian']})
 
-
-def ecdf(x):
-    # https://community.plot.ly/t/plot-the-empirical-cdf/29045
-    x = np.sort(x)
-
-    def result(v):
-        return np.searchsorted(x, v, side='right') / x.size
-
-    return result

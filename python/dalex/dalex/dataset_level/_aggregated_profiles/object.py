@@ -1,5 +1,6 @@
 import pandas as pd
 
+from dalex.dataset_level._aggregated_profiles.plot import tooltip_text
 from .checks import *
 from .utils import aggregate_profiles
 
@@ -122,10 +123,8 @@ class AggregatedProfiles:
         is_x_numeric = np.issubdtype(_result_df['_x_'].dtype, np.number)
 
         dl = _result_df['_yhat_'].to_numpy()
-        min_max = [np.Inf, -np.Inf]
         min_max_margin = dl.ptp() * 0.15
-        min_max[0] = dl.min() - min_max_margin
-        min_max[1] = dl.max() + min_max_margin
+        min_max = [dl.min() - min_max_margin, dl.max() + min_max_margin]
 
         # split var by variable
         var_df_list = [v for k, v in _result_df.groupby('_vname_', sort=False)]
@@ -229,8 +228,3 @@ class AggregatedProfiles:
             'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d', 'zoom2d', 'pan2d',
                                        'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines', 'hoverCompareCartesian',
                                        'hoverClosestCartesian']})
-
-
-def tooltip_text(r, variable_name, y_mean):
-    return str(variable_name) + ": " + str(r['_x_']) + "<br>" + "average prediction: " + str(r['_yhat_']) + "<br>" +\
-           "label: " + str(r['_label_']) + "<br><br>" + "mean observation prediction: " + "<br>" + str(y_mean)
