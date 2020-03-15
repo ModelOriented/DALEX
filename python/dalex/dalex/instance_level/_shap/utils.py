@@ -46,7 +46,7 @@ def shap(explainer,
     else:
         yhats_distributions = None
 
-    target_yhat = explainer.predict(new_observation)
+    target_yhat = explainer.predict(new_observation)[0]  # only one new_observation allowed
     data_yhat = explainer.predict(explainer.data)
     baseline_yhat = data_yhat.mean()
 

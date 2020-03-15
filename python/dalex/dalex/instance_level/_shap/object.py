@@ -35,7 +35,7 @@ class Shap:
                                                                                       self.B)
 
     def plot(self,
-             sh_list=None,
+             objects=None,
              baseline=None,
              max_vars=10,
              digits=3,
@@ -48,7 +48,7 @@ class Shap:
         """
         Plot function for Shap class.
 
-        :param sh_list: object of Shap class or list or tuple containing such objects
+        :param objects: object of Shap class or list or tuple containing such objects
         :param baseline: float, starting point of bars
         :param max_vars: int, maximum number of variables that shall be presented for for each model
         :param digits: int, number of columns in the plot grid
@@ -61,30 +61,31 @@ class Shap:
 
         deleted_indexes = []
 
-        # are there any other explanations to plot?
-        if sh_list is None:
+        # are there any other objects to plot?
+        if objects is None:
             n = 1
-            _result_list = [self.result.loc[self.result['B'] == 0, ]]
+            _result_list = [self.result.loc[self.result['B'] == 0, ].copy()]
             _intercept_list = [self.intercept]
-            _prediction_list = [self.prediction[0]]
-        elif isinstance(sh_list, Shap):  # allow for list to be a single element
+            _prediction_list = [self.prediction]
+        elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             n = 2
-            _result_list = [self.result.loc[self.result['B'] == 0, ], sh_list.result.loc[sh_list.result['B'] == 0, ]]
-            _intercept_list = [self.intercept, sh_list.intercept]
-            _prediction_list = [self.prediction[0], sh_list.prediction[0]]
-        else:  # list as tuple or array
-            n = len(sh_list) + 1
-            _result_list = [self.result.loc[self.result['B'] == 0, ]]
+            _result_list = [self.result.loc[self.result['B'] == 0, ].copy(),
+                            objects.result.loc[objects.result['B'] == 0, ].copy()]
+            _intercept_list = [self.intercept, objects.intercept]
+            _prediction_list = [self.prediction, objects.prediction]
+        else:  # objects as tuple or array
+            n = len(objects) + 1
+            _result_list = [self.result.loc[self.result['B'] == 0, ].copy()]
             _intercept_list = [self.intercept]
-            _prediction_list = [self.prediction[0]]
-            for sh in sh_list:
-                if not isinstance(sh, Shap):
+            _prediction_list = [self.prediction]
+            for ob in objects:
+                if not isinstance(ob, self.__class__):
                     raise TypeError("Some explanations aren't of Shap class")
-                _result_list += [sh.result.loc[sh.result['B'] == 0, ]]
-                _intercept_list += [sh.intercept]
-                _prediction_list += [sh.prediction[0]]
+                _result_list += [ob.result.loc[ob.result['B'] == 0, ].copy()]
+                _intercept_list += [ob.intercept]
+                _prediction_list += [ob.prediction]
 
-        # TODO add intercept and prediction list update for multiclass
+        # TODO: add intercept and prediction list update for multi-class
         # for i in range(n):
         #     result = _result_list[i]
         #
@@ -111,10 +112,10 @@ class Shap:
             temp_min_max = min_max
 
         for i in range(n):
-            result = _result_list[i]
+            _result = _result_list[i]
 
-            if result.shape[0] <= max_vars:
-                m = result.shape[0]
+            if _result.shape[0] <= max_vars:
+                m = _result.shape[0]
             else:
                 m = max_vars + 1
 
@@ -122,7 +123,7 @@ class Shap:
                 baseline = _intercept_list[i]
             prediction = _prediction_list[i]
 
-            df = prepare_data_for_shap_plot(result, baseline, prediction, max_vars, rounding_function, digits)
+            df = prepare_data_for_shap_plot(_result, baseline, prediction, max_vars, rounding_function, digits)
 
             fig.add_shape(
                 type='line',

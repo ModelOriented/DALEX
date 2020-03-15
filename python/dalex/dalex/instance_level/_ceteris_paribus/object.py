@@ -10,7 +10,8 @@ class CeterisParibus:
                  variables=None,
                  grid_points=101,
                  variable_splits=None):
-        """Creates Ceteris Paribus object
+        """
+        Creates Ceteris Paribus object
 
         :param variables: variables for which the profiles are calculated
         :param grid_points: number of points in a single variable split if calculated automatically
@@ -44,13 +45,13 @@ class CeterisParibus:
                                                                       variable_splits,
                                                                       y)
 
-    def plot(self, cp_list=None, variable_type="numerical", variables=None, size=2, color="#46bac2", facet_ncol=2,
+    def plot(self, objects=None, variable_type="numerical", variables=None, size=2, color="#46bac2", facet_ncol=2,
              show_observations=True, title="Ceteris Paribus Profiles"):
         """
         Plot function for CeterisParibus class.
 
-        :param cp_list: object of CeterisParibus class or list or tuple containing such objects
-        :param variable_type: either "numerical" or "categorical" determines type of variables to plot
+        :param objects: object of CeterisParibus class or list or tuple containing such objects
+        :param variable_type: either "numerical" or "categorical", determines type of variables to plot
         :param variables: str list, if not None then only variables will be presented
         :param size: int, width of lines
         :param color: string, line/bar color
@@ -58,25 +59,27 @@ class CeterisParibus:
         :param show_observations show observation points
         :param title: str, the plot's title
         """
-        # TODO: add show_rugs
-        if variable_type not in ("both", "numerical", "categorical"):
-            raise TypeError("variable_type should be 'both' or 'numerical' or 'categorical'")
 
-        # are there any other explanations to plot?
-        if cp_list is None:
-            _result_df = self.result
-            _obs_df = self.new_observation
-        elif isinstance(cp_list, CeterisParibus):  # allow for list to be a single element
-            _result_df = pd.concat([self.result, cp_list.result])
-            _obs_df = pd.concat([self.new_observation, cp_list.new_observation])
-        else:  # list as tuple or array
-            _result_df = self.result
-            _obs_df = self.new_observation
-            for cp in cp_list:
-                if not isinstance(cp, CeterisParibus):
+        # TODO: add show_rugs
+        # TODO: add variable_type = 'both'
+        if variable_type not in ("numerical", "categorical"):
+            raise TypeError("variable_type should be 'numerical' or 'categorical'")
+
+        # are there any other objects to plot?
+        if objects is None:
+            _result_df = self.result.copy()
+            _obs_df = self.new_observation.copy()
+        elif isinstance(objects, self.__class__):  # allow for objects to be a single element
+            _result_df = pd.concat([self.result.copy(), objects.result.copy()])
+            _obs_df = pd.concat([self.new_observation.copy(), objects.new_observation.copy()])
+        else:  # objects as tuple or array
+            _result_df = self.result.copy()
+            _obs_df = self.new_observation.copy()
+            for ob in objects:
+                if not isinstance(ob, self.__class__):
                     raise TypeError("Some explanations aren't of CeterisParibus class")
-                _result_df = pd.concat([_result_df, cp.result])
-                _obs_df = pd.concat([_obs_df, cp.new_observation])
+                _result_df = pd.concat([_result_df, ob.result.copy()])
+                _obs_df = pd.concat([_obs_df, ob.new_observation.copy()])
 
         # variables to use
         all_variables = _result_df['_vname_'].dropna().unique().tolist()
@@ -147,7 +150,7 @@ class CeterisParibus:
             row = int(np.floor(i/facet_ncol) + 1)
             col = int(np.mod(i, facet_ncol) + 1)
 
-            # line plot or bar plot? TODO: add is_numeric and implement 'both'
+            # line plot or bar plot?
             if variable_type == "numerical":
                 df_list = [v for k, v in var_df.groupby('_ids_', sort=False)]
 

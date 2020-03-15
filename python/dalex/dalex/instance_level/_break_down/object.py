@@ -52,7 +52,7 @@ class BreakDown:
         self.yhats_distributions = yhats_distributions
 
     def plot(self,
-             bd_list=None,
+             objects=None,
              baseline=None,
              max_vars=10,
              digits=3,
@@ -64,7 +64,7 @@ class BreakDown:
         """
         Plot function for BreakDown class.
 
-        :param bd_list: object of BreakDown class or list or tuple containing such objects
+        :param objects: object of BreakDown class or list or tuple containing such objects
         :param baseline: float, starting point of bars
         :param max_vars: int, maximum number of variables that shall be presented for for each model
         :param digits: int, number of columns in the plot grid
@@ -77,28 +77,28 @@ class BreakDown:
 
         deleted_indexes = []
 
-        # are there any other explanations to plot?
-        if bd_list is None:
+        # are there any other objects to plot?
+        if objects is None:
             n = 1
-            _result_list = [self.result]
-        elif isinstance(bd_list, BreakDown):  # allow for list to be a single element
+            _result_list = [self.result.copy()]
+        elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             n = 2
-            _result_list = [self.result, bd_list.result]
-        else:  # list as tuple or array
-            n = len(bd_list) + 1
-            _result_list = [self.result]
-            for bd in bd_list:
-                if not isinstance(bd, BreakDown):
+            _result_list = [self.result.copy(), objects.result.copy()]
+        else:  # objects as tuple or array
+            n = len(objects) + 1
+            _result_list = [self.result.copy()]
+            for ob in objects:
+                if not isinstance(ob, self.__class__):
                     raise TypeError("Some explanations aren't of Break Down class")
-                _result_list += [bd.result]
+                _result_list += [ob.result.copy()]
 
         for i in range(n):
-            result = _result_list[i]
+            _result = _result_list[i]
 
-            if len(result['label'].unique()) > 1:
-                n += len(result['label'].unique()) - 1
+            if len(_result['label'].unique()) > 1:
+                n += len(_result['label'].unique()) - 1
                 # add new data frames to list
-                _result_list += [v for k, v in result.groupby('label', sort=False)]
+                _result_list += [v for k, v in _result.groupby('label', sort=False)]
 
                 deleted_indexes += [i]
 
@@ -119,17 +119,17 @@ class BreakDown:
             temp_min_max = min_max
 
         for i in range(n):
-            result = _result_list[i]
+            _result = _result_list[i]
 
-            if result.shape[0] - 2 <= max_vars:
-                m = result.shape[0]
+            if _result.shape[0] - 2 <= max_vars:
+                m = _result.shape[0]
             else:
                 m = max_vars + 3
 
             if baseline is None:
-                baseline = result.iloc[0, result.columns.get_loc("cumulative")]
+                baseline = _result.iloc[0, _result.columns.get_loc("cumulative")]
 
-            df = prepare_data_for_break_down_plot(result, baseline, max_vars, rounding_function, digits)
+            df = prepare_data_for_break_down_plot(_result, baseline, max_vars, rounding_function, digits)
 
             measure = ["relative"]*m
             measure[m-1] = "total"

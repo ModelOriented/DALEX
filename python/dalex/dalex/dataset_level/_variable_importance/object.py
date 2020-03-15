@@ -16,19 +16,19 @@ class VariableImportance:
                  variable_groups=None,
                  random_state=None,
                  keep_raw_permutations=None):
-        """Calculate feature importance of the model
+        """
+        Calculate feature importance of the model
 
-                :param explainer: an Explainer object
-                :param loss_function: a function thet will be used to assess variable importance
-                :param type: type of transformation that should be applied for dropout loss
-                :param n_sample: number of observations that should be sampled for calculation of variable importance
-                :param B: number of permutation rounds to perform on each variable
-                :param variables: vector of variables. If None then variable importance will be tested for each variable from the data separately
-                :param variable_groups: list of variables names vectors. This is for testing joint variable importance
-                :param random_state: random state for the permutations
-                :param keep_raw_permutations: TODO
-                :return: None
-                """
+        :param loss_function: a function thet will be used to assess variable importance
+        :param type: type of transformation that should be applied for dropout loss
+        :param n_sample: number of observations that should be sampled for calculation of variable importance
+        :param B: number of permutation rounds to perform on each variable
+        :param variables: vector of variables. If None then variable importance will be tested for each variable from the data separately
+        :param variable_groups: list of variables names vectors. This is for testing joint variable importance
+        :param random_state: random state for the permutations
+        :param keep_raw_permutations: TODO
+        :return: None
+        """
 
         loss_function = check_loss_function(loss_function)
         variable_groups = check_variable_groups(variable_groups)
@@ -61,7 +61,7 @@ class VariableImportance:
                                                                       self.keep_raw_permutations)
 
     def plot(self,
-             vi_list=None,
+             objects=None,
              max_vars=10,
              digits=3,
              rounding_function=np.around,
@@ -71,12 +71,12 @@ class VariableImportance:
         """
         Plot function for VariableImportance class.
 
-        :param vi_list: object of VariableImportance class or list or tuple containing such objects
+        :param objects: object of VariableImportance class or list or tuple containing such objects
         :param max_vars: int, maximum number of variables that shall be presented for for each model
         :param digits: int, number of columns in the plot grid
         :param rounding_function: a function to be used for rounding numbers
         :param bar_width: float, width of bars
-        :param split: either "model" or "feature" determines the plot layout
+        :param split: either "model" or "variable", determines the plot layout
         :param title: str, the plot's title
         """
 
@@ -86,20 +86,20 @@ class VariableImportance:
         if split not in ("model", "variable"):
             raise TypeError("split should be 'model' or 'variable'")
 
-        # are there any other explanations to plot?
-        if vi_list is None:
+        # are there any other objects to plot?
+        if objects is None:
             n = 1
-            _result_df = self.result
-        elif isinstance(vi_list, VariableImportance):  # allow for list to be a single element
+            _result_df = self.result.copy()
+        elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             n = 2
-            _result_df = pd.concat([self.result, vi_list.result])
-        else:  # list as tuple or array
-            n = len(vi_list) + 1
-            _result_df = self.result
-            for vi in vi_list:
-                if not isinstance(vi, VariableImportance):
+            _result_df = pd.concat([self.result.copy(), objects.result.copy()])
+        else:  # objects as tuple or array
+            n = len(objects) + 1
+            _result_df = self.result.copy()
+            for ob in objects:
+                if not isinstance(ob, self.__class__):
                     raise TypeError("Some explanations aren't of VariableImportance class")
-                _result_df = pd.concat([_result_df, vi.result])
+                _result_df = pd.concat([_result_df, ob.result].copy())
 
         dl = _result_df.loc[_result_df.variable != '_baseline_', 'dropout_loss'].to_numpy()
         min_max_margin = dl.ptp() * 0.15
