@@ -1,7 +1,7 @@
 import unittest
 import dalex as dx
 from dalex.instance_level import CeterisParibus
-from dalex.instance_level.ceteris_paribus import utils
+from dalex.instance_level._ceteris_paribus import utils
 
 import pandas as pd
 import numpy as np

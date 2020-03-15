@@ -1,6 +1,5 @@
 import unittest
 import dalex as dx
-from dalex.instance_level import CeterisParibus
 
 import pandas as pd
 import numpy as np

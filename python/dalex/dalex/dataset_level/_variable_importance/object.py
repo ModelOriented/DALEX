@@ -3,7 +3,7 @@ from plotly.subplots import make_subplots
 
 from .checks import *
 from .utils import calculate_variable_importance
-from ...explainer.theme import get_default_colors
+from ..._explainer.theme import get_default_colors
 
 
 class VariableImportance:

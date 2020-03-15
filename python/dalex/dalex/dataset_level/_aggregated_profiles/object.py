@@ -4,7 +4,7 @@ from .checks import *
 from .utils import aggregate_profiles
 
 from plotly.subplots import make_subplots
-from ...explainer.theme import get_default_colors
+from ..._explainer.theme import get_default_colors
 
 
 class AggregatedProfiles:

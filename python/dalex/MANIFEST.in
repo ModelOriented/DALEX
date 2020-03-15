@@ -1,1 +1,1 @@
-include dalex/d3js/*
+include dalex/datasets/data/*

@@ -3,7 +3,7 @@ from plotly.subplots import make_subplots
 
 from .checks import *
 from .utils import local_interactions
-from ...explainer.theme import get_break_down_colors
+from ..._explainer.theme import get_break_down_colors
 
 
 class BreakDown:
