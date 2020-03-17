@@ -71,7 +71,6 @@ test_that("predict and residual functions", {
   expect_is(explainer_ranger_9$y_hat, "factor")
   expect_is(explainer_ranger_10$residuals, "numeric")
   expect_is(explainer_ranger_11$y_hat, "numeric")
-  expect_null(explainer_ranger_12$y_hat)
 
 
 })

@@ -132,7 +132,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     n <- nrow(data)
     # as was requested in issue #155
     if (is.null(rownames(data))) {
-      rownames(data) <- 1:m
+      rownames(data) <- 1:n
     }
     verbose_cat("  -> data              : ", n, " rows ", ncol(data), " cols \n", verbose = verbose)
   }
