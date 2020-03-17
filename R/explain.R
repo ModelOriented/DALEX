@@ -130,6 +130,10 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     }
   } else {
     n <- nrow(data)
+    # as was requested in issue #155
+    if (is.null(rownames(data))) {
+      rownames(data) <- 1:m
+    }
     verbose_cat("  -> data              : ", n, " rows ", ncol(data), " cols \n", verbose = verbose)
   }
   # as for issue #15, if data is in the tibble format then needs to be translated to data.frame
