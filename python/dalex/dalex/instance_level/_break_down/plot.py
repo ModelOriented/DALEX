@@ -47,7 +47,7 @@ def tooltip_text(row):
         key_word = "increases"
     else:
         key_word = "decreases"
-    return row.variable + "<br>" + key_word + " average response <br>by"
+    return str(row.variable) + "<br>" + key_word + " average response <br>by"
 
 
 def label_text(contribution):

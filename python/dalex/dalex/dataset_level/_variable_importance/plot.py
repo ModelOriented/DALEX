@@ -14,6 +14,6 @@ def tooltip_text(row, rounding_function, digits):
         key_word = "+"
     else:
         key_word = ""
-    return "Model: " + row.label + " loss after<br>variable: " + row.variable + " is permuted: " +\
+    return "Model: " + str(row.label) + " loss after<br>variable: " + str(row.variable) + " is permuted: " +\
            str(rounding_function(row.dropout_loss, digits)) + "<br>" +\
            "Drop-out loss change: " + key_word + str(rounding_function(np.abs(row.difference), digits))

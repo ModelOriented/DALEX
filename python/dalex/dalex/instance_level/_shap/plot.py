@@ -34,7 +34,7 @@ def tooltip_text(row, baseline, prediction):
     else:
         key_word = "decreases"
     return "Average response: " + str(baseline) + "<br>Prediction: " + str(prediction) + "<br>" +\
-           row.variable + "<br>" + key_word + " average response <br>by " + str(np.abs(row.contribution))
+           str(row.variable) + "<br>" + key_word + " average response <br>by " + str(np.abs(row.contribution))
 
 
 def label_text(contribution):
