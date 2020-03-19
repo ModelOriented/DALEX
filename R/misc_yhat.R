@@ -45,9 +45,9 @@ yhat.randomForest <- function(X.model, newdata, ...) {
     pred <- predict(X.model, newdata, type = "prob", ...)
     # if result is a vector then ncol parameter is null
     if (is.null(ncol(pred))) return(pred)
-    if (ncol(pred) == 2) { # binary classification
-      pred <- pred[,2]
-    }
+    #  binary classification
+    if (ncol(pred) == 2) return(pred[,2])
+
   } else {
     pred <- predict(X.model, newdata, ...)
   }
@@ -110,10 +110,9 @@ yhat.ranger <- function(X.model, newdata, ...) {
     # if result is a vector then ncol parameter is null
     if (is.null(ncol(pred))) return(pred)
     # if newdata has only one row then the vector needs to be transformed into a matrix
-    if (nrow(newdata) == 1) pred <- matrix(pred, nrow = 1)
-    if (ncol(pred) == 2) { # binary classification
-      pred <- pred[,2]
-    }
+    if (nrow(newdata) == 1) return(matrix(pred, nrow = 1))
+    # binary classification
+    if (ncol(pred) == 2) return(pred[,2])
   }
   pred
 }

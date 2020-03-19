@@ -2,6 +2,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^misc$
+^python$
 ^docs$
 ^_pkgdown\.yml$
 .travis.yml

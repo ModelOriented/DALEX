@@ -119,21 +119,18 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
 
   # REPORT: checks for data
   if (is.null(data)) {
-    n <- 0
     possible_data <- try(model.frame(model), silent = TRUE)
     if (class(possible_data)[1] != "try-error") {
       data <- possible_data
       n <- nrow(data)
       verbose_cat("  -> data              : ", n, " rows ", ncol(data), " cols", color_codes$yellow_start, "extracted from the model", color_codes$yellow_end, "\n", verbose = verbose)
     } else {
+      # Setting 0 as value of n if data is not present is necessary for future checks
+      n <- 0
       verbose_cat("  -> no data avaliable! (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
     }
   } else {
     n <- nrow(data)
-    # as was requested in issue #155
-    if (is.null(rownames(data))) {
-      rownames(data) <- 1:n
-    }
     verbose_cat("  -> data              : ", n, " rows ", ncol(data), " cols \n", verbose = verbose)
   }
   # as for issue #15, if data is in the tibble format then needs to be translated to data.frame
@@ -141,6 +138,11 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     data <- as.data.frame(data)
     verbose_cat("  -> data              :  tibbble converted into a data.frame \n", verbose = verbose)
   }
+  # as was requested in issue #155, It works becasue if data is NULL, instruction will not be evaluated
+  if ("matrix" %in% class(data) & is.null(rownames(data))) {
+    rownames(data) <- 1:n
+    verbose_cat("  -> data              :  rownames to matrix was added (from 1 to ", n, ") \n", verbose = verbose)
+    }
 
   # REPORT: checks for y present while data is NULL
   if (is.null(y)) {

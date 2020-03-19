@@ -6,6 +6,10 @@ test_that("Type of data in the explainer and label",{
   explainer_ranger_1 <- explain(model_classif_ranger, label = "Test", verbose = FALSE)
   explainer_ranger_2 <- explain(model_classif_ranger, data = titanic_imputed, label = "Test 2", verbose = FALSE)
   explainer_lm_1 <- explain(model_regr_lm, verbose = FALSE)
+  data_matrix <- as.matrix(titanic_imputed)
+  rownames(data_matrix) <- NULL
+  explainer_ranger_13 <- explain(model_classif_ranger, data = data_matrix, label = "Test", verbose = FALSE)
+
 
   expect_is(explainer_ranger_1, "explainer")
   expect_is(explainer_ranger_2, "explainer")
@@ -16,6 +20,7 @@ test_that("Type of data in the explainer and label",{
   expect_null(explainer_ranger_1$data)
   expect_is(explainer_ranger_2$data, "data.frame")
   expect_is(explainer_lm_1$data, "data.frame")
+  expect_false(is.null(rownames(explainer_ranger_13$data)))
 })
 
 test_that("Checks for y",{
