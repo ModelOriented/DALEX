@@ -47,7 +47,7 @@ class CeterisParibus:
                                                                       y)
 
     def plot(self, objects=None, variable_type="numerical", variables=None, size=2, color="#46bac2", facet_ncol=2,
-             show_observations=True, title="Ceteris Paribus Profiles"):
+             show_observations=True, title="Ceteris Paribus Profiles", horizontal_spacing=0.1, vertical_spacing=None):
         """
         Plot function for CeterisParibus class.
 
@@ -59,6 +59,8 @@ class CeterisParibus:
         :param facet_ncol: int, number of columns on the plot grid
         :param show_observations show observation points
         :param title: str, the plot's title
+        :param horizontal_spacing: ratio of horizontal space between the plots, by default it's 0.1
+        :param vertical_spacing ratio of vertical space between the plots, by default it's 0.3/`number of plots`
         """
 
         # TODO: add show_rugs
@@ -137,9 +139,12 @@ class CeterisParibus:
         var_df_list = [v for k, v in _result_df.groupby('_vname_', sort=False)]
         var_df_dict = {e['_vname_'].array[0]: e for e in var_df_list}
 
+        if vertical_spacing is None:
+            vertical_spacing = 0.3 / n
+
         facet_nrow = int(np.ceil(n / facet_ncol))
-        fig = make_subplots(rows=facet_nrow, cols=facet_ncol, horizontal_spacing=0.1,
-                            vertical_spacing=0.3/n, x_title='prediction', subplot_titles=variable_names)
+        fig = make_subplots(rows=facet_nrow, cols=facet_ncol, horizontal_spacing=horizontal_spacing,
+                            vertical_spacing=vertical_spacing, x_title='prediction', subplot_titles=variable_names)
 
         for i in range(n):
             name = variable_names[i]

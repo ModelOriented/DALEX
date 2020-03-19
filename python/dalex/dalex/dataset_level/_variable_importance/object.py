@@ -46,7 +46,7 @@ class VariableImportance:
         self.variable_groups = variable_groups
         self.random_state = random_state
         self.keep_raw_permutations = keep_raw_permutations
-        self.result= None
+        self.result = None
         self.permutation = None
 
     def fit(self, explainer):
@@ -68,7 +68,8 @@ class VariableImportance:
              rounding_function=np.around,
              bar_width=16,
              split=("model", "variable"),
-             title="Variable Importance"):
+             title="Variable Importance",
+             vertical_spacing=None):
         """
         Plot function for VariableImportance class.
 
@@ -79,6 +80,7 @@ class VariableImportance:
         :param bar_width: float, width of bars
         :param split: either "model" or "variable", determines the plot layout
         :param title: str, the plot's title
+        :param vertical_spacing ratio of vertical space between the plots, by default it's 0.2/`number of plots`
         """
 
         if isinstance(split, tuple):
@@ -126,11 +128,14 @@ class VariableImportance:
 
         colors = get_default_colors(n, 'bar')
 
+        if vertical_spacing is None:
+            vertical_spacing = 0.2 / n
+
         if split == "model":
 
             # init plot
             model_names = _result_df['label'].unique().tolist()
-            fig = make_subplots(rows=n, cols=1, shared_xaxes=True, vertical_spacing=0.2/n, x_title='drop-out loss',
+            fig = make_subplots(rows=n, cols=1, shared_xaxes=True, vertical_spacing=vertical_spacing, x_title='drop-out loss',
                                 subplot_titles=model_names)
 
             # split df by model

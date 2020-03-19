@@ -78,7 +78,8 @@ class AggregatedProfiles:
         self.result = aggregate_profiles(all_profiles, ceteris_paribus, self.type, self.groups, self.intercept, self.span)
         self.mean_prediction = all_observations['_yhat_'].mean()
 
-    def plot(self, objects=None, variables=None, size=2, facet_ncol=2, title="Aggregated Profiles"):
+    def plot(self, objects=None, variables=None, size=2, facet_ncol=2, title="Aggregated Profiles",
+             horizontal_spacing=0.1, vertical_spacing=None):
         """
         Plot function for AggregatedProfiles class.
 
@@ -87,6 +88,8 @@ class AggregatedProfiles:
         :param size: float, width of lines
         :param facet_ncol: int, number of columns on the plot grid
         :param title: str, the plot's title
+        :param horizontal_spacing: ratio of horizontal space between the plots, by default it's 0.1
+        :param vertical_spacing ratio of vertical space between the plots, by default it's 0.3/`number of plots`
         """
 
         # are there any other objects to plot?
@@ -130,9 +133,12 @@ class AggregatedProfiles:
         var_df_list = [v for k, v in _result_df.groupby('_vname_', sort=False)]
         var_df_dict = {e['_vname_'].array[0]: e for e in var_df_list}
 
+        if vertical_spacing is None:
+            vertical_spacing = 0.3 / n
+
         facet_nrow = int(np.ceil(n / facet_ncol))
-        fig = make_subplots(rows=facet_nrow, cols=facet_ncol, horizontal_spacing=0.1,
-                            vertical_spacing=0.3/n, x_title='prediction', subplot_titles=variable_names)
+        fig = make_subplots(rows=facet_nrow, cols=facet_ncol, horizontal_spacing=horizontal_spacing,
+                            vertical_spacing=vertical_spacing, x_title='prediction', subplot_titles=variable_names)
 
         colors = get_default_colors(m, 'line')
 

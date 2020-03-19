@@ -61,7 +61,8 @@ class BreakDown:
              bar_width=16,
              min_max=None,
              vcolors=None,
-             title="Break Down"):
+             title="Break Down",
+             vertical_spacing=None):
         """
         Plot function for BreakDown class.
 
@@ -74,6 +75,7 @@ class BreakDown:
         :param min_max: 2-tuple of float values, range of x-axis
         :param vcolors: 3-tuple of str values, color of bars
         :param title: str, the plot's title
+        :param vertical_spacing ratio of vertical space between the plots, by default it's 0.2/`number of plots`
         """
 
         # are there any other objects to plot?
@@ -105,8 +107,11 @@ class BreakDown:
         _result_list = [j for i, j in enumerate(_result_list) if i not in deleted_indexes]
         model_names = [result.iloc[0, result.columns.get_loc("label")] for result in _result_list]
 
+        if vertical_spacing is None:
+            vertical_spacing = 0.2 / n
+
         fig = make_subplots(rows=n, cols=1,
-                            shared_xaxes=True, vertical_spacing=0.2/n,
+                            shared_xaxes=True, vertical_spacing=vertical_spacing,
                             x_title='contribution', subplot_titles=model_names)
         plot_height = 78 + 71
 
