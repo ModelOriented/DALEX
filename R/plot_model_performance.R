@@ -105,7 +105,7 @@ plot.model_performance_boxplot <- function(df, show_outliers, lossFunction, nlab
   label <- name <- NULL
   pl <- ggplot(df, aes(x = label, y = abs(diff), fill = label)) +
     stat_boxplot(alpha = 0.4, coef = 1000) +
-    stat_summary(fun.y = lossFunction, geom = "point", shape = 20, size=10, color="red", fill="red") +
+    stat_summary(fun = lossFunction, geom = "point", shape = 20, size=10, color="red", fill="red") +
     theme_drwhy_vertical() +
     scale_fill_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
     ylab("") + xlab("") +

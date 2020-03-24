@@ -119,13 +119,14 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
 
   # REPORT: checks for data
   if (is.null(data)) {
-    n <- 0
     possible_data <- try(model.frame(model), silent = TRUE)
     if (class(possible_data)[1] != "try-error") {
       data <- possible_data
       n <- nrow(data)
       verbose_cat("  -> data              : ", n, " rows ", ncol(data), " cols", color_codes$yellow_start, "extracted from the model", color_codes$yellow_end, "\n", verbose = verbose)
     } else {
+      # Setting 0 as value of n if data is not present is necessary for future checks
+      n <- 0
       verbose_cat("  -> no data avaliable! (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
     }
   } else {
@@ -137,6 +138,11 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     data <- as.data.frame(data)
     verbose_cat("  -> data              :  tibbble converted into a data.frame \n", verbose = verbose)
   }
+  # as was requested in issue #155, It works becasue if data is NULL, instruction will not be evaluated
+  if ("matrix" %in% class(data) && is.null(rownames(data))) {
+    rownames(data) <- 1:n
+    verbose_cat("  -> data              :  rownames to matrix was added (from 1 to ", n, ") \n", verbose = verbose)
+    }
 
   # REPORT: checks for y present while data is NULL
   if (is.null(y)) {
@@ -223,7 +229,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
   }
   # if data is specified then we may test predict_function
   y_hat <- NULL
-  if (!is.null(data) & !is.null(predict_function) & (verbose | precalculate)) {
+  if (!is.null(data) && !is.null(predict_function) && (verbose | precalculate)) {
     y_hat <- try(predict_function(model, data), silent = TRUE)
     if (class(y_hat)[1] == "try-error") {
       y_hat <- NULL
@@ -258,7 +264,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
   }
   # if data is specified then we may test residual_function
   residuals <- NULL
-  if (!is.null(data) & !is.null(residual_function) & !is.null(y) & (verbose | precalculate)) {
+  if (!is.null(data) && !is.null(residual_function) && !is.null(y) && (verbose | precalculate)) {
     residuals <- try(residual_function(model, data, y), silent = TRUE)
     if (class(residuals)[1] == "try-error") {
       residuals <- NULL
