@@ -139,7 +139,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     verbose_cat("  -> data              :  tibbble converted into a data.frame \n", verbose = verbose)
   }
   # as was requested in issue #155, It works becasue if data is NULL, instruction will not be evaluated
-  if ("matrix" %in% class(data) & is.null(rownames(data))) {
+  if ("matrix" %in% class(data) && is.null(rownames(data))) {
     rownames(data) <- 1:n
     verbose_cat("  -> data              :  rownames to matrix was added (from 1 to ", n, ") \n", verbose = verbose)
     }
@@ -229,7 +229,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
   }
   # if data is specified then we may test predict_function
   y_hat <- NULL
-  if (!is.null(data) & !is.null(predict_function) & (verbose | precalculate)) {
+  if (!is.null(data) && !is.null(predict_function) && (verbose | precalculate)) {
     y_hat <- try(predict_function(model, data), silent = TRUE)
     if (class(y_hat)[1] == "try-error") {
       y_hat <- NULL
@@ -264,7 +264,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
   }
   # if data is specified then we may test residual_function
   residuals <- NULL
-  if (!is.null(data) & !is.null(residual_function) & !is.null(y) & (verbose | precalculate)) {
+  if (!is.null(data) && !is.null(residual_function) && !is.null(y) && (verbose | precalculate)) {
     residuals <- try(residual_function(model, data, y), silent = TRUE)
     if (class(residuals)[1] == "try-error") {
       residuals <- NULL
