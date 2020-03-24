@@ -1,6 +1,7 @@
 DALEX 1.1
 ----------------------------------------------------------------
 * updated title for `plot.model_performance`  ([#160](https://github.com/ModelOriented/DALEX/issues/160)).
+* in `explain` removed check related to duplicated target variable ([#164](https://github.com/ModelOriented/DALEX/issues/164)).
 
 DALEX 1.0
 ----------------------------------------------------------------
