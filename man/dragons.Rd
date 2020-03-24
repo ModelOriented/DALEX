@@ -5,7 +5,9 @@
 \alias{dragons}
 \alias{dragons_test}
 \title{Dragon Data}
-\format{a data frame with 2000 rows and 8 columns}
+\format{
+a data frame with 2000 rows and 8 columns
+}
 \usage{
 data(dragons)
 }

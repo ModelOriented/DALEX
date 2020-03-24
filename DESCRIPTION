@@ -3,7 +3,7 @@ Title: moDel Agnostic Language for Exploration and eXplanation
 Version: 1.1.0.2
 Authors@R: c(person("Przemyslaw", "Biecek", email = "przemyslaw.biecek@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-8423-1823")),
     person("Szymon", "Maksymiuk", role = "ctb"))
-Description:  Unverified black box model is the path to the failure. Opaqueness leads to distrust. 
+Description: Unverified black box model is the path to the failure. Opaqueness leads to distrust. 
   Distrust leads to ignoration. Ignoration leads to rejection. 
   DALEX package xrays any model and helps to explore and explain its behaviour.
   Machine Learning (ML) models are widely used and have various applications in classification 
@@ -18,7 +18,7 @@ Description:  Unverified black box model is the path to the failure. Opaqueness 
 License: GPL
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Depends: R (>= 3.5)
 Imports: 
   ggplot2
