@@ -1,3 +1,7 @@
+DALEX 1.1
+----------------------------------------------------------------
+* updated title for `plot.model_performance`  ([#160](https://github.com/ModelOriented/DALEX/issues/160)).
+
 DALEX 1.0
 ----------------------------------------------------------------
 * `variable_profile`  calls `ingredients::ceteris_paribus` ([#131](https://github.com/ModelOriented/DALEX/issues/131)).

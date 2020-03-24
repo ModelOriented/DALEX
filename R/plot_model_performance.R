@@ -98,7 +98,7 @@ plot.model_performance_ecdf <- function(df, nlabels) {
                        labels = paste(seq(100,0,-10),"%"),
                        trans = "reverse",
                        name = "") +
-    ggtitle(expression(paste("Distribution of ", group("|", residual, "|"))))
+    ggtitle(expression(paste("Reverse cumulative distribution of ", group("|", residual, "|"))))
 }
 
 plot.model_performance_boxplot <- function(df, show_outliers, lossFunction, nlabels) {
