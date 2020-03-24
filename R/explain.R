@@ -167,12 +167,13 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
       verbose_cat("  -> target variable   :  Otherwise I will not be able to calculate residuals or loss function.\n", verbose = verbose)
     }
 
-    if (!is.null(data)) {
-      if (is_y_in_data(data, y)) {
-        verbose_cat("  -> data              :  A column identical to the target variable `y` has been found in the `data`.  (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
-        verbose_cat("  -> data              :  It is highly recommended to pass `data` without the target variable column\n", verbose = verbose)
-      }
-    }
+### check removed due to https://github.com/ModelOriented/DALEX/issues/164
+#    if (!is.null(data)) {
+#      if (is_y_in_data(data, y)) {
+#        verbose_cat("  -> data              :  A column identical to the target variable `y` has been found in the `data`.  (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
+#        verbose_cat("  -> data              :  It is highly recommended to pass `data` without the target variable column\n", verbose = verbose)
+#      }
+#    }
   }
 
   # REPORT: checks for weights

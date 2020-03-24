@@ -5,7 +5,9 @@
 \alias{titanic}
 \alias{titanic_imputed}
 \title{Passengers and Crew on the RMS Titanic Data}
-\format{a data frame with 2207 rows and 9 columns}
+\format{
+a data frame with 2207 rows and 9 columns
+}
 \source{
 This dataset was copied from the \code{stablelearner} package and went through few variable
 transformations. The complete list of persons on the RMS titanic was downloaded from

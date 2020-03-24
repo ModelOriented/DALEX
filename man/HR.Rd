@@ -6,7 +6,9 @@
 \alias{HRTest}
 \alias{HR_test}
 \title{Human Resources Data}
-\format{a data frame with 10000 rows and 6 columns}
+\format{
+a data frame with 10000 rows and 6 columns
+}
 \usage{
 data(HR)
 }
