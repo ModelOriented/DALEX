@@ -126,7 +126,7 @@ model_info.ranger <- function(model, ...) {
 #' @rdname model_info
 #' @export
 model_info.gbm <- function(model, ...) {
-  if (model$distribution == "bernoulli") {
+  if (model$distribution == "bernoulli" || model$distribution == "multinomial") {
     type <- "classification"
   } else {
     type <- "regression"
