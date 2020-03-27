@@ -1,9 +1,10 @@
 from warnings import warn
 from plotly.subplots import make_subplots
 
+from dalex.instance_level._break_down.plot import prepare_data_for_break_down_plot
 from .checks import *
 from .utils import local_interactions
-from ...explainer.theme import get_break_down_colors
+from ..._explainer.theme import get_break_down_colors
 
 
 class BreakDown:
@@ -12,8 +13,8 @@ class BreakDown:
                  keep_distributions=False,
                  order=None,
                  interaction_preference=1):
-        # TODO interactions / interactions preference
-        # TODO checks
+
+        order = check_order(order)
 
         self.type = type
         self.keep_distributions = keep_distributions
@@ -52,7 +53,7 @@ class BreakDown:
         self.yhats_distributions = yhats_distributions
 
     def plot(self,
-             bd_list=None,
+             objects=None,
              baseline=None,
              max_vars=10,
              digits=3,
@@ -60,11 +61,12 @@ class BreakDown:
              bar_width=16,
              min_max=None,
              vcolors=None,
-             title="Break Down"):
+             title="Break Down",
+             vertical_spacing=None):
         """
         Plot function for BreakDown class.
 
-        :param bd_list: object of BreakDown class or list or tuple containing such objects
+        :param objects: object of BreakDown class or list or tuple containing such objects
         :param baseline: float, starting point of bars
         :param max_vars: int, maximum number of variables that shall be presented for for each model
         :param digits: int, number of columns in the plot grid
@@ -73,40 +75,43 @@ class BreakDown:
         :param min_max: 2-tuple of float values, range of x-axis
         :param vcolors: 3-tuple of str values, color of bars
         :param title: str, the plot's title
+        :param vertical_spacing ratio of vertical space between the plots, by default it's 0.2/`number of plots`
         """
 
-        deleted_indexes = []
-
-        # are there any other explanations to plot?
-        if bd_list is None:
+        # are there any other objects to plot?
+        if objects is None:
             n = 1
-            _result_list = [self.result]
-        elif isinstance(bd_list, BreakDown):  # allow for list to be a single element
+            _result_list = [self.result.copy()]
+        elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             n = 2
-            _result_list = [self.result, bd_list.result]
-        else:  # list as tuple or array
-            n = len(bd_list) + 1
-            _result_list = [self.result]
-            for bd in bd_list:
-                if not isinstance(bd, BreakDown):
+            _result_list = [self.result.copy(), objects.result.copy()]
+        else:  # objects as tuple or array
+            n = len(objects) + 1
+            _result_list = [self.result.copy()]
+            for ob in objects:
+                if not isinstance(ob, self.__class__):
                     raise TypeError("Some explanations aren't of Break Down class")
-                _result_list += [bd.result]
+                _result_list += [ob.result.copy()]
 
+        deleted_indexes = []
         for i in range(n):
-            result = _result_list[i]
+            _result = _result_list[i]
 
-            if len(result['label'].unique()) > 1:
-                n += len(result['label'].unique()) - 1
+            if len(_result['label'].unique()) > 1:
+                n += len(_result['label'].unique()) - 1
                 # add new data frames to list
-                _result_list += [v for k, v in result.groupby('label', sort=False)]
+                _result_list += [v for k, v in _result.groupby('label', sort=False)]
 
                 deleted_indexes += [i]
 
         _result_list = [j for i, j in enumerate(_result_list) if i not in deleted_indexes]
         model_names = [result.iloc[0, result.columns.get_loc("label")] for result in _result_list]
 
+        if vertical_spacing is None:
+            vertical_spacing = 0.2 / n
+
         fig = make_subplots(rows=n, cols=1,
-                            shared_xaxes=True, vertical_spacing=0.2/n,
+                            shared_xaxes=True, vertical_spacing=vertical_spacing,
                             x_title='contribution', subplot_titles=model_names)
         plot_height = 78 + 71
 
@@ -119,17 +124,17 @@ class BreakDown:
             temp_min_max = min_max
 
         for i in range(n):
-            result = _result_list[i]
+            _result = _result_list[i]
 
-            if result.shape[0] - 2 <= max_vars:
-                m = result.shape[0]
+            if _result.shape[0] - 2 <= max_vars:
+                m = _result.shape[0]
             else:
                 m = max_vars + 3
 
             if baseline is None:
-                baseline = result.iloc[0, result.columns.get_loc("cumulative")]
+                baseline = _result.iloc[0, _result.columns.get_loc("cumulative")]
 
-            df = prepare_data_for_break_down_plot(result, baseline, max_vars, rounding_function, digits)
+            df = prepare_data_for_break_down_plot(_result, baseline, max_vars, rounding_function, digits)
 
             measure = ["relative"]*m
             measure[m-1] = "total"
@@ -195,61 +200,4 @@ class BreakDown:
                                        'hoverCompareCartesian', 'hoverClosestCartesian']
         })
 
-
-def prepare_data_for_break_down_plot(x, baseline, max_vars, rounding_function, digits):
-
-    x.loc[x["variable_name"] == "", "variable_name"] = "prediction"
-
-    temp = x.iloc[[0, x.shape[0] - 1], :].copy()
-    x.drop([0, x.shape[0] - 1], inplace=True)
-
-    variable_count = x.shape[0]
-
-    if variable_count > max_vars:
-        new_x = x.iloc[0:(max_vars+1), :].copy()
-        new_x.iloc[max_vars, new_x.columns.get_loc('variable')] = "+ all other factors"
-        new_x.iloc[max_vars, new_x.columns.get_loc('contribution')] =\
-            np.sum(x.iloc[max_vars:(variable_count - 1), x.columns.get_loc('contribution')])
-        new_x.iloc[max_vars, new_x.columns.get_loc('cumulative')] =\
-            x.iloc[variable_count - 1, x.columns.get_loc('cumulative')]
-
-        x = new_x
-
-    x = pd.concat((temp.iloc[[0]], x, temp.iloc[[1]]))
-
-    # fix contribution and sign
-    x.iloc[[0, x.shape[0] - 1], x.columns.get_loc("contribution")] -= baseline
-
-    # use for text label and tooltip
-    x.loc[:, 'contribution'] = rounding_function(x.loc[:, 'contribution'], digits)
-    x.loc[:, 'cumulative'] = rounding_function(x.loc[:, 'cumulative'], digits)
-
-    x['tooltip_text'] = x.apply(lambda row: tooltip_text(row), axis=1)
-    x.iloc[[0, x.shape[0] - 1], x.columns.get_loc('tooltip_text')] = "Average response: " + str(
-        x.iloc[0, x.columns.get_loc('cumulative')]) + "<br>Prediction: " + str(
-        x.iloc[x.shape[0] - 1, x.columns.get_loc('cumulative')])
-
-    x['label_text'] = label_text(x.iloc[:, x.columns.get_loc("contribution")].tolist())
-    x.iloc[0, x.columns.get_loc("label_text")] = x.iloc[0, x.columns.get_loc('cumulative')]
-    x.iloc[x.shape[0] - 1, x.columns.get_loc("label_text")] = x.iloc[x.shape[0]-1, x.columns.get_loc('cumulative')]
-
-    return x
-
-
-def tooltip_text(row):
-    if row.contribution > 0:
-        key_word = "increases"
-    else:
-        key_word = "decreases"
-    return row.variable + "<br>" + key_word + " average response <br>by"
-
-
-def label_text(contribution):
-    def to_text(x):
-        if x > 0:
-            return "+" + str(x)
-        else:
-            return str(x)
-
-    return [to_text(c) for c in contribution]
 

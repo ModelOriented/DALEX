@@ -1,10 +1,11 @@
 import pandas as pd
 
+from dalex.dataset_level._aggregated_profiles.plot import tooltip_text
 from .checks import *
 from .utils import aggregate_profiles
 
 from plotly.subplots import make_subplots
-from ...explainer.theme import get_default_colors
+from ..._explainer.theme import get_default_colors
 
 
 class AggregatedProfiles:
@@ -77,35 +78,38 @@ class AggregatedProfiles:
         self.result = aggregate_profiles(all_profiles, ceteris_paribus, self.type, self.groups, self.intercept, self.span)
         self.mean_prediction = all_observations['_yhat_'].mean()
 
-    def plot(self, ap_list=None, variables=None, size=2, facet_ncol=2, title="Aggregated Profiles"):
+    def plot(self, objects=None, variables=None, size=2, facet_ncol=2, title="Aggregated Profiles",
+             horizontal_spacing=0.1, vertical_spacing=None):
         """
         Plot function for AggregatedProfiles class.
 
-        :param ap_list: object of AggregatedProfiles class or list or tuple containing such objects
+        :param objects: object of AggregatedProfiles class or list or tuple containing such objects
         :param variables: str list, if not None then only variables will be presented
         :param size: float, width of lines
         :param facet_ncol: int, number of columns on the plot grid
         :param title: str, the plot's title
+        :param horizontal_spacing: ratio of horizontal space between the plots, by default it's 0.1
+        :param vertical_spacing ratio of vertical space between the plots, by default it's 0.3/`number of plots`
         """
 
-        # are there any other explanation to plot?
-        if ap_list is None:
+        # are there any other objects to plot?
+        if objects is None:
             m = 1
-            _result_df = self.result
+            _result_df = self.result.copy()
             _mean_prediction = [self.mean_prediction]
-        elif isinstance(ap_list, AggregatedProfiles):  # allow for list to be a single element
+        elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             m = 2
-            _result_df = pd.concat([self.result, ap_list.result])
-            _mean_prediction = [self.mean_prediction, ap_list.mean_prediction]
-        else:  # list as tuple or array
-            m = len(ap_list) + 1
-            _result_df = self.result
+            _result_df = pd.concat([self.result.copy(), objects.result.copy()])
+            _mean_prediction = [self.mean_prediction, objects.mean_prediction]
+        else:  # objects as tuple or array
+            m = len(objects) + 1
+            _result_df = self.result.copy()
             _mean_prediction = [self.mean_prediction]
-            for ap in ap_list:
-                if not isinstance(ap, AggregatedProfiles):
+            for ob in objects:
+                if not isinstance(ob, self.__class__):
                     raise TypeError("Some explanations aren't of AggregatedProfiles class")
-                _result_df = pd.concat([_result_df, ap.result])
-                _mean_prediction += [ap_list.mean_prediction]
+                _result_df = pd.concat([_result_df, ob.result.copy()])
+                _mean_prediction += [objects.mean_prediction]
 
         # variables to use
         all_variables = _result_df['_vname_'].dropna().unique().tolist()
@@ -122,18 +126,19 @@ class AggregatedProfiles:
         is_x_numeric = np.issubdtype(_result_df['_x_'].dtype, np.number)
 
         dl = _result_df['_yhat_'].to_numpy()
-        min_max = [np.Inf, -np.Inf]
         min_max_margin = dl.ptp() * 0.15
-        min_max[0] = dl.min() - min_max_margin
-        min_max[1] = dl.max() + min_max_margin
+        min_max = [dl.min() - min_max_margin, dl.max() + min_max_margin]
 
         # split var by variable
         var_df_list = [v for k, v in _result_df.groupby('_vname_', sort=False)]
         var_df_dict = {e['_vname_'].array[0]: e for e in var_df_list}
 
+        if vertical_spacing is None:
+            vertical_spacing = 0.3 / n
+
         facet_nrow = int(np.ceil(n / facet_ncol))
-        fig = make_subplots(rows=facet_nrow, cols=facet_ncol, horizontal_spacing=0.1,
-                            vertical_spacing=0.3/n, x_title='prediction', subplot_titles=variable_names)
+        fig = make_subplots(rows=facet_nrow, cols=facet_ncol, horizontal_spacing=horizontal_spacing,
+                            vertical_spacing=vertical_spacing, x_title='prediction', subplot_titles=variable_names)
 
         colors = get_default_colors(m, 'line')
 
@@ -229,8 +234,3 @@ class AggregatedProfiles:
             'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d', 'zoom2d', 'pan2d',
                                        'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines', 'hoverCompareCartesian',
                                        'hoverClosestCartesian']})
-
-
-def tooltip_text(r, variable_name, y_mean):
-    return str(variable_name) + ": " + str(r['_x_']) + "<br>" + "average prediction: " + str(r['_yhat_']) + "<br>" +\
-           "label: " + str(r['_label_']) + "<br><br>" + "mean observation prediction: " + "<br>" + str(y_mean)

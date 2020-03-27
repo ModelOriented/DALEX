@@ -1,3 +1,9 @@
-from .break_down.break_down import BreakDown
-from .shap.shap import Shap
-from .ceteris_paribus.ceteris_paribus import CeterisParibus
+from ._break_down.object import BreakDown
+from ._shap.object import Shap
+from ._ceteris_paribus.object import CeterisParibus
+
+__all__ = [
+    "BreakDown",
+    "CeterisParibus",
+    "Shap"
+]

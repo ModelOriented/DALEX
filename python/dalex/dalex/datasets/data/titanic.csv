@@ -1,0 +1,2208 @@
+"gender","age","class","embarked","fare","sibsp","parch","survived"
+"male",42,"3rd","Southampton",7.11,0,0,0
+"male",13,"3rd","Southampton",20.05,0,2,0
+"male",16,"3rd","Southampton",20.05,1,1,0
+"female",39,"3rd","Southampton",20.05,1,1,1
+"female",16,"3rd","Southampton",7.13,0,0,1
+"male",25,"3rd","Southampton",7.13,0,0,1
+"male",30,"2nd","Cherbourg",24,1,0,0
+"female",28,"2nd","Cherbourg",24,1,0,1
+"male",27,"3rd","Cherbourg",18.1509,0,0,1
+"male",20,"3rd","Southampton",7.1806,0,0,1
+"male",30,"3rd","Southampton",7.05,0,0,0
+"male",27,"3rd","Southampton",8.01,0,0,0
+"female",40,"3rd","Southampton",9.0906,1,0,0
+"male",0.8333333333,"3rd","Southampton",9.07,0,1,1
+"female",18,"3rd","Southampton",9.07,0,1,1
+"male",35,"2nd","Southampton",13,0,0,0
+"male",25,"3rd","Southampton",7.1709,0,0,0
+"male",19,"3rd","Southampton",7.1806,0,0,0
+"male",24,"3rd","Southampton",7.01,0,0,0
+"male",25,"3rd","Southampton",7.01,0,0,0
+"female",29,"1st","Southampton",211.6009,0,0,1
+"male",39,"3rd","Southampton",8.01,0,0,0
+"male",0.9166666667,"1st","Southampton",151.16,1,2,1
+"female",2,"1st","Southampton",151.16,1,2,0
+"male",30,"1st","Southampton",151.16,1,2,0
+"female",25,"1st","Southampton",151.16,1,2,0
+"male",18,"3rd","Southampton",8.06,0,0,0
+"male",19,"3rd","Cherbourg",7.0407,0,0,0
+"female",19,"3rd","Southampton",7.1701,1,0,1
+"male",33,"3rd","Southampton",22.1006,0,0,0
+"male",47,"1st","Southampton",26.11,0,0,1
+"male",4,"3rd","Southampton",31.0506,4,2,0
+"female",6,"3rd","Southampton",31.0506,4,2,0
+"female",2,"3rd","Southampton",31.0506,4,2,0
+"female",16,"3rd","Southampton",7.1806,4,2,1
+"female",38,"3rd","Southampton",7.1506,4,2,0
+"female",9,"3rd","Southampton",31.0506,4,2,0
+"female",11,"3rd","Southampton",31.0506,4,2,0
+"male",39,"3rd","Southampton",31.0506,1,5,0
+"male",26,"3rd","Southampton",7.1506,0,0,0
+"female",39,"3rd","Southampton",31.0506,1,5,0
+"male",20,"3rd","Southampton",7.1701,0,0,0
+"male",17,"2nd","Southampton",11.1,0,0,0
+"male",27,"2nd","Southampton",10.1,0,0,0
+"female",62,"1st","Cherbourg",77.1902,1,0,1
+"male",39,"1st","Belfast",89,0,0,0
+"male",26,"3rd","Southampton",7.1711,0,0,0
+"female",36,"2nd","Southampton",26,1,0,1
+"male",31,"2nd","Southampton",26,1,0,0
+"female",53,"1st","Southampton",51.0907,2,0,1
+"male",25,"3rd","Southampton",17.16,1,0,0
+"female",18,"3rd","Southampton",17.16,1,0,0
+"male",25,"3rd","Southampton",7.1506,0,0,0
+"male",71,"1st","Cherbourg",49.1001,0,0,0
+"male",57,"2nd","Southampton",13,0,0,0
+"male",35,"3rd","Southampton",7.01,0,0,0
+"male",5,"3rd","Southampton",31.0709,4,2,0
+"male",9,"3rd","Southampton",31.0709,4,2,0
+"male",3,"3rd","Southampton",31.0709,4,2,1
+"male",13,"3rd","Southampton",31.0709,4,2,0
+"female",5,"3rd","Southampton",31.0709,4,2,1
+"male",40,"3rd","Southampton",31.0709,1,5,0
+"male",13,"3rd","Southampton",7.1511,0,0,1
+"female",38,"3rd","Southampton",31.0709,1,5,1
+"female",45,"3rd","Cherbourg",7.0406,0,0,1
+"male",23,"3rd","Southampton",7.01,0,0,0
+"male",47,"1st","Cherbourg",247.1006,1,0,0
+"female",18,"1st","Cherbourg",247.1006,1,0,1
+"female",17,"3rd","Cherbourg",14.0902,0,0,0
+"male",27,"3rd","Cherbourg",7.0406,0,0,0
+"female",24,"1st","Cherbourg",69.06,0,0,1
+"male",23,"3rd","Southampton",7.1701,0,0,0
+"female",15,"3rd","Cherbourg",7.0407,0,0,1
+"male",32,"3rd","Southampton",15.17,1,0,0
+"female",33,"3rd","Southampton",15.17,3,0,1
+"female",3,"3rd","Cherbourg",19.0502,2,1,1
+"female",0.75,"3rd","Cherbourg",19.0502,2,1,1
+"female",5,"3rd","Cherbourg",19.0502,2,1,1
+"female",23,"3rd","Cherbourg",19.0502,0,3,1
+"female",18,"3rd","Southampton",8.01,0,0,1
+"male",40,"3rd","Cherbourg",7.0406,0,0,0
+"male",18,"2nd","Southampton",11.1,0,0,0
+"male",22,"2nd","Southampton",10.1,0,0,0
+"male",26,"3rd","Southampton",7.1711,0,0,0
+"female",36,"2nd","Southampton",13,0,0,1
+"male",28,"2nd","Southampton",10.1,0,0,0
+"female",31,"3rd","Southampton",8.1308,0,0,1
+"female",18,"3rd","Cherbourg",14.0901,0,1,0
+"female",45,"3rd","Cherbourg",14.0901,0,1,0
+"female",27,"1st","Southampton",78.17,0,0,1
+"male",47,"1st","Southampton",30,0,0,1
+"female",33,"3rd","Queenstown",7.1707,0,0,0
+"male",22,"3rd","Southampton",8.01,0,0,0
+"female",32,"1st","Cherbourg",76.051,0,0,1
+"male",52,"2nd","Southampton",12.1006,0,0,0
+"male",23,"3rd","Southampton",7.1711,0,0,0
+"male",60,"1st","Cherbourg",25.1806,0,0,0
+"male",24,"1st","Cherbourg",247.1005,0,1,0
+"female",50,"1st","Cherbourg",247.1005,0,1,1
+"male",32,"2nd","Southampton",26,1,0,1
+"female",22,"2nd","Southampton",26,1,0,1
+"male",36,"1st","Southampton",75.041,0,0,0
+"male",44,"2nd","Southampton",26,0,0,0
+"male",20,"3rd","Southampton",8.01,0,0,0
+"male",1,"2nd","Southampton",39,2,1,1
+"female",4,"2nd","Southampton",39,2,1,1
+"female",12,"2nd","Southampton",39,2,1,1
+"female",35,"2nd","Southampton",39,0,3,1
+"male",37,"1st","Southampton",52.1101,1,1,1
+"female",46,"1st","Southampton",52.1101,1,1,1
+"male",34,"2nd","Southampton",13,0,0,1
+"male",26,"1st","Cherbourg",30,0,0,1
+"male",26,"3rd","Southampton",7.1506,0,0,0
+"female",19,"2nd","Southampton",13,0,0,1
+"male",22,"3rd","Southampton",9.07,0,0,0
+"male",23,"2nd","Southampton",13,0,0,0
+"female",39,"1st","Cherbourg",63.0702,0,0,1
+"female",46,"1st","Cherbourg",247.1006,0,0,1
+"male",32,"3rd","Southampton",56.0911,0,0,1
+"female",31,"1st","Southampton",221.1507,0,0,1
+"male",21,"3rd","Southampton",7.1506,0,0,0
+"male",24,"1st","Cherbourg",26,0,0,0
+"male",25,"1st","Cherbourg",91.0107,1,0,1
+"female",19,"1st","Cherbourg",91.0107,1,0,1
+"male",18,"3rd","Southampton",7.15,0,0,0
+"male",28,"1st","Southampton",26.11,0,0,1
+"male",45,"1st","Southampton",35.1,0,0,0
+"male",39,"1st","Cherbourg",31,0,0,1
+"female",30,"1st","Southampton",164.1704,0,0,1
+"female",61,"1st","Southampton",26.11,0,0,1
+"male",41,"1st","Southampton",26.11,0,0,0
+"male",26,"3rd","Southampton",7.1711,0,0,0
+"male",25,"2nd","Southampton",13,0,0,0
+"female",40,"3rd","Queenstown",7.15,0,2,0
+"male",42,"3rd","Queenstown",15.1,1,1,0
+"female",32,"3rd","Queenstown",15.1,1,1,0
+"female",45,"1st","Cherbourg",262.0706,0,0,1
+"male",26,"3rd","Southampton",16.02,0,0,0
+"male",42,"2nd","Southampton",13,0,0,0
+"female",22,"1st","Southampton",55,0,1,1
+"male",30,"2nd","Southampton",13,0,0,0
+"female",22,"3rd","Queenstown",7.1406,0,0,1
+"male",41,"1st","Southampton",30.1,0,0,0
+"female",20,"3rd","Southampton",7.1701,0,0,0
+"male",24,"2nd","Southampton",22,0,0,0
+"male",48,"1st","Cherbourg",50.0911,0,0,0
+"male",29,"3rd","Southampton",7,1,0,0
+"male",23,"3rd","Southampton",7.05,1,0,0
+"male",37,"1st","Southampton",26.11,0,0,1
+"male",46,"1st","Cherbourg",39.12,0,0,0
+"male",20,"2nd","Southampton",22,0,0,0
+"male",32,"2nd","Southampton",13,0,0,0
+"male",22,"3rd","Southampton",7.1511,0,0,0
+"male",40,"3rd","Southampton",8.01,0,0,0
+"female",18,"2nd","Southampton",13,0,0,1
+"female",15,"2nd","Southampton",39,0,2,1
+"female",59,"1st","Southampton",51.0907,2,0,1
+"female",40,"2nd","Southampton",39,1,1,1
+"female",44,"1st","Cherbourg",27.1405,0,0,1
+"male",60,"2nd","Southampton",39,1,1,0
+"female",20,"2nd","Southampton",26,1,0,1
+"male",25,"2nd","Southampton",26,1,0,0
+"female",22,"3rd","Queenstown",7.0508,0,0,0
+"male",21,"3rd","Queenstown",7.1517,0,0,1
+"female",58,"1st","Cherbourg",76.051,0,0,1
+"male",7,"3rd","Cherbourg",15.0411,1,1,0
+"female",10,"3rd","Cherbourg",15.0411,1,1,0
+"female",40,"3rd","Cherbourg",15.0411,0,2,0
+"male",19,"3rd","Queenstown",6.15,0,0,0
+"female",41,"1st","Cherbourg",134.1,0,0,1
+"female",17,"3rd","Queenstown",7.1707,0,0,0
+"female",36,"2nd","Southampton",13,0,0,1
+"male",26,"2nd","Southampton",13,0,0,0
+"male",21,"3rd","Cherbourg",7.0407,0,0,0
+"male",46,"1st","Southampton",26.11,0,0,0
+"male",42,"2nd","Southampton",13,0,0,0
+"female",40,"2nd","Southampton",13,0,0,1
+"female",21,"3rd","Southampton",8.1303,0,0,0
+"female",30,"3rd","Southampton",8.1303,0,0,0
+"male",18,"3rd","Southampton",8.1303,0,0,0
+"male",38,"3rd","Southampton",8.1303,0,0,0
+"male",28,"1st","Southampton",31,0,0,0
+"male",42,"1st","Southampton",26.0509,0,0,1
+"male",0.8333333333,"2nd","Southampton",29,0,2,1
+"male",26,"2nd","Southampton",29,1,1,1
+"female",28,"2nd","Southampton",29,1,1,1
+"male",17,"3rd","Southampton",8.1303,0,0,0
+"male",17,"3rd","Southampton",8.1303,0,0,0
+"female",35,"2nd","Southampton",21,0,0,1
+"male",21,"2nd","Belfast",22,0,0,0
+"female",22,"3rd","Queenstown",7.15,0,0,0
+"male",21,"3rd","Queenstown",7.15,0,0,0
+"female",52,"1st","Cherbourg",27.0811,0,0,1
+"male",29,"3rd","Southampton",8.01,0,0,0
+"male",28,"3rd","Cherbourg",14.0902,1,0,0
+"female",18,"3rd","Cherbourg",14.0902,1,0,0
+"male",19,"2nd","Southampton",13,0,0,0
+"female",58,"1st","Cherbourg",512.0607,0,1,1
+"male",36,"1st","Cherbourg",512.0607,0,1,1
+"male",28,"3rd","Southampton",7.1511,0,0,0
+"male",24,"3rd","Southampton",7.1701,0,0,0
+"male",33,"1st","Southampton",5,0,0,0
+"male",17,"1st","Southampton",47.02,0,0,0
+"male",27,"1st","Southampton",47.02,0,0,0
+"female",45,"3rd","Queenstown",7.15,0,0,0
+"male",54,"2nd","Southampton",26,1,0,0
+"male",11,"1st","Southampton",120,1,2,1
+"female",13,"1st","Southampton",120,1,2,1
+"female",45,"2nd","Southampton",26,1,0,0
+"female",36,"1st","Southampton",120,1,2,1
+"male",36,"1st","Southampton",120,1,2,1
+"male",28,"3rd","Southampton",7.05,0,0,0
+"male",49,"1st","Southampton",26,0,0,0
+"female",36,"1st","Cherbourg",27.1405,0,0,1
+"female",25,"1st","Southampton",78.17,1,0,1
+"male",36,"1st","Southampton",78.17,1,0,0
+"male",24,"3rd","Southampton",8.01,0,0,0
+"male",46,"1st","Southampton",61.0306,1,0,0
+"female",47,"1st","Southampton",61.0306,1,0,1
+"male",27,"1st","Southampton",53.02,1,0,1
+"female",32,"1st","Southampton",53.02,1,0,1
+"male",52,"2nd","Southampton",13.1,0,0,0
+"male",37,"2nd","Southampton",26,1,0,0
+"female",29,"2nd","Southampton",26,1,0,0
+"male",20,"3rd","Queenstown",7.1408,0,0,0
+"female",36,"1st","Cherbourg",262.0706,0,0,1
+"female",30,"1st","Southampton",86.1,0,0,1
+"male",45,"1st","Cherbourg",29.14,0,0,1
+"female",48,"1st","Southampton",55,0,1,1
+"male",32,"3rd","Southampton",56.0911,0,0,1
+"male",43,"1st","Belfast",89,0,0,0
+"male",29,"3rd","Southampton",8.01,0,0,0
+"female",25,"2nd","Southampton",30,1,1,1
+"female",52,"2nd","Southampton",30,0,2,1
+"male",26,"3rd","Cherbourg",14.0901,1,0,0
+"male",21,"3rd","Cherbourg",14.0901,1,0,0
+"male",29,"2nd","Southampton",26,1,0,0
+"male",28,"2nd","Southampton",22,0,0,0
+"female",28,"2nd","Southampton",27,1,0,1
+"female",26,"1st","Cherbourg",136.1507,1,0,1
+"male",27,"1st","Cherbourg",136.1507,1,0,0
+"female",22,"1st","Southampton",151.16,0,0,1
+"male",40,"1st","Southampton",52,0,0,0
+"male",20,"3rd","Southampton",7.01,0,0,0
+"male",18,"3rd","Southampton",8.01,0,0,1
+"male",24,"3rd","Queenstown",7.05,0,0,0
+"male",24,"3rd","Southampton",7.1711,0,0,0
+"male",29,"2nd","Southampton",10.1,0,0,0
+"male",27,"2nd","Southampton",13,0,0,0
+"male",25,"2nd","Southampton",10.1,0,0,1
+"male",37,"1st","Southampton",25.1109,0,0,0
+"female",8,"2nd","Southampton",26.05,0,2,1
+"male",31,"2nd","Southampton",26.05,1,1,0
+"female",30,"2nd","Southampton",26.05,1,1,1
+"male",36,"3rd","Southampton",7.1711,0,0,0
+"female",39,"1st","Cherbourg",83.0302,1,1,1
+"male",37,"1st","Cherbourg",83.0302,1,1,0
+"female",64,"1st","Cherbourg",83.0302,0,2,1
+"male",31,"3rd","Queenstown",7.1408,0,0,0
+"male",40,"3rd","Queenstown",7.15,0,0,0
+"female",23,"3rd","Queenstown",7.15,0,0,1
+"female",41,"3rd","Queenstown",7.1207,0,0,0
+"male",66,"3rd","Queenstown",7.15,0,0,0
+"male",43,"3rd","Southampton",8.01,0,0,0
+"female",22,"2nd","Southampton",10.1,0,0,1
+"female",30,"2nd","Southampton",13,0,0,0
+"female",32,"2nd","Southampton",21,0,0,0
+"male",35,"3rd","Southampton",7.1711,0,0,0
+"male",27,"3rd","Southampton",7.1711,0,0,0
+"male",19,"3rd","Southampton",7.1711,0,0,0
+"male",30,"3rd","Southampton",8.01,0,0,0
+"female",55,"1st","Southampton",25.141,2,0,1
+"female",16,"3rd","Queenstown",7.15,0,0,1
+"male",21,"2nd","Southampton",11.1,0,0,0
+"male",3,"3rd","Southampton",15.18,1,1,1
+"male",9,"3rd","Southampton",15.18,1,1,1
+"female",36,"3rd","Southampton",15.18,0,2,1
+"male",58,"3rd","Southampton",7.05,0,0,0
+"male",59,"1st","Southampton",26.11,0,0,0
+"male",20,"3rd","Southampton",8.0302,0,0,0
+"female",16,"3rd","Southampton",16.02,0,1,1
+"male",43,"3rd","Southampton",16.02,0,1,0
+"male",70,"1st","Southampton",71,1,1,0
+"female",39,"1st","Southampton",26.11,0,2,1
+"female",64,"1st","Southampton",71,1,1,1
+"male",17,"3rd","Southampton",8.1303,0,0,0
+"male",39,"1st","Cherbourg",71.0508,1,0,0
+"female",35,"1st","Cherbourg",71.0508,1,0,1
+"male",22,"2nd","Belfast",22,0,0,0
+"male",28,"3rd","Cherbourg",7.0407,0,0,0
+"female",22,"3rd","Southampton",10.1004,0,0,0
+"male",45,"3rd","Southampton",8.01,0,0,1
+"male",19,"3rd","Southampton",10.0305,0,0,0
+"female",33,"3rd","Queenstown",6.19,0,0,1
+"male",29,"3rd","Queenstown",7.15,0,0,1
+"male",51,"1st","Southampton",26.11,0,0,1
+"male",0.3333333333,"3rd","Southampton",14.08,0,2,0
+"male",34,"3rd","Southampton",14.08,1,1,0
+"female",28,"3rd","Southampton",14.08,1,1,0
+"male",27,"1st","Southampton",30.1,0,0,1
+"female",36,"1st","Southampton",151.16,0,0,1
+"male",27,"3rd","Southampton",7.1711,0,0,0
+"female",27,"1st","Cherbourg",52,1,2,1
+"male",31,"1st","Cherbourg",52,1,0,0
+"male",8,"2nd","Southampton",36.15,1,1,1
+"male",24,"3rd","Southampton",24.03,2,0,0
+"male",19,"2nd","Southampton",73.1,0,0,0
+"male",22,"3rd","Southampton",8.01,0,0,0
+"male",22,"3rd","Southampton",24.03,2,0,0
+"male",17,"3rd","Southampton",8.01,2,0,0
+"female",48,"2nd","Southampton",36.15,0,2,1
+"female",28,"2nd","Southampton",13,0,0,1
+"female",34,"3rd","Southampton",16.02,1,0,1
+"male",32,"3rd","Southampton",16.02,1,0,0
+"male",18,"2nd","Southampton",73.1,0,0,0
+"male",1,"3rd","Southampton",20.1106,1,2,1
+"female",0.1666666667,"3rd","Southampton",20.1106,1,2,1
+"male",25,"3rd","Southampton",20.1106,1,2,0
+"female",32,"3rd","Southampton",20.1106,1,2,1
+"male",25,"3rd","Southampton",7.1711,0,0,0
+"female",24,"2nd","Cherbourg",27.1405,1,0,1
+"male",29,"2nd","Cherbourg",27.1405,1,0,0
+"male",36,"3rd","Southampton",17.08,1,0,1
+"female",36,"3rd","Southampton",17.08,1,0,1
+"male",30,"3rd","Southampton",9.1,0,0,1
+"male",25,"2nd","Southampton",31.1,0,0,0
+"male",30,"3rd","Southampton",7.1711,0,0,0
+"male",22,"3rd","Southampton",7.05,0,0,0
+"male",26,"3rd","Southampton",7.05,0,0,0
+"male",16,"3rd","Southampton",9.1,0,0,0
+"female",19,"3rd","Queenstown",7.1707,0,0,1
+"male",18,"2nd","Southampton",73.1,0,0,0
+"male",31,"1st","Southampton",57,1,0,1
+"female",17,"1st","Southampton",57,1,0,1
+"male",17,"3rd","Southampton",7.1711,0,0,0
+"male",42,"3rd","Southampton",8.1303,0,0,0
+"male",43,"3rd","Southampton",7.1711,0,0,0
+"male",52,"1st","Southampton",81.1702,1,1,1
+"male",4,"1st","Southampton",81.1702,0,2,1
+"female",34,"1st","Southampton",81.1702,1,1,1
+"female",18,"2nd","Southampton",23,0,1,1
+"female",34,"2nd","Southampton",23,0,1,1
+"female",21,"3rd","Queenstown",7.15,0,0,0
+"male",37,"3rd","Queenstown",7.15,0,0,0
+"male",18,"3rd","Southampton",8.01,0,0,1
+"male",22,"3rd","Queenstown",8.0902,0,0,0
+"female",48,"1st","Cherbourg",106.0806,1,0,1
+"female",27,"1st","Cherbourg",247.1005,1,1,1
+"male",50,"1st","Cherbourg",106.0806,1,0,0
+"male",55,"2nd","Southampton",26,0,0,0
+"female",31,"3rd","Southampton",12.0906,0,0,1
+"female",28,"3rd","Queenstown",7.15,0,0,0
+"male",33,"3rd","Cherbourg",7.1711,0,0,0
+"male",8,"2nd","Southampton",32.1,0,2,1
+"male",42,"2nd","Southampton",32.1,1,1,0
+"female",34,"2nd","Southampton",32.1,1,1,1
+"female",27,"3rd","Queenstown",7.15,0,0,1
+"female",24,"3rd","Southampton",8.01,0,0,1
+"female",48,"1st","Cherbourg",56.1807,1,0,1
+"male",49,"1st","Cherbourg",39.12,1,0,1
+"male",39,"1st","Cherbourg",29.14,0,0,0
+"male",24,"3rd","Southampton",7.11,0,0,1
+"female",27,"2nd","Cherbourg",13.1702,1,0,1
+"female",30,"2nd","Cherbourg",13.1702,1,0,1
+"male",65,"3rd","Queenstown",7.15,0,0,0
+"male",23,"3rd","Southampton",13.18,1,0,0
+"female",22,"3rd","Southampton",13.18,1,0,1
+"female",23,"1st","Cherbourg",83.0302,0,1,1
+"male",18,"3rd","Southampton",7.1506,0,0,0
+"male",25,"2nd","Southampton",13,0,0,0
+"male",16,"3rd","Southampton",7.1506,0,0,0
+"male",45,"3rd","Southampton",6.1906,0,0,0
+"male",29,"3rd","Cherbourg",7.0406,0,0,0
+"male",15,"3rd","Cherbourg",7.0407,1,1,0
+"male",22,"3rd","Cherbourg",7.0407,1,1,0
+"male",48,"3rd","Southampton",7.05,0,0,0
+"female",5,"3rd","Southampton",12.0906,0,0,1
+"male",21,"2nd","Southampton",13,0,0,0
+"female",39,"1st","Cherbourg",247.1006,0,0,1
+"male",37,"3rd","Southampton",7.01,0,0,0
+"female",54,"1st","Cherbourg",78.0504,1,0,1
+"female",36,"1st","Cherbourg",31.1307,0,0,0
+"male",38,"3rd","Southampton",15.02,0,0,0
+"male",18,"2nd","Southampton",13,0,0,0
+"male",46,"3rd","Southampton",7.05,0,0,0
+"male",26,"3rd","Queenstown",7.15,0,0,0
+"male",49,"1st","Southampton",221.1507,0,0,0
+"male",32,"2nd","Southampton",26,1,0,0
+"male",18,"2nd","Southampton",10.1,0,0,0
+"male",34,"3rd","Southampton",7.01,0,0,1
+"male",18,"3rd","Southampton",7.1511,0,0,0
+"female",48,"1st","Cherbourg",31.1308,0,0,1
+"female",22,"3rd","Queenstown",7.15,0,0,0
+"female",42,"1st","Cherbourg",110.1708,0,0,1
+"male",28,"3rd","Queenstown",7.15,0,0,0
+"male",48,"3rd","Queenstown",6.19,0,0,0
+"male",36,"1st","Southampton",26.0509,0,0,1
+"male",19,"3rd","Queenstown",7.1707,0,0,0
+"male",20,"3rd","Queenstown",7.15,0,0,0
+"male",32,"3rd","Southampton",56.0911,0,0,1
+"female",20,"3rd","Southampton",34.0706,2,2,0
+"female",7,"3rd","Southampton",34.0706,2,2,0
+"male",23,"3rd","Southampton",8.01,0,0,0
+"male",18,"3rd","Southampton",34.0706,2,2,0
+"female",54,"3rd","Southampton",34.0706,1,3,0
+"male",14,"3rd","Southampton",34.0706,1,3,0
+"male",30,"1st","Southampton",27.15,0,0,0
+"female",24,"1st","Southampton",263,3,2,1
+"female",28,"1st","Southampton",263,3,2,1
+"female",23,"1st","Southampton",263,3,2,1
+"male",19,"1st","Southampton",263,3,2,0
+"male",64,"1st","Southampton",263,1,4,0
+"female",60,"1st","Southampton",263,1,4,1
+"male",28,"3rd","Queenstown",7.15,0,0,0
+"male",38,"2nd","Southampton",13,0,0,0
+"female",32,"1st","Cherbourg",56.1807,0,0,1
+"male",37,"1st","Southampton",26.11,0,0,0
+"male",49,"1st","Southampton",133.13,2,0,1
+"male",43,"1st","Cherbourg",27.1405,1,0,1
+"female",42,"1st","Southampton",133.13,1,0,1
+"female",22,"1st","Cherbourg",49.1,0,2,1
+"male",60,"1st","Cherbourg",79.04,1,1,1
+"female",48,"1st","Cherbourg",79.04,1,1,1
+"male",39,"2nd","Belfast",22,0,0,0
+"male",39,"1st","Southampton",89,0,0,0
+"female",38,"2nd","Southampton",13,0,0,0
+"male",37,"1st","Southampton",53.02,1,0,0
+"female",35,"1st","Southampton",53.02,1,0,1
+"male",36,"2nd","Southampton",26,0,0,0
+"male",38,"2nd","Southampton",21,1,0,0
+"male",33,"2nd","Southampton",21,1,0,0
+"male",29,"3rd","Queenstown",7.141,0,0,0
+"male",23,"3rd","Southampton",14.1,0,0,0
+"female",39,"2nd","Southampton",13,0,0,1
+"male",19,"2nd","Southampton",26,0,0,0
+"male",26,"2nd","Southampton",10.1,0,0,0
+"male",47,"1st","Southampton",38.1,0,0,0
+"female",38,"3rd","Cherbourg",7.0407,0,0,1
+"male",21,"3rd","Cherbourg",7.0406,0,0,0
+"male",30,"3rd","Cherbourg",7.1711,0,0,0
+"female",22,"1st","Cherbourg",59.08,0,1,1
+"female",44,"1st","Cherbourg",59.08,0,1,1
+"female",35,"1st","Southampton",211.1,0,0,1
+"male",23,"1st","Cherbourg",79.04,0,0,0
+"male",47,"2nd","Southampton",10.1,0,0,0
+"male",19,"2nd","Southampton",11.1,1,0,0
+"male",21,"2nd","Southampton",11.1,1,0,0
+"male",24,"2nd","Southampton",13.1,0,0,0
+"male",23,"3rd","Southampton",8.01,0,0,0
+"male",31,"2nd","Southampton",13,0,0,0
+"male",24,"2nd","Southampton",13,0,0,0
+"female",17,"3rd","Queenstown",7.1408,0,0,1
+"male",30,"2nd","Southampton",13,0,0,0
+"female",18,"3rd","Queenstown",7.15,0,0,1
+"male",47,"1st","Cherbourg",89.0201,1,0,1
+"female",40,"1st","Cherbourg",89.0201,1,0,1
+"male",71,"1st","Cherbourg",34.1301,0,0,0
+"male",9,"3rd","Southampton",20.1006,0,2,1
+"male",33,"3rd","Southampton",20.1006,1,1,0
+"male",41,"3rd","Southampton",7.17,0,0,0
+"female",31,"3rd","Southampton",20.1006,1,1,1
+"male",9,"3rd","Southampton",46.18,5,2,0
+"male",1,"3rd","Southampton",46.18,5,2,0
+"male",11,"3rd","Southampton",46.18,5,2,0
+"female",10,"3rd","Southampton",46.18,5,2,0
+"female",16,"3rd","Southampton",46.18,5,2,0
+"male",14,"3rd","Southampton",46.18,5,2,0
+"male",42,"3rd","Southampton",46.18,1,6,0
+"female",43,"3rd","Southampton",46.18,1,6,0
+"male",53,"1st","Southampton",28.1,0,0,1
+"female",19,"1st","Southampton",153.0903,0,0,1
+"male",38,"1st","Southampton",30,0,1,0
+"female",59,"1st","Southampton",153.0903,0,1,1
+"male",52,"2nd","Southampton",13,0,0,0
+"female",45,"1st","Cherbourg",63.0702,0,1,1
+"male",23,"1st","Cherbourg",63.0702,0,1,1
+"male",20,"engineering crew","Southampton",0,0,0,0
+"male",41,"3rd","Southampton",8.01,0,0,0
+"male",32,"3rd","Southampton",8.0615,0,0,0
+"male",25,"3rd","Southampton",8.01,0,0,0
+"male",46,"1st","Cherbourg",79.04,0,0,0
+"male",19,"3rd","Southampton",9.1611,0,0,0
+"male",37,"3rd","Southampton",7.1806,2,0,0
+"male",28,"3rd","Southampton",7.1806,2,0,0
+"male",19,"3rd","Southampton",7.1506,0,0,0
+"female",24,"3rd","Southampton",8.17,0,0,0
+"male",28,"3rd","Southampton",6.1904,1,0,0
+"male",19,"3rd","Southampton",6.1904,1,0,0
+"male",28,"3rd","Southampton",15.17,1,0,0
+"female",24,"3rd","Southampton",15.17,1,0,1
+"male",30,"2nd","Southampton",13,0,0,0
+"male",0.5833333333,"2nd","Southampton",14.1,1,1,1
+"female",23,"2nd","Southampton",14.1,0,2,1
+"male",19,"3rd","Southampton",9.1,0,0,0
+"male",27,"3rd","Cherbourg",7.0407,0,0,1
+"male",18,"3rd","Cherbourg",7.0406,0,0,0
+"male",35,"3rd","Cherbourg",7.0407,0,0,0
+"male",41,"3rd","Southampton",14.0202,2,0,0
+"male",26,"3rd","Southampton",7.1701,1,0,0
+"male",21,"3rd","Southampton",7.1701,0,0,0
+"female",45,"3rd","Southampton",14.0202,1,0,1
+"male",45,"2nd","Southampton",13,0,0,0
+"male",25,"1st","Cherbourg",55.081,1,0,1
+"female",21,"1st","Cherbourg",55.081,1,0,1
+"female",17,"3rd","Queenstown",7.1408,0,0,0
+"female",21,"3rd","Southampton",7.11,0,0,0
+"female",6,"2nd","Southampton",33,0,1,1
+"male",48,"1st","Cherbourg",76.1407,1,0,1
+"female",49,"1st","Cherbourg",76.1407,1,0,1
+"male",39,"2nd","Southampton",33,0,1,0
+"male",37,"1st","Southampton",42.08,0,0,0
+"male",62,"2nd","Southampton",10.1,0,0,1
+"male",45,"1st","Southampton",83.0906,1,0,0
+"female",35,"1st","Southampton",83.0906,1,0,1
+"male",45,"2nd","Southampton",10.1,0,0,0
+"male",46,"1st","Southampton",89,0,0,0
+"male",33,"2nd","Southampton",22,0,0,0
+"female",7,"2nd","Southampton",26.05,0,2,1
+"male",47,"2nd","Southampton",26.05,1,1,0
+"male",29,"3rd","Queenstown",6.1702,0,0,0
+"female",48,"2nd","Southampton",26.05,1,1,1
+"male",27,"1st","Cherbourg",76.1407,0,0,1
+"male",45,"1st","Southampton",30,0,0,1
+"female",24,"1st","Cherbourg",83.0302,0,0,1
+"male",55,"1st","Southampton",93.1,1,1,0
+"female",52,"1st","Southampton",93.1,1,1,1
+"male",42,"1st","Southampton",42.1,0,0,0
+"female",33,"3rd","Queenstown",7.15,0,0,1
+"male",27,"3rd","Southampton",6.1906,0,0,1
+"male",24,"3rd","Southampton",56.0911,0,0,1
+"female",20,"3rd","Queenstown",6.15,0,0,0
+"female",16,"3rd","Southampton",7.1806,0,0,1
+"female",23,"3rd","Southampton",7.1806,0,0,0
+"female",22,"3rd","Southampton",8.1903,0,0,1
+"male",30,"3rd","Southampton",7.1711,0,0,0
+"female",28,"3rd","Southampton",7.1506,0,0,0
+"female",21,"3rd","Queenstown",7.15,0,0,0
+"female",24,"2nd","Southampton",65,1,2,1
+"female",24,"2nd","Southampton",65,1,2,1
+"male",50,"2nd","Southampton",65,1,2,0
+"female",50,"2nd","Southampton",65,1,2,1
+"female",56,"2nd","Southampton",16,0,0,1
+"male",24,"2nd","Southampton",73.1,2,0,0
+"male",30,"2nd","Southampton",73.1,2,0,0
+"male",21,"2nd","Southampton",73.1,2,0,0
+"male",44,"1st","Southampton",51.1703,0,0,0
+"female",18,"2nd","Southampton",13,1,1,0
+"male",55,"1st","Southampton",50,0,0,0
+"female",17,"1st","Cherbourg",57.1907,0,1,1
+"female",44,"1st","Cherbourg",57.1907,0,1,1
+"female",2,"3rd","Southampton",12.0509,0,1,1
+"female",22,"3rd","Southampton",12.0509,1,1,1
+"female",20,"2nd","Southampton",23,2,1,1
+"male",24,"2nd","Southampton",11.1,2,1,0
+"male",36,"2nd","Southampton",13,0,0,0
+"female",54,"2nd","Southampton",23,1,3,1
+"male",50,"2nd","Southampton",13,0,0,0
+"female",51,"1st","Cherbourg",77.1902,1,0,1
+"female",29,"2nd","Southampton",26,1,0,1
+"male",44,"2nd","Southampton",26,1,0,0
+"male",43,"3rd","Southampton",6.09,0,0,0
+"male",18,"3rd","Southampton",22.1006,0,0,0
+"male",42,"1st","Southampton",52,1,0,0
+"female",35,"1st","Southampton",52,1,0,1
+"male",40,"1st","Southampton",26.11,0,0,1
+"female",27,"3rd","Southampton",7.1806,0,0,1
+"male",21,"2nd","Southampton",73.1,0,0,0
+"male",22,"3rd","Queenstown",7.15,0,0,0
+"male",41,"2nd","Southampton",13,0,0,1
+"female",26,"3rd","Southampton",8.01,0,0,1
+"male",63,"2nd","Southampton",26,1,0,0
+"female",61,"2nd","Southampton",26,1,0,0
+"male",38,"1st","Southampton",100,1,0,1
+"female",31,"1st","Southampton",100,1,0,1
+"male",43,"1st","Cherbourg",30.1311,0,0,0
+"male",42,"3rd","Southampton",7.13,0,0,0
+"male",21,"2nd","Southampton",22,0,0,0
+"male",34,"2nd","Southampton",12.0506,0,0,0
+"male",34,"3rd","Southampton",7.1709,0,0,1
+"male",11,"3rd","Cherbourg",18.1509,0,0,0
+"female",18,"3rd","Cherbourg",7.0407,0,0,1
+"male",33,"3rd","Cherbourg",14.0902,0,0,0
+"female",39,"1st","Southampton",80,0,0,1
+"female",17,"2nd","Southampton",10.1,0,0,1
+"male",32,"3rd","Southampton",7.1711,0,0,0
+"female",17,"3rd","Southampton",7.1806,1,0,0
+"female",25,"3rd","Southampton",7.1806,1,0,0
+"female",50,"1st","Cherbourg",28.1403,0,0,0
+"male",49,"1st","Southampton",89,0,0,1
+"male",20,"3rd","Southampton",7.1711,0,0,0
+"female",16,"3rd","Cherbourg",14.0901,1,0,0
+"female",19,"3rd","Cherbourg",14.0901,1,0,0
+"female",24,"2nd","Southampton",27,2,1,1
+"male",42,"2nd","Southampton",27,1,0,0
+"male",30,"3rd","Cherbourg",7.1711,0,0,1
+"male",21,"3rd","Southampton",7.1511,0,0,1
+"male",21,"3rd","Southampton",7.01,0,0,0
+"male",46,"2nd","Southampton",15,0,0,0
+"male",24,"2nd","Southampton",31.1,2,0,0
+"male",21,"2nd","Southampton",31.1,2,0,0
+"male",32,"2nd","Southampton",10.1,0,0,0
+"male",20,"3rd","Southampton",7.1701,0,0,0
+"male",48,"3rd","Southampton",7.0101,0,0,0
+"male",17,"3rd","Southampton",7.1701,1,0,0
+"female",26,"3rd","Queenstown",7.15,0,0,1
+"female",23,"2nd","Cherbourg",13.151,0,0,1
+"male",29,"3rd","Southampton",8.0203,0,0,1
+"male",34,"3rd","Southampton",6.0911,0,0,0
+"male",22,"3rd","Southampton",7.1511,0,0,0
+"male",33,"3rd","Southampton",8.1301,0,0,0
+"male",31,"3rd","Southampton",7.1506,0,0,0
+"male",29,"3rd","Southampton",7.1701,0,0,0
+"male",26,"3rd","Southampton",7.1506,0,0,1
+"male",4,"3rd","Southampton",11.0208,1,1,1
+"female",1,"3rd","Southampton",11.0208,1,1,1
+"male",49,"3rd","Southampton",13,0,0,0
+"male",33,"3rd","Southampton",7.1506,0,0,0
+"female",26,"3rd","Southampton",11.0208,0,2,1
+"male",19,"3rd","Southampton",13,0,0,0
+"male",8,"3rd","Southampton",23.09,1,2,0
+"female",7,"3rd","Southampton",23.09,1,2,0
+"male",35,"3rd","Southampton",23.09,1,2,0
+"female",36,"3rd","Southampton",23.09,1,2,0
+"male",46,"1st","Southampton",26,0,0,0
+"male",23,"3rd","Southampton",7.1711,0,0,0
+"male",25,"3rd","Southampton",7.1701,0,0,1
+"male",27,"3rd","Southampton",7.1701,0,0,0
+"male",39,"3rd","Cherbourg",7.0407,0,2,0
+"male",50,"1st","Southampton",26,0,0,0
+"female",20,"3rd","Southampton",9.161,1,0,0
+"female",21,"3rd","Southampton",9.161,1,0,0
+"male",32,"3rd","Southampton",7.1806,0,0,1
+"male",17,"3rd","Southampton",7.0206,0,0,0
+"male",21,"3rd","Southampton",8.0808,0,0,0
+"male",34,"2nd","Southampton",26,1,0,0
+"female",24,"2nd","Southampton",26,1,0,1
+"male",30,"3rd","Southampton",7.1711,0,0,0
+"male",21,"3rd","Southampton",7.1511,0,0,1
+"male",33,"3rd","Southampton",7.1701,0,0,0
+"male",22,"3rd","Southampton",7.1005,0,0,0
+"female",22,"2nd","Southampton",21,0,0,0
+"female",5,"3rd","Cherbourg",13.0804,0,1,1
+"male",39,"3rd","Cherbourg",13.0804,0,1,1
+"male",19,"3rd","Cherbourg",7.0407,0,0,0
+"female",46,"2nd","Queenstown",12.07,0,0,1
+"male",23,"3rd","Queenstown",7.15,0,0,0
+"male",35,"2nd","Queenstown",12.07,0,0,0
+"male",39,"3rd","Southampton",7.05,0,0,0
+"male",33,"1st","Southampton",211.1,0,0,0
+"female",20,"3rd","Queenstown",7.15,0,0,1
+"female",22,"3rd","Queenstown",7.15,0,0,1
+"male",19,"3rd","Southampton",8.01,0,0,0
+"male",44,"3rd","Queenstown",7.1607,0,0,0
+"male",44,"engineering crew","Southampton",0,0,0,0
+"female",49,"2nd","Southampton",13.1,0,0,1
+"male",24,"3rd","Queenstown",7.15,0,0,1
+"male",58,"1st","Cherbourg",29.14,0,0,0
+"male",41,"1st","Southampton",51.1703,1,0,0
+"female",40,"1st","Southampton",51.1703,1,0,1
+"male",25,"3rd","Cherbourg",14.0901,1,0,0
+"female",20,"3rd","Cherbourg",14.0901,1,0,0
+"male",25,"3rd","Queenstown",7.15,1,0,0
+"male",22,"3rd","Queenstown",7.15,1,0,0
+"male",22,"3rd","Queenstown",7.1409,0,0,0
+"male",42,"1st","Southampton",52.1101,1,0,1
+"female",45,"1st","Southampton",52.1101,1,0,1
+"female",4,"3rd","Southampton",22,0,2,1
+"female",26,"3rd","Southampton",22,1,1,1
+"female",23,"3rd","Southampton",8.1303,2,0,0
+"male",29,"3rd","Southampton",22,3,1,1
+"male",26,"3rd","Southampton",8.1303,2,0,0
+"male",52,"2nd","Queenstown",12.07,0,0,0
+"male",41,"1st","Southampton",26.11,0,0,0
+"female",1,"3rd","Southampton",12.0308,1,1,0
+"male",18,"3rd","Southampton",7.1701,1,1,0
+"female",36,"3rd","Southampton",12.0308,0,2,0
+"male",41,"2nd","Belfast",22,0,0,0
+"male",30,"3rd","Cherbourg",7.1711,0,0,0
+"male",25,"3rd","Cherbourg",7.0407,0,0,1
+"female",29,"1st","Southampton",211.0609,0,0,1
+"male",23,"2nd","Southampton",22,0,0,0
+"male",26,"3rd","Southampton",7.11,0,0,0
+"male",31,"2nd","Southampton",10.1,0,0,0
+"male",35,"3rd","Cherbourg",7.0406,0,0,0
+"male",35,"2nd","Southampton",26,1,1,0
+"female",34,"2nd","Southampton",26,1,1,0
+"female",37,"3rd","Southampton",9.1109,0,0,0
+"male",31,"2nd","Queenstown",10.1402,0,0,0
+"male",38,"3rd","Southampton",56.0911,0,0,1
+"male",23,"3rd","Southampton",56.0911,0,0,0
+"female",22,"3rd","Southampton",7.05,0,0,1
+"male",17,"3rd","Queenstown",7.15,0,0,0
+"male",32,"3rd","Southampton",56.0911,0,0,1
+"female",1,"2nd","Cherbourg",41.1107,1,2,1
+"female",3,"2nd","Cherbourg",41.1107,1,2,1
+"male",25,"2nd","Cherbourg",41.1107,1,2,0
+"female",22,"2nd","Cherbourg",41.1107,1,2,1
+"male",29,"3rd","Southampton",9.0908,0,0,0
+"male",29,"3rd","Southampton",7.1506,0,0,0
+"male",22,"3rd","Southampton",7.1506,0,0,0
+"female",49,"1st","Southampton",25.1807,0,0,1
+"male",5,"3rd","Southampton",25.0904,3,1,0
+"female",3,"3rd","Southampton",25.0904,3,1,0
+"female",8,"3rd","Southampton",25.0904,3,1,0
+"female",12,"3rd","Southampton",25.0904,3,1,0
+"female",40,"3rd","Southampton",25.0904,0,4,0
+"female",17,"2nd","Cherbourg",12,0,0,1
+"male",32,"3rd","Southampton",7.1806,0,0,0
+"female",31,"2nd","Southampton",33,0,0,1
+"female",39,"2nd","Southampton",10.1,0,0,1
+"female",18,"3rd","Queenstown",15.1,1,0,0
+"male",20,"3rd","Queenstown",15.1,1,0,0
+"female",27,"1st","Cherbourg",106.0806,0,0,1
+"male",41,"3rd","Southampton",24.03,0,0,0
+"male",35,"1st","Cherbourg",512.0607,0,0,1
+"male",37,"2nd","Southampton",12.1706,0,0,0
+"male",30,"1st","Cherbourg",27.1405,0,0,0
+"male",25,"2nd","Southampton",10.1,0,0,0
+"male",24,"3rd","Southampton",9.1,0,0,0
+"female",25,"3rd","Southampton",7.1506,0,0,0
+"female",45,"3rd","Southampton",7.15,0,0,0
+"male",42,"1st","Southampton",26.11,0,0,0
+"male",36,"3rd","Southampton",15.11,1,0,0
+"female",30,"3rd","Southampton",15.11,1,0,0
+"male",20,"3rd","Southampton",7.1806,1,0,1
+"female",55,"1st","Cherbourg",27.1405,0,0,1
+"male",21,"3rd","Queenstown",7.1707,0,0,0
+"female",16,"1st","Cherbourg",39.08,0,1,1
+"female",50,"1st","Cherbourg",39.08,0,1,1
+"male",61,"2nd","Queenstown",12.07,0,0,0
+"male",28,"3rd","Southampton",56.0911,0,0,0
+"male",27,"3rd","Southampton",9.1,0,0,0
+"male",25,"3rd","Southampton",7.05,0,0,0
+"female",34,"3rd","Southampton",16.02,1,0,0
+"male",31,"3rd","Southampton",16.02,1,0,0
+"male",19,"3rd","Southampton",7.1707,0,0,0
+"female",21,"1st","Cherbourg",77.1902,0,0,1
+"male",29,"1st","Southampton",30,0,0,0
+"male",30,"1st","Southampton",45.1,0,0,0
+"male",50,"2nd","Southampton",26,1,0,0
+"female",43,"2nd","Southampton",26,1,0,1
+"male",20,"3rd","Southampton",7.05,0,0,0
+"male",29,"3rd","Southampton",8.1303,0,0,1
+"male",50,"3rd","Southampton",7.0101,0,0,0
+"female",23,"3rd","Southampton",7.1701,0,0,1
+"male",32,"3rd","Southampton",7.1107,0,0,1
+"female",59,"1st","Cherbourg",146.1005,0,0,1
+"male",30,"3rd","Cherbourg",6.0809,0,0,0
+"male",44,"3rd","Southampton",7.1711,0,0,0
+"male",20,"3rd","Southampton",7.11,0,0,0
+"female",57,"2nd","Southampton",10.1,0,0,0
+"female",21,"3rd","Queenstown",7.15,0,0,1
+"female",16,"1st","Southampton",211.0609,0,1,1
+"male",24,"3rd","Southampton",7.021,0,0,1
+"male",22,"3rd","Southampton",7.0206,0,0,0
+"male",30,"1st","Southampton",26,0,0,0
+"female",20,"3rd","Queenstown",7.1707,0,0,0
+"female",20,"1st","Southampton",86.1,0,0,1
+"male",34,"3rd","Southampton",8.01,0,0,0
+"male",29,"3rd","Southampton",7.1806,0,0,0
+"male",25,"2nd","Cherbourg",15,0,0,0
+"male",1,"2nd","Cherbourg",37,0,2,1
+"male",45,"2nd","Cherbourg",37,1,1,0
+"female",24,"2nd","Cherbourg",37,1,1,1
+"male",18,"3rd","Cherbourg",7.0407,0,0,1
+"female",32,"3rd","Queenstown",7.15,0,0,0
+"male",30,"2nd","Cherbourg",15.1107,0,0,0
+"female",28,"3rd","Queenstown",7.1409,0,0,1
+"male",25,"3rd","Cherbourg",7.0407,0,0,0
+"male",29,"1st","Cherbourg",29.14,0,0,1
+"male",23,"3rd","Southampton",7.1711,0,0,0
+"male",35,"3rd","Southampton",7.1711,0,0,0
+"male",33,"3rd","Cherbourg",7.1711,0,0,0
+"male",18,"1st","Southampton",53.02,1,0,0
+"female",18,"1st","Southampton",53.02,1,0,1
+"male",30,"3rd","Cherbourg",7.1711,0,0,0
+"male",23,"2nd","Southampton",13,0,0,0
+"male",36,"2nd","Southampton",16,0,0,0
+"female",24,"1st","Cherbourg",49.1001,0,0,1
+"male",46,"1st","Southampton",75.041,0,0,0
+"female",25,"3rd","Queenstown",7.15,0,0,1
+"male",55,"1st","Southampton",51.1703,0,0,0
+"male",19,"3rd","Queenstown",7.15,0,0,1
+"female",29,"3rd","Queenstown",23.05,2,0,1
+"female",26,"3rd","Queenstown",23.05,2,0,1
+"male",24,"3rd","Queenstown",23.05,2,0,1
+"male",32,"2nd","Southampton",13.1,0,0,0
+"male",32,"2nd","Southampton",13,0,0,0
+"female",31,"3rd","Queenstown",7.1508,0,0,1
+"male",20,"3rd","Queenstown",15.1,0,0,0
+"male",35,"1st","Southampton",26.0509,0,0,1
+"female",22,"3rd","Queenstown",7.1707,0,0,1
+"female",17,"3rd","Queenstown",8,0,0,1
+"female",42,"3rd","Queenstown",7.15,0,0,0
+"male",46,"2nd","Southampton",26,0,0,0
+"male",19,"3rd","Queenstown",7.15,0,0,0
+"male",27,"3rd","Southampton",16.02,1,0,0
+"female",19,"3rd","Southampton",16.02,1,0,0
+"female",32,"3rd","Queenstown",7.15,0,0,0
+"female",62,"3rd","Southampton",8.01,0,0,0
+"male",22,"3rd","Queenstown",7.15,0,0,0
+"female",32,"3rd","Southampton",8.01,0,0,0
+"female",13,"2nd","Southampton",19.1,0,1,1
+"female",42,"2nd","Southampton",19.1,0,1,1
+"male",19,"2nd","Southampton",10.1,0,0,1
+"male",48,"3rd","Southampton",8.01,0,0,0
+"male",28,"3rd","Queenstown",7.15,0,0,0
+"male",31,"2nd","Southampton",13,0,0,0
+"male",28,"1st","Cherbourg",82.0305,1,0,0
+"female",25,"1st","Cherbourg",82.0305,1,0,1
+"male",21,"3rd","Southampton",7.1506,0,0,1
+"male",28,"3rd","Southampton",7.1711,0,0,0
+"male",23,"3rd","Southampton",8.01,0,0,0
+"male",65,"1st","Cherbourg",26.11,0,0,0
+"male",48,"2nd","Southampton",13,0,0,0
+"male",44,"1st","Queenstown",90,2,0,0
+"female",33,"1st","Queenstown",90,1,0,1
+"female",37,"1st","Queenstown",90,1,0,1
+"male",24,"3rd","Southampton",7.1711,0,0,0
+"male",21,"3rd","Southampton",7.1711,0,0,0
+"male",72,"2nd","Southampton",10.1,0,0,0
+"male",23,"3rd","Southampton",7.1711,0,0,0
+"female",23,"3rd","Queenstown",7.1707,0,0,1
+"male",30,"1st","Cherbourg",57.15,1,0,1
+"male",27,"3rd","Southampton",7.13,0,0,0
+"male",55,"1st","Southampton",30.1,0,0,0
+"male",27,"2nd","Southampton",13,0,0,0
+"male",47,"1st","Southampton",42.08,0,0,0
+"male",19,"3rd","Southampton",8.01,0,0,0
+"male",7,"3rd","Southampton",12.0906,0,1,1
+"female",29,"3rd","Southampton",12.0906,0,1,1
+"female",28,"3rd","Queenstown",24.03,1,0,1
+"male",28,"3rd","Queenstown",24.03,1,0,0
+"male",54,"2nd","Southampton",14,0,0,0
+"male",38,"2nd","Southampton",26,0,0,0
+"male",34,"3rd","Southampton",8.01,0,0,0
+"male",30,"3rd","Queenstown",7.15,0,0,0
+"male",29,"3rd","Southampton",7.1506,0,0,1
+"female",35,"3rd","Cherbourg",7.0407,0,0,1
+"male",28,"3rd","Southampton",8.01,0,0,0
+"male",4,"3rd","Cherbourg",15.0411,1,1,1
+"male",7,"3rd","Cherbourg",15.0411,1,1,1
+"female",25,"3rd","Cherbourg",15.0411,0,2,1
+"male",17,"2nd","Southampton",10.1,0,0,0
+"female",21,"3rd","Queenstown",7.1408,0,0,1
+"female",25,"3rd","Queenstown",7.15,0,0,1
+"male",22,"3rd","Southampton",8.01,0,0,0
+"female",18,"3rd","Queenstown",15.1,1,0,1
+"female",25,"3rd","Queenstown",15.1,1,0,1
+"female",31,"3rd","Queenstown",15.1,0,0,1
+"female",22,"3rd","Cherbourg",7.0406,0,0,1
+"male",18,"3rd","Southampton",7.15,0,0,0
+"male",63,"2nd","Queenstown",9.1309,0,0,0
+"male",22,"3rd","Southampton",7.1711,0,0,0
+"female",15,"3rd","Cherbourg",7.0406,0,0,1
+"male",17,"3rd","Cherbourg",7.0407,0,0,0
+"female",1,"3rd","Cherbourg",15.141,0,2,1
+"male",21,"3rd","Cherbourg",15.141,1,1,1
+"female",19,"3rd","Cherbourg",15.141,1,1,1
+"male",36,"3rd","Southampton",8.01,0,0,0
+"male",32,"3rd","Southampton",7.1711,0,0,0
+"male",20,"3rd","Cherbourg",7.0407,0,0,0
+"male",28,"2nd","Cherbourg",30.0105,1,0,0
+"female",14,"2nd","Cherbourg",30.0105,1,0,1
+"male",20,"3rd","Cherbourg",7.0406,0,0,0
+"male",36,"1st","Cherbourg",29.14,0,1,0
+"female",21,"3rd","Queenstown",7.15,0,0,0
+"male",2,"2nd","Southampton",26,1,1,1
+"male",3,"2nd","Southampton",26,1,1,1
+"male",32,"2nd","Southampton",26,0,2,0
+"male",22,"3rd","Southampton",7.1711,0,0,0
+"male",26,"2nd","Southampton",13,0,0,0
+"female",31,"1st","Cherbourg",113.0506,1,0,1
+"female",23,"1st","Cherbourg",113.0506,1,0,1
+"male",58,"1st","Cherbourg",113.0506,0,2,0
+"female",19,"1st","Southampton",26.0508,0,2,1
+"male",19,"2nd","Southampton",36.15,1,1,0
+"male",60,"1st","Southampton",26,0,0,0
+"female",29,"3rd","Southampton",7.1806,0,0,0
+"male",28,"3rd","Southampton",8.01,0,0,0
+"female",18,"3rd","Southampton",7.1506,0,0,1
+"female",26,"3rd","Southampton",7.1701,0,0,1
+"male",21,"3rd","Southampton",7.1701,0,0,0
+"male",11,"3rd","Cherbourg",11.041,1,0,1
+"female",14,"3rd","Cherbourg",11.041,1,0,1
+"male",41,"3rd","Southampton",7.0206,0,0,0
+"male",39,"3rd","Southampton",7.1806,0,0,1
+"male",20,"3rd","Cherbourg",7.0407,0,0,0
+"male",27,"2nd","Southampton",13.1,0,0,0
+"male",21,"3rd","Southampton",7.16,0,0,0
+"male",20,"1st","Cherbourg",13.1703,0,0,1
+"female",29,"2nd","Southampton",10.1,0,0,1
+"female",22,"3rd","Southampton",7.15,0,0,1
+"male",60,"3rd","Southampton",6.0409,0,0,0
+"male",21,"3rd","Queenstown",7.1607,0,0,0
+"female",26,"3rd","Queenstown",15.1,1,0,1
+"male",27,"3rd","Queenstown",15.1,1,0,0
+"male",18,"3rd","Queenstown",7.1408,0,0,0
+"male",17,"3rd","Queenstown",7.15,0,0,0
+"male",23,"3rd","Queenstown",7.15,0,0,0
+"male",23,"3rd","Southampton",9.0406,0,0,0
+"female",24,"3rd","Queenstown",7.1707,0,0,1
+"female",22,"3rd","Southampton",7.1506,0,0,1
+"male",21,"3rd","Queenstown",7.15,0,0,1
+"female",16,"3rd","Queenstown",7.1607,0,0,1
+"female",39,"1st","Cherbourg",108.18,0,0,1
+"male",9,"3rd","Southampton",3.0305,0,1,1
+"male",28,"3rd","Southampton",22.1006,0,0,0
+"male",42,"3rd","Southampton",8.0801,0,1,0
+"male",27,"3rd","Southampton",7.0603,0,0,0
+"female",31,"3rd","Southampton",7.1701,0,0,0
+"male",28,"3rd","Southampton",7.1701,0,0,0
+"male",32,"3rd","Southampton",7.1506,0,0,1
+"male",20,"3rd","Southampton",9.0406,0,0,0
+"male",29,"1st","Cherbourg",25.141,0,0,1
+"female",23,"3rd","Southampton",8.1303,0,0,0
+"female",20,"3rd","Southampton",8.1303,0,0,0
+"male",20,"3rd","Southampton",8.1303,0,0,0
+"male",16,"3rd","Southampton",9.0404,0,0,0
+"female",22,"1st","Southampton",61.1907,0,1,1
+"male",64,"1st","Southampton",61.1907,0,1,0
+"female",21,"3rd","Queenstown",7.1207,0,0,0
+"male",38,"2nd","Southampton",13,0,0,0
+"male",36,"1st","Cherbourg",27.1405,0,0,0
+"male",22,"2nd","Southampton",10.1,0,0,1
+"male",27,"2nd","Cherbourg",13.1703,0,0,1
+"male",23,"2nd","Southampton",10.1,0,0,0
+"male",29,"2nd","Cherbourg",13.1702,0,0,1
+"male",2,"3rd","Southampton",21.0106,3,1,0
+"male",6,"3rd","Southampton",21.0106,3,1,0
+"female",3,"3rd","Southampton",21.0106,3,1,0
+"female",8,"3rd","Southampton",21.0106,3,1,0
+"female",29,"3rd","Southampton",21.0106,0,4,0
+"male",1,"3rd","Southampton",39.1309,4,1,0
+"male",15,"3rd","Southampton",39.1309,4,1,0
+"male",7,"3rd","Southampton",39.1309,4,1,0
+"male",2,"3rd","Southampton",39.1309,4,1,0
+"male",16,"3rd","Southampton",39.1309,4,1,0
+"female",41,"3rd","Southampton",39.1309,0,5,0
+"male",17,"2nd","Southampton",10.1,0,0,0
+"male",21,"2nd","Belfast",22,0,0,0
+"female",59,"2nd","Southampton",26,0,1,1
+"male",30,"1st","Belfast",89,0,0,0
+"male",40,"1st","Southampton",28.1,0,0,0
+"male",21,"3rd","Southampton",8.1303,0,0,0
+"male",20,"3rd","Southampton",14.1,0,0,0
+"male",32,"3rd","Southampton",7.1711,0,0,0
+"male",23,"1st","Southampton",93.1,0,0,0
+"male",0.5833333333,"3rd","Southampton",13.1506,1,1,0
+"female",4,"3rd","Southampton",13.1506,1,1,0
+"female",26,"3rd","Southampton",13.1506,0,2,0
+"male",32,"3rd","Southampton",7,0,0,0
+"female",22,"1st","Southampton",66.12,1,0,1
+"male",29,"1st","Southampton",66.12,1,0,0
+"male",28,"3rd","Southampton",7.1506,0,0,0
+"male",24,"3rd","Southampton",8.01,0,0,0
+"male",21,"3rd","Southampton",7.1806,0,0,0
+"male",25,"3rd","Southampton",7.1806,0,0,0
+"female",22,"1st","Cherbourg",108.18,1,0,1
+"male",24,"1st","Cherbourg",108.18,1,0,0
+"male",19,"2nd","Southampton",10.1,0,0,0
+"male",24,"3rd","Southampton",7.05,0,0,0
+"male",39,"2nd","Cherbourg",15.01,0,0,0
+"female",33,"1st","Southampton",93.1,0,0,1
+"male",25,"3rd","Southampton",7.1506,1,0,1
+"male",41,"2nd","Southampton",13,0,0,0
+"female",28,"3rd","Southampton",7.1711,0,0,0
+"male",4,"3rd","Cherbourg",22.0702,1,1,1
+"female",2,"3rd","Cherbourg",22.0702,1,1,1
+"male",24,"3rd","Southampton",8.01,0,0,0
+"female",28,"3rd","Queenstown",8.0209,0,0,0
+"male",19,"3rd","Southampton",7.1711,0,0,0
+"male",29,"3rd","Southampton",7.1711,0,0,0
+"female",18,"3rd","Southampton",7.1506,0,0,0
+"male",25,"3rd","Southampton",7.1506,1,0,0
+"male",52,"1st","Southampton",30.1,0,0,1
+"female",21,"2nd","Southampton",21,0,1,1
+"female",19,"2nd","Southampton",26,0,0,1
+"male",43,"2nd","Southampton",21,0,1,0
+"male",33,"3rd","Southampton",8.01,0,0,1
+"female",32,"2nd","Southampton",13,0,0,1
+"male",27,"3rd","Southampton",7.1711,0,0,0
+"male",17,"3rd","Southampton",8.1303,0,0,0
+"male",24,"3rd","Southampton",8.1303,0,0,0
+"male",24,"2nd","Southampton",13,0,0,0
+"male",30,"2nd","Cherbourg",12.1409,0,0,1
+"male",46,"1st","Southampton",52,0,0,0
+"female",56,"1st","Cherbourg",83.0302,0,1,1
+"male",27,"2nd","Cherbourg",15,0,0,0
+"male",16,"3rd","Cherbourg",8.1403,0,0,0
+"female",2,"2nd","Southampton",26,1,1,1
+"female",8,"2nd","Southampton",26,1,1,1
+"female",33,"2nd","Southampton",26,0,2,1
+"male",27,"3rd","Southampton",7.1711,0,0,0
+"male",21,"3rd","Cherbourg",7.0406,0,0,0
+"female",63,"3rd","Southampton",8.0203,0,0,0
+"male",30,"3rd","Cherbourg",7.0407,0,0,0
+"male",18,"3rd","Southampton",7.05,0,0,0
+"male",36,"2nd","Southampton",10.1,0,0,0
+"male",38,"3rd","Southampton",7.1711,0,0,0
+"male",33,"2nd","Southampton",21,1,0,0
+"female",30,"2nd","Southampton",21,3,0,1
+"male",37,"1st","Cherbourg",89,0,0,0
+"female",29,"2nd","Southampton",13,0,0,1
+"male",21,"3rd","Southampton",8.01,0,0,0
+"male",33,"1st","Cherbourg",39.12,0,0,1
+"male",10,"3rd","Queenstown",29.0206,4,1,0
+"male",4,"3rd","Queenstown",29.0206,4,1,0
+"male",7,"3rd","Queenstown",29.0206,4,1,0
+"male",2,"3rd","Queenstown",29.0206,4,1,0
+"male",8,"3rd","Queenstown",29.0206,4,1,0
+"female",39,"3rd","Queenstown",29.0206,0,5,0
+"male",23,"2nd","Cherbourg",15,0,0,0
+"male",0.75,"2nd","Southampton",18.15,1,1,1
+"male",3,"2nd","Southampton",18.15,1,1,1
+"female",24,"2nd","Southampton",18.15,2,3,1
+"female",58,"2nd","Southampton",10.1,0,0,1
+"male",22,"1st","Cherbourg",135.1208,0,0,0
+"female",22,"3rd","Southampton",39.1309,0,0,0
+"male",35,"3rd","Southampton",7.0206,0,0,0
+"female",22,"3rd","Queenstown",7.1405,0,0,1
+"male",69,"3rd","Southampton",14.1,0,0,0
+"female",64,"3rd","Southampton",14.1,0,0,0
+"female",43,"1st","Southampton",211.0609,0,1,1
+"male",50,"3rd","Southampton",14.1,1,0,0
+"female",48,"3rd","Southampton",14.1,1,0,0
+"male",45,"1st","Cherbourg",247.1006,0,0,0
+"male",31,"1st","Southampton",50.0911,0,0,0
+"male",18,"2nd","Southampton",10.1,0,0,0
+"male",30,"3rd","Southampton",8.01,0,0,0
+"male",45,"1st","Southampton",26.11,0,0,1
+"male",49,"3rd","Southampton",7.1506,0,0,0
+"male",39,"1st","Southampton",50,0,0,0
+"female",2,"3rd","Southampton",20.0403,1,1,0
+"female",41,"3rd","Southampton",20.0403,0,2,0
+"male",18,"3rd","Southampton",20.0403,1,1,0
+"female",33,"1st","Cherbourg",27.1405,0,0,1
+"male",46,"1st","Cherbourg",79,0,0,0
+"male",36,"1st","Southampton",40.0206,0,0,0
+"female",33,"1st","Southampton",86.1,0,0,1
+"female",26,"3rd","Southampton",8.01,0,0,1
+"male",46,"1st","Cherbourg",59.08,1,0,0
+"female",54,"1st","Cherbourg",59.08,1,0,1
+"male",55,"3rd","Southampton",8.01,0,0,0
+"male",59,"1st","Southampton",26.11,0,0,0
+"female",22,"2nd","Southampton",10.1,0,0,1
+"male",17,"3rd","Southampton",8.01,0,0,0
+"male",24,"3rd","Queenstown",7.15,0,0,1
+"male",30,"3rd","Queenstown",24.03,0,0,0
+"male",13,"1st","Cherbourg",262.0706,2,2,1
+"female",18,"1st","Cherbourg",262.0706,2,2,1
+"female",21,"1st","Cherbourg",262.0706,2,2,1
+"male",61,"1st","Cherbourg",262.0706,1,3,0
+"female",48,"1st","Cherbourg",262.0706,1,3,1
+"male",30,"3rd","Cherbourg",7.0407,0,0,0
+"male",27,"3rd","Cherbourg",7.0406,0,0,0
+"male",47,"1st","Southampton",30.1,0,0,1
+"male",19,"3rd","Queenstown",7.1407,0,0,0
+"male",17,"3rd","Southampton",7.111,0,0,0
+"male",43,"3rd","Southampton",7.05,0,0,0
+"male",13,"3rd","Southampton",69.11,8,2,0
+"male",5,"3rd","Southampton",69.11,8,2,0
+"female",8,"3rd","Southampton",69.11,8,2,0
+"female",14,"3rd","Southampton",69.11,8,2,0
+"female",10,"3rd","Southampton",69.11,8,2,0
+"female",21,"3rd","Southampton",69.11,8,2,0
+"male",18,"3rd","Southampton",69.11,8,2,0
+"male",17,"3rd","Southampton",69.11,8,2,0
+"male",20,"3rd","Southampton",69.11,8,2,0
+"male",45,"3rd","Southampton",69.11,1,9,0
+"female",45,"3rd","Southampton",69.11,1,9,0
+"female",24,"1st","Cherbourg",69.06,0,0,1
+"male",24,"3rd","Southampton",9.0606,0,0,0
+"female",21,"3rd","Southampton",7.13,0,0,1
+"male",43,"1st","Southampton",26,0,0,1
+"male",29,"3rd","Southampton",7.1806,0,0,0
+"male",17,"3rd","Cherbourg",21.1307,2,0,0
+"male",40,"3rd","Cherbourg",21.1307,2,0,0
+"male",16,"3rd","Cherbourg",21.1307,2,0,0
+"female",1,"3rd","Southampton",16.14,1,1,1
+"female",4,"3rd","Southampton",16.14,1,1,1
+"female",24,"3rd","Southampton",16.14,0,2,1
+"male",21,"3rd","Southampton",9.1,0,0,1
+"male",19,"3rd","Southampton",8.01,0,0,0
+"male",24,"3rd","Southampton",8.01,0,0,0
+"male",22,"3rd","Queenstown",7.1406,0,0,0
+"female",35,"1st","Cherbourg",57.15,1,0,1
+"male",29,"3rd","Southampton",9.1,0,0,1
+"male",22,"2nd","Southampton",13,0,0,0
+"male",42,"3rd","Southampton",7.1711,0,0,0
+"male",28,"2nd","Southampton",13,0,0,0
+"male",10,"3rd","Cherbourg",4,0,0,0
+"female",30,"1st","Southampton",31,0,0,1
+"male",34,"1st","Southampton",26.11,0,0,1
+"male",35,"3rd","Southampton",13,0,0,0
+"male",29,"2nd","Southampton",26,0,0,0
+"male",27,"3rd","Queenstown",7.15,0,0,0
+"male",19,"3rd","Cherbourg",7.0406,0,0,0
+"male",55,"3rd","Southampton",15.02,0,0,0
+"female",25,"2nd","Southampton",26,0,1,1
+"male",26,"3rd","Cherbourg",7.0406,0,0,0
+"female",20,"3rd","Queenstown",7.1607,0,0,1
+"male",22,"3rd","Southampton",8.01,0,0,0
+"female",40,"1st","Southampton",153.0903,0,0,1
+"female",17,"2nd","Southampton",13,0,2,1
+"male",35,"1st","Southampton",26.0509,0,0,1
+"female",39,"1st","Cherbourg",55.18,1,0,1
+"male",51,"1st","Cherbourg",55.18,1,0,0
+"male",40,"3rd","Southampton",8.01,0,0,0
+"male",56,"1st","Southampton",35.1,0,0,1
+"female",20,"2nd","Southampton",36.15,0,0,1
+"female",30,"2nd","Southampton",13,0,0,1
+"male",22,"3rd","Cherbourg",7.0407,0,0,0
+"male",20,"3rd","Southampton",8.01,0,0,0
+"male",40,"3rd","Southampton",7.1711,0,0,0
+"male",21,"3rd","Southampton",7.1806,0,0,0
+"female",18,"3rd","Southampton",6.0911,0,0,1
+"male",59,"2nd","Southampton",13.1,0,0,0
+"male",5,"3rd","Southampton",27.18,3,2,0
+"male",11,"3rd","Southampton",27.18,3,2,0
+"female",9,"3rd","Southampton",27.18,3,2,0
+"female",2,"3rd","Southampton",27.18,3,2,0
+"female",43,"3rd","Southampton",27.18,1,4,0
+"male",40,"3rd","Southampton",27.18,1,4,0
+"male",42,"3rd","Southampton",7.1711,0,0,0
+"female",30,"2nd","Queenstown",12.07,0,0,1
+"male",35,"2nd","Southampton",10.1,0,0,0
+"male",20,"3rd","Southampton",8.01,0,0,0
+"male",28,"1st","Southampton",35.1,0,0,1
+"male",56,"1st","Southampton",26.11,0,0,0
+"male",37,"3rd","Southampton",8.1303,0,0,0
+"female",49,"2nd","Southampton",13,0,0,1
+"male",56,"1st","Cherbourg",30.1311,0,0,0
+"male",24,"1st","Cherbourg",60,1,0,0
+"male",57,"1st","Southampton",26,0,0,0
+"female",18,"1st","Cherbourg",60,1,0,1
+"female",18,"3rd","Queenstown",7.1408,0,0,1
+"male",27,"3rd","Queenstown",7.15,0,0,0
+"male",24,"1st","Southampton",82.0504,1,0,1
+"female",23,"1st","Southampton",82.0504,1,0,1
+"male",25,"2nd","Southampton",13,0,0,0
+"male",19,"3rd","Southampton",7.13,0,0,0
+"male",31,"3rd","Southampton",8.01,0,0,0
+"male",23,"3rd","Southampton",8.01,0,0,0
+"male",6,"1st","Cherbourg",134.1,0,2,1
+"male",45,"1st","Cherbourg",134.1,1,1,1
+"female",39,"1st","Cherbourg",134.1,1,1,1
+"female",48,"1st","Cherbourg",146.1005,1,0,1
+"male",57,"1st","Cherbourg",146.1005,1,0,0
+"male",31,"3rd","Southampton",8.01,0,0,0
+"male",32,"1st","Southampton",30.1,0,0,1
+"male",23,"3rd","Southampton",7.1711,0,0,0
+"male",33,"3rd","Cherbourg",8.1309,0,0,0
+"female",24,"3rd","Southampton",7.11,0,0,1
+"male",22,"3rd","Southampton",8.01,0,0,0
+"male",42,"2nd","Cherbourg",15,0,0,0
+"male",62,"1st","Southampton",26.11,0,0,0
+"male",54,"1st","Cherbourg",55.081,1,0,1
+"female",43,"1st","Cherbourg",55.081,1,0,1
+"female",52,"1st","Cherbourg",78.0504,1,0,1
+"male",64,"1st","Cherbourg",27.1405,0,0,0
+"male",24,"2nd","Southampton",10.1,0,0,0
+"female",61,"1st","Southampton",80,0,0,1
+"male",59,"3rd","Southampton",13,0,0,0
+"male",19,"3rd","Southampton",7.1711,0,0,0
+"female",22,"3rd","Southampton",9.1609,0,0,0
+"male",30,"3rd","Southampton",7.1806,0,0,1
+"male",67,"1st","Southampton",221.1507,1,0,0
+"female",63,"1st","Southampton",221.1507,1,0,0
+"male",27,"3rd","Southampton",8.1303,0,0,0
+"female",2,"3rd","Southampton",10.0903,0,1,0
+"female",29,"3rd","Southampton",10.0903,1,1,0
+"male",20,"3rd","Southampton",8.01,0,0,1
+"male",44,"3rd","Southampton",7.1806,0,0,1
+"male",25,"3rd","Southampton",7.01,0,0,0
+"male",61,"1st","Southampton",32.0605,0,0,0
+"male",74,"3rd","Southampton",7.1506,0,0,0
+"male",14,"3rd","Southampton",9.0406,0,0,1
+"male",24,"3rd","Southampton",7.1511,0,0,0
+"male",19,"2nd","Southampton",13,0,0,0
+"male",14,"2nd","Southampton",65,0,0,0
+"female",46,"1st","Southampton",25.1807,0,0,1
+"male",0.4166666667,"3rd","Cherbourg",8.1004,0,1,1
+"male",30,"3rd","Cherbourg",6.0809,1,0,0
+"female",16,"3rd","Cherbourg",8.1004,1,1,1
+"female",18,"1st","Southampton",79.13,0,2,1
+"male",52,"1st","Southampton",79.13,1,1,0
+"female",39,"1st","Southampton",79.13,1,1,1
+"male",48,"1st","Southampton",52,1,0,1
+"male",40,"2nd","Southampton",22,0,0,0
+"female",49,"1st","Southampton",52,1,0,1
+"male",25,"3rd","Southampton",7.1511,0,0,1
+"male",49,"1st","Cherbourg",110.1708,1,1,0
+"male",17,"1st","Cherbourg",110.1708,0,2,1
+"female",39,"1st","Cherbourg",110.1708,1,1,1
+"male",34,"3rd","Southampton",8.01,0,0,0
+"male",34,"3rd","Cherbourg",6.0809,0,0,0
+"male",16,"3rd","Cherbourg",7.0406,0,0,0
+"male",37,"3rd","Southampton",8.01,0,0,0
+"female",38,"1st","Cherbourg",80,0,0,1
+"male",37,"3rd","Southampton",16.02,1,0,0
+"female",33,"3rd","Southampton",16.02,1,0,1
+"male",32,"3rd","Southampton",7.1806,0,0,0
+"male",20,"3rd","Queenstown",7.15,0,0,0
+"male",23,"3rd","Southampton",7.1711,0,0,0
+"male",22,"3rd","Southampton",8.01,0,0,0
+"female",48,"2nd","Southampton",10.1,0,0,1
+"male",41,"3rd","Southampton",8.01,0,0,0
+"male",20,"3rd","Cherbourg",7.0407,0,0,0
+"male",26,"3rd","Southampton",13,0,0,1
+"male",25,"3rd","Southampton",7.1711,0,0,0
+"male",23,"2nd","Southampton",13,0,0,0
+"female",27,"2nd","Southampton",12.13,0,0,1
+"female",27,"2nd","Southampton",10.1,0,0,1
+"male",31,"1st","Cherbourg",28.1009,0,0,1
+"male",8,"3rd","Cherbourg",15.0411,1,1,1
+"female",9,"3rd","Cherbourg",15.0411,1,1,1
+"female",27,"3rd","Cherbourg",15.0411,0,2,1
+"male",36,"3rd","Southampton",7.1711,0,0,0
+"female",18,"3rd","Southampton",9.161,0,0,1
+"female",63,"3rd","Southampton",9.1109,0,0,1
+"female",26,"2nd","Southampton",21,1,0,0
+"male",29,"2nd","Southampton",21,1,0,0
+"male",39,"1st","Cherbourg",27.1405,0,0,0
+"male",10,"3rd","Southampton",14.1,1,1,0
+"male",9,"3rd","Southampton",14.1,1,1,0
+"male",35,"3rd","Southampton",14.1,0,2,0
+"male",28,"3rd","Southampton",9.1,0,0,0
+"male",46,"3rd","Southampton",9,0,0,0
+"male",61,"1st","Southampton",33.1,0,0,0
+"female",18,"3rd","Southampton",18,2,0,0
+"male",31,"3rd","Southampton",18,3,0,0
+"male",15,"3rd","Southampton",18,2,0,0
+"female",31,"3rd","Southampton",18,1,0,0
+"male",35,"3rd","Southampton",9.1,0,0,0
+"male",28,"3rd","Southampton",9.1,0,0,0
+"female",10,"3rd","Southampton",24.03,0,2,0
+"male",36,"3rd","Southampton",24.03,1,1,0
+"female",30,"3rd","Southampton",24.03,1,1,0
+"male",23,"3rd","Southampton",9.1,0,0,0
+"male",22,"3rd","Cherbourg",7.0406,0,0,1
+"male",40,"2nd","Southampton",13,0,0,0
+"male",20,"3rd","Southampton",7.1701,0,0,0
+"female",14,"3rd","Southampton",7.1701,0,0,0
+"male",21,"3rd","Southampton",7.1711,0,0,0
+"male",22,"3rd","Southampton",9,0,0,0
+"male",48,"1st","Southampton",34,0,0,0
+"female",36,"2nd","Southampton",21,0,0,1
+"female",37,"1st","Cherbourg",512.0607,0,0,1
+"male",35,"3rd","Southampton",8.01,0,0,0
+"male",47,"2nd","Southampton",21,1,0,0
+"female",32,"2nd","Southampton",21,0,0,1
+"male",23,"2nd","Southampton",10.1,1,0,0
+"male",31,"3rd","Southampton",7.11,0,0,0
+"male",63,"1st","Cherbourg",75.05,1,0,0
+"female",60,"1st","Cherbourg",75.05,1,0,1
+"male",19,"2nd","Belfast",22,0,0,0
+"female",12,"2nd","Southampton",15.15,0,0,1
+"female",40,"2nd","Southampton",15.15,0,0,1
+"male",23,"3rd","Cherbourg",7.0406,0,0,0
+"female",37,"2nd","Southampton",13,0,0,1
+"male",66,"3rd","Southampton",8.01,0,0,0
+"male",59,"1st","Southampton",26.11,0,0,0
+"male",37,"2nd","Southampton",26,1,0,0
+"female",37,"2nd","Southampton",26,1,0,1
+"male",2,"2nd","Southampton",23,1,1,1
+"female",4,"2nd","Southampton",23,1,1,1
+"female",29,"2nd","Southampton",23,0,2,1
+"male",27,"3rd","Southampton",7.1511,0,0,1
+"female",0.8333333333,"2nd","Southampton",27.15,1,2,1
+"female",4,"2nd","Southampton",27.15,1,2,1
+"male",36,"2nd","Southampton",27.15,1,2,0
+"female",33,"2nd","Southampton",27.15,1,2,1
+"male",65,"2nd","Southampton",10.1,0,0,0
+"male",26,"2nd","Southampton",12.1706,0,0,0
+"male",31,"2nd","Southampton",13,0,0,1
+"male",54,"1st","Southampton",77.0509,0,1,0
+"male",21,"1st","Southampton",77.0509,0,1,0
+"female",55,"1st","Cherbourg",135.1208,0,0,1
+"male",57,"1st","Southampton",164.1704,1,1,0
+"female",31,"1st","Southampton",164.1704,0,2,1
+"female",45,"1st","Southampton",164.1704,1,1,1
+"male",51,"3rd","Southampton",7.15,0,0,0
+"male",50,"1st","Southampton",211.1,1,1,0
+"male",27,"1st","Southampton",211.1,0,2,0
+"female",50,"1st","Southampton",211.1,1,1,1
+"male",18,"3rd","Southampton",6.0911,1,0,0
+"male",21,"3rd","Southampton",6.0911,1,0,0
+"female",47,"3rd","Southampton",7,1,0,1
+"female",30,"2nd","Southampton",26,1,0,1
+"female",21,"1st","Southampton",26.11,0,0,1
+"male",37,"3rd","Cherbourg",8.1403,0,0,0
+"male",21,"3rd","Southampton",7.11,0,0,0
+"male",51,"1st","Cherbourg",61.0707,0,1,0
+"male",23,"2nd","Southampton",13,0,0,1
+"male",43,"1st","Southampton",35,0,0,0
+"male",28,"3rd","Southampton",8.01,0,0,0
+"male",28,"3rd","Southampton",16.02,0,0,0
+"male",21,"1st","Cherbourg",61.0707,0,1,1
+"female",31,"1st","Cherbourg",134.1,0,0,1
+"male",21,"3rd","Southampton",7.05,0,0,0
+"male",17,"3rd","Southampton",8.1303,0,0,0
+"male",54,"3rd","Southampton",7.05,0,0,0
+"male",36,"3rd","Southampton",9.1,0,0,0
+"male",32,"2nd","Southampton",22,0,0,0
+"male",46,"1st","Southampton",35.1,0,0,1
+"female",26,"2nd","Southampton",13.1,0,0,1
+"male",62,"1st","Southampton",26.11,0,0,0
+"male",27,"3rd","Cherbourg",14.0901,1,0,0
+"female",15,"3rd","Cherbourg",14.0901,1,0,1
+"female",36,"1st","Cherbourg",135.1208,0,0,1
+"male",26,"3rd","Cherbourg",7.0406,0,0,0
+"male",45,"3rd","Cherbourg",7.0407,0,0,0
+"female",23,"3rd","Cherbourg",22.0702,0,2,1
+"female",24,"2nd","Southampton",13,0,0,0
+"male",22,"3rd","Cherbourg",7.0406,0,0,0
+"male",27,"3rd","Cherbourg",7.0406,0,0,0
+"male",25,"3rd","Cherbourg",7.0406,0,0,1
+"male",29,"3rd","Southampton",7.1706,0,0,0
+"male",21,"victualling crew","Southampton",0,0,0,0
+"male",34,"engineering crew","Southampton",0,0,0,0
+"male",26,"engineering crew","Southampton",0,0,0,0
+"male",20,"victualling crew","Southampton",0,0,0,0
+"male",31,"victualling crew","Southampton",0,0,0,0
+"male",37,"victualling crew","Southampton",0,0,0,0
+"male",22,"restaurant staff","Southampton",0,0,0,0
+"male",24,"engineering crew","Southampton",0,0,0,1
+"male",17,"victualling crew","Southampton",0,0,0,0
+"male",26,"victualling crew","Southampton",0,0,0,0
+"male",30,"engineering crew","Southampton",0,0,0,0
+"male",36,"victualling crew","Southampton",0,0,0,0
+"male",36,"engineering crew","Belfast",0,0,0,0
+"male",41,"victualling crew","Belfast",0,0,0,0
+"male",40,"deck crew","Southampton",0,0,0,1
+"male",48,"victualling crew","Southampton",0,0,0,0
+"male",19,"victualling crew","Southampton",0,0,0,1
+"male",35,"deck crew","Southampton",0,0,0,1
+"male",26,"victualling crew","Southampton",0,0,0,0
+"male",41,"victualling crew","Southampton",0,0,0,0
+"male",26,"restaurant staff","Southampton",0,0,0,0
+"male",21,"engineering crew","Southampton",0,0,0,1
+"male",23,"victualling crew","Southampton",0,0,0,0
+"male",37,"victualling crew","Belfast",0,0,0,0
+"male",28,"victualling crew","Southampton",0,0,0,1
+"male",33,"victualling crew","Southampton",0,0,0,0
+"male",36,"victualling crew","Belfast",0,0,0,0
+"male",46,"engineering crew","Southampton",0,0,0,0
+"male",46,"deck crew","Southampton",0,0,0,1
+"male",24,"engineering crew","Southampton",0,0,0,0
+"male",19,"victualling crew","Southampton",0,0,0,1
+"male",24,"restaurant staff","Southampton",0,0,0,0
+"male",34,"engineering crew","Southampton",0,0,0,0
+"male",19,"victualling crew","Southampton",0,0,0,0
+"male",41,"victualling crew","Southampton",0,0,0,0
+"male",42,"victualling crew","Belfast",0,0,0,0
+"male",30,"engineering crew","Southampton",0,0,0,0
+"male",36,"victualling crew","Southampton",0,0,0,0
+"male",29,"engineering crew","Southampton",0,0,0,0
+"male",40,"victualling crew","Southampton",0,0,0,0
+"male",40,"engineering crew","Southampton",0,0,0,0
+"male",16,"victualling crew","Southampton",0,0,0,0
+"male",28,"engineering crew","Southampton",0,0,0,1
+"male",33,"engineering crew","Southampton",0,0,0,0
+"male",34,"victualling crew","Belfast",0,0,0,0
+"male",36,"victualling crew","Southampton",0,0,0,0
+"male",32,"victualling crew","Southampton",0,0,0,0
+"male",26,"victualling crew","Southampton",0,0,0,0
+"male",27,"restaurant staff","Southampton",0,0,0,0
+"male",53,"victualling crew","Southampton",0,0,0,0
+"male",55,"victualling crew","Southampton",0,0,0,0
+"male",33,"restaurant staff","Southampton",0,0,0,0
+"male",35,"engineering crew","Belfast",0,0,0,0
+"male",24,"engineering crew","Southampton",0,0,0,1
+"male",31,"victualling crew","Southampton",0,0,0,0
+"male",35,"victualling crew","Southampton",0,0,0,0
+"male",19,"victualling crew","Southampton",0,0,0,0
+"male",51,"engineering crew","Belfast",0,0,0,0
+"male",24,"engineering crew","Southampton",0,0,0,0
+"male",30,"victualling crew","Southampton",0,0,0,0
+"male",30,"engineering crew","Southampton",0,0,0,0
+"female",33,"victualling crew","Southampton",0,0,0,1
+"male",47,"engineering crew","Southampton",0,0,0,0
+"male",22,"restaurant staff","Southampton",0,0,0,0
+"male",31,"victualling crew","Southampton",0,0,0,0
+"male",39,"engineering crew","Southampton",0,0,0,0
+"male",40,"victualling crew","Belfast",0,0,0,0
+"male",26,"restaurant staff","Southampton",0,0,0,0
+"male",22,"engineering crew","Southampton",0,0,0,0
+"male",31,"engineering crew","Southampton",0,0,0,0
+"male",28,"restaurant staff","Southampton",0,0,0,0
+"male",20,"engineering crew","Southampton",0,0,0,0
+"male",20,"engineering crew","Southampton",0,0,0,0
+"male",20,"engineering crew","Southampton",0,0,0,1
+"male",34,"victualling crew","Belfast",0,0,0,0
+"male",23,"engineering crew","Southampton",0,0,0,0
+"male",28,"engineering crew","Southampton",0,0,0,0
+"male",41,"engineering crew","Southampton",0,0,0,0
+"male",23,"engineering crew","Southampton",0,0,0,1
+"male",26,"engineering crew","Belfast",0,0,0,0
+"male",37,"engineering crew","Southampton",0,0,0,0
+"male",32,"engineering crew","Southampton",0,0,0,0
+"male",22,"engineering crew","Southampton",0,0,0,0
+"female",45,"victualling crew","Southampton",0,0,0,1
+"male",26,"restaurant staff","Southampton",0,0,0,0
+"male",30,"victualling crew","Southampton",0,0,0,0
+"male",43,"restaurant staff","Southampton",0,0,0,0
+"male",59,"victualling crew","Southampton",0,0,0,0
+"male",27,"restaurant staff","Southampton",0,0,0,0
+"male",40,"victualling crew","Belfast",0,0,0,0
+"male",38,"victualling crew","Southampton",0,0,0,0
+"male",33,"victualling crew","Belfast",0,0,0,0
+"male",46,"engineering crew","Southampton",0,0,0,0
+"male",24,"victualling crew","Southampton",0,0,0,0
+"female",31,"restaurant staff","Southampton",0,0,0,1
+"male",28,"deck crew","Belfast",0,0,0,1
+"male",37,"victualling crew","Southampton",0,0,0,0
+"male",36,"victualling crew","Belfast",0,0,0,0
+"male",39,"engineering crew","Southampton",0,0,0,0
+"male",29,"deck crew","Southampton",0,0,0,0
+"male",43,"victualling crew","Southampton",0,0,0,0
+"male",30,"engineering crew","Southampton",0,0,0,0
+"male",52,"victualling crew","Belfast",0,0,0,0
+"male",34,"engineering crew","Southampton",0,0,0,0
+"male",43,"deck crew","Southampton",0,0,0,1
+"male",22,"victualling crew","Belfast",0,0,0,1
+"male",42,"deck crew","Belfast",0,0,0,1
+"male",38,"victualling crew","Southampton",0,0,0,0
+"male",31,"victualling crew","Southampton",0,0,0,0
+"male",28,"victualling crew","Southampton",0,0,0,0
+"male",25,"engineering crew","Southampton",0,0,0,0
+"male",31,"victualling crew","Southampton",0,0,0,0
+"male",33,"victualling crew","Belfast",0,0,0,0
+"male",34,"victualling crew","Belfast",0,0,0,1
+"male",28,"engineering crew","Southampton",0,0,0,0
+"male",25,"engineering crew","Southampton",0,0,0,0
+"male",41,"victualling crew","Belfast",0,0,0,0
+"male",34,"victualling crew","Southampton",0,0,0,0
+"male",26,"deck crew","Southampton",0,0,0,1
+"male",22,"victualling crew","Southampton",0,0,0,0
+"male",37,"victualling crew","Southampton",0,0,0,0
+"male",21,"victualling crew","Belfast",0,0,0,0
+"male",18,"victualling crew","Southampton",0,0,0,1
+"male",30,"victualling crew","Belfast",0,0,0,0
+"male",31,"victualling crew","Belfast",0,0,0,1
+"male",20,"victualling crew","Southampton",0,0,0,1
+"male",29,"victualling crew","Southampton",0,0,0,0
+"male",35,"engineering crew","Southampton",0,0,0,0
+"male",35,"engineering crew","Southampton",0,0,0,0
+"male",23,"victualling crew","Southampton",0,0,0,0
+"male",22,"victualling crew","Southampton",0,0,0,0
+"male",31,"engineering crew","Southampton",0,0,0,0
+"male",45,"victualling crew","Southampton",0,0,0,0
+"male",30,"engineering crew","Belfast",0,0,0,0
+"male",25,"victualling crew","Southampton",0,0,0,0
+"male",40,"engineering crew","Southampton",0,0,0,0
+"male",31,"victualling crew","Southampton",0,0,0,0
+"male",27,"engineering crew","Southampton",0,0,0,0
+"male",46,"engineering crew","Southampton",0,0,0,0
+"male",33,"victualling crew","Belfast",0,0,0,0
+"male",32,"restaurant staff","Southampton",0,0,0,0
+"male",44,"engineering crew","Southampton",0,0,0,0
+"male",34,"victualling crew","Southampton",0,0,0,0
+"male",37,"engineering crew","Southampton",0,0,0,0
+"female",33,"victualling crew","Southampton",0,0,0,1
+"male",28,"victualling crew","Southampton",0,0,0,0
+"male",22,"engineering crew","Southampton",0,0,0,1
+"male",39,"victualling crew","Belfast",0,0,0,0
+"male",21,"victualling crew","Southampton",0,0,0,0
+"male",25,"restaurant staff","Southampton",0,0,0,0
+"male",32,"victualling crew","Southampton",0,0,0,1
+"male",25,"victualling crew","Southampton",0,0,0,0
+"male",25,"engineering crew","Southampton",0,0,0,0
+"male",28,"victualling crew","Belfast",0,0,0,0
+"male",37,"engineering crew","Belfast",0,0,0,0
+"male",29,"victualling crew","Southampton",0,0,0,0
+"male",50,"victualling crew","Southampton",0,0,0,0
+"male",25,"engineering crew","Southampton",0,0,0,0
+"male",34,"victualling crew","Southampton",0,0,0,0
+"male",40,"engineering crew","Southampton",0,0,0,1
+"male",33,"deck crew","Southampton",0,0,0,1
+"male",31,"deck crew","Southampton",0,0,0,0
+"male",22,"engineering crew","Southampton",0,0,0,0
+"male",29,"victualling crew","Southampton",0,0,0,0
+"male",58,"engineering crew","Belfast",0,0,0,0
+"male",33,"victualling crew","Southampton",0,0,0,1
+"male",17,"victualling crew","Southampton",0,0,0,1
+"male",38,"engineering crew","Southampton",0,0,0,1
+"male",34,"engineering crew","Southampton",0,0,0,1
+"male",25,"victualling crew","Belfast",0,0,0,0
+"male",32,"victualling crew","Southampton",0,0,0,0
+"male",45,"victualling crew","Southampton",0,0,0,0
+"male",26,"engineering crew","Southampton",0,0,0,0
+"male",26,"engineering crew","Southampton",0,0,0,0
+"male",28,"engineering crew","Southampton",0,0,0,0
+"male",27,"victualling crew","Southampton",0,0,0,0
+"male",33,"engineering crew","Southampton",0,0,0,0
+"male",19,"restaurant staff","Southampton",0,0,0,0
+"male",36,"engineering crew","Southampton",0,0,0,0
+"male",28,"deck crew","Southampton",0,0,0,0
+"male",49,"engineering crew","Southampton",0,0,0,0
+"male",30,"engineering crew","Southampton",0,0,0,1
+"male",28,"restaurant staff","Southampton",0,0,0,0
+"male",30,"victualling crew","Southampton",0,0,0,0
+"male",27,"engineering crew","Belfast",0,0,0,0
+"male",23,"engineering crew","Southampton",0,0,0,0
+"male",20,"victualling crew","Southampton",0,0,0,1
+"male",43,"victualling crew","Belfast",0,0,0,1
+"male",45,"engineering crew","Belfast",0,0,0,0
+"male",21,"engineering crew","Southampton",0,0,0,1
+"male",33,"victualling crew","Southampton",0,0,0,0
+"male",39,"victualling crew","Belfast",0,0,0,0
+"male",45,"victualling crew","Southampton",0,0,0,0
+"male",44,"engineering crew","Southampton",0,0,0,0
+"male",17,"restaurant staff","Southampton",0,0,0,0
+"male",30,"victualling crew","Southampton",0,0,0,1
+"male",35,"victualling crew","Belfast",0,0,0,0
+"male",49,"victualling crew","Belfast",0,0,0,1
+"male",38,"victualling crew","Belfast",0,0,0,1
+"male",35,"engineering crew","Southampton",0,0,0,0
+"male",26,"engineering crew","Southampton",0,0,0,0
+"male",18,"victualling crew","Southampton",0,0,0,1
+"male",18,"victualling crew","Southampton",0,0,0,0
+"male",32,"victualling crew","Belfast",0,0,0,0
+"male",26,"victualling crew","Belfast",0,0,0,0
+"male",33,"engineering crew","Southampton",0,0,0,0
+"male",29,"victualling crew","Belfast",0,0,0,0
+"male",39,"deck crew","Southampton",0,0,0,0
+"male",23,"engineering crew","Southampton",0,0,0,0
+"male",19,"victualling crew","Southampton",0,0,0,0
+"male",18,"restaurant staff","Southampton",0,0,0,0
+"male",35,"victualling crew","Belfast",0,0,0,0
+"male",20,"restaurant staff","Southampton",0,0,0,0
+"male",29,"victualling crew","Belfast",0,0,0,0
+"male",38,"victualling crew","Southampton",0,0,0,0
+"male",20,"restaurant staff","Southampton",0,0,0,0
+"male",27,"engineering crew","Southampton",0,0,0,1
+"male",37,"engineering crew","Southampton",0,0,0,0
+"male",30,"engineering crew","Southampton",0,0,0,1
+"male",34,"engineering crew","Southampton",0,0,0,1
+"male",49,"victualling crew","Southampton",0,0,0,0
+"male",39,"engineering crew","Belfast",0,0,0,0
+"male",44,"victualling crew","Belfast",0,0,0,0
+"male",27,"engineering crew","Southampton",0,0,0,0
+"male",22,"engineering crew","Southampton",0,0,0,1
+"male",39,"victualling crew","Belfast",0,0,0,0
+"male",17,"restaurant staff","Southampton",0,0,0,0
+"male",35,"victualling crew","Belfast",0,0,0,0
+"male",23,"engineering crew","Southampton",0,0,0,1
+"male",20,"restaurant staff","Southampton",0,0,0,0
+"male",22,"victualling crew","Southampton",0,0,0,0
+"male",27,"engineering crew","Southampton",0,0,0,0
+"male",36,"engineering crew","Belfast",0,0,0,0
+"male",48,"victualling crew","Southampton",0,0,0,0
+"male",38,"engineering crew","Southampton",0,0,0,0
+"male",24,"engineering crew","Belfast",0,0,0,0
+"male",33,"victualling crew","Southampton",0,0,0,0
+"male",41,"engineering crew","Southampton",0,0,0,1
+"male",22,"engineering crew","Southampton",0,0,0,0
+"male",44,"engineering crew","Southampton",0,0,0,0
+"male",23,"victualling crew","Southampton",0,0,0,0
+"male",23,"victualling crew","Southampton",0,0,0,0
+"male",39,"victualling crew","Southampton",0,0,0,0
+"male",39,"victualling crew","Southampton",0,0,0,0
+"male",48,"victualling crew","Southampton",0,0,0,0
+"male",23,"engineering crew","Southampton",0,0,0,0
+"male",29,"victualling crew","Southampton",0,0,0,1
+"male",34,"victualling crew","Southampton",0,0,0,0
+"male",18,"engineering crew","Belfast",0,0,0,0
+"male",43,"victualling crew","Belfast",0,0,0,1
+"male",25,"deck crew","Southampton",0,0,0,1
+"male",27,"deck crew","Southampton",0,0,0,1
+"male",27,"victualling crew","Belfast",0,0,0,0
+"male",33,"engineering crew","Southampton",0,0,0,0
+"male",38,"victualling crew","Belfast",0,0,0,0
+"male",22,"victualling crew","Belfast",0,0,0,0
+"male",39,"engineering crew","Belfast",0,0,0,0
+"male",37,"victualling crew","Belfast",0,0,0,1
+"male",30,"engineering crew","Southampton",0,0,0,0
+"male",29,"victualling crew","Belfast",0,0,0,0
+"male",42,"victualling crew","Southampton",0,0,0,0
+"male",33,"engineering crew","Southampton",0,0,0,0
+"male",39,"engineering crew","Southampton",0,0,0,0
+"male",30,"restaurant staff","Southampton",0,0,0,0
+"male",19,"victualling crew","Southampton",0,0,0,0
+"male",23,"restaurant staff","Southampton",0,0,0,0
+"male",21,"engineering crew","Southampton",0,0,0,1
+"male",29,"engineering crew","Belfast",0,0,0,0
+"male",52,"engineering crew","Southampton",0,0,0,1
+"male",24,"deck crew","Belfast",0,0,0,1
+"male",26,"victualling crew","Belfast",0,0,0,0
+"male",46,"deck crew","Belfast",0,0,0,1
+"male",22,"victualling crew","Southampton",0,0,0,1
+"male",33,"victualling crew","Southampton",0,0,0,0
+"male",44,"victualling crew","Southampton",0,0,0,0
+"male",22,"engineering crew","Southampton",0,0,0,0
+"male",33,"engineering crew","Southampton",0,0,0,0
+"male",27,"deck crew","Southampton",0,0,0,1
+"male",37,"engineering crew","Belfast",0,0,0,0
+"male",27,"victualling crew","Southampton",0,0,0,0
+"male",28,"victualling crew","Southampton",0,0,0,0
+"male",30,"engineering crew","Southampton",0,0,0,0
+"male",30,"engineering crew","Belfast",0,0,0,0
+"male",21,"engineering crew","Southampton",0,0,0,1
+"male",45,"victualling crew","Belfast",0,0,0,0
+"male",29,"engineering crew","Southampton",0,0,0,1
+"male",37,"restaurant staff","Southampton",0,0,0,0
+"male",32,"victualling crew","Southampton",0,0,0,0
+"male",26,"engineering crew","Southampton",0,0,0,0
+"male",36,"victualling crew","Southampton",0,0,0,1
+"male",31,"restaurant staff","Southampton",0,0,0,0
+"male",32,"victualling crew","Southampton",0,0,0,0
+"male",38,"victualling crew","Belfast",0,0,0,0
+"male",38,"victualling crew","Southampton",0,0,0,0
+"male",61,"engineering crew","Southampton",0,0,0,1
+"male",36,"engineering crew","Southampton",0,0,0,0
+"male",32,"engineering crew","Southampton",0,0,0,0
+"female",45,"victualling crew","Southampton",0,0,0,1
+"male",28,"victualling crew","Southampton",0,0,0,0
+"male",29,"engineering crew","Southampton",0,0,0,0
+"male",41,"engineering crew","Southampton",0,0,0,0
+"male",40,"victualling crew","Belfast",0,0,0,0
+"male",22,"engineering crew","Southampton",0,0,0,0
+"male",26,"engineering crew","Southampton",0,0,0,0
+"male",22,"engineering crew","Southampton",0,0,0,0
+"male",28,"engineering crew","Belfast",0,0,0,1
+"male",43,"engineering crew","Southampton",0,0,0,0
+"female",45,"victualling crew","Southampton",0,0,0,1
+"male",24,"restaurant staff","Southampton",0,0,0,0
+"male",24,"engineering crew","Southampton",0,0,0,0
+"male",30,"victualling crew","Southampton",0,0,0,0
+"male",29,"victualling crew","Southampton",0,0,0,1
+"male",37,"victualling crew","Southampton",0,0,0,0
+"male",35,"engineering crew","Belfast",0,0,0,1
+"male",31,"deck crew","Belfast",0,0,0,1
+"male",22,"victualling crew","Southampton",0,0,0,1
+"male",23,"engineering crew","Southampton",0,0,0,0
+"male",41,"victualling crew","Southampton",0,0,0,0
+"male",32,"engineering crew","Southampton",0,0,0,0
+"male",47,"victualling crew","Southampton",0,0,0,0
+"male",25,"victualling crew","Belfast",0,0,0,0
+"male",54,"engineering crew","Southampton",0,0,0,0
+"male",30,"engineering crew","Southampton",0,0,0,0
+"male",39,"deck crew","Southampton",0,0,0,1
+"male",21,"victualling crew","Southampton",0,0,0,0
+"male",21,"victualling crew","Southampton",0,0,0,1
+"male",40,"victualling crew","Belfast",0,0,0,1
+"male",24,"engineering crew","Southampton",0,0,0,0
+"male",19,"victualling crew","Southampton",0,0,0,0
+"male",17,"victualling crew","Southampton",0,0,0,0
+"male",29,"engineering crew","Southampton",0,0,0,0
+"male",17,"victualling crew","Southampton",0,0,0,0
+"male",39,"engineering crew","Southampton",0,0,0,1
+"male",40,"victualling crew","Southampton",0,0,0,1
+"male",38,"engineering crew","Belfast",0,0,0,0
+"male",54,"engineering crew","Southampton",0,0,0,0
+"male",32,"victualling crew","Southampton",0,0,0,1
+"male",21,"victualling crew","Southampton",0,0,0,1
+"male",34,"engineering crew","Belfast",0,0,0,0
+"male",23,"victualling crew","Southampton",0,0,0,0
+"male",52,"victualling crew","Southampton",0,0,0,0
+"male",43,"victualling crew","Southampton",0,0,0,0
+"male",45,"victualling crew","Belfast",0,0,0,0
+"male",24,"engineering crew","Southampton",0,0,0,0
+"male",22,"engineering crew","Southampton",0,0,0,1
+"male",30,"victualling crew","Southampton",0,0,0,0
+"male",43,"deck crew","Belfast",0,0,0,1
+"male",28,"engineering crew","Southampton",0,0,0,1
+"male",40,"victualling crew","Belfast",0,0,0,0
+"male",26,"victualling crew","Southampton",0,0,0,0
+"male",33,"engineering crew","Belfast",0,0,0,0
+"male",45,"engineering crew","Southampton",0,0,0,0
+"male",37,"victualling crew","Belfast",0,0,0,0
+"male",29,"deck crew","Southampton",0,0,0,1
+"male",36,"victualling crew","Southampton",0,0,0,0
+"male",25,"engineering crew","Southampton",0,0,0,0
+"male",43,"victualling crew","Belfast",0,0,0,0
+"male",40,"victualling crew","Southampton",0,0,0,0
+"male",36,"victualling crew","Southampton",0,0,0,0
+"male",31,"engineering crew","Southampton",0,0,0,0
+"male",25,"victualling crew","Southampton",0,0,0,0
+"male",19,"victualling crew","Belfast",0,0,0,0
+"male",29,"engineering crew","Belfast",0,0,0,0
+"male",26,"engineering crew","Southampton",0,0,0,0
+"male",46,"engineering crew","Belfast",0,0,0,0
+"male",43,"victualling crew","Southampton",0,0,0,0
+"male",29,"deck crew","Belfast",0,0,0,1
+"male",22,"victualling crew","Southampton",0,0,0,0
+"male",28,"victualling crew","Belfast",0,0,0,0
+"male",24,"victualling crew","Southampton",0,0,0,0
+"male",29,"deck crew","Belfast",0,0,0,0
+"male",29,"engineering crew","Southampton",0,0,0,0
+"male",15,"victualling crew","Southampton",0,0,0,0
+"male",40,"deck crew","Southampton",0,0,0,1
+"male",33,"deck crew","Southampton",0,0,0,1
+"male",23,"engineering crew","Southampton",0,0,0,0
+"male",36,"engineering crew","Belfast",0,0,0,0
+"male",38,"victualling crew","Belfast",0,0,0,0
+"male",31,"victualling crew","Belfast",0,0,0,0
+"male",34,"victualling crew","Southampton",0,0,0,0
+"male",18,"victualling crew","Southampton",0,0,0,0
+"male",32,"victualling crew","Southampton",0,0,0,0
+"male",53,"deck crew","Southampton",0,0,0,1
+"male",23,"engineering crew","Southampton",0,0,0,1
+"male",27,"engineering crew","Southampton",0,0,0,0
+"male",41,"engineering crew","Southampton",0,0,0,0
+"male",23,"engineering crew","Southampton",0,0,0,1
+"male",31,"victualling crew","Southampton",0,0,0,0
+"male",28,"deck crew","Belfast",0,0,0,0
+"male",19,"victualling crew","Southampton",0,0,0,1
+"male",31,"victualling crew","Southampton",0,0,0,0
+"male",19,"engineering crew","Southampton",0,0,0,0
+"male",21,"victualling crew","Southampton",0,0,0,0
+"male",20,"victualling crew","Southampton",0,0,0,0
+"male",33,"engineering crew","Southampton",0,0,0,0
+"male",30,"engineering crew","Southampton",0,0,0,0
+"male",22,"victualling crew","Belfast",0,0,0,0
+"male",59,"engineering crew","Southampton",0,0,0,0
+"male",38,"restaurant staff","Southampton",0,0,0,0
+"male",27,"engineering crew","Southampton",0,0,0,0
+"male",35,"victualling crew","Belfast",0,0,0,0
+"male",29,"restaurant staff","Southampton",0,0,0,0
+"male",28,"restaurant staff","Southampton",0,0,0,0
+"male",55,"victualling crew","Belfast",0,0,0,0
+"male",25,"victualling crew","Southampton",0,0,0,0
+"female",24,"victualling crew","Southampton",0,0,0,1
+"male",23,"deck crew","Belfast",0,0,0,1
+"male",38,"engineering crew","Southampton",0,0,0,0
+"male",41,"victualling crew","Belfast",0,0,0,1
+"male",17,"victualling crew","Southampton",0,0,0,0
+"male",37,"victualling crew","Southampton",0,0,0,0
+"male",29,"victualling crew","Southampton",0,0,0,0
+"male",32,"deck crew","Southampton",0,0,0,1
+"male",21,"victualling crew","Southampton",0,0,0,0
+"male",24,"restaurant staff","Southampton",0,0,0,0
+"male",32,"victualling crew","Belfast",0,0,0,1
+"male",31,"engineering crew","Southampton",0,0,0,1
+"male",38,"engineering crew","Southampton",0,0,0,0
+"male",30,"engineering crew","Southampton",0,0,0,0
+"male",40,"engineering crew","Southampton",0,0,0,1
+"male",44,"engineering crew","Southampton",0,0,0,0
+"male",25,"engineering crew","Southampton",0,0,0,0
+"male",30,"victualling crew","Southampton",0,0,0,1
+"male",18,"victualling crew","Southampton",0,0,0,0
+"male",23,"engineering crew","Belfast",0,0,0,0
+"male",22,"engineering crew","Southampton",0,0,0,1
+"male",43,"engineering crew","Belfast",0,0,0,0
+"male",37,"engineering crew","Southampton",0,0,0,0
+"male",30,"victualling crew","Southampton",0,0,0,0
+"male",44,"engineering crew","Belfast",0,0,0,0
+"male",28,"victualling crew","Southampton",0,0,0,0
+"male",26,"engineering crew","Southampton",0,0,0,0
+"male",36,"victualling crew","Belfast",0,0,0,0
+"male",34,"victualling crew","Southampton",0,0,0,0
+"male",35,"victualling crew","Southampton",0,0,0,0
+"male",18,"victualling crew","Southampton",0,0,0,0
+"male",28,"victualling crew","Southampton",0,0,0,0
+"male",20,"victualling crew","Southampton",0,0,0,0
+"male",42,"deck crew","Southampton",0,0,0,0
+"male",48,"victualling crew","Southampton",0,0,0,0
+"male",30,"engineering crew","Southampton",0,0,0,0
+"male",36,"victualling crew","Southampton",0,0,0,0
+"male",43,"engineering crew","Southampton",0,0,0,0
+"male",31,"victualling crew","Southampton",0,0,0,0
+"male",33,"victualling crew","Southampton",0,0,0,0
+"male",49,"victualling crew","Southampton",0,0,0,1
+"male",21,"victualling crew","Southampton",0,0,0,0
+"male",43,"engineering crew","Southampton",0,0,0,1
+"male",20,"victualling crew","Southampton",0,0,0,0
+"male",41,"engineering crew","Southampton",0,0,0,0
+"male",46,"victualling crew","Belfast",0,0,0,0
+"male",34,"victualling crew","Southampton",0,0,0,0
+"male",55,"victualling crew","Belfast",0,0,0,0
+"female",40,"victualling crew","Southampton",0,0,0,1
+"male",36,"victualling crew","Belfast",0,0,0,0
+"male",22,"victualling crew","Southampton",0,0,0,0
+"female",50,"victualling crew","Southampton",0,0,0,1
+"male",18,"engineering crew","Southampton",0,0,0,0
+"male",29,"victualling crew","Southampton",0,0,0,1
+"male",41,"deck crew","Southampton",0,0,0,1
+"male",35,"victualling crew","Southampton",0,0,0,0
+"male",25,"victualling crew","Belfast",0,0,0,0
+"male",26,"victualling crew","Belfast",0,0,0,0
+"male",27,"victualling crew","Southampton",0,0,0,1
+"male",24,"victualling crew","Southampton",0,0,0,0
+"male",20,"engineering crew","Southampton",0,0,0,0
+"male",47,"engineering crew","Southampton",0,0,0,0
+"male",38,"deck crew","Belfast",0,0,0,1
+"male",30,"engineering crew","Southampton",0,0,0,1
+"male",40,"victualling crew","Belfast",0,0,0,1
+"male",41,"victualling crew","Belfast",0,0,0,0
+"male",29,"engineering crew","Southampton",0,0,0,0
+"male",33,"victualling crew","Southampton",0,0,0,0
+"male",31,"engineering crew","Southampton",0,0,0,0
+"male",36,"engineering crew","Southampton",0,0,0,0
+"male",20,"victualling crew","Southampton",0,0,0,0
+"male",37,"victualling crew","Southampton",0,0,0,0
+"male",29,"deck crew","Belfast",0,0,0,1
+"male",25,"deck crew","Southampton",0,0,0,1
+"male",31,"victualling crew","Belfast",0,0,0,1
+"male",45,"victualling crew","Southampton",0,0,0,0
+"male",26,"deck crew","Southampton",0,0,0,0
+"male",24,"victualling crew","Southampton",0,0,0,0
+"male",34,"victualling crew","Southampton",0,0,0,0
+"male",32,"engineering crew","Belfast",0,0,0,0
+"male",36,"victualling crew","Belfast",0,0,0,0
+"male",32,"engineering crew","Southampton",0,0,0,1
+"male",40,"victualling crew","Southampton",0,0,0,0
+"male",50,"victualling crew","Southampton",0,0,0,0
+"male",27,"engineering crew","Southampton",0,0,0,0
+"male",27,"victualling crew","Southampton",0,0,0,0
+"male",21,"victualling crew","Southampton",0,0,0,0
+"female",28,"victualling crew","Southampton",0,0,0,1
+"male",40,"engineering crew","Southampton",0,0,0,0
+"female",20,"restaurant staff","Southampton",0,0,0,1
+"female",39,"victualling crew","Southampton",0,0,0,1
+"male",25,"engineering crew","Southampton",0,0,0,0
+"male",32,"engineering crew","Southampton",0,0,0,1
+"male",39,"engineering crew","Southampton",0,0,0,0
+"male",30,"deck crew","Southampton",0,0,0,0
+"male",29,"deck crew","Southampton",0,0,0,0
+"male",20,"restaurant staff","Southampton",0,0,0,0
+"male",25,"restaurant staff","Southampton",0,0,0,1
+"male",30,"deck crew","Belfast",0,0,0,0
+"male",22,"engineering crew","Southampton",0,0,0,0
+"male",59,"engineering crew","Southampton",0,0,0,0
+"male",31,"victualling crew","Belfast",0,0,0,1
+"male",28,"engineering crew","Southampton",0,0,0,0
+"male",53,"victualling crew","Belfast",0,0,0,0
+"male",25,"engineering crew","Southampton",0,0,0,1
+"male",38,"engineering crew","Southampton",0,0,0,0
+"male",23,"engineering crew","Southampton",0,0,0,0
+"male",38,"victualling crew","Southampton",0,0,0,0
+"male",47,"deck crew","Southampton",0,0,0,1
+"male",38,"engineering crew","Southampton",0,0,0,0
+"male",36,"victualling crew","Belfast",0,0,0,0
+"male",37,"victualling crew","Southampton",0,0,0,0
+"male",29,"engineering crew","Southampton",0,0,0,1
+"male",34,"engineering crew","Southampton",0,0,0,0
+"male",30,"engineering crew","Southampton",0,0,0,0
+"male",36,"deck crew","Southampton",0,0,0,1
+"male",17,"victualling crew","Southampton",0,0,0,0
+"male",38,"engineering crew","Southampton",0,0,0,0
+"male",21,"engineering crew","Southampton",0,0,0,1
+"male",30,"victualling crew","Belfast",0,0,0,1
+"female",40,"victualling crew","Southampton",0,0,0,1
+"male",23,"victualling crew","Belfast",0,0,0,1
+"male",21,"victualling crew","Belfast",0,0,0,0
+"male",36,"victualling crew","Belfast",0,0,0,0
+"male",44,"victualling crew","Belfast",0,0,0,0
+"male",26,"engineering crew","Belfast",0,0,0,0
+"male",32,"engineering crew","Southampton",0,0,0,0
+"male",22,"engineering crew","Belfast",0,0,0,0
+"male",34,"victualling crew","Southampton",0,0,0,0
+"male",27,"engineering crew","Belfast",0,0,0,0
+"male",28,"victualling crew","Southampton",0,0,0,0
+"male",28,"engineering crew","Southampton",0,0,0,0
+"male",26,"engineering crew","Belfast",0,0,0,0
+"male",32,"engineering crew","Belfast",0,0,0,0
+"male",51,"victualling crew","Southampton",0,0,0,1
+"male",46,"engineering crew","Southampton",0,0,0,0
+"male",53,"victualling crew","Belfast",0,0,0,0
+"male",19,"engineering crew","Southampton",0,0,0,0
+"male",20,"restaurant staff","Southampton",0,0,0,0
+"male",23,"restaurant staff","Southampton",0,0,0,0
+"male",24,"deck crew","Belfast",0,0,0,0
+"male",39,"victualling crew","Southampton",0,0,0,0
+"male",32,"deck crew","Southampton",0,0,0,1
+"male",29,"engineering crew","Southampton",0,0,0,1
+"male",22,"engineering crew","Southampton",0,0,0,0
+"male",44,"engineering crew","Southampton",0,0,0,0
+"male",42,"victualling crew","Southampton",0,0,0,0
+"male",27,"engineering crew","Southampton",0,0,0,0
+"male",26,"engineering crew","Southampton",0,0,0,0
+"male",30,"engineering crew","Southampton",0,0,0,0
+"male",28,"victualling crew","Belfast",0,0,0,1
+"male",23,"engineering crew","Southampton",0,0,0,0
+"male",36,"victualling crew","Belfast",0,0,0,0
+"male",24,"engineering crew","Belfast",0,0,0,0
+"male",37,"victualling crew","Southampton",0,0,0,0
+"male",20,"victualling crew","Southampton",0,0,0,0
+"male",39,"deck crew","Belfast",0,0,0,0
+"male",42,"restaurant staff","Southampton",0,0,0,0
+"male",26,"victualling crew","Southampton",0,0,0,1
+"male",30,"engineering crew","Southampton",0,0,0,0
+"male",33,"engineering crew","Southampton",0,0,0,0
+"male",39,"victualling crew","Southampton",0,0,0,0
+"male",48,"deck crew","Belfast",0,0,0,0
+"male",46,"victualling crew","Southampton",0,0,0,0
+"male",35,"victualling crew","Southampton",0,0,0,1
+"male",30,"engineering crew","Southampton",0,0,0,0
+"male",42,"engineering crew","Southampton",0,0,0,0
+"male",22,"engineering crew","Southampton",0,0,0,0
+"male",21,"engineering crew","Southampton",0,0,0,0
+"male",30,"engineering crew","Southampton",0,0,0,1
+"male",30,"engineering crew","Southampton",0,0,0,1
+"male",29,"engineering crew","Southampton",0,0,0,1
+"male",44,"victualling crew","Belfast",0,0,0,0
+"male",31,"engineering crew","Southampton",0,0,0,0
+"male",27,"victualling crew","Southampton",0,0,0,0
+"male",32,"engineering crew","Southampton",0,0,0,1
+"male",27,"deck crew","Belfast",0,0,0,1
+"male",63,"deck crew","Belfast",0,0,0,0
+"male",31,"victualling crew","Southampton",0,0,0,0
+"male",39,"victualling crew","Southampton",0,0,0,0
+"male",32,"victualling crew","Belfast",0,0,0,0
+"male",27,"deck crew","Southampton",0,0,0,1
+"male",36,"engineering crew","Southampton",0,0,0,1
+"male",43,"victualling crew","Southampton",0,0,0,0
+"male",17,"victualling crew","Southampton",0,0,0,0
+"male",19,"restaurant staff","Southampton",0,0,0,0
+"male",32,"engineering crew","Southampton",0,0,0,0
+"male",32,"engineering crew","Southampton",0,0,0,0
+"male",29,"engineering crew","Southampton",0,0,0,0
+"male",29,"victualling crew","Southampton",0,0,0,0
+"male",45,"engineering crew","Belfast",0,0,0,0
+"male",37,"victualling crew","Southampton",0,0,0,0
+"male",27,"engineering crew","Belfast",0,0,0,0
+"male",18,"victualling crew","Southampton",0,0,0,0
+"male",45,"deck crew","Southampton",0,0,0,1
+"male",24,"victualling crew","Southampton",0,0,0,0
+"male",28,"engineering crew","Southampton",0,0,0,1
+"male",25,"victualling crew","Southampton",0,0,0,1
+"male",21,"restaurant staff","Southampton",0,0,0,0
+"male",39,"engineering crew","Southampton",0,0,0,1
+"male",34,"victualling crew","Southampton",0,0,0,0
+"male",31,"victualling crew","Southampton",0,0,0,0
+"male",49,"victualling crew","Belfast",0,0,0,0
+"male",20,"restaurant staff","Southampton",0,0,0,0
+"male",17,"restaurant staff","Southampton",0,0,0,0
+"male",22,"victualling crew","Southampton",0,0,0,0
+"male",37,"deck crew","Belfast",0,0,0,1
+"male",20,"restaurant staff","Southampton",0,0,0,0
+"male",48,"victualling crew","Southampton",0,0,0,0
+"male",32,"victualling crew","Southampton",0,0,0,0
+"male",19,"engineering crew","Southampton",0,0,0,1
+"male",23,"engineering crew","Southampton",0,0,0,0
+"male",26,"deck crew","Southampton",0,0,0,1
+"male",25,"victualling crew","Southampton",0,0,0,0
+"male",30,"victualling crew","Southampton",0,0,0,1
+"male",23,"victualling crew","Belfast",0,0,0,1
+"male",27,"engineering crew","Southampton",0,0,0,0
+"male",25,"victualling crew","Belfast",0,0,0,0
+"male",35,"restaurant staff","Southampton",0,0,0,0
+"male",17,"restaurant staff","Southampton",0,0,0,0
+"male",33,"restaurant staff","Southampton",0,0,0,0
+"male",25,"engineering crew","Southampton",0,0,0,0
+"male",34,"deck crew","Belfast",0,0,0,1
+"male",18,"victualling crew","Southampton",0,0,0,0
+"male",24,"engineering crew","Southampton",0,0,0,1
+"male",28,"restaurant staff","Southampton",0,0,0,0
+"male",33,"deck crew","Southampton",0,0,0,1
+"male",33,"engineering crew","Southampton",0,0,0,0
+"male",36,"victualling crew","Southampton",0,0,0,0
+"male",34,"victualling crew","Southampton",0,0,0,0
+"male",22,"victualling crew","Southampton",0,0,0,1
+"male",30,"engineering crew","Southampton",0,0,0,1
+"male",23,"victualling crew","Southampton",0,0,0,1
+"male",20,"engineering crew","Southampton",0,0,0,0
+"male",17,"restaurant staff","Southampton",0,0,0,0
+"female",36,"victualling crew","Southampton",0,0,0,1
+"male",23,"victualling crew","Southampton",0,0,0,0
+"male",24,"engineering crew","Southampton",0,0,0,1
+"male",21,"victualling crew","Southampton",0,0,0,1
+"male",46,"victualling crew","Belfast",0,0,0,0
+"male",22,"engineering crew","Southampton",0,0,0,0
+"male",23,"victualling crew","Southampton",0,0,0,0
+"male",20,"victualling crew","Southampton",0,0,0,1
+"male",31,"engineering crew","Southampton",0,0,0,0
+"male",22,"engineering crew","Southampton",0,0,0,1
+"male",44,"victualling crew","Belfast",0,0,0,0
+"male",29,"victualling crew","Southampton",0,0,0,0
+"male",29,"engineering crew","Southampton",0,0,0,1
+"male",50,"victualling crew","Belfast",0,0,0,0
+"male",38,"victualling crew","Belfast",0,0,0,0
+"male",21,"restaurant staff","Southampton",0,0,0,0
+"male",32,"victualling crew","Belfast",0,0,0,1
+"male",20,"engineering crew","Southampton",0,0,0,0
+"male",55,"victualling crew","Southampton",0,0,0,0
+"male",34,"engineering crew","Southampton",0,0,0,0
+"male",30,"engineering crew","Southampton",0,0,0,0
+"male",31,"victualling crew","Belfast",0,0,0,0
+"male",22,"restaurant staff","Southampton",0,0,0,0
+"male",32,"engineering crew","Southampton",0,0,0,1
+"male",25,"victualling crew","Southampton",0,0,0,0
+"male",19,"victualling crew","Southampton",0,0,0,0
+"male",30,"engineering crew","Southampton",0,0,0,0
+"male",36,"engineering crew","Southampton",0,0,0,0
+"male",22,"victualling crew","Southampton",0,0,0,0
+"male",30,"victualling crew","Southampton",0,0,0,0
+"male",22,"restaurant staff","Southampton",0,0,0,0
+"male",29,"victualling crew","Southampton",0,0,0,0
+"male",19,"victualling crew","Southampton",0,0,0,0
+"male",37,"victualling crew","Belfast",0,0,0,0
+"male",40,"victualling crew","Belfast",0,0,0,0
+"male",35,"engineering crew","Southampton",0,0,0,0
+"female",41,"victualling crew","Southampton",0,0,0,1
+"male",30,"victualling crew","Southampton",0,0,0,0
+"female",41,"victualling crew","Southampton",0,0,0,1
+"male",31,"victualling crew","Southampton",0,0,0,0
+"male",27,"victualling crew","Southampton",0,0,0,0
+"male",36,"victualling crew","Southampton",0,0,0,1
+"male",23,"restaurant staff","Southampton",0,0,0,0
+"male",26,"engineering crew","Belfast",0,0,0,0
+"male",49,"restaurant staff","Southampton",0,0,0,0
+"male",31,"victualling crew","Belfast",0,0,0,0
+"male",32,"deck crew","Belfast",0,0,0,1
+"male",24,"engineering crew","Southampton",0,0,0,0
+"male",58,"victualling crew","Belfast",0,0,0,1
+"male",17,"victualling crew","Southampton",0,0,0,0
+"male",27,"engineering crew","Southampton",0,0,0,0
+"male",28,"victualling crew","Southampton",0,0,0,0
+"male",33,"victualling crew","Southampton",0,0,0,1
+"male",24,"restaurant staff","Southampton",0,0,0,0
+"male",25,"restaurant staff","Southampton",0,0,0,0
+"male",47,"victualling crew","Southampton",0,0,0,0
+"male",30,"engineering crew","Southampton",0,0,0,0
+"male",24,"restaurant staff","Southampton",0,0,0,0
+"male",26,"victualling crew","Southampton",0,0,0,0
+"male",22,"engineering crew","Southampton",0,0,0,0
+"male",23,"engineering crew","Southampton",0,0,0,0
+"male",23,"engineering crew","Southampton",0,0,0,0
+"male",23,"victualling crew","Southampton",0,0,0,1
+"male",31,"deck crew","Southampton",0,0,0,0
+"male",33,"deck crew","Southampton",0,0,0,1
+"male",42,"restaurant staff","Southampton",0,0,0,0
+"male",41,"engineering crew","Southampton",0,0,0,0
+"male",28,"engineering crew","Southampton",0,0,0,1
+"male",20,"victualling crew","Southampton",0,0,0,0
+"male",55,"victualling crew","Southampton",0,0,0,0
+"male",25,"victualling crew","Southampton",0,0,0,0
+"male",24,"engineering crew","Southampton",0,0,0,1
+"male",40,"engineering crew","Southampton",0,0,0,0
+"male",31,"engineering crew","Southampton",0,0,0,1
+"male",24,"restaurant staff","Southampton",0,0,0,0
+"male",25,"victualling crew","Southampton",0,0,0,1
+"male",42,"victualling crew","Southampton",0,0,0,0
+"male",40,"victualling crew","Belfast",0,0,0,0
+"male",32,"engineering crew","Southampton",0,0,0,0
+"male",20,"engineering crew","Southampton",0,0,0,1
+"male",32,"engineering crew","Southampton",0,0,0,0
+"male",25,"engineering crew","Southampton",0,0,0,1
+"male",19,"engineering crew","Southampton",0,0,0,0
+"male",29,"victualling crew","Belfast",0,0,0,0
+"male",31,"victualling crew","Southampton",0,0,0,1
+"male",24,"victualling crew","Southampton",0,0,0,0
+"male",37,"victualling crew","Southampton",0,0,0,0
+"male",37,"deck crew","Southampton",0,0,0,0
+"male",23,"victualling crew","Southampton",0,0,0,0
+"male",23,"engineering crew","Southampton",0,0,0,0
+"male",41,"victualling crew","Belfast",0,0,0,0
+"male",33,"victualling crew","Southampton",0,0,0,0
+"male",36,"victualling crew","Belfast",0,0,0,0
+"female",28,"victualling crew","Southampton",0,0,0,1
+"male",31,"engineering crew","Belfast",0,0,0,0
+"female",30,"victualling crew","Southampton",0,0,0,1
+"male",40,"engineering crew","Southampton",0,0,0,0
+"male",29,"victualling crew","Belfast",0,0,0,0
+"male",62,"deck crew","Southampton",0,0,0,0
+"male",22,"engineering crew","Southampton",0,0,0,0
+"female",45,"victualling crew","Southampton",0,0,0,1
+"male",40,"victualling crew","Southampton",0,0,0,0
+"male",38,"victualling crew","Southampton",0,0,0,0
+"male",27,"engineering crew","Southampton",0,0,0,0
+"male",20,"victualling crew","Belfast",0,0,0,0
+"male",39,"engineering crew","Belfast",0,0,0,0
+"male",24,"victualling crew","Southampton",0,0,0,0
+"male",35,"victualling crew","Southampton",0,0,0,0
+"male",33,"victualling crew","Southampton",0,0,0,0
+"male",26,"deck crew","Southampton",0,0,0,0
+"female",22,"victualling crew","Southampton",0,0,0,0
+"male",41,"engineering crew","Southampton",0,0,0,0
+"male",26,"engineering crew","Southampton",0,0,0,0
+"male",21,"engineering crew","Southampton",0,0,0,1
+"male",36,"engineering crew","Southampton",0,0,0,1
+"male",38,"victualling crew","Southampton",0,0,0,0
+"male",31,"engineering crew","Southampton",0,0,0,0
+"female",47,"victualling crew","Southampton",0,0,0,1
+"male",36,"victualling crew","Belfast",0,0,0,0
+"male",30,"engineering crew","Southampton",0,0,0,0
+"male",28,"victualling crew","Belfast",0,0,0,1
+"male",20,"engineering crew","Southampton",0,0,0,0
+"male",33,"victualling crew","Southampton",0,0,0,0
+"male",29,"victualling crew","Southampton",0,0,0,0
+"male",25,"engineering crew","Southampton",0,0,0,1
+"male",19,"victualling crew","Southampton",0,0,0,0
+"male",35,"victualling crew","Southampton",0,0,0,0
+"male",34,"victualling crew","Belfast",0,0,0,0
+"male",31,"victualling crew","Belfast",0,0,0,0
+"male",28,"engineering crew","Southampton",0,0,0,0
+"male",25,"engineering crew","Southampton",0,0,0,0
+"male",48,"victualling crew","Belfast",0,0,0,0
+"male",45,"victualling crew","Belfast",0,0,0,0
+"male",24,"deck crew","Southampton",0,0,0,1
+"male",20,"victualling crew","Southampton",0,0,0,0
+"male",24,"deck crew","Southampton",0,0,0,0
+"male",22,"victualling crew","Southampton",0,0,0,0
+"male",40,"deck crew","Southampton",0,0,0,0
+"male",24,"engineering crew","Southampton",0,0,0,1
+"male",42,"engineering crew","Southampton",0,0,0,0
+"male",49,"engineering crew","Southampton",0,0,0,0
+"male",19,"victualling crew","Southampton",0,0,0,0
+"male",28,"engineering crew","Southampton",0,0,0,1
+"male",32,"victualling crew","Southampton",0,0,0,0
+"male",19,"deck crew","Southampton",0,0,0,0
+"male",27,"victualling crew","Southampton",0,0,0,1
+"male",23,"restaurant staff","Southampton",0,0,0,0
+"male",35,"victualling crew","Southampton",0,0,0,0
+"male",17,"victualling crew","Southampton",0,0,0,0
+"male",46,"victualling crew","Southampton",0,0,0,1
+"male",23,"victualling crew","Southampton",0,0,0,1
+"male",30,"victualling crew","Belfast",0,0,0,1
+"male",24,"engineering crew","Southampton",0,0,0,0
+"male",25,"victualling crew","Belfast",0,0,0,0
+"male",35,"engineering crew","Southampton",0,0,0,1
+"male",39,"victualling crew","Southampton",0,0,0,0
+"male",25,"victualling crew","Southampton",0,0,0,0
+"male",44,"engineering crew","Southampton",0,0,0,1
+"male",25,"engineering crew","Southampton",0,0,0,1
+"male",27,"restaurant staff","Southampton",0,0,0,0
+"male",31,"engineering crew","Southampton",0,0,0,0
+"male",29,"victualling crew","Belfast",0,0,0,1
+"male",28,"victualling crew","Southampton",0,0,0,0
+"male",30,"victualling crew","Southampton",0,0,0,0
+"male",32,"engineering crew","Southampton",0,0,0,0
+"male",39,"engineering crew","Southampton",0,0,0,1
+"male",37,"engineering crew","Belfast",0,0,0,0
+"male",42,"victualling crew","Southampton",0,0,0,0
+"male",28,"victualling crew","Belfast",0,0,0,0
+"male",17,"restaurant staff","Southampton",0,0,0,0
+"male",20,"restaurant staff","Southampton",0,0,0,0
+"male",35,"restaurant staff","Southampton",0,0,0,0
+"male",38,"engineering crew","Southampton",0,0,0,0
+"male",36,"engineering crew","Southampton",0,0,0,0
+"male",38,"victualling crew","Southampton",0,0,0,0
+"male",33,"engineering crew","Southampton",0,0,0,0
+"male",34,"engineering crew","Southampton",0,0,0,0
+"male",21,"restaurant staff","Southampton",0,0,0,0
+"male",32,"deck crew","Southampton",0,0,0,1
+"male",19,"restaurant staff","Southampton",0,0,0,0
+"male",18,"restaurant staff","Southampton",0,0,0,0
+"male",25,"restaurant staff","Southampton",0,0,0,0
+"male",35,"restaurant staff","Southampton",0,0,0,0
+"male",37,"victualling crew","Southampton",0,0,0,0
+"female",36,"victualling crew","Southampton",0,0,0,0
+"male",48,"victualling crew","Belfast",0,0,0,0
+"female",32,"victualling crew","Southampton",0,0,0,0
+"male",23,"engineering crew","Belfast",0,0,0,0
+"male",34,"victualling crew","Belfast",0,0,0,0
+"male",31,"engineering crew","Southampton",0,0,0,0
+"male",40,"victualling crew","Belfast",0,0,0,0
+"male",37,"victualling crew","Southampton",0,0,0,1
+"male",40,"engineering crew","Southampton",0,0,0,0
+"male",37,"victualling crew","Belfast",0,0,0,0
+"male",26,"victualling crew","Southampton",0,0,0,0
+"male",26,"engineering crew","Southampton",0,0,0,0
+"male",15,"victualling crew","Southampton",0,0,0,0
+"male",27,"engineering crew","Southampton",0,0,0,0
+"male",25,"victualling crew","Belfast",0,0,0,0
+"male",31,"engineering crew","Southampton",0,0,0,0
+"male",50,"victualling crew","Belfast",0,0,0,0
+"male",28,"engineering crew","Southampton",0,0,0,0
+"male",52,"victualling crew","Southampton",0,0,0,1
+"male",21,"victualling crew","Southampton",0,0,0,0
+"male",30,"deck crew","Belfast",0,0,0,1
+"male",30,"victualling crew","Belfast",0,0,0,1
+"male",29,"victualling crew","Belfast",0,0,0,1
+"male",18,"victualling crew","Southampton",0,0,0,1
+"male",21,"engineering crew","Southampton",0,0,0,0
+"male",32,"engineering crew","Southampton",0,0,0,1
+"male",37,"victualling crew","Southampton",0,0,0,0
+"male",27,"victualling crew","Southampton",0,0,0,0
+"male",28,"engineering crew","Southampton",0,0,0,0
+"male",32,"victualling crew","Belfast",0,0,0,0
+"male",23,"engineering crew","Southampton",0,0,0,1
+"male",39,"victualling crew","Southampton",0,0,0,0
+"male",37,"victualling crew","Southampton",0,0,0,1
+"male",39,"deck crew","Southampton",0,0,0,0
+"male",42,"victualling crew","Southampton",0,0,0,0
+"male",26,"engineering crew","Southampton",0,0,0,0
+"male",28,"victualling crew","Southampton",0,0,0,1
+"male",35,"victualling crew","Southampton",0,0,0,0
+"male",59,"victualling crew","Southampton",0,0,0,0
+"male",34,"victualling crew","Southampton",0,0,0,0
+"male",28,"engineering crew","Belfast",0,0,0,0
+"male",53,"engineering crew","Southampton",0,0,0,0
+"male",38,"victualling crew","Southampton",0,0,0,1
+"male",36,"victualling crew","Southampton",0,0,0,0
+"male",39,"engineering crew","Southampton",0,0,0,0
+"male",31,"victualling crew","Southampton",0,0,0,1
+"male",39,"victualling crew","Southampton",0,0,0,0
+"male",37,"engineering crew","Southampton",0,0,0,0
+"male",35,"engineering crew","Southampton",0,0,0,0
+"male",40,"engineering crew","Southampton",0,0,0,0
+"male",31,"engineering crew","Southampton",0,0,0,0
+"male",49,"victualling crew","Southampton",0,0,0,0
+"male",41,"victualling crew","Southampton",0,0,0,0
+"male",45,"victualling crew","Southampton",0,0,0,0
+"male",37,"engineering crew","Southampton",0,0,0,0
+"male",19,"victualling crew","Belfast",0,0,0,0
+"male",24,"victualling crew","Southampton",0,0,0,0
+"male",40,"victualling crew","Southampton",0,0,0,1
+"male",26,"engineering crew","Southampton",0,0,0,0
+"male",41,"deck crew","Belfast",0,0,0,1
+"male",40,"victualling crew","Southampton",0,0,0,1
+"male",32,"engineering crew","Southampton",0,0,0,0
+"male",20,"restaurant staff","Southampton",0,0,0,0
+"male",26,"restaurant staff","Southampton",0,0,0,0

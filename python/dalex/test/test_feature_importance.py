@@ -1,8 +1,8 @@
 import unittest
 import dalex as dx
 from dalex.dataset_level import VariableImportance
-from dalex.dataset_level.variable_importance import utils
-from dalex.dataset_level.variable_importance.loss_functions import *
+from dalex.dataset_level._variable_importance import utils
+from dalex.dataset_level._variable_importance.loss_functions import *
 
 import pandas as pd
 import numpy as np
@@ -11,7 +11,6 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
-from sklearn.tree import DecisionTreeRegressor
 from sklearn.compose import ColumnTransformer
 
 
@@ -52,7 +51,7 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
         for col in self.X.columns:
             variables[col] = col
         lap = utils.loss_after_permutation(self.exp, loss_root_mean_square,
-                                     variables, 100)
+                                           variables, 100)
         self.assertIsInstance(lap, pd.DataFrame)
         self.assertTrue(np.isin(np.array(['_full_model_', '_baseline_']),
                                 lap.columns).all())
@@ -84,12 +83,12 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
             variables[col] = col
         vi = utils.calculate_variable_importance(self.exp,
                                             'ratio',
-                                            loss_root_mean_square,
-                                            variables,
-                                            100,
-                                            2,
+                                                 loss_root_mean_square,
+                                                 variables,
+                                                 100,
+                                                 2,
                                             'aaa',
-                                            True)
+                                                 True)
 
         self.assertIsInstance(vi, tuple)
         self.assertIsInstance(vi[0], pd.DataFrame)

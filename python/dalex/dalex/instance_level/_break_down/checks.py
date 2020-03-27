@@ -16,3 +16,13 @@ def check_new_observation(new_observation, explainer):
         raise TypeError("new_observation must be a numpy.ndarray or pandas.Series or pandas.DataFrame")
 
     return new_observation
+
+
+def check_order(order):
+    if order is not None and not isinstance(order, (list, np.ndarray)):
+        raise TypeError('Wrong order type')
+
+    if order is not None:
+        return np.array(order)
+    else:
+        return None

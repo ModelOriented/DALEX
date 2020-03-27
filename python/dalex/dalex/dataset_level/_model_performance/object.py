@@ -1,3 +1,4 @@
+from dalex.dataset_level._model_performance.plot import ecdf
 from .utils import *
 
 import plotly.graph_objects as go
@@ -79,28 +80,28 @@ class ModelPerformance:
 
         self.residuals = _residuals
 
-    def plot(self, mp_list=None, title="1 - Distribution of |residual|"):
+    def plot(self, objects=None, title="1 - Distribution of |residual|"):
         """
         Plot function for ModelPerformance class.
 
-        :param mp_list: object of ModelPerformance class or list or tuple containing such objects
+        :param objects: object of ModelPerformance class or list or tuple containing such objects
         :param title: str, the plot's title
         """
 
-        # are there any other explanations to plot?
-        if mp_list is None:
+        # are there any other objects to plot?
+        if objects is None:
             n = 1
-            _residuals_df_list = [self.residuals]
-        elif isinstance(mp_list, ModelPerformance):  # allow for list to be a single element
+            _residuals_df_list = [self.residuals.copy()]
+        elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             n = 2
-            _residuals_df_list = [self.residuals, mp_list.residuals]
-        else:  # list as tuple or array
-            n = len(mp_list) + 1
-            _residuals_df_list = [self.residuals]
-            for mp in mp_list:
-                if not isinstance(mp, ModelPerformance):
+            _residuals_df_list = [self.residuals.copy(), objects.residuals.copy()]
+        else:  # objects as tuple or array
+            n = len(objects) + 1
+            _residuals_df_list = [self.residuals.copy()]
+            for ob in objects:
+                if not isinstance(ob, self.__class__):
                     raise TypeError("Some explanations aren't of ModelPerformance class")
-                _residuals_df_list += [mp.residuals]
+                _residuals_df_list += [ob.residuals.copy()]
 
         fig = go.Figure()
 
@@ -108,6 +109,7 @@ class ModelPerformance:
             _residuals_df = _residuals_df_list[i]
             _abs_residuals = np.abs(_residuals_df['residuals'])
             _unique_abs_residuals = np.unique(_abs_residuals)
+
             fig.add_scatter(
                 x=_unique_abs_residuals,
                 y=1-ecdf(_abs_residuals)(_unique_abs_residuals),
@@ -130,12 +132,3 @@ class ModelPerformance:
                                                     'toggleSpikelines', 'hoverCompareCartesian',
                                                     'hoverClosestCartesian']})
 
-
-def ecdf(x):
-    # https://community.plot.ly/t/plot-the-empirical-cdf/29045
-    x = np.sort(x)
-
-    def result(v):
-        return np.searchsorted(x, v, side='right') / x.size
-
-    return result

@@ -1,9 +1,10 @@
 import pandas as pd
 from plotly.subplots import make_subplots
 
+from dalex.dataset_level._variable_importance.plot import label_text, tooltip_text
 from .checks import *
 from .utils import calculate_variable_importance
-from ...explainer.theme import get_default_colors
+from ..._explainer.theme import get_default_colors
 
 
 class VariableImportance:
@@ -16,19 +17,19 @@ class VariableImportance:
                  variable_groups=None,
                  random_state=None,
                  keep_raw_permutations=None):
-        """Calculate feature importance of the model
+        """
+        Calculate feature importance of the model
 
-                :param explainer: an Explainer object
-                :param loss_function: a function thet will be used to assess variable importance
-                :param type: type of transformation that should be applied for dropout loss
-                :param n_sample: number of observations that should be sampled for calculation of variable importance
-                :param B: number of permutation rounds to perform on each variable
-                :param variables: vector of variables. If None then variable importance will be tested for each variable from the data separately
-                :param variable_groups: list of variables names vectors. This is for testing joint variable importance
-                :param random_state: random state for the permutations
-                :param keep_raw_permutations: TODO
-                :return: None
-                """
+        :param loss_function: a function thet will be used to assess variable importance
+        :param type: type of transformation that should be applied for dropout loss
+        :param n_sample: number of observations that should be sampled for calculation of variable importance
+        :param B: number of permutation rounds to perform on each variable
+        :param variables: vector of variables. If None then variable importance will be tested for each variable from the data separately
+        :param variable_groups: list of variables names vectors. This is for testing joint variable importance
+        :param random_state: random state for the permutations
+        :param keep_raw_permutations: TODO
+        :return: None
+        """
 
         loss_function = check_loss_function(loss_function)
         variable_groups = check_variable_groups(variable_groups)
@@ -45,7 +46,7 @@ class VariableImportance:
         self.variable_groups = variable_groups
         self.random_state = random_state
         self.keep_raw_permutations = keep_raw_permutations
-        self.result= None
+        self.result = None
         self.permutation = None
 
     def fit(self, explainer):
@@ -61,23 +62,25 @@ class VariableImportance:
                                                                       self.keep_raw_permutations)
 
     def plot(self,
-             vi_list=None,
+             objects=None,
              max_vars=10,
              digits=3,
              rounding_function=np.around,
              bar_width=16,
              split=("model", "variable"),
-             title="Variable Importance"):
+             title="Variable Importance",
+             vertical_spacing=None):
         """
         Plot function for VariableImportance class.
 
-        :param vi_list: object of VariableImportance class or list or tuple containing such objects
+        :param objects: object of VariableImportance class or list or tuple containing such objects
         :param max_vars: int, maximum number of variables that shall be presented for for each model
         :param digits: int, number of columns in the plot grid
         :param rounding_function: a function to be used for rounding numbers
         :param bar_width: float, width of bars
-        :param split: either "model" or "feature" determines the plot layout
+        :param split: either "model" or "variable", determines the plot layout
         :param title: str, the plot's title
+        :param vertical_spacing ratio of vertical space between the plots, by default it's 0.2/`number of plots`
         """
 
         if isinstance(split, tuple):
@@ -86,20 +89,20 @@ class VariableImportance:
         if split not in ("model", "variable"):
             raise TypeError("split should be 'model' or 'variable'")
 
-        # are there any other explanations to plot?
-        if vi_list is None:
+        # are there any other objects to plot?
+        if objects is None:
             n = 1
-            _result_df = self.result
-        elif isinstance(vi_list, VariableImportance):  # allow for list to be a single element
+            _result_df = self.result.copy()
+        elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             n = 2
-            _result_df = pd.concat([self.result, vi_list.result])
-        else:  # list as tuple or array
-            n = len(vi_list) + 1
-            _result_df = self.result
-            for vi in vi_list:
-                if not isinstance(vi, VariableImportance):
+            _result_df = pd.concat([self.result.copy(), objects.result.copy()])
+        else:  # objects as tuple or array
+            n = len(objects) + 1
+            _result_df = self.result.copy()
+            for ob in objects:
+                if not isinstance(ob, self.__class__):
                     raise TypeError("Some explanations aren't of VariableImportance class")
-                _result_df = pd.concat([_result_df, vi.result])
+                _result_df = pd.concat([_result_df, ob.result].copy())
 
         dl = _result_df.loc[_result_df.variable != '_baseline_', 'dropout_loss'].to_numpy()
         min_max_margin = dl.ptp() * 0.15
@@ -125,11 +128,14 @@ class VariableImportance:
 
         colors = get_default_colors(n, 'bar')
 
+        if vertical_spacing is None:
+            vertical_spacing = 0.2 / n
+
         if split == "model":
 
             # init plot
             model_names = _result_df['label'].unique().tolist()
-            fig = make_subplots(rows=n, cols=1, shared_xaxes=True, vertical_spacing=0.2/n, x_title='drop-out loss',
+            fig = make_subplots(rows=n, cols=1, shared_xaxes=True, vertical_spacing=vertical_spacing, x_title='drop-out loss',
                                 subplot_titles=model_names)
 
             # split df by model
@@ -252,22 +258,4 @@ class VariableImportance:
                                                     'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',
                                                     'toggleSpikelines', 'hoverCompareCartesian',
                                                     'hoverClosestCartesian']})
-
-
-def label_text(row, rounding_function, digits):
-    if row.difference > 0:
-        key_word = "+"
-    else:
-        key_word = ""
-    return key_word + str(rounding_function(np.abs(row.difference), digits))
-
-
-def tooltip_text(row, rounding_function, digits):
-    if row.difference > 0:
-        key_word = "+"
-    else:
-        key_word = ""
-    return "Model: " + row.label + " loss after<br>variable: " + row.variable + " is permuted: " +\
-           str(rounding_function(row.dropout_loss, digits)) + "<br>" +\
-           "Drop-out loss change: " + key_word + str(rounding_function(np.abs(row.difference), digits))
 

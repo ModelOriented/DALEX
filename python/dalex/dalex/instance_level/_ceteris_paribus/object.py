@@ -1,6 +1,7 @@
 from warnings import warn
 from plotly.subplots import make_subplots
 
+from dalex.instance_level._ceteris_paribus.plot import tooltip_text
 from .checks import *
 from .utils import calculate_ceteris_paribus, calculate_variable_split
 
@@ -10,7 +11,8 @@ class CeterisParibus:
                  variables=None,
                  grid_points=101,
                  variable_splits=None):
-        """Creates Ceteris Paribus object
+        """
+        Creates Ceteris Paribus object
 
         :param variables: variables for which the profiles are calculated
         :param grid_points: number of points in a single variable split if calculated automatically
@@ -44,39 +46,43 @@ class CeterisParibus:
                                                                       variable_splits,
                                                                       y)
 
-    def plot(self, cp_list=None, variable_type="numerical", variables=None, size=2, color="#46bac2", facet_ncol=2,
-             show_observations=True, title="Ceteris Paribus Profiles"):
+    def plot(self, objects=None, variable_type="numerical", variables=None, size=2, color="#46bac2", facet_ncol=2,
+             show_observations=True, title="Ceteris Paribus Profiles", horizontal_spacing=0.1, vertical_spacing=None):
         """
         Plot function for CeterisParibus class.
 
-        :param cp_list: object of CeterisParibus class or list or tuple containing such objects
-        :param variable_type: either "numerical" or "categorical" determines type of variables to plot
+        :param objects: object of CeterisParibus class or list or tuple containing such objects
+        :param variable_type: either "numerical" or "categorical", determines type of variables to plot
         :param variables: str list, if not None then only variables will be presented
         :param size: int, width of lines
         :param color: string, line/bar color
         :param facet_ncol: int, number of columns on the plot grid
         :param show_observations show observation points
         :param title: str, the plot's title
+        :param horizontal_spacing: ratio of horizontal space between the plots, by default it's 0.1
+        :param vertical_spacing ratio of vertical space between the plots, by default it's 0.3/`number of plots`
         """
-        # TODO: add show_rugs
-        if variable_type not in ("both", "numerical", "categorical"):
-            raise TypeError("variable_type should be 'both' or 'numerical' or 'categorical'")
 
-        # are there any other explanations to plot?
-        if cp_list is None:
-            _result_df = self.result
-            _obs_df = self.new_observation
-        elif isinstance(cp_list, CeterisParibus):  # allow for list to be a single element
-            _result_df = pd.concat([self.result, cp_list.result])
-            _obs_df = pd.concat([self.new_observation, cp_list.new_observation])
-        else:  # list as tuple or array
-            _result_df = self.result
-            _obs_df = self.new_observation
-            for cp in cp_list:
-                if not isinstance(cp, CeterisParibus):
+        # TODO: add show_rugs
+        # TODO: add variable_type = 'both'
+        if variable_type not in ("numerical", "categorical"):
+            raise TypeError("variable_type should be 'numerical' or 'categorical'")
+
+        # are there any other objects to plot?
+        if objects is None:
+            _result_df = self.result.copy()
+            _obs_df = self.new_observation.copy()
+        elif isinstance(objects, self.__class__):  # allow for objects to be a single element
+            _result_df = pd.concat([self.result.copy(), objects.result.copy()])
+            _obs_df = pd.concat([self.new_observation.copy(), objects.new_observation.copy()])
+        else:  # objects as tuple or array
+            _result_df = self.result.copy()
+            _obs_df = self.new_observation.copy()
+            for ob in objects:
+                if not isinstance(ob, self.__class__):
                     raise TypeError("Some explanations aren't of CeterisParibus class")
-                _result_df = pd.concat([_result_df, cp.result])
-                _obs_df = pd.concat([_obs_df, cp.new_observation])
+                _result_df = pd.concat([_result_df, ob.result.copy()])
+                _obs_df = pd.concat([_obs_df, ob.new_observation.copy()])
 
         # variables to use
         all_variables = _result_df['_vname_'].dropna().unique().tolist()
@@ -126,18 +132,19 @@ class CeterisParibus:
         _result_df = _result_df.loc[_result_df['_vname_'].apply(lambda x: x in variable_names), ].reset_index(drop=True)
 
         dl = _result_df['_yhat_'].to_numpy()
-        min_max = [np.Inf, -np.Inf]
         min_max_margin = dl.ptp() * 0.15
-        min_max[0] = dl.min() - min_max_margin
-        min_max[1] = dl.max() + min_max_margin
+        min_max = [dl.min() - min_max_margin, dl.max() + min_max_margin]
 
         # split var by variable
         var_df_list = [v for k, v in _result_df.groupby('_vname_', sort=False)]
         var_df_dict = {e['_vname_'].array[0]: e for e in var_df_list}
 
+        if vertical_spacing is None:
+            vertical_spacing = 0.3 / n
+
         facet_nrow = int(np.ceil(n / facet_ncol))
-        fig = make_subplots(rows=facet_nrow, cols=facet_ncol, horizontal_spacing=0.1,
-                            vertical_spacing=0.3/n, x_title='prediction', subplot_titles=variable_names)
+        fig = make_subplots(rows=facet_nrow, cols=facet_ncol, horizontal_spacing=horizontal_spacing,
+                            vertical_spacing=vertical_spacing, x_title='prediction', subplot_titles=variable_names)
 
         for i in range(n):
             name = variable_names[i]
@@ -147,7 +154,7 @@ class CeterisParibus:
             row = int(np.floor(i/facet_ncol) + 1)
             col = int(np.mod(i, facet_ncol) + 1)
 
-            # line plot or bar plot? TODO: add is_numeric and implement 'both'
+            # line plot or bar plot?
             if variable_type == "numerical":
                 df_list = [v for k, v in var_df.groupby('_ids_', sort=False)]
 
@@ -244,24 +251,4 @@ class CeterisParibus:
             'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d', 'zoom2d', 'pan2d',
                                        'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines', 'hoverCompareCartesian',
                                        'hoverClosestCartesian']})
-
-
-def tooltip_text(obs, r=None):
-    temp = ""
-    if r is not None:
-        for var in obs.index:
-            if var == "_yhat_":
-                temp += "prediction:<br>" + "- before: " + str(obs[var]) + "<br>" + "- after: " +\
-                        str(r[var]) + "<br><br>"
-            elif var == r['_vname_']:
-                temp += var + ": " + str(r['_xhat_']) + "</br>"
-            else:
-                temp += var + ": " + str(obs[var]) + "</br>"
-    else:
-        for var in obs.index:
-            if var == "_yhat_":
-                temp += "prediction:" + str(obs[var]) + "<br><br>"
-            else:
-                temp += var + ": " + str(obs[var]) + "</br>"
-    return temp
 
