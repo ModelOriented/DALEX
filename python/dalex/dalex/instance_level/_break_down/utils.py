@@ -136,6 +136,7 @@ def create_ordered_path(feature_path,
                         average_yhats_index,
                         type,
                         order):
+
     if order is None:
         # sort impacts and look for most importants elements
         if type == '2d':
@@ -146,10 +147,11 @@ def create_ordered_path(feature_path,
         # case when permutation
         feature_path = feature_path.iloc[order, :]
 
-    elif order in average_yhats_index:
+    elif np.isin(order, average_yhats_index).all():
         # case when character
-        feature_path.index = average_yhats_index
         feature_path = feature_path.loc[order, :]
+    else:
+        raise ValueError('Wrong order!')
 
     return feature_path
 
@@ -192,10 +194,11 @@ def calculate_contributions_along_path(explainer,
                         'variable': ':'.join(explainer.data.columns[candidates]) +
                                     '=' +
                                     nice_pair(new_observation,
-                                              candidates[1],
-                                              None if ind2_is_None else candidates[2]),
+                                              candidates[0],
+                                              None if ind2_is_None else candidates[1]),
                         'id': np.arange(explainer.data.shape[0]),
-                        'prediction': yhats_pred
+                        'prediction': yhats_pred,
+                        'label': explainer.label
                     })
                 )
 

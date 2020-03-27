@@ -13,8 +13,8 @@ class BreakDown:
                  keep_distributions=False,
                  order=None,
                  interaction_preference=1):
-        # TODO interactions / interactions preference
-        # TODO checks
+
+        order = check_order(order)
 
         self.type = type
         self.keep_distributions = keep_distributions
