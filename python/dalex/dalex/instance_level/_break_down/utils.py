@@ -140,9 +140,9 @@ def create_ordered_path(feature_path,
     if order is None:
         # sort impacts and look for most importants elements
         if type == '2d':
-            feature_path = feature_path.iloc[np.flip(np.argsort(feature_path['adiff_norm'])), :]
+            feature_path = feature_path.iloc[np.argsort(feature_path['adiff_norm'])[::-1], :]
         else:
-            feature_path = feature_path.iloc[np.flip(np.argsort(feature_path['diff'])), :]
+            feature_path = feature_path.iloc[np.argsort(feature_path['diff'])[::-1], :]
     elif np.issubdtype(order.dtype, np.integer):
         # case when permutation
         feature_path = feature_path.iloc[order, :]
