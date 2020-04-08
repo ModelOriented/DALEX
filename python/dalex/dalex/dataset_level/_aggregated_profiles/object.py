@@ -137,8 +137,14 @@ class AggregatedProfiles:
             vertical_spacing = 0.3 / n
 
         facet_nrow = int(np.ceil(n / facet_ncol))
+
+        if is_x_numeric:
+            x_title, y_title = "", "prediction"
+        else:
+            x_title, y_title = "prediction", ""
+
         fig = make_subplots(rows=facet_nrow, cols=facet_ncol, horizontal_spacing=horizontal_spacing,
-                            vertical_spacing=vertical_spacing, x_title='prediction', subplot_titles=variable_names)
+                            vertical_spacing=vertical_spacing, x_title=x_title, y_title=y_title, subplot_titles=variable_names)
 
         colors = get_default_colors(m, 'line')
 

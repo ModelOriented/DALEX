@@ -3,7 +3,8 @@ import re
 import numpy as np
 import pandas as pd
 
-from .helper import verbose_cat, is_y_in_data, get_model_info, yhat
+from .helper import verbose_cat, is_y_in_data, get_model_info
+from .yhat import *
 
 
 def check_label(label, model, verbose):
