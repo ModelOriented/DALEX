@@ -15,10 +15,14 @@ def is_y_in_data(data, y):
 def yhat(model):
     if hasattr(model, 'predict_proba'):
         # check if model has predict_proba
-        return lambda m, d: m.predict_proba(d)[:, 1]
+        def predict_function(m, d):
+            return m.predict_proba(d)[:, 1]
+        return predict_function
     elif hasattr(model, 'predict'):
         # check if model has predict
-        return lambda m, d: m.predict(d)
+        def predict_function(m, d):
+            return m.predict(d)
+        return predict_function
 
     return False
 

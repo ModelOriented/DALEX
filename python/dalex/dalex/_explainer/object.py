@@ -91,6 +91,7 @@ class Explainer:
         self.y = y
         self.predict_function = predict_function
         self.y_hat = pred
+        self.residual_function = residual_function
         self.residuals = residuals
         self.model_class = type(model)
         self.label = label
