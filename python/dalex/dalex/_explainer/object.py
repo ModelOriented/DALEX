@@ -111,6 +111,17 @@ class Explainer:
 
         return self.predict_function(self.model, data)
 
+    def residual(self, data, y):
+
+        """This is a generic function for calculating residuals.
+
+        :param data: pd.DataFrame
+        :param y: numeric vector with outputs / scores. If provided then it shall have the same size as data
+        :return: array-like, prediction of the model
+        """
+
+        return self.residual_function(self.model, data, y)
+
     def predict_parts(self,
                      new_observation,
                      type=('break_down_interactions','break_down','shap'),
