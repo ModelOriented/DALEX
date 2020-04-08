@@ -9,18 +9,20 @@ Status](https://img.shields.io/codecov/c/github/ModelOriented/DALEX/master.svg)]
 
 ## Overview
 
-Unverified black box model is the path to the failure. Opaqueness leads to distrust. Distrust leads to ignoration. Ignoration leads to rejection. 
+Unverified black box model is the path to the failure. Opaqueness leads to distrust. Distrust leads to ignoration. Ignoration leads to rejection.
 
-The `DALEX` package xrays any model and helps to explore and explain its behaviour, helps to understand how complex models are working. The main function `explain()` creates a wrapper around a predictive model. Wrapped models may then be explored and compared with a collection of local and global explainers. Recent developents from the area of Interpretable Machine Learning/eXplainable Artificial Intelligence. 
+The `DALEX` package xrays any model and helps to explore and explain its behaviour, helps to understand how complex models are working. The main function `explain()` creates a wrapper around a predictive model. Wrapped models may then be explored and compared with a collection of local and global explainers. Recent developents from the area of Interpretable Machine Learning/eXplainable Artificial Intelligence.
 
-The philosophy behind `DALEX` explanations is described in the [Explanatory Model Analysis](https://pbiecek.github.io/ema/) e-book. The `DALEX` package is a part of [DrWhy.AI](http://DrWhy.AI) universe. 
+The philosophy behind `DALEX` explanations is described in the [Explanatory Model Analysis](https://pbiecek.github.io/ema/) e-book. The `DALEX` package is a part of [DrWhy.AI](http://DrWhy.AI) universe.
 
 If you work with `scikitlearn`, `keras`, `H2O`, `mljar` or `mlr`, you may be interested in the [DALEXtra](https://github.com/ModelOriented/DALEXtra) package. It is an extension pack for `DALEX` with easy to use connectors to models created in these libraries.
 
-<center><a href="https://pbiecek.github.io/ema/introduction.html#bookstructure"><img src="misc/DALEXpiramide.png" width="800"/></a></center>
+<p align="center">
+<a href="https://pbiecek.github.io/ema/introduction.html#bookstructure"><img src="misc/DALEXpiramide.png" width="800"/></a>
+</p>
 
 
-## Installation 
+## Installation
 
 The easiest way to get the **R** version of DALEX is to install it from [CRAN](https://cran.r-project.org/package=DALEX)
 
@@ -34,7 +36,7 @@ The **Python** version of dalex is available on [pip](https://pypi.org/project/d
 pip install dalex
 ```
 
-## Learn more 
+## Learn more
 
 Machine Learning models are widely used and have various applications in classification or regression tasks. Due to increasing computational power, availability of new data sources and new methods, ML models are more and more complex. Models created with techniques like boosting, bagging of neural networks are true black boxes. It is hard to trace the link between input variables and model outcomes. They are use because of high performance, but lack of interpretability is one of their weakest sides.
 
@@ -42,7 +44,9 @@ In many applications we need to know, understand or prove how input variables ar
 
 ## Cheatsheet
 
+<p align="center">
 <a href="https://github.com/ModelOriented/DALEX/raw/master/misc/cheatsheet_local_explainers.png"><img src="https://github.com/ModelOriented/DALEX/raw/master/misc/cheatsheet_local_explainers.png" width="500"/></a>
+</p>
 
 
 ### DALEX show-cases
@@ -82,12 +86,11 @@ It's clear that we need to control algorithms that may affect us. Such control i
 -	**Prediction's speculations**. For every prediction of a model one should be able to understand how the model prediction would change if input variables were changed. Hypothesizing about what-if scenarios.
 -	**Prediction's validations** For every prediction of a model one should be able to verify how strong are evidences that confirm this particular prediction.
 
-There are two ways to comply with these requirements. 
-One is to use only models that fulfill these conditions by design. White-box models like linear regression or decision trees. In many cases the price for transparency is lower performance. 
+There are two ways to comply with these requirements.
+One is to use only models that fulfill these conditions by design. White-box models like linear regression or decision trees. In many cases the price for transparency is lower performance.
 The other way is to use approximated explainers – techniques that find only approximated answers, but work for any black box model. Here we present such techniques.
 
 
 ## Acknowledgments
 
 Work on this package was financially supported by the 'NCN Opus grant 2016/21/B/ST6/02176'.
-    
