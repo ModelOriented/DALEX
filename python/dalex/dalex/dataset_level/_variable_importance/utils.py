@@ -6,14 +6,14 @@ def calculate_variable_importance(explainer,
                                   type,
                                   loss_function,
                                   variables,
-                                  n_sample,
+                                  N,
                                   B,
                                   label,
                                   keep_raw_permutations):
     result = [None] * B
 
     for i in range(B):
-        result[i] = loss_after_permutation(explainer, loss_function, variables, n_sample)
+        result[i] = loss_after_permutation(explainer, loss_function, variables, N)
 
     raw = pd.concat(result, sort=True)
     result = raw.mean().sort_values().reset_index()
@@ -34,9 +34,9 @@ def calculate_variable_importance(explainer,
     return result, raw_permutations
 
 
-def loss_after_permutation(explainer, loss_function, variables, n_sample):
-    if n_sample is not None:
-        sampled_rows = np.random.choice(range(explainer.data.shape[0]), n_sample, False)
+def loss_after_permutation(explainer, loss_function, variables, N):
+    if N is not None:
+        sampled_rows = np.random.choice(range(explainer.data.shape[0]), N, False)
     else:
         sampled_rows = np.arange(explainer.data.shape[0])
 

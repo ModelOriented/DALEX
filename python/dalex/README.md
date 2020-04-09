@@ -10,7 +10,11 @@ The `DALEX` package xrays any model and helps to explore and explain its behavio
 
 The philosophy behind `DALEX` explanations is described in the [Explanatory Model Analysis](https://pbiecek.github.io/ema/) e-book. The `DALEX` package is a part of [DrWhy.AI](http://DrWhy.AI) universe.
 
-<center><a href="https://pbiecek.github.io/ema/introduction.html#bookstructure"><img src="misc/DALEXpiramide.png" width="800"/></a></center>
+<p align="center">
+    <a href="https://pbiecek.github.io/ema/introduction.html#bookstructure">
+        <img src="https://github.com/ModelOriented/DALEX/blob/master/misc/DALEXpiramide.png" width="800"/>
+    </a>
+</center>
 
 # Installation
 
@@ -52,5 +56,5 @@ The other way is to use approximated explainers – techniques that find only ap
 # JupyterLab Support
 
 This package uses Plotly to render the plots. Install extentions to use it in JupyterLab.
-[Getting Started](https://plot.ly/python/getting-started/#jupyterlab-support-python-35)
-[Troubleshooting](https://plot.ly/python/troubleshooting/#jupyterlab-problems)
+
+[Getting Started](https://plot.ly/python/getting-started/#jupyterlab-support-python-35) &emsp; [Troubleshooting](https://plot.ly/python/troubleshooting/#jupyterlab-problems)

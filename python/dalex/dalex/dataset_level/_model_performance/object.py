@@ -30,7 +30,7 @@ class ModelPerformance:
         if explainer.residuals is not None:
             _residuals = explainer.residuals
         else:
-            _residuals = explainer.residual_function(explainer.data, explainer.y)
+            _residuals = explainer.residual(explainer.data, explainer.y)
 
         y_true = explainer.y
 

@@ -91,6 +91,7 @@ class Explainer:
         self.y = y
         self.predict_function = predict_function
         self.y_hat = pred
+        self.residual_function = residual_function
         self.residuals = residuals
         self.model_class = type(model)
         self.label = label
@@ -109,6 +110,17 @@ class Explainer:
         """
 
         return self.predict_function(self.model, data)
+
+    def residual(self, data, y):
+
+        """This is a generic function for calculating residuals.
+
+        :param data: pd.DataFrame
+        :param y: numeric vector with outputs / scores. If provided then it shall have the same size as data
+        :return: array-like, prediction of the model
+        """
+
+        return self.residual_function(self.model, data, y)
 
     def predict_parts(self,
                      new_observation,
@@ -207,7 +219,7 @@ class Explainer:
     def model_parts(self,
                     loss_function='loss_root_mean_square',
                     type=('variable_importance','ratio','difference'),
-                    n_sample=None,
+                    N=None,
                     B=10,
                     keep_raw_permutations=None,
                     variables=None,
@@ -218,7 +230,7 @@ class Explainer:
 
         :param loss_function: a function thet will be used to assess variable importance
         :param type: type of transformation that should be applied for dropout loss
-        :param n_sample: number of observations that should be sampled for calculation of variable importance
+        :param N: number of observations that should be sampled for calculation of variable importance
         :param B: number of permutation rounds to perform on each variable
         :param keep_raw_permutations: TODO
         :param variables: vector of variables. If None then variable importance will be tested for each variable from the data separately
@@ -234,7 +246,7 @@ class Explainer:
         model_parts_ = VariableImportance(
             loss_function=loss_function,
             type=type,
-            n_sample=n_sample,
+            N=N,
             B=B,
             variables=variables,
             variable_groups=variable_groups,

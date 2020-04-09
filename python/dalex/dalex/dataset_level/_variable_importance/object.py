@@ -11,7 +11,7 @@ class VariableImportance:
     def __init__(self,
                  loss_function='loss_root_mean_square',
                  type=("variable_importance","ratio","difference"),
-                 n_sample=None,
+                 N=None,
                  B=10,
                  variables=None,
                  variable_groups=None,
@@ -22,7 +22,7 @@ class VariableImportance:
 
         :param loss_function: a function thet will be used to assess variable importance
         :param type: type of transformation that should be applied for dropout loss
-        :param n_sample: number of observations that should be sampled for calculation of variable importance
+        :param N: number of observations that should be sampled for calculation of variable importance
         :param B: number of permutation rounds to perform on each variable
         :param variables: vector of variables. If None then variable importance will be tested for each variable from the data separately
         :param variable_groups: list of variables names vectors. This is for testing joint variable importance
@@ -40,7 +40,7 @@ class VariableImportance:
 
         self.loss_function = loss_function
         self.type = type
-        self.n_sample = n_sample
+        self.N = N
         self.B = B
         self.variables = variables
         self.variable_groups = variable_groups
@@ -56,7 +56,7 @@ class VariableImportance:
                                                                       self.type,
                                                                       self.loss_function,
                                                                       self.variables,
-                                                                      self.n_sample,
+                                                                      self.N,
                                                                       self.B,
                                                                       explainer.label,
                                                                       self.keep_raw_permutations)

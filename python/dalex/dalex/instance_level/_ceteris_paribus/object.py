@@ -143,8 +143,14 @@ class CeterisParibus:
             vertical_spacing = 0.3 / n
 
         facet_nrow = int(np.ceil(n / facet_ncol))
+
+        if variable_type == "numerical":
+            x_title, y_title = "", "prediction"
+        else:
+            x_title, y_title = "prediction", ""
+
         fig = make_subplots(rows=facet_nrow, cols=facet_ncol, horizontal_spacing=horizontal_spacing,
-                            vertical_spacing=vertical_spacing, x_title='prediction', subplot_titles=variable_names)
+                            vertical_spacing=vertical_spacing, x_title=x_title, y_title=y_title, subplot_titles=variable_names)
 
         for i in range(n):
             name = variable_names[i]
