@@ -77,7 +77,11 @@ model_info.svm <- function(model, ...) {
 #' @rdname model_info
 #' @export
 model_info.glm <- function(model, ...) {
-  type <- "regression"
+  if (model$family$family == "binomial") {
+    type <- "classification"
+  } else {
+    type <- "regression"
+  }
   package <- "stats"
   ver <- get_pkg_ver_safe(package)
   model_info <- list(package = package, ver = ver, type = type)
@@ -89,7 +93,11 @@ model_info.glm <- function(model, ...) {
 #' @rdname model_info
 #' @export
 model_info.glmnet <- function(model, ...) {
-  type <- "regression"
+  if (!is.null(model$classnames)) {
+    type <- "classification"
+  } else {
+    type <- "regression"
+  }
   package <- "glmnet"
   ver <- get_pkg_ver_safe(package)
   model_info <- list(package = package, ver = ver, type = type)
@@ -100,7 +108,11 @@ model_info.glmnet <- function(model, ...) {
 #' @rdname model_info
 #' @export
 model_info.cv.glmnet <- function(model, ...) {
-  type <- "regression"
+  if (!is.null(model$glmnet.fit$classnames)) {
+    type <- "classification"
+  } else {
+    type <- "regression"
+  }
   package <- "glmnet"
   ver <- get_pkg_ver_safe(package)
   model_info <- list(package = package, ver = ver, type = type)
