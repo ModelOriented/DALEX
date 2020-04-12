@@ -210,8 +210,13 @@ class Explainer:
 
         if model_type is None and self.model_type is None:
             raise TypeError("if self.model_type is None, then model_type must be not None")
+        elif model_type is None:
+            model_type = self.model_type
 
-        model_performance_ = ModelPerformance(model_type, cutoff)
+        model_performance_ = ModelPerformance(
+            model_type=model_type,
+            cutoff=cutoff
+        )
         model_performance_.fit(self)
 
         return model_performance_
