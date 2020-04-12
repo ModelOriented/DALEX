@@ -88,15 +88,13 @@ yhat.cv.glmnet <- function(X.model, newdata, ...) {
   if (!"matrix" %in% class(newdata)) {
     newdata <- as.matrix(newdata)
   }
-  # If matrix is passed as data, then some methods that need predict for one obseravation will extract a single row from matrix what results
-  # in collapse to a vector. However as.matrix(vector) results in matrix with one column. Therefore transposition is needed.
-  if (ncol(newdata)==1) {
-    newdata <- t(newdata)
-  }
   if (!is.null(X.model$glmnet.fit$classnames)) {
     pred <- predict(X.model, newdata, type = "response", s = X.model$lambda[length(X.model$lambda)])
+    if (ncol(pred) == 1) {
+      return(as.numeric(pred))
+    }
     if (ncol(pred) == 2) {
-      pred <- pred[,2]
+      return(pred[,2])
     }
   } else {
     pred <- predict(X.model, newdata, type = "response")
@@ -110,16 +108,11 @@ yhat.glmnet <- function(X.model, newdata, ...) {
   if (!"matrix" %in% class(newdata)) {
     newdata <- as.matrix(newdata)
   }
-  # If matrix is passed as data, then some methods that need predict for one obseravation will extract a single row from matrix what results
-  # in collapse to a vector. However as.matrix(vector) results in matrix with one column. Therefore transposition is needed.
-  if (ncol(newdata)==1) {
-    newdata <- t(newdata)
-  }
   if (!is.null(X.model$classnames)) {
     pred <- predict(X.model, newdata, type = "response", s = X.model$lambda[length(X.model$lambda)])
   # For binary classifiaction matrix with one column is returned
     if (ncol(pred) == 1) {
-      pred <- as.numeric(pred)
+      return(as.numeric(pred))
     }
   } else {
     pred <- predict(X.model, newdata, type = "response")

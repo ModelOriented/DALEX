@@ -44,8 +44,26 @@ predict.gbm <- function(X.model, newdata, ...) {
   rep(0.14, times = nrow(newdata))
 }
 
-predict.glmnet <- predict.cv.glmnet <- function(X.model, newdata, ...) {
-  rep(0.14, times = nrow(newdata))
+predict.glmnet <- function(X.model, newdata, ...) {
+  if (!is.null(X.model$classnames)) {
+    if (length(X.model$classnames) == 2) {
+      response <- matrix(rep(0.5, times = nrow(newdata)), ncol = 1)
+    } else {
+      response <- matrix(rep(0.5, times = length(X.model$classnames)*nrow(newdata)), ncol = length(X.model$classnames))
+    }
+  } else {
+    response <- rep(0.14, times = nrow(newdata))
+  }
+  response
+}
+
+predict.cv.glmnet <- function(X.model, newdata, ...) {
+  if (!is.null(X.model$glmnet.fit$classnames)) {
+    response <- matrix(rep(0.5, times = length(X.model$glmnet.fit$classnames)*nrow(newdata)), ncol = length(X.model$glmnet.fit$classnames))
+  } else {
+    response <- rep(0.14, times = nrow(newdata))
+  }
+  response
 }
 
 predict.model_fit <- function(X.model, newdata, ...) {
