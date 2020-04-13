@@ -85,13 +85,39 @@ yhat.glm <- function(X.model, newdata, ...) {
 #' @rdname yhat
 #' @export
 yhat.cv.glmnet <- function(X.model, newdata, ...) {
-  predict(X.model, newdata, type = "response")
+  if (!"matrix" %in% class(newdata)) {
+    newdata <- as.matrix(newdata)
+  }
+  if (!is.null(X.model$glmnet.fit$classnames)) {
+    pred <- predict(X.model, newdata, type = "response", s = X.model$lambda[length(X.model$lambda)])
+    if (ncol(pred) == 1) {
+      return(as.numeric(pred))
+    }
+    if (ncol(pred) == 2) {
+      return(pred[,2])
+    }
+  } else {
+    pred <- predict(X.model, newdata, type = "response")
+  }
+  pred
 }
 
 #' @rdname yhat
 #' @export
 yhat.glmnet <- function(X.model, newdata, ...) {
-  predict(X.model, newdata, type = "response")
+  if (!"matrix" %in% class(newdata)) {
+    newdata <- as.matrix(newdata)
+  }
+  if (!is.null(X.model$classnames)) {
+    pred <- predict(X.model, newdata, type = "response", s = X.model$lambda[length(X.model$lambda)])
+  # For binary classifiaction matrix with one column is returned
+    if (ncol(pred) == 1) {
+      return(as.numeric(pred))
+    }
+  } else {
+    pred <- predict(X.model, newdata, type = "response")
+  }
+  pred
 }
 
 #' @rdname yhat

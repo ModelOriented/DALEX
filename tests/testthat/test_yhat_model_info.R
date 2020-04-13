@@ -93,15 +93,22 @@ test_that("gbm", {
 test_that("glmnet and cvglmnet", {
   #skip_if_no_codecov()
   # model_regr_glm <- glmnet(matrix(rnorm(100 * 20), 100, 20), rnorm(100))
+  # model_classif_glm_bin <- glmnet(matrix(rnorm(100 * 20), 100, 20), as.factor(round(runif(100))), family = "binomial")
+  # model_classif_glm_multi <- glmnet(matrix(rnorm(100 * 20), 100, 20), as.factor(round(runif(100, 0, 2))), family = "multinomial")
   #
   # model_regr_cvglm <- cv.glmnet(matrix(rnorm(100 * 20), 100, 20), rnorm(100))
+  # model_classif_cvglm_bin <- cv.glmnet(matrix(rnorm(100 * 20), 100, 20), as.factor(round(runif(100))), family = "binomial")
   load("./../objects_for_tests/model_regr_glm.RData")
   load("./../objects_for_tests/model_regr_cvglm.RData")
+  load("./../objects_for_tests/model_classif_cvglm_bin.RData")
+  load("./../objects_for_tests/model_classif_glm_bin.RData")
+  load("./../objects_for_tests/model_classif_glm_multi.RData")
 
   # predict.glmnet <- predict.cv.glmnet <- function(X.model, newdata, ...) {
   #   rep(0.14, times = 100)
   # }
 
+  set.seed(123)
   explainer_regr_glm <- explain(model_regr_glm, matrix(rnorm(100 * 20), 100, 20), rnorm(100), verbose = FALSE)
   expect_is(explainer_regr_glm$y_hat, "numeric")
   expect_is(explainer_regr_glm$model_info, "model_info")
@@ -113,7 +120,21 @@ test_that("glmnet and cvglmnet", {
   expect_is(explainer_regr_cvglm$model_info, "model_info")
   expect_length(DALEX:::yhat.cv.glmnet(model_regr_cvglm, titanic_imputed_cut[1,]), 1)
 
+  explainer_classif_cvglm_bin <- explain(model_classif_cvglm_bin, matrix(rnorm(100 * 20), 100, 20), rnorm(100), verbose = FALSE)
+  expect_is(explainer_regr_glm$y_hat, "numeric")
+  expect_is(explainer_regr_glm$model_info, "model_info")
+  expect_length(DALEX:::yhat.glm(model_regr_glm, titanic_imputed_cut[1,]), 1)
 
+
+  explainer_classif_glm_bin <- explain(model_classif_glm_bin, matrix(rnorm(100 * 20), 100, 20), rnorm(100), verbose = FALSE)
+  expect_is(explainer_regr_cvglm$y_hat, "numeric")
+  expect_is(explainer_regr_cvglm$model_info, "model_info")
+  expect_length(DALEX:::yhat.cv.glmnet(model_regr_cvglm, titanic_imputed_cut[1,]), 1)
+
+  explainer_model_classif_glm_multi <- explain(model_classif_glm_multi, matrix(rnorm(100 * 20), 100, 20), rnorm(100), verbose = FALSE)
+  expect_is(explainer_regr_glm$y_hat, "numeric")
+  expect_is(explainer_regr_glm$model_info, "model_info")
+  expect_length(DALEX:::yhat.glm(model_regr_glm, titanic_imputed_cut[1,]), 1)
 
 })
 
