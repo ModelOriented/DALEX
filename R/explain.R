@@ -141,8 +141,13 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
   # as was requested in issue #155, It works becasue if data is NULL, instruction will not be evaluated
   if ("matrix" %in% class(data) && is.null(rownames(data))) {
     rownames(data) <- 1:n
-    verbose_cat("  -> data              :  rownames to matrix was added (from 1 to ", n, ") \n", verbose = verbose)
-    }
+    verbose_cat("  -> data              :  rownames to matrix was added ( from 1 to", n, ") \n", verbose = verbose)
+  }
+  # issue #181 the same as above but for columns
+  if ("matrix" %in% class(data) && is.null(colnames(data))) {
+    colnames(data) <- 1:ncol(data)
+    verbose_cat("  -> data              :  colnames to matrix was added ( from 1 to", ncol(data), ") \n", verbose = verbose)
+  }
 
   # REPORT: checks for y present while data is NULL
   if (is.null(y)) {
@@ -217,7 +222,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     class(yhat_functions) = "character"
     matching_yhat <- intersect(paste0("yhat.", class(model)), yhat_functions)
     if (length(matching_yhat) == 0) {
-      verbose_cat("  -> predict function  : yhat.default will be used (",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
+      verbose_cat("  -> predict function  :  yhat.default will be used (",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
     } else {
       verbose_cat("  -> predict function  : ",matching_yhat[1]," will be used (",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
     }
