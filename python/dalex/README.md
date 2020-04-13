@@ -1,14 +1,15 @@
 # dalex
-moDel Agnostic Language for Exploration and eXplanation
-https://ModelOriented.github.io/DALEX/
+moDel Agnostic Language for Exploration and eXplanation http://dalex.drwhy.ai/
 
 ## Overview
 
 Unverified black box model is the path to the failure. Opaqueness leads to distrust. Distrust leads to ignoration. Ignoration leads to rejection.
 
-The `DALEX` package xrays any model and helps to explore and explain its behaviour, helps to understand how complex models are working. The main object `Explainer` creates a wrapper around a predictive model. Wrapped models may then be explored and compared with a collection of local and global explainers. Recent developents from the area of Interpretable Machine Learning/eXplainable Artificial Intelligence.
+The `dalex` package xrays any model and helps to explore and explain its behaviour, helps to understand how complex models are working.
+The main `Explainer` object creates a wrapper around a predictive model. Wrapped models may then be explored and compared with a collection of local and global explainers.
+Recent developents from the area of Interpretable Machine Learning/eXplainable Artificial Intelligence.
 
-The philosophy behind `DALEX` explanations is described in the [Explanatory Model Analysis](https://pbiecek.github.io/ema/) e-book. The `DALEX` package is a part of [DrWhy.AI](http://DrWhy.AI) universe.
+The philosophy behind `dalex` explanations is described in the [Explanatory Model Analysis](https://pbiecek.github.io/ema/) e-book.
 
 <p align="center">
     <a href="https://pbiecek.github.io/ema/introduction.html#bookstructure">
@@ -16,17 +17,26 @@ The philosophy behind `DALEX` explanations is described in the [Explanatory Mode
     </a>
 </center>
 
-# Installation
+The `dalex` package is a part of [DrWhy.AI](http://DrWhy.AI) universe.
 
-```
+## Installation
+
+```console
 pip install dalex
 ```
+
+## Examples
+
+* Introduction to the `dalex` package: [Titanic: tutorial and examples](http://dalex.drwhy.ai/python-dalex-titanic.html)
+* Code in the form of [jupyter notebook](https://github.com/pbiecek/DALEX_docs/blob/master/jupyter-notebooks/dalex-titanic.ipynb) - more to come
+* [YouTube video](https://www.youtube.com/watch?v=PuKF2GS4_3Y) showing how to do [Break Down](https://pbiecek.github.io/ema/breakDown.html) analysis
 
 ## Learn more
 
 Machine Learning models are widely used and have various applications in classification or regression tasks. Due to increasing computational power, availability of new data sources and new methods, ML models are more and more complex. Models created with techniques like boosting, bagging of neural networks are true black boxes. It is hard to trace the link between input variables and model outcomes. They are use because of high performance, but lack of interpretability is one of their weakest sides.
 
-In many applications we need to know, understand or prove how input variables are used in the model and what impact do they have on final model prediction. `DALEX` is a set of tools that help to understand how complex models are working.
+In many applications we need to know, understand or prove how input variables are used in the model and what impact do they have on final model prediction.
+`DALEX` is a set of tools that help to understand how complex models are working.
 
 ### Talks about DALEX
 
