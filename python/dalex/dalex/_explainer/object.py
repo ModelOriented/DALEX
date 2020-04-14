@@ -308,3 +308,86 @@ class Explainer:
         model_profile_.fit(ceteris_paribus)
 
         return model_profile_
+
+    def dumps(self, *args, **kwargs):
+        """Return binary (pickled) representation of the explainer.
+
+        Note, that local functions and lambdas cannot be pickled.
+        Residual function by default contains lambda, thus, if default, is always dropped.
+        Original explainer is not changed.
+
+        :param args: Positional arguments passed to pickle.dumps
+        :param kwargs: Keyword arguments passed to pickle.dumps
+        :return: binary (pickled) representation of the explainer
+        """
+
+        from copy import deepcopy
+        to_dump = deepcopy(self)
+        to_dump = check_if_local_and_lambda(to_dump)
+
+        import pickle
+        return pickle.dumps(to_dump, *args, **kwargs)
+
+    def dump(self, file, *args, **kwargs):
+        """Save binary (pickled) representation of the explainer to the file.
+
+        Note, that local functions and lambdas cannot be pickled.
+        Residual function by default contains lambda, thus, if default, is always dropped.
+        Original explainer is not changed.
+
+        :param file: It can be a file object opened for binary writing, an io.BytesIO instance.
+        :param args: Positional arguments passed to pickle.dump
+        :param kwargs: Keyword arguments passed to pickle.dump
+        :return: binary (pickled) representation of the explainer
+        """
+
+        from copy import deepcopy
+        to_dump = deepcopy(self)
+        to_dump = check_if_local_and_lambda(to_dump)
+
+        import pickle
+        return pickle.dump(to_dump, file, *args, **kwargs)
+
+    @staticmethod
+    def loads(data, use_defaults=True, *args, **kwargs):
+        """Load explainer from binary (pickled) representation.
+
+        Note, that local functions and lambdas cannot be pickled.
+        If use_defaults is set to True, then dropped functions are set to defaults.
+
+        :param data: binary representation of the explainer
+        :param use_defaults: True, if dropped functions should be replaced with defaults
+        :param args: Positional arguments passed to pickle.loads
+        :param kwargs: Keyword arguments passed to pickle.loads
+        :return: Explainer
+        """
+
+        import pickle
+        exp = pickle.loads(data, *args, **kwargs)
+
+        if use_defaults:
+            exp = check_if_empty_fields(exp)
+
+        return exp
+
+    @staticmethod
+    def load(file, use_defaults=True, *args, **kwargs):
+        """Load explainer from binary file (pickled).
+
+        Note, that local functions and lambdas cannot be pickled.
+        If use_defaults is set to True, then dropped functions are set to defaults.
+
+        :param file: It can be a binary file object opened for reading, an io.BytesIO object
+        :param use_defaults: True, if dropped functions should be replaced with defaults
+        :param args: Positional arguments passed to pickle.load
+        :param kwargs: Keyword arguments passed to pickle.load
+        :return: Explainer
+        """
+
+        import pickle
+        exp = pickle.load(file, *args, **kwargs)
+
+        if use_defaults:
+            exp = check_if_empty_fields(exp)
+
+        return exp
