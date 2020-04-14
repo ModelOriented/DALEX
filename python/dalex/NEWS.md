@@ -2,6 +2,10 @@ dalex (development)
 ----------------------------------------------------------------
 * *feature:* new `Explainer.residual` method which uses
 `residual_function` to calculate `residuals`
+* *feature:* new `dump` and `dumps` methods for saving `Explainer` in a binary form;
+`load` and `loads` methods for loading `Explainer` from binary form
+* *fix:* `Explainer` constructor verbose text
+* *bugfix:* `B:=B+1` - `Shap` now stores average results as `B=0` and path results as `B=1,2,...`
 * *bugfix:* `Explainer.model_performance` method uses `self.model_type` when
  `model_type` is `None`
 

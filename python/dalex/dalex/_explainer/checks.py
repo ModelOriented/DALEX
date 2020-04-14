@@ -14,7 +14,7 @@ def check_label(label, model, verbose):
         label = re.search(".*(?='>$)", str(type(model)).split('.')[-1])[0]
         verbose_cat("  -> label             : not specified, model's class taken instead!", verbose=verbose)
     else:
-        verbose_cat("  -> target variable   :  " + str(label), verbose=verbose)
+        verbose_cat("  -> label             : " + str(label), verbose=verbose)
 
     return label
 
@@ -26,7 +26,7 @@ def check_data(data, verbose):
     elif not isinstance(data, pd.DataFrame) and data is not None:
         raise TypeError("data must be pandas.DataFrame or numpy.ndarray")
     elif data is None:
-        verbose_cat("  -> data   :  not specified!", verbose=verbose)
+        verbose_cat("  -> data   : not specified!", verbose=verbose)
 
     if data is not None:
         if data.index.unique().shape[0] != data.shape[0]:
@@ -41,36 +41,36 @@ def check_data(data, verbose):
 def check_y(y, data, verbose):
     if isinstance(y, pd.Series):
         y = np.array(y)
-        verbose_cat("  -> target variable   :  Argument 'y' was a pandas.Series. Converted to a numpy.ndarray.",
+        verbose_cat("  -> target variable   : Argument 'y' was a pandas.Series. Converted to a numpy.ndarray.",
                     verbose=verbose)
     elif isinstance(y, np.ndarray) and len(y.shape) != 1:
         raise ValueError("y must have only one dimension")
     elif not isinstance(y, np.ndarray) and data is not None:
         raise TypeError("y must be numpy.ndarray or pandas.Series")
     elif y is None:
-        verbose_cat("  -> target variable   :  not specified!", verbose=verbose)
+        verbose_cat("  -> target variable   : not specified!", verbose=verbose)
 
     if y is not None:
         verbose_cat("  -> target variable   : " + str(y.shape[0]) + " values", verbose=verbose)
 
     if y.shape[0] != data.shape[0]:
-        verbose_cat("  -> target variable   :  length of 'y' is different than number of rows in 'data'",
+        verbose_cat("  -> target variable   : length of 'y' is different than number of rows in 'data'",
                     verbose=verbose)
 
     if isinstance(y[0], str):
-        verbose_cat("  -> target variable   :  Please note that 'y' is character vector.", verbose=verbose)
-        verbose_cat("  -> target variable   :  Consider changing the 'y' to a logical or numerical vector.",
+        verbose_cat("  -> target variable   : Please note that 'y' is character vector.", verbose=verbose)
+        verbose_cat("  -> target variable   : Consider changing the 'y' to a logical or numerical vector.",
                     verbose=verbose)
         verbose_cat(
-            "  -> target variable   :  Otherwise I will not be able to calculate residuals or loss function.",
+            "  -> target variable   : Otherwise I will not be able to calculate residuals or loss function.",
             verbose=verbose)
 
     if data is not None and is_y_in_data(data, y):
         verbose_cat(
-            "  -> data              :  A column identical to the target variable `y` has been found in the `data`.",
+            "  -> data              : A column identical to the target variable `y` has been found in the `data`.",
             verbose=verbose)
         verbose_cat(
-            "  -> data              :  It is highly recommended to pass `data` without the target variable column",
+            "  -> data              : It is highly recommended to pass `data` without the target variable column",
             verbose=verbose)
 
     return y
@@ -179,3 +179,41 @@ def check_method_type(type, types):
     else:
         return ret
 
+
+def check_if_local_and_lambda(to_dump):
+    import re
+
+    pred_func = str(to_dump.predict_function)
+    res_func = str(to_dump.residual_function)
+
+    is_local = "<locals>"
+    is_lambda = "<lambda>"
+
+    if re.search(is_local, pred_func):
+        print("  -> Predict function is local, thus has to be dropped.")
+        to_dump.predict_function = None
+    elif re.search(is_lambda, pred_func):
+        print("  -> Predict function is lambda, thus has to be dropped.")
+        to_dump.predict_function = None
+    if re.search(is_local, res_func):
+        print("  -> Residual function is local, thus has to be dropped.")
+        to_dump.residual_function = None
+    elif re.search(is_lambda, res_func):
+        print("  -> Residual function is lambda, thus has to be dropped.")
+        to_dump.residual_function = None
+
+    return to_dump
+
+
+def check_if_empty_fields(explainer):
+    if explainer.predict_function is None:
+        print("  -> Predict function is not present, setting to default")
+        predict_function, pred = check_predict_function(None, explainer.model, None, False, False)
+        explainer.predict_function = predict_function
+    if explainer.residual_function is None:
+        print("  -> Residual function is not present, setting to default")
+        residual_function, residuals = check_residual_function(None, explainer.predict_function, explainer.model, None, None,
+                                                               False, False)
+        explainer.residual_function = residual_function
+
+    return explainer

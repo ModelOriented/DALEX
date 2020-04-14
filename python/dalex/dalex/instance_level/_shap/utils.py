@@ -18,7 +18,7 @@ def shap(explainer,
     for b in range(B):
         random_path = np.random.choice(np.arange(p), p, replace=False)
         tmp = get_single_random_path(explainer, new_observation, random_path)
-        tmp['B'] = b
+        tmp['B'] = b + 1
         result[b] = tmp
 
     if path is not None:
@@ -32,12 +32,12 @@ def shap(explainer,
             result_average = deepcopy(result[0])
             result_average = result_average.sort_values(['label', 'variable'])
             result_average['contribution'] = extracted_contributions.mean(axis=1)
-            result_average['B'] = -1
+            result_average['B'] = 0
 
             result = result.append(result_average)
         else:
             tmp = get_single_random_path(explainer, new_observation, path)
-            tmp['B'] = -1
+            tmp['B'] = 0
             result = result.append(tmp)
 
     result = pd.concat(result)
