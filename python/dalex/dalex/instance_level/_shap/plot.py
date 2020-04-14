@@ -4,13 +4,16 @@ import numpy as np
 def prepare_data_for_shap_plot(x, baseline, prediction, max_vars, rounding_function, digits):
 
     variable_count = x.shape[0]
+    # sort by absolute value of contribution
+    x = x.iloc[(-x['contribution'].abs()).argsort()].reset_index(drop=True)
 
     if variable_count > max_vars:
         last_row = max_vars - 1
         new_x = x.iloc[0:(last_row + 1), :].copy()
         new_x.iloc[last_row, new_x.columns.get_loc('variable')] = "+ all other factors"
-        new_x.iloc[last_row, new_x.columns.get_loc('contribution')] = np.sum(
-            x.iloc[last_row:(variable_count - 1), x.columns.get_loc('contribution')])
+        contribution_sum = np.sum(x.iloc[last_row:(variable_count - 1), x.columns.get_loc('contribution')])
+        new_x.iloc[last_row, new_x.columns.get_loc('contribution')] = contribution_sum
+        new_x.iloc[last_row, new_x.columns.get_loc('sign')] = np.sign(contribution_sum)
 
         x = new_x.copy()
 

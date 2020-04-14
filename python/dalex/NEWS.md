@@ -1,5 +1,9 @@
 dalex (development)
 ----------------------------------------------------------------
+* ...
+
+dalex 0.1.4
+----------------------------------------------------------------
 * *feature:* new `Explainer.residual` method which uses
 `residual_function` to calculate `residuals`
 * *feature:* new `dump` and `dumps` methods for saving `Explainer` in a binary form;
@@ -8,6 +12,10 @@ dalex (development)
 * *bugfix:* `B:=B+1` - `Shap` now stores average results as `B=0` and path results as `B=1,2,...`
 * *bugfix:* `Explainer.model_performance` method uses `self.model_type` when
  `model_type` is `None`
+* *bugfix:* values in `BreakDown` and `Shap` are now rounded to 4 significant
+ places (#180)
+* *bugfix:* `Shap` by default uses `path='average'`, `sign` column is
+properly updated and bars in `plot` are sorted by `abs(contribution)`
 
 dalex 0.1.3
 ----------------------------------------------------------------

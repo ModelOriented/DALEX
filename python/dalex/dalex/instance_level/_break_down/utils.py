@@ -240,5 +240,12 @@ def nice_pair(df, i1, i2):
 
 
 def nice_format(x):
-    return str(x) if isinstance(x, (str, np.str_)) else str.format('{0:.2}', float(x))
+    return str(x) if isinstance(x, (str, np.str_)) else str(float(signif(x)))
 
+
+#:# https://stackoverflow.com/a/59888924
+def signif(x, p=4):
+    x = np.asarray(x)
+    x_positive = np.where(np.isfinite(x) & (x != 0), np.abs(x), 10**(p-1))
+    mags = 10 ** (p - 1 - np.floor(np.log10(x_positive)))
+    return np.round(x * mags) / mags

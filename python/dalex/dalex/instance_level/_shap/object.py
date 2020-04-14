@@ -9,7 +9,7 @@ from ..._explainer.theme import get_break_down_colors
 
 class Shap:
     def __init__(self,
-                 path=None,
+                 path="average",
                  keep_distributions=True,
                  B=25):
         # TODO interactions / interactions preference
