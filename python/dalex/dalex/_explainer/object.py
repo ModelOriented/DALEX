@@ -127,7 +127,7 @@ class Explainer:
                      type=('break_down_interactions','break_down','shap'),
                      order=None,
                      interaction_preference=1,
-                     path=None,
+                     path="average",
                      B=25,
                      keep_distributions=False):
 
@@ -137,7 +137,7 @@ class Explainer:
         :param type: type the type of variable attributions. Either 'shap', 'break_down' or 'break_down_interactions'
         :param order: if not `NULL`, then it will be a fixed order of variables. It can be a numeric vector or vector with names of variables.
         :param interaction_preference: an integer specifying which interactions will be present in an explanation. The larger the integer, the more frequently interactions will be presented.
-        :param path: if specified, then this path will be highlighed on the plot. Use `average` in order to show an average effect
+        :param path: if specified, then this path will be highlighted on the plot. Use `average` in order to show an average effect
         :param B: number of random paths
         :param keep_distributions: if `TRUE`, then distribution of partial predictions is stored and can be plotted with the generic `plot()`.
         :return: BreakDown / Shap

@@ -34,11 +34,12 @@ def shap(explainer,
             result_average['contribution'] = extracted_contributions.mean(axis=1)
             result_average['B'] = 0
 
-            result = result.append(result_average)
+            result.append(result_average)
         else:
             tmp = get_single_random_path(explainer, new_observation, path)
             tmp['B'] = 0
-            result = result.append(tmp)
+
+            result.append(tmp)
 
     result = pd.concat(result)
     if keep_distributions:
@@ -76,7 +77,7 @@ def get_single_random_path(explainer, new_observation, random_path):
     diffs = np.diff(yhats)
 
     variable_names = explainer.data.columns[random_path]
-    
+
     new_observation_f = new_observation.loc[:, variable_names]\
         .apply(lambda x: nice_format(x.iloc[0]))
 
@@ -96,4 +97,12 @@ def nice_pair(df, i1, i2):
 
 
 def nice_format(x):
-    return str(x) if isinstance(x, (str, np.str_)) else str.format('{0:.2}', float(x))
+    return str(x) if isinstance(x, (str, np.str_)) else str(float(signif(x)))
+
+
+#:# https://stackoverflow.com/a/59888924
+def signif(x, p=4):
+    x = np.asarray(x)
+    x_positive = np.where(np.isfinite(x) & (x != 0), np.abs(x), 10**(p-1))
+    mags = 10 ** (p - 1 - np.floor(np.log10(x_positive)))
+    return np.round(x * mags) / mags
