@@ -33,6 +33,7 @@ def shap(explainer,
             result_average = result_average.sort_values(['label', 'variable'])
             result_average['contribution'] = extracted_contributions.mean(axis=1)
             result_average['B'] = 0
+            result_average['sign'] = np.sign(result_average['contribution'])
 
             result.append(result_average)
         else:

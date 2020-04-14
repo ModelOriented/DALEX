@@ -14,7 +14,8 @@ dalex 0.1.4
  `model_type` is `None`
 * *bugfix:* values in `BreakDown` and `Shap` are now rounded to 4 significant
  places (#180)
-* *bugfix:* `Shap` by default uses `path='average'` and it actually works now
+* *bugfix:* `Shap` by default uses `path='average'`, `sign` column is
+properly updated and bars in `plot` are sorted by `abs(contribution)`
 
 dalex 0.1.3
 ----------------------------------------------------------------
