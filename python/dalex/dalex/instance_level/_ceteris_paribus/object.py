@@ -17,7 +17,8 @@ class CeterisParibus:
         :param variables: variables for which the profiles are calculated
         :param grid_points: number of points in a single variable split if calculated automatically
         :param variable_splits: mapping of variables into points the profile will be calculated, if None then calculate with the function `_calculate_variable_splits`
-        :return: None
+
+        :return None
         """
 
         self.variables = variables
@@ -47,7 +48,8 @@ class CeterisParibus:
                                                                       y)
 
     def plot(self, objects=None, variable_type="numerical", variables=None, size=2, color="#46bac2", facet_ncol=2,
-             show_observations=True, title="Ceteris Paribus Profiles", horizontal_spacing=0.1, vertical_spacing=None):
+             show_observations=True, title="Ceteris Paribus Profiles", horizontal_spacing=0.1, vertical_spacing=None,
+             show=True):
         """
         Plot function for CeterisParibus class.
 
@@ -60,7 +62,10 @@ class CeterisParibus:
         :param show_observations show observation points
         :param title: str, the plot's title
         :param horizontal_spacing: ratio of horizontal space between the plots, by default it's 0.1
-        :param vertical_spacing ratio of vertical space between the plots, by default it's 0.3/`number of plots`
+        :param vertical_spacing: ratio of vertical space between the plots, by default it's 0.3/`number of plots`
+        :param show: True shows the plot, False returns the plotly Figure object that can be saved using `write_image()` method
+
+        :return None or plotly Figure (see :param show)
         """
 
         # TODO: add show_rugs
@@ -253,8 +258,11 @@ class CeterisParibus:
         fig.update_layout(title_text=title, title_x=0.15, font={'color': "#371ea3"}, template="none",
                           height=plot_height, margin={'t': 78, 'b': 71, 'r': 30}, hovermode='closest')
 
-        fig.show(config={'displaylogo': False, 'staticPlot': False,
-            'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d', 'zoom2d', 'pan2d',
-                                       'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines', 'hoverCompareCartesian',
-                                       'hoverClosestCartesian']})
+        if show:
+            fig.show(config={'displaylogo': False, 'staticPlot': False,
+                'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d', 'zoom2d', 'pan2d',
+                                           'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines', 'hoverCompareCartesian',
+                                           'hoverClosestCartesian']})
+        else:
+            return fig
 

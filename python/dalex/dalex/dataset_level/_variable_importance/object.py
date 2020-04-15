@@ -28,7 +28,8 @@ class VariableImportance:
         :param variable_groups: dict of lists of variables. Each list is treated as one group. This is for testing joint variable importance
         :param random_state: random state for the permutations
         :param keep_raw_permutations: TODO
-        :return: None
+
+        :return None
         """
 
         loss_function = check_loss_function(loss_function)
@@ -69,7 +70,8 @@ class VariableImportance:
              bar_width=16,
              split=("model", "variable"),
              title="Variable Importance",
-             vertical_spacing=None):
+             vertical_spacing=None,
+             show=True):
         """
         Plot function for VariableImportance class.
 
@@ -80,7 +82,10 @@ class VariableImportance:
         :param bar_width: float, width of bars
         :param split: either "model" or "variable", determines the plot layout
         :param title: str, the plot's title
-        :param vertical_spacing ratio of vertical space between the plots, by default it's 0.2/`number of plots`
+        :param vertical_spacing: ratio of vertical space between the plots, by default it's 0.2/`number of plots`
+        :param show: True shows the plot, False returns the plotly Figure object that can be saved using `write_image()` method
+
+        :return None or plotly Figure (see :param show)
         """
 
         if isinstance(split, tuple):
@@ -253,9 +258,13 @@ class VariableImportance:
         fig.update_layout(title_text=title, title_x=0.15, font={'color': "#371ea3"}, template="none",
                           height=plot_height, margin={'t': 78, 'b': 71, 'r': 30})
 
-        fig.show(config={'displaylogo': False, 'staticPlot': False,
-                         'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d', 'zoom2d',
-                                                    'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',
-                                                    'toggleSpikelines', 'hoverCompareCartesian',
-                                                    'hoverClosestCartesian']})
+        if show:
+            fig.show(config={'displaylogo': False, 'staticPlot': False,
+                             'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d', 'zoom2d',
+                                                        'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',
+                                                        'toggleSpikelines', 'hoverCompareCartesian',
+                                                        'hoverClosestCartesian']})
+        else:
+            return fig
+
 

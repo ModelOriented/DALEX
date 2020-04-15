@@ -13,6 +13,8 @@ class ModelPerformance:
 
         :param model_type: either "regression" or "classification" determines measures to calculate
         :param cutoff: float, a cutoff for classification models, needed for measures like recall, precision, ACC, F1
+
+        :return None
         """
 
         self.cutoff = cutoff
@@ -80,12 +82,15 @@ class ModelPerformance:
 
         self.residuals = _residuals
 
-    def plot(self, objects=None, title="1 - Distribution of |residual|"):
+    def plot(self, objects=None, title="Reverse cumulative distribution of |residual|", show=False):
         """
         Plot function for ModelPerformance class.
 
         :param objects: object of ModelPerformance class or list or tuple containing such objects
         :param title: str, the plot's title
+        :param show: True shows the plot, False returns the plotly Figure object that can be saved using `write_image()` method
+
+        :return None or plotly Figure (see :param show)
         """
 
         # are there any other objects to plot?
@@ -126,9 +131,13 @@ class ModelPerformance:
         fig.update_layout(title_text=title, title_x=0.15, font={'color': "#371ea3"}, template="none",
                           margin={'t': 78, 'b': 71, 'r': 30})
 
-        fig.show(config={'displaylogo': False, 'staticPlot': False,
-                         'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d', 'zoom2d',
-                                                    'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',
-                                                    'toggleSpikelines', 'hoverCompareCartesian',
-                                                    'hoverClosestCartesian']})
+        if show:
+            fig.show(config={'displaylogo': False, 'staticPlot': False,
+                             'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d', 'zoom2d',
+                                                        'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',
+                                                        'toggleSpikelines', 'hoverCompareCartesian',
+                                                        'hoverClosestCartesian']})
+        else:
+            return fig
+
 
