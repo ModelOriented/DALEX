@@ -2,6 +2,11 @@ dalex (development)
 ----------------------------------------------------------------
 * ...
 
+dalex 0.1.4.1
+----------------------------------------------------------------
+* *bugfix:* `variable_groups` parameter now works correctly in `model_parts`
+* *documentation:* `model_parts` documentation is updated
+
 dalex 0.1.4
 ----------------------------------------------------------------
 * *feature:* new `Explainer.residual` method which uses
