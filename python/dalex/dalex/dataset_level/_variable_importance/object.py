@@ -25,14 +25,13 @@ class VariableImportance:
         :param N: number of observations that should be sampled for calculation of variable importance
         :param B: number of permutation rounds to perform on each variable
         :param variables: vector of variables. If None then variable importance will be tested for each variable from the data separately
-        :param variable_groups: list of variables names vectors. This is for testing joint variable importance
+        :param variable_groups: dict of lists of variables. Each list is treated as one group. This is for testing joint variable importance
         :param random_state: random state for the permutations
         :param keep_raw_permutations: TODO
         :return: None
         """
 
         loss_function = check_loss_function(loss_function)
-        variable_groups = check_variable_groups(variable_groups)
         B = check_B(B)
         type = check_type(type)
         random_state = check_random_state(random_state)
@@ -51,6 +50,7 @@ class VariableImportance:
 
     def fit(self, explainer):
         # if `variable_groups` are not specified, then extract from `variables`
+        self.variable_groups = check_variable_groups(self.variable_groups, explainer)
         self.variables = check_variables(self.variables, self.variable_groups, explainer)
         self.result, self.permutation = calculate_variable_importance(explainer,
                                                                       self.type,
