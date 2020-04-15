@@ -31,6 +31,8 @@ class AggregatedProfiles:
         :param type: str, either partial/conditional/accumulated for partial dependence, conditional profiles of accumulated local effects
         :param span: float, smoothing coeffcient, by default 0.25. It's the sd for gaussian kernel
         :param variable_type: str, If numerical then only numerical variables will be calculated. If categorical then only categorical variables will be calculated.
+
+        :return None
         """
 
         check_variable_type(variable_type)
@@ -79,7 +81,7 @@ class AggregatedProfiles:
         self.mean_prediction = all_observations['_yhat_'].mean()
 
     def plot(self, objects=None, variables=None, size=2, facet_ncol=2, title="Aggregated Profiles",
-             horizontal_spacing=0.1, vertical_spacing=None):
+             horizontal_spacing=0.1, vertical_spacing=None, show=True):
         """
         Plot function for AggregatedProfiles class.
 
@@ -89,7 +91,10 @@ class AggregatedProfiles:
         :param facet_ncol: int, number of columns on the plot grid
         :param title: str, the plot's title
         :param horizontal_spacing: ratio of horizontal space between the plots, by default it's 0.1
-        :param vertical_spacing ratio of vertical space between the plots, by default it's 0.3/`number of plots`
+        :param vertical_spacing: ratio of vertical space between the plots, by default it's 0.3/`number of plots`
+        :param show: True shows the plot, False returns the plotly Figure object that can be saved using `write_image()` method
+
+        :return None or plotly Figure (see :param show)
         """
 
         # are there any other objects to plot?
@@ -236,7 +241,10 @@ class AggregatedProfiles:
         fig.update_layout(title_text=title, title_x=0.15, font={'color': "#371ea3"}, template="none",
                           height=plot_height, margin={'t': 78, 'b': 71, 'r': 30}, hovermode='closest')
 
-        fig.show(config={'displaylogo': False, 'staticPlot': False,
-            'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d', 'zoom2d', 'pan2d',
-                                       'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines', 'hoverCompareCartesian',
-                                       'hoverClosestCartesian']})
+        if show:
+            fig.show(config={'displaylogo': False, 'staticPlot': False,
+                'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d', 'zoom2d', 'pan2d',
+                                           'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines', 'hoverCompareCartesian',
+                                           'hoverClosestCartesian']})
+        else:
+            return fig

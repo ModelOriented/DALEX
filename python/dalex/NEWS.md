@@ -1,11 +1,9 @@
 dalex (development)
 ----------------------------------------------------------------
-* ...
-
-dalex 0.1.4.1
-----------------------------------------------------------------
 * *bugfix:* `variable_groups` parameter now works correctly in `model_parts`
 * *documentation:* `model_parts` documentation is updated
+* *feature:* new `show` parameter in `plot` methods that (if False) returns
+plotly Figure (#190)
 
 dalex 0.1.4
 ----------------------------------------------------------------
