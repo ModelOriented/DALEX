@@ -239,7 +239,7 @@ class Explainer:
         :param B: number of permutation rounds to perform on each variable
         :param keep_raw_permutations: TODO
         :param variables: vector of variables. If None then variable importance will be tested for each variable from the data separately
-        :param variable_groups: list of variables names vectors. This is for testing joint variable importance
+        :param variable_groups: dict of lists of variables. Each list is treated as one group. This is for testing joint variable importance
         :param label: TODO
         :param random_state: random state for the permutations
         :return: FeatureImportance object

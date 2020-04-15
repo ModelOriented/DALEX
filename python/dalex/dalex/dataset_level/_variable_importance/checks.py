@@ -9,7 +9,7 @@ def check_loss_function(loss_function):
     return loss_function
 
 
-def check_variable_groups(variable_groups):
+def check_variable_groups(variable_groups, explainer):
     if variable_groups is not None:
         if not isinstance(variable_groups, dict):
             raise TypeError("variable_groups should be of class dict")
@@ -24,7 +24,7 @@ def check_variable_groups(variable_groups):
             if not isinstance(variable_groups[key][0], str):
                 raise TypeError("variable_groups' elements must be list of strings or numpy.ndarray with strings")
 
-            wrong_names[i] = np.in1d(variable_groups[key], explainer.data.columns)
+            wrong_names[i] = np.in1d(variable_groups[key], explainer.data.columns).all()
 
         wrong_names = not wrong_names.all()
 
