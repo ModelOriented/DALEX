@@ -185,6 +185,7 @@ class CeterisParibus:
                         hoverinfo='text',
                         hoverlabel={'bgcolor': 'rgba(0,0,0,0.8)'},
                         showlegend=False,
+                        name=df.iloc[0, df.columns.get_loc('_ids_')],
                         row=row, col=col
                     )
 
@@ -198,7 +199,9 @@ class CeterisParibus:
                             hoverinfo='text',
                             hoverlabel={'bgcolor': 'rgba(0,0,0,0.8)'},
                             showlegend=False,
-                            row=row, col=col)
+                            name=df.iloc[0, df.columns.get_loc('_ids_')],
+                            row=row, col=col
+                        )
 
                 fig.update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True},

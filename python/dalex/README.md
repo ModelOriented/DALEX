@@ -28,6 +28,7 @@ pip install dalex
 ## Resources
 
 * Introduction to the `dalex` package: [Titanic: tutorial and examples](http://dalex.drwhy.ai/python-dalex-titanic.html)
+* Important features explained: [FIFA20: explain default vs tuned model with dalex](http://dalex.drwhy.ai/python-dalex-fifa.html)
 * Code in the form of [jupyter notebook](https://github.com/pbiecek/DALEX_docs/blob/master/jupyter-notebooks/dalex-titanic.ipynb) - more to come
 * [YouTube video](https://www.youtube.com/watch?v=PuKF2GS4_3Y) showing how to do [Break Down](https://pbiecek.github.io/ema/breakDown.html) analysis
 * Theoretical introduction to the plots: [Explanatory Model Analysis. Explore, Explain and Examine Predictive Models.](https://pbiecek.github.io/ema)
@@ -35,9 +36,9 @@ pip install dalex
 
 ## Plots
 
-This package uses [Plotly](https://plotly.com/python/) to render the plots:
+This package uses [plotly](https://plotly.com/python/) to render the plots:
 
-* Install extentions to use plotly in **JupyterLab**: [Getting Started](https://plot.ly/python/getting-started/#jupyterlab-support-python-35) &emsp; [Troubleshooting](https://plot.ly/python/troubleshooting/#jupyterlab-problems)
+* Install extentions to use `plotly` in **JupyterLab**:&emsp;[Getting Started](https://plot.ly/python/getting-started/#jupyterlab-support-python-35)&emsp;[Troubleshooting](https://plot.ly/python/troubleshooting/#jupyterlab-problems)
 * Use `show=False` parameter in `plot` method to return `plotly Figure` object
 * It is possible to [edit the figures](https://plotly.com/python/#fundamentals) and [save them](https://plotly.com/python/static-image-export/)
 

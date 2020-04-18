@@ -4,6 +4,9 @@ dalex (development)
 * *documentation:* `model_parts` documentation is updated
 * *feature:* new `show` parameter in `plot` methods that (if False) returns
 plotly Figure (#190)
+* *feature:* `load_fifa()` function which loads the preprocessed [players_20
+dataset](https://www.kaggle.com/stefanoleone992/fifa-20-complete-player-dataset)
+* *fix:* `CeterisParibus` plot tooltip
 
 dalex 0.1.4
 ----------------------------------------------------------------
