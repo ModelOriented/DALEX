@@ -3,32 +3,33 @@
 \docType{data}
 \name{fifa}
 \alias{fifa}
-\title{FIFA20 preprocessed data
+\title{FIFA 20 preprocessed data
 
 The \code{fifa} dataset is a preprocessed \code{players_20.csv} dataset which comes as
 a part of "FIFA 20 complete player dataset" at \url{Kaggle.com}.
 
-It contains 5000 'overall' best players and 43 columns. These are:
-
+It contains 5000 'overall' best players and 43 variables. These are:
 \itemize{
-\item short_name and nationality of the player (not used in modeling)
+\item short_name (rownames)
+\item nationality of the player (not used in modeling)
 \item overall, potential, value_eur, wage_eur (4 potential target variables)
 \item age, height, weight, attacking skills, defending skills, goalkeeping skills (37 variables)
 }
+It is advised to leave only one target variable for modeling.
 
-Notable transformations:
 
+Source: \url{https://www.kaggle.com/stefanoleone992/fifa-20-complete-player-dataset}
+
+All transformations:
 \enumerate{
 \item take 43 columns: \code{[2, 4, 6, 7, 8, 10:13, 44:77]} (R indexing)
 \item take rows with \code{value_eur > 0}
 \item remove duplicated rows (keep first)
 \item sort rows on \code{overall} and take top \code{5000}
-}
-
-
-Source: \url{https://www.kaggle.com/stefanoleone992/fifa-20-complete-player-dataset}}
+\item set short_name column as rownames
+}}
 \format{
-a data frame with 5000 rows and 43 columns
+a data frame with 5000 rows, 42 columns and rownames
 }
 \source{
 The \code{players_20.csv} dataset was downloaded from the \url{Kaggle.com} site and went through few transformations.
@@ -39,29 +40,30 @@ The complete dataset was obtained from
 data(fifa)
 }
 \description{
-FIFA20 preprocessed data
+FIFA 20 preprocessed data
 
 The \code{fifa} dataset is a preprocessed \code{players_20.csv} dataset which comes as
 a part of "FIFA 20 complete player dataset" at \url{Kaggle.com}.
 
-It contains 5000 'overall' best players and 43 columns. These are:
-
+It contains 5000 'overall' best players and 43 variables. These are:
 \itemize{
-\item short_name and nationality of the player (not used in modeling)
+\item short_name (rownames)
+\item nationality of the player (not used in modeling)
 \item overall, potential, value_eur, wage_eur (4 potential target variables)
 \item age, height, weight, attacking skills, defending skills, goalkeeping skills (37 variables)
 }
+It is advised to leave only one target variable for modeling.
 
-Notable transformations:
 
+Source: \url{https://www.kaggle.com/stefanoleone992/fifa-20-complete-player-dataset}
+
+All transformations:
 \enumerate{
 \item take 43 columns: \code{[2, 4, 6, 7, 8, 10:13, 44:77]} (R indexing)
 \item take rows with \code{value_eur > 0}
 \item remove duplicated rows (keep first)
 \item sort rows on \code{overall} and take top \code{5000}
+\item set short_name column as rownames
 }
-
-
-Source: \url{https://www.kaggle.com/stefanoleone992/fifa-20-complete-player-dataset}
 }
 \keyword{fifa}
