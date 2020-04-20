@@ -26,7 +26,9 @@ All transformations:
 \item take rows with \code{value_eur > 0}
 \item remove duplicated rows (keep first)
 \item sort rows on \code{overall} and take top \code{5000}
-\item set short_name column as rownames
+\item set \code{short_name} column as rownames
+\item transform \code{nationality} to factor
+\item reorder columns
 }}
 \format{
 a data frame with 5000 rows, 42 columns and rownames
@@ -63,7 +65,9 @@ All transformations:
 \item take rows with \code{value_eur > 0}
 \item remove duplicated rows (keep first)
 \item sort rows on \code{overall} and take top \code{5000}
-\item set short_name column as rownames
+\item set \code{short_name} column as rownames
+\item transform \code{nationality} to factor
+\item reorder columns
 }
 }
 \keyword{fifa}
