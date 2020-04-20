@@ -1,4 +1,4 @@
-#' @title FIFA 20 preprocessed data
+#' FIFA 20 preprocessed data
 #'
 #' The \code{fifa} dataset is a preprocessed \code{players_20.csv} dataset which comes as
 #' a part of "FIFA 20 complete player dataset" at \url{Kaggle.com}.
@@ -35,6 +35,6 @@
 #' \url{https://www.kaggle.com/stefanoleone992/fifa-20-complete-player-dataset#players_20.csv} on January 1, 2020.
 #' @usage
 #' data(fifa)
-  #' @format a data frame with 5000 rows, 42 columns and rownames
+#' @format a data frame with 5000 rows, 42 columns and rownames
 NULL
 

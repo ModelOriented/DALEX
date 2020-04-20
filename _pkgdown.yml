@@ -62,6 +62,7 @@ reference:
   - title: Datasets
     desc: Datasets used in Examples and Vignettes
     contents:
+    - fifa
     - apartments
     - titanic
     - titanic_imputed

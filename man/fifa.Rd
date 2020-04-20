@@ -3,33 +3,7 @@
 \docType{data}
 \name{fifa}
 \alias{fifa}
-\title{FIFA 20 preprocessed data
-
-The \code{fifa} dataset is a preprocessed \code{players_20.csv} dataset which comes as
-a part of "FIFA 20 complete player dataset" at \url{Kaggle.com}.
-
-It contains 5000 'overall' best players and 43 variables. These are:
-\itemize{
-\item short_name (rownames)
-\item nationality of the player (not used in modeling)
-\item overall, potential, value_eur, wage_eur (4 potential target variables)
-\item age, height, weight, attacking skills, defending skills, goalkeeping skills (37 variables)
-}
-It is advised to leave only one target variable for modeling.
-
-
-Source: \url{https://www.kaggle.com/stefanoleone992/fifa-20-complete-player-dataset}
-
-All transformations:
-\enumerate{
-\item take 43 columns: \code{[2, 4, 6, 7, 8, 10:13, 44:77]} (R indexing)
-\item take rows with \code{value_eur > 0}
-\item remove duplicated rows (keep first)
-\item sort rows on \code{overall} and take top \code{5000}
-\item set \code{short_name} column as rownames
-\item transform \code{nationality} to factor
-\item reorder columns
-}}
+\title{FIFA 20 preprocessed data}
 \format{
 a data frame with 5000 rows, 42 columns and rownames
 }
@@ -42,11 +16,10 @@ The complete dataset was obtained from
 data(fifa)
 }
 \description{
-FIFA 20 preprocessed data
-
 The \code{fifa} dataset is a preprocessed \code{players_20.csv} dataset which comes as
 a part of "FIFA 20 complete player dataset" at \url{Kaggle.com}.
-
+}
+\details{
 It contains 5000 'overall' best players and 43 variables. These are:
 \itemize{
 \item short_name (rownames)
