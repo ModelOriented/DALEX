@@ -25,7 +25,7 @@ Here we are using a dataset `titanic` avaliable in teh `DALEX` package. Note tha
 
 ```{r}
 library("DALEX")
-head(titanic)
+head(titanic_imputed)
 ```
 
 # Model for Titanic survival
@@ -34,10 +34,10 @@ Ok, not it's time to create a model. Let's use the Random Forest model.
 
 ```{r}
 # prepare model
-library("randomForest")
-titanic <- na.omit(titanic)
-model_titanic_rf <- randomForest(survived == "yes" ~ gender + age + class + embarked +
-                                   fare + sibsp + parch,  data = titanic)
+library("ranger")
+model_titanic_rf <- ranger(survived ~ gender + age + class + embarked +
+                                   fare + sibsp + parch,  data = titanic_imputed,
+                           classification = TRUE)
 model_titanic_rf
 ```
 
@@ -48,8 +48,8 @@ The third step (it's optional but useful) is to create a `DALEX` explainer for r
 ```{r}
 library("DALEX")
 explain_titanic_rf <- explain(model_titanic_rf, 
-                      data = titanic[,-9],
-                      y = titanic$survived == "yes", 
+                      data = titanic_imputed,
+                      y = titanic_imputed$survived, 
                       label = "Random Forest v7",
                       colorize = FALSE)
 ```
@@ -59,7 +59,7 @@ explain_titanic_rf <- explain(model_titanic_rf,
 Use the `variable_importance()` explainer to present importance of particular features. Note that `type = "difference"` normalizes dropouts, and now they all start in 0.
 
 ```{r}
-vi_rf <- variable_importance(explain_titanic_rf)
+vi_rf <- model_parts(explain_titanic_rf)
 head(vi_rf)
 plot(vi_rf)
 ```
@@ -75,7 +75,7 @@ Such univariate relation can be calculated with `variable_effect()`.
 Kids 5 years old and younger have much higher survival probability.
 
 ```{r}
-vr_age  <- variable_effect(explain_titanic_rf, variables =  "age")
+vr_age  <- model_profile(explain_titanic_rf, variables =  "age")
 head(vr_age)
 plot(vr_age)
 ```
@@ -85,7 +85,7 @@ plot(vr_age)
 Passangers in the first class have much higher survival probability.
 
 ```{r}
-vr_class  <- variable_effect(explain_titanic_rf, variables =  "class")
+vr_class  <- model_profile(explain_titanic_rf, variables =  "class")
 plot(vr_class)
 ```
 
@@ -94,7 +94,7 @@ plot(vr_class)
 Very cheap tickets are linked with lower chances.
 
 ```{r}
-vr_fare  <- variable_effect(explain_titanic_rf, variables =  "fare")
+vr_fare  <- variable_profile(explain_titanic_rf, variables =  "fare")
 plot(vr_fare)
 ```
 
@@ -103,7 +103,7 @@ plot(vr_fare)
 Passangers that embarked from C have highest survival.
 
 ```{r}
-vr_embarked  <- variable_effect(explain_titanic_rf, variables =  "embarked")
+vr_embarked  <- model_profile(explain_titanic_rf, variables =  "embarked")
 plot(vr_embarked)
 ```
 
@@ -123,7 +123,7 @@ new_passanger <- data.frame(
   embarked = factor("Southampton", levels = c("Belfast", "Cherbourg", "Queenstown", "Southampton"))
 )
 
-sp_rf <- variable_attribution(explain_titanic_rf, new_passanger)
+sp_rf <- predict_parts(explain_titanic_rf, new_passanger)
 plot(sp_rf)
 ```
 
@@ -137,23 +137,26 @@ Let's train more models for survival.
 
 ```{r}
 library("rms")
-model_titanic_lmr <- lrm(survived == "yes" ~ class + gender + rcs(age) + sibsp +
-                   parch + fare + embarked, titanic)
-explain_titanic_lmr <- explain(model_titanic_lmr, data = titanic, 
-                       y = titanic$survived == "yes", 
-                       predict_function = function(m,x) predict(m, x, type="fitted"),
-                       label = "Logistic regression")
+model_titanic_lmr <- lrm(survived ~ class + gender + rcs(age) + sibsp +
+                   parch + fare + embarked, titanic_imputed)
+explain_titanic_lmr <- explain(model_titanic_lmr, data = titanic_imputed, 
+                   y = titanic_imputed$survived, 
+                   predict_function = function(m,x) 
+                            predict(m, x, type = "fitted"),
+                   label = "Logistic regression")
 ```
  
 ## Generalized Boosted Models (GBM)
 
 ```{r}
 library("gbm")
-model_titanic_gbm <- gbm(survived == "yes" ~ class + gender + age + sibsp +
-                     parch + fare + embarked, data = titanic, n.trees = 15000)
-explain_titanic_gbm <- explain(model_titanic_gbm, data = titanic, 
-                       y = titanic$survived == "yes", 
-                       predict_function = function(m,x) predict(m, x, n.trees = 15000, type = "response"),
+model_titanic_gbm <- gbm(survived  ~ class + gender + age + sibsp +
+                     parch + fare + embarked, data = titanic_imputed, 
+                     n.trees = 15000)
+explain_titanic_gbm <- explain(model_titanic_gbm, data = titanic_imputed, 
+                       y = titanic_imputed$survived, 
+                       predict_function = function(m,x) 
+                            predict(m, x, n.trees = 15000, type = "response"),
                        label = "Generalized Boosted Models",
                        colorize = FALSE)
 ```
@@ -162,11 +165,11 @@ explain_titanic_gbm <- explain(model_titanic_gbm, data = titanic,
 
 ```{r}
 library("e1071")
-model_titanic_svm <- svm(survived == "yes" ~ class + gender + age + sibsp +
-                     parch + fare + embarked, data = titanic, 
+model_titanic_svm <- svm(survived ~ class + gender + age + sibsp +
+                     parch + fare + embarked, data = titanic_imputed, 
              type = "C-classification", probability = TRUE)
-explain_titanic_svm <- explain(model_titanic_svm, data = titanic, 
-                       y = titanic$survived == "yes", 
+explain_titanic_svm <- explain(model_titanic_svm, data = titanic_imputed, 
+                       y = titanic_imputed$survived, 
                        label = "Support Vector Machines",
                        colorize = FALSE)
 ```
@@ -175,10 +178,10 @@ explain_titanic_svm <- explain(model_titanic_svm, data = titanic,
 
 ```{r}
 library("caret")
-model_titanic_knn <- knn3(survived == "yes" ~ class + gender + age + sibsp +
-                     parch + fare + embarked, data = titanic, k = 5)
-explain_titanic_knn <- explain(model_titanic_knn, data = titanic, 
-                       y = titanic$survived == "yes", 
+model_titanic_knn <- knn3(survived ~ class + gender + age + sibsp +
+                     parch + fare + embarked, data = titanic_imputed, k = 5)
+explain_titanic_knn <- explain(model_titanic_knn, data = titanic_imputed, 
+                       y = titanic_imputed$survived, 
                        predict_function = function(m,x) predict(m, x)[,2],
                        label = "k-Nearest Neighbours",
                        colorize = FALSE)
@@ -187,11 +190,11 @@ explain_titanic_knn <- explain(model_titanic_knn, data = titanic,
 ## Variable performance
 
 ```{r, fig.width=5, fig.height=7}
-vi_rf <- variable_importance(explain_titanic_rf)
-vi_lmr <- variable_importance(explain_titanic_lmr)
-vi_gbm <- variable_importance(explain_titanic_gbm)
-vi_svm <- variable_importance(explain_titanic_svm)
-vi_knn <- variable_importance(explain_titanic_knn)
+vi_rf <- model_parts(explain_titanic_rf)
+vi_lmr <- model_parts(explain_titanic_lmr)
+vi_gbm <- model_parts(explain_titanic_gbm)
+vi_svm <- model_parts(explain_titanic_svm)
+vi_knn <- model_parts(explain_titanic_knn)
 
 plot(vi_rf, vi_lmr, vi_gbm, vi_svm, vi_knn, bar_width = 4)
 ```
@@ -199,26 +202,30 @@ plot(vi_rf, vi_lmr, vi_gbm, vi_svm, vi_knn, bar_width = 4)
 ## Single variable
 
 ```{r, fig.width=8, fig.height=5}
-vr_age_rf  <- variable_effect(explain_titanic_rf, variables =  "age")
-vr_age_lmr  <- variable_effect(explain_titanic_lmr, variables =  "age")
-vr_age_gbm  <- variable_effect(explain_titanic_gbm, variables =  "age")
-vr_age_svm  <- variable_effect(explain_titanic_svm, variables =  "age")
-vr_age_knn  <- variable_effect(explain_titanic_knn, variables =  "age")
-plot(vr_age_rf, vr_age_lmr, vr_age_gbm, vr_age_svm, vr_age_knn)
+vr_age_rf   <- model_profile(explain_titanic_rf, variables = "age")
+vr_age_lmr  <- model_profile(explain_titanic_lmr, variables = "age")
+vr_age_gbm  <- model_profile(explain_titanic_gbm, variables = "age")
+vr_age_svm  <- model_profile(explain_titanic_svm, variables = "age")
+vr_age_knn  <- model_profile(explain_titanic_knn, variables = "age")
+plot(vr_age_rf$agr_profiles, 
+     vr_age_lmr$agr_profiles, 
+     vr_age_gbm$agr_profiles, 
+     vr_age_svm$agr_profiles, 
+     vr_age_knn$agr_profiles)
 ```
 
 # Instance level explanations
 
 ```{r, fig.width=6, fig.height=3}
-sp_rf <- variable_attribution(explain_titanic_rf, new_passanger)
+sp_rf <- predict_parts(explain_titanic_rf, new_passanger)
 plot(sp_rf)
-sp_lmr <- variable_attribution(explain_titanic_lmr, new_passanger)
+sp_lmr <- predict_parts(explain_titanic_lmr, new_passanger)
 plot(sp_lmr)
-sp_gbm <- variable_attribution(explain_titanic_gbm, new_passanger)
+sp_gbm <- predict_parts(explain_titanic_gbm, new_passanger)
 plot(sp_gbm)
-sp_svm <- variable_attribution(explain_titanic_svm, new_passanger)
+sp_svm <- predict_parts(explain_titanic_svm, new_passanger)
 plot(sp_svm)
-sp_knn <- variable_attribution(explain_titanic_knn, new_passanger)
+sp_knn <- predict_parts(explain_titanic_knn, new_passanger)
 plot(sp_knn)
 ```
 

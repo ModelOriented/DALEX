@@ -1,3 +1,7 @@
+DALEX 1.2.0
+----------------------------------------------------------------
+* `ingredients` and `iBreakDown` are now imported by DALEX
+  
 DALEX 1.1
 ----------------------------------------------------------------
 * updated title for `plot.model_performance`  ([#160](https://github.com/ModelOriented/DALEX/issues/160)).

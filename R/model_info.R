@@ -89,6 +89,16 @@ model_info.glm <- function(model, ...) {
   model_info
 }
 
+#' @rdname model_info
+#' @export
+model_info.lrm <- function(model, ...) {
+  type <- "classification"
+  package <- "rms"
+  ver <- get_pkg_ver_safe(package)
+  model_info <- list(package = package, ver = ver, type = type)
+  class(model_info) <- "model_info"
+  model_info
+}
 
 #' @rdname model_info
 #' @export
