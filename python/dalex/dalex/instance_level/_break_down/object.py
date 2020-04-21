@@ -62,7 +62,8 @@ class BreakDown:
              min_max=None,
              vcolors=None,
              title="Break Down",
-             vertical_spacing=None):
+             vertical_spacing=None,
+             show=True):
         """
         Plot function for BreakDown class.
 
@@ -75,7 +76,10 @@ class BreakDown:
         :param min_max: 2-tuple of float values, range of x-axis
         :param vcolors: 3-tuple of str values, color of bars
         :param title: str, the plot's title
-        :param vertical_spacing ratio of vertical space between the plots, by default it's 0.2/`number of plots`
+        :param vertical_spacing: ratio of vertical space between the plots, by default it's 0.2/`number of plots`
+        :param show: True shows the plot, False returns the plotly Figure object that can be saved using `write_image()` method
+
+        :return None or plotly Figure (see :param show)
         """
 
         # are there any other objects to plot?
@@ -192,12 +196,15 @@ class BreakDown:
         fig.update_layout(title_text=title, title_x=0.15, font={'color': "#371ea3"}, template="none",
                           height=plot_height, margin={'t': 78, 'b': 71, 'r': 30})
 
-        fig.show(config={
-            'displaylogo': False,
-            'staticPlot': False,
-            'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d', 'zoom2d', 'pan2d',
-                                       'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines',
-                                       'hoverCompareCartesian', 'hoverClosestCartesian']
-        })
+        if show:
+            fig.show(config={
+                'displaylogo': False,
+                'staticPlot': False,
+                'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d', 'zoom2d', 'pan2d',
+                                           'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines',
+                                           'hoverCompareCartesian', 'hoverClosestCartesian']
+            })
+        else:
+            return fig
 
 

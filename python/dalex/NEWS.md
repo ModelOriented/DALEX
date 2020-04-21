@@ -10,6 +10,11 @@ dalex 0.1.5
 * *bugfix:* `variable_groups` parameter now works correctly in `model_parts`
 * *constructor*: changed parameter order in `Explainer`: `model_type`, `model_info`, `colorize`
 * *documentation:* `model_parts` documentation is updated
+* *feature:* new `show` parameter in `plot` methods that (if False) returns
+plotly Figure (#190)
+* *feature:* `load_fifa()` function which loads the preprocessed [players_20
+dataset](https://www.kaggle.com/stefanoleone992/fifa-20-complete-player-dataset)
+* *fix:* `CeterisParibus` plot tooltip
 
 dalex 0.1.4
 ----------------------------------------------------------------

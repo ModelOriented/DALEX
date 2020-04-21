@@ -9,10 +9,16 @@ def tooltip_text(obs, r=None):
                 temp += str(var) + ": " + str(r['_xhat_']) + "</br>"
             else:
                 temp += str(var) + ": " + str(obs[var]) + "</br>"
+            if len(temp) > 500:
+                temp += "... too many variables"
+                break
     else:
         for var in obs.index:
             if var == "_yhat_":
                 temp += "prediction:" + str(obs[var]) + "<br><br>"
             else:
                 temp += str(var) + ": " + str(obs[var]) + "</br>"
+            if len(temp) > 500:
+                temp += "... too many variables"
+                break
     return temp

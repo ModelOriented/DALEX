@@ -6,15 +6,23 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>How to use multilabel classification and DALEX? • DALEX</title>
-<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="../dalexverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../dalexverse-2.css" rel="stylesheet">
-<link href="../pkgdown.css" rel="stylesheet">
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- dalexverse --><link href="../dalexverse.css" rel="stylesheet">
+<link href="../dalexverse-2.css" rel="stylesheet">
+<!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="How to use multilabel classification and DALEX?">
 <meta property="og:description" content="">
-<meta property="og:image" content="/logo.png">
-<meta name="twitter:card" content="summary">
-<!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
+<meta property="og:image" content="">
+<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--><!-- google analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-5650686-14"></script><script>
@@ -25,7 +33,7 @@
  gtag('config', 'UA-5650686-14');
 </script>
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -42,7 +50,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">1.0</span>
+          <span class="version version-default">1.2.0</span>
         </div>
       </div>
     </div>
@@ -91,13 +99,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="multilabel_classification_files/header-attrs-2.1/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>How to use multilabel classification and DALEX?</h1>
                         <h4 class="author">Szymon Maksymiuk</h4>
             
-            <h4 class="date">2020-02-20</h4>
+            <h4 class="date">2020-04-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/DALEX/blob/master/vignettes/multilabel_classification.Rmd"><code>vignettes/multilabel_classification.Rmd</code></a></small>
       <div class="hidden name"><code>multilabel_classification.Rmd</code></div>
@@ -141,7 +149,7 @@
 #&gt; Target node size:                 10 
 #&gt; Variable importance mode:         none 
 #&gt; Splitrule:                        gini 
-#&gt; OOB prediction error (Brier s.):  0.2172838</code></pre>
+#&gt; OOB prediction error (Brier s.):  0.2173953</code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"DALEX"</span>)</span>
 <span id="cb5-2"><a href="#cb5-2"></a>explain_HR_ranger &lt;-<span class="st"> </span><span class="kw"><a href="../reference/explain.html">explain</a></span>(model_HR_ranger,</span>
 <span id="cb5-3"><a href="#cb5-3"></a>                              <span class="dt">data =</span> HR[,<span class="op">-</span><span class="dv">6</span>],</span>
@@ -155,7 +163,7 @@
 #&gt;   -&gt; target variable   :  Please note that 'y' is a factor.  (  WARNING  )
 #&gt;   -&gt; target variable   :  Consider changing the 'y' to a logical or numerical vector.
 #&gt;   -&gt; target variable   :  Otherwise I will not be able to calculate residuals or loss function.
-#&gt;   -&gt; model_info        :  package ranger , ver. 0.11.2 , task classification (  default  ) 
+#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification (  default  ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )
 #&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  WARNING  ) some of functionalities may not work 
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
@@ -181,11 +189,11 @@
 #&gt;   -&gt; model label       :  Ranger Multilabel Classification 
 #&gt;   -&gt; data              :  7847  rows  5  cols 
 #&gt;   -&gt; target variable   :  7847  values 
-#&gt;   -&gt; model_info        :  package ranger , ver. 0.11.2 , task classification (  default  ) 
+#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification (  default  ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )
 #&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  WARNING  ) some of functionalities may not work 
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  0.004455059 , mean =  1.655962 , max =  3  
+#&gt;   -&gt; residuals         :  numerical, min =  0.005066491 , mean =  1.655962 , max =  3  
 #&gt;   A new explainer has been created!</code></pre>
 <p>And now we can use <code><a href="../reference/model_parts.html">variable_importance()</a></code></p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>vi &lt;-<span class="st"> </span><span class="kw"><a href="../reference/model_parts.html">variable_importance</a></span>(explain_HR_ranger_new_y, <span class="dt">loss_function =</span> loss_cross_entropy)</span>
@@ -260,11 +268,11 @@
 #&gt;   -&gt; target variable   :  Please note that 'y' is a factor.  (  WARNING  )
 #&gt;   -&gt; target variable   :  Consider changing the 'y' to a logical or numerical vector.
 #&gt;   -&gt; target variable   :  Otherwise I will not be able to calculate residuals or loss function.
-#&gt;   -&gt; model_info        :  package ranger , ver. 0.11.2 , task classification (  default  ) 
+#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification (  default  ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )
 #&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  WARNING  ) some of functionalities may not work 
 #&gt;   -&gt; residual function :  residual_function 
-#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.2774724 , max =  0.9312791  
+#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.2765554 , max =  0.8904417  
 #&gt;   A new explainer has been created!</code></pre>
 <div id="model_performance" class="section level2">
 <h2 class="hasAnchor">
@@ -283,7 +291,7 @@
 <span id="cb21-2"><a href="#cb21-2"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(rd_salary)</span></code></pre></div>
 <p><img src="multilabel_classification_files/figure-html/unnamed-chunk-14-2.png" width="700"> # Session info</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</span></code></pre></div>
-<pre><code>#&gt; R version 3.6.1 (2019-07-05)
+<pre><code>#&gt; R version 3.6.3 (2020-02-29)
 #&gt; Platform: x86_64-apple-darwin15.6.0 (64-bit)
 #&gt; Running under: macOS Catalina 10.15.3
 #&gt; 
@@ -298,21 +306,22 @@
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt; [1] ranger_0.11.2 DALEX_1.0    
+#&gt; [1] ranger_0.12.1 DALEX_1.2.0  
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] Rcpp_1.0.3       gower_0.2.1      compiler_3.6.1   pillar_1.4.3    
-#&gt;  [5] ingredients_1.0  tools_3.6.1      digest_0.6.23    lattice_0.20-38 
-#&gt;  [9] evaluate_0.14    memoise_1.1.0    lifecycle_0.1.0  tibble_2.1.3    
-#&gt; [13] gtable_0.3.0     pkgconfig_2.0.3  rlang_0.4.2      Matrix_1.2-17   
-#&gt; [17] rstudioapi_0.10  yaml_2.2.0       pkgdown_1.4.1    xfun_0.11       
-#&gt; [21] stringr_1.4.0    dplyr_0.8.3      knitr_1.26       desc_1.2.0      
-#&gt; [25] fs_1.3.1         rprojroot_1.3-2  grid_3.6.1       tidyselect_0.2.5
-#&gt; [29] glue_1.3.1       R6_2.4.1         iBreakDown_1.0   rmarkdown_1.16  
-#&gt; [33] farver_2.0.3     ggplot2_3.2.1    purrr_0.3.3      magrittr_1.5    
-#&gt; [37] backports_1.1.5  scales_1.1.0     htmltools_0.4.0  MASS_7.3-51.4   
-#&gt; [41] assertthat_0.2.1 colorspace_1.4-1 labeling_0.3     stringi_1.4.5   
-#&gt; [45] lazyeval_0.2.2   munsell_0.5.0    crayon_1.3.4</code></pre>
+#&gt;  [1] Rcpp_1.0.4        gower_0.2.1       compiler_3.6.3    pillar_1.4.3     
+#&gt;  [5] ingredients_1.2.0 tools_3.6.3       digest_0.6.25     lattice_0.20-38  
+#&gt;  [9] evaluate_0.14     memoise_1.1.0     lifecycle_0.2.0   tibble_3.0.0     
+#&gt; [13] gtable_0.3.0      pkgconfig_2.0.3   rlang_0.4.5       Matrix_1.2-18    
+#&gt; [17] cli_2.0.2         rstudioapi_0.11   yaml_2.2.1        pkgdown_1.4.1    
+#&gt; [21] xfun_0.13         dplyr_0.8.5       stringr_1.4.0     knitr_1.28       
+#&gt; [25] desc_1.2.0        fs_1.3.1          vctrs_0.2.4       tidyselect_1.0.0 
+#&gt; [29] rprojroot_1.3-2   grid_3.6.3        glue_1.4.0        R6_2.4.1         
+#&gt; [33] fansi_0.4.1       iBreakDown_1.2.0  rmarkdown_2.1     farver_2.0.3     
+#&gt; [37] purrr_0.3.3       ggplot2_3.3.0     magrittr_1.5      backports_1.1.6  
+#&gt; [41] scales_1.1.0      htmltools_0.4.0   ellipsis_0.3.0    MASS_7.3-51.5    
+#&gt; [45] assertthat_0.2.1  colorspace_1.4-1  labeling_0.3      stringi_1.4.6    
+#&gt; [49] munsell_0.5.0     crayon_1.3.4</code></pre>
 </div>
 </div>
   </div>
@@ -355,11 +364,12 @@
 
 
 
-      <footer><div class="author">
-  <p>
-    Developed by Przemyslaw Biecek.
-    Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
-  </p>
+      <footer><div class="copyright">
+  <p>Developed by Przemyslaw Biecek.</p>
+</div>
+
+<div class="pkgdown">
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
