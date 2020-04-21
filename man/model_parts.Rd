@@ -11,7 +11,7 @@ model_parts(
   loss_function = loss_sum_of_squares,
   ...,
   type = "variable_importance",
-  N = 2000
+  N = 1000
 )
 }
 \arguments{

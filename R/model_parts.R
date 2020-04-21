@@ -43,7 +43,7 @@ model_parts <- function(explainer,
                               loss_function = loss_sum_of_squares,
                               ...,
                               type = "variable_importance",
-                              N = 2000) {
+                              N = 1000) {
   # run checks against the explainer objects
   test_explainer(explainer, has_data = TRUE, has_y = TRUE, function_name = "model_parts")
   if (!(type %in% c("difference", "ratio", "raw", "variable_importance"))) stop("Type shall be one of 'variable_importance', 'difference', 'ratio', 'raw'")
