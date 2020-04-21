@@ -122,10 +122,11 @@ def check_predict_function(predict_function, model, data, model_class, model_inf
             raise ValueError("  -> predict function  : predict_function not provided and cannot be extracted",
                              verbose=verbose)
 
+        verbose_cat("  -> predict function  : " + str(predict_function) + " will be used (default)", verbose=verbose)
+
     else:
         model_info['predict_function_default'] = False
-
-    verbose_cat("  -> predict function  : " + str(predict_function) + " will be used", verbose=verbose)
+        verbose_cat("  -> predict function  : " + str(predict_function) + " will be used", verbose=verbose)
 
     pred = None
     if data is not None and (verbose or precalculate):
