@@ -1,3 +1,7 @@
+DALEX (development)
+---------------------------------------------------------------
+* deprecate `n_sample` argument in `model_parts` (now it's `N`) ([#175](https://github.com/ModelOriented/DALEX/issues/175))
+
 DALEX 1.2.0
 ----------------------------------------------------------------
 * `ingredients` and `iBreakDown` are now imported by DALEX
