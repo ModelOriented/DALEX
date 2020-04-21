@@ -1,6 +1,14 @@
 dalex (development)
 ----------------------------------------------------------------
+* ...
+
+dalex 0.1.5
+----------------------------------------------------------------
+* *feature*: `xgboost` package compatibility
+* *feature*: added `model_class` parameter to `Explainer` to handle wrapped models
+* *feature*: `Exaplainer`s `model_info` remembers if parameters are default
 * *bugfix:* `variable_groups` parameter now works correctly in `model_parts`
+* *constructor*: changed parameter order in `Explainer`: `model_type`, `model_info`, `colorize`
 * *documentation:* `model_parts` documentation is updated
 * *feature:* new `show` parameter in `plot` methods that (if False) returns
 plotly Figure (#190)

@@ -1,6 +1,7 @@
 from dalex.instance_level import BreakDown, Shap, CeterisParibus
 from dalex.dataset_level import ModelPerformance, VariableImportance, AggregatedProfiles
 from .checks import *
+from .helper import get_model_info
 
 
 class Explainer:
@@ -12,11 +13,12 @@ class Explainer:
                  residual_function=None,
                  weights=None,
                  label=None,
+                 model_class=None,
                  verbose=True,
                  precalculate=True,
-                 colorize=True,
+                 model_type=None,
                  model_info=None,
-                 model_type=None):
+                 colorize=True):
 
         """Create Model Explainer
 
@@ -32,11 +34,12 @@ class Explainer:
         :param residual_function: function that takes three arguments: model, data and response vector y. It should return a numeric vector with model residuals for given data. If not provided, response residuals y-yhat are calculated.
         :param weights: weights numeric vector with sampling weights. By default it's None. If provided then it shall have the same length as data
         :param label: the name of the model. By default it's extracted from the 'class' attribute of the model
+        :param model_class: str, class of actual model, use if your model is wrapped
         :param verbose: if True (default) then diagnostic messages will be printed
         :param precalculate: if True (default) then predicted_values and residual are calculated when explainer is created.
-        :param colorize: TODO
-        :param model_info: list containg information about the model
         :param model_type: type of a model, either classification or regression.
+        :param model_info: list containing additional information about the model
+        :param colorize: TODO
         """
 
         verbose_cat("Preparation of a new explainer is initiated\n", verbose=verbose)
@@ -50,9 +53,6 @@ class Explainer:
                 'red_end': "",
                 'green_start': "",
                 'green_end': ""}
-
-        # REPORT: checks for model label
-        label = check_label(label, model, verbose)
 
         # REPORT: checks for data
         """
@@ -73,17 +73,23 @@ class Explainer:
         # REPORT: checks for weights
         weights = check_weights(weights, data, verbose)
 
+        model_info_ = get_model_info(model)
+
+        model_class, model_info_ = check_model_class(model_class, model_info_, model, verbose)
+
+        label, model_info_ = check_label(label, model_class, model_info_, verbose)
+
         # REPORT: checks for predict_function
-        predict_function, pred = check_predict_function(predict_function, model, data, precalculate, verbose)
+        predict_function, pred, model_info_ = check_predict_function(predict_function, model, data, model_class, model_info_, precalculate, verbose)
 
         # if data is specified then we may test predict_function
         # at this moment we have predict function
 
         # REPORT: checks for residual_function
-        residual_function, residuals = check_residual_function(residual_function, predict_function, model, data, y,
-                                                               precalculate, verbose)
+        residual_function, residuals, model_info_ = check_residual_function(residual_function, predict_function, model, data, y,
+                                                               model_info_, precalculate, verbose)
 
-        model_info = check_model_info(model_info, model, verbose)
+        model_info = check_model_info(model_info, model_info_, verbose)
 
         # READY to create an explainer
         self.model = model
@@ -93,7 +99,7 @@ class Explainer:
         self.y_hat = pred
         self.residual_function = residual_function
         self.residuals = residuals
-        self.model_class = type(model)
+        self.model_class = model_class
         self.label = label
         self.model_info = model_info
         self.weights = weights
