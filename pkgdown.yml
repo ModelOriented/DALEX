@@ -1,8 +1,8 @@
 pandoc: 2.7.3
 pkgdown: 1.5.1.9000
-pkgdown_sha: aea6864792d681f64a9e1b8c52fe24668b2e4f55
+pkgdown_sha: bf80bb8b2bed7f546c6fb166ac706867e7bc6864
 articles:
   multilabel_classification: multilabel_classification.html
   vignette_titanic: vignette_titanic.html
-last_built: 2020-04-22T17:27Z
+last_built: 2020-04-22T22:08Z
 

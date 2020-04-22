@@ -152,7 +152,7 @@
 #&gt; Target node size:                 1 
 #&gt; Variable importance mode:         none 
 #&gt; Splitrule:                        gini 
-#&gt; OOB prediction error:             19.30 %</code></pre>
+#&gt; OOB prediction error:             19.48 %</code></pre>
 </div>
 <div id="explainer-for-titanic-survival" class="section level1">
 <h1 class="hasAnchor">
@@ -170,9 +170,9 @@
 #&gt;   -&gt; target variable   :  2207  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification (  default  ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )
-#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.2088808 , max =  1  
+#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.2125057 , max =  1  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -1 , mean =  0.1132759 , max =  1  
+#&gt;   -&gt; residuals         :  numerical, min =  -1 , mean =  0.1087449 , max =  1  
 #&gt;   A new explainer has been created!</code></pre>
 </div>
 <div id="variable-importance-plots" class="section level1">
@@ -182,12 +182,12 @@
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">vi_rf</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/model_parts.html">model_parts</a></span>(<span class="no">explain_titanic_rf</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">vi_rf</span>)</pre></body></html></div>
 <pre><code>#&gt;       variable mean_dropout_loss            label
-#&gt; 1 _full_model_             152.2 Random Forest v7
-#&gt; 2     survived             152.2 Random Forest v7
-#&gt; 3        parch             164.7 Random Forest v7
-#&gt; 4     embarked             167.3 Random Forest v7
-#&gt; 5        sibsp             167.8 Random Forest v7
-#&gt; 6         fare             189.7 Random Forest v7</code></pre>
+#&gt; 1 _full_model_             155.8 Random Forest v7
+#&gt; 2     survived             155.7 Random Forest v7
+#&gt; 3        parch             167.4 Random Forest v7
+#&gt; 4        sibsp             171.8 Random Forest v7
+#&gt; 5     embarked             172.4 Random Forest v7
+#&gt; 6         fare             191.2 Random Forest v7</code></pre>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">vi_rf</span>)</pre></body></html></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
@@ -204,47 +204,47 @@
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">vr_age</span>)</pre></body></html></div>
 <pre><code>#&gt; $cp_profiles
 #&gt; Top profiles    : 
-#&gt;       gender        age class    embarked fare sibsp parch survived _yhat_
-#&gt; 778     male  0.1666667   2nd Southampton   16     0     0        0      1
-#&gt; 778.1   male  2.0000000   2nd Southampton   16     0     0        0      1
-#&gt; 778.2   male  4.0000000   2nd Southampton   16     0     0        0      1
-#&gt; 778.3   male  7.0000000   2nd Southampton   16     0     0        0      0
-#&gt; 778.4   male  9.0000000   2nd Southampton   16     0     0        0      0
-#&gt; 778.5   male 13.0000000   2nd Southampton   16     0     0        0      0
-#&gt;       _vname_ _ids_          _label_
-#&gt; 778       age   778 Random Forest v7
-#&gt; 778.1     age   778 Random Forest v7
-#&gt; 778.2     age   778 Random Forest v7
-#&gt; 778.3     age   778 Random Forest v7
-#&gt; 778.4     age   778 Random Forest v7
-#&gt; 778.5     age   778 Random Forest v7
+#&gt;        gender        age            class embarked fare sibsp parch survived
+#&gt; 1897     male  0.1666667 victualling crew  Belfast    0     0     0        0
+#&gt; 1897.1   male  2.0000000 victualling crew  Belfast    0     0     0        0
+#&gt; 1897.2   male  4.0000000 victualling crew  Belfast    0     0     0        0
+#&gt; 1897.3   male  7.0000000 victualling crew  Belfast    0     0     0        0
+#&gt; 1897.4   male  9.0000000 victualling crew  Belfast    0     0     0        0
+#&gt; 1897.5   male 13.0000000 victualling crew  Belfast    0     0     0        0
+#&gt;        _yhat_ _vname_ _ids_          _label_
+#&gt; 1897        0     age  1897 Random Forest v7
+#&gt; 1897.1      0     age  1897 Random Forest v7
+#&gt; 1897.2      0     age  1897 Random Forest v7
+#&gt; 1897.3      0     age  1897 Random Forest v7
+#&gt; 1897.4      0     age  1897 Random Forest v7
+#&gt; 1897.5      0     age  1897 Random Forest v7
 #&gt; 
 #&gt; 
 #&gt; Top observations:
-#&gt;      gender age            class    embarked     fare sibsp parch survived
-#&gt; 778    male  36              2nd Southampton  16.0000     0     0        0
-#&gt; 347  female  48              1st   Cherbourg 106.0806     1     0        1
-#&gt; 940    male  17              2nd Southampton  10.1000     0     0        0
-#&gt; 1561   male  23 victualling crew Southampton   0.0000     0     0        0
-#&gt; 1871   male  42 victualling crew Southampton   0.0000     0     0        0
-#&gt; 1020   male  35              3rd Southampton   7.0206     0     0        0
+#&gt;      gender age            class    embarked    fare sibsp parch survived
+#&gt; 1897   male  44 victualling crew     Belfast  0.0000     0     0        0
+#&gt; 74     male  32              3rd Southampton 15.1700     1     0        0
+#&gt; 1028   male  31              1st Southampton 50.0911     0     0        0
+#&gt; 594    male  42              2nd Southampton 27.0000     1     0        0
+#&gt; 1354   male  41 victualling crew Southampton  0.0000     0     0        0
+#&gt; 1859   male  51 victualling crew Southampton  0.0000     0     0        1
 #&gt;      _yhat_          _label_ _ids_
-#&gt; 778       0 Random Forest v7     1
-#&gt; 347       1 Random Forest v7     2
-#&gt; 940       0 Random Forest v7     3
-#&gt; 1561      0 Random Forest v7     4
-#&gt; 1871      0 Random Forest v7     5
-#&gt; 1020      0 Random Forest v7     6
+#&gt; 1897      0 Random Forest v7     1
+#&gt; 74        0 Random Forest v7     2
+#&gt; 1028      0 Random Forest v7     3
+#&gt; 594       0 Random Forest v7     4
+#&gt; 1354      0 Random Forest v7     5
+#&gt; 1859      0 Random Forest v7     6
 #&gt; 
 #&gt; $agr_profiles
 #&gt; Top profiles    : 
 #&gt;   _vname_          _label_        _x_ _yhat_ _ids_
-#&gt; 1     age Random Forest v7  0.1666667   0.40     0
-#&gt; 2     age Random Forest v7  2.0000000   0.48     0
-#&gt; 3     age Random Forest v7  4.0000000   0.47     0
+#&gt; 1     age Random Forest v7  0.1666667   0.47     0
+#&gt; 2     age Random Forest v7  2.0000000   0.50     0
+#&gt; 3     age Random Forest v7  4.0000000   0.50     0
 #&gt; 4     age Random Forest v7  7.0000000   0.42     0
-#&gt; 5     age Random Forest v7  9.0000000   0.36     0
-#&gt; 6     age Random Forest v7 13.0000000   0.25     0
+#&gt; 5     age Random Forest v7  9.0000000   0.33     0
+#&gt; 6     age Random Forest v7 13.0000000   0.24     0
 #&gt; 
 #&gt; $color
 #&gt; [1] "#371ea3"</code></pre>
@@ -341,9 +341,9 @@
 #&gt;   -&gt; target variable   :  2207  values 
 #&gt;   -&gt; model_info        :  package gbm , ver. 2.1.5 , task classification (  default  ) 
 #&gt;   -&gt; predict function  :  function(m, x) predict(m, x, n.trees = 15000, type = "response") 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.0004616202 , mean =  0.325058 , max =  0.9985586  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.0005254186 , mean =  0.3224513 , max =  0.9986765  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.9674795 , mean =  -0.00290126 , max =  0.9894749  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9589553 , mean =  -0.000294565 , max =  0.9924086  
 #&gt;   A new explainer has been created!</code></pre>
 </div>
 <div id="support-vector-machines-svm" class="section level2">
@@ -363,9 +363,9 @@
 #&gt;   -&gt; target variable   :  2207  values 
 #&gt;   -&gt; model_info        :  package e1071 , ver. 1.7.3 , task classification (  default  ) 
 #&gt;   -&gt; predict function  :  yhat.svm  will be used (  default  )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.08796277 , mean =  0.3259794 , max =  0.9642494  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.08770825 , mean =  0.3234683 , max =  0.9624315  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8700282 , mean =  -0.00382267 , max =  0.9120372  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8654919 , mean =  -0.001311528 , max =  0.9122917  
 #&gt;   A new explainer has been created!</code></pre>
 </div>
 <div id="k-nearest-neighbours-knn" class="section level2">
