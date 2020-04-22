@@ -4,8 +4,6 @@ on:
       - master
       - 'gh-actions'
       - 'githubactions'
-    paths-ignore:
-      - 'python/**'
     paths:
       - '**.R'
       - '**.r'
@@ -16,6 +14,7 @@ on:
       - '**.Rda'
       - '**.rds'
       - '**.Rds'
+      - '!python/**'
   pull_request:
     branches:
       - master
