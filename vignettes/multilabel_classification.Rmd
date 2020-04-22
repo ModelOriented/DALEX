@@ -4,7 +4,7 @@ author: "Szymon Maksymiuk"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_document
 vignette: >
-  %\VignetteIndexEntry{Survival on the RMS Titanic}
+  %\VignetteIndexEntry{How to use multilabel classification and DALEX?}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -49,10 +49,10 @@ explain_HR_ranger <- explain(model_HR_ranger,
 
 Ofcourse sixth column, that we have omitted during creation of explainer, stands for target column (`status`) and it is good practice not to put it in `data`. Keep in mind that default `yhat` function for `ranger` and for any other package that is supported by `DALEX`, enforces probability output. Therfore residuals are NA since we didn't provide residual function meaningful for factors and probability matrix.
 
-# Variable Importance
+# Model Parts
 
-In order to use `variable_importance()` function it is necessary to switch default `loss_function` argument to one that handle multiple classes. `DALEX` has one function like that implemented and it is called `loss_cross_entropy()`.
-To use this, `y` parameter passed to `explain` function should be numeric vector that encodes classes to *positive* integers. See example below.
+In order to use `model_parts()` (former `variable_importance()`) function it is necessary to switch default `loss_function` argument to one that handle multiple classes. `DALEX` has one function like that implemented and it is called `loss_cross_entropy()`.
+To use it, `y` parameter passed to `explain` function should be numeric vector that encodes classes to *positive* integers. See example below.
 
 ```{r}
 y_HR <- as.numeric(HR$status)
@@ -68,55 +68,55 @@ explain_HR_ranger_new_y <- explain(model_HR_ranger,
                               label = "Ranger Multilabel Classification",
                               colorize = FALSE)
 ```
-And now we can use `variable_importance()`
+And now we can use `model_parts()`
 
 ```{r}
-vi <- variable_importance(explain_HR_ranger_new_y, loss_function = loss_cross_entropy)
-plot(vi)
+mp <- model_parts(explain_HR_ranger_new_y, loss_function = loss_cross_entropy)
+plot(mp)
 ```
 
 As we see above, we can enjoy perfectly fine variable importance plot. 
 
-# Variable effects
+# Model Profile
 
-There is no need for tricks in order to use `variable_effect()`. Our target will be one-hot-encoded, and all of explantions will be performed for each of class separately.
+There is no need for tricks in order to use `model_profile()` (former `variable_effect()`). Our target will be one-hot-encoded, and all of explantions will be performed for each of class separately.
 
 ## partial_dependency
 
 ```{r}
-ve_p <- variable_profile(explain_HR_ranger, variables = "salary", type = "partial")
-ve_p$color = "_label_"
-plot(ve_p)
+mp_p <- model_profile(explain_HR_ranger, variables = "salary", type = "partial")
+mp_p$color <- "_label_"
+plot(mp_p)
 ```
 
 ## accumulated_dependency
 
 ```{r}
-ve_a <- variable_profile(explain_HR_ranger, variables = "salary", type = "accumulated")
-ve_a$color = "_label_"
-plot(ve_a)
+mp_a <- model_profile(explain_HR_ranger, variables = "salary", type = "accumulated")
+mp_a$color = "_label_"
+plot(mp_a)
 ```
 
 # Instance level explanations
 
-As above, `variable_attribution()` works perfectly fine with multilabel classification and default explainer. Just like before, our target will be splitted into variables standing for each factor level and computations will be performed then. 
+As above, `predict_parts()` (former `variable_attribution()`) works perfectly fine with multilabel classification and default explainer. Just like before, our target will be splitted into variables standing for each factor level and computations will be performed then. 
 
 ## break_down
 
 ```{r}
-bd <- variable_attribution(explain_HR_ranger, HR[1,], type = "break_down")
+bd <- predict_parts(explain_HR_ranger, HR[1,], type = "break_down")
 plot(bd)
 ```
 
 ## shap
 
 ```{r}
-shap <- variable_attribution(explain_HR_ranger, HR[1,], type = "shap")
+shap <- predict_parts(explain_HR_ranger, HR[1,], type = "shap")
 plot(shap)
 ```
 
 
-# model_performance and individual_diagnostics
+# model_performance and predict_diagnostics
 
 Those two function are merged into one paragraph becasue they require same action in order to get them work with multilabel classification. The most important thing here is to realise that both function are based on residuals. Therfore we need proper residual_function. Let's assume for purpose of that vignette that residual is one minus probability that true class has. 
 
@@ -143,22 +143,22 @@ explain_HR_ranger_residual <- explain(model_HR_ranger,
                               colorize = FALSE)
 ```
 
-## model_performance
+## Model Performance
 
-TODO: this is not implmented for multiclass models
+<span style="color:red">TODO: Due to changes in DALEX 1.0.0, Model Performance currently does not support multilabel classification models.</span> 
 
 ```{r, eval=FALSE}
 mp <- model_performance(explain_HR_ranger_residual)
 plot(mp)
 ```
 
-## residuals_distribution
+## Predict diagnostics
 
 ```{r}
-rd_all <- individual_diagnostics(explain_HR_ranger_residual, HR[1,])
-plot(rd_all)
-rd_salary <- individual_diagnostics(explain_HR_ranger_residual, HR[1,], variables = "salary")
-plot(rd_salary)
+pd_all <- predict_diagnostics(explain_HR_ranger_residual, HR[1,])
+plot(pd_all)
+pd_salary <- predict_diagnostics(explain_HR_ranger_residual, HR[1,], variables = "salary")
+plot(pd_salary)
 ```
 # Session info
 
