@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - master
+      - githubactions
   pull_request:
     branches:
       - master
