@@ -6,10 +6,29 @@ on:
       - 'githubactions'
     paths-ignore:
       - 'python/**'
-
+    paths:
+      - '**.R'
+      - '**.r'
+      - '*DESCRIPTION'
+      - '**.Rmd'
+      - '**.rmd'
+      - '**.rda'
+      - '**.Rda'
+      - '**.rds'
+      - '**.Rds'
   pull_request:
     branches:
       - master
+    paths:
+      - '**.R'
+      - '**.r'
+      - '*DESCRIPTION'
+      - '**.Rmd'
+      - '**.rmd'
+      - '**.rda'
+      - '**.Rda'
+      - '**.rds'
+      - '**.Rds'
 
 name: test-coverage
 
