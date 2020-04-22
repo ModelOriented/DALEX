@@ -20,8 +20,6 @@ on:
       - '**.Rda'
       - '**.rds'
       - '**.Rds'
-    paths-ignore:
-      - 'python/**'
   pull_request:
     branches:
       - master
