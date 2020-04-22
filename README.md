@@ -1,6 +1,6 @@
 # moDel Agnostic Language for Exploration and eXplanation <img src="man/figures/logo.png" align="right" width="150"/>
 
-[![Build Status](https://api.travis-ci.org/ModelOriented/DALEX.png)](https://travis-ci.org/ModelOriented/DALEX)
+[![R build status](https://github.com/ModelOriented/DALEX/workflows/R-CMD-check/badge.svg)](https://github.com/ModelOriented/DALEX/actions?query=workflow%3AR-CMD-check)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/ModelOriented/DALEX/master.svg)](https://codecov.io/github/ModelOriented/DALEX?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/DALEX)](https://cran.r-project.org/package=DALEX)
