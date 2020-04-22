@@ -7,6 +7,10 @@ Status](https://img.shields.io/codecov/c/github/ModelOriented/DALEX/master.svg)]
 [![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/DALEX?color=orange)](http://cranlogs.r-pkg.org/badges/grand-total/DALEX)
 [![DrWhy-eXtrAI](https://img.shields.io/badge/DrWhy-BackBone-373589)](http://drwhy.ai/#BackBone)
 
+[![PyPI version](https://badge.fury.io/py/dalex.svg)](https://badge.fury.io/py/dalex)
+[![Downloads](https://pepy.tech/badge/dalex)](https://pepy.tech/project/dalex)
+
+
 ## Overview
 
 Unverified black box model is the path to the failure. Opaqueness leads to distrust. Distrust leads to ignoration. Ignoration leads to rejection.
@@ -26,13 +30,13 @@ If you work with `scikitlearn`, `keras`, `H2O`, `mljar` or `mlr`, you may be int
 
 The easiest way to get the **R** version of DALEX is to install it from [CRAN](https://cran.r-project.org/package=DALEX)
 
-```
+```r
 install.packages("DALEX")
 ```
 
 The **Python** version of dalex is available on [pip](https://pypi.org/project/dalex/)
 
-```
+```console
 pip install dalex
 ```
 
@@ -94,4 +98,4 @@ The other way is to use approximated explainers – techniques that find only ap
 
 ## Acknowledgments
 
-Work on this package was financially supported by the 'NCN Opus grant 2016/21/B/ST6/02176'.
+Work on this package was financially supported by the `NCN Opus grant 2016/21/B/ST6/02176`.
