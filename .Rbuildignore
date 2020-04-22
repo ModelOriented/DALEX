@@ -11,3 +11,5 @@ pkgdown/
 ^LICENSE$
 ^CONTRIBUTING.md
 DALEXpiramide
+^codecov\.yml$
+^\.github$

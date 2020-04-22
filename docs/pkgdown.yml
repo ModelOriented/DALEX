@@ -1,7 +1,0 @@
-pandoc: 2.9.2
-pkgdown: 1.4.1
-pkgdown_sha: ~
-articles:
-  multilabel_classification: multilabel_classification.html
-  vignette_titanic: vignette_titanic.html
-
