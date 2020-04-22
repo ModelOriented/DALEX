@@ -8,11 +8,31 @@ on:
       - '!python-*'
       - '!doc'
       - 'githubactions'
+    paths:
+      - '**.R'
+      - '**.r'
+      - '*DESCRIPTION'
+      - '**.Rmd'
+      - '**.rmd'
+      - '**.rda'
+      - '**.Rda'
+      - '**.rds'
+      - '**.Rds'
     paths-ignore:
       - 'python/**'
   pull_request:
     branches:
       - master
+    paths:
+      - '**.R'
+      - '**.r'
+      - '*DESCRIPTION'
+      - '**.Rmd'
+      - '**.rmd'
+      - '**.rda'
+      - '**.Rda'
+      - '**.rds'
+      - '**.Rds'
 
 name: R-CMD-check
 
