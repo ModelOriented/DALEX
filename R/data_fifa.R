@@ -1,7 +1,7 @@
 #' FIFA 20 preprocessed data
 #'
 #' The \code{fifa} dataset is a preprocessed \code{players_20.csv} dataset which comes as
-#' a part of "FIFA 20 complete player dataset" at \url{Kaggle.com}.
+#' a part of "FIFA 20 complete player dataset" at Kaggle.
 #'
 #' It contains 5000 'overall' best players and 43 variables. These are:
 #' \itemize{
@@ -30,7 +30,7 @@
 #' @keywords fifa
 #' @name fifa
 #'
-#' @source The \code{players_20.csv} dataset was downloaded from the \url{Kaggle.com} site and went through few transformations.
+#' @source The \code{players_20.csv} dataset was downloaded from the Kaggle site and went through few transformations.
 #' The complete dataset was obtained from
 #' \url{https://www.kaggle.com/stefanoleone992/fifa-20-complete-player-dataset#players_20.csv} on January 1, 2020.
 #' @usage
