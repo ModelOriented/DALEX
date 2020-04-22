@@ -3,6 +3,9 @@ on:
     branches:
       - master
       - githubactions
+    paths-ignore:
+      - 'python/**'
+
   pull_request:
     branches:
       - master

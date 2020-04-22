@@ -8,6 +8,8 @@ on:
       - '!python-*'
       - '!doc'
       - 'githubactions'
+    paths-ignore:
+      - 'python/**'
   pull_request:
     branches:
       - master
