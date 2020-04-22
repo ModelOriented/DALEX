@@ -150,7 +150,7 @@
 #&gt; Target node size:                 10 
 #&gt; Variable importance mode:         none 
 #&gt; Splitrule:                        gini 
-#&gt; OOB prediction error (Brier s.):  0.2175244</code></pre>
+#&gt; OOB prediction error (Brier s.):  0.2165621</code></pre>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"DALEX"</span>)
 <span class="no">explain_HR_ranger</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span>(<span class="no">model_HR_ranger</span>,
                               <span class="kw">data</span> <span class="kw">=</span> <span class="no">HR</span>[,-<span class="fl">6</span>],
@@ -194,7 +194,7 @@
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )
 #&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  WARNING  ) some of functionalities may not work 
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  0.004995093 , mean =  1.655962 , max =  3  
+#&gt;   -&gt; residuals         :  numerical, min =  0.004627764 , mean =  1.655962 , max =  3  
 #&gt;   A new explainer has been created!</code></pre>
 <p>And now we can use <code><a href="../reference/model_parts.html">model_parts()</a></code></p>
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">mp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/model_parts.html">model_parts</a></span>(<span class="no">explain_HR_ranger_new_y</span>, <span class="kw">loss_function</span> <span class="kw">=</span> <span class="no">loss_cross_entropy</span>)
@@ -273,7 +273,7 @@
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )
 #&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  WARNING  ) some of functionalities may not work 
 #&gt;   -&gt; residual function :  residual_function 
-#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.2780645 , max =  0.9119675  
+#&gt;   -&gt; residuals         :  numerical, min =  0.0005333333 , mean =  0.2756616 , max =  0.8891723  
 #&gt;   A new explainer has been created!</code></pre>
 <div id="model-performance" class="section level2">
 <h2 class="hasAnchor">
