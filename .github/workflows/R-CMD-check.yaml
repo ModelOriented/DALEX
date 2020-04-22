@@ -2,11 +2,13 @@ on:
   push:
     branches:
       - master
-      - 'dev-*'
+      - 'dev*'
       - 'fix*'
       - 'issue*'
-      - '!python-*'
-      - '!doc'
+      - 'python*'
+      - 'r*'
+      - 'doc*'
+      - 'gh-actions'
       - 'githubactions'
     paths:
       - '**.R'

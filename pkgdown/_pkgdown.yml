@@ -1,7 +1,9 @@
-
 template:
   package: DrWhyTemplate
   default_assets: false
+  params:
+    ganalytics: UA-5650686-14
+    noindex: true
 
 reference:
   - title: Explainers
