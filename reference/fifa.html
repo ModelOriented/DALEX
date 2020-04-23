@@ -183,9 +183,10 @@ The complete dataset was obtained from
 
 <p>Source: <a href='https://www.kaggle.com/stefanoleone992/fifa-20-complete-player-dataset'>https://www.kaggle.com/stefanoleone992/fifa-20-complete-player-dataset</a></p>
 <p>All transformations:</p><ol>
-<li><p>take 43 columns: <code>[2, 4, 6, 7, 8, 10:13, 44:77]</code> (R indexing)</p></li>
+<li><p>take 43 columns: <code>[3, 5, 7:9, 11:14, 45:78]</code> (R indexing)</p></li>
 <li><p>take rows with <code>value_eur &gt; 0</code></p></li>
-<li><p>remove duplicated rows (keep first)</p></li>
+<li><p>convert <code>short_name</code> to ASCII</p></li>
+<li><p>remove rows with duplicated <code>short_name</code> (keep first)</p></li>
 <li><p>sort rows on <code>overall</code> and take top <code>5000</code></p></li>
 <li><p>set <code>short_name</code> column as rownames</p></li>
 <li><p>transform <code>nationality</code> to factor</p></li>
