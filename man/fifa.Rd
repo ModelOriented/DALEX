@@ -34,9 +34,10 @@ Source: \url{https://www.kaggle.com/stefanoleone992/fifa-20-complete-player-data
 
 All transformations:
 \enumerate{
-\item take 43 columns: \code{[2, 4, 6, 7, 8, 10:13, 44:77]} (R indexing)
+\item take 43 columns: \code{[3, 5, 7:9, 11:14, 45:78]} (R indexing)
 \item take rows with \code{value_eur > 0}
-\item remove duplicated rows (keep first)
+\item convert \code{short_name} to ASCII
+\item remove rows with duplicated \code{short_name} (keep first)
 \item sort rows on \code{overall} and take top \code{5000}
 \item set \code{short_name} column as rownames
 \item transform \code{nationality} to factor
