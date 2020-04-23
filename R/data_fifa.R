@@ -39,3 +39,24 @@
 #' @format a data frame with 5000 rows, 42 columns and rownames
 NULL
 
+# data <- read.csv('./python/misc/players_20.csv', stringsAsFactors = FALSE)
+# new_data <- data[, c(3, 5, 7:9, 11:14, 45:78)]
+# new_data <- new_data[new_data$value_eur>0, ]
+# new_name <- iconv(new_data$short_name, from='utf-8', to="ASCII//TRANSLIT")
+# new_data$short_name <- new_name
+# library(dplyr)
+# new_data <- new_data %>%
+#   distinct(short_name, .keep_all = TRUE) %>%
+#   arrange(-overall) %>%
+#   head(5000)
+# rownames(new_data) <- new_data$short_name
+# new_data$short_name <- NULL
+# new_data$nationality <- as.factor(new_data$nationality)
+# new_data <- new_data[,c(4,5,6,8,7,1,2,3,9:42)]
+# colnames(new_data)
+#
+# fifa<-new_data
+#
+# #usethis::use_data(fifa, overwrite = TRUE)
+# #write.csv(fifa, "./python/misc/fifa20.csv", row.names = FALSE)
+
