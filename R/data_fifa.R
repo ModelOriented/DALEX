@@ -58,5 +58,5 @@ NULL
 # fifa<-new_data
 #
 # #usethis::use_data(fifa, overwrite = TRUE)
-# #write.csv(fifa, "./python/misc/fifa20.csv", row.names = FALSE)
+# #write.csv(fifa, "./python/dalex/dalex/datastes/data/fifa.csv", row.names = FALSE)
 
