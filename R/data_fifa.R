@@ -17,9 +17,10 @@
 #'
 #' All transformations:
 #' \enumerate{
-#' \item take 43 columns: \code{[2, 4, 6, 7, 8, 10:13, 44:77]} (R indexing)
+#' \item take 43 columns: \code{[3, 5, 7:9, 11:14, 45:78]} (R indexing)
 #' \item take rows with \code{value_eur > 0}
-#' \item remove duplicated rows (keep first)
+#' \item convert \code{short_name} to ASCII
+#' \item remove rows with duplicated \code{short_name} (keep first)
 #' \item sort rows on \code{overall} and take top \code{5000}
 #' \item set \code{short_name} column as rownames
 #' \item transform \code{nationality} to factor
@@ -37,4 +38,25 @@
 #' data(fifa)
 #' @format a data frame with 5000 rows, 42 columns and rownames
 NULL
+
+# data <- read.csv('./python/misc/players_20.csv', stringsAsFactors = FALSE)
+# new_data <- data[, c(3, 5, 7:9, 11:14, 45:78)]
+# new_data <- new_data[new_data$value_eur>0, ]
+# new_name <- iconv(new_data$short_name, from='utf-8', to="ASCII//TRANSLIT")
+# new_data$short_name <- new_name
+# library(dplyr)
+# new_data <- new_data %>%
+#   distinct(short_name, .keep_all = TRUE) %>%
+#   arrange(-overall) %>%
+#   head(5000)
+# rownames(new_data) <- new_data$short_name
+# new_data$short_name <- NULL
+# new_data$nationality <- as.factor(new_data$nationality)
+# new_data <- new_data[,c(4,5,6,8,7,1,2,3,9:42)]
+# colnames(new_data)
+#
+# fifa<-new_data
+#
+# #usethis::use_data(fifa, overwrite = TRUE)
+# #write.csv(fifa, "./python/dalex/dalex/datastes/data/fifa.csv", row.names = FALSE)
 
