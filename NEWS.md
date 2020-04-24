@@ -1,3 +1,7 @@
+DALEX 1.2.1
+----------------------------------------------------------------
+* fixed tests and WARNINGs on CRAN
+  
 DALEX 1.2.0
 ----------------------------------------------------------------
 * `ingredients` and `iBreakDown` are now imported by DALEX
