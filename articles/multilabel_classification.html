@@ -51,7 +51,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">1.2.0</span>
+          <span class="version version-default">1.2.1</span>
         </div>
       </div>
     </div>
@@ -106,7 +106,7 @@
       <h1 data-toc-skip>How to use multilabel classification and DALEX?</h1>
                         <h4 class="author">Szymon Maksymiuk</h4>
             
-            <h4 class="date">2020-04-23</h4>
+            <h4 class="date">2020-04-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/DALEX/blob/master/vignettes/multilabel_classification.Rmd"><code>vignettes/multilabel_classification.Rmd</code></a></small>
       <div class="hidden name"><code>multilabel_classification.Rmd</code></div>
@@ -150,7 +150,7 @@
 #&gt; Target node size:                 10 
 #&gt; Variable importance mode:         none 
 #&gt; Splitrule:                        gini 
-#&gt; OOB prediction error (Brier s.):  0.2169592</code></pre>
+#&gt; OOB prediction error (Brier s.):  0.2175449</code></pre>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"DALEX"</span>)
 <span class="no">explain_HR_ranger</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span>(<span class="no">model_HR_ranger</span>,
                               <span class="kw">data</span> <span class="kw">=</span> <span class="no">HR</span>[,-<span class="fl">6</span>],
@@ -194,7 +194,7 @@
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )
 #&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  WARNING  ) some of functionalities may not work 
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  0.002783401 , mean =  1.655962 , max =  3  
+#&gt;   -&gt; residuals         :  numerical, min =  0.005576261 , mean =  1.655962 , max =  3  
 #&gt;   A new explainer has been created!</code></pre>
 <p>And now we can use <code><a href="../reference/model_parts.html">model_parts()</a></code></p>
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">mp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/model_parts.html">model_parts</a></span>(<span class="no">explain_HR_ranger_new_y</span>, <span class="kw">loss_function</span> <span class="kw">=</span> <span class="no">loss_cross_entropy</span>)
@@ -273,7 +273,7 @@
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )
 #&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  WARNING  ) some of functionalities may not work 
 #&gt;   -&gt; residual function :  residual_function 
-#&gt;   -&gt; residuals         :  numerical, min =  0.000839565 , mean =  0.2772157 , max =  0.8626722  
+#&gt;   -&gt; residuals         :  numerical, min =  0.0007729469 , mean =  0.2770851 , max =  0.9135797  
 #&gt;   A new explainer has been created!</code></pre>
 <div id="model-performance" class="section level2">
 <h2 class="hasAnchor">
@@ -307,7 +307,7 @@
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt; [1] ranger_0.12.1 DALEX_1.2.0  
+#&gt; [1] ranger_0.12.1 DALEX_1.2.1  
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
 #&gt;  [1] Rcpp_1.0.4.6       gower_0.2.1        compiler_3.6.3     pillar_1.4.3      
