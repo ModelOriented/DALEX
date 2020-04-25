@@ -256,11 +256,22 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
   if (is.null(residual_function)) {
     # residual_function not specified
     # try the default
-    if (!is.null(predict_function)) {
+    if (!is.null(predict_function) & model_info$type != "multilabel classification") {
       residual_function <- function(model, data, y) {
         y - predict_function(model, data)
       }
       verbose_cat("  -> residual function :  difference between y and yhat (",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
+    } else if (!is.null(predict_function) & model_info$type == "multilabel classification") {
+      residual_function <- function(model, data, y) {
+        y_char <- as.character(y)
+        pred <- predict_function(model, data)
+        res <- c()
+        for (i in 1:nrow(pred)) {
+          res[i] <- 1-pred[i, y_char[i]]
+        }
+        res
+      }
+      verbose_cat("  -> residual function :  difference between 1 and probability of true class (",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
     }
   } else {
     if (!"function" %in% class(residual_function)) {

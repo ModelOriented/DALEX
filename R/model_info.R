@@ -170,16 +170,16 @@ model_info.cv.glmnet <- function(model, ...) {
 #' @rdname model_info
 #' @export
 model_info.ranger <- function(model, ...) {
-  if (model$treetype == "Regression" & !is.null(list(...)$task_subtype)) {
+  if (model$treetype == "Regression") {
+    type <- "regression"
+  } else if (!is.null(list(...)$task_subtype)) {
     if (list(...)$task_subtype){
       type <- "multilabel classification"
     } else {
       type <- "binary classification"
     }
-  } else if (model$treetype == "Regression" & is.null(list(...)$task_subtype)) {
-    type <- "classification"
   } else {
-    type <- "regression"
+    type <- "classification"
   }
   package <- "ranger"
   ver <- get_pkg_ver_safe(package)
@@ -232,13 +232,13 @@ model_info.model_fit <- function(model, ...) {
 #' @rdname model_info
 #' @export
 model_info.train <- function(model, ...) {
-  if (model$modelType == "classification" & !is.null(list(...)$task_subtype)) {
+  if (model$modelType == "Classification" & !is.null(list(...)$task_subtype)) {
     if (list(...)$task_subtype){
       type <- "multilabel classification"
     } else {
       type <- "binary classification"
     }
-  } else if (model$modelType == "classification" & is.null(list(...)$task_subtype)) {
+  } else if (model$modelType == "Classification" & is.null(list(...)$task_subtype)) {
     type <- "classification"
   } else {
     type <- "regression"
