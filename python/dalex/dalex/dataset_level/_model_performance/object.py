@@ -1,7 +1,7 @@
+import plotly.graph_objects as go
+
 from dalex.dataset_level._model_performance.plot import ecdf
 from .utils import *
-
-import plotly.graph_objects as go
 
 
 class ModelPerformance:
@@ -117,7 +117,7 @@ class ModelPerformance:
 
             fig.add_scatter(
                 x=_unique_abs_residuals,
-                y=1-ecdf(_abs_residuals)(_unique_abs_residuals),
+                y=1 - ecdf(_abs_residuals)(_unique_abs_residuals),
                 line_shape='hv',
                 name=_residuals_df.iloc[0, _residuals_df.columns.get_loc('label')]
             )
@@ -133,11 +133,10 @@ class ModelPerformance:
 
         if show:
             fig.show(config={'displaylogo': False, 'staticPlot': False,
-                             'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d', 'zoom2d',
+                             'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
+                                                        'zoom2d',
                                                         'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',
                                                         'toggleSpikelines', 'hoverCompareCartesian',
                                                         'hoverClosestCartesian']})
         else:
             return fig
-
-

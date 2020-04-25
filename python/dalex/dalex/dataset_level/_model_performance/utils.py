@@ -35,18 +35,18 @@ def auc(y_pred, y_true):
 
 
 def recall(tp, fp, tn, fn):
-    return tp/(tp + fn)
+    return tp / (tp + fn)
 
 
 def precision(tp, fp, tn, fn):
-    return tp/(tp + fp)
+    return tp / (tp + fp)
 
 
 def f1(tp, fp, tn, fn):
     _recall = recall(tp, fp, tn, fn)
     _precision = precision(tp, fp, tn, fn)
-    return 2 * (_precision * _recall)/(_precision + _recall)
+    return 2 * (_precision * _recall) / (_precision + _recall)
 
 
 def accuracy(tp, fp, tn, fn):
-    return (tp + tn)/(tp + fp + tn + fn)
+    return (tp + tn) / (tp + fp + tn + fn)

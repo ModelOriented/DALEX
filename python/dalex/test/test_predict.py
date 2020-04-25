@@ -1,15 +1,13 @@
 import unittest
-import dalex as dx
 
 import pandas as pd
-import numpy as np
-
-from sklearn.neural_network import MLPClassifier, MLPRegressor
-from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
-from sklearn.impute import SimpleImputer
-from sklearn.pipeline import Pipeline
-from sklearn.tree import DecisionTreeRegressor
 from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
+from sklearn.neural_network import MLPRegressor
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
+
+import dalex as dx
 
 
 class PredictTestTitanic(unittest.TestCase):

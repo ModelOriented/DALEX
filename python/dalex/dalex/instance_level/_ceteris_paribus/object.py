@@ -1,4 +1,5 @@
 from warnings import warn
+
 from plotly.subplots import make_subplots
 
 from dalex.instance_level._ceteris_paribus.plot import tooltip_text
@@ -134,7 +135,7 @@ class CeterisParibus:
         obs_df_dict = {e['_ids_'].array[0]: e for e in obs_df_list}
 
         # prepare profiles data
-        _result_df = _result_df.loc[_result_df['_vname_'].apply(lambda x: x in variable_names), ].reset_index(drop=True)
+        _result_df = _result_df.loc[_result_df['_vname_'].apply(lambda x: x in variable_names),].reset_index(drop=True)
 
         dl = _result_df['_yhat_'].to_numpy()
         min_max_margin = dl.ptp() * 0.15
@@ -155,14 +156,15 @@ class CeterisParibus:
             x_title, y_title = "prediction", ""
 
         fig = make_subplots(rows=facet_nrow, cols=facet_ncol, horizontal_spacing=horizontal_spacing,
-                            vertical_spacing=vertical_spacing, x_title=x_title, y_title=y_title, subplot_titles=variable_names)
+                            vertical_spacing=vertical_spacing, x_title=x_title, y_title=y_title,
+                            subplot_titles=variable_names)
 
         for i in range(n):
             name = variable_names[i]
             var_df = var_df_dict[name][[name, "_yhat_", "_ids_", "_vname_"]].rename(
                 columns={name: "_xhat_"}).sort_values('_xhat_')
 
-            row = int(np.floor(i/facet_ncol) + 1)
+            row = int(np.floor(i / facet_ncol) + 1)
             col = int(np.mod(i, facet_ncol) + 1)
 
             # line plot or bar plot?
@@ -194,7 +196,7 @@ class CeterisParibus:
                             mode='markers',
                             y=[obs['_yhat_']],
                             x=[obs[name]],
-                            marker={'color': '#371ea3', 'size': size*4},
+                            marker={'color': '#371ea3', 'size': size * 4},
                             hovertext=[tooltip_text(obs)],
                             hoverinfo='text',
                             hoverlabel={'bgcolor': 'rgba(0,0,0,0.8)'},
@@ -230,7 +232,8 @@ class CeterisParibus:
                 tt = df.apply(lambda r: tooltip_text(obs, r), axis=1)
                 df = df.assign(tooltip_text=tt.values)
 
-                fig.add_shape(type='line', x0=baseline, x1=baseline, y0=0, y1=len(df['_xhat_'].unique()) - 1, yref="paper",
+                fig.add_shape(type='line', x0=baseline, x1=baseline, y0=0, y1=len(df['_xhat_'].unique()) - 1,
+                              yref="paper",
                               xref="x", line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'}, row=row, col=col)
 
                 fig.add_bar(
@@ -257,15 +260,16 @@ class CeterisParibus:
 
                 fig.update_xaxes({'range': min_max})
 
-        plot_height = 78 + 71 + facet_nrow*(280+60)
+        plot_height = 78 + 71 + facet_nrow * (280 + 60)
         fig.update_layout(title_text=title, title_x=0.15, font={'color': "#371ea3"}, template="none",
                           height=plot_height, margin={'t': 78, 'b': 71, 'r': 30}, hovermode='closest')
 
         if show:
             fig.show(config={'displaylogo': False, 'staticPlot': False,
-                'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d', 'zoom2d', 'pan2d',
-                                           'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines', 'hoverCompareCartesian',
-                                           'hoverClosestCartesian']})
+                             'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
+                                                        'zoom2d', 'pan2d',
+                                                        'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines',
+                                                        'hoverCompareCartesian',
+                                                        'hoverClosestCartesian']})
         else:
             return fig
-

@@ -1,5 +1,5 @@
-from dalex.instance_level import BreakDown, Shap, CeterisParibus
 from dalex.dataset_level import ModelPerformance, VariableImportance, AggregatedProfiles
+from dalex.instance_level import BreakDown, Shap, CeterisParibus
 from .checks import *
 from .helper import get_model_info
 
@@ -80,14 +80,16 @@ class Explainer:
         label, model_info_ = check_label(label, model_class, model_info_, verbose)
 
         # REPORT: checks for predict_function
-        predict_function, pred, model_info_ = check_predict_function(predict_function, model, data, model_class, model_info_, precalculate, verbose)
+        predict_function, pred, model_info_ = check_predict_function(predict_function, model, data, model_class,
+                                                                     model_info_, precalculate, verbose)
 
         # if data is specified then we may test predict_function
         # at this moment we have predict function
 
         # REPORT: checks for residual_function
-        residual_function, residuals, model_info_ = check_residual_function(residual_function, predict_function, model, data, y,
-                                                               model_info_, precalculate, verbose)
+        residual_function, residuals, model_info_ = check_residual_function(residual_function, predict_function, model,
+                                                                            data, y,
+                                                                            model_info_, precalculate, verbose)
 
         model_info = check_model_info(model_info, model_info_, verbose)
 
@@ -129,13 +131,13 @@ class Explainer:
         return self.residual_function(self.model, data, y)
 
     def predict_parts(self,
-                     new_observation,
-                     type=('break_down_interactions','break_down','shap'),
-                     order=None,
-                     interaction_preference=1,
-                     path="average",
-                     B=25,
-                     keep_distributions=False):
+                      new_observation,
+                      type=('break_down_interactions', 'break_down', 'shap'),
+                      order=None,
+                      interaction_preference=1,
+                      path="average",
+                      B=25,
+                      keep_distributions=False):
 
         """Instance Level Variable Attribution as Break Down or SHAP Explanations
 
@@ -149,7 +151,7 @@ class Explainer:
         :return: BreakDown / Shap
         """
 
-        types = ('break_down_interactions','break_down','shap')
+        types = ('break_down_interactions', 'break_down', 'shap')
         type = check_method_type(type, types)
 
         if type == 'break_down_interactions' or type == 'break_down':
@@ -229,7 +231,7 @@ class Explainer:
 
     def model_parts(self,
                     loss_function='loss_root_mean_square',
-                    type=('variable_importance','ratio','difference'),
+                    type=('variable_importance', 'ratio', 'difference'),
                     N=None,
                     B=10,
                     keep_raw_permutations=None,
@@ -251,7 +253,7 @@ class Explainer:
         :return: FeatureImportance object
         """
 
-        types = ('variable_importance','ratio','difference')
+        types = ('variable_importance', 'ratio', 'difference')
         type = check_method_type(type, types)
 
         model_parts_ = VariableImportance(
@@ -270,7 +272,7 @@ class Explainer:
         return model_parts_
 
     def model_profile(self,
-                      type=('partial','accumulated','conditional'),
+                      type=('partial', 'accumulated', 'conditional'),
                       N=500,
                       variables=None,
                       variable_type='numerical',
@@ -293,7 +295,7 @@ class Explainer:
         :return: VariableEffect object
         """
 
-        types = ('partial','accumulated','conditional')
+        types = ('partial', 'accumulated', 'conditional')
         type = check_method_type(type, types)
 
         N = min(N, self.data.shape[0])

@@ -1,16 +1,14 @@
 import unittest
-import dalex as dx
-from dalex.dataset_level import ModelPerformance
 
 import pandas as pd
-import numpy as np
-
-from sklearn.neural_network import MLPClassifier, MLPRegressor
-from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
-from sklearn.impute import SimpleImputer
-from sklearn.pipeline import Pipeline
-from sklearn.tree import DecisionTreeRegressor
 from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
+from sklearn.neural_network import MLPRegressor
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
+
+import dalex as dx
+from dalex.dataset_level import ModelPerformance
 
 
 class ModelPerformanceTestTitanic(unittest.TestCase):
@@ -50,7 +48,7 @@ class ModelPerformanceTestTitanic(unittest.TestCase):
 
         self.assertEqual(self.exp.model_performance('classification').result.shape[0], 1)
 
-    #def test_result(self):
+    # def test_result(self):
     #    res = self.exp.model_performance('classification').result
 
     #    self.assertAlmostEqual(res.recall[0], 0.6872246696035242)

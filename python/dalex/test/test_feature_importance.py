@@ -1,17 +1,16 @@
 import unittest
+
+import pandas as pd
+from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
+from sklearn.neural_network import MLPClassifier
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
+
 import dalex as dx
 from dalex.dataset_level import VariableImportance
 from dalex.dataset_level._variable_importance import utils
 from dalex.dataset_level._variable_importance.loss_functions import *
-
-import pandas as pd
-import numpy as np
-
-from sklearn.neural_network import MLPClassifier
-from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
-from sklearn.impute import SimpleImputer
-from sklearn.pipeline import Pipeline
-from sklearn.compose import ColumnTransformer
 
 
 class FeatureImportanceTestTitanic(unittest.TestCase):
@@ -39,7 +38,7 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
 
         clf = Pipeline(steps=[('preprocessor', preprocessor),
                               ('classifier', MLPClassifier(hidden_layer_sizes=(150, 100, 50),
-                                                          max_iter=500, random_state=0))])
+                                                           max_iter=500, random_state=0))])
 
         clf.fit(self.X, self.y)
 
@@ -82,12 +81,12 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
         for col in self.X.columns:
             variables[col] = col
         vi = utils.calculate_variable_importance(self.exp,
-                                            'ratio',
+                                                 'ratio',
                                                  loss_root_mean_square,
                                                  variables,
                                                  100,
                                                  2,
-                                            'aaa',
+                                                 'aaa',
                                                  True)
 
         self.assertIsInstance(vi, tuple)
@@ -95,7 +94,7 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
         self.assertIsInstance(vi[1], pd.DataFrame)
         self.assertTrue(np.isin(np.array([
             'dropout_loss', 'variable', 'label']),
-                                vi[0].columns).all())
+            vi[0].columns).all())
 
         vi = utils.calculate_variable_importance(self.exp,
                                                  'difference',
@@ -111,7 +110,7 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
         self.assertIsNone(vi[1])
         self.assertTrue(np.isin(np.array([
             'dropout_loss', 'variable', 'label']),
-                                vi[0].columns).all())
+            vi[0].columns).all())
 
     def test_constructor(self):
         self.assertIsInstance(self.exp.model_parts(), (VariableImportance,))

@@ -1,6 +1,6 @@
-from scipy.stats import norm
 import numpy as np
 import pandas as pd
+from scipy.stats import norm
 from tqdm import tqdm
 
 
@@ -26,9 +26,9 @@ def aggregate_profiles(all_profiles, ceteris_paribus, type, groups, intercept, s
             desc="Calculating conditional dependency!")
         aggregated_profiles = \
             all_profiles. \
-            loc[:, ["_vname_", "_label_", "_x_", "_yhat_", "_ids_", "_original_"] + groups]. \
-            groupby(['_vname_', '_label_']). \
-            progress_apply(lambda split_profile: split_over_variables_and_labels(split_profile, type, groups, span))
+                loc[:, ["_vname_", "_label_", "_x_", "_yhat_", "_ids_", "_original_"] + groups]. \
+                groupby(['_vname_', '_label_']). \
+                progress_apply(lambda split_profile: split_over_variables_and_labels(split_profile, type, groups, span))
 
     # postprocessing
     if len(groups) != 0:

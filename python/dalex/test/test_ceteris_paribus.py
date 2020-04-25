@@ -1,16 +1,16 @@
 import unittest
+
+import numpy as np
+import pandas as pd
+from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
+from sklearn.neural_network import MLPClassifier
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
+
 import dalex as dx
 from dalex.instance_level import CeterisParibus
 from dalex.instance_level._ceteris_paribus import utils
-
-import pandas as pd
-import numpy as np
-
-from sklearn.neural_network import MLPClassifier
-from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
-from sklearn.impute import SimpleImputer
-from sklearn.pipeline import Pipeline
-from sklearn.compose import ColumnTransformer
 
 
 class CeterisParibusTestTitanic(unittest.TestCase):
@@ -38,7 +38,7 @@ class CeterisParibusTestTitanic(unittest.TestCase):
 
         clf = Pipeline(steps=[('preprocessor', preprocessor),
                               ('classifier', MLPClassifier(hidden_layer_sizes=(150, 100, 50),
-                                                          max_iter=500, random_state=0))])
+                                                           max_iter=500, random_state=0))])
 
         clf.fit(self.X, self.y)
 
@@ -46,7 +46,7 @@ class CeterisParibusTestTitanic(unittest.TestCase):
 
     def test_calculate_variable_split(self):
         splits = utils.calculate_variable_split(self.X, self.X.columns, 101)
-        self.assertIsInstance(splits, (dict, ))
+        self.assertIsInstance(splits, (dict,))
         for key, value in splits.items():
             self.assertLessEqual(len(value), 101)
 

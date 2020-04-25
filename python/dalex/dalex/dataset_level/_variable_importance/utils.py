@@ -54,7 +54,8 @@ def loss_after_permutation(explainer, loss_function, variables, N):
     for variables_set_key in variables:
         ndf = sampled_data.copy()
         ndf.loc[:, variables[variables_set_key]] = ndf.iloc[
-            np.random.choice(range(ndf.shape[0]), ndf.shape[0], False), :].loc[:, variables[variables_set_key]].values
+                                                   np.random.choice(range(ndf.shape[0]), ndf.shape[0], False), :].loc[:,
+                                                   variables[variables_set_key]].values
 
         predicted = explainer.predict(ndf)
 
