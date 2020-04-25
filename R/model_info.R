@@ -52,7 +52,17 @@ model_info.lm <- function(model, ...) {
 #' @rdname model_info
 #' @export
 model_info.randomForest <- function(model, ...) {
-  type <- model$type
+  if (model$type == "classification" & !is.null(list(...)$task_subtype)) {
+    if (list(...)$task_subtype){
+      type <- "multilabel classification"
+    } else {
+      type <- "binary classification"
+    }
+  } else if (model$type == "classification" & is.null(list(...)$task_subtype)) {
+    type <- "classification"
+  } else {
+    type <- "regression"
+  }
   package <- "randomForest"
   ver <- get_pkg_ver_safe(package)
   model_info <- list(package = package, ver = ver, type = type)
@@ -63,7 +73,13 @@ model_info.randomForest <- function(model, ...) {
 #' @rdname model_info
 #' @export
 model_info.svm <- function(model, ...) {
-  if (model$type == 0) {
+  if (model$type == 0 & !is.null(list(...)$task_subtype)) {
+    if (list(...)$task_subtype){
+      type <- "multilabel classification"
+    } else {
+      type <- "binary classification"
+    }
+  } else if (model$type == 0 & is.null(list(...)$task_subtype)) {
     type <- "classification"
   } else {
     type <- "regression"
@@ -79,7 +95,7 @@ model_info.svm <- function(model, ...) {
 #' @export
 model_info.glm <- function(model, ...) {
   if (model$family$family == "binomial") {
-    type <- "classification"
+    type <- "binary classification"
   } else {
     type <- "regression"
   }
@@ -93,7 +109,15 @@ model_info.glm <- function(model, ...) {
 #' @rdname model_info
 #' @export
 model_info.lrm <- function(model, ...) {
-  type <- "classification"
+  if (!is.null(list(...)$task_subtype)) {
+    if (list(...)$task_subtype){
+      type <- "multilabel classification"
+    } else {
+      type <- "binary classification"
+    }
+  } else {
+    type <- "classification"
+  }
   package <- "rms"
   ver <- get_pkg_ver_safe(package)
   model_info <- list(package = package, ver = ver, type = type)
@@ -104,7 +128,13 @@ model_info.lrm <- function(model, ...) {
 #' @rdname model_info
 #' @export
 model_info.glmnet <- function(model, ...) {
-  if (!is.null(model$classnames)) {
+  if (!is.null(model$classnames) & !is.null(list(...)$task_subtype)) {
+    if (list(...)$task_subtype){
+      type <- "multilabel classification"
+    } else {
+      type <- "binary classification"
+    }
+  } else if (!is.null(model$classnames) & is.null(list(...)$task_subtype)) {
     type <- "classification"
   } else {
     type <- "regression"
@@ -119,7 +149,13 @@ model_info.glmnet <- function(model, ...) {
 #' @rdname model_info
 #' @export
 model_info.cv.glmnet <- function(model, ...) {
-  if (!is.null(model$glmnet.fit$classnames)) {
+  if (!is.null(model$glmnet.fit$classnames) & !is.null(list(...)$task_subtype)) {
+    if (list(...)$task_subtype){
+      type <- "multilabel classification"
+    } else {
+      type <- "binary classification"
+    }
+  } else if (!is.null(model$glmnet.fit$classnames) & is.null(list(...)$task_subtype)) {
     type <- "classification"
   } else {
     type <- "regression"
@@ -134,10 +170,16 @@ model_info.cv.glmnet <- function(model, ...) {
 #' @rdname model_info
 #' @export
 model_info.ranger <- function(model, ...) {
-  if (model$treetype == "Regression") {
-    type <- "regression"
-  } else {
+  if (model$treetype == "Regression" & !is.null(list(...)$task_subtype)) {
+    if (list(...)$task_subtype){
+      type <- "multilabel classification"
+    } else {
+      type <- "binary classification"
+    }
+  } else if (model$treetype == "Regression" & is.null(list(...)$task_subtype)) {
     type <- "classification"
+  } else {
+    type <- "regression"
   }
   package <- "ranger"
   ver <- get_pkg_ver_safe(package)
@@ -149,8 +191,10 @@ model_info.ranger <- function(model, ...) {
 #' @rdname model_info
 #' @export
 model_info.gbm <- function(model, ...) {
-  if (model$distribution == "bernoulli" || model$distribution == "multinomial") {
-    type <- "classification"
+  if (model$distribution == "multinomial") {
+    type <- "multilabel classification"
+  } else if (model$distribution == "bernoulli") {
+    type <- "binary classification"
   } else {
     type <- "regression"
   }
@@ -165,7 +209,17 @@ model_info.gbm <- function(model, ...) {
 #' @rdname model_info
 #' @export
 model_info.model_fit <- function(model, ...) {
-  type <- model$spec$mode
+  if (model$spec$mode == "classification" & !is.null(list(...)$task_subtype)) {
+    if (list(...)$task_subtype){
+      type <- "multilabel classification"
+    } else {
+      type <- "binary classification"
+    }
+  } else if (model$spec$mode == "classification" & is.null(list(...)$task_subtype)) {
+    type <- "classification"
+  } else {
+    type <- "regression"
+  }
   package_wrapper <- "parsnip"
   ver_wrapper <- get_pkg_ver_safe(package_wrapper)
   package <- model$spec$method$libs
@@ -178,7 +232,17 @@ model_info.model_fit <- function(model, ...) {
 #' @rdname model_info
 #' @export
 model_info.train <- function(model, ...) {
-  type <- model$modelType
+  if (model$modelType == "classification" & !is.null(list(...)$task_subtype)) {
+    if (list(...)$task_subtype){
+      type <- "multilabel classification"
+    } else {
+      type <- "binary classification"
+    }
+  } else if (model$modelType == "classification" & is.null(list(...)$task_subtype)) {
+    type <- "classification"
+  } else {
+    type <- "regression"
+  }
   package_wrapper <- "caret"
   ver_wrapper <- get_pkg_ver_safe(package_wrapper)
   package <- model$modelInfo$library
@@ -194,7 +258,13 @@ model_info.train <- function(model, ...) {
 #' @rdname model_info
 #' @export
 model_info.rpart <- function(model, ...) {
-  if (attr(model$terms, "dataClasses")[1] == "factor") {
+  if (attr(model$terms, "dataClasses")[1] == "factor" & !is.null(list(...)$task_subtype)) {
+    if (list(...)$task_subtype){
+      type <- "multilabel classification"
+    } else {
+      type <- "binary classification"
+    }
+  } else if (attr(model$terms, "dataClasses")[1] == "factor" & is.null(list(...)$task_subtype)) {
     type <- "classification"
   } else {
     type <- "regression"

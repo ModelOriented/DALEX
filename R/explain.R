@@ -199,19 +199,6 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     }
   }
 
-  if (is.null(model_info)) {
-    # extract defaults
-    model_info <- model_info(model)
-    verbose_cat("  -> model_info        :  package", model_info$package[1], ", ver.", model_info$ver[1], ", task", model_info$type, "(", color_codes$yellow_start,"default",color_codes$yellow_end, ")", "\n", verbose = verbose)
-  } else {
-    verbose_cat("  -> model_info        :  package", model_info$package[1], ", ver.", model_info$ver[1], ", task", model_info$type, "\n", verbose = verbose)
-  }
-  # if type specified then it overwrite the type in model_info
-  if (!is.null(type)) {
-    model_info$type <- type
-    verbose_cat("  -> model_info        :  type set to ", type, "\n", verbose = verbose)
-  }
-
   # REPORT: checks for predict_function
   if (is.null(predict_function)) {
     # predict_function not specified
@@ -249,6 +236,20 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
         verbose_cat("  -> predicted values  :  numerical, min = ", min(y_hat), ", mean = ", mean(y_hat), ", max = ", max(y_hat), " \n", verbose = verbose)
       }
     }
+  }
+
+  if (is.null(model_info)) {
+    # extract defaults
+    task_subtype <- check_if_multilabel(model, predict_function, data[1:2,])
+    model_info <- model_info(model, task_subtype = task_subtype)
+    verbose_cat("  -> model_info        :  package", model_info$package[1], ", ver.", model_info$ver[1], ", task", model_info$type, "(", color_codes$yellow_start,"default",color_codes$yellow_end, ")", "\n", verbose = verbose)
+  } else {
+    verbose_cat("  -> model_info        :  package", model_info$package[1], ", ver.", model_info$ver[1], ", task", model_info$type, "\n", verbose = verbose)
+  }
+  # if type specified then it overwrite the type in model_info
+  if (!is.null(type)) {
+    model_info$type <- type
+    verbose_cat("  -> model_info        :  type set to ", type, "\n", verbose = verbose)
   }
 
   # REPORT: checks for residual_function
@@ -315,6 +316,12 @@ is_y_in_data <- function(data, y) {
   any(apply(data, 2, function(x) {
     all(as.character(x) == as.character(y))
   }))
+}
+
+# check if model whether model is multilabel classification task
+check_if_multilabel <- function(model, predict_function, sample_data) {
+  response_sample <- try(predict_function(model, sample_data), silent = TRUE)
+  !is.null(dim(response_sample))
 }
 
 #' @rdname explain
