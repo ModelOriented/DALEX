@@ -156,7 +156,7 @@ yhat.ranger <- function(X.model, newdata, ...) {
 yhat.model_fit <- function(X.model, newdata, ...) {
   if (X.model$spec$mode == "classification") {
     response <- as.matrix(predict(X.model, newdata, type = "prob"))
-    colnames(response) <- model$lvl
+    colnames(response) <- X.model$lvl
     if (ncol(response) == 2) {
       response <- response[,2]
     }
