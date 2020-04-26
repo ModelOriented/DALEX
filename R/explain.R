@@ -256,7 +256,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
   if (is.null(residual_function)) {
     # residual_function not specified
     # try the default
-    if (!is.null(predict_function) & model_info$type != "multilabel classification") {
+    if (!is.null(predict_function) & model_info$type != "multiclass classification") {
       residual_function <- function(model, data, y) {
         y - predict_function(model, data)
       }

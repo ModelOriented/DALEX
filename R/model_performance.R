@@ -147,7 +147,7 @@ model_performance_accuracy <- function(tp, fp, tn, fn) {
   (tp + tn)/(tp + fp + tn + fn)
 }
 
-model_performance_macro_F1 <- function(predicted, observed){
+model_performance_macro_f1 <- function(predicted, observed){
   predicted_vectorized <- turn_porbs_into_vector(predicted)
   confusion_matrixes <- calculate_confusion_matrixes(predicted_vectorized, observed)
   f1_scores <- sapply(confusion_matrixes, function(x){
@@ -156,7 +156,7 @@ model_performance_macro_F1 <- function(predicted, observed){
   mean(f1_scores)
 }
 
-model_performance_micro_F1 <- function(predicted, observed){
+model_performance_micro_f1 <- function(predicted, observed){
   # For case where each point can be assigned only to one class micro_f1 equals acc
   model_performance_accuracy_multi(predicted, observed)
 }
