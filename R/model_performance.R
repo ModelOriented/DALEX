@@ -87,9 +87,9 @@ model_performance <- function(explainer, ..., cutoff = 0.5) {
     measures <- list(
       micro_F1 = model_performance_micro_f1(predicted, observed),
       macro_F1 = model_performance_macro_f1(predicted, observed),
-      weighted_macro_F1 = model_performance_weighted_macro_f1(predicted, observed),
+      w_macro_F1 = model_performance_weighted_macro_f1(predicted, observed),
       accuracy = model_performance_accuracy_multi(predicted, observed),
-      weighted_macro_auc = model_performance_weighted_macro_auc(predicted, observed)
+      w_macro_auc = model_performance_weighted_macro_auc(predicted, observed)
     )
   }
 
