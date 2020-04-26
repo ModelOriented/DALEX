@@ -54,7 +54,7 @@ model_info.lm <- function(model, ...) {
 model_info.randomForest <- function(model, ...) {
   if (model$type == "classification" & !is.null(list(...)$task_subtype)) {
     if (list(...)$task_subtype){
-      type <- "multilabel classification"
+      type <- "multilclass classification"
     } else {
       type <- "binary classification"
     }
@@ -75,7 +75,7 @@ model_info.randomForest <- function(model, ...) {
 model_info.svm <- function(model, ...) {
   if (model$type == 0 & !is.null(list(...)$task_subtype)) {
     if (list(...)$task_subtype){
-      type <- "multilabel classification"
+      type <- "multilclass classification"
     } else {
       type <- "binary classification"
     }
@@ -111,7 +111,7 @@ model_info.glm <- function(model, ...) {
 model_info.lrm <- function(model, ...) {
   if (!is.null(list(...)$task_subtype)) {
     if (list(...)$task_subtype){
-      type <- "multilabel classification"
+      type <- "multilclass classification"
     } else {
       type <- "binary classification"
     }
@@ -130,7 +130,7 @@ model_info.lrm <- function(model, ...) {
 model_info.glmnet <- function(model, ...) {
   if (!is.null(model$classnames) & !is.null(list(...)$task_subtype)) {
     if (list(...)$task_subtype){
-      type <- "multilabel classification"
+      type <- "multilclass classification"
     } else {
       type <- "binary classification"
     }
@@ -151,7 +151,7 @@ model_info.glmnet <- function(model, ...) {
 model_info.cv.glmnet <- function(model, ...) {
   if (!is.null(model$glmnet.fit$classnames) & !is.null(list(...)$task_subtype)) {
     if (list(...)$task_subtype){
-      type <- "multilabel classification"
+      type <- "multilclass classification"
     } else {
       type <- "binary classification"
     }
@@ -174,7 +174,7 @@ model_info.ranger <- function(model, ...) {
     type <- "regression"
   } else if (!is.null(list(...)$task_subtype)) {
     if (list(...)$task_subtype){
-      type <- "multilabel classification"
+      type <- "multilclass classification"
     } else {
       type <- "binary classification"
     }
@@ -192,7 +192,7 @@ model_info.ranger <- function(model, ...) {
 #' @export
 model_info.gbm <- function(model, ...) {
   if (model$distribution == "multinomial") {
-    type <- "multilabel classification"
+    type <- "multilclass classification"
   } else if (model$distribution == "bernoulli") {
     type <- "binary classification"
   } else {
@@ -211,7 +211,7 @@ model_info.gbm <- function(model, ...) {
 model_info.model_fit <- function(model, ...) {
   if (model$spec$mode == "classification" & !is.null(list(...)$task_subtype)) {
     if (list(...)$task_subtype){
-      type <- "multilabel classification"
+      type <- "multilclass classification"
     } else {
       type <- "binary classification"
     }
@@ -234,7 +234,7 @@ model_info.model_fit <- function(model, ...) {
 model_info.train <- function(model, ...) {
   if (model$modelType == "Classification" & !is.null(list(...)$task_subtype)) {
     if (list(...)$task_subtype){
-      type <- "multilabel classification"
+      type <- "multilclass classification"
     } else {
       type <- "binary classification"
     }
@@ -260,7 +260,7 @@ model_info.train <- function(model, ...) {
 model_info.rpart <- function(model, ...) {
   if (attr(model$terms, "dataClasses")[1] == "factor" & !is.null(list(...)$task_subtype)) {
     if (list(...)$task_subtype){
-      type <- "multilabel classification"
+      type <- "multilclass classification"
     } else {
       type <- "binary classification"
     }

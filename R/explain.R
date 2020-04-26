@@ -261,7 +261,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
         y - predict_function(model, data)
       }
       verbose_cat("  -> residual function :  difference between y and yhat (",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
-    } else if (!is.null(predict_function) & model_info$type == "multilabel classification") {
+    } else if (!is.null(predict_function) & model_info$type == "multiclass classification") {
       residual_function <- function(model, data, y) {
         y_char <- as.character(y)
         pred <- predict_function(model, data)
