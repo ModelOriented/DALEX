@@ -10,7 +10,7 @@
 #'
 #' @return An object of the class \code{model_performance}.
 #' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
-#' @importFrom stats median
+#' @importFrom stats median weighted.mean
 #' @export
 #' @examples
 #'  \dontrun{
@@ -70,7 +70,7 @@ model_performance <- function(explainer, ..., cutoff = 0.5) {
       r2 = model_performance_r2(predicted, observed),
       mad = model_performance_mad(predicted, observed)
     )
-  } else if (type == "binary classifiaction") {
+  } else if (type == "binary classification") {
     tp = sum((observed == 1) * (predicted >= cutoff))
     fp = sum((observed == 0) * (predicted >= cutoff))
     tn = sum((observed == 0) * (predicted < cutoff))
