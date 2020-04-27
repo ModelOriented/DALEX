@@ -1,6 +1,8 @@
 dalex (development)
 ----------------------------------------------------------------
 * *fix:* change `short_name` encoding in `fifa` dataset (utf8->ascii)
+* *defaults*: default 'loss_root_mean_square' in model parts changed to 'rmse'
+* *fix*: fixed checks in BD, SHAP, CP
 
 dalex 0.1.5
 ----------------------------------------------------------------
