@@ -230,7 +230,7 @@ class Explainer:
         return model_performance_
 
     def model_parts(self,
-                    loss_function='loss_root_mean_square',
+                    loss_function='rmse',
                     type=('variable_importance', 'ratio', 'difference'),
                     N=None,
                     B=10,
@@ -241,12 +241,12 @@ class Explainer:
 
         """Creates VariableImportance object
 
-        :param loss_function: a function thet will be used to assess variable importance
-        :param type: type of transformation that should be applied for dropout loss
+        :param loss_function: a function that will be used to assess variable importance
+        :param type: 'variable_importance'/'ratio'/'difference' type of transformation that should be applied for dropout loss
         :param N: number of observations that should be sampled for calculation of variable importance
         :param B: number of permutation rounds to perform on each variable
         :param keep_raw_permutations: TODO
-        :param variables: vector of variables. If None then variable importance will be tested for each variable from the data separately
+        :param variables: vector of variables. If None then variable importance will be tested for each variable from the data separately, ignored if variable_groups is not None
         :param variable_groups: dict of lists of variables. Each list is treated as one group. This is for testing joint variable importance
         :param label: TODO
         :param random_state: random state for the permutations

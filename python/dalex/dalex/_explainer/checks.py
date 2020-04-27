@@ -186,10 +186,13 @@ def check_model_info(model_info, model_info_, verbose):
 def check_method_type(type, types):
     if isinstance(type, tuple):
         ret = type[0]
-    else:
+    elif isinstance(type, str):
         ret = type
+    else:
+        raise TypeError("type is not a str")
+
     if ret not in types:
-        raise TypeError("'type' must be one of: {}".format(', '.join(types)))
+        raise ValueError("'type' must be one of: {}".format(', '.join(types)))
     else:
         return ret
 
