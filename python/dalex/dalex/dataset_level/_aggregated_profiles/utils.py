@@ -114,4 +114,4 @@ def split_over_variables_and_labels(split_profile, type, groups, span):
 
 
 def norm(x, loc, scale):
-    return np.exp(-((x - loc) / scale) ** 2 / 2) / np.pi / np.sqrt(2)
+    return np.exp(-((x - loc) / scale) ** 2 / 2) / np.pi / np.sqrt(2) / scale
