@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-from scipy.stats import norm
 from tqdm import tqdm
 
 
@@ -81,7 +80,7 @@ def split_over_variables_and_labels(split_profile, type, groups, span):
         # scalled differences
         diffs = (split_profile['_original_'] - split_profile['_x_']) / range_x
 
-        split_profile['_w_'] = norm(0, span).pdf(diffs)
+        split_profile['_w_'] = norm(diffs, 0, span)
 
     else:
         # for categorical variables we will calculate weighted average
@@ -112,3 +111,7 @@ def split_over_variables_and_labels(split_profile, type, groups, span):
                 lambda column: column.cumsum())
 
     return par_profile
+
+
+def norm(x, loc, scale):
+    return np.exp(-((x - loc) / scale) ** 2 / 2) / np.pi / np.sqrt(2)
