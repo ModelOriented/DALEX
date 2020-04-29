@@ -74,7 +74,7 @@ yhat.gbm <- function(X.model, newdata, ...) {
   n.trees <- X.model$n.trees
   response <- predict(X.model, newdata = newdata, n.trees = n.trees, type = "response")
   #gbm returns and 3D array for multilabel classif
-  if(!is.null(dim(response)[3])){
+  if(length(dim(response)) > 2){
     response <- response[,,1]
   }
   response
@@ -96,7 +96,7 @@ yhat.cv.glmnet <- function(X.model, newdata, ...) {
   if (!is.null(X.model$glmnet.fit$classnames)) {
     pred <- predict(X.model, newdata, type = "response", s = X.model$lambda[length(X.model$lambda)])
     #glmnet returns and 3D array for multilabel classif
-    if(!is.null(dim(pred)[3])){
+    if(length(dim(pred)) > 2){
       return(pred[,,1])
     }
     if (ncol(pred) == 1) {
@@ -120,7 +120,7 @@ yhat.glmnet <- function(X.model, newdata, ...) {
   if (!is.null(X.model$classnames)) {
     pred <- predict(X.model, newdata, type = "response", s = X.model$lambda[length(X.model$lambda)])
     #glmnet returns and 3D array for multilabel classif
-    if(!is.null(dim(pred)[3])){
+    if(length(dim(pred)) > 2){
       return(pred[,,1])
     }
   # For binary classifiaction matrix with one column is returned

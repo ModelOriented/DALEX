@@ -70,7 +70,7 @@ model_performance <- function(explainer, ..., cutoff = 0.5) {
       r2 = model_performance_r2(predicted, observed),
       mad = model_performance_mad(predicted, observed)
     )
-  } else if (type == "binary classification") {
+  } else if (type == "classification") {
     tp = sum((observed == 1) * (predicted >= cutoff))
     fp = sum((observed == 0) * (predicted >= cutoff))
     tn = sum((observed == 0) * (predicted < cutoff))
@@ -147,8 +147,8 @@ model_performance_accuracy <- function(tp, fp, tn, fn) {
   (tp + tn)/(tp + fp + tn + fn)
 }
 
-model_performance_macro_f1 <- function(predicted, observed){
-  predicted_vectorized <- turn_porbs_into_vector(predicted)
+model_performance_macro_f1 <- function(predicted, observed) {
+  predicted_vectorized <- turn_probs_into_vector(predicted)
   confusion_matrixes <- calculate_confusion_matrixes(predicted_vectorized, observed)
   f1_scores <- sapply(confusion_matrixes, function(x){
     model_performance_f1(x$tp, x$fp, x$tn, x$fn)
@@ -156,13 +156,13 @@ model_performance_macro_f1 <- function(predicted, observed){
   mean(f1_scores)
 }
 
-model_performance_micro_f1 <- function(predicted, observed){
+model_performance_micro_f1 <- function(predicted, observed) {
   # For case where each point can be assigned only to one class micro_f1 equals acc
   model_performance_accuracy_multi(predicted, observed)
 }
 
-model_performance_weighted_macro_f1 <- function(predicted, observed){
-  predicted_vectorized <- turn_porbs_into_vector(predicted)
+model_performance_weighted_macro_f1 <- function(predicted, observed) {
+  predicted_vectorized <- turn_probs_into_vector(predicted)
   confusion_matrixes <- calculate_confusion_matrixes(predicted_vectorized, observed)
   f1_scores <- sapply(confusion_matrixes, function(x){
     model_performance_f1(x$tp, x$fp, x$tn, x$fn)
@@ -170,8 +170,8 @@ model_performance_weighted_macro_f1 <- function(predicted, observed){
   weighted.mean(f1_scores, prop.table(table(observed))[names(confusion_matrixes)])
 }
 
-model_performance_accuracy_multi <- function(predicted, observed){
-  predicted_vectorized <- turn_porbs_into_vector(predicted)
+model_performance_accuracy_multi <- function(predicted, observed) {
+  predicted_vectorized <- turn_probs_into_vector(predicted)
   mean(predicted_vectorized == observed)
 }
 
@@ -183,20 +183,23 @@ model_performance_weighted_macro_auc <- function(predicted, observed) {
   weighted.mean(auc_scores, prop.table(table(observed))[unique(observed)])
 }
 
-turn_porbs_into_vector <- function(observed) {
+turn_probs_into_vector <- function(observed) {
   apply(observed, 1, function(x){
     colnames(observed)[which.max(x)]
   })
 }
 
-calculate_confusion_matrixes <- function(predicted, observed){
+calculate_confusion_matrixes <- function(predicted, observed) {
   observed <- as.character(observed)
   ret <- lapply(unique(observed), function(x){
     tp <- mean(predicted[predicted == x] == observed[predicted == x])
     fp <- mean(predicted[predicted == x] != observed[predicted == x])
     tn <- mean(predicted[predicted != x] == observed[predicted != x])
     fn <- mean(predicted[predicted != x] != observed[predicted != x])
-    list(tp = tp, fp = fp, tn = tn, fn = fn)
+    list(tp = ifelse(is.nan(tp), 0, tp),
+         fp = ifelse(is.nan(fp), 0, fp),
+         tn = ifelse(is.nan(tn), 0, tn),
+         fn = ifelse(is.nan(fn), 0, fn))
   })
   names(ret) <- unique(observed)
   ret

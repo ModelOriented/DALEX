@@ -53,10 +53,10 @@ model_info.lm <- function(model, ...) {
 #' @export
 model_info.randomForest <- function(model, ...) {
   if (model$type == "classification" & !is.null(list(...)$task_subtype)) {
-    if (list(...)$task_subtype){
-      type <- "multiclass classification"
+    if (list(...)$task_subtype) {
+      type <- "multiclass"
     } else {
-      type <- "binary classification"
+      type <- "classification"
     }
   } else if (model$type == "classification" & is.null(list(...)$task_subtype)) {
     type <- "classification"
@@ -74,10 +74,10 @@ model_info.randomForest <- function(model, ...) {
 #' @export
 model_info.svm <- function(model, ...) {
   if (model$type == 0 & !is.null(list(...)$task_subtype)) {
-    if (list(...)$task_subtype){
-      type <- "multiclass classification"
+    if (list(...)$task_subtype) {
+      type <- "multiclass"
     } else {
-      type <- "binary classification"
+      type <- "classification"
     }
   } else if (model$type == 0 & is.null(list(...)$task_subtype)) {
     type <- "classification"
@@ -95,7 +95,7 @@ model_info.svm <- function(model, ...) {
 #' @export
 model_info.glm <- function(model, ...) {
   if (model$family$family == "binomial") {
-    type <- "binary classification"
+    type <- "classification"
   } else {
     type <- "regression"
   }
@@ -110,10 +110,10 @@ model_info.glm <- function(model, ...) {
 #' @export
 model_info.lrm <- function(model, ...) {
   if (!is.null(list(...)$task_subtype)) {
-    if (list(...)$task_subtype){
-      type <- "multiclass classification"
+    if (list(...)$task_subtype) {
+      type <- "multiclass"
     } else {
-      type <- "binary classification"
+      type <- "classification"
     }
   } else {
     type <- "classification"
@@ -129,10 +129,10 @@ model_info.lrm <- function(model, ...) {
 #' @export
 model_info.glmnet <- function(model, ...) {
   if (!is.null(model$classnames) & !is.null(list(...)$task_subtype)) {
-    if (list(...)$task_subtype){
-      type <- "multiclass classification"
+    if (list(...)$task_subtype) {
+      type <- "multiclass"
     } else {
-      type <- "binary classification"
+      type <- "classification"
     }
   } else if (!is.null(model$classnames) & is.null(list(...)$task_subtype)) {
     type <- "classification"
@@ -150,10 +150,10 @@ model_info.glmnet <- function(model, ...) {
 #' @export
 model_info.cv.glmnet <- function(model, ...) {
   if (!is.null(model$glmnet.fit$classnames) & !is.null(list(...)$task_subtype)) {
-    if (list(...)$task_subtype){
-      type <- "multiclass classification"
+    if (list(...)$task_subtype) {
+      type <- "multiclass"
     } else {
-      type <- "binary classification"
+      type <- "classification"
     }
   } else if (!is.null(model$glmnet.fit$classnames) & is.null(list(...)$task_subtype)) {
     type <- "classification"
@@ -173,10 +173,10 @@ model_info.ranger <- function(model, ...) {
   if (model$treetype == "Regression") {
     type <- "regression"
   } else if (!is.null(list(...)$task_subtype)) {
-    if (list(...)$task_subtype){
-      type <- "multiclass classification"
+    if (list(...)$task_subtype) {
+      type <- "multiclass"
     } else {
-      type <- "binary classification"
+      type <- "classification"
     }
   } else {
     type <- "classification"
@@ -192,9 +192,9 @@ model_info.ranger <- function(model, ...) {
 #' @export
 model_info.gbm <- function(model, ...) {
   if (model$distribution == "multinomial") {
-    type <- "multiclass classification"
+    type <- "multiclass"
   } else if (model$distribution == "bernoulli") {
-    type <- "binary classification"
+    type <- "classification"
   } else {
     type <- "regression"
   }
@@ -210,10 +210,10 @@ model_info.gbm <- function(model, ...) {
 #' @export
 model_info.model_fit <- function(model, ...) {
   if (model$spec$mode == "classification" & !is.null(list(...)$task_subtype)) {
-    if (list(...)$task_subtype){
-      type <- "multiclass classification"
+    if (list(...)$task_subtype) {
+      type <- "multiclass"
     } else {
-      type <- "binary classification"
+      type <- "classification"
     }
   } else if (model$spec$mode == "classification" & is.null(list(...)$task_subtype)) {
     type <- "classification"
@@ -233,10 +233,10 @@ model_info.model_fit <- function(model, ...) {
 #' @export
 model_info.train <- function(model, ...) {
   if (model$modelType == "Classification" & !is.null(list(...)$task_subtype)) {
-    if (list(...)$task_subtype){
-      type <- "multiclass classification"
+    if (list(...)$task_subtype) {
+      type <- "multiclass"
     } else {
-      type <- "binary classification"
+      type <- "classification"
     }
   } else if (model$modelType == "Classification" & is.null(list(...)$task_subtype)) {
     type <- "classification"
@@ -259,10 +259,10 @@ model_info.train <- function(model, ...) {
 #' @export
 model_info.rpart <- function(model, ...) {
   if (attr(model$terms, "dataClasses")[1] == "factor" & !is.null(list(...)$task_subtype)) {
-    if (list(...)$task_subtype){
-      type <- "multiclass classification"
+    if (list(...)$task_subtype) {
+      type <- "multiclass"
     } else {
-      type <- "binary classification"
+      type <- "classification"
     }
   } else if (attr(model$terms, "dataClasses")[1] == "factor" & is.null(list(...)$task_subtype)) {
     type <- "classification"
