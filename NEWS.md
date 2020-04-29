@@ -1,6 +1,7 @@
 DALEX 1.2.1
 ----------------------------------------------------------------
 * fixed tests and WARNINGs on CRAN
+* `model_profile` for Accumulated Local rofiles by default use centering (`center = TRUE`)
   
 DALEX 1.2.0
 ----------------------------------------------------------------
