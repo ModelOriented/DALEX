@@ -1,21 +1,19 @@
 import unittest
-import dalex as dx
-from dalex.dataset_level import ModelPerformance
 
 import pandas as pd
-import numpy as np
-
-from sklearn.neural_network import MLPClassifier, MLPRegressor
-from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
-from sklearn.impute import SimpleImputer
-from sklearn.pipeline import Pipeline
-from sklearn.tree import DecisionTreeRegressor
 from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
+from sklearn.neural_network import MLPRegressor
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
+
+import dalex as dx
+from dalex.dataset_level import ModelPerformance
 
 
 class ModelPerformanceTestTitanic(unittest.TestCase):
     def setUp(self):
-        data = pd.read_csv("titanic.csv", index_col=0).dropna()
+        data = dx.datasets.load_titanic()
         data.loc[:, 'survived'] = LabelEncoder().fit_transform(data.survived)
 
         self.X = data.drop(columns='survived')
@@ -26,7 +24,7 @@ class ModelPerformanceTestTitanic(unittest.TestCase):
             ('imputer', SimpleImputer(strategy='median')),
             ('scaler', StandardScaler())])
 
-        categorical_features = ['gender', 'class', 'embarked', 'country']
+        categorical_features = ['gender', 'class', 'embarked']
         categorical_transformer = Pipeline(steps=[
             ('imputer', SimpleImputer(strategy='constant', fill_value='missing')),
             ('onehot', OneHotEncoder(handle_unknown='ignore'))])
@@ -49,15 +47,6 @@ class ModelPerformanceTestTitanic(unittest.TestCase):
         self.assertIsInstance(self.exp.model_performance('classification').result, (pd.DataFrame,))
 
         self.assertEqual(self.exp.model_performance('classification').result.shape[0], 1)
-
-    #def test_result(self):
-    #    res = self.exp.model_performance('classification').result
-
-    #    self.assertAlmostEqual(res.recall[0], 0.6872246696035242)
-    #    self.assertAlmostEqual(res.precision[0], 0.8931297709923665)
-    #    self.assertAlmostEqual(res.f1[0], 0.7767634854771786)
-    #    self.assertAlmostEqual(res.accuracy[0], 0.8718437351119581)
-    #    self.assertAlmostEqual(res.auc[0], 0.9233745280420189)
 
 
 if __name__ == '__main__':

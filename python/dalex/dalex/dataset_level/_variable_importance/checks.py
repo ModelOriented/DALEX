@@ -1,10 +1,17 @@
-from .loss_functions import *
+from .._model_performance.utils import *
 
 
 def check_loss_function(loss_function):
+    loss_functions = {
+        'rmse': rmse,
+        'mse': mse,
+        'mae': mae,
+        'mad': mad,
+        'r2': r2,
+        'auc': auc
+    }
     if isinstance(loss_function, str):
-        if loss_function == 'loss_root_mean_square':
-            loss_function = loss_root_mean_square
+        loss_function = loss_functions[loss_function]
 
     return loss_function
 
@@ -19,10 +26,10 @@ def check_variable_groups(variable_groups, explainer):
             if isinstance(variable_groups[key], list):
                 variable_groups[key] = np.array(variable_groups[key])
             elif not isinstance(variable_groups[key], np.ndarray):
-                raise TypeError("variable_groups' elements must be list of strings or numpy.ndarray with strings")
+                raise TypeError("variable_groups' is a dict of lists of variables")
 
             if not isinstance(variable_groups[key][0], str):
-                raise TypeError("variable_groups' elements must be list of strings or numpy.ndarray with strings")
+                raise TypeError("variable_groups' is a dict of lists of variables")
 
             wrong_names[i] = np.in1d(variable_groups[key], explainer.data.columns).all()
 
@@ -43,7 +50,11 @@ def check_variables(variables, variable_groups, explainer):
         # if `variables` are not specified, then extract from data
         if variables is None:
             variables = list(explainer.data.columns)
+        elif not isinstance(variables, (list, np.ndarray)):
+            raise TypeError("variables must be list or numpy.ndarray or a dict")
     else:
+        if variables is not None:
+            raise Warning("Variables parameter ignored, taken variable_groups instead.")
         variables = variable_groups
 
     if not isinstance(variables, (list, np.ndarray, dict)):
@@ -67,11 +78,14 @@ def check_label(label, explainer):
 
 
 def check_type(type):
-    if not isinstance(type, (str, tuple, list)):
-        raise TypeError("type must be a string or tuple or list")
-
-    if isinstance(type, (tuple, list)):
+    if isinstance(type, tuple):
         type = type[0]
+
+    if not isinstance(type, (str,)):
+        raise TypeError("type must be a string")
+
+    if type not in ['variable_importance', 'ratio', 'difference']:
+        raise ValueError("type must be 'variable_importance'/'ratio'/'difference'")
 
     return type
 

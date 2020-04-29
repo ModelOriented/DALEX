@@ -14,7 +14,7 @@ def calculate_ceteris_paribus(explainer,
 
     :return: None
     """
-    
+
     profiles = calculate_variable_profile(explainer,
                                           new_observation,
                                           variable_splits)

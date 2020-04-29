@@ -1,9 +1,7 @@
-import re
-
 import numpy as np
 import pandas as pd
 
-from .helper import verbose_cat, is_y_in_data, get_model_info
+from .helper import verbose_cat, is_y_in_data
 from .yhat import *
 
 
@@ -13,7 +11,8 @@ def check_label(label, model_class, model_info, verbose):
         # try to extract something
 
         label = model_class.split('.')[-1][0]
-        verbose_cat("  -> label             : not specified, model's class short name is taken instead (default)", verbose=verbose)
+        verbose_cat("  -> label             : not specified, model's class short name is taken instead (default)",
+                    verbose=verbose)
 
         model_info['label_default'] = True
     else:
@@ -38,7 +37,7 @@ def check_data(data, verbose):
     if data is not None:
         if data.index.unique().shape[0] != data.shape[0]:
             raise ValueError("Index is not unique")
-        
+
         verbose_cat("  -> data              : " + str(data.shape[0]) + " rows " + str(data.shape[1]) + " cols",
                     verbose=verbose)
 
@@ -149,6 +148,7 @@ def check_residual_function(residual_function, predict_function, model, data, y,
         # try the default
         def residual_function(_model, _data, _y):
             return _y - predict_function(_model, _data)
+
         verbose_cat("  -> residual function : difference between y and yhat (default)", verbose=verbose)
         model_info['residual_function_default'] = True
     else:
@@ -186,10 +186,13 @@ def check_model_info(model_info, model_info_, verbose):
 def check_method_type(type, types):
     if isinstance(type, tuple):
         ret = type[0]
-    else:
+    elif isinstance(type, str):
         ret = type
+    else:
+        raise TypeError("type is not a str")
+
     if ret not in types:
-        raise TypeError("'type' must be one of: {}".format(', '.join(types)))
+        raise ValueError("'type' must be one of: {}".format(', '.join(types)))
     else:
         return ret
 
@@ -226,7 +229,8 @@ def check_if_empty_fields(explainer):
         explainer.predict_function = predict_function
     if explainer.residual_function is None:
         print("  -> Residual function is not present, setting to default")
-        residual_function, residuals = check_residual_function(None, explainer.predict_function, explainer.model, None, None,
+        residual_function, residuals = check_residual_function(None, explainer.predict_function, explainer.model, None,
+                                                               None,
                                                                False, False)
         explainer.residual_function = residual_function
 

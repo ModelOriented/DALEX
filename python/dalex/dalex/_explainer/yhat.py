@@ -12,7 +12,6 @@ def yhat_proba_xgboost(m, d):
 
 
 def yhat(model, model_class):
-
     yhat_exception_dict = {
         "xgboost.core.Booster": yhat_proba_xgboost
     }

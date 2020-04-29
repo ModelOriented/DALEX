@@ -1,20 +1,18 @@
 import unittest
-import dalex as dx
 
 import pandas as pd
-import numpy as np
-
-from sklearn.neural_network import MLPClassifier, MLPRegressor
-from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
-from sklearn.impute import SimpleImputer
-from sklearn.pipeline import Pipeline
-from sklearn.tree import DecisionTreeRegressor
 from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
+from sklearn.neural_network import MLPRegressor
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
+
+import dalex as dx
 
 
 class PredictTestTitanic(unittest.TestCase):
     def setUp(self):
-        data = pd.read_csv("titanic.csv", index_col=0).dropna()
+        data = dx.datasets.load_titanic()
         data.loc[:, 'survived'] = LabelEncoder().fit_transform(data.survived)
 
         self.X = data.drop(columns='survived')
@@ -25,7 +23,7 @@ class PredictTestTitanic(unittest.TestCase):
             ('imputer', SimpleImputer(strategy='median')),
             ('scaler', StandardScaler())])
 
-        categorical_features = ['gender', 'class', 'embarked', 'country']
+        categorical_features = ['gender', 'class', 'embarked']
         categorical_transformer = Pipeline(steps=[
             ('imputer', SimpleImputer(strategy='constant', fill_value='missing')),
             ('onehot', OneHotEncoder(handle_unknown='ignore'))])
@@ -41,29 +39,7 @@ class PredictTestTitanic(unittest.TestCase):
 
         clf.fit(self.X, self.y)
 
-        self.exp = dx.Explainer(clf, self.X, self.y)
-
-    def test_result(self):
-        johny_d = pd.DataFrame({'gender': ['male'],
-                                'age': [8],
-                                'class': ['1st'],
-                                'embarked': ['Southampton'],
-                                'country': ['England'],
-                                'fare': [72],
-                                'sibsp': [0],
-                                'parch': 0})
-
-        henry = pd.DataFrame({'gender': ['male'],
-                              'age': [47],
-                              'class': ['1st'],
-                              'embarked': ['Cherbourg'],
-                              'country': ['United States'],
-                              'fare': [25],
-                              'sibsp': [0],
-                              'parch': [0]})
-
-        self.assertAlmostEqual(self.exp.predict(johny_d)[0], 0.7564213)
-        self.assertAlmostEqual(self.exp.predict(henry)[0], 0.15350221)
+        self.exp = dx.Explainer(clf, self.X, self.y, verbose=False)
 
 
 if __name__ == '__main__':

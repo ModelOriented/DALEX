@@ -1,4 +1,5 @@
 from warnings import warn
+
 from plotly.subplots import make_subplots
 
 from dalex.instance_level._break_down.plot import prepare_data_for_break_down_plot
@@ -140,19 +141,19 @@ class BreakDown:
 
             df = prepare_data_for_break_down_plot(_result, baseline, max_vars, rounding_function, digits)
 
-            measure = ["relative"]*m
-            measure[m-1] = "total"
+            measure = ["relative"] * m
+            measure[m - 1] = "total"
 
             fig.add_shape(
                 type='line',
                 x0=baseline,
                 x1=baseline,
                 y0=0,
-                y1=m-1,
+                y1=m - 1,
                 yref="paper",
                 xref="x",
                 line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'},
-                row=i+1, col=1
+                row=i + 1, col=1
             )
 
             fig.add_waterfall(
@@ -171,12 +172,12 @@ class BreakDown:
                 hoverinfo='text+delta',
                 hoverlabel={'bgcolor': 'rgba(0,0,0,0.8)'},
                 showlegend=False,
-                row=i+1, col=1
+                row=i + 1, col=1
             )
 
             fig.update_yaxes({'type': 'category', 'autorange': 'reversed', 'gridwidth': 2, 'automargin': True,
                               'ticks': "outside", 'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True},
-                             row=i+1, col=1)
+                             row=i + 1, col=1)
 
             if min_max is None:
                 cum = df.cumulative.values
@@ -186,11 +187,11 @@ class BreakDown:
 
             fig.update_xaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                               'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True},
-                             row=i+1, col=1)
+                             row=i + 1, col=1)
 
-            plot_height += m*bar_width + (m+1)*bar_width/4
+            plot_height += m * bar_width + (m + 1) * bar_width / 4
 
-        plot_height += (n-1)*70
+        plot_height += (n - 1) * 70
 
         fig.update_xaxes({'range': temp_min_max})
         fig.update_layout(title_text=title, title_x=0.15, font={'color': "#371ea3"}, template="none",
@@ -206,5 +207,3 @@ class BreakDown:
             })
         else:
             return fig
-
-

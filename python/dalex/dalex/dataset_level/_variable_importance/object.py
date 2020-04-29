@@ -9,8 +9,8 @@ from ..._explainer.theme import get_default_colors
 
 class VariableImportance:
     def __init__(self,
-                 loss_function='loss_root_mean_square',
-                 type=("variable_importance","ratio","difference"),
+                 loss_function='rmse',
+                 type='variable_importance',
                  N=None,
                  B=10,
                  variables=None,
@@ -20,8 +20,8 @@ class VariableImportance:
         """
         Calculate feature importance of the model
 
-        :param loss_function: a function thet will be used to assess variable importance
-        :param type: type of transformation that should be applied for dropout loss
+        :param loss_function: a function that will be used to assess variable importance
+        :param type: 'variable_importance'/'ratio'/'difference' type of transformation that should be applied for dropout loss
         :param N: number of observations that should be sampled for calculation of variable importance
         :param B: number of permutation rounds to perform on each variable
         :param variables: vector of variables. If None then variable importance will be tested for each variable from the data separately
@@ -126,7 +126,7 @@ class VariableImportance:
 
         # calculate order of bars or variable plots (split = 'variable')
         # get variable permutation
-        perm = _result_df[['variable', 'dropout_loss']].groupby('variable').mean().reset_index().\
+        perm = _result_df[['variable', 'dropout_loss']].groupby('variable').mean().reset_index(). \
             sort_values('dropout_loss', ascending=False).variable.values
 
         plot_height = 78 + 71
@@ -140,7 +140,8 @@ class VariableImportance:
 
             # init plot
             model_names = _result_df['label'].unique().tolist()
-            fig = make_subplots(rows=n, cols=1, shared_xaxes=True, vertical_spacing=vertical_spacing, x_title='drop-out loss',
+            fig = make_subplots(rows=n, cols=1, shared_xaxes=True, vertical_spacing=vertical_spacing,
+                                x_title='drop-out loss',
                                 subplot_titles=model_names)
 
             # split df by model
@@ -153,7 +154,7 @@ class VariableImportance:
 
                 # take only m variables (for max_vars)
                 # sort rows of df by variable permutation and drop unused variables
-                df = df_list[i].sort_values('dropout_loss').tail(m)\
+                df = df_list[i].sort_values('dropout_loss').tail(m) \
                     .set_index('variable').reindex(perm).dropna().reset_index()
 
                 baseline = df.iloc[0, df.columns.get_loc('full_model')]
@@ -167,7 +168,7 @@ class VariableImportance:
                 df = df.assign(tooltip_text=tt.values)
 
                 fig.add_shape(type='line', x0=baseline, x1=baseline, y0=0, y1=m - 1, yref="paper", xref="x",
-                    line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'}, row=i + 1, col=1)
+                              line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'}, row=i + 1, col=1)
 
                 fig.add_bar(
                     orientation="h",
@@ -188,9 +189,10 @@ class VariableImportance:
                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True},
                                  row=i + 1, col=1)
 
-                fig.update_xaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True, 'ticks': "outside",
-                                  'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True},
-                                 row=i + 1, col=1)
+                fig.update_xaxes(
+                    {'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True, 'ticks': "outside",
+                     'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True},
+                    row=i + 1, col=1)
 
                 plot_height += m * bar_width + (m + 1) * bar_width / 4 + 30
 
@@ -226,7 +228,7 @@ class VariableImportance:
                 df = df.assign(tooltip_text=tt.values)
 
                 fig.add_shape(type='line', x0=baseline, x1=baseline, y0=0, y1=m - 1, yref="paper", xref="x",
-                    line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'}, row=i + 1, col=1)
+                              line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'}, row=i + 1, col=1)
 
                 fig.add_bar(
                     orientation="h",
@@ -246,9 +248,10 @@ class VariableImportance:
                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True},
                                  row=i + 1, col=1)
 
-                fig.update_xaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True, 'ticks': "outside",
-                                  'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True},
-                                 row=i + 1, col=1)
+                fig.update_xaxes(
+                    {'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True, 'ticks': "outside",
+                     'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True},
+                    row=i + 1, col=1)
 
                 plot_height += m * bar_width + (m + 1) * bar_width / 4
 
@@ -260,11 +263,10 @@ class VariableImportance:
 
         if show:
             fig.show(config={'displaylogo': False, 'staticPlot': False,
-                             'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d', 'zoom2d',
+                             'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
+                                                        'zoom2d',
                                                         'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',
                                                         'toggleSpikelines', 'hoverCompareCartesian',
                                                         'hoverClosestCartesian']})
         else:
             return fig
-
-
