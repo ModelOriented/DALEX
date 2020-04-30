@@ -30,7 +30,10 @@ def check_new_observation(new_observation, explainer):
         raise TypeError("new_observation must be a numpy.ndarray or pandas.Series or pandas.DataFrame")
 
     if new_observation.index.unique().shape[0] != new_observation.shape[0]:
-        raise ValueError("Index is not unique")
+        raise ValueError("new_observation index is not unique")
+
+    if pd.api.types.is_bool_dtype(new_observation.index):
+        raise ValueError("new_observation index is of boolean type")
 
     return new_observation.copy()
 

@@ -28,4 +28,7 @@ def check_new_observation(new_observation, explainer):
     else:
         raise TypeError("new_observation must be a numpy.ndarray or pandas.Series or pandas.DataFrame")
 
+    if pd.api.types.is_bool_dtype(new_observation.index):
+        raise ValueError("new_observation index is of boolean type")
+
     return new_observation.copy()

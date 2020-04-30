@@ -1,12 +1,22 @@
 dalex (development)
 ----------------------------------------------------------------
+* ...
+
+dalex 0.1.6
+----------------------------------------------------------------
 * *fix:* change `short_name` encoding in `fifa` dataset (utf8->ascii)
-* *defaults*: default 'loss_root_mean_square' in model parts changed to 'rmse'
-* *fix*: fixed checks in BD, SHAP, CP
+* *fix:* remove `scipy` dependency
+* *defaults:* default `loss_root_mean_square` in model parts changed to `rmse`
+* *bugfix:* checks related to `new_observation` in `BreakDown, Shap,
+CeterisParibus` now work for multiple inputs
+([#207](https://github.com/ModelOriented/DALEX/issues/207))
+* *bugfix:* `CeterisParibus.fit` and `CeterisParibus.plot` now work for
+more types of `new_observation.index`, but won't work for a `bolean` type
+([#211](https://github.com/ModelOriented/DALEX/issues/211))
 
 dalex 0.1.5
 ----------------------------------------------------------------
-* *feature:* `xgboost` package compatibility
+* *feature:* add `xgboost` package compatibility ([#188](https://github.com/ModelOriented/DALEX/issues/188))
 * *feature:* added `model_class` parameter to `Explainer` to handle wrapped
 models
 * *feature:* `Exaplainer`s `model_info` remembers if parameters are default
@@ -14,11 +24,11 @@ models
 * *fix:* changed parameter order in `Explainer`: `model_type`, `model_info`,
 `colorize`
 * *documentation:* `model_parts` documentation is updated
-* *feature:* new `show` parameter in `plot` methods that (if False) returns
-plotly Figure (#190)
+* *feature:* new `show` parameter in `plot` methods that (`if False`) returns
+`plotly Figure` ([#190](https://github.com/ModelOriented/DALEX/issues/190))
 * *feature:* `load_fifa()` function which loads the preprocessed [players_20
 dataset](https://www.kaggle.com/stefanoleone992/fifa-20-complete-player-dataset)
-* *fix:* `CeterisParibus` plot tooltip
+* *fix:* `CeterisParibus.plot` tooltip
 
 dalex 0.1.4
 ----------------------------------------------------------------
@@ -31,7 +41,7 @@ dalex 0.1.4
 * *bugfix:* `Explainer.model_performance` method uses `self.model_type` when
  `model_type` is `None`
 * *bugfix:* values in `BreakDown` and `Shap` are now rounded to 4 significant
- places (#180)
+ places ([#180](https://github.com/ModelOriented/DALEX/issues/180))
 * *bugfix:* `Shap` by default uses `path='average'`, `sign` column is
 properly updated and bars in `plot` are sorted by `abs(contribution)`
 
