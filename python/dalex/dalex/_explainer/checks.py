@@ -10,7 +10,7 @@ def check_label(label, model_class, model_info, verbose):
         # label not specified
         # try to extract something
 
-        label = model_class.split('.')[-1][0]
+        label = model_class.split('.')[-1]
         verbose_cat("  -> label             : not specified, model's class short name is taken instead (default)",
                     verbose=verbose)
 
@@ -27,7 +27,7 @@ def check_label(label, model_class, model_info, verbose):
 
 def check_data(data, verbose):
     if isinstance(data, np.ndarray):
-        verbose_cat("data is numpy ndarray, columns are set as consecutive numbers", verbose=verbose)
+        verbose_cat("data is converted to pd.DataFrame, columns are set as consecutive numbers", verbose=verbose)
         data = pd.DataFrame(data)
     elif not isinstance(data, pd.DataFrame) and data is not None:
         raise TypeError("data must be pandas.DataFrame or numpy.ndarray")
