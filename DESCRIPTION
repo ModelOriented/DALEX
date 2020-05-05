@@ -28,7 +28,6 @@ Imports:
   ingredients
 Suggests: 
     gower,
-    ggpubr,
     ranger,
     testthat
 URL: https://ModelOriented.github.io/DALEX/, https://github.com/ModelOriented/DALEX
