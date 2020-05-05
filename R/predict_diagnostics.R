@@ -58,7 +58,7 @@ predict_diagnostics <-  function(explainer, new_observation, variables = NULL, .
 
   # if variables = NULL then histograms with distribution of residuals are compared against each other
   if (is.null(variables)) {
-    residuals_all <- explainer$residual_function(explainer$model, explainer$data, explainer$y)
+    residuals_all <- explainer$residual_function(explainer$model, explainer$data, explainer$y, explainer$predict_function)
     residuals_sel <- residuals_all[neighbours_id]
 
     cut_points <- signif(pretty(residuals_all, nbins), 3)

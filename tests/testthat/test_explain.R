@@ -70,7 +70,7 @@ test_that("predict and residual functions", {
 
   explainer_ranger_9 <- explain(model_multiclassif_ranger, data = HR, y = HR$status, predict_function = p_fun_ranger, verbose = FALSE)
   explainer_ranger_10 <- explain(model_regr_ranger, data = apartments[,-1], y = as.data.frame(apartments$m2.price), predict_function = p_fun_ranger,
-                                residual_function = function(model, data, y) {
+                                residual_function = function(model, data, y, predict_function) {
                                   y - p_fun_ranger(model, data)
                                 }, weights =  rep(1, times = nrow(apartments)), verbose = FALSE)
   explainer_ranger_11 <- explain(model_classif_ranger, data = titanic_imputed[,-8], y = titanic_imputed$survived, verbose = FALSE)

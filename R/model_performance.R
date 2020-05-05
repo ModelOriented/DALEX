@@ -53,7 +53,7 @@ model_performance <- function(explainer, ..., cutoff = 0.5) {
   observed <- explainer$y
   # Check since explain could have been run with precalculate = FALSE
   if (is.null(explainer$residuals)) {
-    diff <- explainer$residual_function(explainer$model, explainer$data, observed)
+    diff <- explainer$residual_function(explainer$model, explainer$data, observed, explainer$predict_function)
   } else {
     # changed according to #130
     diff <- explainer$residuals
