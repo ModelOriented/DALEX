@@ -8,7 +8,7 @@ def check_variable_type(variable_type):
 
 def prepare_all_variables(all_profiles, variables):
     # variables to use
-    all_variables = all_profiles['_vname_'].dropna().unique().astype(str)
+    all_variables = all_profiles['_vname_'].dropna().unique()  # variables do not need to be string
 
     if variables is not None:
         all_variables_intersect = set(all_variables).intersection(set(variables))
