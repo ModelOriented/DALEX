@@ -241,7 +241,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
   if (is.null(model_info)) {
     # extract defaults
     task_subtype <- check_if_multilabel(model, predict_function, data[1:2,])
-    model_info <- model_info(model, task_subtype = task_subtype)
+    model_info <- model_info(model, is_multiclass = task_subtype)
     verbose_cat("  -> model_info        :  package", model_info$package[1], ", ver.", model_info$ver[1], ", task", model_info$type, "(", color_codes$yellow_start,"default",color_codes$yellow_end, ")", "\n", verbose = verbose)
   } else {
     verbose_cat("  -> model_info        :  package", model_info$package[1], ", ver.", model_info$ver[1], ", task", model_info$type, "\n", verbose = verbose)

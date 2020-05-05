@@ -17,36 +17,39 @@
 \alias{model_info.default}
 \title{Exract info from model}
 \usage{
-model_info(model, ...)
+model_info(model, is_multiclass = FALSE, ...)
 
-\method{model_info}{lm}(model, ...)
+\method{model_info}{lm}(model, is_multiclass = FALSE, ...)
 
-\method{model_info}{randomForest}(model, ...)
+\method{model_info}{randomForest}(model, is_multiclass = FALSE, ...)
 
-\method{model_info}{svm}(model, ...)
+\method{model_info}{svm}(model, is_multiclass = FALSE, ...)
 
-\method{model_info}{glm}(model, ...)
+\method{model_info}{glm}(model, is_multiclass = FALSE, ...)
 
-\method{model_info}{lrm}(model, ...)
+\method{model_info}{lrm}(model, is_multiclass = FALSE, ...)
 
-\method{model_info}{glmnet}(model, ...)
+\method{model_info}{glmnet}(model, is_multiclass = FALSE, ...)
 
-\method{model_info}{cv.glmnet}(model, ...)
+\method{model_info}{cv.glmnet}(model, is_multiclass = FALSE, ...)
 
-\method{model_info}{ranger}(model, ...)
+\method{model_info}{ranger}(model, is_multiclass = FALSE, ...)
 
-\method{model_info}{gbm}(model, ...)
+\method{model_info}{gbm}(model, is_multiclass = FALSE, ...)
 
-\method{model_info}{model_fit}(model, ...)
+\method{model_info}{model_fit}(model, is_multiclass = FALSE, ...)
 
-\method{model_info}{train}(model, ...)
+\method{model_info}{train}(model, is_multiclass = FALSE, ...)
 
-\method{model_info}{rpart}(model, ...)
+\method{model_info}{rpart}(model, is_multiclass = FALSE, ...)
 
-\method{model_info}{default}(model, ...)
+\method{model_info}{default}(model, is_multiclass = FALSE, ...)
 }
 \arguments{
 \item{model}{- model object}
+
+\item{is_multiclass}{- if TRUE and task is classification, then multitask classification is set. Else is omitted. If \code{model_info}
+was executed withing \code{explain} function. DALEX will recognize subtype on it's own.}
 
 \item{...}{- another arguments
 
