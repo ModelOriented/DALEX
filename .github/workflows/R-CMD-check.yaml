@@ -92,7 +92,6 @@ jobs:
           sudo apt-get install -y qpdf
       - name: Install dependencies
         run: |
-          remotes::install_github("r-lib/pillar")
           remotes::install_deps(dependencies = TRUE)
           remotes::install_github("ModelOriented/ingredients")
           remotes::install_github("ModelOriented/iBreakDown")
