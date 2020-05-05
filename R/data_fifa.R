@@ -53,8 +53,9 @@ NULL
 # new_data$short_name <- NULL
 # new_data$nationality <- as.factor(new_data$nationality)
 # new_data <- new_data[,c(4,5,6,8,7,1,2,3,9:42)]
-# colnames(new_data)
-#
+# for (i in 2:dim(new_data)[2]) { # 1st column is a factor
+#   new_data[,i] <- as.numeric(new_data[,i])
+# }
 # fifa<-new_data
 #
 # #usethis::use_data(fifa, overwrite = TRUE)
