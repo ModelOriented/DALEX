@@ -1,6 +1,11 @@
 on:
   push:
-    branches: master
+    branches:
+      - master
+      - 'gh-actions'
+      - 'githubactions'
+    paths-ignore:
+      - 'python/**'
 
 name: pkgdown
 
