@@ -34,6 +34,8 @@ on:
       - '**.rds'
       - '**.Rds'
 
+name: R-CMD-check
+
 jobs:
   R-CMD-check:
     runs-on: ${{ matrix.config.os }}
@@ -91,6 +93,9 @@ jobs:
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
+          remotes::install_github("ModelOriented/ingredients")
+          remotes::install_github("ModelOriented/iBreakDown")
+          remotes::install_github("kassambara/ggpubr")
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
 
