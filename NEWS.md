@@ -1,3 +1,9 @@
+DALEX 1.2.2
+----------------------------------------------------------------
+* `DALEX` now fully support multiclass cliassification. 
+* `explain()` will use new residual function (1 - true class probability) if multiclass classifiaction is detected.
+* `model_performance()` now support measures for multiclass classification.
+
 DALEX 1.2.1
 ----------------------------------------------------------------
 * fixed tests and WARNINGs on CRAN
