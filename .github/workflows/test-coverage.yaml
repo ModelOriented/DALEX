@@ -33,21 +33,11 @@ name: test-coverage
 
 jobs:
   test-coverage:
-    runs-on: ${{ matrix.config.os }}
-
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
-
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-          - {os: macOS-latest, r: '3.6'}
+    runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v2
 
       - uses: r-lib/actions/setup-r@master
-        with:
-          r-version: '3.6.3'
 
       - uses: r-lib/actions/setup-pandoc@master
 
@@ -61,14 +51,14 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: macOS-r-3.6-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: macOS-r-3.6-
+          key: macOS-r-4.0-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys:  macOS-r-4.0-1-
 
       - name: Install dependencies
         run: |
           install.packages(c("remotes"))
           remotes::install_deps(dependencies = TRUE)
-          remotes::install_cran("covr", force = TRUE)
+          remotes::install_cran("covr")
         shell: Rscript {0}
 
       - name: Test coverage

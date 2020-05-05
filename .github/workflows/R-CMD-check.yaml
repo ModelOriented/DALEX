@@ -34,8 +34,6 @@ on:
       - '**.rds'
       - '**.Rds'
 
-name: R-CMD-check
-
 jobs:
   R-CMD-check:
     runs-on: ${{ matrix.config.os }}
@@ -46,10 +44,13 @@ jobs:
       fail-fast: false
       matrix:
         config:
+          - {os: macOS-latest,   r: 'devel'}
+          - {os: macOS-latest,   r: '4.0'}
+          - {os: windows-latest, r: '4.0'}
           - {os: windows-latest, r: '3.6'}
-          - {os: macOS-latest, r: '3.6'}
-          - {os: macOS-latest, r: 'devel'}
+          - {os: ubuntu-16.04, r: '4.0', rspm: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
           - {os: ubuntu-16.04, r: '3.6', rspm: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
+          - {os: ubuntu-16.04, r: '3.5', rspm: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -86,19 +87,16 @@ jobs:
           Rscript -e "remotes::install_github('r-hub/sysreqs')"
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
-
+          sudo apt-get install -y qpdf
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
-          remotes::install_github("ModelOriented/ingredients")
-          remotes::install_github("ModelOriented/iBreakDown")
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
 
       - name: Check
-        env:
-          _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran", "--run-donttest", "--run-dontrun"), error_on = "warning", check_dir = "check")
+        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran", "--run-donttest", "--run-dontrun"),
+                                  build_args = "--compact-vignettes=no", error_on = "warning", check_dir = "check")
         shell: Rscript {0}
 
       - name: Upload check results
