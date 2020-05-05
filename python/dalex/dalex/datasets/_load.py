@@ -1,5 +1,6 @@
-import pandas as pd
 import os
+
+import pandas as pd
 
 
 def load_titanic():
@@ -18,7 +19,7 @@ def load_titanic():
 def load_fifa():
     """
     Load 'fifa', the preprocessed 'players_20.csv' dataset which comes as
-    a part of 'FIFA 20 complete player dataset' at 'Kaggle.com'.
+    a part of 'FIFA 20 complete player dataset' at 'Kaggle'.
     It contains 5000 'overall' best players and 43 variables. These are:
     - short_name (index)
     - nationality of the player (not used in modeling)

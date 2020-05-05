@@ -2,7 +2,6 @@ import numpy as np
 
 
 def prepare_data_for_shap_plot(x, baseline, prediction, max_vars, rounding_function, digits):
-
     variable_count = x.shape[0]
     # sort by absolute value of contribution
     x = x.iloc[(-x['contribution'].abs()).argsort()].reset_index(drop=True)
@@ -36,7 +35,7 @@ def tooltip_text(row, baseline, prediction):
         key_word = "increases"
     else:
         key_word = "decreases"
-    return "Average response: " + str(baseline) + "<br>Prediction: " + str(prediction) + "<br>" +\
+    return "Average response: " + str(baseline) + "<br>Prediction: " + str(prediction) + "<br>" + \
            str(row.variable) + "<br>" + key_word + " average response <br>by " + str(np.abs(row.contribution))
 
 

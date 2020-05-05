@@ -1,6 +1,7 @@
-import pandas as pd
-import numpy as np
 from copy import deepcopy
+
+import numpy as np
+import pandas as pd
 
 
 def shap(explainer,
@@ -8,7 +9,6 @@ def shap(explainer,
          path,
          keep_distributions,
          B):
-
     # Now we know the path, so we can calculate contributions
     # set variable indicators
     # start random path
@@ -73,20 +73,20 @@ def get_single_random_path(explainer, new_observation, random_path):
     yhats[0] = explainer.predict(current_data).mean()
     for i, candidate in enumerate(random_path):
         current_data.iloc[:, candidate] = new_observation.iloc[0, candidate]
-        yhats[i+1] = explainer.predict(current_data).mean()
+        yhats[i + 1] = explainer.predict(current_data).mean()
 
     diffs = np.diff(yhats)
 
     variable_names = explainer.data.columns[random_path]
 
-    new_observation_f = new_observation.loc[:, variable_names]\
+    new_observation_f = new_observation.loc[:, variable_names] \
         .apply(lambda x: nice_format(x.iloc[0]))
 
     return pd.DataFrame({
         'variable': [' = '.join(pair) for pair in zip(variable_names, new_observation_f)],
         'contribution': diffs,
         'variable_name': variable_names,
-        'variable_value': new_observation.loc[:, variable_names].values.reshape(-1,),
+        'variable_value': new_observation.loc[:, variable_names].values.reshape(-1, ),
         'sign': np.sign(diffs),
         'label': explainer.label
     })
@@ -104,6 +104,6 @@ def nice_format(x):
 #:# https://stackoverflow.com/a/59888924
 def signif(x, p=4):
     x = np.asarray(x)
-    x_positive = np.where(np.isfinite(x) & (x != 0), np.abs(x), 10**(p-1))
+    x_positive = np.where(np.isfinite(x) & (x != 0), np.abs(x), 10 ** (p - 1))
     mags = 10 ** (p - 1 - np.floor(np.log10(x_positive)))
     return np.round(x * mags) / mags

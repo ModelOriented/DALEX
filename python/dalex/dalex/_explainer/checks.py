@@ -1,27 +1,33 @@
-import re
-
 import numpy as np
 import pandas as pd
 
-from .helper import verbose_cat, is_y_in_data, get_model_info
+from .helper import verbose_cat, is_y_in_data
 from .yhat import *
 
 
-def check_label(label, model, verbose):
+def check_label(label, model_class, model_info, verbose):
     if label is None:
         # label not specified
         # try to extract something
-        label = re.search(".*(?='>$)", str(type(model)).split('.')[-1])[0]
-        verbose_cat("  -> label             : not specified, model's class taken instead!", verbose=verbose)
-    else:
-        verbose_cat("  -> label             : " + str(label), verbose=verbose)
 
-    return label
+        label = model_class.split('.')[-1]
+        verbose_cat("  -> label             : not specified, model's class short name is taken instead (default)",
+                    verbose=verbose)
+
+        model_info['label_default'] = True
+    else:
+        if not isinstance(label, str):
+            raise TypeError("Label is not a string")
+
+        verbose_cat("  -> label             : " + label, verbose=verbose)
+        model_info['label_default'] = False
+
+    return label, model_info
 
 
 def check_data(data, verbose):
     if isinstance(data, np.ndarray):
-        verbose_cat("data is numpy ndarray, columns are set as consecutive numbers", verbose=verbose)
+        verbose_cat("data is converted to pd.DataFrame, columns are set as consecutive numbers", verbose=verbose)
         data = pd.DataFrame(data)
     elif not isinstance(data, pd.DataFrame) and data is not None:
         raise TypeError("data must be pandas.DataFrame or numpy.ndarray")
@@ -31,7 +37,7 @@ def check_data(data, verbose):
     if data is not None:
         if data.index.unique().shape[0] != data.shape[0]:
             raise ValueError("Index is not unique")
-        
+
         verbose_cat("  -> data              : " + str(data.shape[0]) + " rows " + str(data.shape[1]) + " cols",
                     verbose=verbose)
 
@@ -103,17 +109,23 @@ def check_weights(weights, data, verbose):
     return weights
 
 
-def check_predict_function(predict_function, model, data, precalculate, verbose):
+def check_predict_function(predict_function, model, data, model_class, model_info, precalculate, verbose):
     if predict_function is None:
         # predict_function not specified
         # try the default
-        predict_function = yhat(model)
+        predict_function = yhat(model, model_class)
+
+        model_info['predict_function_default'] = True
 
         if not predict_function:
             raise ValueError("  -> predict function  : predict_function not provided and cannot be extracted",
                              verbose=verbose)
 
-    verbose_cat("  -> predict function  : " + str(predict_function) + " will be used", verbose=verbose)
+        verbose_cat("  -> predict function  : " + str(predict_function) + " will be used (default)", verbose=verbose)
+
+    else:
+        model_info['predict_function_default'] = False
+        verbose_cat("  -> predict function  : " + str(predict_function) + " will be used", verbose=verbose)
 
     pred = None
     if data is not None and (verbose or precalculate):
@@ -127,18 +139,21 @@ def check_predict_function(predict_function, model, data, precalculate, verbose)
                         verbose=verbose)
             print(error)
 
-    return predict_function, pred
+    return predict_function, pred, model_info
 
 
-def check_residual_function(residual_function, predict_function, model, data, y, precalculate, verbose):
+def check_residual_function(residual_function, predict_function, model, data, y, model_info, precalculate, verbose):
     if residual_function is None:
         # residual_function not specified
         # try the default
         def residual_function(_model, _data, _y):
             return _y - predict_function(_model, _data)
-        verbose_cat("  -> residual function : difference between y and yhat", verbose=verbose)
+
+        verbose_cat("  -> residual function : difference between y and yhat (default)", verbose=verbose)
+        model_info['residual_function_default'] = True
     else:
         verbose_cat("  -> residual function : " + str(residual_function), verbose=verbose)
+        model_info['residual_function_default'] = False
 
     # if data is specified then we may test residual_function
     residuals = None
@@ -153,18 +168,17 @@ def check_residual_function(residual_function, predict_function, model, data, y,
                         verbose=verbose)
             print(error)
 
-    return residual_function, residuals
+    return residual_function, residuals, model_info
 
 
-def check_model_info(model_info, model, verbose):
-    if model_info is None:
-        # extract defaults
-        model_info = get_model_info(model)
-
-        verbose_cat("  -> model_info        : package " + model_info['model_package'], verbose=verbose)
+def check_model_info(model_info, model_info_, verbose):
+    if model_info is not None:
+        for key, value in model_info_.items():
+            model_info[key] = value
     else:
-        verbose_cat("  -> model_info        : package " + model_info['model_package'] +
-                    ", ver." + model_info['version'] + ", task" + model_info['type'], verbose=verbose)
+        model_info = model_info_
+
+    verbose_cat("  -> model_info        : package " + model_info['model_package'], verbose=verbose)
 
     return model_info
 
@@ -172,10 +186,13 @@ def check_model_info(model_info, model, verbose):
 def check_method_type(type, types):
     if isinstance(type, tuple):
         ret = type[0]
-    else:
+    elif isinstance(type, str):
         ret = type
+    else:
+        raise TypeError("type is not a str")
+
     if ret not in types:
-        raise TypeError("'type' must be one of: {}".format(', '.join(types)))
+        raise ValueError("'type' must be one of: {}".format(', '.join(types)))
     else:
         return ret
 
@@ -212,8 +229,26 @@ def check_if_empty_fields(explainer):
         explainer.predict_function = predict_function
     if explainer.residual_function is None:
         print("  -> Residual function is not present, setting to default")
-        residual_function, residuals = check_residual_function(None, explainer.predict_function, explainer.model, None, None,
+        residual_function, residuals = check_residual_function(None, explainer.predict_function, explainer.model, None,
+                                                               None,
                                                                False, False)
         explainer.residual_function = residual_function
 
     return explainer
+
+
+def check_model_class(model_class, model_info, model, verbose):
+    if model_class is None:
+        model_class = str(type(model))
+        from re import search
+        model_class = search("(?<=<class ').*(?='>)", model_class)[0]
+        model_info['model_class_default'] = True
+
+        verbose_cat("  -> model_class       : " + model_class + " (default)", verbose=verbose)
+
+    else:
+        model_info['model_class_default'] = False
+
+        verbose_cat("  -> model_class       : " + model_class, verbose=verbose)
+
+    return model_class, model_info

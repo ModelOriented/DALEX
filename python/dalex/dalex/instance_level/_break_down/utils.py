@@ -136,7 +136,6 @@ def create_ordered_path(feature_path,
                         average_yhats_index,
                         type,
                         order):
-
     if order is None:
         # sort impacts and look for most importants elements
         if type == '2d':
@@ -246,6 +245,6 @@ def nice_format(x):
 #:# https://stackoverflow.com/a/59888924
 def signif(x, p=4):
     x = np.asarray(x)
-    x_positive = np.where(np.isfinite(x) & (x != 0), np.abs(x), 10**(p-1))
+    x_positive = np.where(np.isfinite(x) & (x != 0), np.abs(x), 10 ** (p - 1))
     mags = 10 ** (p - 1 - np.floor(np.log10(x_positive)))
     return np.round(x * mags) / mags

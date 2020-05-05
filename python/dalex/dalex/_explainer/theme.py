@@ -2,7 +2,6 @@ import numpy as np
 
 
 def get_default_colors(n, type):
-
     default_colors = ["#8bdcbe", "#f05a71", "#371ea3", "#46bac2", "#ae2c87", "#ffa58c", "#4378bf"]
 
     if n > len(default_colors):

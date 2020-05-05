@@ -1,4 +1,3 @@
-import numpy as np
 from plotly.subplots import make_subplots
 
 from dalex.instance_level._shap.plot import prepare_data_for_shap_plot
@@ -27,7 +26,7 @@ class Shap:
             explainer,
             new_observation):
 
-        new_observation = check_new_observation(new_observation)
+        new_observation = check_new_observation(new_observation, explainer)
         check_columns_in_new_observation(new_observation, explainer)
         self.result, self.prediction, self.intercept, self.yhats_distributions = shap(explainer,
                                                                                       new_observation,
@@ -69,24 +68,24 @@ class Shap:
         # are there any other objects to plot?
         if objects is None:
             n = 1
-            _result_list = [self.result.loc[self.result['B'] == 0, ].copy()]
+            _result_list = [self.result.loc[self.result['B'] == 0,].copy()]
             _intercept_list = [self.intercept]
             _prediction_list = [self.prediction]
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             n = 2
-            _result_list = [self.result.loc[self.result['B'] == 0, ].copy(),
-                            objects.result.loc[objects.result['B'] == 0, ].copy()]
+            _result_list = [self.result.loc[self.result['B'] == 0,].copy(),
+                            objects.result.loc[objects.result['B'] == 0,].copy()]
             _intercept_list = [self.intercept, objects.intercept]
             _prediction_list = [self.prediction, objects.prediction]
         else:  # objects as tuple or array
             n = len(objects) + 1
-            _result_list = [self.result.loc[self.result['B'] == 0, ].copy()]
+            _result_list = [self.result.loc[self.result['B'] == 0,].copy()]
             _intercept_list = [self.intercept]
             _prediction_list = [self.prediction]
             for ob in objects:
                 if not isinstance(ob, self.__class__):
                     raise TypeError("Some explanations aren't of Shap class")
-                _result_list += [ob.result.loc[ob.result['B'] == 0, ].copy()]
+                _result_list += [ob.result.loc[ob.result['B'] == 0,].copy()]
                 _intercept_list += [ob.intercept]
                 _prediction_list += [ob.prediction]
 
@@ -139,11 +138,11 @@ class Shap:
                 x0=baseline,
                 x1=baseline,
                 y0=0,
-                y1=m-1,
+                y1=m - 1,
                 yref="paper",
                 xref="x",
                 line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'},
-                row=i+1, col=1
+                row=i + 1, col=1
             )
 
             fig.add_bar(
@@ -158,16 +157,16 @@ class Shap:
                 hoverinfo='text',
                 hoverlabel={'bgcolor': 'rgba(0,0,0,0.8)'},
                 showlegend=False,
-                row=i+1, col=1
+                row=i + 1, col=1
             )
 
             fig.update_yaxes({'type': 'category', 'autorange': 'reversed', 'gridwidth': 2, 'automargin': True,
                               'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True},
-                             row=i+1, col=1)
+                             row=i + 1, col=1)
 
             fig.update_xaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                               'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True},
-                             row=i+1, col=1)
+                             row=i + 1, col=1)
 
             plot_height += m * bar_width + (m + 1) * bar_width / 4
 
@@ -185,8 +184,10 @@ class Shap:
 
         if show:
             fig.show(config={'displaylogo': False, 'staticPlot': False,
-                'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d', 'zoom2d', 'pan2d',
-                                           'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines', 'hoverCompareCartesian',
-                                           'hoverClosestCartesian']})
+                             'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
+                                                        'zoom2d', 'pan2d',
+                                                        'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines',
+                                                        'hoverCompareCartesian',
+                                                        'hoverClosestCartesian']})
         else:
             return fig

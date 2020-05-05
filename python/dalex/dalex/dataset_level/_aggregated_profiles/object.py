@@ -1,10 +1,9 @@
 import pandas as pd
+from plotly.subplots import make_subplots
 
 from dalex.dataset_level._aggregated_profiles.plot import tooltip_text
 from .checks import *
 from .utils import aggregate_profiles
-
-from plotly.subplots import make_subplots
 from ..._explainer.theme import get_default_colors
 
 
@@ -77,7 +76,8 @@ class AggregatedProfiles:
 
         all_profiles = create_x(all_profiles, self.variable_type)
 
-        self.result = aggregate_profiles(all_profiles, ceteris_paribus, self.type, self.groups, self.intercept, self.span)
+        self.result = aggregate_profiles(all_profiles, ceteris_paribus, self.type, self.groups, self.intercept,
+                                         self.span)
         self.mean_prediction = all_observations['_yhat_'].mean()
 
     def plot(self, objects=None, variables=None, size=2, facet_ncol=2, title="Aggregated Profiles",
@@ -149,7 +149,8 @@ class AggregatedProfiles:
             x_title, y_title = "prediction", ""
 
         fig = make_subplots(rows=facet_nrow, cols=facet_ncol, horizontal_spacing=horizontal_spacing,
-                            vertical_spacing=vertical_spacing, x_title=x_title, y_title=y_title, subplot_titles=variable_names)
+                            vertical_spacing=vertical_spacing, x_title=x_title, y_title=y_title,
+                            subplot_titles=variable_names)
 
         colors = get_default_colors(m, 'line')
 
@@ -159,7 +160,7 @@ class AggregatedProfiles:
             name = variable_names[i]
             var_df = var_df_dict[name].sort_values('_x_')
 
-            row = int(np.floor(i/facet_ncol) + 1)
+            row = int(np.floor(i / facet_ncol) + 1)
             col = int(np.mod(i, facet_ncol) + 1)
 
             df_list = [v for k, v in var_df.groupby('_label_', sort=False)]
@@ -208,7 +209,8 @@ class AggregatedProfiles:
                     tt = df.apply(lambda r: tooltip_text(r, name, _mean_prediction[j]), axis=1)
                     df = df.assign(tooltip_text=tt.values)
 
-                    fig.add_shape(type='line', x0=baseline, x1=baseline, y0=0, y1=len(df['_x_'].unique()) - 1, yref="paper", xref="x",
+                    fig.add_shape(type='line', x0=baseline, x1=baseline, y0=0, y1=len(df['_x_'].unique()) - 1,
+                                  yref="paper", xref="x",
                                   line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'}, row=row, col=col)
 
                     fig.add_bar(
@@ -237,14 +239,16 @@ class AggregatedProfiles:
 
                 fig.update_xaxes({'range': min_max})
 
-        plot_height = 78 + 71 + facet_nrow*(280+60)
+        plot_height = 78 + 71 + facet_nrow * (280 + 60)
         fig.update_layout(title_text=title, title_x=0.15, font={'color': "#371ea3"}, template="none",
                           height=plot_height, margin={'t': 78, 'b': 71, 'r': 30}, hovermode='closest')
 
         if show:
             fig.show(config={'displaylogo': False, 'staticPlot': False,
-                'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d', 'zoom2d', 'pan2d',
-                                           'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines', 'hoverCompareCartesian',
-                                           'hoverClosestCartesian']})
+                             'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
+                                                        'zoom2d', 'pan2d',
+                                                        'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines',
+                                                        'hoverCompareCartesian',
+                                                        'hoverClosestCartesian']})
         else:
             return fig

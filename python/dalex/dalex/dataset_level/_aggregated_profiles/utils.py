@@ -1,4 +1,3 @@
-from scipy.stats import norm
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
@@ -26,9 +25,9 @@ def aggregate_profiles(all_profiles, ceteris_paribus, type, groups, intercept, s
             desc="Calculating conditional dependency!")
         aggregated_profiles = \
             all_profiles. \
-            loc[:, ["_vname_", "_label_", "_x_", "_yhat_", "_ids_", "_original_"] + groups]. \
-            groupby(['_vname_', '_label_']). \
-            progress_apply(lambda split_profile: split_over_variables_and_labels(split_profile, type, groups, span))
+                loc[:, ["_vname_", "_label_", "_x_", "_yhat_", "_ids_", "_original_"] + groups]. \
+                groupby(['_vname_', '_label_']). \
+                progress_apply(lambda split_profile: split_over_variables_and_labels(split_profile, type, groups, span))
 
     # postprocessing
     if len(groups) != 0:
@@ -81,7 +80,7 @@ def split_over_variables_and_labels(split_profile, type, groups, span):
         # scalled differences
         diffs = (split_profile['_original_'] - split_profile['_x_']) / range_x
 
-        split_profile['_w_'] = norm(0, span).pdf(diffs)
+        split_profile['_w_'] = norm(diffs, 0, span)
 
     else:
         # for categorical variables we will calculate weighted average
@@ -112,3 +111,7 @@ def split_over_variables_and_labels(split_profile, type, groups, span):
                 lambda column: column.cumsum())
 
     return par_profile
+
+
+def norm(x, loc, scale):
+    return np.exp(-((x - loc) / scale) ** 2 / 2) / np.pi / np.sqrt(2) / scale

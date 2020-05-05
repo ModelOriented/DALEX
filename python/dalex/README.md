@@ -1,5 +1,9 @@
 # dalex
-moDel Agnostic Language for Exploration and eXplanation http://dalex.drwhy.ai/
+
+[moDel Agnostic Language for Exploration and eXplanation](http://dalex.drwhy.ai/)
+
+[![PyPI version](https://badge.fury.io/py/dalex.svg)](https://badge.fury.io/py/dalex)
+[![Downloads](https://pepy.tech/badge/dalex)](https://pepy.tech/project/dalex)
 
 ## Overview
 

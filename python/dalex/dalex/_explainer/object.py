@@ -1,6 +1,7 @@
-from dalex.instance_level import BreakDown, Shap, CeterisParibus
 from dalex.dataset_level import ModelPerformance, VariableImportance, AggregatedProfiles
+from dalex.instance_level import BreakDown, Shap, CeterisParibus
 from .checks import *
+from .helper import get_model_info
 
 
 class Explainer:
@@ -12,11 +13,12 @@ class Explainer:
                  residual_function=None,
                  weights=None,
                  label=None,
+                 model_class=None,
                  verbose=True,
                  precalculate=True,
-                 colorize=True,
+                 model_type=None,
                  model_info=None,
-                 model_type=None):
+                 colorize=True):
 
         """Create Model Explainer
 
@@ -32,11 +34,12 @@ class Explainer:
         :param residual_function: function that takes three arguments: model, data and response vector y. It should return a numeric vector with model residuals for given data. If not provided, response residuals y-yhat are calculated.
         :param weights: weights numeric vector with sampling weights. By default it's None. If provided then it shall have the same length as data
         :param label: the name of the model. By default it's extracted from the 'class' attribute of the model
+        :param model_class: str, class of actual model, use if your model is wrapped
         :param verbose: if True (default) then diagnostic messages will be printed
         :param precalculate: if True (default) then predicted_values and residual are calculated when explainer is created.
-        :param colorize: TODO
-        :param model_info: list containg information about the model
         :param model_type: type of a model, either classification or regression.
+        :param model_info: list containing additional information about the model
+        :param colorize: TODO
         """
 
         verbose_cat("Preparation of a new explainer is initiated\n", verbose=verbose)
@@ -50,9 +53,6 @@ class Explainer:
                 'red_end': "",
                 'green_start': "",
                 'green_end': ""}
-
-        # REPORT: checks for model label
-        label = check_label(label, model, verbose)
 
         # REPORT: checks for data
         """
@@ -73,17 +73,25 @@ class Explainer:
         # REPORT: checks for weights
         weights = check_weights(weights, data, verbose)
 
+        model_info_ = get_model_info(model)
+
+        model_class, model_info_ = check_model_class(model_class, model_info_, model, verbose)
+
+        label, model_info_ = check_label(label, model_class, model_info_, verbose)
+
         # REPORT: checks for predict_function
-        predict_function, pred = check_predict_function(predict_function, model, data, precalculate, verbose)
+        predict_function, pred, model_info_ = check_predict_function(predict_function, model, data, model_class,
+                                                                     model_info_, precalculate, verbose)
 
         # if data is specified then we may test predict_function
         # at this moment we have predict function
 
         # REPORT: checks for residual_function
-        residual_function, residuals = check_residual_function(residual_function, predict_function, model, data, y,
-                                                               precalculate, verbose)
+        residual_function, residuals, model_info_ = check_residual_function(residual_function, predict_function, model,
+                                                                            data, y,
+                                                                            model_info_, precalculate, verbose)
 
-        model_info = check_model_info(model_info, model, verbose)
+        model_info = check_model_info(model_info, model_info_, verbose)
 
         # READY to create an explainer
         self.model = model
@@ -93,7 +101,7 @@ class Explainer:
         self.y_hat = pred
         self.residual_function = residual_function
         self.residuals = residuals
-        self.model_class = type(model)
+        self.model_class = model_class
         self.label = label
         self.model_info = model_info
         self.weights = weights
@@ -123,13 +131,13 @@ class Explainer:
         return self.residual_function(self.model, data, y)
 
     def predict_parts(self,
-                     new_observation,
-                     type=('break_down_interactions','break_down','shap'),
-                     order=None,
-                     interaction_preference=1,
-                     path="average",
-                     B=25,
-                     keep_distributions=False):
+                      new_observation,
+                      type=('break_down_interactions', 'break_down', 'shap'),
+                      order=None,
+                      interaction_preference=1,
+                      path="average",
+                      B=25,
+                      keep_distributions=False):
 
         """Instance Level Variable Attribution as Break Down or SHAP Explanations
 
@@ -143,7 +151,7 @@ class Explainer:
         :return: BreakDown / Shap
         """
 
-        types = ('break_down_interactions','break_down','shap')
+        types = ('break_down_interactions', 'break_down', 'shap')
         type = check_method_type(type, types)
 
         if type == 'break_down_interactions' or type == 'break_down':
@@ -222,8 +230,8 @@ class Explainer:
         return model_performance_
 
     def model_parts(self,
-                    loss_function='loss_root_mean_square',
-                    type=('variable_importance','ratio','difference'),
+                    loss_function='rmse',
+                    type=('variable_importance', 'ratio', 'difference'),
                     N=None,
                     B=10,
                     keep_raw_permutations=None,
@@ -233,19 +241,19 @@ class Explainer:
 
         """Creates VariableImportance object
 
-        :param loss_function: a function thet will be used to assess variable importance
-        :param type: type of transformation that should be applied for dropout loss
+        :param loss_function: a function that will be used to assess variable importance
+        :param type: 'variable_importance'/'ratio'/'difference' type of transformation that should be applied for dropout loss
         :param N: number of observations that should be sampled for calculation of variable importance
         :param B: number of permutation rounds to perform on each variable
         :param keep_raw_permutations: TODO
-        :param variables: vector of variables. If None then variable importance will be tested for each variable from the data separately
+        :param variables: vector of variables. If None then variable importance will be tested for each variable from the data separately, ignored if variable_groups is not None
         :param variable_groups: dict of lists of variables. Each list is treated as one group. This is for testing joint variable importance
         :param label: TODO
         :param random_state: random state for the permutations
         :return: FeatureImportance object
         """
 
-        types = ('variable_importance','ratio','difference')
+        types = ('variable_importance', 'ratio', 'difference')
         type = check_method_type(type, types)
 
         model_parts_ = VariableImportance(
@@ -264,7 +272,7 @@ class Explainer:
         return model_parts_
 
     def model_profile(self,
-                      type=('partial','accumulated','conditional'),
+                      type=('partial', 'accumulated', 'conditional'),
                       N=500,
                       variables=None,
                       variable_type='numerical',
@@ -287,7 +295,7 @@ class Explainer:
         :return: VariableEffect object
         """
 
-        types = ('partial','accumulated','conditional')
+        types = ('partial', 'accumulated', 'conditional')
         type = check_method_type(type, types)
 
         N = min(N, self.data.shape[0])

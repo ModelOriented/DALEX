@@ -1,11 +1,15 @@
 # moDel Agnostic Language for Exploration and eXplanation <img src="man/figures/logo.png" align="right" width="150"/>
 
-[![Build Status](https://api.travis-ci.org/ModelOriented/DALEX.png)](https://travis-ci.org/ModelOriented/DALEX)
+[![R build status](https://github.com/ModelOriented/DALEX/workflows/R-CMD-check/badge.svg)](https://github.com/ModelOriented/DALEX/actions?query=workflow%3AR-CMD-check)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/ModelOriented/DALEX/master.svg)](https://codecov.io/github/ModelOriented/DALEX?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/DALEX)](https://cran.r-project.org/package=DALEX)
 [![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/DALEX?color=orange)](http://cranlogs.r-pkg.org/badges/grand-total/DALEX)
 [![DrWhy-eXtrAI](https://img.shields.io/badge/DrWhy-BackBone-373589)](http://drwhy.ai/#BackBone)
+
+[![PyPI version](https://badge.fury.io/py/dalex.svg)](https://badge.fury.io/py/dalex)
+[![Downloads](https://pepy.tech/badge/dalex)](https://pepy.tech/project/dalex)
+
 
 ## Overview
 
@@ -18,7 +22,7 @@ The philosophy behind `DALEX` explanations is described in the [Explanatory Mode
 If you work with `scikitlearn`, `keras`, `H2O`, `mljar` or `mlr`, you may be interested in the [DALEXtra](https://github.com/ModelOriented/DALEXtra) package. It is an extension pack for `DALEX` with easy to use connectors to models created in these libraries.
 
 <p align="center">
-<a href="https://pbiecek.github.io/ema/introduction.html#bookstructure"><img src="misc/DALEXpiramide.png" width="800"/></a>
+<a href="https://pbiecek.github.io/ema/introduction.html#bookstructure"><img src="https://github.com/ModelOriented/DALEX/raw/master/misc/DALEXpiramide.png" width="800"/></a>
 </p>
 
 
@@ -26,13 +30,13 @@ If you work with `scikitlearn`, `keras`, `H2O`, `mljar` or `mlr`, you may be int
 
 The easiest way to get the **R** version of DALEX is to install it from [CRAN](https://cran.r-project.org/package=DALEX)
 
-```
+```r
 install.packages("DALEX")
 ```
 
 The **Python** version of dalex is available on [pip](https://pypi.org/project/dalex/)
 
-```
+```console
 pip install dalex
 ```
 
@@ -53,6 +57,7 @@ In many applications we need to know, understand or prove how input variables ar
 
 * [XAI in the jungle of competing frameworks for machine learning](https://medium.com/@ModelOriented/xai-in-the-jungle-of-competing-frameworks-for-machine-learning-fa6e96a99644)
 * [Gentle introduction to DALEX with examples](https://pbiecek.github.io/DALEX_docs/) showt introduction to the `DALEX` package.
+* [How to use DALEXtra to explain and visualize scikitlearn and keras models](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/How-to-use-DALEXtra-to-explain-and-visualize-scikitlearn-models.html) 
 * [How to compare models created in different languages](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/Multilanguages_comparision.html) crosscomparison of gbm and CatBoost in R / gbm in h2o / gbm in python
 * [How to use DALEX for fraud detection](https://rawgit.com/pbiecek/DALEX_docs/master/vignettes/DALEXverse%20and%20fraud%20detection.html)
 * [How to use DALEX with keras](https://rawgit.com/pbiecek/DALEX_docs/master/vignettes/DALEX_and_keras.html)
@@ -93,4 +98,4 @@ The other way is to use approximated explainers – techniques that find only ap
 
 ## Acknowledgments
 
-Work on this package was financially supported by the 'NCN Opus grant 2016/21/B/ST6/02176'.
+Work on this package was financially supported by the `NCN Opus grant 2016/21/B/ST6/02176`.
