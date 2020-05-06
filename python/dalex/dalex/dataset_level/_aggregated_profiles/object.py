@@ -25,8 +25,8 @@ class AggregatedProfiles:
         """
         Constructor for AggregatedProfiles.
 
-        :param variables: list, variables if not None then aggregate only for selected variables will be calculated
-        :param groups: str, a variable name that will be used for grouping
+        :param variables: str or list or numpy.ndarray or pandas.Series, if not None then aggregate only for selected variables will be calculated, if None all will be selected
+        :param groups: str or list or numpy.ndarray or pandas.Series, a variable names that will be used for grouping
         :param type: str, either partial/conditional/accumulated for partial dependence, conditional profiles of accumulated local effects
         :param span: float, smoothing coeffcient, by default 0.25. It's the sd for gaussian kernel
         :param variable_type: str, If numerical then only numerical variables will be calculated. If categorical then only categorical variables will be calculated.
@@ -35,12 +35,13 @@ class AggregatedProfiles:
         """
 
         check_variable_type(variable_type)
-        groups = check_groups(groups)
+        variables_ = check_variables(variables)
+        groups_ = check_groups(groups)
 
         self.variable_type = variable_type
-        self.groups = groups
+        self.groups = groups_
         self.type = type
-        self.variables = variables
+        self.variables = variables_
         self.span = span
         self.intercept = intercept
         self.result = None

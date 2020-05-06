@@ -284,10 +284,10 @@ class Explainer:
         """Dataset Level Variable Effect as Partial Dependency Profile or Accumulated Local Effects
 
         :param ceteris_paribus: a ceteris paribus explainer or list of ceteris paribus explainers
-        :param N: number of observations used for calculation of partial dependency profiles. By default, 500 observations will be chosen randomly.
-        :param variables: names of variables for which profiles shall be calculated.
+        :param N: number of observations used for calculation of partial dependency profiles. By default, 500 observations will be chosen randomly. If None then all observations will be used.
+        :param variables: str or list or numpy.ndarray or pandas.Series, if not None then aggregate only for selected variables will be calculated, if None all will be selected
         :param variable_type: TODO If "numerical" then only numerical variables will be calculated. If "categorical" then only categorical variables will be calculated.
-        :param groups: a variable name that will be used for grouping.
+        :param groups: str or list or numpy.ndarray or pandas.Series, a variable names that will be used for grouping
         :param type: either partial/conditional/accumulated for partial dependence, conditional profiles of accumulated local effects
         :param span: smoothing coeffcient, by default 0.25.It's the sd for gaussian kernel
         :param grid_points: number of points for profile
@@ -298,7 +298,10 @@ class Explainer:
         types = ('partial', 'accumulated', 'conditional')
         type = check_method_type(type, types)
 
-        N = min(N, self.data.shape[0])
+        if N is None:
+            N = self.data.shape[0]
+        else:
+            N = min(N, self.data.shape[0])
         I = np.random.choice(np.arange(N), N, replace=False)
 
         ceteris_paribus = CeterisParibus(grid_points=grid_points)

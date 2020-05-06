@@ -29,11 +29,6 @@ def aggregate_profiles(all_profiles, ceteris_paribus, type, groups, intercept, s
                 groupby(['_vname_', '_label_']). \
                 progress_apply(lambda split_profile: split_over_variables_and_labels(split_profile, type, groups, span))
 
-    # postprocessing
-    if len(groups) != 0:
-        aggregated_profiles.loc[:, '_label_'] = \
-            aggregated_profiles.loc[:, ['_label_', '_groups_']].apply(lambda row: '_'.join(row), axis=1)
-
     aggregated_profiles.loc[:, '_ids_'] = 0
 
     if type == 'partial':
@@ -52,6 +47,13 @@ def aggregate_profiles(all_profiles, ceteris_paribus, type, groups, intercept, s
             aggregated_profiles.loc[:, '_yhat_'] = aggregated_profiles.loc[:, '_yhat_'] + all_profiles[
                 '_yhat_'].mean()
         aggregated_profiles = aggregated_profiles.reset_index().rename(columns={'level_2': '_grid_'})
+
+    # postprocessing
+    if len(groups) != 0:
+        aggregated_profiles = aggregated_profiles.rename(columns={groups[0]: '_groups_'})
+
+        aggregated_profiles.loc[:, '_label_'] = \
+            aggregated_profiles.loc[:, ['_label_', '_groups_']].apply(lambda row: '_'.join(row), axis=1)
 
     return aggregated_profiles
 
