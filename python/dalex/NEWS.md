@@ -1,6 +1,9 @@
 dalex (development)
 ----------------------------------------------------------------
 * *fix:* `check_label` returned only a first letter
+* *bugfix:* removed the conversion of `all_variables` to `str` in
+`prepare_all_variables`, which caused an error in `model_profile` ([#214](https://github.com/ModelOriented/DALEX/issues/214))
+* *defaults:* change numpy data variable names from numbers to strings
 
 dalex 0.1.6
 ----------------------------------------------------------------

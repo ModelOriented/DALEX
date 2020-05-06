@@ -27,8 +27,9 @@ def check_label(label, model_class, model_info, verbose):
 
 def check_data(data, verbose):
     if isinstance(data, np.ndarray):
-        verbose_cat("data is converted to pd.DataFrame, columns are set as consecutive numbers", verbose=verbose)
+        verbose_cat("data is converted to pd.DataFrame, columns are set as string numbers", verbose=verbose)
         data = pd.DataFrame(data)
+        data.columns = data.columns.astype(str)
     elif not isinstance(data, pd.DataFrame) and data is not None:
         raise TypeError("data must be pandas.DataFrame or numpy.ndarray")
     elif data is None:
