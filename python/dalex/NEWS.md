@@ -1,6 +1,6 @@
 dalex (development)
 ----------------------------------------------------------------
-*feature:* parameter `N` in `model_profile` can be set to `None`, to select all observations 
+* *feature:* parameter `N` in `model_profile` can be set to `None`, to select all observations 
 * *fix:* `label` and `groups` fixed in `model_profile`
 * *input:* `groups` and `variable` parameters in `model_profile` can be: `str`, `list`, `numpy.ndarray`, `pandas.Series`
 * *fix:* `check_label` returned only a first letter
