@@ -5,10 +5,13 @@ mp_rf <- model_performance(explainer_regr_ranger)
 mp_ran_classif <- model_performance(explainer_classif_ranger)
 explainer_regr_lm_non_precalculate <- explain(model_regr_lm, data = apartments_test[1:1000, ],
                                               y = apartments_test$m2.price[1:1000], precalculate = FALSE, verbose = FALSE)
+explainer_ranger_multiclassif <- explain(model_multiclassif_ranger_prob, HR, HR$status)
+mp_multiclassif <- model_performance(explainer_ranger_multiclassif)
 
 test_that("Output format",{
   expect_is(mp_lm, "model_performance")
   expect_is(mp_ran_classif, "model_performance")
+  expect_is(mp_multiclassif, "model_performance")
   expect_error(print(mp_lm), NA)
 })
 

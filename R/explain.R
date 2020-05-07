@@ -199,19 +199,6 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     }
   }
 
-  if (is.null(model_info)) {
-    # extract defaults
-    model_info <- model_info(model)
-    verbose_cat("  -> model_info        :  package", model_info$package[1], ", ver.", model_info$ver[1], ", task", model_info$type, "(", color_codes$yellow_start,"default",color_codes$yellow_end, ")", "\n", verbose = verbose)
-  } else {
-    verbose_cat("  -> model_info        :  package", model_info$package[1], ", ver.", model_info$ver[1], ", task", model_info$type, "\n", verbose = verbose)
-  }
-  # if type specified then it overwrite the type in model_info
-  if (!is.null(type)) {
-    model_info$type <- type
-    verbose_cat("  -> model_info        :  type set to ", type, "\n", verbose = verbose)
-  }
-
   # REPORT: checks for predict_function
   if (is.null(predict_function)) {
     # predict_function not specified
@@ -251,15 +238,30 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     }
   }
 
+  if (is.null(model_info)) {
+    # extract defaults
+    task_subtype <- check_if_multilabel(model, predict_function, data[1:2,])
+    model_info <- model_info(model, is_multiclass = task_subtype)
+    verbose_cat("  -> model_info        :  package", model_info$package[1], ", ver.", model_info$ver[1], ", task", model_info$type, "(", color_codes$yellow_start,"default",color_codes$yellow_end, ")", "\n", verbose = verbose)
+  } else {
+    verbose_cat("  -> model_info        :  package", model_info$package[1], ", ver.", model_info$ver[1], ", task", model_info$type, "\n", verbose = verbose)
+  }
+  # if type specified then it overwrite the type in model_info
+  if (!is.null(type)) {
+    model_info$type <- type
+    verbose_cat("  -> model_info        :  type set to ", type, "\n", verbose = verbose)
+  }
+
   # REPORT: checks for residual_function
   if (is.null(residual_function)) {
     # residual_function not specified
     # try the default
-    if (!is.null(predict_function)) {
-      residual_function <- function(model, data, y) {
-        y - predict_function(model, data)
-      }
+    if (!is.null(predict_function) & model_info$type != "multiclass") {
+      residual_function <- default_residual_function
       verbose_cat("  -> residual function :  difference between y and yhat (",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
+    } else if (!is.null(predict_function) & model_info$type == "multiclass") {
+      residual_function <- multiclass_residual_function
+      verbose_cat("  -> residual function :  difference between 1 and probability of true class (",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
     }
   } else {
     if (!"function" %in% class(residual_function)) {
@@ -271,7 +273,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
   # if data is specified then we may test residual_function
   residuals <- NULL
   if (!is.null(data) && !is.null(residual_function) && !is.null(y) && (verbose | precalculate)) {
-    residuals <- try(residual_function(model, data, y), silent = TRUE)
+    residuals <- try(residual_function(model, data, y, predict_function), silent = TRUE)
     if (class(residuals)[1] == "try-error") {
       residuals <- NULL
       verbose_cat("  -> residuals         :  the residual_function returns an error when executed (",color_codes$red_start,"WARNING",color_codes$red_end,") \n", verbose = verbose)
@@ -315,6 +317,27 @@ is_y_in_data <- function(data, y) {
   any(apply(data, 2, function(x) {
     all(as.character(x) == as.character(y))
   }))
+}
+
+# check if model whether model is multilabel classification task
+check_if_multilabel <- function(model, predict_function, sample_data) {
+  response_sample <- try(predict_function(model, sample_data), silent = TRUE)
+  !is.null(dim(response_sample))
+}
+
+default_residual_function <- function(model, data, y, predict_function) {
+  y - predict_function(model, data)
+}
+
+
+multiclass_residual_function <- function(model, data, y, predict_function) {
+  y_char <- as.character(y)
+  pred <- predict_function(model, data)
+  res <- numeric(length(y))
+  for (i in 1:nrow(pred)) {
+    res[i] <- 1-pred[i, y_char[i]]
+  }
+  res
 }
 
 #' @rdname explain

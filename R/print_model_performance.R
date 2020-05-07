@@ -21,7 +21,7 @@
 #'
 print.model_performance <- function(x, ...) {
   cat("Measures for: ", x$type)
-  cat(paste0("\n", substr(paste0(names(x$measures), "         "), 1, 9), ": ", sapply(x$measures, prettyNum)))
+  cat(paste0("\n", substr(paste0(names(x$measures), "         "), 1, 11), ": ", sapply(x$measures, prettyNum)))
   cat("\n\nResiduals:\n")
   print(quantile(x$residuals$diff, seq(0, 1, 0.1)))
 }

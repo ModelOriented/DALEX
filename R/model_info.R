@@ -5,6 +5,8 @@
 #' are stored
 #'
 #' @param model - model object
+#' @param is_multiclass - if TRUE and task is classification, then multitask classification is set. Else is omitted. If \code{model_info}
+#' was executed withing \code{explain} function. DALEX will recognize subtype on it's own.
 #' @param ... - another arguments
 #'
 #' Currently supported packages are:
@@ -34,13 +36,13 @@
 #' model_regr_rf <- ranger::ranger(m2.price~., data = apartments, num.trees = 50)
 #' model_info(model_regr_rf)
 #'
-model_info <- function(model, ...)
+model_info <- function(model, is_multiclass = FALSE, ...)
   UseMethod("model_info")
 
 
 #' @rdname model_info
 #' @export
-model_info.lm <- function(model, ...) {
+model_info.lm <- function(model, is_multiclass = FALSE, ...) {
   type <- "regression"
   package <- "stats"
   ver <- as.character(utils::packageVersion("stats"))
@@ -51,8 +53,14 @@ model_info.lm <- function(model, ...) {
 
 #' @rdname model_info
 #' @export
-model_info.randomForest <- function(model, ...) {
-  type <- model$type
+model_info.randomForest <- function(model, is_multiclass = FALSE, ...) {
+  if (model$type == "classification" & is_multiclass) {
+    type <- "multiclass"
+  } else if (model$type == "classification" & !is_multiclass) {
+    type <- "classification"
+  } else {
+    type <- "regression"
+  }
   package <- "randomForest"
   ver <- get_pkg_ver_safe(package)
   model_info <- list(package = package, ver = ver, type = type)
@@ -62,8 +70,11 @@ model_info.randomForest <- function(model, ...) {
 
 #' @rdname model_info
 #' @export
-model_info.svm <- function(model, ...) {
-  if (model$type == 0) {
+model_info.svm <- function(model, is_multiclass = FALSE, ...) {
+  if (model$type == 0 & is_multiclass) {
+    type <- "multiclass"
+
+  } else if (model$type == 0 & !is_multiclass) {
     type <- "classification"
   } else {
     type <- "regression"
@@ -77,7 +88,7 @@ model_info.svm <- function(model, ...) {
 
 #' @rdname model_info
 #' @export
-model_info.glm <- function(model, ...) {
+model_info.glm <- function(model, is_multiclass = FALSE, ...) {
   if (model$family$family == "binomial") {
     type <- "classification"
   } else {
@@ -92,8 +103,12 @@ model_info.glm <- function(model, ...) {
 
 #' @rdname model_info
 #' @export
-model_info.lrm <- function(model, ...) {
-  type <- "classification"
+model_info.lrm <- function(model, is_multiclass = FALSE, ...) {
+  if (is_multiclass) {
+    type <- "multiclass"
+  } else {
+    type <- "classification"
+  }
   package <- "rms"
   ver <- get_pkg_ver_safe(package)
   model_info <- list(package = package, ver = ver, type = type)
@@ -103,8 +118,10 @@ model_info.lrm <- function(model, ...) {
 
 #' @rdname model_info
 #' @export
-model_info.glmnet <- function(model, ...) {
-  if (!is.null(model$classnames)) {
+model_info.glmnet <- function(model, is_multiclass = FALSE, ...) {
+  if (!is.null(model$classnames) & is_multiclass) {
+    type <- "multiclass"
+  } else if (!is.null(model$classnames) & !is_multiclass) {
     type <- "classification"
   } else {
     type <- "regression"
@@ -118,8 +135,10 @@ model_info.glmnet <- function(model, ...) {
 
 #' @rdname model_info
 #' @export
-model_info.cv.glmnet <- function(model, ...) {
-  if (!is.null(model$glmnet.fit$classnames)) {
+model_info.cv.glmnet <- function(model, is_multiclass = FALSE, ...) {
+  if (!is.null(model$glmnet.fit$classnames) & is_multiclass) {
+    type <- "multiclass"
+  } else if (!is.null(model$glmnet.fit$classnames) & !is_multiclass) {
     type <- "classification"
   } else {
     type <- "regression"
@@ -133,9 +152,11 @@ model_info.cv.glmnet <- function(model, ...) {
 
 #' @rdname model_info
 #' @export
-model_info.ranger <- function(model, ...) {
+model_info.ranger <- function(model, is_multiclass = FALSE, ...) {
   if (model$treetype == "Regression") {
     type <- "regression"
+  } else if (is_multiclass) {
+      type <- "multiclass"
   } else {
     type <- "classification"
   }
@@ -148,8 +169,10 @@ model_info.ranger <- function(model, ...) {
 
 #' @rdname model_info
 #' @export
-model_info.gbm <- function(model, ...) {
-  if (model$distribution == "bernoulli" || model$distribution == "multinomial") {
+model_info.gbm <- function(model, is_multiclass = FALSE, ...) {
+  if (model$distribution == "multinomial") {
+    type <- "multiclass"
+  } else if (model$distribution == "bernoulli") {
     type <- "classification"
   } else {
     type <- "regression"
@@ -164,8 +187,14 @@ model_info.gbm <- function(model, ...) {
 
 #' @rdname model_info
 #' @export
-model_info.model_fit <- function(model, ...) {
-  type <- model$spec$mode
+model_info.model_fit <- function(model, is_multiclass = FALSE, ...) {
+  if (model$spec$mode == "classification" & is_multiclass) {
+    type <- "multiclass"
+  } else if (model$spec$mode == "classification" & !is_multiclass) {
+    type <- "classification"
+  } else {
+    type <- "regression"
+  }
   package_wrapper <- "parsnip"
   ver_wrapper <- get_pkg_ver_safe(package_wrapper)
   package <- model$spec$method$libs
@@ -177,8 +206,14 @@ model_info.model_fit <- function(model, ...) {
 
 #' @rdname model_info
 #' @export
-model_info.train <- function(model, ...) {
-  type <- model$modelType
+model_info.train <- function(model, is_multiclass = FALSE, ...) {
+  if (model$modelType == "Classification" & is_multiclass) {
+      type <- "multiclass"
+  } else if (model$modelType == "Classification" & !is_multiclass) {
+    type <- "classification"
+  } else {
+    type <- "regression"
+  }
   package_wrapper <- "caret"
   ver_wrapper <- get_pkg_ver_safe(package_wrapper)
   package <- model$modelInfo$library
@@ -193,8 +228,10 @@ model_info.train <- function(model, ...) {
 
 #' @rdname model_info
 #' @export
-model_info.rpart <- function(model, ...) {
-  if (attr(model$terms, "dataClasses")[1] == "factor") {
+model_info.rpart <- function(model, is_multiclass = FALSE, ...) {
+  if (attr(model$terms, "dataClasses")[1] == "factor" & is_multiclass) {
+      type <- "multiclass"
+  } else if (attr(model$terms, "dataClasses")[1] == "factor" & !is_multiclass) {
     type <- "classification"
   } else {
     type <- "regression"
@@ -208,7 +245,7 @@ model_info.rpart <- function(model, ...) {
 
 #' @rdname model_info
 #' @export
-model_info.default <- function(model, ...) {
+model_info.default <- function(model, is_multiclass = FALSE, ...) {
   type <- "regression"
   package <- paste("Model of class:", class(model), "package unrecognized")
   ver <- "Unknown"
