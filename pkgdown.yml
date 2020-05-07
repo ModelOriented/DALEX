@@ -4,5 +4,5 @@ pkgdown_sha: c181e5c9ac09b28974a97f5e32deddc36690fcf2
 articles:
   multilabel_classification: multilabel_classification.html
   vignette_titanic: vignette_titanic.html
-last_built: 2020-05-07T12:01Z
+last_built: 2020-05-07T12:17Z
 
