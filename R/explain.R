@@ -10,8 +10,8 @@
 #' @param data data.frame or matrix - data that was used for fitting. If not provided then will be extracted from the model. Data should be passed without target column (this shall be provided as the \code{y} argument). NOTE: If target variable is present in the \code{data}, some of the functionalities my not work properly.
 #' @param y numeric vector with outputs / scores. If provided then it shall have the same size as \code{data}
 #' @param weights numeric vector with sampling weights. By default it's \code{NULL}. If provided then it shall have the same length as \code{data}
-#' @param predict_function function that takes two arguments: model and new data and returns numeric vector with predictions
-#' @param residual_function function that takes three arguments: model, data and response vector y. It should return a numeric vector with model residuals for given data. If not provided, response residuals (\eqn{y-\hat{y}}) are calculated.
+#' @param predict_function function that takes two arguments: model and new data and returns numeric vector with predictions.   By default it is \code{yhat}.
+#' @param residual_function function that takes four arguments: model, data, response vector y and predict function (optionally). It should return a numeric vector with model residuals for given data. If not provided, response residuals (\eqn{y-\hat{y}}) are calculated. By default it is \code{residual_function_default}.
 #' @param ... other parameters
 #' @param label character - the name of the model. By default it's extracted from the 'class' attribute of the model
 #' @param verbose if TRUE (default) then diagnostic messages will be printed
@@ -257,10 +257,10 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     # residual_function not specified
     # try the default
     if (!is.null(predict_function) & model_info$type != "multiclass") {
-      residual_function <- default_residual_function
+      residual_function <- residual_function_default
       verbose_cat("  -> residual function :  difference between y and yhat (",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
     } else if (!is.null(predict_function) & model_info$type == "multiclass") {
-      residual_function <- multiclass_residual_function
+      residual_function <- residual_function_multiclass
       verbose_cat("  -> residual function :  difference between 1 and probability of true class (",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
     }
   } else {
@@ -325,15 +325,16 @@ check_if_multilabel <- function(model, predict_function, sample_data) {
   !is.null(dim(response_sample))
 }
 
-default_residual_function <- function(model, data, y, predict_function) {
+# default residual function
+residual_function_default <- function(model, data, y, predict_function = yhat) {
   y - predict_function(model, data)
 }
 
-
-multiclass_residual_function <- function(model, data, y, predict_function) {
+# default residual function for multiclass problems
+residual_function_multiclass <- function(model, data, y, predict_function = yhat) {
   y_char <- as.character(y)
   pred <- predict_function(model, data)
-  res <- numeric(length(y))
+  res <- numeric(nrow(pred))
   for (i in 1:nrow(pred)) {
     res[i] <- 1-pred[i, y_char[i]]
   }

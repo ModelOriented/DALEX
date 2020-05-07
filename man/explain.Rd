@@ -44,9 +44,9 @@ explain(
 
 \item{y}{numeric vector with outputs / scores. If provided then it shall have the same size as \code{data}}
 
-\item{predict_function}{function that takes two arguments: model and new data and returns numeric vector with predictions}
+\item{predict_function}{function that takes two arguments: model and new data and returns numeric vector with predictions.   By default it is \code{yhat}.}
 
-\item{residual_function}{function that takes three arguments: model, data and response vector y. It should return a numeric vector with model residuals for given data. If not provided, response residuals (\eqn{y-\hat{y}}) are calculated.}
+\item{residual_function}{function that takes four arguments: model, data, response vector y and predict function (optionally). It should return a numeric vector with model residuals for given data. If not provided, response residuals (\eqn{y-\hat{y}}) are calculated. By default it is \code{residual_function_default}.}
 
 \item{weights}{numeric vector with sampling weights. By default it's \code{NULL}. If provided then it shall have the same length as \code{data}}
 
