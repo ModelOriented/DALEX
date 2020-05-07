@@ -100,7 +100,7 @@ are stored" />
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">1.2.1</span>
+          <span class="version version-default">1.2.2</span>
         </div>
       </div>
     </div>
@@ -163,46 +163,46 @@ contain about package of model, version and task type. For wrappers like <code>m
 are stored</p>
     </div>
 
-    <pre class="usage"><span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='kw'>is_multiclass</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for lm</span>
-<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='no'>...</span>)
+<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='kw'>is_multiclass</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for randomForest</span>
-<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='no'>...</span>)
+<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='kw'>is_multiclass</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for svm</span>
-<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='no'>...</span>)
+<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='kw'>is_multiclass</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for glm</span>
-<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='no'>...</span>)
+<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='kw'>is_multiclass</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for lrm</span>
-<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='no'>...</span>)
+<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='kw'>is_multiclass</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for glmnet</span>
-<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='no'>...</span>)
+<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='kw'>is_multiclass</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for cv.glmnet</span>
-<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='no'>...</span>)
+<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='kw'>is_multiclass</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for ranger</span>
-<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='no'>...</span>)
+<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='kw'>is_multiclass</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for gbm</span>
-<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='no'>...</span>)
+<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='kw'>is_multiclass</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for model_fit</span>
-<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='no'>...</span>)
+<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='kw'>is_multiclass</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for train</span>
-<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='no'>...</span>)
+<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='kw'>is_multiclass</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for rpart</span>
-<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='no'>...</span>)
+<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='kw'>is_multiclass</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>model_info</span>(<span class='no'>model</span>, <span class='kw'>is_multiclass</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -210,6 +210,11 @@ are stored</p>
     <tr>
       <th>model</th>
       <td><p>- model object</p></td>
+    </tr>
+    <tr>
+      <th>is_multiclass</th>
+      <td><p>- if TRUE and task is classification, then multitask classification is set. Else is omitted. If <code>model_info</code>
+was executed withing <code>explain</code> function. DALEX will recognize subtype on it's own.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -236,7 +241,7 @@ are stored</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>aps_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>m2.price</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>)
 <span class='fu'>model_info</span>(<span class='no'>aps_lm_model4</span>)</div><div class='output co'>#&gt; Package: stats 
-#&gt; Package version: 3.6.3 
+#&gt; Package version: 4.0.0 
 #&gt; Task type: regression</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
 <span class='no'>model_regr_rf</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>ranger</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>m2.price</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>50</span>)

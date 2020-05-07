@@ -98,7 +98,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">1.2.1</span>
+          <span class="version version-default">1.2.2</span>
         </div>
       </div>
     </div>
@@ -160,7 +160,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for model_performance</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(
   <span class='no'>x</span>,
   <span class='no'>...</span>,
   <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"ecdf"</span>,
@@ -210,8 +210,8 @@
 <span class='no'>explainer_ranger</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>titanic_ranger_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[,-<span class='fl'>8</span>],
                              <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>$<span class='no'>survived</span>)
 <span class='no'>mp_ranger</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_ranger</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"boxplot"</span>, <span class='kw'>show_outliers</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"boxplot"</span>, <span class='kw'>show_outliers</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 
 <span class='no'>titanic_ranger_model2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>survived</span>~<span class='no'>gender</span> + <span class='no'>fare</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>,
                                 <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
@@ -219,29 +219,29 @@
                               <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>$<span class='no'>survived</span>,
                               <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"ranger2"</span>)
 <span class='no'>mp_ranger2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_ranger2</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_ranger2</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"roc"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_ranger2</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"lift"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_ranger2</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"gain"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_ranger2</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"boxplot"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_ranger2</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"histogram"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_ranger2</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"ecdf"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_ranger2</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"roc"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_ranger2</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"lift"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_ranger2</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"gain"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_ranger2</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"boxplot"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_ranger2</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"histogram"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_ranger2</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"ecdf"</span>)
 
 <span class='no'>titanic_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>survived</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>titanic_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[,-<span class='fl'>8</span>],
                          <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>$<span class='no'>survived</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"glm"</span>,
                     <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>m</span>,<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/stats/predict.glm.html'>predict.glm</a></span>(<span class='no'>m</span>,<span class='no'>x</span>,<span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"response"</span>))
 <span class='no'>mp_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_glm</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_glm</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_glm</span>)
 
 <span class='no'>titanic_lm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>survived</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>)
 <span class='no'>explainer_lm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>titanic_lm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[,-<span class='fl'>8</span>],
                         <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>$<span class='no'>survived</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"lm"</span>)
 <span class='no'>mp_lm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_lm</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_lm</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_lm</span>)
 
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_glm</span>, <span class='no'>mp_lm</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_glm</span>, <span class='no'>mp_lm</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"boxplot"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_glm</span>, <span class='no'>mp_lm</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"boxplot"</span>, <span class='kw'>show_outliers</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_glm</span>, <span class='no'>mp_lm</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_glm</span>, <span class='no'>mp_lm</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"boxplot"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_glm</span>, <span class='no'>mp_lm</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"boxplot"</span>, <span class='kw'>show_outliers</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

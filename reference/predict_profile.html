@@ -100,7 +100,7 @@ Find information how to use this function here: https://pbiecek.github.io/ema/ce
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">1.2.1</span>
+          <span class="version version-default">1.2.2</span>
         </div>
       </div>
     </div>
@@ -227,9 +227,9 @@ It's a data frame with calculated average response.</p>
 #&gt;   -&gt; model label       :  model_4v 
 #&gt;   -&gt; data              :  2000  rows  8  cols 
 #&gt;   -&gt; target variable   :  2000  values 
-#&gt;   -&gt; model_info        :  package stats , ver. 3.6.3 , task regression ( <span style='color: #BBBB00;'> default </span><span> ) 
-#&gt;   -&gt; predict function  :  yhat.lm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; predict function  :  yhat.lm  will be used ( <span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  541.1056 , mean =  1370.986 , max =  3928.189  
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.0 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -5421.316 , mean =  -1450.523 , max =  1176.912  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>dragon_lm_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>predict_profile</span>(<span class='no'>dragon_lm_explainer4</span>,
@@ -256,7 +256,7 @@ It's a data frame with calculated average response.</p>
 #&gt;   year_of_birth height weight scars number_of_lost_teeth   _yhat_  _label_
 #&gt; 1           200     80   12.5     0                    5 654.0636 model_4v
 #&gt;   _ids_
-#&gt; 1     1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dragon_lm_predict4</span>,
+#&gt; 1     1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>dragon_lm_predict4</span>,
     <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"year_of_birth"</span>, <span class='st'>"height"</span>, <span class='st'>"scars"</span>))</div><div class='img'><img src='predict_profile-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
@@ -269,7 +269,7 @@ It's a data frame with calculated average response.</p>
                                            <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>,
                                            <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"year_of_birth"</span>, <span class='st'>"height"</span>, <span class='st'>"scars"</span>))
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>dragon_ranger_predict4</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dragon_ranger_predict4</span>,
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>dragon_ranger_predict4</span>,
     <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"year_of_birth"</span>, <span class='st'>"height"</span>, <span class='st'>"scars"</span>))
  }</div></span></pre>
   </div>
