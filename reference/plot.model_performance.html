@@ -166,7 +166,7 @@
   <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"ecdf"</span>,
   <span class='kw'>show_outliers</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>ptlabel</span> <span class='kw'>=</span> <span class='st'>"name"</span>,
-  <span class='kw'>lossFunction</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span>^<span class='fl'>2</span>))
+  <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span>^<span class='fl'>2</span>))
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -193,8 +193,8 @@
       <td><p>either <code>"name"</code> or <code>"index"</code> determines the naming convention of the outliers</p></td>
     </tr>
     <tr>
-      <th>lossFunction</th>
-      <td><p>function that calculates the loss for a model based on model residuals. By default it's the root mean square.</p></td>
+      <th>loss_function</th>
+      <td><p>function that calculates the loss for a model based on model residuals. By default it's the root mean square. NOTE that this argument was called <code>lossFunction</code>.</p></td>
     </tr>
     </table>
 
