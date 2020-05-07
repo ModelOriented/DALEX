@@ -10,7 +10,7 @@
   geom = "ecdf",
   show_outliers = 0,
   ptlabel = "name",
-  lossFunction = function(x) sqrt(mean(x^2))
+  loss_function = function(x) sqrt(mean(x^2))
 )
 }
 \arguments{
@@ -24,7 +24,7 @@
 
 \item{ptlabel}{either \code{"name"} or \code{"index"} determines the naming convention of the outliers}
 
-\item{lossFunction}{function that calculates the loss for a model based on model residuals. By default it's the root mean square.}
+\item{loss_function}{function that calculates the loss for a model based on model residuals. By default it's the root mean square. NOTE that this argument was called \code{lossFunction}.}
 }
 \value{
 An object of the class \code{model_performance}.

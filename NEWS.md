@@ -4,6 +4,7 @@ DALEX 1.2.2
 * `explain()` will use new residual function (1 - true class probability) if multiclass classification is detected.
 * `model_performance()` now support measures for multiclass classification.
 * Remove `ggpubr` from suggests.
+* `lossFunction` argument is now deprecated in `plot.model_performance()`. Use the `loss_function` argument.
 
 DALEX 1.2.1
 ----------------------------------------------------------------

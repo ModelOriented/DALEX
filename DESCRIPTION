@@ -29,6 +29,7 @@ Imports:
 Suggests: 
     gower,
     ranger,
-    testthat
+    testthat,
+    methods
 URL: https://ModelOriented.github.io/DALEX/, https://github.com/ModelOriented/DALEX
 BugReports: https://github.com/ModelOriented/DALEX/issues

@@ -3,7 +3,7 @@
 #' @param x a model to be explained, preprocessed by the \code{\link{explain}} function
 #' @param ... other parameters
 #' @param geom either \code{"ecdf"}, \code{"boxplot"}, \code{"gain"}, \code{"lift"} or \code{"histogram"} determines how residuals shall be summarized
-#' @param lossFunction function that calculates the loss for a model based on model residuals. By default it's the root mean square.
+#' @param loss_function function that calculates the loss for a model based on model residuals. By default it's the root mean square. NOTE that this argument was called \code{lossFunction}.
 #' @param show_outliers number of largest residuals to be presented (only when geom = boxplot).
 #' @param ptlabel either \code{"name"} or \code{"index"} determines the naming convention of the outliers
 #'
@@ -53,10 +53,17 @@
 #' }
 #'
 #
-plot.model_performance <- function(x, ..., geom = "ecdf", show_outliers = 0, ptlabel = "name", lossFunction = function(x) sqrt(mean(x^2))) {
+plot.model_performance <- function(x, ..., geom = "ecdf", show_outliers = 0, ptlabel = "name", loss_function = function(x) sqrt(mean(x^2))) {
   if (!(ptlabel %in% c("name", "index"))){
     stop("The plot.model_performance() function requires label to be name or index.")
   }
+
+  # lossFunction is deprecated
+  if (methods::hasArg("lossFunction")) {
+    warning("lossFunction is deprecated, please use loss_function instead")
+    loss_function <- list(...)[["lossFunction"]]
+  }
+
   # extract residuals
   # combine into a single object
   if (length(list(...)) == 0) {
@@ -70,7 +77,7 @@ plot.model_performance <- function(x, ..., geom = "ecdf", show_outliers = 0, ptl
     df <- do.call(combine_explainers, rev(args))
   }
 
-  df$label <- reorder(df$label, df$diff, lossFunction)
+  df$label <- reorder(df$label, df$diff, loss_function)
   if (ptlabel == "name") {
     df$name <- NULL
     df$name <- rownames(df)
@@ -78,7 +85,7 @@ plot.model_performance <- function(x, ..., geom = "ecdf", show_outliers = 0, ptl
   nlabels <- length(unique(df$label))
   switch(geom,
            ecdf = plot.model_performance_ecdf(df, nlabels),
-           boxplot = plot.model_performance_boxplot(df, show_outliers, lossFunction, nlabels),
+           boxplot = plot.model_performance_boxplot(df, show_outliers, loss_function, nlabels),
            histogram = plot.model_performance_histogram(df, nlabels),
            roc = plot.model_performance_roc(df, nlabels),
            gain = plot.model_performance_gain(df, nlabels),
@@ -101,11 +108,11 @@ plot.model_performance_ecdf <- function(df, nlabels) {
     ggtitle(expression(paste("Reverse cumulative distribution of ", group("|", residual, "|"))))
 }
 
-plot.model_performance_boxplot <- function(df, show_outliers, lossFunction, nlabels) {
+plot.model_performance_boxplot <- function(df, show_outliers, loss_function, nlabels) {
   label <- name <- NULL
   pl <- ggplot(df, aes(x = label, y = abs(diff), fill = label)) +
     stat_boxplot(alpha = 0.4, coef = 1000) +
-    stat_summary(fun = lossFunction, geom = "point", shape = 20, size=10, color="red", fill="red") +
+    stat_summary(fun = loss_function, geom = "point", shape = 20, size=10, color="red", fill="red") +
     theme_drwhy_vertical() +
     scale_fill_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
     ylab("") + xlab("") +
