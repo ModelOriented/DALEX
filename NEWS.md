@@ -10,7 +10,8 @@ DALEX 1.2.1
 ----------------------------------------------------------------
 * fixed tests and WARNINGs on CRAN
 * `model_profile` for Accumulated Local rofiles by default use centering (`center = TRUE`)
-  
+  * deprecate `n_sample` argument in `model_parts` (now it's `N`) ([#175](https://github.com/ModelOriented/DALEX/issues/175))
+
 DALEX 1.2.0
 ----------------------------------------------------------------
 * `ingredients` and `iBreakDown` are now imported by DALEX
