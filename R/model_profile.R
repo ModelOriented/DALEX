@@ -86,7 +86,10 @@ model_profile <- function(explainer, variables = NULL, N = 100, ..., groups = NU
   }
 
   # color only for groups
-  color <- if (is.null(k) & is.null(groups)) "#371ea3" else "_label_"
+  # or for multilabel models where agr_profiles$`_label_` > 1
+  color <- if (is.null(k) &
+               is.null(groups) &
+               (length(unique(agr_profiles$`_label_`)) == 1 )) "#371ea3" else "_label_"
 
   structure(
     list(cp_profiles, agr_profiles, color),
