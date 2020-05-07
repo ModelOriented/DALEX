@@ -210,11 +210,11 @@ This function creates a unified representation of a model, which can be further 
     </tr>
     <tr>
       <th>predict_function</th>
-      <td><p>function that takes two arguments: model and new data and returns numeric vector with predictions</p></td>
+      <td><p>function that takes two arguments: model and new data and returns numeric vector with predictions.   By default it is <code>yhat</code>.</p></td>
     </tr>
     <tr>
       <th>residual_function</th>
-      <td><p>function that takes three arguments: model, data and response vector y. It should return a numeric vector with model residuals for given data. If not provided, response residuals (\(y-\hat{y}\)) are calculated.</p></td>
+      <td><p>function that takes four arguments: model, data, response vector y and predict function (optionally). It should return a numeric vector with model residuals for given data. If not provided, response residuals (\(y-\hat{y}\)) are calculated. By default it is <code>residual_function_default</code>.</p></td>
     </tr>
     <tr>
       <th>weights</th>
