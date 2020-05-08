@@ -50,7 +50,8 @@ def aggregate_profiles(all_profiles, ceteris_paribus, type, groups, intercept, s
 
     # postprocessing
     if len(groups) != 0:
-        aggregated_profiles = aggregated_profiles.rename(columns={groups[0]: '_groups_'})
+        aggregated_profiles['_groups_'] = aggregated_profiles.loc[:, groups].apply(lambda row: '_'.join(row), axis=1)
+        aggregated_profiles.drop(columns=groups)
 
         aggregated_profiles.loc[:, '_label_'] = \
             aggregated_profiles.loc[:, ['_label_', '_groups_']].apply(lambda row: '_'.join(row), axis=1)
