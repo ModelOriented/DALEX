@@ -22,7 +22,7 @@ def shap(explainer,
         result[b] = tmp
 
     if path is not None:
-        if path == 'average':
+        if isinstance(path, str) and path == 'average':
             # let's calculate an average attribution
             extracted_contributions = [None] * B
             for i in range(B):

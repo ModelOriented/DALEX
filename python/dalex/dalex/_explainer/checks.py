@@ -5,6 +5,26 @@ from .helper import verbose_cat, is_y_in_data
 from .yhat import *
 
 
+def check_path(path):
+    if not isinstance(path, (str, list, np.ndarray, pd.Series)):
+        raise TypeError('path must be str or list or numpy.ndarray or pd.Series')
+    if isinstance(path, str):
+        if path != 'average':
+            raise ValueError("if path is str, then it must be 'average'")
+        else:
+            return path
+
+    path_ = np.array(path)
+    if not isinstance(path_[0], np.integer):
+        raise TypeError('if path is array-like, then must be array of integers')
+
+    return path_
+
+def check_pred_data(data):
+    if not isinstance(data, pd.DataFrame):
+        raise TypeError('data has to be pandas.DataFrame')
+
+
 def check_label(label, model_class, model_info, verbose):
     if label is None:
         # label not specified

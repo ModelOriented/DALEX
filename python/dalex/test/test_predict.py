@@ -1,6 +1,7 @@
 import unittest
 
 import pandas as pd
+import numpy as np
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.neural_network import MLPRegressor
@@ -40,6 +41,17 @@ class PredictTestTitanic(unittest.TestCase):
         clf.fit(self.X, self.y)
 
         self.exp = dx.Explainer(clf, self.X, self.y, verbose=False)
+
+    def test(self):
+        self.assertIsInstance(self.exp.predict(self.X.iloc[[0]]), np.ndarray)
+        with self.assertRaises(TypeError):
+            self.exp.predict(self.X.iloc[0])
+        with self.assertRaises(TypeError):
+            self.exp.predict(self.X.iloc[0].values)
+        with self.assertRaises(TypeError):
+            self.exp.predict(self.X.iloc[[0]].values)
+
+        self.assertIsInstance(self.exp.predict(self.X.iloc[:100]), np.ndarray)
 
 
 if __name__ == '__main__':
