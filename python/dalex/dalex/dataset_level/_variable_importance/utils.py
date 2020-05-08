@@ -35,10 +35,12 @@ def calculate_variable_importance(explainer,
 
 
 def loss_after_permutation(explainer, loss_function, variables, N):
-    if N is not None:
-        sampled_rows = np.random.choice(range(explainer.data.shape[0]), N, False)
+    if N is None:
+        N = explainer.data.shape[0]
     else:
-        sampled_rows = np.arange(explainer.data.shape[0])
+        N = min(N, explainer.data.shape[0])
+
+    sampled_rows = np.random.choice(np.arange(N), N, replace=False)
 
     sampled_data = explainer.data.iloc[sampled_rows, :]
 

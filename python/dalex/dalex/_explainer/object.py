@@ -117,6 +117,8 @@ class Explainer:
         :return: array-like, prediction of the model
         """
 
+        check_pred_data(data)
+
         return self.predict_function(self.model, data)
 
     def residual(self, data, y):
@@ -153,6 +155,7 @@ class Explainer:
 
         types = ('break_down_interactions', 'break_down', 'shap')
         type = check_method_type(type, types)
+        path_ = check_path(path)
 
         if type == 'break_down_interactions' or type == 'break_down':
             predict_parts_ = BreakDown(
@@ -164,7 +167,7 @@ class Explainer:
         elif type == 'shap':
             predict_parts_ = Shap(
                 keep_distributions=keep_distributions,
-                path=path,
+                path=path_,
                 B=B
             )
 
@@ -302,6 +305,7 @@ class Explainer:
             N = self.data.shape[0]
         else:
             N = min(N, self.data.shape[0])
+
         I = np.random.choice(np.arange(N), N, replace=False)
 
         ceteris_paribus = CeterisParibus(grid_points=grid_points)
