@@ -1,5 +1,9 @@
 dalex (development)
 ----------------------------------------------------------------
+* ...
+
+dalex 0.1.7
+----------------------------------------------------------------
 * *feature:* parameter `N` in `model_profile` can be set to `None`, to select all observations 
 * *input:* `groups` and `variable` parameters in `model_profile` can be: `str`, `list`, `numpy.ndarray`, `pandas.Series`
 * *fix:* `check_label` returned only a first letter
