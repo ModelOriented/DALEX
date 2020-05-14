@@ -195,15 +195,29 @@
 #&gt;   m2.price construction.year surface floor no.rooms    district
 #&gt; 1     5897              1953      25     3        1 Srodmiescie
 #&gt; 2     1818              1992     143     9        5     Bielany</div><div class='input'>
- <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+ <span class='co'># \dontrun{</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
 <span class='no'>titanic_ranger_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>survived</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>50</span>,
                                <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>explainer_ranger</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>titanic_ranger_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[,-<span class='fl'>8</span>],
                              <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>$<span class='no'>survived</span>,
-                             <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_ranger"</span>)
-<span class='no'>explainer_ranger</span>
- }</div></span></pre>
+                             <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_ranger"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label       :  model_ranger 
+#&gt;   -&gt; data              :  2207  rows  7  cols 
+#&gt;   -&gt; target variable   :  2207  values 
+#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; predicted values  :  numerical, min =  0.01106061 , mean =  0.3236861 , max =  0.9977784  
+#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7836772 , mean =  -0.001529297 , max =  0.9071003  
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_ranger</span></div><div class='output co'>#&gt; Model label:  model_ranger 
+#&gt; Model class:  ranger 
+#&gt; Data head  :
+#&gt;   gender age class    embarked  fare sibsp parch
+#&gt; 1   male  42   3rd Southampton  7.11     0     0
+#&gt; 2   male  13   3rd Southampton 20.05     0     2</div><div class='input'> # }
+
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

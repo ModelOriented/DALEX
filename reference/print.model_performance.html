@@ -177,18 +177,37 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'> <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'> <span class='co'># \dontrun{</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
 <span class='no'>titanic_ranger_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>survived</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>100</span>,
                                <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='co'># It's a good practice to pass data without target variable</span>
 <span class='no'>explainer_ranger</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>titanic_ranger_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[,-<span class='fl'>8</span>],
-                             <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>$<span class='no'>survived</span>)
-<span class='co'># resulting dataframe has predicted values and residuals</span>
+                             <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>$<span class='no'>survived</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label       :  ranger  ( <span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; data              :  2207  rows  7  cols 
+#&gt;   -&gt; target variable   :  2207  values 
+#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; predicted values  :  numerical, min =  0.007462492 , mean =  0.3238711 , max =  0.994733  
+#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7774597 , mean =  -0.001714374 , max =  0.8800404  
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='co'># resulting dataframe has predicted values and residuals</span>
 <span class='no'>mp_ex_rn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_ranger</span>)
-<span class='no'>mp_ex_rn</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ex_rn</span>)
- }</div></pre>
+<span class='no'>mp_ex_rn</span></div><div class='output co'>#&gt; Measures for:  classification
+#&gt; recall     : 0.5991561 
+#&gt; precision  : 0.8987342 
+#&gt; f1         : 0.7189873 
+#&gt; accuracy   : 0.8491164 
+#&gt; auc        : 0.900167
+#&gt; 
+#&gt; Residuals:
+#&gt;          0%         10%         20%         30%         40%         50% 
+#&gt; -0.77745973 -0.24864406 -0.21553699 -0.18863937 -0.17067880 -0.12733245 
+#&gt;         60%         70%         80%         90%        100% 
+#&gt; -0.09279807  0.01999820  0.24611653  0.60621310  0.88004042 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ex_rn</span>)</div><div class='img'><img src='print.model_performance-1.png' alt='' width='700' height='433' /></div><div class='input'> # }
+
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

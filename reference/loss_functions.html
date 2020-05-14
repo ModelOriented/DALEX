@@ -195,16 +195,15 @@
     <p>numeric - value of the loss function</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'> <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'> <span class='co'># \dontrun{</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
 <span class='no'>titanic_ranger_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>survived</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>50</span>,
                                <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'>loss_one_minus_auc</span>(<span class='no'>titanic_imputed</span>$<span class='no'>survived</span>, <span class='fu'><a href='yhat.html'>yhat</a></span>(<span class='no'>titanic_ranger_model</span>, <span class='no'>titanic_imputed</span>))
-
+<span class='fu'>loss_one_minus_auc</span>(<span class='no'>titanic_imputed</span>$<span class='no'>survived</span>, <span class='fu'><a href='yhat.html'>yhat</a></span>(<span class='no'>titanic_ranger_model</span>, <span class='no'>titanic_imputed</span>))</div><div class='output co'>#&gt; [1] 0.1031424</div><div class='input'>
 <span class='no'>HR_ranger_model_multi</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>status</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'>loss_cross_entropy</span>(<span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='no'>HR</span>$<span class='no'>status</span>), <span class='fu'><a href='yhat.html'>yhat</a></span>(<span class='no'>HR_ranger_model_multi</span>, <span class='no'>HR</span>))
-
- }</div></pre>
+<span class='fu'>loss_cross_entropy</span>(<span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='no'>HR</span>$<span class='no'>status</span>), <span class='fu'><a href='yhat.html'>yhat</a></span>(<span class='no'>HR_ranger_model_multi</span>, <span class='no'>HR</span>))</div><div class='output co'>#&gt; [1] 2963.901</div><div class='input'>
+ # }
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

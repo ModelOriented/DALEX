@@ -258,20 +258,49 @@ It's a data frame with calculated average response.</p>
 #&gt;   _ids_
 #&gt; 1     1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>dragon_lm_predict4</span>,
     <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"year_of_birth"</span>, <span class='st'>"height"</span>, <span class='st'>"scars"</span>))</div><div class='img'><img src='predict_profile-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'># \dontrun{</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
 <span class='no'>dragon_ranger_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>life_length</span> ~ <span class='no'>year_of_birth</span> + <span class='no'>height</span> +
                                                <span class='no'>weight</span> + <span class='no'>scars</span> + <span class='no'>number_of_lost_teeth</span>,
                                  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>50</span>)
 <span class='no'>dragon_ranger_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>dragon_ranger_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>dragons</span>$<span class='no'>year_of_birth</span>,
-                                <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_ranger"</span>)
-<span class='no'>dragon_ranger_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>predict_profile</span>(<span class='no'>dragon_ranger_explainer4</span>,
+                                <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_ranger"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label       :  model_ranger 
+#&gt;   -&gt; data              :  2000  rows  8  cols 
+#&gt;   -&gt; target variable   :  2000  values 
+#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; predicted values  :  numerical, min =  588.9369 , mean =  1370.246 , max =  3329.553  
+#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; residuals         :  numerical, min =  -4900.553 , mean =  -1449.784 , max =  1046.407  
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>dragon_ranger_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>predict_profile</span>(<span class='no'>dragon_ranger_explainer4</span>,
                                            <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>,
                                            <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"year_of_birth"</span>, <span class='st'>"height"</span>, <span class='st'>"scars"</span>))
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>dragon_ranger_predict4</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>dragon_ranger_predict4</span>,
-    <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"year_of_birth"</span>, <span class='st'>"height"</span>, <span class='st'>"scars"</span>))
- }</div></span></pre>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>dragon_ranger_predict4</span>)</div><div class='output co'>#&gt; Top profiles    : 
+#&gt;     year_of_birth height weight scars number_of_lost_teeth   _yhat_
+#&gt; 1        -1999.00     80   12.5     0                    5 832.7226
+#&gt; 1.1      -1962.02     80   12.5     0                    5 827.9626
+#&gt; 1.2      -1927.02     80   12.5     0                    5 816.9240
+#&gt; 1.3      -1859.54     80   12.5     0                    5 824.9560
+#&gt; 1.4      -1812.00     80   12.5     0                    5 824.9560
+#&gt; 1.5      -1780.00     80   12.5     0                    5 824.9560
+#&gt;           _vname_ _ids_      _label_
+#&gt; 1   year_of_birth     1 model_ranger
+#&gt; 1.1 year_of_birth     1 model_ranger
+#&gt; 1.2 year_of_birth     1 model_ranger
+#&gt; 1.3 year_of_birth     1 model_ranger
+#&gt; 1.4 year_of_birth     1 model_ranger
+#&gt; 1.5 year_of_birth     1 model_ranger
+#&gt; 
+#&gt; 
+#&gt; Top observations:
+#&gt;   year_of_birth height weight scars number_of_lost_teeth   _yhat_      _label_
+#&gt; 1           200     80   12.5     0                    5 809.0027 model_ranger
+#&gt;   _ids_
+#&gt; 1     1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>dragon_ranger_predict4</span>,
+    <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"year_of_birth"</span>, <span class='st'>"height"</span>, <span class='st'>"scars"</span>))</div><div class='img'><img src='predict_profile-2.png' alt='' width='700' height='433' /></div><div class='input'> # }
+
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
