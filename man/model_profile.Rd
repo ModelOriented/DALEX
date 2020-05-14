@@ -35,7 +35,7 @@ single_variable(explainer, variable, type = "pdp", ...)
 
 \item{variables}{character - names of variables to be explained}
 
-\item{N}{number of observations used for calculation of aggregated profiles. By default 100.}
+\item{N}{number of observations used for calculation of aggregated profiles. By default \code{100}.}
 
 \item{...}{other parameters that will be passed to \code{ingredients::aggregate_profiles}}
 

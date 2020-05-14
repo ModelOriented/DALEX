@@ -12,7 +12,7 @@
 #' @param ... other parameters that will be passed to \code{ingredients::aggregate_profiles}
 #' @param groups a variable name that will be used for grouping.
 #' By default \code{NULL} which means that no groups shall be calculated
-#' @param N number of observations used for calculation of aggregated profiles. By default 100.
+#' @param N number of observations used for calculation of aggregated profiles. By default \code{100}.
 #' @param k number of clusters for the hclust function (for clustered profiles)
 #' @param center shall profiles be centered before clustering
 #' @param variables character - names of variables to be explained
