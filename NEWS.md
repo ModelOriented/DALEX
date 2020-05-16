@@ -1,4 +1,4 @@
-DALEX 1.2.2
+DALEX 1.3.0
 ----------------------------------------------------------------
 * `DALEX` now fully supports multiclass classification. 
 * `explain()` will use new residual function (1 - true class probability) if multiclass classification is detected.
