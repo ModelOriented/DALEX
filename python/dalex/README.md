@@ -2,7 +2,7 @@
 
 [moDel Agnostic Language for Exploration and eXplanation](http://dalex.drwhy.ai/)
 
-[![Python-check](https://github.com/ModelOriented/DALEX/workflows/Python-check/badge.svg?branch=master)
+[![Python-check](https://github.com/ModelOriented/DALEX/workflows/Python-check/badge.svg)](https://github.com/ModelOriented/DALEX/actions?query=workflow%3APython-check)
 [![PyPI version](https://badge.fury.io/py/dalex.svg)](https://badge.fury.io/py/dalex)
 [![Downloads](https://pepy.tech/badge/dalex)](https://pepy.tech/project/dalex)
 
