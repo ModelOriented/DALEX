@@ -7,6 +7,7 @@ Status](https://img.shields.io/codecov/c/github/ModelOriented/DALEX/master.svg)]
 [![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/DALEX?color=orange)](http://cranlogs.r-pkg.org/badges/grand-total/DALEX)
 [![DrWhy-eXtrAI](https://img.shields.io/badge/DrWhy-BackBone-373589)](http://drwhy.ai/#BackBone)
 
+[![Python-check](https://github.com/ModelOriented/DALEX/workflows/Python-check/badge.svg?branch=master)
 [![PyPI version](https://badge.fury.io/py/dalex.svg)](https://badge.fury.io/py/dalex)
 [![Downloads](https://pepy.tech/badge/dalex)](https://pepy.tech/project/dalex)
 

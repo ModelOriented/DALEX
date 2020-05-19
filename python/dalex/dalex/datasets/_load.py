@@ -5,7 +5,7 @@ import pandas as pd
 
 def load_titanic():
     """
-    Load the preprocessed titanic dataset.
+    Load the preprocessed 'titanic' dataset.
     """
 
     abs_dir_path = os.path.dirname(os.path.abspath(__file__))
