@@ -155,8 +155,7 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
         with self.assertRaises(TypeError):
             self.exp.model_parts(variables={'age': ['age']})
 
-        with self.assertRaises(Warning):
-            self.exp.model_parts(variables=['age'], variable_groups={'age': ['age']})
+        self.assertIsInstance(self.exp.model_parts(variables=['age'], variable_groups={'age': ['age']}), VariableImportance)
 
     def test_types(self):
         self.assertIsInstance(self.exp.model_parts(type='difference'), VariableImportance)

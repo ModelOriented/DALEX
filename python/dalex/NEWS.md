@@ -1,6 +1,8 @@
 dalex (development)
 ----------------------------------------------------------------
-* ...
+* *bugfix:* `variable_splits` parameter now works correctly in `predict_profile`
+* *printing:* now rounding numbers in `Explainer` messages 
+* *fix:* minor checks fixes in `instance_level`
 
 dalex 0.1.7
 ----------------------------------------------------------------
