@@ -4,6 +4,7 @@
 #' @param observed observed scores or labels, these are supplied as explainer specific \code{y}
 #' @param p_min for cross entropy, minimal value for probability to make sure that \code{log} will not explode
 #' @param na.rm logical, should missing values be removed?
+#' @param x either an explainer or type of the model. One of "regression", "classification", "multiclass".
 #'
 #' @return numeric - value of the loss function
 #'
@@ -59,4 +60,16 @@ loss_one_minus_auc <- function(observed, predicted){
 
 }
 
+#' @rdname loss_functions
+#' @export
+loss_default <- function(x) {
+  # explainer is an explainer or type of an explainer
+  if ("explainer" %in% class(x))  x <- x$model_info$type
+  switch (x,
+          "regression"     = loss_root_mean_square,
+          "classification" = loss_one_minus_auc,
+          "multiclass"     = loss_cross_entropy,
+          stop(x, " is not recognized as task name")
+  )
+}
 

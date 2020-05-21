@@ -8,7 +8,7 @@
 \usage{
 model_parts(
   explainer,
-  loss_function = loss_sum_of_squares,
+  loss_function = loss_default(explainer$model_info$type),
   ...,
   type = "variable_importance",
   N = n_sample,
@@ -18,7 +18,7 @@ model_parts(
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the \code{explain} function}
 
-\item{loss_function}{a function that will be used to assess variable importance}
+\item{loss_function}{a function that will be used to assess variable importance. By default it is 1-AUC for classification, cross entropy for multilabel classification and RMSE for regression.}
 
 \item{...}{other parameters}
 

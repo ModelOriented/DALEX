@@ -6,6 +6,7 @@
 \alias{loss_root_mean_square}
 \alias{loss_accuracy}
 \alias{loss_one_minus_auc}
+\alias{loss_default}
 \title{Calculate Loss Functions}
 \usage{
 loss_cross_entropy(observed, predicted, p_min = 1e-04, na.rm = TRUE)
@@ -17,6 +18,8 @@ loss_root_mean_square(observed, predicted, na.rm = TRUE)
 loss_accuracy(observed, predicted, na.rm = TRUE)
 
 loss_one_minus_auc(observed, predicted)
+
+loss_default(x)
 }
 \arguments{
 \item{observed}{observed scores or labels, these are supplied as explainer specific \code{y}}
@@ -26,6 +29,8 @@ loss_one_minus_auc(observed, predicted)
 \item{p_min}{for cross entropy, minimal value for probability to make sure that \code{log} will not explode}
 
 \item{na.rm}{logical, should missing values be removed?}
+
+\item{x}{either an explainer or type of the model. One of "regression", "classification", "multiclass".}
 }
 \value{
 numeric - value of the loss function
