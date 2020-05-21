@@ -1,4 +1,5 @@
 from .._model_performance.utils import *
+from warnings import warn
 
 
 def check_loss_function(loss_function):
@@ -54,7 +55,7 @@ def check_variables(variables, variable_groups, explainer):
             raise TypeError("variables must be list or numpy.ndarray or a dict")
     else:
         if variables is not None:
-            raise Warning("Variables parameter ignored, taken variable_groups instead.")
+            warn("Variables parameter ignored, taken variable_groups instead.")
         variables = variable_groups
 
     if not isinstance(variables, (list, np.ndarray, dict)):

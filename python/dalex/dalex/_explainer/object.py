@@ -114,7 +114,7 @@ class Explainer:
         """This is a generic function for making a prediction.
         
         :param data: pd.DataFrame
-        :return: array-like, prediction of the model
+        :return: numpy.ndarray
         """
 
         check_pred_data(data)
