@@ -166,6 +166,7 @@
   <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"ecdf"</span>,
   <span class='kw'>show_outliers</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>ptlabel</span> <span class='kw'>=</span> <span class='st'>"name"</span>,
+  <span class='kw'>lossFunction</span> <span class='kw'>=</span> <span class='no'>loss_function</span>,
   <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span>^<span class='fl'>2</span>))
 )</pre>
 
@@ -191,6 +192,10 @@
     <tr>
       <th>ptlabel</th>
       <td><p>either <code>"name"</code> or <code>"index"</code> determines the naming convention of the outliers</p></td>
+    </tr>
+    <tr>
+      <th>lossFunction</th>
+      <td><p>alias for <code>loss_function</code> held for backwards compatibility.</p></td>
     </tr>
     <tr>
       <th>loss_function</th>
