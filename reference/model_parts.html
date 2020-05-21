@@ -163,7 +163,7 @@ Find information how to use this function here: <a href='https://pbiecek.github.
 
     <pre class="usage"><span class='fu'>model_parts</span>(
   <span class='no'>explainer</span>,
-  <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='no'>loss_sum_of_squares</span>,
+  <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='fu'><a href='loss_functions.html'>loss_default</a></span>(<span class='no'>explainer</span>$<span class='no'>model_info</span>$<span class='no'>type</span>),
   <span class='no'>...</span>,
   <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"variable_importance"</span>,
   <span class='kw'>N</span> <span class='kw'>=</span> <span class='no'>n_sample</span>,
@@ -179,7 +179,7 @@ Find information how to use this function here: <a href='https://pbiecek.github.
     </tr>
     <tr>
       <th>loss_function</th>
-      <td><p>a function that will be used to assess variable importance</p></td>
+      <td><p>a function that will be used to assess variable importance. By default it is 1-AUC for classification, cross entropy for multilabel classification and RMSE for regression.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -224,14 +224,14 @@ It's a data frame with calculated average response.</p>
 #&gt;   -&gt; residuals         :  numerical, min =  -0.7751024 , mean =  -0.0005915627 , max =  0.8933936  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>vi_ranger</span> <span class='kw'>&lt;-</span> <span class='fu'>model_parts</span>(<span class='no'>explainer_ranger</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>vi_ranger</span>, <span class='fl'>8</span>)</div><div class='output co'>#&gt;       variable mean_dropout_loss  label
-#&gt; 1 _full_model_          258.0467 ranger
-#&gt; 2        parch          274.7961 ranger
-#&gt; 3     embarked          275.4495 ranger
-#&gt; 4        sibsp          277.7242 ranger
-#&gt; 5          age          319.7198 ranger
-#&gt; 6         fare          331.2163 ranger
-#&gt; 7        class          347.9428 ranger
-#&gt; 8       gender          477.2884 ranger</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>vi_ranger</span>)</div><div class='img'><img src='model_parts-1.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; 1 _full_model_         0.1022248 ranger
+#&gt; 2        parch         0.1198118 ranger
+#&gt; 3     embarked         0.1227106 ranger
+#&gt; 4        sibsp         0.1257810 ranger
+#&gt; 5          age         0.1792975 ranger
+#&gt; 6         fare         0.1928449 ranger
+#&gt; 7        class         0.1940467 ranger
+#&gt; 8       gender         0.3086174 ranger</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>vi_ranger</span>)</div><div class='img'><img src='model_parts-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>titanic_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>survived</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>titanic_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[,-<span class='fl'>8</span>],
                          <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>$<span class='no'>survived</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated

@@ -167,7 +167,9 @@
 
 <span class='fu'>loss_accuracy</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
-<span class='fu'>loss_one_minus_auc</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>)</pre>
+<span class='fu'>loss_one_minus_auc</span>(<span class='no'>observed</span>, <span class='no'>predicted</span>)
+
+<span class='fu'>loss_default</span>(<span class='no'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -187,6 +189,10 @@
     <tr>
       <th>na.rm</th>
       <td><p>logical, should missing values be removed?</p></td>
+    </tr>
+    <tr>
+      <th>x</th>
+      <td><p>either an explainer or type of the model. One of "regression", "classification", "multiclass".</p></td>
     </tr>
     </table>
 
