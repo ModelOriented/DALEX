@@ -1,8 +1,8 @@
 dalex (development)
 ----------------------------------------------------------------
-* *fix*: `variable_splits` parameter did not work
-* *printing*: more readable printing while constructing explainer
-* *checks*: minor checks fixes in `instance_level`
+* *bugfix:* `variable_splits` parameter now works correctly in `predict_profile`
+* *printing:* now rounding numbers in `Explainer` messages 
+* *fix:* minor checks fixes in `instance_level`
 
 dalex 0.1.7
 ----------------------------------------------------------------
