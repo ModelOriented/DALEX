@@ -22,8 +22,11 @@ def check_path(path):
 
 
 def check_pred_data(data):
-    if not isinstance(data, pd.DataFrame):
+    if not isinstance(data, (pd.DataFrame,)):
         raise TypeError('data has to be pandas.DataFrame')
+
+    # if isinstance(data, np.ndarray) and data.ndim != 2:
+    #     raise ValueError("data must have 2 dimensions")
 
 
 def check_label(label, model_class, model_info, verbose):

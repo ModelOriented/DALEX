@@ -34,7 +34,7 @@ def check_new_observation(new_observation, explainer):
         elif new_observation_.ndim > 2:
             raise ValueError("Wrong new_observation dimension")
 
-        new_observation_ = pd.DataFrame(new_observation_).T
+        new_observation_ = pd.DataFrame(new_observation_)
         new_observation_.columns = explainer.data.columns
 
     elif isinstance(new_observation_, list):
