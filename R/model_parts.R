@@ -8,6 +8,7 @@
 #' @param ... other parameters
 #' @param type character, type of transformation that should be applied for dropout loss. \code{variable_importance} and \code{raw} results raw drop lossess, \code{ratio} returns \code{drop_loss/drop_loss_full_model} while \code{difference} returns \code{drop_loss - drop_loss_full_model}
 #' @param N number of observations that should be sampled for calculation of variable importance. If negative then variable importance will be calculated on whole dataset (no sampling).
+#' @param n_sample alias for \code{N} held for backwards compatibility. number of observations that should be sampled for calculation of variable importance.
 #'
 #' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
 #' @return An object of the class \code{feature_importance}.
@@ -43,7 +44,8 @@ model_parts <- function(explainer,
                               loss_function = loss_sum_of_squares,
                               ...,
                               type = "variable_importance",
-                              N = 1000) {
+                              N = n_sample,
+                              n_sample = 1000) {
   # run checks against the explainer objects
   test_explainer(explainer, has_data = TRUE, has_y = TRUE, function_name = "model_parts")
   if (!(type %in% c("difference", "ratio", "raw", "variable_importance"))) stop("Type shall be one of 'variable_importance', 'difference', 'ratio', 'raw'")

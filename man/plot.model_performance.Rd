@@ -10,6 +10,7 @@
   geom = "ecdf",
   show_outliers = 0,
   ptlabel = "name",
+  lossFunction = loss_function,
   loss_function = function(x) sqrt(mean(x^2))
 )
 }
@@ -23,6 +24,8 @@
 \item{show_outliers}{number of largest residuals to be presented (only when geom = boxplot).}
 
 \item{ptlabel}{either \code{"name"} or \code{"index"} determines the naming convention of the outliers}
+
+\item{lossFunction}{alias for \code{loss_function} held for backwards compatibility.}
 
 \item{loss_function}{function that calculates the loss for a model based on model residuals. By default it's the root mean square. NOTE that this argument was called \code{lossFunction}.}
 }

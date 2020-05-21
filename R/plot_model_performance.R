@@ -4,6 +4,7 @@
 #' @param ... other parameters
 #' @param geom either \code{"ecdf"}, \code{"boxplot"}, \code{"gain"}, \code{"lift"} or \code{"histogram"} determines how residuals shall be summarized
 #' @param loss_function function that calculates the loss for a model based on model residuals. By default it's the root mean square. NOTE that this argument was called \code{lossFunction}.
+#' @param lossFunction alias for \code{loss_function} held for backwards compatibility.
 #' @param show_outliers number of largest residuals to be presented (only when geom = boxplot).
 #' @param ptlabel either \code{"name"} or \code{"index"} determines the naming convention of the outliers
 #'
@@ -53,16 +54,16 @@
 #' }
 #'
 #
-plot.model_performance <- function(x, ..., geom = "ecdf", show_outliers = 0, ptlabel = "name", loss_function = function(x) sqrt(mean(x^2))) {
+plot.model_performance <- function(x, ..., geom = "ecdf", show_outliers = 0, ptlabel = "name", lossFunction = loss_function, loss_function = function(x) sqrt(mean(x^2))) {
   if (!(ptlabel %in% c("name", "index"))){
     stop("The plot.model_performance() function requires label to be name or index.")
   }
 
   # lossFunction is deprecated
-  if (methods::hasArg("lossFunction")) {
-    warning("lossFunction is deprecated, please use loss_function instead")
-    loss_function <- list(...)[["lossFunction"]]
-  }
+#  if (methods::hasArg("lossFunction")) {
+#    warning("lossFunction is deprecated, please use loss_function instead")
+#    loss_function <- list(...)[["lossFunction"]]
+#  }
 
   # extract residuals
   # combine into a single object
