@@ -33,19 +33,19 @@ class CeterisParibus:
             new_observation,
             y=None):
 
-        variables = check_variables(self.variables, explainer)
-        data = check_data(explainer.data, variables)
+        self.variables = check_variables(self.variables, explainer, self.variable_splits)
 
-        new_observation = check_new_observation(new_observation, explainer)
+        check_data(explainer.data, self.variables)
 
-        if not check_variable_splits(self.variable_splits, variables):
-            variable_splits = calculate_variable_split(data, variables, self.grid_points)
+        self.new_observation = check_new_observation(new_observation, explainer)
+
+        self.variable_splits = check_variable_splits(self.variable_splits, self.variables, explainer, self.grid_points)
 
         y = check_y(y)
 
         self.result, self.new_observation = calculate_ceteris_paribus(explainer,
-                                                                      new_observation,
-                                                                      variable_splits,
+                                                                      self.new_observation,
+                                                                      self.variable_splits,
                                                                       y)
 
     def plot(self, objects=None, variable_type="numerical", variables=None, size=2, color="#46bac2", facet_ncol=2,

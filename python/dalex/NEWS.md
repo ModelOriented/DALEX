@@ -1,6 +1,8 @@
 dalex (development)
 ----------------------------------------------------------------
-* ...
+* *fix*: `variable_splits` parameter did not work
+* *printing*: more readable printing while constructing explainer
+* *checks*: minor checks fixes in `instance_level`
 
 dalex 0.1.7
 ----------------------------------------------------------------

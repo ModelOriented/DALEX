@@ -20,6 +20,7 @@ def check_path(path):
 
     return path_
 
+
 def check_pred_data(data):
     if not isinstance(data, pd.DataFrame):
         raise TypeError('data has to be pandas.DataFrame')
@@ -152,8 +153,8 @@ def check_predict_function(predict_function, model, data, model_class, model_inf
     if data is not None and (verbose or precalculate):
         try:
             pred = predict_function(model, data)
-            verbose_cat("  -> predicted values  : min = " + str(np.min(pred)) + ", mean = " + str(np.mean(pred)) +
-                        ", max = " + str(np.max(pred)), verbose=verbose)
+            verbose_cat(str.format("  -> predicted values  : min = {0:.3}, mean = {1:.3}, max = {2:.3}",
+                                   np.min(pred), np.mean(pred), np.max(pred)), verbose=verbose)
 
         except (Exception, ValueError, TypeError) as error:
             verbose_cat("  -> predicted values  :  the predict_function returns an error when executed",
@@ -181,9 +182,8 @@ def check_residual_function(residual_function, predict_function, model, data, y,
     if data is not None and y is not None and (verbose or precalculate):
         try:
             residuals = residual_function(model, data, y)
-            verbose_cat(
-                "  -> residuals         : min = " + str(np.min(residuals)) + ", mean = " + str(np.mean(residuals)) +
-                ", max = " + str(np.max(residuals)), verbose=verbose)
+            verbose_cat(str.format("  -> residuals         : min = {0:.3}, mean = {1:.3}, max = {2:.3}",
+                                   np.min(residuals), np.mean(residuals), np.max(residuals)), verbose=verbose)
         except (Exception, ValueError, TypeError) as error:
             verbose_cat("  -> residuals         :  the residual_function returns an error when executed",
                         verbose=verbose)
