@@ -188,24 +188,24 @@
 #&gt;   -&gt; data              :  2207  rows  7  cols 
 #&gt;   -&gt; target variable   :  2207  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.007462492 , mean =  0.3238711 , max =  0.994733  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.01737826 , mean =  0.3225137 , max =  0.9925886  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7774597 , mean =  -0.001714374 , max =  0.8800404  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8060477 , mean =  -0.0003569126 , max =  0.8984978  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='co'># resulting dataframe has predicted values and residuals</span>
 <span class='no'>mp_ex_rn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_ranger</span>)
 <span class='no'>mp_ex_rn</span></div><div class='output co'>#&gt; Measures for:  classification
-#&gt; recall     : 0.5991561 
-#&gt; precision  : 0.8987342 
-#&gt; f1         : 0.7189873 
-#&gt; accuracy   : 0.8491164 
-#&gt; auc        : 0.900167
+#&gt; recall     : 0.5935302 
+#&gt; precision  : 0.8921776 
+#&gt; f1         : 0.7128378 
+#&gt; accuracy   : 0.8459447 
+#&gt; auc        : 0.8999442
 #&gt; 
 #&gt; Residuals:
 #&gt;          0%         10%         20%         30%         40%         50% 
-#&gt; -0.77745973 -0.24864406 -0.21553699 -0.18863937 -0.17067880 -0.12733245 
+#&gt; -0.80604774 -0.25185982 -0.20388902 -0.18140360 -0.16461845 -0.12378093 
 #&gt;         60%         70%         80%         90%        100% 
-#&gt; -0.09279807  0.01999820  0.24611653  0.60621310  0.88004042 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ex_rn</span>)</div><div class='img'><img src='print.model_performance-1.png' alt='' width='700' height='433' /></div><div class='input'> <span class='co'># }</span></div></span></pre>
+#&gt; -0.08959445  0.02891658  0.23080012  0.57689805  0.89849784 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ex_rn</span>)</div><div class='img'><img src='print.model_performance-1.png' alt='' width='700' height='433' /></div><div class='input'> <span class='co'># }</span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

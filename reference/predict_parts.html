@@ -248,19 +248,19 @@ It's a data frame with calculated average response.</p>
 #&gt;   -&gt; data              :  2000  rows  8  cols 
 #&gt;   -&gt; target variable   :  2000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  575.4025 , mean =  1370.261 , max =  3551.328  
+#&gt;   -&gt; predicted values  :  numerical, min =  587.0422 , mean =  1369.233 , max =  3422.757  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -5122.328 , mean =  -1449.798 , max =  1040.074  
+#&gt;   -&gt; residuals         :  numerical, min =  -4993.757 , mean =  -1448.77 , max =  1036.165  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>dragon_ranger_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>predict_parts_break_down</span>(<span class='no'>dragon_ranger_explainer4</span>,
                                                           <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>dragon_ranger_predict4</span>)</div><div class='output co'>#&gt;                                        contribution
-#&gt; model_ranger: intercept                    1370.261
-#&gt; model_ranger: scars = 0                    -348.350
-#&gt; model_ranger: number_of_lost_teeth = 5     -300.283
-#&gt; model_ranger: height = 80                    63.043
-#&gt; model_ranger: year_of_birth = 200             8.074
-#&gt; model_ranger: weight = 12.5                  -0.634</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>dragon_ranger_predict4</span>)</div><div class='img'><img src='predict_parts-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span></div></span></pre>
+#&gt; model_ranger: intercept                    1369.233
+#&gt; model_ranger: scars = 0                    -346.437
+#&gt; model_ranger: number_of_lost_teeth = 5     -301.967
+#&gt; model_ranger: height = 80                    31.319
+#&gt; model_ranger: year_of_birth = 200            21.162
+#&gt; model_ranger: weight = 12.5                   8.270</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>dragon_ranger_predict4</span>)</div><div class='img'><img src='predict_parts-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

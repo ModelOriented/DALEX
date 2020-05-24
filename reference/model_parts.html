@@ -218,20 +218,20 @@ It's a data frame with calculated average response.</p>
 #&gt;   -&gt; data              :  2207  rows  7  cols 
 #&gt;   -&gt; target variable   :  2207  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.002689655 , mean =  0.3227483 , max =  0.9908213  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.01960806 , mean =  0.3211121 , max =  0.9969517  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7751024 , mean =  -0.0005915627 , max =  0.8933936  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7950186 , mean =  0.001044707 , max =  0.8950206  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>vi_ranger</span> <span class='kw'>&lt;-</span> <span class='fu'>model_parts</span>(<span class='no'>explainer_ranger</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>vi_ranger</span>, <span class='fl'>8</span>)</div><div class='output co'>#&gt;       variable mean_dropout_loss  label
-#&gt; 1 _full_model_         0.1022248 ranger
-#&gt; 2        parch         0.1198118 ranger
-#&gt; 3     embarked         0.1227106 ranger
-#&gt; 4        sibsp         0.1257810 ranger
-#&gt; 5          age         0.1792975 ranger
-#&gt; 6         fare         0.1928449 ranger
-#&gt; 7        class         0.1940467 ranger
-#&gt; 8       gender         0.3086174 ranger</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>vi_ranger</span>)</div><div class='img'><img src='model_parts-1.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; 1 _full_model_         0.1038296 ranger
+#&gt; 2        parch         0.1207129 ranger
+#&gt; 3        sibsp         0.1235869 ranger
+#&gt; 4     embarked         0.1246202 ranger
+#&gt; 5          age         0.1750194 ranger
+#&gt; 6         fare         0.1848718 ranger
+#&gt; 7        class         0.2040485 ranger
+#&gt; 8       gender         0.3126926 ranger</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>vi_ranger</span>)</div><div class='img'><img src='model_parts-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>titanic_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>survived</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
 <span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>titanic_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[,-<span class='fl'>8</span>],
                          <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>$<span class='no'>survived</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
