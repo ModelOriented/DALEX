@@ -5,6 +5,7 @@ DALEX 1.3.0
 * `model_performance()` now support measures for multiclass classification.
 * Remove `ggpubr` from suggests.
 * `lossFunction` argument is now deprecated in `plot.model_performance()`. Use the `loss_function` argument.
+* `model_profile` color changed to `colors_discrete_drwhy(1)` which impacts the color of the line in `plot.model_profile` 
 
 DALEX 1.2.1
 ----------------------------------------------------------------
