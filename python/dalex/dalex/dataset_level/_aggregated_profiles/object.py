@@ -115,7 +115,7 @@ class AggregatedProfiles:
                 if not isinstance(ob, self.__class__):
                     raise TypeError("Some explanations aren't of AggregatedProfiles class")
                 _result_df = pd.concat([_result_df, ob.result.copy()])
-                _mean_prediction += [objects.mean_prediction]
+                _mean_prediction += [ob.mean_prediction]
 
         # variables to use
         all_variables = _result_df['_vname_'].dropna().unique().tolist()

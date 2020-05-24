@@ -107,7 +107,7 @@ class VariableImportance:
             for ob in objects:
                 if not isinstance(ob, self.__class__):
                     raise TypeError("Some explanations aren't of VariableImportance class")
-                _result_df = pd.concat([_result_df, ob.result].copy())
+                _result_df = pd.concat([_result_df, ob.result.copy()])
 
         dl = _result_df.loc[_result_df.variable != '_baseline_', 'dropout_loss'].to_numpy()
         min_max_margin = dl.ptp() * 0.15
