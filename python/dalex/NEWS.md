@@ -1,6 +1,8 @@
 dalex (development)
 ----------------------------------------------------------------
 * *bugfix:* `variable_splits` parameter now works correctly in `predict_profile`
+* *bugfix:* fix baseline for 3+ models in `AggregatedProfiles.plot` ([#234]
+(https://github.com/ModelOriented/DALEX/issues/234))
 * *printing:* now rounding numbers in `Explainer` messages 
 * *fix:* minor checks fixes in `instance_level`
 
