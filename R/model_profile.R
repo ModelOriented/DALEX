@@ -89,7 +89,7 @@ model_profile <- function(explainer, variables = NULL, N = 100, ..., groups = NU
   # or for multilabel models where agr_profiles$`_label_` > 1
   color <- if (is.null(k) &
                is.null(groups) &
-               (length(unique(agr_profiles$`_label_`)) == 1 )) "#371ea3" else "_label_"
+               (length(unique(agr_profiles$`_label_`)) == 1 )) colors_discrete_drwhy(1) else "_label_"
 
   structure(
     list(cp_profiles, agr_profiles, color),
