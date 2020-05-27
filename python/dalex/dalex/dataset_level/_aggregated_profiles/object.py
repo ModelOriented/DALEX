@@ -101,11 +101,9 @@ class AggregatedProfiles:
         if objects is None:
             _result_df = self.result.copy()
             _mean_prediction = check_for_groups(self)
-            m = len(_mean_prediction)
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             _result_df = pd.concat([self.result.copy(), objects.result.copy()])
             _mean_prediction = check_for_groups(self) + check_for_groups(objects)
-            m = len(_mean_prediction)
         else:  # objects as tuple or array
             _result_df = self.result.copy()
             _mean_prediction = check_for_groups(self)
@@ -114,7 +112,8 @@ class AggregatedProfiles:
                     raise TypeError("Some explanations aren't of AggregatedProfiles class")
                 _result_df = pd.concat([_result_df, ob.result.copy()])
                 _mean_prediction += check_for_groups(ob)
-            m = len(_mean_prediction) + 1
+
+        m = len(_mean_prediction)
 
         # variables to use
         all_variables = _result_df['_vname_'].dropna().unique().tolist()
