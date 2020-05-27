@@ -1,7 +1,6 @@
-import pandas as pd
 from plotly.subplots import make_subplots
 
-from dalex.dataset_level._aggregated_profiles.plot import tooltip_text
+from dalex.dataset_level._aggregated_profiles.plot import tooltip_text, check_for_groups
 from .checks import *
 from .utils import aggregate_profiles
 from ..._explainer.theme import get_default_colors
@@ -100,22 +99,22 @@ class AggregatedProfiles:
 
         # are there any other objects to plot?
         if objects is None:
-            m = 1
             _result_df = self.result.copy()
-            _mean_prediction = [self.mean_prediction]
+            _mean_prediction = check_for_groups(self)
+            m = len(_mean_prediction)
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
-            m = 2
             _result_df = pd.concat([self.result.copy(), objects.result.copy()])
-            _mean_prediction = [self.mean_prediction, objects.mean_prediction]
+            _mean_prediction = check_for_groups(self) + check_for_groups(objects)
+            m = len(_mean_prediction)
         else:  # objects as tuple or array
-            m = len(objects) + 1
             _result_df = self.result.copy()
-            _mean_prediction = [self.mean_prediction]
+            _mean_prediction = check_for_groups(self)
             for ob in objects:
                 if not isinstance(ob, self.__class__):
                     raise TypeError("Some explanations aren't of AggregatedProfiles class")
                 _result_df = pd.concat([_result_df, ob.result.copy()])
-                _mean_prediction += [ob.mean_prediction]
+                _mean_prediction += check_for_groups(ob)
+            m = len(_mean_prediction) + 1
 
         # variables to use
         all_variables = _result_df['_vname_'].dropna().unique().tolist()
@@ -168,9 +167,7 @@ class AggregatedProfiles:
 
             # line plot or bar plot? TODO: add is_numeric and implement 'both'
             if is_x_numeric:
-                for j in range(len(df_list)):
-                    df = df_list[j]
-
+                for j, df in enumerate(df_list):
                     tt = df.apply(lambda r: tooltip_text(r, name, _mean_prediction[j]), axis=1)
                     df = df.assign(tooltip_text=tt.values)
 
@@ -199,9 +196,7 @@ class AggregatedProfiles:
                 fig.update_yaxes({'range': min_max})
 
             else:
-                for j in range(len(df_list)):
-                    df = df_list[j]
-
+                for j, df in enumerate(df_list):
                     df = df.assign(difference=lambda x: x['_yhat_'] - baseline)
 
                     # lt = df.apply(lambda r: label_text(r), axis=1)

@@ -5,6 +5,7 @@ dalex (development)
 (https://github.com/ModelOriented/DALEX/issues/234))
 * *printing:* now rounding numbers in `Explainer` messages 
 * *fix:* minor checks fixes in `instance_level`
+* *bugfix:* `AggregatedProfiles.plot` now works with `groups`
 
 dalex 0.1.7
 ----------------------------------------------------------------
