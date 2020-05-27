@@ -97,7 +97,7 @@ class APTestTitanic(unittest.TestCase):
         fig6 = case8.plot(case9, show=False)
         fig7 = case10.plot(show=False)
         fig8 = case11.plot(case12, show=False)
-        fig9 = case13.plot(case1, case_3_models, show=False)
+        fig9 = case13.plot((case1, case_3_models), show=False)
 
         self.assertIsInstance(fig1, Figure)
         self.assertIsInstance(fig2, Figure)
