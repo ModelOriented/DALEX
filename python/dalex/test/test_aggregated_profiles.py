@@ -8,6 +8,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 import numpy as np
 import dalex as dx
+from plotly.graph_objs import Figure
 
 
 class APTestTitanic(unittest.TestCase):
@@ -34,84 +35,79 @@ class APTestTitanic(unittest.TestCase):
                 ('cat', categorical_transformer, categorical_features)])
 
         clf = Pipeline(steps=[('preprocessor', preprocessor),
-                              ('classifier', MLPClassifier(hidden_layer_sizes=(150, 100, 50),
-                                                           max_iter=500, random_state=0))])
+                              ('classifier', MLPClassifier(hidden_layer_sizes=(20, 20),
+                                                           max_iter=400, random_state=0))])
+        clf2 = Pipeline(steps=[('preprocessor', preprocessor),
+                              ('classifier', MLPClassifier(hidden_layer_sizes=(50, 100, 50),
+                                                           max_iter=400, random_state=0))])
 
         clf.fit(self.X, self.y)
+        clf2.fit(self.X, self.y)
 
-        self.exp = dx.Explainer(clf, self.X, self.y, verbose=False)
+        self.exp = dx.Explainer(clf, self.X, self.y, label="model1", verbose=False)
+        self.exp2 = dx.Explainer(clf2, self.X, self.y, verbose=False)
+        self.exp3 = dx.Explainer(clf, self.X, self.y, label="model3", verbose=False)
 
-    def test_pdp(self):
-        self.assertIsInstance(self.exp.model_profile('partial', 500), dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('partial', 100, variables=['age', 'fare']), dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('partial', 120, groups='gender'),
-                              dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('partial', 120, groups=['gender']),
-                              dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('partial', 120, groups=np.array(['gender', 'class'])),
-                              dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('partial', 120, groups=pd.Series(['gender', 'class'])),
-                              dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('partial', 150, variables=['age', 'fare'], groups='class'),
-                              dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('partial', 100, variables=['age'], span=0.5, grid_points=30),
-                              dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('partial', None, variables=['age', 'fare', 'gender'], groups=['class', 'embarked'],
-                                                     span=0.5, grid_points=30),
-                              dx.dataset_level.AggregatedProfiles)
+    def test_partial(self):
+        self.helper_test('partial')
 
-        self.exp.model_profile('partial', 100, variables='age', span=0.5, grid_points=30)
-        self.exp.model_profile('partial', 100, variables=np.array(['age', 'class']), span=0.5, grid_points=30)
-        self.exp.model_profile('partial', 100, variables=pd.Series(['age', 'class']), span=0.5, grid_points=30)
-        self.exp.model_profile('partial', 100, intercept=False, span=0.5, grid_points=30)
-
-    def test_ale(self):
-        self.assertIsInstance(self.exp.model_profile('accumulated', 500), dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('accumulated', 100, variables=['age', 'fare']), dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('accumulated', 120, groups='gender'),
-                              dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('accumulated', 120, groups=['gender']),
-                              dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('accumulated', 120, groups=np.array(['gender', 'class'])),
-                              dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('accumulated', 120, groups=pd.Series(['gender', 'class'])),
-                              dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('accumulated', 150, variables=['age', 'fare'], groups='class'),
-                              dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('accumulated', 100, variables=['age'], span=0.5, grid_points=30),
-                              dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('accumulated', None, variables=['age', 'fare', 'gender'], groups=['class', 'embarked'],
-                                                     span=0.5, grid_points=30),
-                              dx.dataset_level.AggregatedProfiles)
-
-        self.exp.model_profile('accumulated', 100, variables='age', span=0.5, grid_points=30)
-        self.exp.model_profile('accumulated', 100, variables=np.array(['age', 'class']), span=0.5, grid_points=30)
-        self.exp.model_profile('accumulated', 100, variables=pd.Series(['age', 'class']), span=0.5, grid_points=30)
-        self.exp.model_profile('accumulated', 100, intercept=False, span=0.5, grid_points=30)
+    def test_accumulated(self):
+        self.helper_test('accumulated')
 
     def test_conditional(self):
-        self.assertIsInstance(self.exp.model_profile('conditional', 500), dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('conditional', 100, variables=['age', 'fare']), dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('conditional', 120, groups='gender'),
-                              dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('conditional', 120, groups=['gender']),
-                              dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('conditional', 120, groups=np.array(['gender', 'class'])),
-                              dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('conditional', 120, groups=pd.Series(['gender', 'class'])),
-                              dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('conditional', 150, variables=['age', 'fare'], groups='class'),
-                              dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('conditional', 100, variables=['age'], span=0.5, grid_points=30),
-                              dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(self.exp.model_profile('conditional', None, variables=['age', 'fare', 'gender'], groups=['class', 'embarked'],
-                                                     span=0.5, grid_points=30),
-                              dx.dataset_level.AggregatedProfiles)
+        self.helper_test('conditional')
 
-        self.exp.model_profile('conditional', 100, variables='age', span=0.5, grid_points=30)
-        self.exp.model_profile('conditional', 100, variables=np.array(['age', 'class']), span=0.5, grid_points=30)
-        self.exp.model_profile('conditional', 100, variables=pd.Series(['age', 'class']), span=0.5, grid_points=30)
-        self.exp.model_profile('conditional', 100, intercept=False, span=0.5, grid_points=30)
+    def helper_test(self, test_type):
+        case1 = self.exp.model_profile(test_type)
+        case2 = self.exp.model_profile(test_type, 100, variables=['age', 'fare'])
+        case3 = self.exp.model_profile(test_type, 120, groups='gender')
+        case4 = self.exp2.model_profile(test_type, 120, groups=['gender'])
+        case5 = self.exp.model_profile(test_type, 120, groups=np.array(['gender', 'class']))
+        case6 = self.exp2.model_profile(test_type, 120, groups=pd.Series(['gender', 'class']))
+        case7 = self.exp.model_profile(test_type, 150, variables=['age', 'fare'], groups='class')
+        case8 = self.exp.model_profile(test_type, 100, variables=['age'], span=0.5, grid_points=30)
+        case9 = self.exp2.model_profile(test_type, 100, variables='age', span=0.5, grid_points=30)
+        case10 = self.exp.model_profile(test_type, None, variables=['age', 'fare', 'gender'], groups=['class', 'embarked'],
+                                      span=0.5, grid_points=30)
+        case11 = self.exp.model_profile(test_type, 100, variables=np.array(['age', 'class']), span=0.5, grid_points=30)
+        case12 = self.exp2.model_profile(test_type, 100, variables=pd.Series(['age', 'class']), span=0.5, grid_points=30)
+        case13 = self.exp2.model_profile(test_type, 100, intercept=False, span=0.5, grid_points=30)
+
+        self.assertIsInstance(case1, dx.dataset_level.AggregatedProfiles)
+        self.assertIsInstance(case2, dx.dataset_level.AggregatedProfiles)
+        self.assertIsInstance(case3, dx.dataset_level.AggregatedProfiles)
+        self.assertIsInstance(case4, dx.dataset_level.AggregatedProfiles)
+        self.assertIsInstance(case5, dx.dataset_level.AggregatedProfiles)
+        self.assertIsInstance(case6, dx.dataset_level.AggregatedProfiles)
+        self.assertIsInstance(case7, dx.dataset_level.AggregatedProfiles)
+        self.assertIsInstance(case8, dx.dataset_level.AggregatedProfiles)
+        self.assertIsInstance(case9, dx.dataset_level.AggregatedProfiles)
+        self.assertIsInstance(case10, dx.dataset_level.AggregatedProfiles)
+        self.assertIsInstance(case11, dx.dataset_level.AggregatedProfiles)
+        self.assertIsInstance(case12, dx.dataset_level.AggregatedProfiles)
+        self.assertIsInstance(case13, dx.dataset_level.AggregatedProfiles)
+
+        case_3_models = self.exp3.model_profile(test_type, 100)
+
+        fig1 = case1.plot(show=False, size=3, facet_ncol=1, title="test1", horizontal_spacing=0.2, vertical_spacing=0.2)
+        fig2 = case2.plot(show=False)
+        fig3 = case3.plot(case4, show=False)
+        fig4 = case5.plot(case6, show=False)
+        fig5 = case7.plot(show=False)
+        fig6 = case8.plot(case9, show=False)
+        fig7 = case10.plot(show=False)
+        fig8 = case11.plot(case12, show=False)
+        fig9 = case13.plot((case1, case_3_models), show=False)
+
+        self.assertIsInstance(fig1, Figure)
+        self.assertIsInstance(fig2, Figure)
+        self.assertIsInstance(fig3, Figure)
+        self.assertIsInstance(fig4, Figure)
+        self.assertIsInstance(fig5, Figure)
+        self.assertIsInstance(fig6, Figure)
+        self.assertIsInstance(fig7, Figure)
+        self.assertIsInstance(fig8, Figure)
+        self.assertIsInstance(fig9, Figure)
 
 
 if __name__ == '__main__':
