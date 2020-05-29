@@ -1,14 +1,13 @@
 import unittest
 
-import pandas as pd
+
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.neural_network import MLPClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
-import numpy as np
+
 import dalex as dx
-from dalex.dataset_level import VariableImportance
 from dalex.dataset_level._variable_importance import utils
 from dalex.dataset_level._model_performance.utils import *
 
@@ -37,12 +36,18 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
                 ('cat', categorical_transformer, categorical_features)])
 
         clf = Pipeline(steps=[('preprocessor', preprocessor),
-                              ('classifier', MLPClassifier(hidden_layer_sizes=(150, 100, 50),
-                                                           max_iter=500, random_state=0))])
+                              ('classifier', MLPClassifier(hidden_layer_sizes=(20, 20),
+                                                           max_iter=400, random_state=0))])
+        clf2 = Pipeline(steps=[('preprocessor', preprocessor),
+                              ('classifier', MLPClassifier(hidden_layer_sizes=(50, 100, 50),
+                                                           max_iter=400, random_state=0))])
 
         clf.fit(self.X, self.y)
+        clf2.fit(self.X, self.y)
 
-        self.exp = dx.Explainer(clf, self.X, self.y, verbose=False)
+        self.exp = dx.Explainer(clf, self.X, self.y, label="model1", verbose=False)
+        self.exp2 = dx.Explainer(clf2, self.X, self.y, verbose=False)
+        self.exp3 = dx.Explainer(clf, self.X, self.y, label="model3", verbose=False)
 
     def test_loss_after_permutation(self):
 
@@ -121,7 +126,7 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
             vi[0].columns).all())
 
     def test_constructor(self):
-        self.assertIsInstance(self.exp.model_parts(), (VariableImportance,))
+        self.assertIsInstance(self.exp.model_parts(), (dx.dataset_level.VariableImportance,))
         self.assertIsInstance(self.exp.model_parts().result, (pd.DataFrame,))
         self.assertEqual(list(self.exp.model_parts().result.columns),
                          ['variable', 'dropout_loss', 'label'])
@@ -133,9 +138,9 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
     def test_variables_and_variable_groups(self):
 
         self.assertIsInstance(self.exp.model_parts(variable_groups={'personal': ['gender', 'age', 'sibsp', 'parch'],
-                                                                    'wealth': ['class', 'fare']}), VariableImportance)
+                                                                    'wealth': ['class', 'fare']}), dx.dataset_level.VariableImportance)
 
-        self.assertIsInstance(self.exp.model_parts(variables=['age', 'class']), VariableImportance)
+        self.assertIsInstance(self.exp.model_parts(variables=['age', 'class']), dx.dataset_level.VariableImportance)
 
         with self.assertRaises(TypeError):
             self.exp.model_parts(variable_groups=['age'])
@@ -155,12 +160,12 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
         with self.assertRaises(TypeError):
             self.exp.model_parts(variables={'age': ['age']})
 
-        self.assertIsInstance(self.exp.model_parts(variables=['age'], variable_groups={'age': ['age']}), VariableImportance)
+        self.assertIsInstance(self.exp.model_parts(variables=['age'], variable_groups={'age': ['age']}), dx.dataset_level.VariableImportance)
 
     def test_types(self):
-        self.assertIsInstance(self.exp.model_parts(type='difference'), VariableImportance)
-        self.assertIsInstance(self.exp.model_parts(type='ratio'), VariableImportance)
-        self.assertIsInstance(self.exp.model_parts(type='variable_importance'), VariableImportance)
+        self.assertIsInstance(self.exp.model_parts(type='difference'), dx.dataset_level.VariableImportance)
+        self.assertIsInstance(self.exp.model_parts(type='ratio'), dx.dataset_level.VariableImportance)
+        self.assertIsInstance(self.exp.model_parts(type='variable_importance'), dx.dataset_level.VariableImportance)
 
         with self.assertRaises(ValueError):
             self.exp.model_parts(type='variable_importancee')
@@ -169,18 +174,21 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
             self.exp.model_parts(type=['variable_importance'])
 
     def test_N_and_B(self):
-        self.assertIsInstance(self.exp.model_parts(N=100), VariableImportance)
-        self.assertIsInstance(self.exp.model_parts(B=1), VariableImportance)
+        self.assertIsInstance(self.exp.model_parts(N=100), dx.dataset_level.VariableImportance)
+        self.assertIsInstance(self.exp.model_parts(B=1), dx.dataset_level.VariableImportance)
 
-        self.assertIsInstance(self.exp.model_parts(B=2, N=10), VariableImportance)
-        self.assertIsInstance(self.exp.model_parts(), VariableImportance)
+        self.assertIsInstance(self.exp.model_parts(B=2, N=10), dx.dataset_level.VariableImportance)
+        self.assertIsInstance(self.exp.model_parts(), dx.dataset_level.VariableImportance)
 
     def test_loss_functions(self):
-        self.assertIsInstance(self.exp.model_parts(loss_function='rmse'), VariableImportance)
-        self.assertIsInstance(self.exp.model_parts(loss_function='mae'), VariableImportance)
-        self.assertIsInstance(self.exp.model_parts(loss_function='mse'), VariableImportance)
-        self.assertIsInstance(self.exp.model_parts(loss_function='mad'), VariableImportance)
-        self.assertIsInstance(self.exp.model_parts(loss_function='r2'), VariableImportance)
+        self.assertIsInstance(self.exp.model_parts(loss_function='rmse'), dx.dataset_level.VariableImportance)
+        self.assertIsInstance(self.exp.model_parts(loss_function='mae'), dx.dataset_level.VariableImportance)
+        self.assertIsInstance(self.exp.model_parts(loss_function='mse'), dx.dataset_level.VariableImportance)
+        self.assertIsInstance(self.exp.model_parts(loss_function='mad'), dx.dataset_level.VariableImportance)
+        self.assertIsInstance(self.exp.model_parts(loss_function='r2'), dx.dataset_level.VariableImportance)
+
+
+    def test_plot(self):
 
 
 if __name__ == '__main__':
