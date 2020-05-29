@@ -171,8 +171,7 @@ class CeterisParibus:
             if variable_type == "numerical":
                 df_list = [v for k, v in var_df.groupby('_ids_', sort=False)]
 
-                for j in range(len(df_list)):
-                    df = df_list[j]
+                for j, df in enumerate(df_list):
                     obs = obs_df_dict[df.iloc[0, df.columns.get_loc('_ids_')]].iloc[0]
 
                     tt = df.apply(lambda r: tooltip_text(obs, r), axis=1)

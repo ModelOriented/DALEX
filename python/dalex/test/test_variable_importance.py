@@ -191,8 +191,8 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
     def test_plot(self):
 
         case1 = self.exp.model_parts()
-        case2 = self.exp.model_parts()
-        case3 = self.exp.model_parts()
+        case2 = self.exp2.model_parts()
+        case3 = self.exp3.model_parts()
 
         self.assertIsInstance(case1, dx.dataset_level.VariableImportance)
         self.assertIsInstance(case2, dx.dataset_level.VariableImportance)
