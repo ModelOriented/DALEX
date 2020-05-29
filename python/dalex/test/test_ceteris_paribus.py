@@ -9,8 +9,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 
 import dalex as dx
-from dalex.instance_level import CeterisParibus
 from dalex.instance_level._ceteris_paribus import utils
+from plotly.graph_objs import Figure
 
 
 class CeterisParibusTestTitanic(unittest.TestCase):
@@ -37,8 +37,8 @@ class CeterisParibusTestTitanic(unittest.TestCase):
                 ('cat', categorical_transformer, categorical_features)])
 
         clf = Pipeline(steps=[('preprocessor', preprocessor),
-                              ('classifier', MLPClassifier(hidden_layer_sizes=(150, 100, 50),
-                                                           max_iter=500, random_state=0))])
+                              ('classifier', MLPClassifier(hidden_layer_sizes=(50, 100, 50),
+                                                           max_iter=400, random_state=0))])
 
         clf.fit(self.X, self.y)
 
@@ -135,7 +135,7 @@ class CeterisParibusTestTitanic(unittest.TestCase):
 
     def test_constructor(self):
         cp = self.exp.predict_profile(self.X.iloc[[0], :])
-        self.assertIsInstance(cp, (CeterisParibus,))
+        self.assertIsInstance(cp, (dx.instance_level.CeterisParibus,))
         self.assertIsInstance(cp.result, (pd.DataFrame,))
         self.assertIsInstance(cp.new_observation, (pd.DataFrame,))
 
@@ -146,13 +146,34 @@ class CeterisParibusTestTitanic(unittest.TestCase):
             self.exp.predict_profile(self.X.iloc[[0], :], y=3)
 
         with self.assertRaises(TypeError):
-            self.assertIsInstance(self.exp.predict_profile(self.X.iloc[[0], :], variables='age'), CeterisParibus)
+            self.assertIsInstance(self.exp.predict_profile(self.X.iloc[[0], :], variables='age'), dx.instance_level.CeterisParibus)
 
-        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0, :]), CeterisParibus)
-        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0:10, :]), CeterisParibus)
-        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[[0], :], variables=['age']), CeterisParibus)
-        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0, :].values.reshape(-1,)), CeterisParibus)
-        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0:10, :].values), CeterisParibus)
+        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0, :]), dx.instance_level.CeterisParibus)
+        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0:10, :]), dx.instance_level.CeterisParibus)
+        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[[0], :], variables=['age']), dx.instance_level.CeterisParibus)
+        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0, :].values.reshape(-1,)), dx.instance_level.CeterisParibus)
+        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0:10, :].values), dx.instance_level.CeterisParibus)
+
+    def test_plot(self):
+
+        case1 = self.exp.predict_profile(self.X.iloc[1::, :])
+        case2 = self.exp.predict_profile(self.X.iloc[0, :])
+
+        self.assertIsInstance(case1, dx.instance_level.CeterisParibus)
+
+        fig1 = case1.plot(case2, show=False)
+        fig2 = case1.plot(case2, variable_type="categorical", show=False)
+        fig3 = case1.plot(case2, variables="age", show=False)
+        fig4 = case1.plot(case2, variables="gender", show=False)
+        fig5 = case1.plot(case2, size=1, color="red", facet_ncol=1, show_observations=False,
+                          title="title", horizontal_spacing=0.2, vertical_spacing=0.2,
+                          show=False)
+
+        self.assertIsInstance(fig1, Figure)
+        self.assertIsInstance(fig2, Figure)
+        self.assertIsInstance(fig3, Figure)
+        self.assertIsInstance(fig4, Figure)
+        self.assertIsInstance(fig5, Figure)
 
 
 if __name__ == '__main__':
