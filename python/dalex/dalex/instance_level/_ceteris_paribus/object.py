@@ -91,7 +91,7 @@ class CeterisParibus:
                 _obs_df = pd.concat([_obs_df, ob.new_observation.copy()])
 
         # variables to use
-        all_variables = _result_df['_vname_'].dropna().unique().tolist()
+        all_variables = list(_result_df['_vname_'].dropna().unique())
 
         if variables is not None:
             all_variables = np.intersect1d(all_variables, variables).tolist()

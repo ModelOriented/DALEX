@@ -127,7 +127,7 @@ class AggregatedProfiles:
 
         variable_names = all_variables
         n = len(variable_names)
-        is_x_numeric = np.issubdtype(_result_df['_x_'].dtype, np.number)
+        is_x_numeric = pd.api.types.is_numeric_dtype(_result_df['_x_'])
 
         dl = _result_df['_yhat_'].to_numpy()
         min_max_margin = dl.ptp() * 0.15

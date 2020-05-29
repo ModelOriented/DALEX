@@ -1,6 +1,11 @@
 dalex (development)
 ----------------------------------------------------------------
-* ...
+* *bugfix:* use [pd.api.types.is_numeric_dtype()](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.api.types.is_numeric_dtype.html)
+  instead of `np.issubdtype()` to cover more types; e.g. it caused errors with `string` type
+* *bugfix:* use [pd.convert_dtypes()](https://pandas.pydata
+.org/pandas-docs/stable/reference/api/pandas.Series.convert_dtypes.html)
+ on the result of `CeterisParibus` to fix variable dtypes and
+ later allow for a concatenation without the dtype change
 
 dalex 0.1.8
 ----------------------------------------------------------------

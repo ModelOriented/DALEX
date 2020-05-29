@@ -12,6 +12,7 @@ from dalex.dataset_level._variable_importance import utils
 from dalex.dataset_level._model_performance.utils import *
 from plotly.graph_objs import Figure
 
+
 class FeatureImportanceTestTitanic(unittest.TestCase):
     def setUp(self):
         data = dx.datasets.load_titanic()

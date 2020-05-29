@@ -84,7 +84,7 @@ class CeterisParibusTestTitanic(unittest.TestCase):
         self.assertTrue(np.isin(np.array(['_yhat_', '_vname_', '_ids_']),
                                 new_data_embarked.columns).all())
 
-        self.assertTrue(np.issubdtype(new_data_age.loc[:, 'age'], np.floating))
+        self.assertTrue(pd.api.types.is_numeric_dtype(new_data_age.loc[:, 'age']))
 
     def test_calculate_variable_profile(self):
         splits = utils.calculate_variable_split(self.X, ['age', 'gender'], 121)
