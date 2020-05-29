@@ -10,7 +10,7 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 import dalex as dx
 from dalex.dataset_level._variable_importance import utils
 from dalex.dataset_level._model_performance.utils import *
-
+from plotly.graph_objs import Figure
 
 class FeatureImportanceTestTitanic(unittest.TestCase):
     def setUp(self):
@@ -187,8 +187,26 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
         self.assertIsInstance(self.exp.model_parts(loss_function='mad'), dx.dataset_level.VariableImportance)
         self.assertIsInstance(self.exp.model_parts(loss_function='r2'), dx.dataset_level.VariableImportance)
 
-
     def test_plot(self):
+
+        case1 = self.exp.model_parts()
+        case2 = self.exp.model_parts()
+        case3 = self.exp.model_parts()
+
+        self.assertIsInstance(case1, dx.dataset_level.VariableImportance)
+        self.assertIsInstance(case2, dx.dataset_level.VariableImportance)
+
+        fig1 = case1.plot((case2, case3), show=False)
+        fig2 = case2.plot(case3, split='variable', max_vars=2, show=False)
+        fig3 = case1.plot(case2, max_vars=3, digits=2, rounding_function=np.round, show=False)
+        fig4 = case2.plot(split='variable', show=False)
+        fig5 = case1.plot(case3, bar_width=12, vertical_spacing=0.2, title="title", show=False)
+
+        self.assertIsInstance(fig1, Figure)
+        self.assertIsInstance(fig2, Figure)
+        self.assertIsInstance(fig3, Figure)
+        self.assertIsInstance(fig4, Figure)
+        self.assertIsInstance(fig5, Figure)
 
 
 if __name__ == '__main__':
