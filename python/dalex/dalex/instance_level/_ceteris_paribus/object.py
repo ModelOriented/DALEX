@@ -73,6 +73,8 @@ class CeterisParibus:
         # TODO: add variable_type = 'both'
         if variable_type not in ("numerical", "categorical"):
             raise TypeError("variable_type should be 'numerical' or 'categorical'")
+        if isinstance(variables, str):
+            variables = (variables, )
 
         # are there any other objects to plot?
         if objects is None:

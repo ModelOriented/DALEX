@@ -156,7 +156,7 @@ class CeterisParibusTestTitanic(unittest.TestCase):
 
     def test_plot(self):
 
-        case1 = self.exp.predict_profile(self.X.iloc[2::, :])
+        case1 = self.exp.predict_profile(self.X.iloc[2:10, :])
         case2 = self.exp.predict_profile(self.X.iloc[0, :])
         case3 = self.exp.predict_profile(self.X.iloc[1, :])
 

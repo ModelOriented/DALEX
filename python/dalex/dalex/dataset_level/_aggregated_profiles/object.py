@@ -97,6 +97,9 @@ class AggregatedProfiles:
         :return None or plotly Figure (see :param show)
         """
 
+        if isinstance(variables, str):
+            variables = (variables, )
+
         # are there any other objects to plot?
         if objects is None:
             _result_df = self.result.copy()

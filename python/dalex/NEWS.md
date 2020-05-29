@@ -6,6 +6,7 @@ dalex (development)
 .org/pandas-docs/stable/reference/api/pandas.Series.convert_dtypes.html)
  on the result of `CeterisParibus` to fix variable dtypes and
  later allow for a concatenation without the dtype conversion
+* *fix:* `variables` parameter now can be a single `str` value
 
 dalex 0.1.8
 ----------------------------------------------------------------
