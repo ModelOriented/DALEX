@@ -49,7 +49,7 @@ def calculate_variable_profile(explainer,
     """
 
     profile = []
-    for variable in tqdm(variable_splits, desc="Calculating ceteris paribus!"):
+    for variable in tqdm(variable_splits, desc="Calculating ceteris paribus"):
         split_points = variable_splits[variable]
         profile.append(single_variable_profile(explainer, data, variable, split_points))
 

@@ -164,7 +164,7 @@ class CeterisParibusTestTitanic(unittest.TestCase):
         self.assertIsInstance(case2, dx.instance_level.CeterisParibus)
 
         fig1 = case1.plot((case2, case3), show=False)
-        fig2 = case2.plot(case3, variable_type="categorical", show=False)
+        fig2 = case2.plot(variable_type="categorical", show=False)
         fig3 = case1.plot(case2, variables="age", show=False)
         fig4 = case2.plot(case3, variables="gender", show=False)
         fig5 = case1.plot(case3, size=1, color="red", facet_ncol=1, show_observations=False,

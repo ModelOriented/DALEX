@@ -21,8 +21,8 @@ def aggregate_profiles(all_profiles, ceteris_paribus, type, groups, intercept, s
                 all_profiles.apply(lambda row: str(observations.loc[row['_ids_'], row['_vname_']]), axis=1)
 
         # split all_profiles into groups
-        tqdm.pandas(desc='Calculating accumulated dependency!') if type == 'accumulated' else tqdm.pandas(
-            desc="Calculating conditional dependency!")
+        tqdm.pandas(desc='Calculating accumulated dependency') if type == 'accumulated' else tqdm.pandas(
+            desc="Calculating conditional dependency")
         aggregated_profiles = \
             all_profiles. \
                 loc[:, ["_vname_", "_label_", "_x_", "_yhat_", "_ids_", "_original_"] + groups]. \
