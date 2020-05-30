@@ -7,6 +7,7 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 import numpy as np
+
 import dalex as dx
 from plotly.graph_objs import Figure
 

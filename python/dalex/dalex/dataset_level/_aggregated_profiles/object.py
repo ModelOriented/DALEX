@@ -97,6 +97,9 @@ class AggregatedProfiles:
         :return None or plotly Figure (see :param show)
         """
 
+        if isinstance(variables, str):
+            variables = (variables, )
+
         # are there any other objects to plot?
         if objects is None:
             _result_df = self.result.copy()
@@ -127,7 +130,7 @@ class AggregatedProfiles:
 
         variable_names = all_variables
         n = len(variable_names)
-        is_x_numeric = np.issubdtype(_result_df['_x_'].dtype, np.number)
+        is_x_numeric = pd.api.types.is_numeric_dtype(_result_df['_x_'])
 
         dl = _result_df['_yhat_'].to_numpy()
         min_max_margin = dl.ptp() * 0.15

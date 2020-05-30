@@ -73,6 +73,8 @@ class CeterisParibus:
         # TODO: add variable_type = 'both'
         if variable_type not in ("numerical", "categorical"):
             raise TypeError("variable_type should be 'numerical' or 'categorical'")
+        if isinstance(variables, str):
+            variables = (variables, )
 
         # are there any other objects to plot?
         if objects is None:
@@ -91,7 +93,7 @@ class CeterisParibus:
                 _obs_df = pd.concat([_obs_df, ob.new_observation.copy()])
 
         # variables to use
-        all_variables = _result_df['_vname_'].dropna().unique().tolist()
+        all_variables = list(_result_df['_vname_'].dropna().unique())
 
         if variables is not None:
             all_variables = np.intersect1d(all_variables, variables).tolist()
@@ -171,8 +173,7 @@ class CeterisParibus:
             if variable_type == "numerical":
                 df_list = [v for k, v in var_df.groupby('_ids_', sort=False)]
 
-                for j in range(len(df_list)):
-                    df = df_list[j]
+                for j, df in enumerate(df_list):
                     obs = obs_df_dict[df.iloc[0, df.columns.get_loc('_ids_')]].iloc[0]
 
                     tt = df.apply(lambda r: tooltip_text(obs, r), axis=1)

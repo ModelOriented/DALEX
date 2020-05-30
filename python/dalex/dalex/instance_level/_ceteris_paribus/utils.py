@@ -49,11 +49,15 @@ def calculate_variable_profile(explainer,
     """
 
     profile = []
-    for variable in tqdm(variable_splits, desc="Calculating ceteris paribus!"):
+    for variable in tqdm(variable_splits, desc="Calculating ceteris paribus"):
         split_points = variable_splits[variable]
         profile.append(single_variable_profile(explainer, data, variable, split_points))
 
-    return pd.concat(profile)
+    profiles = pd.concat(profile)
+    # convert the variable types
+    profiles.loc[:, list(variable_splits)] = profiles.loc[:, list(variable_splits)].convert_dtypes()
+
+    return profiles
 
 
 def single_variable_profile(explainer,
@@ -94,7 +98,7 @@ def calculate_variable_split(data, variables, grid_points):
     """
     variable_splits = {}
     for variable in variables:
-        if np.issubdtype(data.loc[:, variable].dtype, np.floating):
+        if pd.api.types.is_numeric_dtype(data.loc[:, variable]):
             # grid points might be larger than the number of unique values
             probs = np.linspace(0, 1, grid_points)
 
