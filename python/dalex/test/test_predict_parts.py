@@ -228,7 +228,7 @@ class PredictPartsTestTitanic(unittest.TestCase):
         fig2 = case2.plot((case2, ), max_vars=3, baseline=0.5, show=False)
         fig3 = case3.plot(baseline=0.5, max_vars=3, digits=2, bar_width=12, min_max=[0, 1], show=False)
         fig4 = case3.plot(title="title1", vertical_spacing=0.1, vcolors=("green", "red", "blue"), show=False)
-        fig5 = case1.plot(case2, rounding_function=np.ceil, max_vars=1, min_max=[0.1, 0.9], show=False)
+        fig5 = case1.plot(case2, rounding_function=np.ceil, digits=0, max_vars=1, min_max=[0.1, 0.9], show=False)
 
         self.assertIsInstance(fig1, Figure)
         self.assertIsInstance(fig2, Figure)
