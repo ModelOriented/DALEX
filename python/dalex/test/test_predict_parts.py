@@ -1,6 +1,7 @@
 import unittest
 
 import pandas as pd
+import numpy as np
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.neural_network import MLPClassifier
@@ -8,6 +9,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 
 import dalex as dx
+from plotly.graph_objs import Figure
 
 
 class PredictPartsTestTitanic(unittest.TestCase):
@@ -19,22 +21,28 @@ class PredictPartsTestTitanic(unittest.TestCase):
         self.y = data.survived
 
         numeric_features = ['age', 'fare', 'sibsp', 'parch']
-        numeric_transformer = Pipeline(
-            steps=[('imputer', SimpleImputer(strategy='median')), ('scaler', StandardScaler())])
+        numeric_transformer = Pipeline(steps=[
+            ('imputer', SimpleImputer(strategy='median')),
+            ('scaler', StandardScaler())])
 
         categorical_features = ['gender', 'class', 'embarked']
-        categorical_transformer = Pipeline(steps=[('imputer', SimpleImputer(strategy='constant', fill_value='missing')),
+        categorical_transformer = Pipeline(steps=[
+            ('imputer', SimpleImputer(strategy='constant', fill_value='missing')),
             ('onehot', OneHotEncoder(handle_unknown='ignore'))])
 
-        preprocessor = ColumnTransformer(transformers=[('num', numeric_transformer, numeric_features),
-            ('cat', categorical_transformer, categorical_features)])
+        preprocessor = ColumnTransformer(
+            transformers=[
+                ('num', numeric_transformer, numeric_features),
+                ('cat', categorical_transformer, categorical_features)])
 
-        clf = Pipeline(steps=[('preprocessor', preprocessor), (
-        'classifier', MLPClassifier(hidden_layer_sizes=(50, 100, 50), max_iter=400, random_state=0))])
+        clf = Pipeline(steps=[('preprocessor', preprocessor),
+                              ('classifier', MLPClassifier(hidden_layer_sizes=(50, 100, 50),
+                                                           max_iter=400, random_state=0))])
 
         clf.fit(self.X, self.y)
 
         self.exp = dx.Explainer(clf, self.X, self.y, verbose=False)
+        self.exp2 = dx.Explainer(clf, self.X, self.y, label="model2", verbose=False)
 
     def test_bd(self):
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='break_down'), dx.instance_level.BreakDown)
@@ -206,6 +214,25 @@ class PredictPartsTestTitanic(unittest.TestCase):
         # notify?
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='shap', interaction_preference=0.5),
             dx.instance_level.Shap)
+
+    def test_plot(self):
+        case1 = self.exp.predict_profile(self.X.iloc[0, :])
+        case2 = self.exp.predict_profile(self.X.iloc[1, :], type="shap")
+
+        self.assertIsInstance(case1, dx.instance_level.BreakDown)
+        self.assertIsInstance(case2, dx.instance_level.Shap)
+
+        fig1 = case1.plot(case2, min_max=[0, 1], show=False)
+        fig2 = case2.plot((case2, ), max_vars=3, baseline=0.5, show=False)
+        fig3 = case1.plot(baseline=0.5, max_vars=3, digits=2, bar_width=12, min_max=[0, 1], show=False)
+        fig4 = case2.plot(title="title1", vertical_spacing=0.1, vcolors=("green", "red", "blue"), show=False)
+        fig5 = case1.plot(case2, rounding_function=np.ceil, max_vars=1, min_max=[0.1, 0.9], show=False)
+
+        self.assertIsInstance(fig1, Figure)
+        self.assertIsInstance(fig2, Figure)
+        self.assertIsInstance(fig3, Figure)
+        self.assertIsInstance(fig4, Figure)
+        self.assertIsInstance(fig5, Figure)
 
 
 if __name__ == '__main__':

@@ -62,6 +62,9 @@ class ModelPerformanceTestTitanic(unittest.TestCase):
         case1 = self.exp.model_performance('classification')
         case2 = self.exp2.model_performance('classification')
 
+        self.assertIsInstance(case1, dx.dataset_level.ModelPerformance)
+        self.assertIsInstance(case2, dx.dataset_level.ModelPerformance)
+
         fig1 = case1.plot(title="test1", show=False)
         fig2 = case2.plot(case1, show=False)
 
