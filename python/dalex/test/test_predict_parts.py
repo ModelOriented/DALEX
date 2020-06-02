@@ -217,15 +217,16 @@ class PredictPartsTestTitanic(unittest.TestCase):
 
     def test_plot(self):
         case1 = self.exp.predict_parts(self.X.iloc[0, :])
-        case2 = self.exp2.predict_parts(self.X.iloc[1, :], type="shap")
+        case2 = self.exp2.predict_parts(self.X.iloc[1, :])
+        case3 = self.exp.predict_parts(self.X.iloc[2, :], type="Shap")
 
         self.assertIsInstance(case1, dx.instance_level.BreakDown)
         self.assertIsInstance(case2, dx.instance_level.Shap)
 
         fig1 = case1.plot(case2, min_max=[0, 1], show=False)
         fig2 = case2.plot((case2, ), max_vars=3, baseline=0.5, show=False)
-        fig3 = case1.plot(baseline=0.5, max_vars=3, digits=2, bar_width=12, min_max=[0, 1], show=False)
-        fig4 = case2.plot(title="title1", vertical_spacing=0.1, vcolors=("green", "red", "blue"), show=False)
+        fig3 = case3.plot(baseline=0.5, max_vars=3, digits=2, bar_width=12, min_max=[0, 1], show=False)
+        fig4 = case3.plot(title="title1", vertical_spacing=0.1, vcolors=("green", "red", "blue"), show=False)
         fig5 = case1.plot(case2, rounding_function=np.ceil, max_vars=1, min_max=[0.1, 0.9], show=False)
 
         self.assertIsInstance(fig1, Figure)
