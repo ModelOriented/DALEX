@@ -218,7 +218,7 @@ class PredictPartsTestTitanic(unittest.TestCase):
     def test_plot(self):
         case1 = self.exp.predict_parts(self.X.iloc[0, :])
         case2 = self.exp2.predict_parts(self.X.iloc[1, :])
-        case3 = self.exp.predict_parts(self.X.iloc[2, :], type="Shap")
+        case3 = self.exp.predict_parts(self.X.iloc[2, :], type="shap")
 
         self.assertIsInstance(case1, dx.instance_level.BreakDown)
         self.assertIsInstance(case2, dx.instance_level.Shap)
