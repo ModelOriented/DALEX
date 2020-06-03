@@ -47,13 +47,13 @@ class ModelPerformanceTestTitanic(unittest.TestCase):
         self.assertIsInstance(self.exp.model_performance('classification'), (ModelPerformance,))
         self.assertIsInstance(self.exp.model_performance('classification').result, (pd.DataFrame,))
         self.assertEqual(self.exp.model_performance('classification').result.shape[0], 1)
-        self.assertTrue(np.isin(['recall', 'precision',	'f1', 'accuracy', 'auc'],
+        self.assertTrue(np.isin(['recall', 'precision', 'f1', 'accuracy', 'auc'],
                                 self.exp.model_performance('classification').result.columns).all())
 
         self.assertIsInstance(self.exp.model_performance('regression'), (ModelPerformance,))
         self.assertIsInstance(self.exp.model_performance('regression').result, (pd.DataFrame,))
         self.assertEqual(self.exp.model_performance('regression').result.shape[0], 1)
-        self.assertTrue(np.isin(['mse', 'rmse',	'r2', 'mae', 'mad'],
+        self.assertTrue(np.isin(['mse', 'rmse', 'r2', 'mae', 'mad'],
                                 self.exp.model_performance('regression').result.columns).all())
 
 

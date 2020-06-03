@@ -1,3 +1,5 @@
+import multiprocessing as mp
+
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
@@ -6,7 +8,8 @@ from tqdm import tqdm
 def calculate_ceteris_paribus(explainer,
                               new_observation,
                               variable_splits,
-                              y):
+                              y,
+                              processes):
     """
     Inner method that calculates ceteris paribus and some additional fields.
 
@@ -15,9 +18,11 @@ def calculate_ceteris_paribus(explainer,
     :return: None
     """
 
-    profiles = calculate_variable_profile(explainer,
+    profiles = calculate_variable_profile(explainer.predict_function,
+                                          explainer.model,
                                           new_observation,
-                                          variable_splits)
+                                          variable_splits,
+                                          processes)
 
     profiles.loc[:, '_label_'] = explainer.label
 
@@ -36,9 +41,11 @@ def calculate_ceteris_paribus(explainer,
     return profiles, new_observation
 
 
-def calculate_variable_profile(explainer,
+def calculate_variable_profile(predict_function,
+                               model,
                                data,
-                               variable_splits):
+                               variable_splits,
+                               processes):
     """
     Inner function that calculates ceteris paribus for all variables.
 
@@ -48,10 +55,18 @@ def calculate_variable_profile(explainer,
     :return: ceteris paribus profile for all variable
     """
 
-    profile = []
-    for variable in tqdm(variable_splits, desc="Calculating ceteris paribus"):
-        split_points = variable_splits[variable]
-        profile.append(single_variable_profile(explainer, data, variable, split_points))
+    if processes == 1:
+        profile = []
+        for variable in tqdm(variable_splits, desc="Calculating ceteris paribus"):
+            split_points = variable_splits[variable]
+            profile.append(single_variable_profile(predict_function, model, data, variable, split_points))
+    else:
+        pool = mp.Pool(processes)
+
+        profile = pool.starmap_async(single_variable_profile, [(predict_function, model, data, variable, split_points)
+                                                               for variable, split_points in
+                                                               variable_splits.items()]).get()
+        pool.close()
 
     profiles = pd.concat(profile)
     # convert the variable types
@@ -60,14 +75,15 @@ def calculate_variable_profile(explainer,
     return profiles
 
 
-def single_variable_profile(explainer,
+def single_variable_profile(predict,
+                            model,
                             data,
                             variable,
                             split_points):
     """
     Inner function for calculating variable profile. This function is iterated over all variables.
 
-    :param explainer:
+    :param predict:
     :param data: new observations
     :param variable: considered variable
     :param split_points: dataset is split over these points
@@ -76,9 +92,10 @@ def single_variable_profile(explainer,
     # remember ids of selected points
     ids = np.repeat(data.index, split_points.shape[0])
     new_data = data.loc[ids, :]
+    new_data.loc[:, '_original_'] = new_data.loc[:, variable]
     new_data.loc[:, variable] = np.tile(split_points, data.shape[0])
 
-    yhat = explainer.predict(new_data)
+    yhat = predict(model, new_data)
 
     new_data.loc[:, '_yhat_'] = yhat
     new_data.loc[:, '_vname_'] = variable

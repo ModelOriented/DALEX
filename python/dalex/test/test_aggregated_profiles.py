@@ -1,15 +1,15 @@
 import unittest
 
+import numpy as np
 import pandas as pd
+from plotly.graph_objs import Figure
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.neural_network import MLPClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
-import numpy as np
 
 import dalex as dx
-from plotly.graph_objs import Figure
 
 
 class APTestTitanic(unittest.TestCase):
@@ -39,8 +39,8 @@ class APTestTitanic(unittest.TestCase):
                               ('classifier', MLPClassifier(hidden_layer_sizes=(20, 20),
                                                            max_iter=400, random_state=0))])
         clf2 = Pipeline(steps=[('preprocessor', preprocessor),
-                              ('classifier', MLPClassifier(hidden_layer_sizes=(50, 100, 50),
-                                                           max_iter=400, random_state=0))])
+                               ('classifier', MLPClassifier(hidden_layer_sizes=(50, 100, 50),
+                                                            max_iter=400, random_state=0))])
 
         clf.fit(self.X, self.y)
         clf2.fit(self.X, self.y)
@@ -68,11 +68,14 @@ class APTestTitanic(unittest.TestCase):
         case7 = self.exp.model_profile(test_type, 150, variables=['age', 'fare'], groups='class')
         case8 = self.exp.model_profile(test_type, 100, variables=['age'], span=0.5, grid_points=30)
         case9 = self.exp2.model_profile(test_type, 100, variables='age', span=0.5, grid_points=30)
-        case10 = self.exp.model_profile(test_type, None, variables=['age', 'fare', 'gender'], groups=['class', 'embarked'],
-                                      span=0.5, grid_points=30)
+        case10 = self.exp.model_profile(test_type, None, variables=['age', 'fare', 'gender'],
+                                        groups=['class', 'embarked'],
+                                        span=0.5, grid_points=30)
         case11 = self.exp.model_profile(test_type, 100, variables=np.array(['age', 'class']), span=0.5, grid_points=30)
-        case12 = self.exp2.model_profile(test_type, 100, variables=pd.Series(['age', 'class']), span=0.5, grid_points=30)
+        case12 = self.exp2.model_profile(test_type, 100, variables=pd.Series(['age', 'class']), span=0.5,
+                                         grid_points=30)
         case13 = self.exp2.model_profile(test_type, 100, intercept=False, span=0.5, grid_points=30)
+        case14 = self.exp2.model_profile(test_type, 100, intercept=False, span=0.5, grid_points=30, processes=2)
 
         self.assertIsInstance(case1, dx.dataset_level.AggregatedProfiles)
         self.assertIsInstance(case2, dx.dataset_level.AggregatedProfiles)
@@ -87,6 +90,7 @@ class APTestTitanic(unittest.TestCase):
         self.assertIsInstance(case11, dx.dataset_level.AggregatedProfiles)
         self.assertIsInstance(case12, dx.dataset_level.AggregatedProfiles)
         self.assertIsInstance(case13, dx.dataset_level.AggregatedProfiles)
+        self.assertIsInstance(case14, dx.dataset_level.AggregatedProfiles)
 
         case_3_models = self.exp3.model_profile(test_type, 100)
 

@@ -1,6 +1,6 @@
 import unittest
 
-
+from plotly.graph_objs import Figure
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.neural_network import MLPClassifier
@@ -8,9 +8,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 
 import dalex as dx
-from dalex.dataset_level._variable_importance import utils
 from dalex.dataset_level._model_performance.utils import *
-from plotly.graph_objs import Figure
+from dalex.dataset_level._variable_importance import utils
 
 
 class FeatureImportanceTestTitanic(unittest.TestCase):
@@ -40,8 +39,8 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
                               ('classifier', MLPClassifier(hidden_layer_sizes=(20, 20),
                                                            max_iter=400, random_state=0))])
         clf2 = Pipeline(steps=[('preprocessor', preprocessor),
-                              ('classifier', MLPClassifier(hidden_layer_sizes=(50, 100, 50),
-                                                           max_iter=400, random_state=0))])
+                               ('classifier', MLPClassifier(hidden_layer_sizes=(50, 100, 50),
+                                                            max_iter=400, random_state=0))])
 
         clf.fit(self.X, self.y)
         clf2.fit(self.X, self.y)
@@ -55,28 +54,28 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
         variables = {}
         for col in self.X.columns:
             variables[col] = col
-        lap = utils.loss_after_permutation(self.exp, rmse,
+        lap = utils.loss_after_permutation(self.X, self.y, self.exp.model, self.exp.predict_function, rmse,
                                            variables, 100)
         self.assertIsInstance(lap, pd.DataFrame)
         self.assertTrue(np.isin(np.array(['_full_model_', '_baseline_']),
                                 lap.columns).all())
 
         variables = {'age': 'age', 'embarked': 'embarked'}
-        lap = utils.loss_after_permutation(self.exp, mad,
+        lap = utils.loss_after_permutation(self.X, self.y, self.exp.model, self.exp.predict_function, mad,
                                            variables, 10)
         self.assertIsInstance(lap, pd.DataFrame)
         self.assertTrue(np.isin(np.array(['_full_model_', '_baseline_']),
                                 lap.columns).all())
 
         variables = {'embarked': 'embarked'}
-        lap = utils.loss_after_permutation(self.exp, mae,
+        lap = utils.loss_after_permutation(self.X, self.y, self.exp.model, self.exp.predict_function, mae,
                                            variables, None)
         self.assertIsInstance(lap, pd.DataFrame)
         self.assertTrue(np.isin(np.array(['_full_model_', '_baseline_']),
                                 lap.columns).all())
 
         variables = {'age': 'age'}
-        lap = utils.loss_after_permutation(self.exp, rmse,
+        lap = utils.loss_after_permutation(self.X, self.y, self.exp.model, self.exp.predict_function, rmse,
                                            variables, None)
         self.assertIsInstance(lap, pd.DataFrame)
         self.assertTrue(np.isin(np.array(['_full_model_', '_baseline_']),
@@ -84,7 +83,7 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
 
         variables = {'personal': ['gender', 'age', 'sibsp', 'parch'],
                      'wealth': ['class', 'fare']}
-        lap = utils.loss_after_permutation(self.exp, mae,
+        lap = utils.loss_after_permutation(self.X, self.y, self.exp.model, self.exp.predict_function, mae,
                                            variables, None)
         self.assertIsInstance(lap, pd.DataFrame)
         self.assertTrue(np.isin(np.array(['_full_model_', '_baseline_']),
@@ -101,6 +100,7 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
                                                  100,
                                                  2,
                                                  'aaa',
+                                                 1,
                                                  True)
 
         self.assertIsInstance(vi, tuple)
@@ -117,6 +117,7 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
                                                  100,
                                                  5,
                                                  'aaa',
+                                                 2,
                                                  False)
 
         self.assertIsInstance(vi, tuple)
@@ -139,7 +140,8 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
     def test_variables_and_variable_groups(self):
 
         self.assertIsInstance(self.exp.model_parts(variable_groups={'personal': ['gender', 'age', 'sibsp', 'parch'],
-                                                                    'wealth': ['class', 'fare']}), dx.dataset_level.VariableImportance)
+                                                                    'wealth': ['class', 'fare']}),
+                              dx.dataset_level.VariableImportance)
 
         self.assertIsInstance(self.exp.model_parts(variables=['age', 'class']), dx.dataset_level.VariableImportance)
 
@@ -161,7 +163,8 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
         with self.assertRaises(TypeError):
             self.exp.model_parts(variables={'age': ['age']})
 
-        self.assertIsInstance(self.exp.model_parts(variables=['age'], variable_groups={'age': ['age']}), dx.dataset_level.VariableImportance)
+        self.assertIsInstance(self.exp.model_parts(variables=['age'], variable_groups={'age': ['age']}),
+                              dx.dataset_level.VariableImportance)
 
     def test_types(self):
         self.assertIsInstance(self.exp.model_parts(type='difference'), dx.dataset_level.VariableImportance)
@@ -187,6 +190,12 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
         self.assertIsInstance(self.exp.model_parts(loss_function='mse'), dx.dataset_level.VariableImportance)
         self.assertIsInstance(self.exp.model_parts(loss_function='mad'), dx.dataset_level.VariableImportance)
         self.assertIsInstance(self.exp.model_parts(loss_function='r2'), dx.dataset_level.VariableImportance)
+
+    def test_parallel(self):
+        self.assertIsInstance(self.exp.model_parts(type='difference', processes=2), dx.dataset_level.VariableImportance)
+        self.assertIsInstance(self.exp.model_parts(type='ratio', processes=2), dx.dataset_level.VariableImportance)
+        self.assertIsInstance(self.exp.model_parts(type='variable_importance', processes=2),
+                              dx.dataset_level.VariableImportance)
 
     def test_plot(self):
 

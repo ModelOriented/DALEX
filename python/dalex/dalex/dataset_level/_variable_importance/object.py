@@ -1,4 +1,3 @@
-import pandas as pd
 from plotly.subplots import make_subplots
 
 from dalex.dataset_level._variable_importance.plot import label_text, tooltip_text
@@ -15,6 +14,7 @@ class VariableImportance:
                  B=10,
                  variables=None,
                  variable_groups=None,
+                 processes=1,
                  random_state=None,
                  keep_raw_permutations=None):
         """
@@ -26,6 +26,7 @@ class VariableImportance:
         :param B: number of permutation rounds to perform on each variable
         :param variables: vector of variables. If None then variable importance will be tested for each variable from the data separately
         :param variable_groups: dict of lists of variables. Each list is treated as one group. This is for testing joint variable importance
+        :param processes: integer, number of parallel processes, iterated over Bs
         :param random_state: random state for the permutations
         :param keep_raw_permutations: TODO
 
@@ -38,6 +39,8 @@ class VariableImportance:
         random_state = check_random_state(random_state)
         keep_raw_permutations = check_keep_raw_permutations(keep_raw_permutations, B)
 
+        processes_ = check_processes(processes)
+
         self.loss_function = loss_function
         self.type = type
         self.N = N
@@ -48,6 +51,7 @@ class VariableImportance:
         self.keep_raw_permutations = keep_raw_permutations
         self.result = None
         self.permutation = None
+        self.processes = processes_
 
     def fit(self, explainer):
         # if `variable_groups` are not specified, then extract from `variables`
@@ -60,6 +64,7 @@ class VariableImportance:
                                                                       self.N,
                                                                       self.B,
                                                                       explainer.label,
+                                                                      self.processes,
                                                                       self.keep_raw_permutations)
 
     def plot(self,

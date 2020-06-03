@@ -1,6 +1,7 @@
+from copy import deepcopy
+
 import numpy as np
 import pandas as pd
-from copy import deepcopy
 
 
 def check_new_observation(new_observation, explainer):

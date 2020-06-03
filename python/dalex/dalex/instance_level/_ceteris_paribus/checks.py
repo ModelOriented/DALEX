@@ -1,7 +1,8 @@
-import numpy as np
-import pandas as pd
 import warnings
 from copy import deepcopy
+
+import numpy as np
+import pandas as pd
 
 from .utils import calculate_variable_split
 
@@ -94,3 +95,14 @@ def check_variable_splits(variable_splits, variables, explainer, grid_points):
         variable_splits_ = calculate_variable_split(explainer.data, variables, grid_points)
 
     return variable_splits_
+
+
+def check_processes(processes):
+    from multiprocessing import cpu_count
+    if processes > cpu_count():
+        warnings.warn("You have provided too many processes, truncated you maximum.")
+
+        return cpu_count()
+
+    else:
+        return processes

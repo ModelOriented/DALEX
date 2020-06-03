@@ -4,29 +4,34 @@ from plotly.subplots import make_subplots
 
 from dalex.instance_level._ceteris_paribus.plot import tooltip_text
 from .checks import *
-from .utils import calculate_ceteris_paribus, calculate_variable_split
+from .utils import calculate_ceteris_paribus
 
 
 class CeterisParibus:
     def __init__(self,
                  variables=None,
                  grid_points=101,
-                 variable_splits=None):
+                 variable_splits=None,
+                 processes=1):
         """
         Creates Ceteris Paribus object
 
         :param variables: variables for which the profiles are calculated
         :param grid_points: number of points in a single variable split if calculated automatically
         :param variable_splits: mapping of variables into points the profile will be calculated, if None then calculate with the function `_calculate_variable_splits`
+        :param processes: integer, number of parallel processes, iterated over variables
 
         :return None
         """
+
+        processes_ = check_processes(processes)
 
         self.variables = variables
         self.grid_points = grid_points
         self.variable_splits = variable_splits
         self.result = None
         self.new_observation = None
+        self.processes = processes_
 
     def fit(self,
             explainer,
@@ -46,7 +51,8 @@ class CeterisParibus:
         self.result, self.new_observation = calculate_ceteris_paribus(explainer,
                                                                       self.new_observation,
                                                                       self.variable_splits,
-                                                                      y)
+                                                                      y,
+                                                                      self.processes)
 
     def plot(self, objects=None, variable_type="numerical", variables=None, size=2, color="#46bac2", facet_ncol=2,
              show_observations=True, title="Ceteris Paribus Profiles", horizontal_spacing=0.1, vertical_spacing=None,
@@ -74,7 +80,7 @@ class CeterisParibus:
         if variable_type not in ("numerical", "categorical"):
             raise TypeError("variable_type should be 'numerical' or 'categorical'")
         if isinstance(variables, str):
-            variables = (variables, )
+            variables = (variables,)
 
         # are there any other objects to plot?
         if objects is None:

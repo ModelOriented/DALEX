@@ -76,8 +76,9 @@ class AggregatedProfiles:
 
         all_profiles = create_x(all_profiles, self.variable_type)
 
-        self.result = aggregate_profiles(all_profiles, ceteris_paribus, self.type, self.groups, self.intercept,
+        self.result = aggregate_profiles(all_profiles, self.type, self.groups, self.intercept,
                                          self.span)
+
         self.mean_prediction = all_observations['_yhat_'].mean()
 
     def plot(self, objects=None, variables=None, size=2, facet_ncol=2, title="Aggregated Profiles",
@@ -98,7 +99,7 @@ class AggregatedProfiles:
         """
 
         if isinstance(variables, str):
-            variables = (variables, )
+            variables = (variables,)
 
         # are there any other objects to plot?
         if objects is None:

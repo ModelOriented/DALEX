@@ -1,5 +1,6 @@
-from .._model_performance.utils import *
 from warnings import warn
+
+from .._model_performance.utils import *
 
 
 def check_loss_function(loss_function):
@@ -100,3 +101,14 @@ def check_random_state(random_state):
 
 def check_keep_raw_permutations(keep_raw_permutations, B):
     return B > 1 if keep_raw_permutations is None else keep_raw_permutations
+
+
+def check_processes(processes):
+    from multiprocessing import cpu_count
+    if processes > cpu_count():
+        warn("You have provided too many processes, truncated you maximum.")
+
+        return cpu_count()
+
+    else:
+        return processes

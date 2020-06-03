@@ -1,5 +1,7 @@
 dalex (development)
 ----------------------------------------------------------------
+* *feature:* multiprocessing added for: `model_profile`, `model_parts`, `model_profile` and `shap`
+* *fix:* significantly improved speed of "accumulated local effects" and "conditional" in `model_profile`
 * *bugfix:* use [pd.api.types.is_numeric_dtype()](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.api.types.is_numeric_dtype.html)
   instead of `np.issubdtype()` to cover more types; e.g. it caused errors with `string` type
 * *defaults:* use [pd.convert_dtypes()](https://pandas.pydata

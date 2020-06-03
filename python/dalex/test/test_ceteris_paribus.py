@@ -2,6 +2,7 @@ import unittest
 
 import numpy as np
 import pandas as pd
+from plotly.graph_objs import Figure
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.neural_network import MLPClassifier
@@ -10,7 +11,6 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 
 import dalex as dx
 from dalex.instance_level._ceteris_paribus import utils
-from plotly.graph_objs import Figure
 
 
 class CeterisParibusTestTitanic(unittest.TestCase):
@@ -62,15 +62,17 @@ class CeterisParibusTestTitanic(unittest.TestCase):
 
     def test_single_variable_profile(self):
         splits = utils.calculate_variable_split(self.X, self.X.columns, 101)
-        new_data_age = utils.single_variable_profile(self.exp,
+        new_data_age = utils.single_variable_profile(self.exp.predict_function,
+                                                     self.exp.model,
                                                      self.X.iloc[[0], :],
                                                      'age',
                                                      splits['age'])
 
-        new_data_embarked = utils.single_variable_profile(self.exp,
-                                                         self.X.iloc[[0], :],
-                                                         'embarked',
-                                                         splits['embarked'])
+        new_data_embarked = utils.single_variable_profile(self.exp.predict_function,
+                                                          self.exp.model,
+                                                          self.X.iloc[[0], :],
+                                                          'embarked',
+                                                          splits['embarked'])
 
         self.assertIsInstance(new_data_age, (pd.DataFrame,))
         self.assertIsInstance(new_data_embarked, (pd.DataFrame,))
@@ -88,15 +90,15 @@ class CeterisParibusTestTitanic(unittest.TestCase):
 
     def test_calculate_variable_profile(self):
         splits = utils.calculate_variable_split(self.X, ['age', 'gender'], 121)
-        vp = utils.calculate_variable_profile(self.exp, self.X.iloc[[0], :], splits)
+        vp = utils.calculate_variable_profile(self.exp.predict_function, self.exp.model, self.X.iloc[[0], :], splits, 1)
         self.assertIsInstance(vp, pd.DataFrame)
 
         splits = utils.calculate_variable_split(self.X, ['gender'], 5)
-        vp = utils.calculate_variable_profile(self.exp, self.X.iloc[[0], :], splits)
+        vp = utils.calculate_variable_profile(self.exp.predict_function, self.exp.model, self.X.iloc[[0], :], splits, 1)
         self.assertIsInstance(vp, pd.DataFrame)
 
         splits = utils.calculate_variable_split(self.X, self.X.columns, 15)
-        vp = utils.calculate_variable_profile(self.exp, self.X.iloc[[0], :], splits)
+        vp = utils.calculate_variable_profile(self.exp.predict_function, self.exp.model, self.X.iloc[[0], :], splits, 2)
         self.assertIsInstance(vp, pd.DataFrame)
 
     def test_calculate_ceteris_paribus(self):
@@ -105,7 +107,8 @@ class CeterisParibusTestTitanic(unittest.TestCase):
         cp = utils.calculate_ceteris_paribus(self.exp,
                                              self.X.iloc[[0], :].copy(),
                                              splits,
-                                             self.y.iloc[0])
+                                             self.y.iloc[0],
+                                             1)
 
         self.assertIsInstance(cp, tuple)
         self.assertIsInstance(cp[0], pd.DataFrame)
@@ -116,7 +119,8 @@ class CeterisParibusTestTitanic(unittest.TestCase):
         cp = utils.calculate_ceteris_paribus(self.exp,
                                              self.X.iloc[[0], :].copy(),
                                              splits,
-                                             self.y.iloc[0])
+                                             self.y.iloc[0],
+                                             1)
 
         self.assertIsInstance(cp, tuple)
         self.assertIsInstance(cp[0], pd.DataFrame)
@@ -127,7 +131,8 @@ class CeterisParibusTestTitanic(unittest.TestCase):
         cp = utils.calculate_ceteris_paribus(self.exp,
                                              self.X.iloc[[0], :].copy(),
                                              splits,
-                                             self.y.iloc[0])
+                                             self.y.iloc[0],
+                                             1)
 
         self.assertIsInstance(cp, tuple)
         self.assertIsInstance(cp[0], pd.DataFrame)
@@ -146,13 +151,18 @@ class CeterisParibusTestTitanic(unittest.TestCase):
             self.exp.predict_profile(self.X.iloc[[0], :], y=3)
 
         with self.assertRaises(TypeError):
-            self.assertIsInstance(self.exp.predict_profile(self.X.iloc[[0], :], variables='age'), dx.instance_level.CeterisParibus)
+            self.assertIsInstance(self.exp.predict_profile(self.X.iloc[[0], :], variables='age'),
+                                  dx.instance_level.CeterisParibus)
 
         self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0, :]), dx.instance_level.CeterisParibus)
         self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0:10, :]), dx.instance_level.CeterisParibus)
-        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[[0], :], variables=['age']), dx.instance_level.CeterisParibus)
-        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0, :].values.reshape(-1,)), dx.instance_level.CeterisParibus)
+        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[[0], :], variables=['age']),
+                              dx.instance_level.CeterisParibus)
+        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0, :].values.reshape(-1, )),
+                              dx.instance_level.CeterisParibus)
         self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0:10, :].values), dx.instance_level.CeterisParibus)
+        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0:10, :].values, processes=2),
+                              dx.instance_level.CeterisParibus)
 
     def test_plot(self):
 
