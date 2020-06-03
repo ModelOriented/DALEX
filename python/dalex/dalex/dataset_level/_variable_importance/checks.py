@@ -106,7 +106,7 @@ def check_keep_raw_permutations(keep_raw_permutations, B):
 def check_processes(processes):
     from multiprocessing import cpu_count
     if processes > cpu_count():
-        warn("You have provided too many processes, truncated you maximum.")
+        warn("You have provided too many processes, truncated to the number of physical CPUs.")
 
         return cpu_count()
 
