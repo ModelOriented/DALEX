@@ -1,13 +1,15 @@
 import unittest
 
 import pandas as pd
+import numpy as np
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
-from sklearn.neural_network import MLPRegressor
+from sklearn.neural_network import MLPClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 
 import dalex as dx
+from plotly.graph_objs import Figure
 
 
 class PredictPartsTestTitanic(unittest.TestCase):
@@ -34,12 +36,13 @@ class PredictPartsTestTitanic(unittest.TestCase):
                 ('cat', categorical_transformer, categorical_features)])
 
         clf = Pipeline(steps=[('preprocessor', preprocessor),
-                              ('classifier', MLPRegressor(hidden_layer_sizes=(150, 100, 50),
-                                                          max_iter=500, random_state=0))])
+                              ('classifier', MLPClassifier(hidden_layer_sizes=(50, 100, 50),
+                                                           max_iter=400, random_state=0))])
 
         clf.fit(self.X, self.y)
 
         self.exp = dx.Explainer(clf, self.X, self.y, verbose=False)
+        self.exp2 = dx.Explainer(clf, self.X, self.y, label="model2", verbose=False)
 
     def test_bd(self):
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='break_down'), dx.instance_level.BreakDown)
@@ -96,13 +99,11 @@ class PredictPartsTestTitanic(unittest.TestCase):
             pd.DataFrame)
 
         # notify?
-        self.assertIsInstance(
-            self.exp.predict_parts(self.X.iloc[[0]], type='break_down', interaction_preference=2),
+        self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='break_down', interaction_preference=2),
             dx.instance_level.BreakDown)
 
         # notify?
-        self.assertIsInstance(
-            self.exp.predict_parts(self.X.iloc[[0]], type='break_down', interaction_preference=0.5),
+        self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='break_down', interaction_preference=0.5),
             dx.instance_level.BreakDown)
 
     def test_ibd(self):
@@ -212,14 +213,33 @@ class PredictPartsTestTitanic(unittest.TestCase):
             pd.DataFrame)
 
         # notify
-        self.assertIsInstance(
-            self.exp.predict_parts(self.X.iloc[[0]], type='shap', interaction_preference=2),
+        self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='shap', interaction_preference=2),
             dx.instance_level.Shap)
 
         # notify?
-        self.assertIsInstance(
-            self.exp.predict_parts(self.X.iloc[[0]], type='shap', interaction_preference=0.5),
+        self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='shap', interaction_preference=0.5),
             dx.instance_level.Shap)
+
+    def test_plot(self):
+        case1 = self.exp.predict_parts(self.X.iloc[0, :])
+        case2 = self.exp2.predict_parts(self.X.iloc[1, :])
+        case3 = self.exp.predict_parts(self.X.iloc[2, :], type="shap")
+
+        self.assertIsInstance(case1, dx.instance_level.BreakDown)
+        self.assertIsInstance(case2, dx.instance_level.BreakDown)
+        self.assertIsInstance(case3, dx.instance_level.Shap)
+
+        fig1 = case1.plot(case2, min_max=[0, 1], show=False)
+        fig2 = case2.plot((case2, ), max_vars=3, baseline=0.5, show=False)
+        fig3 = case3.plot(baseline=0.5, max_vars=3, digits=2, bar_width=12, min_max=[0, 1], show=False)
+        fig4 = case3.plot(title="title1", vertical_spacing=0.1, vcolors=("green", "red", "blue"), show=False)
+        fig5 = case1.plot(case2, rounding_function=np.ceil, digits=None, max_vars=1, min_max=[0.1, 0.9], show=False)
+
+        self.assertIsInstance(fig1, Figure)
+        self.assertIsInstance(fig2, Figure)
+        self.assertIsInstance(fig3, Figure)
+        self.assertIsInstance(fig4, Figure)
+        self.assertIsInstance(fig5, Figure)
 
 
 if __name__ == '__main__':

@@ -2,7 +2,9 @@ import unittest
 
 import numpy as np
 import pandas as pd
+
 from plotly.graph_objs import Figure
+
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.neural_network import MLPClassifier

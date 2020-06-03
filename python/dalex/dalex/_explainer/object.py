@@ -180,7 +180,7 @@ class Explainer:
 
     def predict_profile(self,
                         new_observation,
-                        type=('ceteris_paribus'),
+                        type=('ceteris_paribus',),
                         y=None,
                         variables=None,
                         grid_points=101,
@@ -199,7 +199,7 @@ class Explainer:
         :return CeterisParibus object
         """
 
-        types = ('ceteris_paribus')
+        types = ('ceteris_paribus', )
         type = check_method_type(type, types)
 
         if type == 'ceteris_paribus':
