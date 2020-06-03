@@ -136,10 +136,13 @@ class VariableImportance:
         if vertical_spacing is None:
             vertical_spacing = 0.2 / n
 
-        if split == "model":
+        model_names = _result_df['label'].unique().tolist()
 
+        if len(model_names) != n:
+            raise ValueError('label must be unique for each model')
+
+        if split == "model":
             # init plot
-            model_names = _result_df['label'].unique().tolist()
             fig = make_subplots(rows=n, cols=1, shared_xaxes=True, vertical_spacing=vertical_spacing,
                                 x_title='drop-out loss',
                                 subplot_titles=model_names)

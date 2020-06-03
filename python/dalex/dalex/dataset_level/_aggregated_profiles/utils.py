@@ -21,8 +21,8 @@ def aggregate_profiles(all_profiles, ceteris_paribus, type, groups, intercept, s
                 all_profiles.apply(lambda row: str(observations.loc[row['_ids_'], row['_vname_']]), axis=1)
 
         # split all_profiles into groups
-        tqdm.pandas(desc='Calculating accumulated dependency!') if type == 'accumulated' else tqdm.pandas(
-            desc="Calculating conditional dependency!")
+        tqdm.pandas(desc='Calculating accumulated dependency') if type == 'accumulated' else tqdm.pandas(
+            desc="Calculating conditional dependency")
         aggregated_profiles = \
             all_profiles. \
                 loc[:, ["_vname_", "_label_", "_x_", "_yhat_", "_ids_", "_original_"] + groups]. \
@@ -71,7 +71,7 @@ def split_over_variables_and_labels(split_profile, type, groups, span):
     if split_profile.shape[0] == 0:
         return None
 
-    if np.issubdtype(split_profile['_x_'].dtype, np.number):
+    if pd.api.types.is_numeric_dtype(split_profile['_x_']):
         # for continuous variables we will calculate weighted average
         # where weights come from gaussian kernel and distance between points
         # scaling factor, range if the range i > 0
