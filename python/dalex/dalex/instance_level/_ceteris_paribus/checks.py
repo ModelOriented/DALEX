@@ -100,7 +100,7 @@ def check_variable_splits(variable_splits, variables, explainer, grid_points):
 def check_processes(processes):
     from multiprocessing import cpu_count
     if processes > cpu_count():
-        warnings.warn("You have provided too many processes, truncated you maximum.")
+        warnings.warn("You have provided too many processes, truncated to the number of physical CPUs.")
 
         return cpu_count()
 
