@@ -67,11 +67,11 @@ class PredictPartsTestTitanic(unittest.TestCase):
                                                                                                     '']).all())
 
         self.assertTrue((self.exp.predict_parts(self.X.iloc[[0]].values, type='break_down',
-                                                order=['gender', 'embarked', 'sibsp', 'fare', 'age', 'parch',
-                                                       'class']).result.variable_name.values == ['intercept', 'gender',
-                                                                                                 'embarked', 'sibsp',
-                                                                                                 'fare', 'age', 'parch',
-                                                                                                 'class', '']).all())
+                                                order=['gender', 'embarked', 'sibsp', 'fare', 'age', 'parch', 'class'
+                                                       ]).result.variable_name.values == ['intercept', 'gender',
+                                                                                          'embarked',
+                                                                                          'sibsp', 'fare', 'age',
+                                                                                          'parch', 'class', '']).all())
 
         self.assertTrue((self.exp.predict_parts(self.X.iloc[[0]].values, type='break_down',
                                                 order=[3, 2, 1, 0, 4, 5, 6]).result.variable_name.values == [
@@ -131,11 +131,11 @@ class PredictPartsTestTitanic(unittest.TestCase):
                                                                                                     '']).all())
 
         self.assertTrue((self.exp.predict_parts(self.X.iloc[[0]].values, type='break_down_interactions',
-                                                order=['gender', 'embarked', 'sibsp', 'fare', 'age', 'parch',
-                                                       'class']).result.variable_name.values == ['intercept', 'gender',
-                                                                                                 'embarked', 'sibsp',
-                                                                                                 'fare', 'age', 'parch',
-                                                                                                 'class', '']).all())
+                                                order=['gender', 'embarked', 'sibsp', 'fare', 'age', 'parch', 'class'
+                                                       ]).result.variable_name.values == ['intercept', 'gender',
+                                                                                          'embarked',
+                                                                                          'sibsp', 'fare', 'age',
+                                                                                          'parch', 'class', '']).all())
 
         self.assertTrue((self.exp.predict_parts(self.X.iloc[[0]].values, type='break_down_interactions',
                                                 order=[3, 2, 1, 0, 4, 5, 6]).result.variable_name.values == [
@@ -160,8 +160,10 @@ class PredictPartsTestTitanic(unittest.TestCase):
             hasattr(self.exp.predict_parts(self.X.iloc[[0]], type='break_down_interactions', keep_distributions=True),
                     'yhats_distributions'))
 
-        self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='break_down_interactions',
-                                                     keep_distributions=True).yhats_distributions, pd.DataFrame)
+        self.assertIsInstance(
+            self.exp.predict_parts(self.X.iloc[[0]], type='break_down_interactions',
+                                   keep_distributions=True).yhats_distributions,
+            pd.DataFrame)
 
         self.assertIsInstance(
             self.exp.predict_parts(self.X.iloc[[0]], type='break_down_interactions', interaction_preference=2),
@@ -176,6 +178,8 @@ class PredictPartsTestTitanic(unittest.TestCase):
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[0], type='shap'), dx.instance_level.Shap)
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[0].values, type='shap'), dx.instance_level.Shap)
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]].values, type='shap'), dx.instance_level.Shap)
+        self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]].values, type='shap', processes=2),
+                              dx.instance_level.Shap)
 
         with self.assertRaises(ValueError):
             self.exp.predict_parts(self.X.iloc[:2], type='shap')
@@ -194,9 +198,10 @@ class PredictPartsTestTitanic(unittest.TestCase):
             self.exp.predict_parts(self.X.iloc[[0]], type='shap',
                                    path=['gender', 'embarked', 'sibsp', 'fare', 'age', 'parch', 'class'])
 
-        tmp = self.exp.predict_parts(self.X.iloc[[0]].values, type='shap', path=[3, 0, 1, 2, 4, 5, 6]).result
-        self.assertTrue((tmp.loc[tmp.B == 0, 'variable_name'].values == ['embarked', 'gender', 'age', 'class', 'fare',
-            'sibsp', 'parch']).all())
+        tmp = self.exp.predict_parts(self.X.iloc[[0]].values, type='shap',
+                                     path=[3, 0, 1, 2, 4, 5, 6]).result
+        self.assertTrue((tmp.loc[tmp.B == 0, 'variable_name'].values == [
+            'embarked', 'gender', 'age', 'class', 'fare', 'sibsp', 'parch']).all())
 
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='shap', B=1), dx.instance_level.Shap)
 

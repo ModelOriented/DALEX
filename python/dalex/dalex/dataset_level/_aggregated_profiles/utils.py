@@ -3,23 +3,12 @@ import pandas as pd
 from tqdm import tqdm
 
 
-def aggregate_profiles(all_profiles, ceteris_paribus, type, groups, intercept, span):
+def aggregate_profiles(all_profiles, type, groups, intercept, span):
     if type == 'partial':
         aggregated_profiles = \
             all_profiles.groupby(['_vname_', '_label_', '_x_'] + groups)['_yhat_'].mean().reset_index()
 
     else:
-        observations = ceteris_paribus.new_observation
-
-        # just initialisation
-        if not pd.api.types.is_string_dtype(all_profiles['_x_']):
-            all_profiles.loc[:, '_original_'] = \
-                all_profiles.apply(lambda row: observations.loc[row['_ids_'], row['_vname_']], axis=1)
-
-        else:
-            all_profiles.loc[:, '_original_'] = \
-                all_profiles.apply(lambda row: str(observations.loc[row['_ids_'], row['_vname_']]), axis=1)
-
         # split all_profiles into groups
         tqdm.pandas(desc='Calculating accumulated dependency') if type == 'accumulated' else tqdm.pandas(
             desc="Calculating conditional dependency")
@@ -75,6 +64,7 @@ def split_over_variables_and_labels(split_profile, type, groups, span):
         # for continuous variables we will calculate weighted average
         # where weights come from gaussian kernel and distance between points
         # scaling factor, range if the range i > 0
+        split_profile['_original_'] = split_profile['_original_'].astype('float')
         range_x = split_profile['_x_'].max() - split_profile['_x_'].min()
 
         if range_x == 0:

@@ -1,3 +1,5 @@
+import multiprocessing as mp
+
 import numpy as np
 import pandas as pd
 
@@ -9,11 +11,19 @@ def calculate_variable_importance(explainer,
                                   N,
                                   B,
                                   label,
+                                  processes,
                                   keep_raw_permutations):
-    result = [None] * B
-
-    for i in range(B):
-        result[i] = loss_after_permutation(explainer, loss_function, variables, N)
+    if processes == 1:
+        result = [None] * B
+        for i in range(B):
+            result[i] = loss_after_permutation(explainer.data, explainer.y, explainer.model, explainer.predict_function,
+                                               loss_function, variables, N)
+    else:
+        pool = mp.Pool(processes)
+        result = pool.starmap_async(loss_after_permutation, [
+            (explainer.data, explainer.y, explainer.model, explainer.predict_function, loss_function, variables, N) for
+            i in range(B)]).get()
+        pool.close()
 
     raw = pd.concat(result, sort=True)
     result = raw.mean().sort_values().reset_index()
@@ -34,23 +44,23 @@ def calculate_variable_importance(explainer,
     return result, raw_permutations
 
 
-def loss_after_permutation(explainer, loss_function, variables, N):
+def loss_after_permutation(data, y, model, predict, loss_function, variables, N):
     if N is None:
-        N = explainer.data.shape[0]
+        N = data.shape[0]
     else:
-        N = min(N, explainer.data.shape[0])
+        N = min(N, data.shape[0])
 
     sampled_rows = np.random.choice(np.arange(N), N, replace=False)
 
-    sampled_data = explainer.data.iloc[sampled_rows, :]
+    sampled_data = data.iloc[sampled_rows, :]
 
-    observed = explainer.y[sampled_rows]
+    observed = y[sampled_rows]
 
     # loss on the full model or when outcomes are permuted
-    loss_full = loss_function(observed, explainer.predict(sampled_data))
+    loss_full = loss_function(observed, predict(model, sampled_data))
 
     sampled_rows2 = np.random.choice(range(observed.shape[0]), observed.shape[0], False)
-    loss_baseline = loss_function(observed[sampled_rows2], explainer.predict(sampled_data))
+    loss_baseline = loss_function(observed[sampled_rows2], predict(model, sampled_data))
 
     loss_features = {}
     for variables_set_key in variables:
@@ -59,7 +69,7 @@ def loss_after_permutation(explainer, loss_function, variables, N):
                                                    np.random.choice(range(ndf.shape[0]), ndf.shape[0], False), :].loc[:,
                                                    variables[variables_set_key]].values
 
-        predicted = explainer.predict(ndf)
+        predicted = predict(model, ndf)
 
         loss_features[variables_set_key] = loss_function(observed, predicted)
 

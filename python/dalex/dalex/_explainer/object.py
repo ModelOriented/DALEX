@@ -139,6 +139,7 @@ class Explainer:
                       interaction_preference=1,
                       path="average",
                       B=25,
+                      processes=1,
                       keep_distributions=False):
 
         """Instance Level Variable Attribution as Break Down or SHAP Explanations
@@ -149,6 +150,7 @@ class Explainer:
         :param interaction_preference: an integer specifying which interactions will be present in an explanation. The larger the integer, the more frequently interactions will be presented.
         :param path: if specified, then this path will be highlighted on the plot. Use `average` in order to show an average effect
         :param B: number of random paths
+        :param processes: integer, number of parallel processes, iterated over Bs
         :param keep_distributions: if `TRUE`, then distribution of partial predictions is stored and can be plotted with the generic `plot()`.
         :return: BreakDown / Shap
         """
@@ -168,7 +170,8 @@ class Explainer:
             predict_parts_ = Shap(
                 keep_distributions=keep_distributions,
                 path=path_,
-                B=B
+                B=B,
+                processes=processes
             )
 
         predict_parts_.fit(self, new_observation)
@@ -181,7 +184,8 @@ class Explainer:
                         y=None,
                         variables=None,
                         grid_points=101,
-                        variable_splits=None):
+                        variable_splits=None,
+                        processes=1):
 
         """Creates CeterisParibus object
 
@@ -191,6 +195,7 @@ class Explainer:
         :param variables: variables for which the profiles are calculated
         :param grid_points: number of points in a single variable split if calculated automatically
         :param variable_splits: mapping of variables into points the profile will be calculated, if None then calculate with the function `_calculate_variable_splits`
+        :param processes: integer, number of parallel processes, iterated over variables
         :return CeterisParibus object
         """
 
@@ -201,7 +206,8 @@ class Explainer:
             predict_profile_ = CeterisParibus(
                 variables=variables,
                 grid_points=grid_points,
-                variable_splits=variable_splits
+                variable_splits=variable_splits,
+                processes=processes
             )
 
         predict_profile_.fit(self, new_observation, y)
@@ -240,6 +246,7 @@ class Explainer:
                     keep_raw_permutations=None,
                     variables=None,
                     variable_groups=None,
+                    processes=1,
                     random_state=None):
 
         """Creates VariableImportance object
@@ -251,7 +258,7 @@ class Explainer:
         :param keep_raw_permutations: TODO
         :param variables: vector of variables. If None then variable importance will be tested for each variable from the data separately, ignored if variable_groups is not None
         :param variable_groups: dict of lists of variables. Each list is treated as one group. This is for testing joint variable importance
-        :param label: TODO
+        :param processes: integer, number of parallel processes, iterated over Bs
         :param random_state: random state for the permutations
         :return: FeatureImportance object
         """
@@ -266,6 +273,7 @@ class Explainer:
             B=B,
             variables=variables,
             variable_groups=variable_groups,
+            processes=processes,
             random_state=random_state,
             keep_raw_permutations=keep_raw_permutations,
         )
@@ -282,7 +290,8 @@ class Explainer:
                       groups=None,
                       span=0.25,
                       grid_points=101,
-                      intercept=True):
+                      intercept=True,
+                      processes=1):
 
         """Dataset Level Variable Effect as Partial Dependency Profile or Accumulated Local Effects
 
@@ -295,6 +304,7 @@ class Explainer:
         :param span: smoothing coeffcient, by default 0.25.It's the sd for gaussian kernel
         :param grid_points: number of points for profile
         :param intercept: False if center data on 0
+        :param processes: integer, number of parallel processes, iterated over variables
         :return: VariableEffect object
         """
 
@@ -308,7 +318,7 @@ class Explainer:
 
         I = np.random.choice(np.arange(N), N, replace=False)
 
-        ceteris_paribus = CeterisParibus(grid_points=grid_points)
+        ceteris_paribus = CeterisParibus(grid_points=grid_points, processes=processes)
         ceteris_paribus.fit(self, self.data.iloc[I, :], self.y[I])
 
         model_profile_ = AggregatedProfiles(

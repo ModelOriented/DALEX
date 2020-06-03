@@ -1,25 +1,37 @@
+import multiprocessing as mp
 from copy import deepcopy
 
 import numpy as np
 import pandas as pd
 
 
+def iterate_paths(predict_function, model, data, label, new_observation, p, b):
+    random_path = np.random.choice(np.arange(p), p, replace=False)
+    return get_single_random_path(predict_function, model, data, label, new_observation, random_path, b)
+
+
 def shap(explainer,
          new_observation,
          path,
          keep_distributions,
-         B):
+         B,
+         processes):
     # Now we know the path, so we can calculate contributions
     # set variable indicators
     # start random path
     p = new_observation.shape[1]
 
-    result = [None] * B
-    for b in range(B):
-        random_path = np.random.choice(np.arange(p), p, replace=False)
-        tmp = get_single_random_path(explainer, new_observation, random_path)
-        tmp['B'] = b + 1
-        result[b] = tmp
+    if processes == 1:
+        result = [
+            iterate_paths(explainer.predict_function, explainer.model, explainer.data, explainer.label, new_observation,
+                          p, b + 1)
+            for b in range(B)]
+    else:
+        pool = mp.Pool(processes)
+        result = pool.starmap_async(iterate_paths,
+                                    [(explainer.predict_function, explainer.model, explainer.data, explainer.label,
+                                      new_observation, p, b + 1) for b in range(B)]).get()
+        pool.close()
 
     if path is not None:
         if isinstance(path, str) and path == 'average':
@@ -37,8 +49,9 @@ def shap(explainer,
 
             result.append(result_average)
         else:
-            tmp = get_single_random_path(explainer, new_observation, path)
-            tmp['B'] = 0
+            tmp = get_single_random_path(explainer.predict_function, explainer.model, explainer.data, explainer.label,
+                                         new_observation, path, 0)
+            # tmp['B'] = 0
 
             result.append(tmp)
 
@@ -67,17 +80,17 @@ def calculate_yhats_distributions(explainer):
     })
 
 
-def get_single_random_path(explainer, new_observation, random_path):
-    current_data = deepcopy(explainer.data)
+def get_single_random_path(predict, model, data, label, new_observation, random_path, b):
+    current_data = deepcopy(data)
     yhats = np.empty(len(random_path) + 1)
-    yhats[0] = explainer.predict(current_data).mean()
+    yhats[0] = predict(model, current_data).mean()
     for i, candidate in enumerate(random_path):
         current_data.iloc[:, candidate] = new_observation.iloc[0, candidate]
-        yhats[i + 1] = explainer.predict(current_data).mean()
+        yhats[i + 1] = predict(model, current_data).mean()
 
     diffs = np.diff(yhats)
 
-    variable_names = explainer.data.columns[random_path]
+    variable_names = data.columns[random_path]
 
     new_observation_f = new_observation.loc[:, variable_names] \
         .apply(lambda x: nice_format(x.iloc[0]))
@@ -88,7 +101,8 @@ def get_single_random_path(explainer, new_observation, random_path):
         'variable_name': variable_names,
         'variable_value': new_observation.loc[:, variable_names].values.reshape(-1, ),
         'sign': np.sign(diffs),
-        'label': explainer.label
+        'label': label,
+        'B': b
     })
 
 

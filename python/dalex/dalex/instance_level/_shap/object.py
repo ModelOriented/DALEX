@@ -10,9 +10,12 @@ class Shap:
     def __init__(self,
                  path="average",
                  keep_distributions=True,
-                 B=25):
+                 B=25,
+                 processes=1):
         # TODO interactions / interactions preference
         # TODO checks
+
+        processes_ = check_processes(processes)
 
         self.path = path
         self.keep_distributions = keep_distributions
@@ -21,6 +24,7 @@ class Shap:
         self.yhats_distributions = None
         self.prediction = None
         self.intercept = None
+        self.processes = processes_
 
     def fit(self,
             explainer,
@@ -32,7 +36,8 @@ class Shap:
                                                                                       new_observation,
                                                                                       self.path,
                                                                                       self.keep_distributions,
-                                                                                      self.B)
+                                                                                      self.B,
+                                                                                      self.processes)
 
     def plot(self,
              objects=None,

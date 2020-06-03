@@ -1,6 +1,8 @@
+from copy import deepcopy
+from warnings import warn
+
 import numpy as np
 import pandas as pd
-from copy import deepcopy
 
 
 def check_columns_in_new_observation(new_observation,
@@ -42,3 +44,14 @@ def check_new_observation(new_observation, explainer):
         raise ValueError("new_observation index is of boolean type")
 
     return new_observation_
+
+
+def check_processes(processes):
+    from multiprocessing import cpu_count
+    if processes > cpu_count():
+        warn("You have asked for too many processes. Truncated to the number of physical CPUs.")
+
+        return cpu_count()
+
+    else:
+        return processes
