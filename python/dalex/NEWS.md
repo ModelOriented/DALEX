@@ -1,11 +1,10 @@
 dalex (development)
 ----------------------------------------------------------------
-* *feature:* multiprocessing added for: `model_profile`, `model_parts`, `predict_profile` and `shap`
-* *fix:* significantly improved speed of "accumulated local effects" and "conditional" in `model_profile`
+* *feature:* multiprocessing added for: `model_profile`, `model_parts`, `predict_profile` and `predict_parts(type='shap')`, through the `processes` parameter
+* *fix:* significantly improved the speed of `accumulated` and `conditional` types in `model_profile`
 * *bugfix:* use [pd.api.types.is_numeric_dtype()](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.api.types.is_numeric_dtype.html)
   instead of `np.issubdtype()` to cover more types; e.g. it caused errors with `string` type
-* *defaults:* use [pd.convert_dtypes()](https://pandas.pydata
-.org/pandas-docs/stable/reference/api/pandas.Series.convert_dtypes.html)
+* *defaults:* use [pd.convert_dtypes()](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.convert_dtypes.html)
  on the result of `CeterisParibus` to fix variable dtypes and
  later allow for a concatenation without the dtype conversion
 * *fix:* `variables` parameter now can be a single `str` value
@@ -13,8 +12,7 @@ dalex (development)
 dalex 0.1.8
 ----------------------------------------------------------------
 * *bugfix:* `variable_splits` parameter now works correctly in `predict_profile`
-* *bugfix:* fix baseline for 3+ models in `AggregatedProfiles.plot` ([#234]
-(https://github.com/ModelOriented/DALEX/issues/234))
+* *bugfix:* fix baseline for 3+ models in `AggregatedProfiles.plot` ([#234](https://github.com/ModelOriented/DALEX/issues/234))
 * *printing:* now rounding numbers in `Explainer` messages 
 * *fix:* minor checks fixes in `instance_level`
 * *bugfix:* `AggregatedProfiles.plot` now works with `groups`
