@@ -27,21 +27,28 @@ loss_cross_entropy <- function(observed, predicted, p_min = 0.0001, na.rm = TRUE
   p <- sapply(seq_along(observed), function(i)  predicted[i, observed[i]] )
   sum(-log(pmax(p, p_min)), na.rm = TRUE)
 }
+attr(loss_cross_entropy, "loss_name") <- "Cross-entropy"
+
+
+
 
 #' @rdname loss_functions
 #' @export
 loss_sum_of_squares <- function(observed, predicted, na.rm = TRUE)
   sum((observed - predicted)^2, na.rm = na.rm)
+attr(loss_sum_of_squares, "loss_name") <- "Sum of errors squares"
 
 #' @rdname loss_functions
 #' @export
 loss_root_mean_square <- function(observed, predicted, na.rm = TRUE)
   sqrt(mean((observed - predicted)^2, na.rm = na.rm))
+attr(loss_root_mean_square, "loss_name") <- "Root mean square error"
 
 #' @rdname loss_functions
 #' @export
 loss_accuracy <-  function(observed, predicted, na.rm = TRUE)
   mean(observed == predicted, na.rm = na.rm)
+attr(loss_accuracy, "loss_name") <- "Accuracy"
 
 #' @rdname loss_functions
 #' @export
@@ -59,6 +66,7 @@ loss_one_minus_auc <- function(observed, predicted){
   1 - auc
 
 }
+attr(loss_one_minus_auc, "loss_name") <- "One minus AUC"
 
 #' @rdname loss_functions
 #' @export
