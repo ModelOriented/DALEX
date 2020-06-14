@@ -8,6 +8,8 @@ dalex (development)
  on the result of `CeterisParibus` to fix variable dtypes and
  later allow for a concatenation without the dtype conversion
 * *fix:* `variables` parameter now can be a single `str` value
+* *fix:* number rounding in `predict_parts`, `model_parts` ([#245](https://github.com/ModelOriented/DALEX/issues/245))
+* *fix:* CP calculations for models that take only variables as an input 
 
 dalex 0.1.8
 ----------------------------------------------------------------

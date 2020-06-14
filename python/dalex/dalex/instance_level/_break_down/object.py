@@ -2,7 +2,7 @@ from warnings import warn
 
 from plotly.subplots import make_subplots
 
-from dalex.instance_level._break_down.plot import prepare_data_for_break_down_plot
+from .plot import *
 from .checks import *
 from .utils import local_interactions
 from ..._explainer.theme import get_break_down_colors
