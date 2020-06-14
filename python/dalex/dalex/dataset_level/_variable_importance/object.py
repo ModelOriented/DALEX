@@ -231,11 +231,13 @@ class VariableImportance:
 
                 df = df.assign(difference=lambda x: x['dropout_loss'] - x['full_model'])
 
-                lt = df.apply(lambda row: label_text(row, rounding_function, digits), axis=1)
-                df = df.assign(label_text=lt.values)
+                lt = df.difference.apply(lambda val:
+                                         "+"+str(rounding_function(np.abs(val), digits)) if val > 0
+                                         else str(rounding_function(np.abs(val), digits)))
+                df = df.assign(label_text=lt)
 
                 tt = df.apply(lambda row: tooltip_text(row, rounding_function, digits), axis=1)
-                df = df.assign(tooltip_text=tt.values)
+                df = df.assign(tooltip_text=tt)
 
                 fig.add_shape(type='line', x0=baseline, x1=baseline, y0=0, y1=m - 1, yref="paper", xref="x",
                               line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'}, row=i + 1, col=1)
