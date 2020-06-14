@@ -22,9 +22,9 @@ def prepare_data_for_shap_plot(x, baseline, prediction, max_vars, rounding_funct
     prediction = rounding_function(prediction, digits)
 
     tt = x.apply(lambda row: tooltip_text(row, baseline, prediction), axis=1)
-    x = x.assign(tooltip_text=tt.values)
+    x = x.assign(tooltip_text=tt)
 
-    lt = label_text(x.iloc[:, x.columns.get_loc("contribution")].tolist())
+    lt = x.contribution.apply(lambda val: "+"+str(val) if val > 0 else str(val))
     x = x.assign(label_text=lt)
 
     return x
@@ -38,12 +38,3 @@ def tooltip_text(row, baseline, prediction):
     return "Average response: " + str(baseline) + "<br>Prediction: " + str(prediction) + "<br>" + \
            str(row.variable) + "<br>" + key_word + " average response <br>by " + str(np.abs(row.contribution))
 
-
-def label_text(contribution):
-    def to_text(x):
-        if x > 0:
-            return "+" + str(x)
-        else:
-            return str(x)
-
-    return [to_text(c) for c in contribution]

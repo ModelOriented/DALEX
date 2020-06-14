@@ -1,6 +1,6 @@
 from plotly.subplots import make_subplots
 
-from dalex.instance_level._shap.plot import prepare_data_for_shap_plot
+from .plot import *
 from .checks import *
 from .utils import shap
 from ..._explainer.theme import get_break_down_colors
