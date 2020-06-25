@@ -28,7 +28,7 @@ class VariableImportance:
         :param variable_groups: dict of lists of variables. Each list is treated as one group. This is for testing joint variable importance
         :param processes: integer, number of parallel processes, iterated over Bs
         :param random_state: random state for the permutations
-        :param keep_raw_permutations: TODO
+        :param keep_raw_permutations: bool, set to True if you want to save all steps
 
         :return None
         """

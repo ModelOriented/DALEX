@@ -1,5 +1,7 @@
-dalex (development)
+dalex 0.1.9
 ----------------------------------------------------------------
+* *feature:* added `random_state` parameter for `SHAP` and `model_profile` for reproducible calculations
+* *fix:* fixed `random_state` parameter in `model_parts`
 * *feature:* multiprocessing added for: `model_profile`, `model_parts`, `predict_profile` and `predict_parts(type='shap')`, through the `processes` parameter
 * *fix:* significantly improved the speed of `accumulated` and `conditional` types in `model_profile`
 * *bugfix:* use [pd.api.types.is_numeric_dtype()](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.api.types.is_numeric_dtype.html)

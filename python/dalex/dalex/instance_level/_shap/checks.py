@@ -55,3 +55,10 @@ def check_processes(processes):
 
     else:
         return processes
+
+
+def check_random_state(random_state):
+    if random_state is not None:
+        np.random.seed(random_state)
+
+    return random_state

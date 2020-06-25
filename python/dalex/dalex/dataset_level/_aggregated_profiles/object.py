@@ -20,7 +20,8 @@ class AggregatedProfiles:
                  variable_type='numerical',
                  groups=None,
                  span=0.25,
-                 intercept=True):
+                 intercept=True,
+                 random_state=None):
         """
         Constructor for AggregatedProfiles.
 
@@ -45,6 +46,7 @@ class AggregatedProfiles:
         self.intercept = intercept
         self.result = None
         self.mean_prediction = None
+        self.random_state = random_state
 
     def fit(self,
             ceteris_paribus):
