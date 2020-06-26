@@ -140,7 +140,8 @@ class Explainer:
                       path="average",
                       B=25,
                       processes=1,
-                      keep_distributions=False):
+                      keep_distributions=False,
+                      random_state=None):
 
         """Instance Level Variable Attribution as Break Down or SHAP Explanations
 
@@ -152,6 +153,7 @@ class Explainer:
         :param B: number of random paths
         :param processes: integer, number of parallel processes, iterated over Bs
         :param keep_distributions: if `TRUE`, then distribution of partial predictions is stored and can be plotted with the generic `plot()`.
+        :param random_state: int, seed for random number generator
         :return: BreakDown / Shap
         """
 
@@ -171,7 +173,8 @@ class Explainer:
                 keep_distributions=keep_distributions,
                 path=path_,
                 B=B,
-                processes=processes
+                processes=processes,
+                random_state=random_state
             )
 
         predict_parts_.fit(self, new_observation)
@@ -255,7 +258,7 @@ class Explainer:
         :param type: 'variable_importance'/'ratio'/'difference' type of transformation that should be applied for dropout loss
         :param N: number of observations that should be sampled for calculation of variable importance
         :param B: number of permutation rounds to perform on each variable
-        :param keep_raw_permutations: TODO
+        :param keep_raw_permutations: bool, set to True if you want to save all steps
         :param variables: vector of variables. If None then variable importance will be tested for each variable from the data separately, ignored if variable_groups is not None
         :param variable_groups: dict of lists of variables. Each list is treated as one group. This is for testing joint variable importance
         :param processes: integer, number of parallel processes, iterated over Bs
@@ -291,7 +294,8 @@ class Explainer:
                       span=0.25,
                       grid_points=101,
                       intercept=True,
-                      processes=1):
+                      processes=1,
+                      random_state=None):
 
         """Dataset Level Variable Effect as Partial Dependency Profile or Accumulated Local Effects
 
@@ -305,6 +309,7 @@ class Explainer:
         :param grid_points: number of points for profile
         :param intercept: False if center data on 0
         :param processes: integer, number of parallel processes, iterated over variables
+        :param random_state: int, seed for random number generator
         :return: VariableEffect object
         """
 
@@ -315,6 +320,9 @@ class Explainer:
             N = self.data.shape[0]
         else:
             N = min(N, self.data.shape[0])
+
+        if random_state is not None:
+            np.random.seed(random_state)
 
         I = np.random.choice(np.arange(N), N, replace=False)
 
@@ -327,7 +335,8 @@ class Explainer:
             variable_type=variable_type,
             groups=groups,
             span=span,
-            intercept=intercept
+            intercept=intercept,
+            random_state=random_state
         )
 
         model_profile_.fit(ceteris_paribus)

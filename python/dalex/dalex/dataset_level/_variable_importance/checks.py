@@ -94,7 +94,7 @@ def check_type(type):
 
 def check_random_state(random_state):
     if random_state is not None:
-        np.random.set_state(random_state)
+        np.random.seed(random_state)
 
     return random_state
 

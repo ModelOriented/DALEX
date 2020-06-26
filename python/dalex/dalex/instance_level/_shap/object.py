@@ -11,11 +11,12 @@ class Shap:
                  path="average",
                  keep_distributions=True,
                  B=25,
-                 processes=1):
-        # TODO interactions / interactions preference
-        # TODO checks
+                 processes=1,
+                 random_state=None):
 
         processes_ = check_processes(processes)
+
+        random_state_ = check_random_state(random_state)
 
         self.path = path
         self.keep_distributions = keep_distributions
@@ -25,6 +26,7 @@ class Shap:
         self.prediction = None
         self.intercept = None
         self.processes = processes_
+        self.random_state = random_state_
 
     def fit(self,
             explainer,
