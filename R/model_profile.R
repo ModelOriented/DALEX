@@ -5,7 +5,7 @@
 #' Find information how to use this function here: \url{https://pbiecek.github.io/ema/partialDependenceProfiles.html}.
 #' The \code{variable_profile} function is a copy of \code{model_profile}.
 #'
-#' Underneath this function calls the \code{\link[ingredients]{partial_dependency}} or
+#' Underneath this function calls the \code{\link[ingredients]{partial_dependence}} or
 #' \code{\link[ingredients]{accumulated_dependency}} functions from the \code{ingredients} package.
 #'
 #' @param explainer a model to be explained, preprocessed by the \code{explain} function
