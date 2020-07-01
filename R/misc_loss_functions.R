@@ -27,7 +27,7 @@ loss_cross_entropy <- function(observed, predicted, p_min = 0.0001, na.rm = TRUE
   p <- sapply(seq_along(observed), function(i)  predicted[i, observed[i]] )
   sum(-log(pmax(p, p_min)), na.rm = TRUE)
 }
-attr(loss_cross_entropy, "loss_name") <- "Cross-entropy"
+attr(loss_cross_entropy, "loss_name") <- "Cross entropy"
 
 
 
@@ -36,13 +36,13 @@ attr(loss_cross_entropy, "loss_name") <- "Cross-entropy"
 #' @export
 loss_sum_of_squares <- function(observed, predicted, na.rm = TRUE)
   sum((observed - predicted)^2, na.rm = na.rm)
-attr(loss_sum_of_squares, "loss_name") <- "Sum of errors squares"
+attr(loss_sum_of_squares, "loss_name") <- "Sum of squared residuals (SSR)"
 
 #' @rdname loss_functions
 #' @export
 loss_root_mean_square <- function(observed, predicted, na.rm = TRUE)
   sqrt(mean((observed - predicted)^2, na.rm = na.rm))
-attr(loss_root_mean_square, "loss_name") <- "Root mean square error"
+attr(loss_root_mean_square, "loss_name") <- "Root mean square error (RMSE)"
 
 #' @rdname loss_functions
 #' @export
