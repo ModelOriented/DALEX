@@ -160,15 +160,17 @@
 <li>
 <code>DALEX</code> now fully supports multiclass classification.</li>
 <li>
-<code><a href="../reference/explain.html">explain()</a></code> will use new residual function (1 - true class probability) if multiclass classification is detected.</li>
+<code><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain()</a></code> will use new residual function (1 - true class probability) if multiclass classification is detected.</li>
 <li>
-<code><a href="../reference/model_performance.html">model_performance()</a></code> now support measures for multiclass classification.</li>
+<code><a href="https://rdrr.io/pkg/DALEX/man/model_performance.html">model_performance()</a></code> now support measures for multiclass classification.</li>
 <li>Remove <code>ggpubr</code> from suggests.</li>
 <li>
-<code>lossFunction</code> argument is now deprecated in <code><a href="../reference/plot.model_performance.html">plot.model_performance()</a></code>. Use the <code>loss_function</code> argument.</li>
+<code>lossFunction</code> argument is now deprecated in <code><a href="https://rdrr.io/pkg/DALEX/man/plot.model_performance.html">plot.model_performance()</a></code>. Use the <code>loss_function</code> argument.</li>
 <li>
-<code>model_profile</code> color changed to <code><a href="../reference/colors_drwhy.html">colors_discrete_drwhy(1)</a></code> which impacts the color of the line in <code>plot.model_profile</code>
+<code>model_profile</code> color changed to <code><a href="https://rdrr.io/pkg/DALEX/man/colors_drwhy.html">colors_discrete_drwhy(1)</a></code> which impacts the color of the line in <code>plot.model_profile</code>
 </li>
+<li>
+<code>loss_name</code> attribute added to loss functions. It will be passed to plot function for objects created with <code>model_parts</code>.</li>
 </ul>
 </div>
     <div id="dalex-121" class="section level2">
@@ -241,16 +243,16 @@
 <li>updated <code>titanic_imputed</code> (<a href="https://github.com/ModelOriented/DALEX/issues/113"><a href='https://github.com/ModelOriented/DALEX/issues/113'>#113</a></a>).</li>
 <li>added <code>weights</code> to the explainer. Note that not all explanations know how to handle weights (<a href="https://github.com/ModelOriented/DALEX/issues/118"><a href='https://github.com/ModelOriented/DALEX/issues/118'>#118</a></a>).</li>
 <li>
-<code><a href="../reference/yhat.html">yhat()</a></code> and <code><a href="../reference/model_info.html">model_info()</a></code> now support models created with <code>gbm</code> package.</li>
+<code><a href="https://rdrr.io/pkg/DALEX/man/yhat.html">yhat()</a></code> and <code><a href="https://rdrr.io/pkg/DALEX/man/model_info.html">model_info()</a></code> now support models created with <code>gbm</code> package.</li>
 </ul>
 </div>
     <div id="dalex-048" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dalex-048" class="anchor"></a>DALEX 0.4.8</h2>
 <ul>
-<li>new argument <code>colorize</code> in the <code><a href="../reference/explain.html">explain()</a></code> as requested in (<a href="https://github.com/ModelOriented/DALEX/issues/112"><a href='https://github.com/ModelOriented/DALEX/issues/112'>#112</a></a>).</li>
-<li>new generic function <code><a href="../reference/model_info.html">model_info()</a></code>. It will extract basic irnformation like model package nam version and task type. (<a href="https://github.com/ModelOriented/DALEX/issues/109"><a href='https://github.com/ModelOriented/DALEX/issues/109'>#109</a></a>, <a href="https://github.com/ModelOriented/DALEX/issues/110"><a href='https://github.com/ModelOriented/DALEX/issues/110'>#110</a></a>)</li>
-<li>new functions <code><a href="../reference/update_data.html">update_data()</a></code> and <code><a href="../reference/update_label.html">update_label()</a></code>. (<a href="https://github.com/ModelOriented/DALEX/issues/114"><a href='https://github.com/ModelOriented/DALEX/issues/114'>#114</a></a>))</li>
+<li>new argument <code>colorize</code> in the <code><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain()</a></code> as requested in (<a href="https://github.com/ModelOriented/DALEX/issues/112"><a href='https://github.com/ModelOriented/DALEX/issues/112'>#112</a></a>).</li>
+<li>new generic function <code><a href="https://rdrr.io/pkg/DALEX/man/model_info.html">model_info()</a></code>. It will extract basic irnformation like model package nam version and task type. (<a href="https://github.com/ModelOriented/DALEX/issues/109"><a href='https://github.com/ModelOriented/DALEX/issues/109'>#109</a></a>, <a href="https://github.com/ModelOriented/DALEX/issues/110"><a href='https://github.com/ModelOriented/DALEX/issues/110'>#110</a></a>)</li>
+<li>new functions <code><a href="https://rdrr.io/pkg/DALEX/man/update_data.html">update_data()</a></code> and <code><a href="https://rdrr.io/pkg/DALEX/man/update_label.html">update_label()</a></code>. (<a href="https://github.com/ModelOriented/DALEX/issues/114"><a href='https://github.com/ModelOriented/DALEX/issues/114'>#114</a></a>))</li>
 </ul>
 </div>
     <div id="dalex-047" class="section level2">
@@ -258,7 +260,7 @@
 <a href="#dalex-047" class="anchor"></a>DALEX 0.4.7</h2>
 <ul>
 <li>new dataset <code>titanic_imputed</code> as requested in (<a href="https://github.com/ModelOriented/DALEX/issues/104"><a href='https://github.com/ModelOriented/DALEX/issues/104'>#104</a></a>).</li>
-<li>the <code><a href="../reference/explain.html">explain()</a></code> function now detects if target variable <code>y</code> is present in the <code>data</code> as requested in (<a href="https://github.com/ModelOriented/DALEX/issues/103"><a href='https://github.com/ModelOriented/DALEX/issues/103'>#103</a></a>).</li>
+<li>the <code><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain()</a></code> function now detects if target variable <code>y</code> is present in the <code>data</code> as requested in (<a href="https://github.com/ModelOriented/DALEX/issues/103"><a href='https://github.com/ModelOriented/DALEX/issues/103'>#103</a></a>).</li>
 <li>the DALEX GitHub repository is transfered from <code>pbiecek/DALEX</code> to <a href="https://github.com/ModelOriented/DALEX/">ModelOriented/DALEX</a>.</li>
 </ul>
 </div>
@@ -278,14 +280,14 @@
 <h2 class="hasAnchor">
 <a href="#dalex-045" class="anchor"></a>DALEX 0.4.5</h2>
 <ul>
-<li>the <code><a href="../reference/explain.html">explain()</a></code> function is more verbose. With <code>verbose = TRUE</code> (default) it prints detailed information about elements of an explainer (<a href="https://github.com/pbiecek/DALEX/issues/95"><a href='https://github.com/ModelOriented/DALEX/issues/95'>#95</a></a>).</li>
+<li>the <code><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain()</a></code> function is more verbose. With <code>verbose = TRUE</code> (default) it prints detailed information about elements of an explainer (<a href="https://github.com/pbiecek/DALEX/issues/95"><a href='https://github.com/ModelOriented/DALEX/issues/95'>#95</a></a>).</li>
 </ul>
 </div>
     <div id="dalex-044" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dalex-044" class="anchor"></a>DALEX 0.4.4</h2>
 <ul>
-<li>new color schemes: <code><a href="../reference/colors_drwhy.html">colors_breakdown_drwhy()</a></code>, <code><a href="../reference/colors_drwhy.html">colors_discrete_drwhy()</a></code> and <code><a href="../reference/colors_drwhy.html">colors_diverging_drwhy()</a></code>.</li>
+<li>new color schemes: <code><a href="https://rdrr.io/pkg/DALEX/man/colors_drwhy.html">colors_breakdown_drwhy()</a></code>, <code><a href="https://rdrr.io/pkg/DALEX/man/colors_drwhy.html">colors_discrete_drwhy()</a></code> and <code><a href="https://rdrr.io/pkg/DALEX/man/colors_drwhy.html">colors_diverging_drwhy()</a></code>.</li>
 <li>in this version the <code>scikitlearn_model()</code> is removed as it is not working with python 2.7</li>
 </ul>
 </div>
@@ -321,7 +323,7 @@
 <li>
 <code>feature_response()</code> and <code>variable_response()</code> are marked as Deprecated. It is suggested to use <code><a href="https://rdrr.io/pkg/ingredients/man/partial_dependence.html">ingredients::partial_dependency()</a></code>, <code><a href="https://rdrr.io/pkg/ingredients/man/accumulated_dependence.html">ingredients::accumulated_dependency()</a></code> instead (<a href="https://github.com/pbiecek/DALEX/issues/74"><a href='https://github.com/ModelOriented/DALEX/issues/74'>#74</a></a>).</li>
 <li>
-<code><a href="../reference/model_parts.html">variable_importance()</a></code> is marked as Deprecated. It is suggested to use <code><a href="https://rdrr.io/pkg/ingredients/man/feature_importance.html">ingredients::feature_importance()</a></code> instead (<a href="https://github.com/pbiecek/DALEX/issues/75"><a href='https://github.com/ModelOriented/DALEX/issues/75'>#75</a></a>).</li>
+<code><a href="https://rdrr.io/pkg/DALEX/man/model_parts.html">variable_importance()</a></code> is marked as Deprecated. It is suggested to use <code><a href="https://rdrr.io/pkg/ingredients/man/feature_importance.html">ingredients::feature_importance()</a></code> instead (<a href="https://github.com/pbiecek/DALEX/issues/75"><a href='https://github.com/ModelOriented/DALEX/issues/75'>#75</a></a>).</li>
 <li>
 <code>prediction_breakdown()</code> is marked as Deprecated. It is suggested to use <code><a href="https://rdrr.io/pkg/iBreakDown/man/break_down.html">iBreakDown::break_down()</a></code> or <code><a href="https://rdrr.io/pkg/iBreakDown/man/break_down_uncertainty.html">iBreakDown::shap()</a></code> instead (<a href="https://github.com/pbiecek/DALEX/issues/76"><a href='https://github.com/ModelOriented/DALEX/issues/76'>#76</a></a>).</li>
 </ul>
@@ -357,7 +359,7 @@
 <code>DALEX</code> is being prepared for tighter integration with <code>iBreakDown</code> and <code>ingredients</code>.</li>
 <li>temporally there is a duplicated <code>single_variable</code> and <code>single_feature</code>
 </li>
-<li>Added new <code><a href="../reference/theme_drwhy.html">theme_drwhy()</a></code>.</li>
+<li>Added new <code><a href="https://rdrr.io/pkg/DALEX/man/theme_drwhy.html">theme_drwhy()</a></code>.</li>
 <li>New arguments in the <code>plot.variable_importance_explainer()</code>. Namely <code>bar_width</code> with widths of bars and <code>show_baseline</code> if baseline shall be included in these plots.</li>
 <li>New skin in the <code>plot.variable_response_explainer()</code>.</li>
 <li>New skin in the <code>plot.prediction_breakdown_explainer()</code>.</li>
@@ -394,7 +396,7 @@
 <a href="#dalex-024" class="anchor"></a>DALEX 0.2.4</h2>
 <ul>
 <li>New dataset <code>HR</code> and <code>HRTest</code>. Target variable is a factor with three levels. Is used in examples for classification.</li>
-<li>The <code><a href="../reference/plot.model_performance.html">plot.model_performance()</a></code> has now <code>show_outliers</code> parameter. Set it to anything &gt;0 and observations with largest residuals will be presented in the plot. (<a href="https://github.com/pbiecek/DALEX/issues/34"><a href='https://github.com/ModelOriented/DALEX/issues/34'>#34</a></a>)</li>
+<li>The <code><a href="https://rdrr.io/pkg/DALEX/man/plot.model_performance.html">plot.model_performance()</a></code> has now <code>show_outliers</code> parameter. Set it to anything &gt;0 and observations with largest residuals will be presented in the plot. (<a href="https://github.com/pbiecek/DALEX/issues/34"><a href='https://github.com/ModelOriented/DALEX/issues/34'>#34</a></a>)</li>
 </ul>
 </div>
     <div id="dalex-023" class="section level2">
@@ -417,18 +419,18 @@
 <h2 class="hasAnchor">
 <a href="#dalex-021" class="anchor"></a>DALEX 0.2.1</h2>
 <ul>
-<li>The <code><a href="../reference/explain.html">explain()</a></code> function converts <code>tibbles</code> to <code>data.frame</code> when specified as <code>data</code> argument (<a href="https://github.com/pbiecek/DALEX/issues/15"><a href='https://github.com/ModelOriented/DALEX/issues/15'>#15</a></a>)</li>
-<li>The default generic <code><a href="../reference/explain.html">explain.default()</a></code> should help when <code><a href="../reference/explain.html">explain()</a></code> from <code>dplyr</code> is loaded after <code>DALEX</code> (<a href="https://github.com/pbiecek/DALEX/issues/16"><a href='https://github.com/ModelOriented/DALEX/issues/16'>#16</a></a>)</li>
+<li>The <code><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain()</a></code> function converts <code>tibbles</code> to <code>data.frame</code> when specified as <code>data</code> argument (<a href="https://github.com/pbiecek/DALEX/issues/15"><a href='https://github.com/ModelOriented/DALEX/issues/15'>#15</a></a>)</li>
+<li>The default generic <code><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain.default()</a></code> should help when <code><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain()</a></code> from <code>dplyr</code> is loaded after <code>DALEX</code> (<a href="https://github.com/pbiecek/DALEX/issues/16"><a href='https://github.com/ModelOriented/DALEX/issues/16'>#16</a></a>)</li>
 </ul>
 </div>
     <div id="dalex-020" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dalex-020" class="anchor"></a>DALEX 0.2.0</h2>
 <ul>
-<li>New names for some functions: <code><a href="../reference/model_performance.html">model_performance()</a></code>, <code><a href="../reference/model_parts.html">variable_importance()</a></code>, <code>variable_response()</code>, <code>outlier_detection()</code>, <code>prediction_breakdown()</code>. Old names are now deprecated but still working. (<a href="https://github.com/pbiecek/DALEX/issues/12"><a href='https://github.com/ModelOriented/DALEX/issues/12'>#12</a></a>)</li>
+<li>New names for some functions: <code><a href="https://rdrr.io/pkg/DALEX/man/model_performance.html">model_performance()</a></code>, <code><a href="https://rdrr.io/pkg/DALEX/man/model_parts.html">variable_importance()</a></code>, <code>variable_response()</code>, <code>outlier_detection()</code>, <code>prediction_breakdown()</code>. Old names are now deprecated but still working. (<a href="https://github.com/pbiecek/DALEX/issues/12"><a href='https://github.com/ModelOriented/DALEX/issues/12'>#12</a></a>)</li>
 <li>A new dataset <code>apartments</code> - will be used in examples</li>
 <li>
-<code><a href="../reference/model_parts.html">variable_importance()</a></code> allows work on full dataset if <code>n_sample</code> is negative</li>
+<code><a href="https://rdrr.io/pkg/DALEX/man/model_parts.html">variable_importance()</a></code> allows work on full dataset if <code>n_sample</code> is negative</li>
 <li>
 <code>plot_model_performance()</code> uses ecdf or boxplots (depending on <code>geom</code> parameter).</li>
 </ul>
@@ -437,8 +439,8 @@
 <h2 class="hasAnchor">
 <a href="#dalex-018" class="anchor"></a>DALEX 0.1.8</h2>
 <ul>
-<li>Function <code><a href="../reference/model_profile.html">single_variable()</a></code> supports factor variables as well (with the use of <code>factorMerger</code> package). Remember to use <code>type='factor'</code> when playing with factors. (<a href="https://github.com/pbiecek/DALEX/issues/10"><a href='https://github.com/ModelOriented/DALEX/issues/10'>#10</a></a>)</li>
-<li>Change in the function <code><a href="../reference/explain.html">explain()</a></code>. Old version has an argument <code>predict.function</code>, now it’s <code>predict_function</code>. New name is more consistent with other arguments. (<a href="https://github.com/pbiecek/DALEX/issues/7"><a href='https://github.com/ModelOriented/DALEX/issues/7'>#7</a></a>)</li>
+<li>Function <code><a href="https://rdrr.io/pkg/DALEX/man/model_profile.html">single_variable()</a></code> supports factor variables as well (with the use of <code>factorMerger</code> package). Remember to use <code>type='factor'</code> when playing with factors. (<a href="https://github.com/pbiecek/DALEX/issues/10"><a href='https://github.com/ModelOriented/DALEX/issues/10'>#10</a></a>)</li>
+<li>Change in the function <code><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain()</a></code>. Old version has an argument <code>predict.function</code>, now it’s <code>predict_function</code>. New name is more consistent with other arguments. (<a href="https://github.com/pbiecek/DALEX/issues/7"><a href='https://github.com/ModelOriented/DALEX/issues/7'>#7</a></a>)</li>
 <li>New vigniette for <code>xgboost</code> model (<a href="https://github.com/pbiecek/DALEX/issues/11"><a href='https://github.com/ModelOriented/DALEX/issues/11'>#11</a></a>)</li>
 </ul>
 </div>
@@ -455,11 +457,11 @@
 <ul>
 <li>DALEX package is now public</li>
 <li>
-<code><a href="../reference/explain.html">explain()</a></code> function implemented</li>
+<code><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain()</a></code> function implemented</li>
 <li>
 <code>single_prediction()</code> function implemented</li>
 <li>
-<code><a href="../reference/model_profile.html">single_variable()</a></code> function implemented</li>
+<code><a href="https://rdrr.io/pkg/DALEX/man/model_profile.html">single_variable()</a></code> function implemented</li>
 </ul>
 </div>
   </div>

@@ -160,14 +160,14 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for model_performance</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(
-  <span class='no'>x</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"ecdf"</span>,
-  <span class='kw'>show_outliers</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>ptlabel</span> <span class='kw'>=</span> <span class='st'>"name"</span>,
-  <span class='kw'>lossFunction</span> <span class='kw'>=</span> <span class='no'>loss_function</span>,
-  <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span>^<span class='fl'>2</span>))
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(
+  <span class='kw'>x</span>,
+  <span class='kw'>...</span>,
+  geom = <span class='st'>"ecdf"</span>,
+  show_outliers = <span class='fl'>0</span>,
+  ptlabel = <span class='st'>"name"</span>,
+  lossFunction = <span class='kw'>loss_function</span>,
+  loss_function = <span class='fu'>function</span>(<span class='kw'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>x</span><span class='op'>^</span><span class='fl'>2</span>))
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -175,7 +175,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>a model to be explained, preprocessed by the <code><a href='explain.html'>explain</a></code> function</p></td>
+      <td><p>a model to be explained, preprocessed by the <code>explain</code> function</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -209,64 +209,65 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'> <span class='co'># \dontrun{</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
-<span class='no'>titanic_ranger_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>survived</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>50</span>,
-                               <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>explainer_ranger</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>titanic_ranger_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[,-<span class='fl'>8</span>],
-                             <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>$<span class='no'>survived</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/imbs-hl/ranger'>"ranger"</a></span>)
+<span class='kw'>titanic_ranger_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>survived</span><span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>titanic_imputed</span>, num.trees = <span class='fl'>50</span>,
+                               probability = <span class='fl'>TRUE</span>)
+<span class='kw'>explainer_ranger</span>  <span class='op'>&lt;-</span> <span class='fu'>explain</span>(<span class='kw'>titanic_ranger_model</span>, data = <span class='kw'>titanic_imputed</span>[,<span class='op'>-</span><span class='fl'>8</span>],
+                             y = <span class='kw'>titanic_imputed</span><span class='op'>$</span><span class='kw'>survived</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( <span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  2207  rows  7  cols 
 #&gt;   -&gt; target variable   :  2207  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.001702128 , mean =  0.3226129 , max =  0.9975612  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.002818182 , mean =  0.3228461 , max =  0.9934555  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7888095 , mean =  -0.0004561426 , max =  0.8811478  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>mp_ranger</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_ranger</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>)</div><div class='img'><img src='plot.model_performance-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"boxplot"</span>, <span class='kw'>show_outliers</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='img'><img src='plot.model_performance-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>titanic_ranger_model2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>survived</span>~<span class='no'>gender</span> + <span class='no'>fare</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>,
-                                <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>explainer_ranger2</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>titanic_ranger_model2</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[,-<span class='fl'>8</span>],
-                              <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>$<span class='no'>survived</span>,
-                              <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"ranger2"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7748155 , mean =  -0.0006892908 , max =  0.8689618  
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>mp_ranger</span> <span class='op'>&lt;-</span> <span class='fu'>model_performance</span>(<span class='kw'>explainer_ranger</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mp_ranger</span>)</div><div class='img'><img src='plot.model_performance-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mp_ranger</span>, geom = <span class='st'>"boxplot"</span>, show_outliers = <span class='fl'>1</span>)</div><div class='img'><img src='plot.model_performance-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>titanic_ranger_model2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>survived</span><span class='op'>~</span><span class='kw'>gender</span> <span class='op'>+</span> <span class='kw'>fare</span>, data = <span class='kw'>titanic_imputed</span>,
+                                num.trees = <span class='fl'>50</span>, probability = <span class='fl'>TRUE</span>)
+<span class='kw'>explainer_ranger2</span>  <span class='op'>&lt;-</span> <span class='fu'>explain</span>(<span class='kw'>titanic_ranger_model2</span>, data = <span class='kw'>titanic_imputed</span>[,<span class='op'>-</span><span class='fl'>8</span>],
+                              y = <span class='kw'>titanic_imputed</span><span class='op'>$</span><span class='kw'>survived</span>,
+                              label = <span class='st'>"ranger2"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger2 
 #&gt;   -&gt; data              :  2207  rows  7  cols 
 #&gt;   -&gt; target variable   :  2207  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1612712 , mean =  0.3229572 , max =  0.9059704  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1569645 , mean =  0.322767 , max =  0.890604  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.839974 , mean =  -0.0008004552 , max =  0.8330122  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>mp_ranger2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_ranger2</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_ranger2</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"roc"</span>)</div><div class='img'><img src='plot.model_performance-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_ranger2</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"lift"</span>)</div><div class='img'><img src='plot.model_performance-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_ranger2</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"gain"</span>)</div><div class='img'><img src='plot.model_performance-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_ranger2</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"boxplot"</span>)</div><div class='img'><img src='plot.model_performance-6.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_ranger2</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"histogram"</span>)</div><div class='img'><img src='plot.model_performance-7.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_ranger2</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"ecdf"</span>)</div><div class='img'><img src='plot.model_performance-8.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>titanic_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>survived</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
-<span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>titanic_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[,-<span class='fl'>8</span>],
-                         <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>$<span class='no'>survived</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"glm"</span>,
-                    <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>m</span>,<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/stats/predict.glm.html'>predict.glm</a></span>(<span class='no'>m</span>,<span class='no'>x</span>,<span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"response"</span>))</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8388791 , mean =  -0.0006102147 , max =  0.8430355  
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>mp_ranger2</span> <span class='op'>&lt;-</span> <span class='fu'>model_performance</span>(<span class='kw'>explainer_ranger2</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mp_ranger</span>, <span class='kw'>mp_ranger2</span>, geom = <span class='st'>"roc"</span>)</div><div class='img'><img src='plot.model_performance-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mp_ranger</span>, <span class='kw'>mp_ranger2</span>, geom = <span class='st'>"lift"</span>)</div><div class='img'><img src='plot.model_performance-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mp_ranger</span>, <span class='kw'>mp_ranger2</span>, geom = <span class='st'>"gain"</span>)</div><div class='img'><img src='plot.model_performance-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mp_ranger</span>, <span class='kw'>mp_ranger2</span>, geom = <span class='st'>"boxplot"</span>)</div><div class='img'><img src='plot.model_performance-6.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mp_ranger</span>, <span class='kw'>mp_ranger2</span>, geom = <span class='st'>"histogram"</span>)</div><div class='img'><img src='plot.model_performance-7.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mp_ranger</span>, <span class='kw'>mp_ranger2</span>, geom = <span class='st'>"ecdf"</span>)</div><div class='img'><img src='plot.model_performance-8.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>titanic_glm_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='kw'>survived</span><span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>titanic_imputed</span>, family = <span class='st'>"binomial"</span>)
+<span class='kw'>explainer_glm</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span>(<span class='kw'>titanic_glm_model</span>, data = <span class='kw'>titanic_imputed</span>[,<span class='op'>-</span><span class='fl'>8</span>],
+                         y = <span class='kw'>titanic_imputed</span><span class='op'>$</span><span class='kw'>survived</span>, label = <span class='st'>"glm"</span>,
+                    predict_function = <span class='fu'>function</span>(<span class='kw'>m</span>,<span class='kw'>x</span>) <span class='fu'><a href='https://rdrr.io/r/stats/predict.glm.html'>predict.glm</a></span>(<span class='kw'>m</span>,<span class='kw'>x</span>,type = <span class='st'>"response"</span>))</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  glm 
 #&gt;   -&gt; data              :  2207  rows  7  cols 
 #&gt;   -&gt; target variable   :  2207  values 
 #&gt;   -&gt; predict function  :  function(m, x) predict.glm(m, x, type = "response") 
 #&gt;   -&gt; predicted values  :  numerical, min =  0.008128381 , mean =  0.3221568 , max =  0.9731431  
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.0 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9628583 , mean =  -2.569729e-10 , max =  0.9663346  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>mp_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_glm</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_glm</span>)</div><div class='img'><img src='plot.model_performance-9.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>titanic_lm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>survived</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>)
-<span class='no'>explainer_lm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>titanic_lm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[,-<span class='fl'>8</span>],
-                        <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>$<span class='no'>survived</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"lm"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>mp_glm</span> <span class='op'>&lt;-</span> <span class='fu'>model_performance</span>(<span class='kw'>explainer_glm</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mp_glm</span>)</div><div class='img'><img src='plot.model_performance-9.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>titanic_lm_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>survived</span><span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>titanic_imputed</span>)
+<span class='kw'>explainer_lm</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span>(<span class='kw'>titanic_lm_model</span>, data = <span class='kw'>titanic_imputed</span>[,<span class='op'>-</span><span class='fl'>8</span>],
+                        y = <span class='kw'>titanic_imputed</span><span class='op'>$</span><span class='kw'>survived</span>, label = <span class='st'>"lm"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm 
 #&gt;   -&gt; data              :  2207  rows  7  cols 
 #&gt;   -&gt; target variable   :  2207  values 
 #&gt;   -&gt; predict function  :  yhat.lm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  -0.234433 , mean =  0.3221568 , max =  1.091438  
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.0 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -1.045905 , mean =  1.291322e-14 , max =  1.049392  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>mp_lm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_lm</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_lm</span>)</div><div class='img'><img src='plot.model_performance-10.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_glm</span>, <span class='no'>mp_lm</span>)</div><div class='img'><img src='plot.model_performance-11.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_glm</span>, <span class='no'>mp_lm</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"boxplot"</span>)</div><div class='img'><img src='plot.model_performance-12.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ranger</span>, <span class='no'>mp_glm</span>, <span class='no'>mp_lm</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"boxplot"</span>, <span class='kw'>show_outliers</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='img'><img src='plot.model_performance-13.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span></div></span></pre>
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>mp_lm</span> <span class='op'>&lt;-</span> <span class='fu'>model_performance</span>(<span class='kw'>explainer_lm</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mp_lm</span>)</div><div class='img'><img src='plot.model_performance-10.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mp_ranger</span>, <span class='kw'>mp_glm</span>, <span class='kw'>mp_lm</span>)</div><div class='img'><img src='plot.model_performance-11.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mp_ranger</span>, <span class='kw'>mp_glm</span>, <span class='kw'>mp_lm</span>, geom = <span class='st'>"boxplot"</span>)</div><div class='img'><img src='plot.model_performance-12.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mp_ranger</span>, <span class='kw'>mp_glm</span>, <span class='kw'>mp_lm</span>, geom = <span class='st'>"boxplot"</span>, show_outliers = <span class='fl'>1</span>)</div><div class='img'><img src='plot.model_performance-13.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

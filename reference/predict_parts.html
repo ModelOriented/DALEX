@@ -167,17 +167,17 @@ From DALEX version 1.0 this function calls the <code><a href='https://rdrr.io/pk
 Find information how to use this function here: <a href='https://pbiecek.github.io/ema/breakDown.html'>https://pbiecek.github.io/ema/breakDown.html</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>predict_parts</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='no'>...</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"break_down"</span>)
+    <pre class="usage"><span class='fu'>predict_parts</span>(<span class='kw'>explainer</span>, <span class='kw'>new_observation</span>, <span class='kw'>...</span>, type = <span class='st'>"break_down"</span>)
 
-<span class='fu'>predict_parts_oscillations</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='no'>...</span>)
+<span class='fu'>predict_parts_oscillations</span>(<span class='kw'>explainer</span>, <span class='kw'>new_observation</span>, <span class='kw'>...</span>)
 
-<span class='fu'>predict_parts_break_down</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='no'>...</span>)
+<span class='fu'>predict_parts_break_down</span>(<span class='kw'>explainer</span>, <span class='kw'>new_observation</span>, <span class='kw'>...</span>)
 
-<span class='fu'>predict_parts_break_down_interactions</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='no'>...</span>)
+<span class='fu'>predict_parts_break_down_interactions</span>(<span class='kw'>explainer</span>, <span class='kw'>new_observation</span>, <span class='kw'>...</span>)
 
-<span class='fu'>predict_parts_shap</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='no'>...</span>)
+<span class='fu'>predict_parts_shap</span>(<span class='kw'>explainer</span>, <span class='kw'>new_observation</span>, <span class='kw'>...</span>)
 
-<span class='fu'>variable_attribution</span>(<span class='no'>explainer</span>, <span class='no'>new_observation</span>, <span class='no'>...</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"break_down"</span>)</pre>
+<span class='fu'>variable_attribution</span>(<span class='kw'>explainer</span>, <span class='kw'>new_observation</span>, <span class='kw'>...</span>, type = <span class='st'>"break_down"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -209,58 +209,59 @@ It's a data frame with calculated average response.</p>
     <p>Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. <a href='https://pbiecek.github.io/ema/'>https://pbiecek.github.io/ema/</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>new_dragon</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>year_of_birth</span> <span class='kw'>=</span> <span class='fl'>200</span>,
-     <span class='kw'>height</span> <span class='kw'>=</span> <span class='fl'>80</span>,
-     <span class='kw'>weight</span> <span class='kw'>=</span> <span class='fl'>12.5</span>,
-     <span class='kw'>scars</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-     <span class='kw'>number_of_lost_teeth</span>  <span class='kw'>=</span> <span class='fl'>5</span>)
+    <pre class="examples"><div class='input'><span class='kw'>new_dragon</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(year_of_birth = <span class='fl'>200</span>,
+     height = <span class='fl'>80</span>,
+     weight = <span class='fl'>12.5</span>,
+     scars = <span class='fl'>0</span>,
+     number_of_lost_teeth  = <span class='fl'>5</span>)
 
-<span class='no'>dragon_lm_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>life_length</span> ~ <span class='no'>year_of_birth</span> + <span class='no'>height</span> +
-                                     <span class='no'>weight</span> + <span class='no'>scars</span> + <span class='no'>number_of_lost_teeth</span>,
-                       <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>)
-<span class='no'>dragon_lm_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>dragon_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>dragons</span>$<span class='no'>year_of_birth</span>,
-                                <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+<span class='kw'>dragon_lm_model4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>life_length</span> <span class='op'>~</span> <span class='kw'>year_of_birth</span> <span class='op'>+</span> <span class='kw'>height</span> <span class='op'>+</span>
+                                     <span class='kw'>weight</span> <span class='op'>+</span> <span class='kw'>scars</span> <span class='op'>+</span> <span class='kw'>number_of_lost_teeth</span>,
+                       data = <span class='kw'>dragons</span>)
+<span class='kw'>dragon_lm_explainer4</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span>(<span class='kw'>dragon_lm_model4</span>, data = <span class='kw'>dragons</span>, y = <span class='kw'>dragons</span><span class='op'>$</span><span class='kw'>year_of_birth</span>,
+                                label = <span class='st'>"model_4v"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  model_4v 
 #&gt;   -&gt; data              :  2000  rows  8  cols 
 #&gt;   -&gt; target variable   :  2000  values 
 #&gt;   -&gt; predict function  :  yhat.lm  will be used ( <span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  541.1056 , mean =  1370.986 , max =  3928.189  
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.0 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -5421.316 , mean =  -1450.523 , max =  1176.912  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>dragon_lm_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>predict_parts_break_down</span>(<span class='no'>dragon_lm_explainer4</span>,
-                <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>dragon_lm_predict4</span>)</div><div class='output co'>#&gt;                                    contribution
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>dragon_lm_predict4</span> <span class='op'>&lt;-</span> <span class='fu'>predict_parts_break_down</span>(<span class='kw'>dragon_lm_explainer4</span>,
+                new_observation = <span class='kw'>new_dragon</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>dragon_lm_predict4</span>)</div><div class='output co'>#&gt;                                    contribution
 #&gt; model_4v: intercept                    1370.986
 #&gt; model_4v: scars = 0                    -397.300
 #&gt; model_4v: number_of_lost_teeth = 5     -302.277
 #&gt; model_4v: height = 80                    -9.734
 #&gt; model_4v: year_of_birth = 200            -6.639
-#&gt; model_4v: weight = 12.5                  -0.973</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>dragon_lm_predict4</span>)</div><div class='img'><img src='predict_parts-1.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; model_4v: weight = 12.5                  -0.973</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>dragon_lm_predict4</span>)</div><div class='img'><img src='predict_parts-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># \dontrun{</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
-<span class='no'>dragon_ranger_model4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>life_length</span> ~ <span class='no'>year_of_birth</span> + <span class='no'>height</span> +
-                                               <span class='no'>weight</span> + <span class='no'>scars</span> + <span class='no'>number_of_lost_teeth</span>,
-                                 <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>50</span>)
-<span class='no'>dragon_ranger_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>dragon_ranger_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dragons</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>dragons</span>$<span class='no'>year_of_birth</span>,
-                                <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_ranger"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/imbs-hl/ranger'>"ranger"</a></span>)
+<span class='kw'>dragon_ranger_model4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>life_length</span> <span class='op'>~</span> <span class='kw'>year_of_birth</span> <span class='op'>+</span> <span class='kw'>height</span> <span class='op'>+</span>
+                                               <span class='kw'>weight</span> <span class='op'>+</span> <span class='kw'>scars</span> <span class='op'>+</span> <span class='kw'>number_of_lost_teeth</span>,
+                                 data = <span class='kw'>dragons</span>, num.trees = <span class='fl'>50</span>)
+<span class='kw'>dragon_ranger_explainer4</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span>(<span class='kw'>dragon_ranger_model4</span>, data = <span class='kw'>dragons</span>, y = <span class='kw'>dragons</span><span class='op'>$</span><span class='kw'>year_of_birth</span>,
+                                label = <span class='st'>"model_ranger"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  model_ranger 
 #&gt;   -&gt; data              :  2000  rows  8  cols 
 #&gt;   -&gt; target variable   :  2000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  587.0422 , mean =  1369.233 , max =  3422.757  
+#&gt;   -&gt; predicted values  :  numerical, min =  593.2601 , mean =  1369.246 , max =  3445.788  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -4993.757 , mean =  -1448.77 , max =  1036.165  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>dragon_ranger_predict4</span> <span class='kw'>&lt;-</span> <span class='fu'>predict_parts_break_down</span>(<span class='no'>dragon_ranger_explainer4</span>,
-                                                          <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>dragon_ranger_predict4</span>)</div><div class='output co'>#&gt;                                        contribution
-#&gt; model_ranger: intercept                    1369.233
-#&gt; model_ranger: scars = 0                    -346.437
-#&gt; model_ranger: number_of_lost_teeth = 5     -301.967
-#&gt; model_ranger: height = 80                    31.319
-#&gt; model_ranger: year_of_birth = 200            21.162
-#&gt; model_ranger: weight = 12.5                   8.270</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>dragon_ranger_predict4</span>)</div><div class='img'><img src='predict_parts-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span></div></span></pre>
+#&gt;   -&gt; residuals         :  numerical, min =  -5016.788 , mean =  -1448.784 , max =  1010.054  
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>dragon_ranger_predict4</span> <span class='op'>&lt;-</span> <span class='fu'>predict_parts_break_down</span>(<span class='kw'>dragon_ranger_explainer4</span>,
+                                                          new_observation = <span class='kw'>new_dragon</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>dragon_ranger_predict4</span>)</div><div class='output co'>#&gt;                                        contribution
+#&gt; model_ranger: intercept                    1369.246
+#&gt; model_ranger: scars = 0                    -344.511
+#&gt; model_ranger: number_of_lost_teeth = 5     -310.026
+#&gt; model_ranger: height = 80                    34.022
+#&gt; model_ranger: year_of_birth = 200            -9.785
+#&gt; model_ranger: weight = 12.5                   4.098</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>dragon_ranger_predict4</span>)</div><div class='img'><img src='predict_parts-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

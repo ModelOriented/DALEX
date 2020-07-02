@@ -160,7 +160,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for model_performance</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>x</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -178,34 +178,35 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'> <span class='co'># \dontrun{</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
-<span class='no'>titanic_ranger_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>survived</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-                               <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/imbs-hl/ranger'>"ranger"</a></span>)
+<span class='kw'>titanic_ranger_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>survived</span><span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>titanic_imputed</span>, num.trees = <span class='fl'>100</span>,
+                               probability = <span class='fl'>TRUE</span>)
 <span class='co'># It's a good practice to pass data without target variable</span>
-<span class='no'>explainer_ranger</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>titanic_ranger_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[,-<span class='fl'>8</span>],
-                             <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>$<span class='no'>survived</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+<span class='kw'>explainer_ranger</span>  <span class='op'>&lt;-</span> <span class='fu'>explain</span>(<span class='kw'>titanic_ranger_model</span>, data = <span class='kw'>titanic_imputed</span>[,<span class='op'>-</span><span class='fl'>8</span>],
+                             y = <span class='kw'>titanic_imputed</span><span class='op'>$</span><span class='kw'>survived</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( <span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  2207  rows  7  cols 
 #&gt;   -&gt; target variable   :  2207  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.01737826 , mean =  0.3225137 , max =  0.9925886  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.01385665 , mean =  0.3230004 , max =  0.9895265  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8060477 , mean =  -0.0003569126 , max =  0.8984978  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8112348 , mean =  -0.0008436076 , max =  0.8896464  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='co'># resulting dataframe has predicted values and residuals</span>
-<span class='no'>mp_ex_rn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_ranger</span>)
-<span class='no'>mp_ex_rn</span></div><div class='output co'>#&gt; Measures for:  classification
-#&gt; recall     : 0.5935302 
-#&gt; precision  : 0.8921776 
-#&gt; f1         : 0.7128378 
-#&gt; accuracy   : 0.8459447 
-#&gt; auc        : 0.8999442
+<span class='kw'>mp_ex_rn</span> <span class='op'>&lt;-</span> <span class='fu'>model_performance</span>(<span class='kw'>explainer_ranger</span>)
+<span class='kw'>mp_ex_rn</span></div><div class='output co'>#&gt; Measures for:  classification
+#&gt; recall     : 0.6005626 
+#&gt; precision  : 0.8989474 
+#&gt; f1         : 0.7200675 
+#&gt; accuracy   : 0.8495696 
+#&gt; auc        : 0.9041194
 #&gt; 
 #&gt; Residuals:
 #&gt;          0%         10%         20%         30%         40%         50% 
-#&gt; -0.80604774 -0.25185982 -0.20388902 -0.18140360 -0.16461845 -0.12378093 
+#&gt; -0.81123477 -0.24389164 -0.20560637 -0.18121953 -0.16448465 -0.12613442 
 #&gt;         60%         70%         80%         90%        100% 
-#&gt; -0.08959445  0.02891658  0.23080012  0.57689805  0.89849784 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ex_rn</span>)</div><div class='img'><img src='print.model_performance-1.png' alt='' width='700' height='433' /></div><div class='input'> <span class='co'># }</span></div></span></pre>
+#&gt; -0.09092585  0.02571324  0.22707254  0.59221579  0.88964643 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mp_ex_rn</span>)</div><div class='img'><img src='print.model_performance-1.png' alt='' width='700' height='433' /></div><div class='input'> <span class='co'># }</span>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

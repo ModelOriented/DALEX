@@ -166,28 +166,28 @@ The <code>variable_profile</code> function is a copy of <code>model_profile</cod
     </div>
 
     <pre class="usage"><span class='fu'>model_profile</span>(
-  <span class='no'>explainer</span>,
-  <span class='kw'>variables</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>k</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>center</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"partial"</span>
+  <span class='kw'>explainer</span>,
+  variables = <span class='kw'>NULL</span>,
+  N = <span class='fl'>100</span>,
+  <span class='kw'>...</span>,
+  groups = <span class='kw'>NULL</span>,
+  k = <span class='kw'>NULL</span>,
+  center = <span class='fl'>TRUE</span>,
+  type = <span class='st'>"partial"</span>
 )
 
 <span class='fu'>variable_profile</span>(
-  <span class='no'>explainer</span>,
-  <span class='kw'>variables</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>k</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>center</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"partial"</span>
+  <span class='kw'>explainer</span>,
+  variables = <span class='kw'>NULL</span>,
+  N = <span class='fl'>100</span>,
+  <span class='kw'>...</span>,
+  groups = <span class='kw'>NULL</span>,
+  k = <span class='kw'>NULL</span>,
+  center = <span class='fl'>TRUE</span>,
+  type = <span class='st'>"partial"</span>
 )
 
-<span class='fu'>single_variable</span>(<span class='no'>explainer</span>, <span class='no'>variable</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pdp"</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>single_variable</span>(<span class='kw'>explainer</span>, <span class='kw'>variable</span>, type = <span class='st'>"pdp"</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -237,46 +237,47 @@ By default <code>NULL</code> which means that no groups shall be calculated</p><
 It's a data frame with calculated average model responses.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Underneath this function calls the <code><a href='https://rdrr.io/pkg/ingredients/man/partial_dependence.html'>partial_dependency</a></code> or
-<code><a href='https://rdrr.io/pkg/ingredients/man/accumulated_dependence.html'>accumulated_dependency</a></code> functions from the <code>ingredients</code> package.</p>
+    <p>Underneath this function calls the <code><a href='https://rdrr.io/pkg/ingredients/man/partial_dependence.html'>partial_dependence</a></code> or
+<code><a href='https://rdrr.io/pkg/ingredients/man/accumulated_dependence.html'>accumulated_dependence</a></code> functions from the <code>ingredients</code> package.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. <a href='https://pbiecek.github.io/ema/'>https://pbiecek.github.io/ema/</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>titanic_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>survived</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
-<span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>titanic_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+    <pre class="examples"><div class='input'><span class='kw'>titanic_glm_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='kw'>survived</span><span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>titanic_imputed</span>, family = <span class='st'>"binomial"</span>)
+<span class='kw'>explainer_glm</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span>(<span class='kw'>titanic_glm_model</span>, data = <span class='kw'>titanic_imputed</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  2207  rows  8  cols 
 #&gt;   -&gt; target variable   :  not specified! ( </span><span style='color: #BB0000;'> WARNING </span><span> )
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  0.008128381 , mean =  0.3221568 , max =  0.9731431  
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.0 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>expl_glm</span> <span class='kw'>&lt;-</span> <span class='fu'>model_profile</span>(<span class='no'>explainer_glm</span>, <span class='st'>"fare"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>expl_glm</span>)</div><div class='img'><img src='model_profile-1.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>expl_glm</span> <span class='op'>&lt;-</span> <span class='fu'>model_profile</span>(<span class='kw'>explainer_glm</span>, <span class='st'>"fare"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>expl_glm</span>)</div><div class='img'><img src='model_profile-1.png' alt='' width='700' height='433' /></div><div class='input'>
  <span class='co'># \dontrun{</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
-<span class='no'>titanic_ranger_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>survived</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>50</span>,
-                               <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>explainer_ranger</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>titanic_ranger_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/imbs-hl/ranger'>"ranger"</a></span>)
+<span class='kw'>titanic_ranger_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>survived</span><span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>titanic_imputed</span>, num.trees = <span class='fl'>50</span>,
+                               probability = <span class='fl'>TRUE</span>)
+<span class='kw'>explainer_ranger</span>  <span class='op'>&lt;-</span> <span class='fu'>explain</span>(<span class='kw'>titanic_ranger_model</span>, data = <span class='kw'>titanic_imputed</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  2207  rows  8  cols 
 #&gt;   -&gt; target variable   :  not specified! ( </span><span style='color: #BB0000;'> WARNING </span><span> )
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.005981352 , mean =  0.3226603 , max =  0.9993502  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.01096528 , mean =  0.323815 , max =  0.9973419  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>expl_ranger</span> <span class='kw'>&lt;-</span> <span class='fu'>model_profile</span>(<span class='no'>explainer_ranger</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>expl_ranger</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"profiles"</span>)</div><div class='img'><img src='model_profile-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>vp_ra</span> <span class='kw'>&lt;-</span> <span class='fu'>model_profile</span>(<span class='no'>explainer_ranger</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"partial"</span>, <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"age"</span>, <span class='st'>"fare"</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>vp_ra</span>, <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"age"</span>, <span class='st'>"fare"</span>), <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"points"</span>)</div><div class='img'><img src='model_profile-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>vp_ra</span> <span class='kw'>&lt;-</span> <span class='fu'>model_profile</span>(<span class='no'>explainer_ranger</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"partial"</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>3</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>vp_ra</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"profiles"</span>)</div><div class='img'><img src='model_profile-4.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>vp_ra</span> <span class='kw'>&lt;-</span> <span class='fu'>model_profile</span>(<span class='no'>explainer_ranger</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"partial"</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='st'>"gender"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>vp_ra</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"profiles"</span>)</div><div class='img'><img src='model_profile-5.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>vp_ra</span> <span class='kw'>&lt;-</span> <span class='fu'>model_profile</span>(<span class='no'>explainer_ranger</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"accumulated"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>vp_ra</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"profiles"</span>)</div><div class='img'><img src='model_profile-6.png' alt='' width='700' height='433' /></div><div class='input'> <span class='co'># }</span></div></span></pre>
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>expl_ranger</span> <span class='op'>&lt;-</span> <span class='fu'>model_profile</span>(<span class='kw'>explainer_ranger</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>expl_ranger</span>, geom = <span class='st'>"profiles"</span>)</div><div class='img'><img src='model_profile-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>vp_ra</span> <span class='op'>&lt;-</span> <span class='fu'>model_profile</span>(<span class='kw'>explainer_ranger</span>, type = <span class='st'>"partial"</span>, variables = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"age"</span>, <span class='st'>"fare"</span>))
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>vp_ra</span>, variables = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"age"</span>, <span class='st'>"fare"</span>), geom = <span class='st'>"points"</span>)</div><div class='img'><img src='model_profile-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>vp_ra</span> <span class='op'>&lt;-</span> <span class='fu'>model_profile</span>(<span class='kw'>explainer_ranger</span>, type = <span class='st'>"partial"</span>, k = <span class='fl'>3</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>vp_ra</span>, geom = <span class='st'>"profiles"</span>)</div><div class='img'><img src='model_profile-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>vp_ra</span> <span class='op'>&lt;-</span> <span class='fu'>model_profile</span>(<span class='kw'>explainer_ranger</span>, type = <span class='st'>"partial"</span>, groups = <span class='st'>"gender"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>vp_ra</span>, geom = <span class='st'>"profiles"</span>)</div><div class='img'><img src='model_profile-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>vp_ra</span> <span class='op'>&lt;-</span> <span class='fu'>model_profile</span>(<span class='kw'>explainer_ranger</span>, type = <span class='st'>"accumulated"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>vp_ra</span>, geom = <span class='st'>"profiles"</span>)</div><div class='img'><img src='model_profile-6.png' alt='' width='700' height='433' /></div><div class='input'> <span class='co'># }</span>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
