@@ -6,6 +6,7 @@ DALEX 1.3.0
 * Remove `ggpubr` from suggests.
 * `lossFunction` argument is now deprecated in `plot.model_performance()`. Use the `loss_function` argument.
 * `model_profile` color changed to `colors_discrete_drwhy(1)` which impacts the color of the line in `plot.model_profile` 
+* `loss_name` attribute added to loss functions. It will be passed to plot function for objects created with `model_parts`.
 
 DALEX 1.2.1
 ----------------------------------------------------------------

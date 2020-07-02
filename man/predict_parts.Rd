@@ -39,7 +39,7 @@ It's a data frame with calculated average response.
 Instance Level Variable Attributions as Break Down or SHAP Explanations.
 Model prediction is decomposed into parts that are attributed for particular variables.
 From DALEX version 1.0 this function calls the \code{\link[iBreakDown]{break_down}} or
-\code{\link[iBreakDown]{shap}} functions from the \code{iBreakDown} package.
+\code{\link[iBreakDown]{break_down_uncertainty}} functions from the \code{iBreakDown} package.
 Find information how to use this function here: \url{https://pbiecek.github.io/ema/breakDown.html}.
 }
 \examples{
