@@ -27,8 +27,8 @@ An object of the class 'aggregated_profiles_explainer'.
 It's a data frame with calculated average response.
 }
 \description{
-From DALEX version 1.0 this function calls the \code{\link[ingredients]{accumulated_dependency}} or
-\code{\link[ingredients]{partial_dependency}} from the \code{ingredients} package.
+From DALEX version 1.0 this function calls the \code{\link[ingredients]{accumulated_dependence}} or
+\code{\link[ingredients]{partial_dependence}} from the \code{ingredients} package.
 Find information how to use this function here: \url{https://pbiecek.github.io/ema/partialDependenceProfiles.html}.
 }
 \examples{

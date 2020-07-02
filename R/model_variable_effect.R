@@ -1,7 +1,7 @@
 #' Dataset Level Variable Effect as Partial Dependency Profile or Accumulated Local Effects
 #'
-#' From DALEX version 1.0 this function calls the \code{\link[ingredients]{accumulated_dependency}} or
-#' \code{\link[ingredients]{partial_dependency}} from the \code{ingredients} package.
+#' From DALEX version 1.0 this function calls the \code{\link[ingredients]{accumulated_dependence}} or
+#' \code{\link[ingredients]{partial_dependence}} from the \code{ingredients} package.
 #' Find information how to use this function here: \url{https://pbiecek.github.io/ema/partialDependenceProfiles.html}.
 #'
 #' @param explainer a model to be explained, preprocessed by the 'explain' function
