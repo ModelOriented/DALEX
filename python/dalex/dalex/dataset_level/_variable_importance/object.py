@@ -103,6 +103,8 @@ class VariableImportance:
         if objects is None:
             n = 1
             _result_df = self.result.copy()
+            if split is 'variable':  # force split by model if only one explainer
+                split = 'model'
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             n = 2
             _result_df = pd.concat([self.result.copy(), objects.result.copy()])
