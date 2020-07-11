@@ -276,3 +276,12 @@ def check_model_class(model_class, model_info, model, verbose):
         verbose_cat("  -> model_class       : " + model_class, verbose=verbose)
 
     return model_class, model_info
+
+
+def check_loss_function(explainer, loss_function):
+    if loss_function is not None or explainer.model_type is None:  # user passed a function or type is not known
+        return loss_function
+    elif explainer.model_type == 'regression':
+        return 'rmse'
+    elif explainer.model_type == 'classification':
+        return '1-auc'

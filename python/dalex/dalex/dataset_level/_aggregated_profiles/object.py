@@ -49,7 +49,8 @@ class AggregatedProfiles:
         self.random_state = random_state
 
     def fit(self,
-            ceteris_paribus):
+            ceteris_paribus,
+            disable=False):
 
         # are there any other cp?
         from dalex.instance_level import CeterisParibus
@@ -79,7 +80,7 @@ class AggregatedProfiles:
         all_profiles = create_x(all_profiles, self.variable_type)
 
         self.result = aggregate_profiles(all_profiles, self.type, self.groups, self.intercept,
-                                         self.span)
+                                         self.span, disable)
 
         self.mean_prediction = all_observations['_yhat_'].mean()
 

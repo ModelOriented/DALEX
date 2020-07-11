@@ -1,3 +1,11 @@
+dalex (development)
+----------------------------------------------------------------
+* *fix:* `vertical_spacing` in `VariableImportance.plot` where `split='variable'`
+* *feature:* added `disable` parameter where `tqdm` is used to verbose progress bar
+* *feature:* added `loss_one_minus_auc` function that can be used with `loss_function='1-auc'` in `model_parts`,
+* *defaults:* use different `loss_function` for classification and regression ([#248](https://github.com/ModelOriented/DALEX/issues/248))
+* *fix:* `loss_function='auc'` now uses `loss_one_minus_auc` as this should be a descending measure
+
 dalex 0.1.9
 ----------------------------------------------------------------
 * *feature:* added `random_state` parameter for `SHAP` and `model_profile` for reproducible calculations

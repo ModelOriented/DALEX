@@ -20,7 +20,7 @@ class VariableImportance:
         """
         Calculate feature importance of the model
 
-        :param loss_function: a function that will be used to assess variable importance
+        :param loss_function: str or a function that will be used to assess variable importance, e.g. 'rmse' or '1-auc'
         :param type: 'variable_importance'/'ratio'/'difference' type of transformation that should be applied for dropout loss
         :param N: number of observations that should be sampled for calculation of variable importance
         :param B: number of permutation rounds to perform on each variable
@@ -214,10 +214,13 @@ class VariableImportance:
             n = len(df_list)
             if max_vars is not None and max_vars < n:
                 n = max_vars
-
+            
+            if vertical_spacing is None:
+                vertical_spacing = 0.2 / n
+            
             # init plot
             variable_names = perm[0:n]
-            fig = make_subplots(rows=n, cols=1, shared_xaxes=True, vertical_spacing=0.1, x_title='drop-out loss',
+            fig = make_subplots(rows=n, cols=1, shared_xaxes=True, vertical_spacing=vertical_spacing, x_title='drop-out loss',
                                 subplot_titles=variable_names)
 
             df_dict = {e.variable.array[0]: e for e in df_list}
