@@ -4,6 +4,7 @@ dalex (development)
 * *feature:* added `disable` parameter where `tqdm` is used to verbose progress bar
 * *feature:* added `loss_one_minus_auc` function that can be used with `loss_function='1-auc'` in `model_parts`,
 * *defaults:* use different `loss_function` for classification and regression ([#248](https://github.com/ModelOriented/DALEX/issues/248))
+* *defaults:* models that use default `proba` yhats now use `model_type='classification'` by default if not specified
 * *fix:* `loss_function='auc'` now uses `loss_one_minus_auc` as this should be a descending measure
 
 dalex 0.1.9

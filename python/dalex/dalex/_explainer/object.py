@@ -80,15 +80,17 @@ class Explainer:
         label, model_info_ = check_label(label, model_class, model_info_, verbose)
 
         # REPORT: checks for predict_function
-        predict_function, pred, model_info_ = check_predict_function(predict_function, model, data, model_class,
-                                                                     model_info_, precalculate, verbose)
+        predict_function, pred, model_info_, model_type_ = check_predict_function(predict_function, model, data,
+                                                                                  model_class, model_info_,
+                                                                                  precalculate, verbose)
 
+        model_type = check_model_type(model_type, model_type_)
         # if data is specified then we may test predict_function
         # at this moment we have predict function
 
         # REPORT: checks for residual_function
-        residual_function, residuals, model_info_ = check_residual_function(residual_function, predict_function, model,
-                                                                            data, y,
+        residual_function, residuals, model_info_ = check_residual_function(residual_function, predict_function,
+                                                                            model, data, y,
                                                                             model_info_, precalculate, verbose)
 
         model_info = check_model_info(model_info, model_info_, verbose)
