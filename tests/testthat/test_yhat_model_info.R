@@ -11,6 +11,7 @@ titanic_imputed_cut <- titanic_imputed[1:100,]
 apartments_cut <- apartments[1:100,]
 
 test_that("randomForest", {
+  skip_on_cran()
   #skip_if_no_codecov()
   # model_classif_rf <- randomForest(as.factor(survived)~., data = titanic_imputed_cut, num.trees = 50, probability = TRUE)
   # model_regr_rf <- randomForest(m2.price~., data = apartments_cut, num.trees = 50)
@@ -39,6 +40,7 @@ test_that("randomForest", {
 })
 
 test_that("svm", {
+  skip_on_cran()
   #skip_if_no_codecov()
   # model_classif_svm <- svm(as.factor(survived)~., data = titanic_imputed_cut, num.trees = 50, probability = TRUE)
   # model_regr_svm <- svm(m2.price~., data = apartments_cut, num.trees = 50)
@@ -67,6 +69,7 @@ test_that("svm", {
 })
 
 test_that("gbm", {
+  skip_on_cran()
   #skip_if_no_codecov()
   # model_classif_gbm <- gbm(as.factor(survived)~., data = titanic_imputed_cut, distribution = "bernoulli",
   #                          n.trees = 50)
@@ -91,6 +94,7 @@ test_that("gbm", {
 })
 
 test_that("glmnet and cvglmnet", {
+  skip_on_cran()
   #skip_if_no_codecov()
   # model_regr_glm <- glmnet(matrix(rnorm(100 * 20), 100, 20), rnorm(100))
   # model_classif_glm_bin <- glmnet(matrix(rnorm(100 * 20), 100, 20), as.factor(round(runif(100))), family = "binomial")
@@ -139,6 +143,7 @@ test_that("glmnet and cvglmnet", {
 })
 
 test_that("parsnip", {
+  skip_on_cran()
   #skip_if_no_codecov()
   # parsnip_regr <- svm_rbf(mode = "regression", rbf_sigma = 0.2)
   # parsnip_regr <- set_engine(parsnip_regr, "kernlab")
@@ -171,6 +176,7 @@ test_that("parsnip", {
 })
 
 test_that("caret", {
+  skip_on_cran()
   #skip_if_no_codecov()
   # caret_regr <- train(m2.price~., data = apartments_cut, method="rf", ntree = 50)
   # caret_regr_lm <- train(m2.price~., data = apartments_cut, method="lm")
@@ -222,6 +228,7 @@ test_that("glm", {
 })
 
 test_that("rpart", {
+  skip_on_cran()
   #skip_if_no_codecov()
   # model_classif_rpart <- rpart(as.factor(survived)~., data = titanic_imputed_cut)
   # model_regr_rpart <- rpart(m2.price~., data = apartments_cut)
@@ -246,6 +253,7 @@ test_that("rpart", {
 })
 
 test_that("yhat default", {
+  skip_on_cran()
   #skip_if_no_codecov()
   # model_classif_rpart <- rpart(as.factor(survived)~., data = titanic_imputed_cut)
   # model_regr_rpart <- rpart(m2.price~., data = apartments_cut)

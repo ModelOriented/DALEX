@@ -95,12 +95,14 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_github("ModelOriented/ingredients")
           remotes::install_github("ModelOriented/iBreakDown")
-          remotes::install_cran("rcmdcheck")
+          remotes::install_cran(c("rcmdcheck", "glmnet", "parsnip", "ranger", "randomForest", "e1071", "caret", "gbm", "rms", "rpart"))
         shell: Rscript {0}
 
       - name: Check
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran", "--run-donttest", "--run-dontrun"),
-                                  build_args = "--compact-vignettes=no", error_on = "warning", check_dir = "check")
+        run: |
+          Sys.setenv(NOT_CRAN = "true")
+          rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran", "--run-donttest", "--run-dontrun"),
+                               build_args = "--compact-vignettes=no", error_on = "warning", check_dir = "check")
         shell: Rscript {0}
 
       - name: Upload check results

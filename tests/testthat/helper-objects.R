@@ -4,8 +4,9 @@ assign("message_prediction_breakdown", value = TRUE, envir = DALEX:::.DALEX.env)
 assign("message_partial_dependency", value = TRUE, envir = DALEX:::.DALEX.env)
 assign("message_accumulated_dependency", value = TRUE, envir = DALEX:::.DALEX.env)
 
-library("ranger")
+
 library("DALEX")
+library("ranger")
 
 # models
 model_classif_glm <- glm(status == "fired"~., data = HR, family = "binomial")
