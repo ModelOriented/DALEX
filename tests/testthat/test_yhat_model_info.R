@@ -144,9 +144,7 @@ test_that("glmnet and cvglmnet", {
 
 test_that("parsnip", {
   skip_on_cran()
-  if (!"kernlab" %in% installed.packages()[,1]) {
-    stop("kernlab package is necessory for tests")
-  }
+  message("kernlab package is necessory for local tests")
   #skip_if_no_codecov()
   # parsnip_regr <- svm_rbf(mode = "regression", rbf_sigma = 0.2)
   # parsnip_regr <- set_engine(parsnip_regr, "kernlab")
