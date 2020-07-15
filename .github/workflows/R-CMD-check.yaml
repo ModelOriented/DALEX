@@ -95,7 +95,7 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_github("ModelOriented/ingredients")
           remotes::install_github("ModelOriented/iBreakDown")
-          remotes::install_cran(c("rcmdcheck", "glmnet", "parsnip", "ranger", "randomForest", "e1071", "caret", "gbm", "rms", "rpart"))
+          remotes::install_cran(c("rcmdcheck", "glmnet", "parsnip", "ranger", "randomForest", "e1071", "caret", "gbm", "rms", "rpart", "kernlab"))
         shell: Rscript {0}
 
       - name: Check
