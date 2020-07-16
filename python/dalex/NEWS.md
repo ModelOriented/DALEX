@@ -1,3 +1,7 @@
+dalex (development)
+----------------------------------------------------------------
+* *feature:* added new example data sets: `apartments`, `dragons` and `hr`
+
 dalex 0.1.9
 ----------------------------------------------------------------
 * *feature:* added `random_state` parameter for `SHAP` and `model_profile` for reproducible calculations
