@@ -23,7 +23,7 @@
 #'  \item{baseline}{if numeric then veritical line starts in \code{baseline}.}
 #'  \item{title}{a character. Plot title. By default \code{"Break Down profile"}.}
 #'  \item{subtitle}{a character. Plot subtitle. By default \code{NULL} - then subtitle is set to "created for the XXX, YYY model",
-#' where XXX, YYY are labels of given explainers.}
+#'        where XXX, YYY are labels of given explainers.}
 #'  \item{max_vars}{alias for the \code{max_features} parameter.}
 #' }
 #' }
@@ -35,8 +35,14 @@
 #'  \item{max_vars}{alias for the \code{max_features} parameter.}
 #' }
 #' }
+#' \subsection{oscillations}{
+#' \itemize{
+#'  \item{bar_width}{width of bars. By default \code{10}}
+#' }
+#' }
+#'
 #' @export
 plot.predict_parts <- function(x, ...) {
-  class(x)[1] <- NULL
+  class(x) <- class(x)[-1]
   plot(x)
 }

@@ -36,7 +36,7 @@ Plot Variable Attribution Explanations
  \item{baseline}{if numeric then veritical line starts in \code{baseline}.}
  \item{title}{a character. Plot title. By default \code{"Break Down profile"}.}
  \item{subtitle}{a character. Plot subtitle. By default \code{NULL} - then subtitle is set to "created for the XXX, YYY model",
-where XXX, YYY are labels of given explainers.}
+       where XXX, YYY are labels of given explainers.}
  \item{max_vars}{alias for the \code{max_features} parameter.}
 }
 }
@@ -46,6 +46,11 @@ where XXX, YYY are labels of given explainers.}
  \item{vcolors}{If \code{NA} (default), DrWhy colors are used.}
  \item{max_features}{maximal number of features to be included in the plot. default value is \code{10}}
  \item{max_vars}{alias for the \code{max_features} parameter.}
+}
+}
+\subsection{oscillations}{
+\itemize{
+ \item{bar_width}{width of bars. By default \code{10}}
 }
 }
 }

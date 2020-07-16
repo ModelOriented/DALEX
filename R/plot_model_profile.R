@@ -6,6 +6,18 @@
 #'
 #' @return An object of the class \code{ggplot}.
 #'
+#' \subsection{aggregates}{
+#' \itemize{
+#'  \item{color}{a character. Either name of a color or name of a variable that should be used for coloring}
+#'  \item{size}{a numeric. Size of lines to be plotted}
+#'  \item{alpha}{a numeric between \code{0} and \code{1}. Opacity of lines}
+#'  \item{facet_ncol}{number of columns for the \code{\link[ggplot2]{facet_wrap}}}
+#'  \item{variables}{if not \code{NULL} then only \code{variables} will be presented}
+#'  \item{title}{a character. Partial and accumulated dependence explainers have deafult value.}
+#'  \item{subtitle}{a character. If \code{NULL} value will be dependent on model usage.}
+#' }
+#' }
+#'
 #' @examples
 #' titanic_glm_model <- glm(survived~., data = titanic_imputed, family = "binomial")
 #' explainer_glm <- explain(titanic_glm_model, data = titanic_imputed)

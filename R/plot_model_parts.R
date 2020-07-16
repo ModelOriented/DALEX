@@ -21,6 +21,6 @@
 #'
 #' @export
 plot.model_parts <- function(x, ...) {
-  class(x)[1] <- NULL
+  class(x) <- class(x)[-1]
   plot(x)
 }

@@ -37,7 +37,7 @@ From DALEX version 1.0 this function calls the \code{\link[ingredients]{feature_
 Find information how to use this function here: \url{https://pbiecek.github.io/ema/featureImportance.html}.
 }
 \examples{
- \dontrun{
+\dontrun{
 library("ranger")
 titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 50,
                                probability = TRUE)
@@ -56,7 +56,7 @@ vi_glm <- model_parts(explainer_glm, type = "raw",
                                      sum((observed - logit(predicted))^2))
 head(vi_glm, 8)
 plot(vi_glm)
- }
+}
 
 }
 \references{

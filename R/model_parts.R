@@ -15,11 +15,13 @@
 #' It's a data frame with calculated average response.
 #'
 #' @aliases variable_importance feature_importance model_parts
+#'
 #' @import ggplot2
 #' @importFrom stats model.frame reorder
 #' @export
+#'
 #' @examples
-#'  \dontrun{
+#' \dontrun{
 #' library("ranger")
 #' titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 50,
 #'                                probability = TRUE)
@@ -38,7 +40,7 @@
 #'                                      sum((observed - logit(predicted))^2))
 #' head(vi_glm, 8)
 #' plot(vi_glm)
-#'  }
+#'}
 #'
 model_parts <- function(explainer,
                               loss_function = loss_default(explainer$model_info$type),
