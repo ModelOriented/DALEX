@@ -7,12 +7,12 @@
 \method{plot}{predict_profile}(x, ...)
 }
 \arguments{
-\item{x}{a model to be explained, preprocessed by the \code{\link{explain}} function}
+\item{x}{an object of the class \code{predict_profile}}
 
 \item{...}{other parameters}
 }
 \value{
-An object of the class \code{variable_profile}.
+An object of the class \code{ggplot}.
 }
 \description{
 Plot Variable Profile Explanations

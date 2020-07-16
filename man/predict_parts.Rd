@@ -23,7 +23,7 @@ predict_parts_shap(explainer, new_observation, ...)
 variable_attribution(explainer, new_observation, ..., type = "break_down")
 }
 \arguments{
-\item{explainer}{a model to be explained, preprocessed by the 'explain' function}
+\item{explainer}{a model to be explained, preprocessed by the \code{explain} function}
 
 \item{new_observation}{a new observarvation for which predictions need to be explained}
 
@@ -43,33 +43,43 @@ From DALEX version 1.0 this function calls the \code{\link[iBreakDown]{break_dow
 Find information how to use this function here: \url{https://pbiecek.github.io/ema/breakDown.html}.
 }
 \examples{
-new_dragon <- data.frame(year_of_birth = 200,
-     height = 80,
-     weight = 12.5,
-     scars = 0,
-     number_of_lost_teeth  = 5)
+library(DALEX)
 
-dragon_lm_model4 <- lm(life_length ~ year_of_birth + height +
-                                     weight + scars + number_of_lost_teeth,
-                       data = dragons)
-dragon_lm_explainer4 <- explain(dragon_lm_model4, data = dragons, y = dragons$year_of_birth,
-                                label = "model_4v")
-dragon_lm_predict4 <- predict_parts_break_down(dragon_lm_explainer4,
-                new_observation = new_dragon)
-head(dragon_lm_predict4)
-plot(dragon_lm_predict4)
+new_dragon <- data.frame(
+    year_of_birth = 200,
+    height = 80,
+    weight = 12.5,
+    scars = 0,
+    number_of_lost_teeth  = 5
+)
+
+model_lm <- lm(life_length ~ year_of_birth + height +
+               weight + scars + number_of_lost_teeth,
+               data = dragons)
+
+explainer_lm <- explain(model_lm,
+                        data = dragons,
+                        y = dragons$year_of_birth,
+                        label = "model_lm")
+
+bd_lm <- predict_parts_break_down(explainer_lm, new_observation = new_dragon)
+head(bd_lm)
+plot(bd_lm)
 
 \dontrun{
 library("ranger")
-dragon_ranger_model4 <- ranger(life_length ~ year_of_birth + height +
-                                               weight + scars + number_of_lost_teeth,
-                                 data = dragons, num.trees = 50)
-dragon_ranger_explainer4 <- explain(dragon_ranger_model4, data = dragons, y = dragons$year_of_birth,
-                                label = "model_ranger")
-dragon_ranger_predict4 <- predict_parts_break_down(dragon_ranger_explainer4,
-                                                          new_observation = new_dragon)
-head(dragon_ranger_predict4)
-plot(dragon_ranger_predict4)
+model_ranger <- ranger(life_length ~ year_of_birth + height +
+                       weight + scars + number_of_lost_teeth,
+                       data = dragons, num.trees = 50)
+
+explainer_ranger <- explain(model_ranger,
+                            data = dragons,
+                            y = dragons$year_of_birth,
+                            label = "model_ranger")
+
+bd_ranger <- predict_parts_break_down(explainer_ranger, new_observation = new_dragon)
+head(bd_ranger)
+plot(bd_ranger)
 }
 
 }

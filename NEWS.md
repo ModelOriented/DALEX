@@ -1,3 +1,9 @@
+DALEX 1.3.1
+----------------------------------------------------------------
+* added `predict_parts` class to objects and `plot.predict_parts` function
+* added `model_parts` class to objects and `plot.model_parts` function
+* plot parameters added to the documentation
+
 DALEX 1.3.0
 ----------------------------------------------------------------
 * `DALEX` now fully supports multiclass classification. 

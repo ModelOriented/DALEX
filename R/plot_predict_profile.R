@@ -1,9 +1,9 @@
 #' Plot Variable Profile Explanations
 #'
-#' @param x a model to be explained, preprocessed by the \code{\link{explain}} function
+#' @param x an object of the class \code{predict_profile}
 #' @param ... other parameters
 #'
-#' @return An object of the class \code{variable_profile}.
+#' @return An object of the class \code{ggplot}.
 #'
 #' @export
 plot.predict_profile <- function(x, ...) {

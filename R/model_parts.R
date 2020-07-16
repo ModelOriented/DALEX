@@ -51,11 +51,13 @@ model_parts <- function(explainer,
   if (!(type %in% c("difference", "ratio", "raw", "variable_importance"))) stop("Type shall be one of 'variable_importance', 'difference', 'ratio', 'raw'")
   if (type == "variable_importance") type <- "raw" #it's an alias
 
-  ingredients::feature_importance(x = explainer,
-                                  loss_function = loss_function,
-                                  type = type,
-                                  N = N,
-                                  ...)
+  res <- ingredients::feature_importance(x = explainer,
+                                         loss_function = loss_function,
+                                         type = type,
+                                         N = N,
+                                         ...)
+  class(res) <- c('model_parts', class(res))
+  res
 }
 #' @export
 feature_importance <- model_parts

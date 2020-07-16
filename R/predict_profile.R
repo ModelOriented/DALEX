@@ -63,7 +63,7 @@ predict_profile <-  function(explainer, new_observation, variables = NULL, ..., 
                                new_observation = new_observation,
                                variables = variables,
                                 ...)
-  class(res) <- c("predict_profile", "ceteris_paribus_explainer", "data.frame")
+  class(res) <- c("predict_profile", class(res))
   res
 }
 
