@@ -59,7 +59,7 @@ def load_apartments():
     abs_dir_path = os.path.dirname(os.path.abspath(__file__))
     abs_datasets_path = os.path.join(abs_dir_path, 'data', 'apartments.csv')
 
-    dataset = pd.read_csv(abs_datasets_path, index_col=0)  # use short_name as index
+    dataset = pd.read_csv(abs_datasets_path, index_col=0, sep=';')
 
     return dataset
 
@@ -79,7 +79,7 @@ def load_apartments_test():
     abs_dir_path = os.path.dirname(os.path.abspath(__file__))
     abs_datasets_path = os.path.join(abs_dir_path, 'data', 'apartments_test.csv')
 
-    dataset = pd.read_csv(abs_datasets_path, index_col=0)  # use short_name as index
+    dataset = pd.read_csv(abs_datasets_path, index_col=0, sep=';')
 
     return dataset
 
@@ -98,7 +98,7 @@ def load_dragons():
     abs_dir_path = os.path.dirname(os.path.abspath(__file__))
     abs_datasets_path = os.path.join(abs_dir_path, 'data', 'dragons.csv')
 
-    dataset = pd.read_csv(abs_datasets_path, index_col=0)  # use short_name as index
+    dataset = pd.read_csv(abs_datasets_path, index_col=0, sep=';')
 
     return dataset
 
@@ -117,7 +117,7 @@ def load_dragons_test():
     abs_dir_path = os.path.dirname(os.path.abspath(__file__))
     abs_datasets_path = os.path.join(abs_dir_path, 'data', 'dragons_test.csv')
 
-    dataset = pd.read_csv(abs_datasets_path, index_col=0)  # use short_name as index
+    dataset = pd.read_csv(abs_datasets_path, index_col=0, sep=';')
 
     return dataset
 
@@ -136,7 +136,7 @@ def load_hr():
     abs_dir_path = os.path.dirname(os.path.abspath(__file__))
     abs_datasets_path = os.path.join(abs_dir_path, 'data', 'hr.csv')
 
-    dataset = pd.read_csv(abs_datasets_path, index_col=0)  # use short_name as index
+    dataset = pd.read_csv(abs_datasets_path, index_col=0, sep=';')
 
     return dataset
 
@@ -155,6 +155,6 @@ def load_hr_test():
     abs_dir_path = os.path.dirname(os.path.abspath(__file__))
     abs_datasets_path = os.path.join(abs_dir_path, 'data', 'hr_test.csv')
 
-    dataset = pd.read_csv(abs_datasets_path, index_col=0)  # use short_name as index
+    dataset = pd.read_csv(abs_datasets_path, index_col=0, sep=';')
 
     return dataset
