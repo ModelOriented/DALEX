@@ -10,7 +10,7 @@ def calculate_ceteris_paribus(explainer,
                               variable_splits,
                               y,
                               processes,
-                              verbose=False):
+                              verbose=True):
     """
     Inner method that calculates ceteris paribus and some additional fields.
 
