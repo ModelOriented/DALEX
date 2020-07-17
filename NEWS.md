@@ -1,3 +1,7 @@
+DALEX 1.3.1
+----------------------------------------------------------------
+* Test were fixed so they will no rise false positive errors on CRAN
+
 DALEX 1.3.0
 ----------------------------------------------------------------
 * `DALEX` now fully supports multiclass classification. 
@@ -12,7 +16,7 @@ DALEX 1.2.1
 ----------------------------------------------------------------
 * fixed tests and WARNINGs on CRAN
 * `model_profile` for Accumulated Local rofiles by default use centering (`center = TRUE`)
-  * deprecate `n_sample` argument in `model_parts` (now it's `N`) ([#175](https://github.com/ModelOriented/DALEX/issues/175))
+* deprecate `n_sample` argument in `model_parts` (now it's `N`) ([#175](https://github.com/ModelOriented/DALEX/issues/175))
 
 DALEX 1.2.0
 ----------------------------------------------------------------

@@ -6,6 +6,7 @@ dalex (development)
 * *defaults:* use different `loss_function` for classification and regression ([#248](https://github.com/ModelOriented/DALEX/issues/248))
 * *defaults:* models that use `proba` yhats now get `model_type='classification'` if it's not specified
 * *fix:* `loss_function='auc'` now uses `loss_one_minus_auc` as this should be a descending measure
+* *feature:* added new example data sets: `apartments`, `dragons` and `hr`
 
 dalex 0.1.9
 ----------------------------------------------------------------
