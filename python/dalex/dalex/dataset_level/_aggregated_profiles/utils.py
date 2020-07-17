@@ -3,15 +3,15 @@ import pandas as pd
 from tqdm import tqdm
 
 
-def aggregate_profiles(all_profiles, type, groups, intercept, span, verbose=False):
+def aggregate_profiles(all_profiles, type, groups, intercept, span, verbose=True):
     if type == 'partial':
         aggregated_profiles = \
             all_profiles.groupby(['_vname_', '_label_', '_x_'] + groups)['_yhat_'].mean().reset_index()
 
     else:
         # split all_profiles into groups
-        tqdm.pandas(desc='Calculating accumulated dependency', disable=verbose) if type == 'accumulated' else tqdm.pandas(
-            desc="Calculating conditional dependency", disable=verbose)
+        tqdm.pandas(desc='Calculating accumulated dependency', disable=not verbose) if type == 'accumulated' else tqdm.pandas(
+            desc="Calculating conditional dependency", disable=not verbose)
         aggregated_profiles = \
             all_profiles. \
                 loc[:, ["_vname_", "_label_", "_x_", "_yhat_", "_ids_", "_original_"] + groups]. \

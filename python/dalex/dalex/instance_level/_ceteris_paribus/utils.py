@@ -48,7 +48,7 @@ def calculate_variable_profile(predict_function,
                                data,
                                variable_splits,
                                processes,
-                               verbose=False):
+                               verbose=True):
     """
     Inner function that calculates ceteris paribus for all variables.
 
@@ -60,7 +60,7 @@ def calculate_variable_profile(predict_function,
 
     if processes == 1:
         profile = []
-        for variable in tqdm(variable_splits, desc="Calculating ceteris paribus", disable=verbose):
+        for variable in tqdm(variable_splits, desc="Calculating ceteris paribus", disable=not verbose):
             split_points = variable_splits[variable]
             profile.append(single_variable_profile(predict_function, model, data, variable, split_points))
     else:

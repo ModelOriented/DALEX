@@ -191,7 +191,7 @@ class Explainer:
                         grid_points=101,
                         variable_splits=None,
                         processes=1,
-                        verbose=False):
+                        verbose=True):
 
         """Creates CeterisParibus object
 
@@ -202,7 +202,7 @@ class Explainer:
         :param grid_points: number of points in a single variable split if calculated automatically
         :param variable_splits: mapping of variables into points the profile will be calculated, if None then calculate with the function `_calculate_variable_splits`
         :param processes: integer, number of parallel processes, iterated over variables
-        :param verbose: disable tqdm progress bar printing
+        :param verbose: print tqdm progress bar
         :return CeterisParibus object
         """
 
@@ -302,7 +302,7 @@ class Explainer:
                       intercept=True,
                       processes=1,
                       random_state=None,
-                      verbose=False):
+                      verbose=True):
 
         """Dataset Level Variable Effect as Partial Dependency Profile or Accumulated Local Effects
 
@@ -317,7 +317,7 @@ class Explainer:
         :param intercept: False if center data on 0
         :param processes: integer, number of parallel processes, iterated over variables
         :param random_state: int, seed for random number generator
-        :param verbose: disable tqdm progress bar printing
+        :param verbose: print tqdm progress bar
         :return: VariableEffect object
         """
 

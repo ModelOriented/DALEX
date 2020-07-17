@@ -50,7 +50,7 @@ class AggregatedProfiles:
 
     def fit(self,
             ceteris_paribus,
-            verbose=False):
+            verbose=True):
 
         # are there any other cp?
         from dalex.instance_level import CeterisParibus

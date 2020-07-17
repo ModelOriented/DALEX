@@ -37,7 +37,7 @@ class CeterisParibus:
             explainer,
             new_observation,
             y=None,
-            verbose=False):
+            verbose=True):
 
         self.variables = check_variables(self.variables, explainer, self.variable_splits)
 
