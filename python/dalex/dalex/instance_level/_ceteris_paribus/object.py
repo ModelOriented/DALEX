@@ -36,7 +36,8 @@ class CeterisParibus:
     def fit(self,
             explainer,
             new_observation,
-            y=None):
+            y=None,
+            verbose=True):
 
         self.variables = check_variables(self.variables, explainer, self.variable_splits)
 
@@ -52,7 +53,8 @@ class CeterisParibus:
                                                                       self.new_observation,
                                                                       self.variable_splits,
                                                                       y,
-                                                                      self.processes)
+                                                                      self.processes,
+                                                                      verbose)
 
     def plot(self, objects=None, variable_type="numerical", variables=None, size=2, color="#46bac2", facet_ncol=2,
              show_observations=True, title="Ceteris Paribus Profiles", horizontal_spacing=0.1, vertical_spacing=None,

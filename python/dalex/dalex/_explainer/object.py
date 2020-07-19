@@ -80,15 +80,17 @@ class Explainer:
         label, model_info_ = check_label(label, model_class, model_info_, verbose)
 
         # REPORT: checks for predict_function
-        predict_function, pred, model_info_ = check_predict_function(predict_function, model, data, model_class,
-                                                                     model_info_, precalculate, verbose)
+        predict_function, pred, model_info_, model_type_ = check_predict_function(predict_function, model, data,
+                                                                                  model_class, model_info_,
+                                                                                  precalculate, verbose)
 
+        model_type = check_model_type(model_type, model_type_)
         # if data is specified then we may test predict_function
         # at this moment we have predict function
 
         # REPORT: checks for residual_function
-        residual_function, residuals, model_info_ = check_residual_function(residual_function, predict_function, model,
-                                                                            data, y,
+        residual_function, residuals, model_info_ = check_residual_function(residual_function, predict_function,
+                                                                            model, data, y,
                                                                             model_info_, precalculate, verbose)
 
         model_info = check_model_info(model_info, model_info_, verbose)
@@ -188,7 +190,8 @@ class Explainer:
                         variables=None,
                         grid_points=101,
                         variable_splits=None,
-                        processes=1):
+                        processes=1,
+                        verbose=True):
 
         """Creates CeterisParibus object
 
@@ -199,6 +202,7 @@ class Explainer:
         :param grid_points: number of points in a single variable split if calculated automatically
         :param variable_splits: mapping of variables into points the profile will be calculated, if None then calculate with the function `_calculate_variable_splits`
         :param processes: integer, number of parallel processes, iterated over variables
+        :param verbose: print tqdm progress bar
         :return CeterisParibus object
         """
 
@@ -213,7 +217,7 @@ class Explainer:
                 processes=processes
             )
 
-        predict_profile_.fit(self, new_observation, y)
+        predict_profile_.fit(self, new_observation, y, verbose)
 
         return predict_profile_
 
@@ -242,7 +246,7 @@ class Explainer:
         return model_performance_
 
     def model_parts(self,
-                    loss_function='rmse',
+                    loss_function=None,
                     type=('variable_importance', 'ratio', 'difference'),
                     N=None,
                     B=10,
@@ -254,7 +258,7 @@ class Explainer:
 
         """Creates VariableImportance object
 
-        :param loss_function: a function that will be used to assess variable importance
+        :param loss_function: str or a function that will be used to assess variable importance, e.g. 'rmse' or '1-auc'
         :param type: 'variable_importance'/'ratio'/'difference' type of transformation that should be applied for dropout loss
         :param N: number of observations that should be sampled for calculation of variable importance
         :param B: number of permutation rounds to perform on each variable
@@ -268,6 +272,8 @@ class Explainer:
 
         types = ('variable_importance', 'ratio', 'difference')
         type = check_method_type(type, types)
+
+        loss_function = check_loss_function(self, loss_function)
 
         model_parts_ = VariableImportance(
             loss_function=loss_function,
@@ -295,7 +301,8 @@ class Explainer:
                       grid_points=101,
                       intercept=True,
                       processes=1,
-                      random_state=None):
+                      random_state=None,
+                      verbose=True):
 
         """Dataset Level Variable Effect as Partial Dependency Profile or Accumulated Local Effects
 
@@ -310,6 +317,7 @@ class Explainer:
         :param intercept: False if center data on 0
         :param processes: integer, number of parallel processes, iterated over variables
         :param random_state: int, seed for random number generator
+        :param verbose: print tqdm progress bar
         :return: VariableEffect object
         """
 
@@ -327,7 +335,7 @@ class Explainer:
         I = np.random.choice(np.arange(N), N, replace=False)
 
         ceteris_paribus = CeterisParibus(grid_points=grid_points, processes=processes)
-        ceteris_paribus.fit(self, self.data.iloc[I, :], self.y[I])
+        ceteris_paribus.fit(self, self.data.iloc[I, :], self.y[I], verbose=verbose)
 
         model_profile_ = AggregatedProfiles(
             type=type,
@@ -339,7 +347,7 @@ class Explainer:
             random_state=random_state
         )
 
-        model_profile_.fit(ceteris_paribus)
+        model_profile_.fit(ceteris_paribus, verbose)
 
         return model_profile_
 

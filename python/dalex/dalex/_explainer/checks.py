@@ -134,13 +134,13 @@ def check_weights(weights, data, verbose):
     return weights
 
 
-def check_predict_function(predict_function, model, data, model_class, model_info, precalculate, verbose):
+def check_predict_function(predict_function, model, data, model_class, model_info_, precalculate, verbose):
     if predict_function is None:
         # predict_function not specified
         # try the default
-        predict_function = yhat(model, model_class)
+        predict_function, model_type_ = yhat(model, model_class)
 
-        model_info['predict_function_default'] = True
+        model_info_['predict_function_default'] = True
 
         if not predict_function:
             raise ValueError("  -> predict function  : predict_function not provided and cannot be extracted",
@@ -149,7 +149,8 @@ def check_predict_function(predict_function, model, data, model_class, model_inf
         verbose_cat("  -> predict function  : " + str(predict_function) + " will be used (default)", verbose=verbose)
 
     else:
-        model_info['predict_function_default'] = False
+        model_type_ = None
+        model_info_['predict_function_default'] = False
         verbose_cat("  -> predict function  : " + str(predict_function) + " will be used", verbose=verbose)
 
     pred = None
@@ -164,7 +165,7 @@ def check_predict_function(predict_function, model, data, model_class, model_inf
                         verbose=verbose)
             print(error)
 
-    return predict_function, pred, model_info
+    return predict_function, pred, model_info_, model_type_
 
 
 def check_residual_function(residual_function, predict_function, model, data, y, model_info, precalculate, verbose):
@@ -276,3 +277,16 @@ def check_model_class(model_class, model_info, model, verbose):
         verbose_cat("  -> model_class       : " + model_class, verbose=verbose)
 
     return model_class, model_info
+
+
+def check_loss_function(explainer, loss_function):
+    if loss_function is not None or explainer.model_type is None:  # user passed a function or type is not known
+        return loss_function
+    elif explainer.model_type == 'regression':
+        return 'rmse'
+    elif explainer.model_type == 'classification':
+        return '1-auc'
+
+
+def check_model_type(model_type, model_type_):
+    return model_type_ if model_type is None else model_type

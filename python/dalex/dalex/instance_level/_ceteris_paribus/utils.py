@@ -9,7 +9,8 @@ def calculate_ceteris_paribus(explainer,
                               new_observation,
                               variable_splits,
                               y,
-                              processes):
+                              processes,
+                              verbose=True):
     """
     Inner method that calculates ceteris paribus and some additional fields.
 
@@ -22,7 +23,8 @@ def calculate_ceteris_paribus(explainer,
                                           explainer.model,
                                           new_observation,
                                           variable_splits,
-                                          processes)
+                                          processes,
+                                          verbose)
 
     profiles.loc[:, '_label_'] = explainer.label
 
@@ -45,7 +47,8 @@ def calculate_variable_profile(predict_function,
                                model,
                                data,
                                variable_splits,
-                               processes):
+                               processes,
+                               verbose=True):
     """
     Inner function that calculates ceteris paribus for all variables.
 
@@ -57,7 +60,7 @@ def calculate_variable_profile(predict_function,
 
     if processes == 1:
         profile = []
-        for variable in tqdm(variable_splits, desc="Calculating ceteris paribus"):
+        for variable in tqdm(variable_splits, desc="Calculating ceteris paribus", disable=not verbose):
             split_points = variable_splits[variable]
             profile.append(single_variable_profile(predict_function, model, data, variable, split_points))
     else:
