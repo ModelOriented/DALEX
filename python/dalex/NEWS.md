@@ -7,8 +7,10 @@ dalex (development)
 * *defaults:* models that use `proba` yhats now get `model_type='classification'` if it's not specified
 * *fix:* `loss_function='auc'` now uses `loss_one_minus_auc` as this should be a descending measure
 * *feature:* added new example data sets: `apartments`, `dragons` and `hr`
-* *feature:* use `px.express` instead of core `plotly` to make all of the plots; thus, enhance performance and scalability
-* *feature:* added `color` parameter to `CeterisParibus.plot`
+* *feature:* use `px.express` instead of core `plotly` to make `model_profile` and `predict_profile` plots;
+ thus, enhance performance and scalability
+* *feature:* added `color`, `opacity`, `title_x` parameters to `model_profile` and `predict_profile` plots ([#236](https://github.com/ModelOriented/DALEX/issues/236)),
+ changed tooltips and legends ([#262](https://github.com/ModelOriented/DALEX/issues/262))
 
 dalex 0.1.9
 ----------------------------------------------------------------
