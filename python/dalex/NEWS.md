@@ -7,6 +7,8 @@ dalex (development)
 * *defaults:* models that use `proba` yhats now get `model_type='classification'` if it's not specified
 * *fix:* `loss_function='auc'` now uses `loss_one_minus_auc` as this should be a descending measure
 * *feature:* added new example data sets: `apartments`, `dragons` and `hr`
+* *feature:* use `px.express` instead of core `plotly` to make all of the plots; thus, enhance performance and scalability
+* *feature:* added `color` parameter to `CeterisParibus.plot`
 
 dalex 0.1.9
 ----------------------------------------------------------------
