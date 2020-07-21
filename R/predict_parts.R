@@ -7,7 +7,7 @@
 #' Find information how to use this function here: \url{https://pbiecek.github.io/ema/breakDown.html}.
 #'
 #' @param explainer a model to be explained, preprocessed by the 'explain' function
-#' @param new_observation a new observarvation for which predictions need to be explained
+#' @param new_observation a new observation for which predictions need to be explained
 #' @param ... other parameters that will be passed to \code{iBreakDown::break_down}
 #' @param type the type of variable attributions. Either \code{shap}, \code{oscillations}, \code{break_down} or \code{break_down_interactions}.
 #'

@@ -1,6 +1,6 @@
 DALEX 1.3.1
 ----------------------------------------------------------------
-* Test were fixed so they will no rise false positive errors on CRAN
+* Tests were fixed so they will no rise false positive errors on CRAN
 
 DALEX 1.3.0
 ----------------------------------------------------------------

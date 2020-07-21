@@ -25,7 +25,7 @@ variable_attribution(explainer, new_observation, ..., type = "break_down")
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the 'explain' function}
 
-\item{new_observation}{a new observarvation for which predictions need to be explained}
+\item{new_observation}{a new observation for which predictions need to be explained}
 
 \item{...}{other parameters that will be passed to \code{iBreakDown::break_down}}
 

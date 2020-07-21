@@ -24,7 +24,7 @@ individual_profile(
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the \code{explain} function}
 
-\item{new_observation}{a new observarvation for which predictions need to be explained}
+\item{new_observation}{a new observation for which predictions need to be explained}
 
 \item{variables}{character - names of variables to be explained}
 

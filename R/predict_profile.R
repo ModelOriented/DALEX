@@ -5,7 +5,7 @@
 #' Find information how to use this function here: \url{https://pbiecek.github.io/ema/ceterisParibus.html}.
 #'
 #' @param explainer a model to be explained, preprocessed by the \code{explain} function
-#' @param new_observation a new observarvation for which predictions need to be explained
+#' @param new_observation a new observation for which predictions need to be explained
 #' @param variables character - names of variables to be explained
 #' @param ... other parameters
 #' @param type character, currently only the \code{ceteris_paribus} is implemented
