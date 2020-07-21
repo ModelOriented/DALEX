@@ -1,10 +1,10 @@
 from warnings import warn
 
-from plotly.subplots import make_subplots
+import plotly.express as px
 
-from dalex.instance_level._ceteris_paribus.plot import tooltip_text
 from .checks import *
 from .utils import calculate_ceteris_paribus
+from ..._explainer.theme import get_default_colors, fig_update_line_plot
 
 
 class CeterisParibus:
@@ -56,9 +56,9 @@ class CeterisParibus:
                                                                       self.processes,
                                                                       verbose)
 
-    def plot(self, objects=None, variable_type="numerical", variables=None, size=2, color="#46bac2", facet_ncol=2,
-             show_observations=True, title="Ceteris Paribus Profiles", horizontal_spacing=0.1, vertical_spacing=None,
-             show=True):
+    def plot(self, objects=None, variable_type="numerical", variables=None, size=2, alpha=1, color="_label_", facet_ncol=2,
+             show_observations=True, title="Ceteris Paribus Profiles", title_x='prediction',
+             horizontal_spacing=0.05, vertical_spacing=None, show=True):
         """
         Plot function for CeterisParibus class.
 
@@ -66,10 +66,12 @@ class CeterisParibus:
         :param variable_type: either "numerical" or "categorical", determines type of variables to plot
         :param variables: str list, if not None then only variables will be presented
         :param size: int, width of lines
-        :param color: string, line/bar color
+        :param alpha: float, opacity of lines
+        :param color: string, variable name for groups, by default `_label_` which groups by models
         :param facet_ncol: int, number of columns on the plot grid
         :param show_observations show observation points
         :param title: str, the plot's title
+        :param title_x: str, x axis title
         :param horizontal_spacing: ratio of horizontal space between the plots, by default it's 0.1
         :param vertical_spacing: ratio of vertical space between the plots, by default it's 0.3/`number of plots`
         :param show: True shows the plot, False returns the plotly Figure object that can be saved using `write_image()` method
@@ -77,8 +79,8 @@ class CeterisParibus:
         :return None or plotly Figure (see :param show)
         """
 
-        # TODO: add show_rugs
-        # TODO: add variable_type = 'both'
+        # TODO: numerical+categorical in one plot https://github.com/plotly/plotly.py/issues/2647
+
         if variable_type not in ("numerical", "categorical"):
             raise TypeError("variable_type should be 'numerical' or 'categorical'")
         if isinstance(variables, str):
@@ -87,18 +89,14 @@ class CeterisParibus:
         # are there any other objects to plot?
         if objects is None:
             _result_df = self.result.copy()
-            _obs_df = self.new_observation.copy()
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             _result_df = pd.concat([self.result.copy(), objects.result.copy()])
-            _obs_df = pd.concat([self.new_observation.copy(), objects.new_observation.copy()])
         else:  # objects as tuple or array
             _result_df = self.result.copy()
-            _obs_df = self.new_observation.copy()
             for ob in objects:
                 if not isinstance(ob, self.__class__):
                     raise TypeError("Some explanations aren't of CeterisParibus class")
                 _result_df = pd.concat([_result_df, ob.result.copy()])
-                _obs_df = pd.concat([_obs_df, ob.new_observation.copy()])
 
         # variables to use
         all_variables = list(_result_df['_vname_'].dropna().unique())
@@ -134,144 +132,64 @@ class CeterisParibus:
                 # there were no variables selected and there are no categorical variables
                 raise TypeError("There are no non-numerical variables.")
 
-        n = len(variable_names)
-
-        # prepare clean observations data for tooltips
-        m = _obs_df.shape[1]
-        _obs_df = _obs_df.iloc[:, np.concatenate(([m - 1, m - 2, m - 3], list(range(m - 3))))]  # reorder columns
-
-        # split obs by id
-        obs_df_list = [v for k, v in _obs_df.groupby('_ids_', sort=False)]
-        obs_df_dict = {e['_ids_'].array[0]: e for e in obs_df_list}
-
         # prepare profiles data
-        _result_df = _result_df.loc[_result_df['_vname_'].apply(lambda x: x in variable_names),].reset_index(drop=True)
+        _result_df = _result_df.loc[_result_df['_vname_'].apply(lambda x: x in variable_names), ].reset_index(drop=True)
 
-        dl = _result_df['_yhat_'].to_numpy()
-        min_max_margin = dl.ptp() * 0.15
-        min_max = [dl.min() - min_max_margin, dl.max() + min_max_margin]
+        # create _x_
+        for variable in _result_df['_vname_'].unique():
+            where_variable = _result_df['_vname_'] == variable
+            _result_df.loc[where_variable, '_x_'] = _result_df.loc[where_variable, variable]
 
-        # split var by variable
-        var_df_list = [v for k, v in _result_df.groupby('_vname_', sort=False)]
-        var_df_dict = {e['_vname_'].array[0]: e for e in var_df_list}
+        # change x column to proper character values
+        if variable_type == 'categorical':
+            _result_df.loc[:, '_x_'] = _result_df.apply(lambda row: str(row[row['_vname_']]), axis=1)
 
+        n = len(variable_names)
         if vertical_spacing is None:
             vertical_spacing = 0.3 / n
-
         facet_nrow = int(np.ceil(n / facet_ncol))
 
-        if variable_type == "numerical":
-            x_title, y_title = "", "prediction"
-        else:
-            x_title, y_title = "prediction", ""
-
-        fig = make_subplots(rows=facet_nrow, cols=facet_ncol, horizontal_spacing=horizontal_spacing,
-                            vertical_spacing=vertical_spacing, x_title=x_title, y_title=y_title,
-                            subplot_titles=variable_names)
-
-        for i in range(n):
-            name = variable_names[i]
-            var_df = var_df_dict[name][[name, "_yhat_", "_ids_", "_vname_"]].rename(
-                columns={name: "_xhat_"}).sort_values('_xhat_')
-
-            row = int(np.floor(i / facet_ncol) + 1)
-            col = int(np.mod(i, facet_ncol) + 1)
-
-            # line plot or bar plot?
-            if variable_type == "numerical":
-                df_list = [v for k, v in var_df.groupby('_ids_', sort=False)]
-
-                for j, df in enumerate(df_list):
-                    obs = obs_df_dict[df.iloc[0, df.columns.get_loc('_ids_')]].iloc[0]
-
-                    tt = df.apply(lambda r: tooltip_text(obs, r), axis=1)
-                    df = df.assign(tooltip_text=tt.values)
-
-                    fig.add_scatter(
-                        mode='lines',
-                        y=df['_yhat_'].tolist(),
-                        x=df['_xhat_'].tolist(),
-                        line={'color': color, 'width': size, 'shape': 'spline'},
-                        hovertext=df['tooltip_text'].tolist(),
-                        hoverinfo='text',
-                        hoverlabel={'bgcolor': 'rgba(0,0,0,0.8)'},
-                        showlegend=False,
-                        name=str(df.iloc[0, df.columns.get_loc('_ids_')]),
-                        row=row, col=col
-                    )
-
-                    if show_observations:
-                        fig.add_scatter(
-                            mode='markers',
-                            y=[obs['_yhat_']],
-                            x=[obs[name]],
-                            marker={'color': '#371ea3', 'size': size * 4},
-                            hovertext=[tooltip_text(obs)],
-                            hoverinfo='text',
-                            hoverlabel={'bgcolor': 'rgba(0,0,0,0.8)'},
-                            showlegend=False,
-                            name=str(df.iloc[0, df.columns.get_loc('_ids_')]),
-                            row=row, col=col
-                        )
-
-                fig.update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
-                                  'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True},
-                                 row=row, col=col)
-
-                fig.update_xaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
-                                  'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True},
-                                 row=row, col=col)
-
-                fig.update_yaxes({'range': min_max})
-
-            else:
-                if len(obs_df_dict) > 1:
-                    raise TypeError("Please pick one observation.")
-
-                df = var_df.copy()
-                # there is only one observation in dict
-                obs = obs_df_dict[next(iter(obs_df_dict))].iloc[0]
-                baseline = obs["_yhat_"]
-
-                df = df.assign(difference=lambda x: x['_yhat_'] - baseline)
-
-                # lt = df.apply(lambda r: label_text(r), axis=1)
-                # df = df.assign(label_text=lt.values)
-
-                tt = df.apply(lambda r: tooltip_text(obs, r), axis=1)
-                df = df.assign(tooltip_text=tt.values)
-
-                fig.add_shape(type='line', x0=baseline, x1=baseline, y0=0, y1=len(df['_xhat_'].unique()) - 1,
-                              yref="paper",
-                              xref="x", line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'}, row=row, col=col)
-
-                fig.add_bar(
-                    orientation="h",
-                    y=df['_xhat_'].tolist(),
-                    x=df['difference'].tolist(),
-                    # textposition="outside",
-                    # text=df['label_text'].tolist(),
-                    marker_color=color,
-                    base=baseline,
-                    hovertext=df['tooltip_text'].tolist(),
-                    hoverinfo='text',
-                    hoverlabel={'bgcolor': 'rgba(0,0,0,0.8)'},
-                    showlegend=False,
-                    row=row, col=col)
-
-                fig.update_yaxes({'type': 'category', 'autorange': 'reversed', 'gridwidth': 2, 'automargin': True,
-                                  'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True},
-                                 row=row, col=col)
-
-                fig.update_xaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
-                                  'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True},
-                                 row=row, col=col)
-
-                fig.update_xaxes({'range': min_max})
-
         plot_height = 78 + 71 + facet_nrow * (280 + 60)
-        fig.update_layout(title_text=title, title_x=0.15, font={'color': "#371ea3"}, template="none",
-                          height=plot_height, margin={'t': 78, 'b': 71, 'r': 30}, hovermode='closest')
+
+        m = len(_result_df[color].dropna().unique())
+
+        if variable_type == "numerical":
+            fig = px.line(_result_df,
+                          x="_x_", y="_yhat_", color=color, facet_col="_vname_", line_group='_ids_',
+                          labels={'_yhat_': 'prediction', '_label_': 'label', '_ids_': 'id'},  # , color: 'group'},
+                          hover_data={'_yhat_': ':.3f', '_vname_': False, '_x_': False},
+                          facet_col_wrap=facet_ncol,
+                          facet_row_spacing=vertical_spacing,
+                          facet_col_spacing=horizontal_spacing,
+                          template="none",
+                          color_discrete_sequence=get_default_colors(m, 'line')) \
+                    .update_traces(dict(line_width=size, opacity=alpha)) \
+                    .update_xaxes({'matches': None, 'showticklabels': True,
+                                   'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
+                                   'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3}) \
+                    .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
+                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3})
+        else:
+            if len(_result_df['_ids_'].unique()) > 1:  # https://github.com/plotly/plotly.py/issues/2657
+                raise TypeError("Please pick one observation per label.")
+
+            fig = px.bar(_result_df,
+                         x="_x_", y="_yhat_", color="_label_", facet_col="_vname_",
+                         labels={'_yhat_': 'prediction', '_label_': 'label', '_ids_': 'id'},  # , color: 'group'},
+                         hover_data={'_yhat_': ':.3f', '_ids_': True, '_vname_': False, '_x_': False},
+                         facet_col_wrap=facet_ncol,
+                         facet_row_spacing=vertical_spacing,
+                         facet_col_spacing=horizontal_spacing,
+                         template="none",
+                         color_discrete_sequence=get_default_colors(m, 'line'),  # bar was forgotten
+                         barmode='group')  \
+                    .update_xaxes({'matches': None, 'showticklabels': True,
+                                   'type': 'category', 'gridwidth': 2, 'autorange': 'reversed', 'automargin': True,
+                                   'ticks': "outside", 'tickcolor': 'white', 'ticklen': 10}) \
+                    .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
+                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3})
+
+        fig = fig_update_line_plot(fig, title, title_x, plot_height)
 
         if show:
             fig.show(config={'displaylogo': False, 'staticPlot': False,

@@ -1,9 +1,8 @@
 import plotly.express as px
-import plotly.graph_objects as go
 
 from .checks import *
 from .utils import aggregate_profiles
-from ..._explainer.theme import get_default_colors
+from ..._explainer.theme import get_default_colors, fig_update_line_plot
 
 
 class AggregatedProfiles:
@@ -85,7 +84,7 @@ class AggregatedProfiles:
         self.mean_prediction = all_observations['_yhat_'].mean()
 
     def plot(self, objects=None, variables=None, size=2, alpha=1,
-             facet_ncol=2, title="Aggregated Profiles",
+             facet_ncol=2, title="Aggregated Profiles", title_x='prediction',
              horizontal_spacing=0.05, vertical_spacing=None, show=True):
         """
         Plot function for AggregatedProfiles class.
@@ -96,13 +95,14 @@ class AggregatedProfiles:
         :param alpha: float, opacity of lines
         :param facet_ncol: int, number of columns on the plot grid
         :param title: str, the plot's title
+        :param title_x: str, x axis title
         :param horizontal_spacing: ratio of horizontal space between the plots, by default it's 0.1
         :param vertical_spacing: ratio of vertical space between the plots, by default it's 0.3/`number of plots`
         :param show: True shows the plot, False returns the plotly Figure object that can be edited or saved using `write_image()` method
 
         :return None or plotly Figure (see :param show)
         """
-        # TODO (not possible in px.express 0.4.9): numerical+categorical in one plot
+        # TODO: numerical+categorical in one plot https://github.com/plotly/plotly.py/issues/2647
 
         if isinstance(variables, str):
             variables = (variables,)
@@ -178,46 +178,7 @@ class AggregatedProfiles:
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                    'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3})
 
-        for axis in fig.layout:
-            if type(fig.layout[axis]) == go.layout.YAxis:  # remove redundant axis labels
-                fig.layout[axis].title.text = ''
-            elif type(fig.layout[axis]) == go.layout.XAxis:  # remove redundant axis labels
-                fig.layout[axis].title.text = ''
-            elif axis is 'annotations':
-                for index, annotation in enumerate(fig.layout[axis]):  # fix annotation text
-                    annotation.update(text=annotation.text.split("=")[-1],
-                                      font=dict(size=13))  # , x=0, xref='x' + str(index+1))  # title on the left bug
-
-        fig.update_layout(
-                # keep the original annotations and add axis title
-                annotations=list(fig.layout.annotations) + [
-                                go.layout.Annotation(
-                                    x=-0.07,
-                                    y=0.5,
-                                    font=dict(size=13),
-                                    showarrow=False,
-                                    text="prediction",
-                                    textangle=-90,
-                                    xref="paper",
-                                    yref="paper"
-                                )
-                            ],
-                font=dict(color="#371ea3"),
-                margin=dict(t=78, b=71, r=30),
-                hovermode='x unified',
-                title=dict(text=title, x=0.15, font=dict(size=16)),  # y=1 - 50/plot_height,
-                legend=dict(
-                    title=dict(font=dict(size=12)),
-                    orientation="h",
-                    yanchor="bottom",
-                    y=1 + 30/plot_height,
-                    xanchor="right",
-                    x=1,
-                    itemsizing='constant',
-                    font=dict(size=11)
-                ),
-                height=plot_height
-            )
+        fig = fig_update_line_plot(fig, title, title_x, plot_height)
 
         if show:
             fig.show(config={'displaylogo': False, 'staticPlot': False,
