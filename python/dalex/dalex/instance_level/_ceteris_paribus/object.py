@@ -153,7 +153,10 @@ class CeterisParibus:
 
         m = len(_result_df[color].dropna().unique())
 
+        _result_df[color] = _result_df[color].astype(object)  # prevent error when using pd.StringDtype
+
         if variable_type == "numerical":
+
             fig = px.line(_result_df,
                           x="_x_", y="_yhat_", color=color, facet_col="_vname_", line_group='_ids_',
                           labels={'_yhat_': 'prediction', '_label_': 'label', '_ids_': 'id'},  # , color: 'group'},

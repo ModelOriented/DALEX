@@ -178,9 +178,9 @@ class CeterisParibusTestTitanic(unittest.TestCase):
         fig2 = case2.plot(variable_type="categorical", show=False)
         fig3 = case1.plot(case2, variables="age", show=False)
         fig4 = case2.plot(variables="gender", show=False)
-        # fig5 = case1.plot(case3, size=1, color="gender", facet_ncol=1, show_observations=False,
-        #                   title="title", horizontal_spacing=0.2, vertical_spacing=0.2,
-        #                   show=False)
+        fig5 = case1.plot(case3, size=1, color="gender", facet_ncol=1, show_observations=False,
+                          title="title", horizontal_spacing=0.2, vertical_spacing=0.2,
+                          show=False)
 
         self.assertIsInstance(fig1, Figure)
         self.assertIsInstance(fig2, Figure)
