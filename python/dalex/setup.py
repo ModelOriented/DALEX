@@ -28,8 +28,8 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        'pandas>=1.0.1',
-        'numpy>=1.18.1',
+        'pandas>=1.0.5',
+        'numpy>=1.19.0',
         'plotly>=4.9.0',
         'tqdm>=4.42.1'
     ],
