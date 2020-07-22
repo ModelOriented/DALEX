@@ -88,7 +88,7 @@ class ModelPerformance:
 
         :param objects: object of ModelPerformance class or list or tuple containing such objects
         :param title: str, the plot's title
-        :param show: True shows the plot, False returns the plotly Figure object that can be saved using `write_image()` method
+        :param show: True shows the plot, False returns the plotly Figure object that can be edited or saved using `write_image()` method
 
         :return None or plotly Figure (see :param show)
         """

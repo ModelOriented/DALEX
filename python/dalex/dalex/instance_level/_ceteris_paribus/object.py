@@ -4,6 +4,7 @@ import plotly.express as px
 
 from .checks import *
 from .utils import calculate_ceteris_paribus
+from .plot import tooltip_text
 from ..._explainer.theme import get_default_colors, fig_update_line_plot
 
 
@@ -75,13 +76,13 @@ class CeterisParibus:
         :param title_x: str, x axis title
         :param horizontal_spacing: ratio of horizontal space between the plots, by default it's 0.1
         :param vertical_spacing: ratio of vertical space between the plots, by default it's 0.3/`number of plots`
-        :param show: True shows the plot, False returns the plotly Figure object that can be saved using `write_image()` method
+        :param show: True shows the plot, False returns the plotly Figure object that can be edited or saved using `write_image()` method
 
         :return None or plotly Figure (see :param show)
         """
 
         # TODO: numerical+categorical in one plot https://github.com/plotly/plotly.py/issues/2647
-        # TODO: show_observations and show_rugs (when _original_ is fixed)
+        # TODO: show_observations and show_rugs (when _original_ is fixed) + tooltip data
 
         if variable_type not in ("numerical", "categorical"):
             raise TypeError("variable_type should be 'numerical' or 'categorical'")
@@ -156,19 +157,22 @@ class CeterisParibus:
         m = len(_result_df[color].dropna().unique())
 
         _result_df[color] = _result_df[color].astype(object)  # prevent error when using pd.StringDtype
+        _result_df = _result_df.assign(_text_=_result_df.apply(lambda obs: tooltip_text(obs), axis=1))
 
         if variable_type == "numerical":
 
             fig = px.line(_result_df,
                           x="_x_", y="_yhat_", color=color, facet_col="_vname_", line_group='_ids_',
                           labels={'_yhat_': 'prediction', '_label_': 'label', '_ids_': 'id'},  # , color: 'group'},
-                          hover_data={'_yhat_': ':.3f', '_vname_': False, '_x_': False, color: False},
+                          # hover_data={'_text_': True, '_yhat_': ':.3f', '_vname_': False, '_x_': False, color: False},
+                          custom_data=['_text_'],
                           facet_col_wrap=facet_ncol,
                           facet_row_spacing=vertical_spacing,
                           facet_col_spacing=horizontal_spacing,
                           template="none",
                           color_discrete_sequence=get_default_colors(m, 'line')) \
-                    .update_traces(dict(line_width=size, opacity=alpha)) \
+                    .update_traces(dict(line_width=size, opacity=alpha),
+                                   hovertemplate="%{customdata[0]}<extra></extra>") \
                     .update_xaxes({'matches': None, 'showticklabels': True,
                                    'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                    'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3}) \
@@ -187,21 +191,28 @@ class CeterisParibus:
             fig = px.bar(_result_df,
                          x="_x_", y="_yhat_", color="_label_", facet_col="_vname_",
                          labels={'_yhat_': 'prediction', '_label_': 'label', '_ids_': 'id'},  # , color: 'group'},
-                         hover_data={'_yhat_': ':.3f', '_ids_': True, '_vname_': False, '_x_': False, color: False},
+                         # hover_data={'_yhat_': ':.3f', '_ids_': True, '_vname_': False, color: False},
+                         custom_data=['_text_'],
                          facet_col_wrap=facet_ncol,
                          facet_row_spacing=vertical_spacing,
                          facet_col_spacing=horizontal_spacing,
                          template="none",
                          color_discrete_sequence=get_default_colors(m, 'line'),  # bar was forgotten
                          barmode='group')  \
+                    .update_traces(dict(opacity=alpha),
+                                   hovertemplate="%{customdata[0]}<extra></extra>") \
                     .update_xaxes({'matches': None, 'showticklabels': True,
                                    'type': 'category', 'gridwidth': 2, 'autorange': 'reversed', 'automargin': True,
                                    'ticks': "outside", 'tickcolor': 'white', 'ticklen': 10}) \
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                    'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3})
 
-        fig = fig_update_line_plot(fig, title, title_x, plot_height)
-        
+        fig = fig_update_line_plot(fig, title, title_x, plot_height, 'closest')
+
+        fig.update_layout(
+            hoverlabel=dict(bgcolor='rgba(0,0,0,0.8)')
+        )
+
         if show:
             fig.show(config={'displaylogo': False, 'staticPlot': False,
                              'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',

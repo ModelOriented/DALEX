@@ -67,7 +67,7 @@ class Shap:
         :param vcolors: 3-tuple of str values, color of bars
         :param title: str, the plot's title
         :param vertical_spacing: ratio of vertical space between the plots, by default it's 0.2/`number of plots`
-        :param show: True shows the plot, False returns the plotly Figure object that can be saved using `write_image()` method
+        :param show: True shows the plot, False returns the plotly Figure object that can be edited or saved using `write_image()` method
 
         :return None or plotly Figure (see :param show)
         """

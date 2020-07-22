@@ -178,7 +178,7 @@ class AggregatedProfiles:
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                    'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3})
 
-        fig = fig_update_line_plot(fig, title, title_x, plot_height)
+        fig = fig_update_line_plot(fig, title, title_x, plot_height, 'x unified')
 
         if show:
             fig.show(config={'displaylogo': False, 'staticPlot': False,
