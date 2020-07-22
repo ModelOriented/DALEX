@@ -57,7 +57,7 @@ class CeterisParibus:
                                                                       verbose)
 
     def plot(self, objects=None, variable_type="numerical", variables=None, size=2, alpha=1, color="_label_", facet_ncol=2,
-             show_observations=True, title="Ceteris Paribus Profiles", title_x='prediction',
+             show_observations=True, show_rugs=True, title="Ceteris Paribus Profiles", title_x='prediction',
              horizontal_spacing=0.05, vertical_spacing=None, show=True):
         """
         Plot function for CeterisParibus class.
@@ -70,6 +70,7 @@ class CeterisParibus:
         :param color: string, variable name for groups, by default `_label_` which groups by models
         :param facet_ncol: int, number of columns on the plot grid
         :param show_observations show observation points
+        :param show_rugs show observation points rugs
         :param title: str, the plot's title
         :param title_x: str, x axis title
         :param horizontal_spacing: ratio of horizontal space between the plots, by default it's 0.1
@@ -172,6 +173,12 @@ class CeterisParibus:
                                    'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3}) \
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                    'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3})
+
+            if show_observations:
+                pass
+
+            if show_rugs:
+                pass
         else:
             if len(_result_df['_ids_'].unique()) > 1:  # https://github.com/plotly/plotly.py/issues/2657
                 raise TypeError("Please pick one observation per label.")
