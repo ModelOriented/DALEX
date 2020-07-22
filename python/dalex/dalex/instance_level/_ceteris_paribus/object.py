@@ -81,6 +81,7 @@ class CeterisParibus:
         """
 
         # TODO: numerical+categorical in one plot https://github.com/plotly/plotly.py/issues/2647
+        # TODO: show_observations and show_rugs (when _original_ is fixed)
 
         if variable_type not in ("numerical", "categorical"):
             raise TypeError("variable_type should be 'numerical' or 'categorical'")
@@ -200,7 +201,7 @@ class CeterisParibus:
                                    'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3})
 
         fig = fig_update_line_plot(fig, title, title_x, plot_height)
-
+        
         if show:
             fig.show(config={'displaylogo': False, 'staticPlot': False,
                              'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
