@@ -1,6 +1,7 @@
 DALEX 1.3.1
 ----------------------------------------------------------------
 * Tests were fixed so they will no rise false positive errors on CRAN
+*  Now in the `predict_profile` function one can specify how grid points shall be calculated, see `variable_splits_type`
 
 DALEX 1.3.0
 ----------------------------------------------------------------
