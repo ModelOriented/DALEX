@@ -95,7 +95,7 @@ def single_variable_profile(predict,
     # remember ids of selected points
     ids = np.repeat(data.index, split_points.shape[0])
     new_data = data.loc[ids, :]
-    original = new_data.loc[:, variable]
+    original = new_data.loc[:, variable].copy()
     new_data.loc[:, variable] = np.tile(split_points, data.shape[0])
 
     yhat = predict(model, new_data)
