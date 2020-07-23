@@ -6,6 +6,8 @@
 \alias{predict_parts_ibreak_down}
 \alias{predict_parts_shap}
 \alias{predict_parts_oscillations}
+\alias{predict_parts_oscillations_uni}
+\alias{predict_parts_oscillations_emp}
 \alias{predict_parts_break_down_interactions}
 \alias{variable_attribution}
 \title{Instance Level Parts of the Model Predictions}
@@ -13,6 +15,22 @@
 predict_parts(explainer, new_observation, ..., type = "break_down")
 
 predict_parts_oscillations(explainer, new_observation, ...)
+
+predict_parts_oscillations_uni(
+  explainer,
+  new_observation,
+  variable_splits_type = "uniform",
+  ...
+)
+
+predict_parts_oscillations_emp(
+  explainer,
+  new_observation,
+  variable_splits = NULL,
+  variables = colnames(explainer$data),
+  N = 500,
+  ...
+)
 
 predict_parts_break_down(explainer, new_observation, ...)
 
@@ -29,18 +47,30 @@ variable_attribution(explainer, new_observation, ..., type = "break_down")
 
 \item{...}{other parameters that will be passed to \code{iBreakDown::break_down}}
 
-\item{type}{the type of variable attributions. Either \code{shap}, \code{oscillations}, \code{break_down} or \code{break_down_interactions}.}
+\item{type}{the type of variable attributions. Either \code{shap}, \code{oscillations}, \code{oscillations_uni},
+\code{oscillations_emp}, \code{break_down} or \code{break_down_interactions}.}
+
+\item{variable_splits_type}{how variable grids shall be calculated? Will be passed to \code{\link[ingredients]{ceteris_paribus}}.}
+
+\item{variable_splits}{named list of splits for variables. It is used by oscillations based measures. Will be passed to \code{\link[ingredients]{ceteris_paribus}}.}
+
+\item{variables}{names of variables for which splits shall be calculated. Will be passed to \code{\link[ingredients]{ceteris_paribus}}.}
+
+\item{N}{number of observations used for calculation of oscillations. By default 500.}
 }
 \value{
-Depending on the \code{type} there are different classess of the resulting object.
+Depending on the \code{type} there are different classes of the resulting object.
 It's a data frame with calculated average response.
 }
 \description{
-Instance Level Variable Attributions as Break Down or SHAP Explanations.
+Instance Level Variable Attributions as Break Down, SHAP or Oscillations explanations.
 Model prediction is decomposed into parts that are attributed for particular variables.
 From DALEX version 1.0 this function calls the \code{\link[iBreakDown]{break_down}} or
-\code{\link[iBreakDown:break_down_uncertainty]{shap}} functions from the \code{iBreakDown} package.
-Find information how to use this function here: \url{https://pbiecek.github.io/ema/breakDown.html}.
+\code{\link[iBreakDown:break_down_uncertainty]{shap}} functions from the \code{iBreakDown} package or
+\code{\link[ingredients:ceteris_paribus]{ceteris_paribus}} from the \code{ingredients} package.
+Find information how to use the \code{break_down} method here: \url{https://pbiecek.github.io/ema/breakDown.html}.
+Find information how to use the \code{shap} method here: \url{https://pbiecek.github.io/ema/shapley.html}.
+Find information how to use the \code{oscillations} method here: \url{https://pbiecek.github.io/ema/ceterisParibusOscillations.html}.
 }
 \examples{
 new_dragon <- data.frame(year_of_birth = 200,

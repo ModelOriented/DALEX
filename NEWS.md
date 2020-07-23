@@ -1,7 +1,8 @@
 DALEX 1.3.1
 ----------------------------------------------------------------
 * Tests were fixed so they will no rise false positive errors on CRAN
-*  Now in the `predict_profile` function one can specify how grid points shall be calculated, see `variable_splits_type`
+*  Now in the `predict_profile` function one can specify how grid points shall be calculated, see `variable_splits_type`  ([#267](https://github.com/ModelOriented/DALEX/issues/266)).
+*  The `predict_part` function has two new options for type: `oscillations_uni` and `oscillations_emp` ([#267](https://github.com/ModelOriented/DALEX/issues/267)).
 
 DALEX 1.3.0
 ----------------------------------------------------------------
