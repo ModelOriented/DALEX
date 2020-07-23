@@ -37,7 +37,7 @@ jobs:
           install.packages("remotes")
           remotes::install_deps(dependencies = TRUE)
           install.packages(c("rms", "gbm", "caret", "e1071"))
-          remotes::install_dev("pkgdown")
+          install.packages("pkgdown")
           remotes::install_github("ModelOriented/DrWhyTemplate")
         shell: Rscript {0}
 
@@ -45,5 +45,7 @@ jobs:
         run: R CMD INSTALL .
 
       - name: Deploy package
-        run: pkgdown::deploy_to_branch(new_process = FALSE, run_dont_run = TRUE)
-        shell: Rscript {0}
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE, run_dont_run = TRUE)'
