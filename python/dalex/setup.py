@@ -30,7 +30,7 @@ setuptools.setup(
     install_requires=[
         'pandas>=1.0.1',
         'numpy>=1.18.1',
-        'plotly>=4.5.2',
+        'plotly>=4.9.0',
         'tqdm>=4.42.1'
     ],
     packages=setuptools.find_packages(include=["dalex", "dalex.*"]),
