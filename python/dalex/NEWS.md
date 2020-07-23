@@ -1,5 +1,6 @@
 dalex (development)
 ----------------------------------------------------------------
+* *fix:* 0.1.9 version of dalex had wrong `_original_` column in `predict_profile`
 * *fix:* `vertical_spacing` in `VariableImportance.plot` when `split='variable'`
 * *feature:* added `verbose` parameter where `tqdm` is used to verbose progress bar
 * *feature:* added `loss_one_minus_auc` function that can be used with `loss_function='1-auc'` in `model_parts`
