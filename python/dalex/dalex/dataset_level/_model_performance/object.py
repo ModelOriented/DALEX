@@ -82,15 +82,26 @@ class ModelPerformance:
 
         self.residuals = _residuals
 
-    def plot(self, objects=None, title="Reverse cumulative distribution of |residual|", show=False):
-        """
-        Plot function for ModelPerformance class.
+    def plot(self,
+             objects=None,
+             title="Reverse cumulative distribution of |residual|",
+             show=False):
+        """Plot the Model Performance explanation
 
-        :param objects: object of ModelPerformance class or list or tuple containing such objects
-        :param title: str, the plot's title
-        :param show: True shows the plot, False returns the plotly Figure object that can be edited or saved using `write_image()` method
+        Parameters
+        -----------
+        objects : ModelPerformance object or array_like of ModelPerformance objects
+            Additional objects to plot in subplots (default is None).
+        title : str, optional
+            Title of the plot (default depends on the `type` attribute).
+        show : bool, optional
+            True shows the plot; False returns the plotly Figure object that can be
+            edited or saved using the `write_image()` method (default is True).
 
-        :return None or plotly Figure (see :param show)
+        Returns
+        -----------
+        None or plotly.graph_objects.Figure
+            Return figure that can be edited or saved. See `show` parameter.
         """
 
         # are there any other objects to plot?

@@ -86,27 +86,56 @@ class AggregatedProfiles:
 
         self.mean_prediction = all_observations['_yhat_'].mean()
 
-    def plot(self, objects=None, geom='aggregates', variables=None, size=2, alpha=1,
-             facet_ncol=2, title="Aggregated Profiles", title_x='prediction',
-             horizontal_spacing=0.05, vertical_spacing=None, show=True):
-        """
-        Plot function for AggregatedProfiles class.
+    def plot(self,
+             objects=None,
+             geom='aggregates',
+             variables=None,
+             size=2,
+             alpha=1,
+             facet_ncol=2,
+             title="Aggregated Profiles",
+             title_x='prediction',
+             horizontal_spacing=0.05,
+             vertical_spacing=None,
+             show=True):
+        """Plot the Aggregated Profiles explanation
 
-        :param objects: object of AggregatedProfiles class or list or tuple containing such objects
-        :param variables: str list, if not None then only variables will be presented
-        :param size: float, width of lines
-        :param alpha: float, opacity of lines
-        :param facet_ncol: int, number of columns on the plot grid
-        :param title: str, the plot's title
-        :param title_x: str, x axis title
-        :param horizontal_spacing: ratio of horizontal space between the plots, by default it's 0.1
-        :param vertical_spacing: ratio of vertical space between the plots, by default it's 0.3/`number of plots`
-        :param show: True shows the plot, False returns the plotly Figure object that can be edited or saved using `write_image()` method
+        Parameters
+        -----------
+        objects : AggregatedProfiles object or array_like of AggregatedProfiles objects
+            Additional objects to plot in subplots (default is None).
+        variables : str or array_like of str, optional
+            Variables for which the profiles will be calculated
+            (default is None, which means all of the variables).
+        size : float, optional
+            Width of lines in px (default is 2).
+        alpha : float <0, 1>, optional
+            Opacity of lines (default is 1).
+        color : str, optional
+            Variable name used for grouping (default is '_label_', which groups by models).
+        facet_ncol : int, optional
+            Number of columns on the plot grid (default is 2).
+        title : str, optional
+            Title of the plot (default is "Aggregated Profiles").
+        title_x : str, optional
+            Title of the x axis (default is "prediction").
+        horizontal_spacing : float <0, 1>, optional
+            Ratio of horizontal space between the plots (default is 0.05).
+        vertical_spacing : float <0, 1>, optional
+            Ratio of vertical space between the plots (default is 0.2/number of subplots).
+        show : bool, optional
+            True shows the plot; False returns the plotly Figure object that can be
+            edited or saved using the `write_image()` method (default is True).
 
-        :return None or plotly Figure (see :param show)
+        Returns
+        -----------
+        None or plotly.graph_objects.Figure
+            Return figure that can be edited or saved. See `show` parameter.
         """
         # TODO: numerical+categorical in one plot https://github.com/plotly/plotly.py/issues/2647
 
+        if geom not in ("aggregates", "profiles"):
+            raise TypeError("geom should be 'aggregates' or 'profiles'")
         if isinstance(variables, str):
             variables = (variables,)
 

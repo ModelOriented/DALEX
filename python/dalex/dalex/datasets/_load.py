@@ -4,10 +4,11 @@ import pandas as pd
 
 
 def load_titanic():
-    """
-    Load the preprocessed 'titanic' dataset.
+    """Load the preprocessed 'titanic' dataset
 
-    :return: pandas.DataFrame
+    Returns
+    -----------
+    pd.DataFrame
     """
 
     abs_dir_path = os.path.dirname(os.path.abspath(__file__))
@@ -19,7 +20,8 @@ def load_titanic():
 
 
 def load_fifa():
-    """
+    """Load the preprocessed 'players_20' dataset
+
     Load 'fifa', the preprocessed 'players_20.csv' dataset which comes as
     a part of 'FIFA 20 complete player dataset' at 'Kaggle'.
     It contains 5000 'overall' best players and 43 variables. These are:
@@ -33,7 +35,9 @@ def load_fifa():
     Format: pd.DataFrame with 5000 rows, 42 columns and index
     Source: https://www.kaggle.com/stefanoleone992/fifa-20-complete-player-dataset#players_20.csv January 1, 2020
 
-    :return: pandas.DataFrame
+    Returns
+    -----------
+    pd.DataFrame
     """
 
     abs_dir_path = os.path.dirname(os.path.abspath(__file__))
@@ -45,15 +49,16 @@ def load_fifa():
 
 
 def load_apartments():
-    """
-    Loads the apartments data set.
+    """Loads the apartments data set
 
     Datasets apartments and apartments_test are artificial,
     generated from the same model. Structure of the dataset is copied
     from real dataset from PBImisc package, but they were generated
     in a way to mimic effect of Anscombe quartet for complex black box models.
 
-    :return: pandas.DataFrame
+    Returns
+    -----------
+    pd.DataFrame
     """
 
     abs_dir_path = os.path.dirname(os.path.abspath(__file__))
@@ -65,15 +70,16 @@ def load_apartments():
 
 
 def load_apartments_test():
-    """
-    Loads the apartments test data set.
+    """Loads the apartments test data set
 
     Datasets apartments and apartments_test are artificial,
     generated from the same model. Structure of the dataset is copied
     from real dataset from PBImisc package, but they were generated
     in a way to mimic effect of Anscombe quartet for complex black box models.
 
-    :return: pandas.DataFrame
+    Returns
+    -----------
+    pd.DataFrame
     """
 
     abs_dir_path = os.path.dirname(os.path.abspath(__file__))
@@ -85,14 +91,15 @@ def load_apartments_test():
 
 
 def load_dragons():
-    """
-    Load dragons data set.
+    """Load the dragons data set
 
     Data sets dragons and dragons_test are artificial,
     generated from the same ground truth model,
     but with sometimes different data distridution.
 
-    :return: pandas.DataFrame
+    Returns
+    -----------
+    pd.DataFrame
     """
 
     abs_dir_path = os.path.dirname(os.path.abspath(__file__))
@@ -104,14 +111,15 @@ def load_dragons():
 
 
 def load_dragons_test():
-    """
-    Load dragons test data set.
+    """Load the dragons test data set
 
     Data sets dragons and dragons_test are artificial,
     generated from the same ground truth model,
     but with sometimes different data distridution.
 
-    :return: pandas.DataFrame
+    Returns
+    -----------
+    pd.DataFrame
     """
 
     abs_dir_path = os.path.dirname(os.path.abspath(__file__))
@@ -123,14 +131,15 @@ def load_dragons_test():
 
 
 def load_hr():
-    """
-    Load HR data set.
+    """Load the HR data set
 
     Datasets HR and HR_test are artificial, generated from the same model.
     Structure of the dataset is based on a real data, from Human Resources department
     with information which employees were promoted, which were fired.
 
-    :return: pandas.DataFrame
+    Returns
+    -----------
+    pd.DataFrame
     """
 
     abs_dir_path = os.path.dirname(os.path.abspath(__file__))
@@ -142,14 +151,15 @@ def load_hr():
 
 
 def load_hr_test():
-    """
-    Load HR test data set.
+    """Load the HR test data set
 
     Datasets HR and HR_test are artificial, generated from the same model.
     Structure of the dataset is based on a real data, from Human Resources department
     with information which employees were promoted, which were fired.
 
-    :return: pandas.DataFrame
+    Returns
+    -----------
+    pd.DataFrame
     """
 
     abs_dir_path = os.path.dirname(os.path.abspath(__file__))

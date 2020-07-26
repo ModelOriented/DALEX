@@ -69,31 +69,60 @@ class CeterisParibus:
                                                                       self.processes,
                                                                       verbose)
 
-    def plot(self, objects=None, variable_type="numerical", variables=None, size=2, alpha=1, color="_label_", facet_ncol=2,
-             show_observations=True, title="Ceteris Paribus Profiles", title_x='prediction',
-             horizontal_spacing=0.05, vertical_spacing=None, show=True):
-        """
-        Plot function for CeterisParibus class.
+    def plot(self,
+             objects=None,
+             variable_type="numerical",
+             variables=None,
+             size=2,
+             alpha=1,
+             color="_label_",
+             facet_ncol=2,
+             show_observations=True,
+             title="Ceteris Paribus Profiles",
+             title_x='prediction',
+             horizontal_spacing=0.05,
+             vertical_spacing=None,
+             show=True):
+        """Plot the Ceteris Paribus explanation
 
-        :param objects: object of CeterisParibus class or list or tuple containing such objects
-        :param variable_type: either "numerical" or "categorical", determines type of variables to plot
-        :param variables: str list, if not None then only variables will be presented
-        :param size: int, width of lines
-        :param alpha: float, opacity of lines
-        :param color: string, variable name for groups, by default `_label_` which groups by models
-        :param facet_ncol: int, number of columns on the plot grid
-        :param show_observations show observation points
-        :param title: str, the plot's title
-        :param title_x: str, x axis title
-        :param horizontal_spacing: ratio of horizontal space between the plots, by default it's 0.1
-        :param vertical_spacing: ratio of vertical space between the plots, by default it's 0.3/`number of plots`
-        :param show: True shows the plot, False returns the plotly Figure object that can be edited or saved using `write_image()` method
+        Parameters
+        -----------
+        objects : CeterisParibus object or array_like of CeterisParibus objects
+            Additional objects to plot in subplots (default is None).
+        variable_type : {'numerical', 'categorical'}
+            Plot the profiles for numerical or categorical variables (default is 'numerical').
+        variables : str or array_like of str, optional
+            Variables for which the profiles will be calculated
+            (default is None, which means all of the variables).
+        size : float, optional
+            Width of lines in px (default is 2).
+        alpha : float <0, 1>, optional
+            Opacity of lines (default is 1).
+        color : str, optional
+            Variable name used for grouping (default is '_label_', which groups by models).
+        facet_ncol : int, optional
+            Number of columns on the plot grid (default is 2).
+        show_observations : bool, optional
+            Show observation points (default is True).
+        title : str, optional
+            Title of the plot (default is "Ceteris Paribus Profiles").
+        title_x : str, optional
+            Title of the x axis (default is "prediction").
+        horizontal_spacing : float <0, 1>, optional
+            Ratio of horizontal space between the plots (default is 0.05).
+        vertical_spacing : float <0, 1>, optional
+            Ratio of vertical space between the plots (default is 0.2/number of subplots).
+        show : bool, optional
+            True shows the plot; False returns the plotly Figure object that can be
+            edited or saved using the `write_image()` method (default is True).
 
-        :return None or plotly Figure (see :param show)
+        Returns
+        -----------
+        None or plotly.graph_objects.Figure
+            Return figure that can be edited or saved. See `show` parameter.
         """
 
         # TODO: numerical+categorical in one plot https://github.com/plotly/plotly.py/issues/2647
-        # TODO: show_observations and show_rugs (when _original_ is fixed) + tooltip data
 
         if variable_type not in ("numerical", "categorical"):
             raise TypeError("variable_type should be 'numerical' or 'categorical'")
@@ -171,7 +200,7 @@ class CeterisParibus:
 
         n = len(variable_names)
         if vertical_spacing is None:
-            vertical_spacing = 0.3 / n
+            vertical_spacing = 0.2 / n
         facet_nrow = int(np.ceil(n / facet_ncol))
 
         plot_height = 78 + 71 + facet_nrow * (280 + 60)
@@ -226,7 +255,7 @@ class CeterisParibus:
 
             fig = px.bar(_result_df,
                          x="_x_", y="_yhat_", color="_label_", facet_col="_vname_",
-                         category_orders=variable_names,
+                         category_orders={"_vname_": list(variable_names)},
                          labels={'_yhat_': 'prediction', '_label_': 'label', '_ids_': 'id'},  # , color: 'group'},
                          # hover_data={'_yhat_': ':.3f', '_ids_': True, '_vname_': False, color: False},
                          custom_data=['_text_'],

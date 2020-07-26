@@ -70,7 +70,7 @@ class BreakDown:
         Parameters
         -----------
         objects : BreakDown object or array_like of BreakDown objects
-            Additional objects to plot in subplots.
+            Additional objects to plot in subplots (default is None).
         baseline: float, optional
             Starting x point for bars (default is average prediction).
         max_vars : int, optional
@@ -90,7 +90,7 @@ class BreakDown:
         title : str, optional
             Title of the plot (default is "Break Down").
         vertical_spacing : float <0, 1>, optional
-            Ratio of vertical space between the plots, (default is 0.2/number of plots).
+            Ratio of vertical space between the plots (default is 0.2/number of subplots).
         show : bool, optional
             True shows the plot; False returns the plotly Figure object that can be
             edited or saved using the `write_image()` method (default is True).

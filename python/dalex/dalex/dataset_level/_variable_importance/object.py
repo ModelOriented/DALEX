@@ -77,20 +77,36 @@ class VariableImportance:
              title="Variable Importance",
              vertical_spacing=None,
              show=True):
-        """
-        Plot function for VariableImportance class.
+        """Plot the Variable Importance explanation
 
-        :param objects: object of VariableImportance class or list or tuple containing such objects
-        :param max_vars: int, maximum number of variables that shall be presented for for each model
-        :param digits: int, number of columns in the plot grid
-        :param rounding_function: a function to be used for rounding numbers
-        :param bar_width: float, width of bars
-        :param split: either "model" or "variable", determines the plot layout
-        :param title: str, the plot's title
-        :param vertical_spacing: ratio of vertical space between the plots, by default it's 0.2/`number of plots`
-        :param show: True shows the plot, False returns the plotly Figure object that can be edited or saved using `write_image()` method
+        Parameters
+        -----------
+        objects : VariableImportance object or array_like of VariableImportance objects
+            Additional objects to plot in subplots (default is None).
+        max_vars : int, optional
+            Maximum number of variables that will be presented for for each subplot
+            (default is 10).
+        digits : int, optional
+            Number of decimal places (np.around) to round contributions.
+            See `rounding_function` parameter (default is 3).
+        rounding_function : function, optional
+            A funciton that will be used for rounding numbers (default is np.around).
+        bar_width : float, optional
+            Width of bars in px (default is 16).
+        split : {'model', 'variable'}, optional
+            Split the subplots by model or variable (default is 'model').
+        title : str, optional
+            Title of the plot (default is "Variable Importance").
+        vertical_spacing : float <0, 1>, optional
+            Ratio of vertical space between the plots (default is 0.2/number of subplots).
+        show : bool, optional
+            True shows the plot; False returns the plotly Figure object that can be
+            edited or saved using the `write_image()` method (default is True).
 
-        :return None or plotly Figure (see :param show)
+        Returns
+        -----------
+        None or plotly.graph_objects.Figure
+            Return figure that can be edited or saved. See `show` parameter.
         """
 
         if isinstance(split, tuple):
