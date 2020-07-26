@@ -247,8 +247,8 @@ It's a data frame with calculated distribution of residuals.</p>
 <span class='no'>id_johny</span> <span class='kw'>&lt;-</span> <span class='fu'>predict_diagnostics</span>(<span class='no'>explainer_glm</span>, <span class='no'>johny_d</span>, <span class='kw'>variables</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: p-value will be approximate in the presence of ties</span></div><div class='input'><span class='no'>id_johny</span></div><div class='output co'>#&gt; 
 #&gt; 	Two-sample Kolmogorov-Smirnov test
 #&gt; 
-#&gt; data:  residuals_all and residuals_sel
-#&gt; D = 0.63784, p-value &lt; 2.2e-16
+#&gt; data:  residuals_other and residuals_sel
+#&gt; D = 0.65263, p-value &lt; 2.2e-16
 #&gt; alternative hypothesis: two-sided
 #&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>id_johny</span>)</div><div class='img'><img src='predict_diagnostics-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>id_johny</span> <span class='kw'>&lt;-</span> <span class='fu'>predict_diagnostics</span>(<span class='no'>explainer_glm</span>, <span class='no'>johny_d</span>,
