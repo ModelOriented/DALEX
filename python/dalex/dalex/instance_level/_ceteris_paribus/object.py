@@ -13,6 +13,8 @@ class CeterisParibus:
                  variables=None,
                  grid_points=101,
                  variable_splits=None,
+                 variable_splits_type='uniform',
+                 include_new_observation=True,
                  processes=1):
         """
         Creates Ceteris Paribus object
@@ -20,16 +22,20 @@ class CeterisParibus:
         :param variables: variables for which the profiles are calculated
         :param grid_points: number of points in a single variable split if calculated automatically
         :param variable_splits: mapping of variables into points the profile will be calculated, if None then calculate with the function `_calculate_variable_splits`
+        :param variable_splits_type: way of calculating variable_splits, se "quantiles" (default) for percentiles or "uniform" to get uniform grid of points
         :param processes: integer, number of parallel processes, iterated over variables
 
         :return None
         """
 
         processes_ = check_processes(processes)
+        variable_splits_type_ = check_variable_splits_type(variable_splits_type)
 
         self.variables = variables
         self.grid_points = grid_points
         self.variable_splits = variable_splits
+        self.variable_splits_type = variable_splits_type_
+        self.include_new_observation = include_new_observation
         self.result = None
         self.new_observation = None
         self.processes = processes_
@@ -92,14 +98,18 @@ class CeterisParibus:
         # are there any other objects to plot?
         if objects is None:
             _result_df = self.result.copy()
+            _obs_df = self.new_observation.copy()
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             _result_df = pd.concat([self.result.copy(), objects.result.copy()])
+            _obs_df = pd.concat([self.new_observation.copy(), objects.new_observation.copy()])
         else:  # objects as tuple or array
             _result_df = self.result.copy()
+            _obs_df = self.new_observation.copy()
             for ob in objects:
                 if not isinstance(ob, self.__class__):
                     raise TypeError("Some explanations aren't of CeterisParibus class")
                 _result_df = pd.concat([_result_df, ob.result.copy()])
+                _obs_df = pd.concat([_obs_df, ob.new_observation.copy()])
 
         # variables to use
         all_variables = list(_result_df['_vname_'].dropna().unique())
@@ -178,9 +188,25 @@ class CeterisParibus:
                                    'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3}) \
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                    'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3})
-
+            return fig, _result_df
             if show_observations:
                 pass
+
+                _points_df = _result_df.loc[_result_df['_original_'] == _result_df['_x_'], :].copy()
+
+                fig_points = px.scatter(_points_df,
+                                        x='_original_', y='_yhat_', facet_col='_vname_',
+                                        labels={'_yhat_': 'prediction', '_label_': 'label', '_ids_': 'id'},
+                                        custom_data=['_text_'],
+                                        facet_col_wrap=facet_ncol,
+                                        facet_row_spacing=vertical_spacing,
+                                        facet_col_spacing=horizontal_spacing,
+                                        color_discrete_sequence=["#371ea3"]) \
+                                .update_traces(dict(line_width=1.5*size, opacity=alpha),
+                                               hovertemplate="%{customdata[0]}<extra></extra>")
+
+                for _, value in enumerate(fig_points.data):
+                    fig.add_trace(value)
 
             if show_rugs:
                 pass

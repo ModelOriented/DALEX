@@ -10,13 +10,13 @@ class VariableImportance:
     def __init__(self,
                  loss_function='rmse',
                  type='variable_importance',
-                 N=None,
+                 N=1000,
                  B=10,
                  variables=None,
                  variable_groups=None,
+                 keep_raw_permutations=True,
                  processes=1,
-                 random_state=None,
-                 keep_raw_permutations=None):
+                 random_state=None):
         """
         Calculate feature importance of the model
 

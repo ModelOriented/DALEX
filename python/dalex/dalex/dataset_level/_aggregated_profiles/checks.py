@@ -74,7 +74,7 @@ def create_x(all_profiles, variable_type):
 def check_groups(groups):
     # treating groups as list simplifies code
     if groups is not None and not isinstance(groups, (str, list, np.ndarray, pd.Series)):
-        raise TypeError("groups must be None or str or numpy.ndarray od pandas.Series")
+        raise TypeError("groups must be str or list or numpy.ndarray or pandas.Series")
 
     if groups is None:
         groups_ = []

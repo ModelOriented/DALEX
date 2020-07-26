@@ -77,7 +77,7 @@ def check_y(y, data, verbose):
     elif isinstance(y, np.ndarray) and len(y.shape) != 1:
         raise ValueError("y must have only one dimension")
     elif not isinstance(y, np.ndarray) and data is not None:
-        raise TypeError("y must be numpy.ndarray or pandas.Series")
+        raise TypeError("y must be a 1D numpy.ndarray or pandas.Series")
     elif y is None:
         verbose_cat("  -> target variable   : not specified!", verbose=verbose)
 

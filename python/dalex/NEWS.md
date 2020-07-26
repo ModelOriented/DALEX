@@ -1,21 +1,47 @@
 dalex (development)
 ----------------------------------------------------------------
-* *fix:* 0.1.9 version of dalex had wrong `_original_` column in `predict_profile`
-* *fix:* `vertical_spacing` in `VariableImportance.plot` when `split='variable'`
-* *feature:* added `verbose` parameter where `tqdm` is used to verbose progress bar
-* *feature:* added `loss_one_minus_auc` function that can be used with `loss_function='1-auc'` in `model_parts`
-* *defaults:* use different `loss_function` for classification and regression ([#248](https://github.com/ModelOriented/DALEX/issues/248))
-* *defaults:* models that use `proba` yhats now get `model_type='classification'` if it's not specified
-* *fix:* `loss_function='auc'` now uses `loss_one_minus_auc` as this should be a descending measure
-* *feature:* added new example data sets: `apartments`, `dragons` and `hr`
-* *feature:* use `px.express` instead of core `plotly` to make `model_profile` and `predict_profile` plots;
+* ...
+
+dalex 0.2.0
+----------------------------------------------------------------
+* major documentation update ([#270](https://github.com/ModelOriented/DALEX/issues/270))
+* unified the order of function parameters
+
+### bug fixes
+
+* `v0.1.9` had wrong `_original_` column in `predict_profile`
+* `vertical_spacing` acts as intended in `VariableImportance.plot` when `split='variable'`
+* `loss_function='auc'` now uses `loss_one_minus_auc` as this should be a descending measure
+
+### features
+
+* use `px.express` instead of core `plotly` to make `model_profile` and `predict_profile` plots;
  thus, enhance performance and scalability
-* *feature:* added `color`, `opacity`, `title_x` parameters to `model_profile` and `predict_profile` plots ([#236](https://github.com/ModelOriented/DALEX/issues/236)),
+* added `verbose` parameter where `tqdm` is used to verbose progress bar
+* added `loss_one_minus_auc` function that can be used with `loss_function='1-auc'` in `model_parts`
+* added new example data sets: `apartments`, `dragons` and `hr`
+* added `color`, `opacity`, `title_x` parameters to `model_profile` and `predict_profile` plots ([#236](https://github.com/ModelOriented/DALEX/issues/236)),
  changed tooltips and legends ([#262](https://github.com/ModelOriented/DALEX/issues/262))
+* added `show_rugs` parameter to `predict_profile` plot ([#271](https://github.com/ModelOriented/DALEX/issues/271))
+* added `variable_splits_type` parameter to `predict_profile` and `model_profile` to specify how grid points
+ shall be calculated ([#266](https://github.com/ModelOriented/DALEX/issues/266))
+* added `include_new_observation` parameter to `predict_profile` function to extend split points with observation
+ variable values ([#269](https://github.com/ModelOriented/DALEX/issues/269))
+* added `variable_splits` parameter to `model_profile`
+ 
+### defaults
+
+* use different `loss_function` for classification and regression ([#248](https://github.com/ModelOriented/DALEX/issues/248))
+* models that use `proba` yhats now get `model_type='classification'` if it's not specified
+* use uniform way of grid points calculation in `predict_profile` and `model_profile` (see `variable_splits_type` parameter)
+* add the variable values of `new_observation` to `variable_splits` in `predict_profile` (see `include_new_observation` parameter)
+* use `N=1000` in `model_parts` and `N=300` in `model_profile` to comply with the R version
+* `keep_raw_permutation` is now set to `False` instead of `None` in `model_parts`
+* `intercept` parameter in `model_profile` is now named `center`
 
 dalex 0.1.9
 ----------------------------------------------------------------
-* *feature:* added `random_state` parameter for `SHAP` and `model_profile` for reproducible calculations
+* *feature:* added `random_state` parameter for `predict_parts(type='shap')` and `model_profile` for reproducible calculations
 * *fix:* fixed `random_state` parameter in `model_parts`
 * *feature:* multiprocessing added for: `model_profile`, `model_parts`, `predict_profile` and `predict_parts(type='shap')`, through the `processes` parameter
 * *fix:* significantly improved the speed of `accumulated` and `conditional` types in `model_profile`

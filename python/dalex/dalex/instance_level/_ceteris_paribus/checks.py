@@ -16,7 +16,7 @@ def check_variables(variables, explainer, variable_splits):
         if not set(variables_).issubset(explainer.data.columns):
             raise ValueError('Invalid variable names')
     elif variables_ is not None and not isinstance(variables_, (list, np.ndarray, pd.Series)):
-        raise TypeError("Variables must by list or numpy.ndarray or pd.Series")
+        raise TypeError("Variables must be a list or numpy.ndarray or pd.Series")
     else:
         variables_ = explainer.data.columns
 
@@ -106,3 +106,9 @@ def check_processes(processes):
 
     else:
         return processes
+
+
+def check_variable_splits_type(arg):
+    if arg not in ('uniform', 'quantile'):
+        raise ValueError("variable_splits_type has to be one of {'uniform', 'quantile'}")
+    return arg
