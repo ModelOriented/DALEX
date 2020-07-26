@@ -296,8 +296,8 @@ class Explainer:
 
         Parameters
         -----------
-        new_observation : pd.Series or np.ndarray
-            An observation for which a prediction needs to be explained.
+        new_observation : pd.DataFrame or np.ndarray
+            Observations for which predictions need to be explained.
         type : {'ceteris_paribus', TODO: 'oscilations'}
             Type of variable profiles (default is 'ceteris_paribus').
         y : pd.Series or np.ndarray (1d), optional

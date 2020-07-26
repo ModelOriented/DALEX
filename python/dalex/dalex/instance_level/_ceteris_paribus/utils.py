@@ -111,15 +111,21 @@ def single_variable_profile(predict,
 def calculate_variable_split(data,
                              variables,
                              grid_points,
-                             variable_splits_type,
-                             include_new_observation,
-                             new_observation):
+                             variable_splits_type='uniform',
+                             include_new_observation=False,
+                             new_observation=None):
     """
     Calculate points for splitting the dataset
 
     :param data: dataset to split
     :param variables: variables to calculate ceteris paribus
     :param grid_points: how many points should split the dataset
+    :param variable_splits_type: {'uniform', 'quantiles'}, optional way of calculating
+        `variable_splits`. Set 'quantiles' for percentiles.
+    :param include_new_observation: bool, optional add variable values of `new_observation`
+        data to the `variable_splits`.
+    :param new_observation: pd.DataFrame or np.ndarray, Observations for which predictions
+        need to be explained.
     :return: dict, dictionary of split points for all variables
     """
     variable_splits = {}
