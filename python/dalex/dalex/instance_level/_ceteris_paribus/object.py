@@ -52,7 +52,13 @@ class CeterisParibus:
 
         self.new_observation = check_new_observation(new_observation, explainer)
 
-        self.variable_splits = check_variable_splits(self.variable_splits, self.variables, explainer, self.grid_points)
+        self.variable_splits = check_variable_splits(self.variable_splits,
+                                                     self.variables,
+                                                     self.grid_points,
+                                                     self.variable_splits_type,
+                                                     self.include_new_observation,
+                                                     explainer.data,
+                                                     new_observation)
 
         y = check_y(y)
 
@@ -188,7 +194,7 @@ class CeterisParibus:
                                    'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3}) \
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                    'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3})
-            return fig, _result_df
+
             if show_observations:
                 pass
 

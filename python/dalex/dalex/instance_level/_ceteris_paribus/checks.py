@@ -72,11 +72,24 @@ def check_y(y):
     return y
 
 
-def check_variable_splits(variable_splits, variables, explainer, grid_points):
+def check_variable_splits(variable_splits,
+                          variables,
+                          grid_points,
+                          variable_splits_type,
+                          include_new_observation,
+                          data,
+                          new_observation):
     """
     Validate variable splits
     """
-    if variable_splits is not None:
+    if variable_splits is None:
+        variable_splits_ = calculate_variable_split(data,
+                                                    variables,
+                                                    grid_points,
+                                                    variable_splits_type,
+                                                    include_new_observation,
+                                                    new_observation)
+    else:
         if not isinstance(variable_splits, dict):
             raise TypeError("variable_splits has to be a dict")
 
@@ -90,9 +103,6 @@ def check_variable_splits(variable_splits, variables, explainer, grid_points):
                 raise TypeError("variable_splits values have to be list or numpy.ndarrays")
             if isinstance(variable_splits_[key], list):
                 variable_splits_[key] = np.array(variable_splits_[key])
-
-    if variable_splits is None:
-        variable_splits_ = calculate_variable_split(explainer.data, variables, grid_points)
 
     return variable_splits_
 
