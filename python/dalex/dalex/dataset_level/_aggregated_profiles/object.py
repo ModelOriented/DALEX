@@ -1,4 +1,5 @@
 import plotly.express as px
+from copy import deepcopy
 
 from .checks import *
 from .utils import aggregate_profiles
@@ -45,6 +46,7 @@ class AggregatedProfiles:
         self.intercept = intercept
         self.result = None
         self.mean_prediction = None
+        self.raw_profiles = None
         self.random_state = random_state
 
     def fit(self,
@@ -56,6 +58,7 @@ class AggregatedProfiles:
         if isinstance(ceteris_paribus, CeterisParibus):  # allow for ceteris_paribus to be a single element
             all_profiles = ceteris_paribus.result.copy()
             all_observations = ceteris_paribus.new_observation.copy()
+            self.raw_profiles = deepcopy(ceteris_paribus)
         elif isinstance(ceteris_paribus, list) or isinstance(ceteris_paribus,
                                                              tuple):  # ceteris_paribus as tuple or array
             all_profiles = None
@@ -83,7 +86,7 @@ class AggregatedProfiles:
 
         self.mean_prediction = all_observations['_yhat_'].mean()
 
-    def plot(self, objects=None, variables=None, size=2, alpha=1,
+    def plot(self, objects=None, geom='aggregates', variables=None, size=2, alpha=1,
              facet_ncol=2, title="Aggregated Profiles", title_x='prediction',
              horizontal_spacing=0.05, vertical_spacing=None, show=True):
         """
@@ -137,13 +140,18 @@ class AggregatedProfiles:
         if vertical_spacing is None:
             vertical_spacing = 0.2 / facet_nrow
         plot_height = 78 + 71 + facet_nrow * (280 + 60)
+        hovermode, render_mode = 'x unified', 'svg'
 
         color = '_label_'  # _groups_ doesnt make much sense for multiple AP objects
         m = len(_result_df[color].dropna().unique())
 
         if is_x_numeric:
+            if geom is 'profiles' and self.raw_profiles is not None:
+                render_mode = 'webgl'
+
             fig = px.line(_result_df,
                           x="_x_", y="_yhat_", color=color, facet_col="_vname_",
+                          category_orders={"_vname_": list(all_variables)},
                           labels={'_yhat_': 'prediction', '_mp_': 'mean_prediction'},  # , color: 'group'},
                           hover_name=color,
                           hover_data={'_yhat_': ':.3f', '_mp_': ':.3f',
@@ -152,6 +160,7 @@ class AggregatedProfiles:
                           facet_row_spacing=vertical_spacing,
                           facet_col_spacing=horizontal_spacing,
                           template="none",
+                          render_mode=render_mode,
                           color_discrete_sequence=get_default_colors(m, 'line')) \
                     .update_traces(dict(line_width=size, opacity=alpha)) \
                     .update_xaxes({'matches': None, 'showticklabels': True,
@@ -159,9 +168,22 @@ class AggregatedProfiles:
                                    'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3}) \
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                    'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3})
+
+            if geom is 'profiles' and self.raw_profiles is not None:
+                fig.update_traces(dict(line_width=2*size, opacity=1))
+                fig_cp = self.raw_profiles.plot(variables=list(all_variables),
+                                                facet_ncol=facet_ncol,
+                                                show_observations=False, show=False) \
+                    .update_traces(dict(line_width=1, opacity=0.5, line_color='#ceced9'))
+
+                for _, value in enumerate(fig.data):
+                    fig_cp.add_trace(value)
+                hovermode = False
+                fig = fig_cp
         else:
             fig = px.bar(_result_df,
                          x="_x_", y="_yhat_", color="_label_", facet_col="_vname_",
+                         category_orders={"_vname_": list(all_variables)},
                          labels={'_yhat_': 'prediction', '_mp_': 'mean_prediction'},  # , color: 'group'},
                          hover_name=color,
                          hover_data={'_yhat_': ':.3f', '_mp_': ':.3f',
@@ -178,7 +200,7 @@ class AggregatedProfiles:
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                    'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3})
 
-        fig = fig_update_line_plot(fig, title, title_x, plot_height, 'x unified')
+        fig = fig_update_line_plot(fig, title, title_x, plot_height, hovermode)
 
         if show:
             fig.show(config={'displaylogo': False, 'staticPlot': False,

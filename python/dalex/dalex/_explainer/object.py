@@ -403,7 +403,7 @@ class Explainer:
             Type of transformation that will be applied to dropout loss.
         N : int, optional
             Number of observations that will be sampled from the `data` attribute before
-            the calculation of variable importance (default is 1000).
+            the calculation of variable importance. None means all `data` (default is 1000).
         B : int, optional
             Number of permutation rounds to perform on each variable (default is 10).
         keep_raw_permutations: bool, optional
@@ -470,7 +470,7 @@ class Explainer:
             Type of model profiles (default is 'partial' for Partial Dependence Profiles).
         N : int, optional
             Number of observations that will be sampled from the `data` attribute before
-            the calculation of variable profiles (default is 500).
+            the calculation of variable profiles. None means all `data` (default is 300).
         variables : str or array_like of str, optional
             Variables for which the profiles will be calculated
             (default is None, which means all of the variables).

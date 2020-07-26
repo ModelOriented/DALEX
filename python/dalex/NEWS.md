@@ -22,7 +22,7 @@ dalex 0.2.0
 * added new example data sets: `apartments`, `dragons` and `hr`
 * added `color`, `opacity`, `title_x` parameters to `model_profile` and `predict_profile` plots ([#236](https://github.com/ModelOriented/DALEX/issues/236)),
  changed tooltips and legends ([#262](https://github.com/ModelOriented/DALEX/issues/262))
-* added `show_rugs` parameter to `predict_profile` plot ([#271](https://github.com/ModelOriented/DALEX/issues/271))
+* added `geom='profiles'` parameter to `model_profile` plot and `raw_profiles` attribute to `AggregatedProfiles`
 * added `variable_splits_type` parameter to `predict_profile` and `model_profile` to specify how grid points
  shall be calculated ([#266](https://github.com/ModelOriented/DALEX/issues/266))
 * added `include_new_observation` parameter to `predict_profile` function to extend split points with observation

@@ -55,10 +55,10 @@ class CeterisParibus:
         self.variable_splits = check_variable_splits(self.variable_splits,
                                                      self.variables,
                                                      self.grid_points,
+                                                     explainer.data,
                                                      self.variable_splits_type,
                                                      self.include_new_observation,
-                                                     explainer.data,
-                                                     new_observation)
+                                                     self.new_observation)
 
         y = check_y(y)
 
@@ -70,7 +70,7 @@ class CeterisParibus:
                                                                       verbose)
 
     def plot(self, objects=None, variable_type="numerical", variables=None, size=2, alpha=1, color="_label_", facet_ncol=2,
-             show_observations=True, show_rugs=True, title="Ceteris Paribus Profiles", title_x='prediction',
+             show_observations=True, title="Ceteris Paribus Profiles", title_x='prediction',
              horizontal_spacing=0.05, vertical_spacing=None, show=True):
         """
         Plot function for CeterisParibus class.
@@ -83,7 +83,6 @@ class CeterisParibus:
         :param color: string, variable name for groups, by default `_label_` which groups by models
         :param facet_ncol: int, number of columns on the plot grid
         :param show_observations show observation points
-        :param show_rugs show observation points rugs
         :param title: str, the plot's title
         :param title_x: str, x axis title
         :param horizontal_spacing: ratio of horizontal space between the plots, by default it's 0.1
@@ -104,18 +103,25 @@ class CeterisParibus:
         # are there any other objects to plot?
         if objects is None:
             _result_df = self.result.copy()
-            _obs_df = self.new_observation.copy()
+            _include = self.include_new_observation
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             _result_df = pd.concat([self.result.copy(), objects.result.copy()])
-            _obs_df = pd.concat([self.new_observation.copy(), objects.new_observation.copy()])
+            _include = np.all([self.include_new_observation, objects.include_new_observation])
         else:  # objects as tuple or array
             _result_df = self.result.copy()
-            _obs_df = self.new_observation.copy()
+            _include = [self.include_new_observation]
             for ob in objects:
                 if not isinstance(ob, self.__class__):
                     raise TypeError("Some explanations aren't of CeterisParibus class")
                 _result_df = pd.concat([_result_df, ob.result.copy()])
-                _obs_df = pd.concat([_obs_df, ob.new_observation.copy()])
+                _include += [ob.include_new_observation]
+            _include = np.all(_include)
+
+        if _include is False and show_observations:
+                warnings.warn("show_observations will be set to False,"
+                              "because the include_new_observation attribute is False"
+                              "See `include_new_observation` parameter in `predict_profile`.")
+                show_observations = False
 
         # variables to use
         all_variables = list(_result_df['_vname_'].dropna().unique())
@@ -152,10 +158,10 @@ class CeterisParibus:
                 raise TypeError("There are no non-numerical variables.")
 
         # prepare profiles data
-        _result_df = _result_df.loc[_result_df['_vname_'].apply(lambda x: x in variable_names), ].reset_index(drop=True)
+        _result_df = _result_df.loc[_result_df['_vname_'].isin(variable_names), ].reset_index(drop=True)
 
         # create _x_
-        for variable in _result_df['_vname_'].unique():
+        for variable in variable_names:
             where_variable = _result_df['_vname_'] == variable
             _result_df.loc[where_variable, '_x_'] = _result_df.loc[where_variable, variable]
 
@@ -179,6 +185,7 @@ class CeterisParibus:
 
             fig = px.line(_result_df,
                           x="_x_", y="_yhat_", color=color, facet_col="_vname_", line_group='_ids_',
+                          category_orders={"_vname_": list(variable_names)},
                           labels={'_yhat_': 'prediction', '_label_': 'label', '_ids_': 'id'},  # , color: 'group'},
                           # hover_data={'_text_': True, '_yhat_': ':.3f', '_vname_': False, '_x_': False, color: False},
                           custom_data=['_text_'],
@@ -187,8 +194,8 @@ class CeterisParibus:
                           facet_col_spacing=horizontal_spacing,
                           template="none",
                           color_discrete_sequence=get_default_colors(m, 'line')) \
-                    .update_traces(dict(line_width=size, opacity=alpha),
-                                   hovertemplate="%{customdata[0]}<extra></extra>") \
+                    .update_traces(dict(line_width=size, opacity=alpha,
+                                        hovertemplate="%{customdata[0]}<extra></extra>")) \
                     .update_xaxes({'matches': None, 'showticklabels': True,
                                    'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                    'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3}) \
@@ -196,32 +203,30 @@ class CeterisParibus:
                                    'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3})
 
             if show_observations:
-                pass
-
                 _points_df = _result_df.loc[_result_df['_original_'] == _result_df['_x_'], :].copy()
 
                 fig_points = px.scatter(_points_df,
                                         x='_original_', y='_yhat_', facet_col='_vname_',
+                                        category_orders={"_vname_": list(variable_names)},
                                         labels={'_yhat_': 'prediction', '_label_': 'label', '_ids_': 'id'},
                                         custom_data=['_text_'],
                                         facet_col_wrap=facet_ncol,
                                         facet_row_spacing=vertical_spacing,
                                         facet_col_spacing=horizontal_spacing,
                                         color_discrete_sequence=["#371ea3"]) \
-                                .update_traces(dict(line_width=1.5*size, opacity=alpha),
-                                               hovertemplate="%{customdata[0]}<extra></extra>")
+                               .update_traces(dict(marker_size=5*size, opacity=alpha),
+                                              hovertemplate="%{customdata[0]}<extra></extra>")
 
                 for _, value in enumerate(fig_points.data):
                     fig.add_trace(value)
 
-            if show_rugs:
-                pass
         else:
             if len(_result_df['_ids_'].unique()) > 1:  # https://github.com/plotly/plotly.py/issues/2657
                 raise TypeError("Please pick one observation per label.")
 
             fig = px.bar(_result_df,
                          x="_x_", y="_yhat_", color="_label_", facet_col="_vname_",
+                         category_orders=variable_names,
                          labels={'_yhat_': 'prediction', '_label_': 'label', '_ids_': 'id'},  # , color: 'group'},
                          # hover_data={'_yhat_': ':.3f', '_ids_': True, '_vname_': False, color: False},
                          custom_data=['_text_'],

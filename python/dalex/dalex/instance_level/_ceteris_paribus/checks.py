@@ -75,9 +75,9 @@ def check_y(y):
 def check_variable_splits(variable_splits,
                           variables,
                           grid_points,
+                          data,
                           variable_splits_type,
                           include_new_observation,
-                          data,
                           new_observation):
     """
     Validate variable splits
