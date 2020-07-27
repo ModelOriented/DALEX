@@ -457,7 +457,7 @@ class Explainer:
                       span=0.25,
                       grid_points=101,
                       variable_splits=None,
-                      intercept=True,
+                      center=True,
                       processes=1,
                       random_state=None,
                       verbose=True):
@@ -531,7 +531,7 @@ class Explainer:
             variable_type=variable_type,
             groups=groups,
             span=span,
-            intercept=intercept,
+            center=center,
             random_state=random_state
         )
 

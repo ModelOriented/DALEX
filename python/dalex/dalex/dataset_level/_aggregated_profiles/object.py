@@ -20,7 +20,7 @@ class AggregatedProfiles:
                  variable_type='numerical',
                  groups=None,
                  span=0.25,
-                 intercept=True,
+                 center=True,
                  random_state=None):
         """
         Constructor for AggregatedProfiles.
@@ -43,7 +43,7 @@ class AggregatedProfiles:
         self.type = type
         self.variables = variables_
         self.span = span
-        self.intercept = intercept
+        self.center = center
         self.result = None
         self.mean_prediction = None
         self.raw_profiles = None
@@ -81,7 +81,7 @@ class AggregatedProfiles:
 
         all_profiles = create_x(all_profiles, self.variable_type)
 
-        self.result = aggregate_profiles(all_profiles, self.type, self.groups, self.intercept,
+        self.result = aggregate_profiles(all_profiles, self.type, self.groups, self.center,
                                          self.span, verbose)
 
         self.mean_prediction = all_observations['_yhat_'].mean()
@@ -104,6 +104,11 @@ class AggregatedProfiles:
         -----------
         objects : AggregatedProfiles object or array_like of AggregatedProfiles objects
             Additional objects to plot in subplots (default is None).
+        geom : {'aggregates', 'profiles'}
+            If 'profiles' then raw profiles will be plotted in the background
+            (default is 'aggregates', which means plot only aggregated profiles).
+            NOTE: It is useful to use small values of the `N` parameter in object creation
+            before using `profiles`, because of plot performance and clarity (e.g. 100).
         variables : str or array_like of str, optional
             Variables for which the profiles will be calculated
             (default is None, which means all of the variables).
