@@ -111,7 +111,7 @@ class CeterisParibus:
         horizontal_spacing : float <0, 1>, optional
             Ratio of horizontal space between the plots (default is 0.05).
         vertical_spacing : float <0, 1>, optional
-            Ratio of vertical space between the plots (default is 0.2/number of subplots).
+            Ratio of vertical space between the plots (default is 0.3/number of rows).
         show : bool, optional
             True shows the plot; False returns the plotly Figure object that can be
             edited or saved using the `write_image()` method (default is True).
@@ -199,9 +199,9 @@ class CeterisParibus:
             _result_df.loc[:, '_x_'] = _result_df.apply(lambda row: str(row[row['_vname_']]), axis=1)
 
         n = len(variable_names)
-        if vertical_spacing is None:
-            vertical_spacing = 0.2 / n
         facet_nrow = int(np.ceil(n / facet_ncol))
+        if vertical_spacing is None:
+            vertical_spacing = 0.3 / facet_nrow
 
         plot_height = 78 + 71 + facet_nrow * (280 + 60)
 
@@ -227,9 +227,9 @@ class CeterisParibus:
                                         hovertemplate="%{customdata[0]}<extra></extra>")) \
                     .update_xaxes({'matches': None, 'showticklabels': True,
                                    'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
-                                   'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3}) \
+                                   'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True}) \
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
-                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3})
+                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True})
 
             if show_observations:
                 _points_df = _result_df.loc[_result_df['_original_'] == _result_df['_x_'], :].copy()
@@ -269,9 +269,9 @@ class CeterisParibus:
                                    hovertemplate="%{customdata[0]}<extra></extra>") \
                     .update_xaxes({'matches': None, 'showticklabels': True,
                                    'type': 'category', 'gridwidth': 2, 'autorange': 'reversed', 'automargin': True,
-                                   'ticks': "outside", 'tickcolor': 'white', 'ticklen': 10}) \
+                                   'ticks': "outside", 'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True}) \
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
-                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3})
+                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True})
 
         fig = fig_update_line_plot(fig, title, title_x, plot_height, 'closest')
 
@@ -281,6 +281,7 @@ class CeterisParibus:
 
         if show:
             fig.show(config={'displaylogo': False, 'staticPlot': False,
+                             'toImageButtonOptions': {'height': None, 'width': None, },
                              'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
                                                         'zoom2d', 'pan2d',
                                                         'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines',

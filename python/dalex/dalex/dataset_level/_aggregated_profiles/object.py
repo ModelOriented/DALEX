@@ -122,7 +122,7 @@ class AggregatedProfiles:
         horizontal_spacing : float <0, 1>, optional
             Ratio of horizontal space between the plots (default is 0.05).
         vertical_spacing : float <0, 1>, optional
-            Ratio of vertical space between the plots (default is 0.2/number of subplots).
+            Ratio of vertical space between the plots (default is 0.3/number of rows).
         show : bool, optional
             True shows the plot; False returns the plotly Figure object that can be
             edited or saved using the `write_image()` method (default is True).
@@ -167,7 +167,7 @@ class AggregatedProfiles:
 
         facet_nrow = int(np.ceil(n / facet_ncol))
         if vertical_spacing is None:
-            vertical_spacing = 0.2 / facet_nrow
+            vertical_spacing = 0.3 / facet_nrow
         plot_height = 78 + 71 + facet_nrow * (280 + 60)
         hovermode, render_mode = 'x unified', 'svg'
 
@@ -194,9 +194,9 @@ class AggregatedProfiles:
                     .update_traces(dict(line_width=size, opacity=alpha)) \
                     .update_xaxes({'matches': None, 'showticklabels': True,
                                    'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
-                                   'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3}) \
+                                   'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True}) \
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
-                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3})
+                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True})
 
             if geom is 'profiles' and self.raw_profiles is not None:
                 fig.update_traces(dict(line_width=2*size, opacity=1))
@@ -225,14 +225,15 @@ class AggregatedProfiles:
                          barmode='group')  \
                     .update_xaxes({'matches': None, 'showticklabels': True,
                                    'type': 'category', 'gridwidth': 2, 'autorange': 'reversed', 'automargin': True,
-                                   'ticks': "outside", 'tickcolor': 'white', 'ticklen': 10}) \
+                                   'ticks': "outside", 'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True}) \
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
-                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3})
+                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True})
 
         fig = fig_update_line_plot(fig, title, title_x, plot_height, hovermode)
 
         if show:
             fig.show(config={'displaylogo': False, 'staticPlot': False,
+                             'toImageButtonOptions': {'height': None, 'width': None, },
                              'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
                                                         'zoom2d', 'pan2d',
                                                         'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines',

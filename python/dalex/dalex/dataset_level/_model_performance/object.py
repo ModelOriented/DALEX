@@ -144,6 +144,7 @@ class ModelPerformance:
 
         if show:
             fig.show(config={'displaylogo': False, 'staticPlot': False,
+                             'toImageButtonOptions': {'height': None, 'width': None, },
                              'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
                                                         'zoom2d',
                                                         'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',

@@ -12,6 +12,7 @@ dalex 0.2.0
 * `v0.1.9` had wrong `_original_` column in `predict_profile`
 * `vertical_spacing` acts as intended in `VariableImportance.plot` when `split='variable'`
 * `loss_function='auc'` now uses `loss_one_minus_auc` as this should be a descending measure
+* plots are now saved with the original height and width
 
 ### features
 
@@ -28,7 +29,7 @@ dalex 0.2.0
 * added `include_new_observation` parameter to `predict_profile` function to extend split points with observation
  variable values ([#269](https://github.com/ModelOriented/DALEX/issues/269))
 * added `variable_splits` parameter to `model_profile`
- 
+
 ### defaults
 
 * use different `loss_function` for classification and regression ([#248](https://github.com/ModelOriented/DALEX/issues/248))

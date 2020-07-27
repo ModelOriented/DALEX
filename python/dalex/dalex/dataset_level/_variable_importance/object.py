@@ -98,7 +98,7 @@ class VariableImportance:
         title : str, optional
             Title of the plot (default is "Variable Importance").
         vertical_spacing : float <0, 1>, optional
-            Ratio of vertical space between the plots (default is 0.2/number of subplots).
+            Ratio of vertical space between the plots (default is 0.2/number of rows).
         show : bool, optional
             True shows the plot; False returns the plotly Figure object that can be
             edited or saved using the `write_image()` method (default is True).
@@ -296,6 +296,7 @@ class VariableImportance:
 
         if show:
             fig.show(config={'displaylogo': False, 'staticPlot': False,
+                             'toImageButtonOptions': {'height': None, 'width': None, },
                              'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
                                                         'zoom2d',
                                                         'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',
