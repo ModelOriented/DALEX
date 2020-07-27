@@ -9,11 +9,49 @@ from ..._explainer.theme import get_break_down_colors
 
 
 class BreakDown:
+    """Calculate instance level variable attributions as Break Down
+
+    Parameters
+    -----------
+    new_observation : pd.Series or np.ndarray
+        An observation for which a prediction needs to be explained.
+    type : {'break_down_interactions', 'break_down'}
+        Type of variable attributions (default is 'break_down_interactions').
+    order : list of int or str, optional
+        Use a fixed order of variables for attribution calculation. Use integer values
+        or string variable names (default is None which means order by importance).
+    interaction_preference : int, optional
+        Specify which interactions will be present in an explanation. The larger the
+        integer, the more frequently interactions will be presented (default is 1).
+    keep_distributions : bool, optional
+        Store the distribution of partial predictions (default is False).
+
+    Attributes
+    -----------
+    type : str
+        Type of variable attributions.
+    result : pd.DataFrame
+        Main result attribute of an explanation.
+    order : list of int or str or None
+        Order of variables used in attribution calculation.
+    interaction_preference : int
+        Frequency of interaction use.
+    keep_distributions : bool
+        Store the distribution of partial predictions.
+    yhats_distributions : pd.DataFrame or None
+        The distribution of partial predictions.
+
+    Notes
+    --------
+    https://pbiecek.github.io/ema/breakDown.html
+    https://pbiecek.github.io/ema/iBreakDown.html
+    """
+
     def __init__(self,
                  type='break_down',
-                 keep_distributions=False,
                  order=None,
-                 interaction_preference=1):
+                 interaction_preference=1,
+                 keep_distributions=False):
 
         order = check_order(order)
 
@@ -27,6 +65,22 @@ class BreakDown:
     def fit(self,
             explainer,
             new_observation):
+        """Calculate the result of explanation
+
+        Fit method makes calculations in place and changes the attributes.
+
+        Parameters
+        -----------
+        explainer : Explainer object
+            Model wrapper created using the Explainer class.
+        new_observation : pd.Series or np.ndarray
+            An observation for which a prediction needs to be explained.
+
+        Returns
+        -----------
+        None
+        """
+
 
         new_observation = check_new_observation(new_observation, explainer)
         if new_observation.shape[0] != 1:
