@@ -7,10 +7,53 @@ from ..._explainer.theme import get_break_down_colors
 
 
 class Shap:
+    """Calculate instance level variable attributions as Shapley Values
+
+    Parameters
+    -----------
+    path : list of int, optional
+        If specified, then attributions for this path will be plotted
+        (default is 'average', which plots attribution means for `B` random paths).
+    B : int, optional
+        Number of random paths to calculate variable attributions (default is 25).
+    keep_distributions : bool, optional
+        Store the distribution of partial predictions (default is False).
+    processes : int, optional
+        Number of parallel processes to use in calculations. Iterated over `B`
+        (default is 1, which means no parallel computation).
+    random_state : int, optional
+        Set seed for random number generator (default is random seed).
+
+    Attributes
+    -----------
+    result : pd.DataFrame
+        Main result attribute of an explanation.
+    prediction : float
+        Prediction for `new_observation`.
+    intercept : float
+        Average prediction for `data`.
+    path : list of int or 'average'
+        Path for which the attributions will be plotted.
+    B : int
+        Number of random paths to calculate variable attributions.
+    keep_distributions : bool
+        Store the distribution of partial predictions.
+    yhats_distributions : pd.DataFrame or None
+        The distribution of partial predictions.
+    processes : int
+        Number of parallel processes to use in calculations. Iterated over `B`.
+    random_state : int or None
+        Seed that was set for random number generator.
+
+    Notes
+    --------
+    https://pbiecek.github.io/ema/shapley.html
+    """
+
     def __init__(self,
                  path="average",
-                 keep_distributions=True,
                  B=25,
+                 keep_distributions=False,
                  processes=1,
                  random_state=None):
 
@@ -31,6 +74,21 @@ class Shap:
     def fit(self,
             explainer,
             new_observation):
+        """Calculate the result of explanation
+
+        Fit method makes calculations in place and changes the attributes.
+
+        Parameters
+        -----------
+        explainer : Explainer object
+            Model wrapper created using the Explainer class.
+        new_observation : pd.Series or np.ndarray
+            An observation for which a prediction needs to be explained.
+
+        Returns
+        -----------
+        None
+        """
 
         new_observation = check_new_observation(new_observation, explainer)
         check_columns_in_new_observation(new_observation, explainer)

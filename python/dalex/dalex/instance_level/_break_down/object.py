@@ -13,8 +13,6 @@ class BreakDown:
 
     Parameters
     -----------
-    new_observation : pd.Series or np.ndarray
-        An observation for which a prediction needs to be explained.
     type : {'break_down_interactions', 'break_down'}
         Type of variable attributions (default is 'break_down_interactions').
     order : list of int or str, optional
@@ -28,10 +26,10 @@ class BreakDown:
 
     Attributes
     -----------
-    type : str
-        Type of variable attributions.
     result : pd.DataFrame
         Main result attribute of an explanation.
+    type : {'break_down_interactions', 'break_down'}
+        Type of variable attributions.
     order : list of int or str or None
         Order of variables used in attribution calculation.
     interaction_preference : int

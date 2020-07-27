@@ -5,17 +5,34 @@ from .utils import *
 
 
 class ModelPerformance:
+    """Calculate dataset level model performance measures
+
+    Parameters
+    -----------
+    model_type : {'regression', 'classification'}
+        Model task type that is used to choose the proper performance measures.
+    cutoff : float, optional
+        Cutoff for predictions in classification models. Needed for measures like
+        recall, precision, acc, f1 (default is 0.5).
+
+    Attributes
+    -----------
+    result : pd.DataFrame
+        Main result attribute of an explanation.
+    residuals : pd.DataFrame
+        Residuals for `data`.
+    model_type : {'regression', 'classification'}
+        Model task type that is used to choose the proper performance measures.
+    cutoff : float
+        Cutoff for predictions in classification models.
+
+    Notes
+    --------
+    https://pbiecek.github.io/ema/modelPerformance.html
+    """
     def __init__(self,
                  model_type,
                  cutoff=0.5):
-        """
-        Constructor for ModelPerformance.
-
-        :param model_type: either "regression" or "classification" determines measures to calculate
-        :param cutoff: float, a cutoff for classification models, needed for measures like recall, precision, ACC, F1
-
-        :return None
-        """
 
         self.cutoff = cutoff
         self.model_type = model_type
@@ -23,6 +40,19 @@ class ModelPerformance:
         self.residuals = None
 
     def fit(self, explainer):
+        """Calculate the result of explanation
+
+        Fit method makes calculations in place and changes the attributes.
+
+        Parameters
+        -----------
+        explainer : Explainer object
+            Model wrapper created using the Explainer class.
+
+        Returns
+        -----------
+        None
+        """
 
         if explainer.y_hat is not None:
             y_pred = explainer.y_hat

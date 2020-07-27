@@ -9,6 +9,55 @@ from ..._explainer.theme import get_default_colors, fig_update_line_plot
 
 
 class CeterisParibus:
+    """Calculate instance level variable profiles as Ceteris Paribus
+
+    Parameters
+    -----------
+    variables : array_like of str, optional
+        Variables for which the profiles will be calculated
+        (default is None, which means all of the variables).
+    grid_points : int, optional
+        Maximum number of points for profile calculations (default is 101).
+        NOTE: The final number of points may be lower than `grid_points`,
+        eg. if there is not enough unique values for a given variable.
+    variable_splits : dict of lists, optional
+        Split points for variables e.g. {'x': [0, 0.2, 0.5, 0.8, 1], 'y': ['a', 'b']}
+        (default is None, which means that they will be calculated using one of
+        `variable_splits_type` and the `data` attribute).
+    variable_splits_type : {'uniform', 'quantiles'}, optional
+        Way of calculating `variable_splits`. Set 'quantiles' for percentiles.
+        (default is 'uniform', which means uniform grid of points).
+    include_new_observation: bool, optional
+        Add variable values of `new_observation` data to the `variable_splits`
+        (default is True).
+    processes : int, optional
+        Number of parallel processes to use in calculations. Iterated over `variables`
+        (default is 1, which means no parallel computation).
+
+    Attributes
+    -----------
+    result : pd.DataFrame
+        Main result attribute of an explanation.
+    new_observation : pd.DataFrame
+        Observations for which predictions need to be explained.
+    variables : array_like of str or None
+        Variables for which the profiles will be calculated.
+    grid_points : int
+        Maximum number of points for profile calculations.
+    variable_splits : dict of lists or None
+        Split points for variables.
+    variable_splits_type : {'uniform', 'quantiles'}
+        Way of calculating `variable_splits`.
+    include_new_observation: bool
+        Add variable values of `new_observation` data to the `variable_splits`.
+    processes : int
+        Number of parallel processes to use in calculations. Iterated over `B`.
+
+    Notes
+    --------
+    https://pbiecek.github.io/ema/ceterisParibus.html
+    """
+
     def __init__(self,
                  variables=None,
                  grid_points=101,
@@ -16,17 +65,6 @@ class CeterisParibus:
                  variable_splits_type='uniform',
                  include_new_observation=True,
                  processes=1):
-        """
-        Creates Ceteris Paribus object
-
-        :param variables: variables for which the profiles are calculated
-        :param grid_points: number of points in a single variable split if calculated automatically
-        :param variable_splits: mapping of variables into points the profile will be calculated, if None then calculate with the function `_calculate_variable_splits`
-        :param variable_splits_type: way of calculating variable_splits, se "quantiles" (default) for percentiles or "uniform" to get uniform grid of points
-        :param processes: integer, number of parallel processes, iterated over variables
-
-        :return None
-        """
 
         processes_ = check_processes(processes)
         variable_splits_type_ = check_variable_splits_type(variable_splits_type)
@@ -45,6 +83,25 @@ class CeterisParibus:
             new_observation,
             y=None,
             verbose=True):
+        """Calculate the result of explanation
+
+        Fit method makes calculations in place and changes the attributes.
+
+        Parameters
+        -----------
+        explainer : Explainer object
+            Model wrapper created using the Explainer class.
+        new_observation : pd.DataFrame or np.ndarray
+            Observations for which predictions need to be explained.
+        y : pd.Series or np.ndarray (1d), optional
+            Target variable with the same length as `new_observation`.
+        verbose : bool, optional
+            Print tqdm progress bar (default is True).
+
+        Returns
+        -----------
+        None
+        """
 
         self.variables = check_variables(self.variables, explainer, self.variable_splits)
 
