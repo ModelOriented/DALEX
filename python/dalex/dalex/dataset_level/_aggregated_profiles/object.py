@@ -7,11 +7,62 @@ from ..._explainer.theme import get_default_colors, fig_update_line_plot
 
 
 class AggregatedProfiles:
-    """
-    The class for calculating an aggregation of ceteris paribus profiles.
-    It can be: Partial Dependency Profile (average across Ceteris Paribus Profiles),
-    Conditional Dependency Profile (local weighted average across Ceteris Paribus Profiles) or
-    Accumulated Local Dependency Profile (cummulated average local changes in Ceteris Paribus Profiles).
+    """Calculate dataset level variable profiles as Partial or Accumulated Dependence
+
+    Partial Dependence Profile (average across CP Profiles),
+    Individual Conditional Expectation (local weighted average across CP Profiles),
+    Accumulated Local Effects (cummulated average local changes in CP Profiles).
+
+    Parameters
+    -----------
+    type : {'partial', 'accumulated', 'conditional'}
+        Type of model profiles (default is 'partial' for Partial Dependence Profiles).
+    variables : str or array_like of str, optional
+        Variables for which the profiles will be calculated
+        (default is None, which means all of the variables).
+    variable_type : {'numerical', 'categorical'}
+        Calculate the profiles for numerical or categorical variables
+        (default is 'numerical').
+    groups : str or array_like of str, optional
+        Names of categorical variables that will be used for profile grouping
+        (default is None, which means no grouping).
+    span : float, optional
+        Smoothing coefficient used as sd for gaussian kernel (default is 0.25).
+    center : bool, optional
+        Theoretically Accumulated Profiles starts at 0. If True, then they are centered
+        around average response like Partial Profiles (default is True).
+    random_state : int, optional
+        Set seed for random number generator (default is random seed).
+
+    Attributes
+    -----------
+    result : pd.DataFrame
+        Main result attribute of an explanation.
+    mean_prediction : float
+        Average prediction for sampled `data` (using `N`).
+    raw_profiles : pd.DataFrame or None
+        Saved CeterisParibus object.
+        NOTE: None if more objects were passed to the `fit` method.
+    type : {'partial', 'accumulated', 'conditional'}
+        Type of model profiles.
+    variables : array_like of str or None
+        Variables for which the profiles will be calculated
+    variable_type : {'numerical', 'categorical'}
+        Calculate the profiles for numerical or categorical variables.
+    groups : str or array_like of str or None
+        Names of categorical variables that will be used for profile grouping.
+    span : float
+        Smoothing coefficient used as sd for gaussian kernel.
+    center : bool
+        Theoretically Accumulated Profiles starts at 0. If True, then they are centered
+        around average response like Partial Profiles.
+    random_state : int or None
+        Set seed for random number generator.
+
+    Notes
+    --------
+    https://pbiecek.github.io/ema/partialDependenceProfiles.html
+    https://pbiecek.github.io/ema/accumulatedLocalProfiles.html
     """
 
     def __init__(self,
@@ -22,17 +73,6 @@ class AggregatedProfiles:
                  span=0.25,
                  center=True,
                  random_state=None):
-        """
-        Constructor for AggregatedProfiles.
-
-        :param variables: str or list or numpy.ndarray or pandas.Series, if not None then aggregate only for selected variables will be calculated, if None all will be selected
-        :param groups: str or list or numpy.ndarray or pandas.Series, a variable names that will be used for grouping
-        :param type: str, either partial/conditional/accumulated for partial dependence, conditional profiles of accumulated local effects
-        :param span: float, smoothing coeffcient, by default 0.25. It's the sd for gaussian kernel
-        :param variable_type: str, If numerical then only numerical variables will be calculated. If categorical then only categorical variables will be calculated.
-
-        :return None
-        """
 
         check_variable_type(variable_type)
         variables_ = check_variables(variables)
@@ -52,7 +92,21 @@ class AggregatedProfiles:
     def fit(self,
             ceteris_paribus,
             verbose=True):
+        """Calculate the result of explanation
 
+        Fit method makes calculations in place and changes the attributes.
+
+        Parameters
+        -----------
+        ceteris_paribus : CeterisParibus object or array_like of CeterisParibus objects
+            Profile objects to aggregate.
+        verbose : bool, optional
+            Print tqdm progress bar (default is True).
+
+        Returns
+        -----------
+        None
+        """
         # are there any other cp?
         from dalex.instance_level import CeterisParibus
         if isinstance(ceteris_paribus, CeterisParibus):  # allow for ceteris_paribus to be a single element

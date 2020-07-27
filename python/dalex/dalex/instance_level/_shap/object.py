@@ -17,7 +17,7 @@ class Shap:
     B : int, optional
         Number of random paths to calculate variable attributions (default is 25).
     keep_distributions : bool, optional
-        Store the distribution of partial predictions (default is False).
+        Save the distribution of partial predictions (default is False).
     processes : int, optional
         Number of parallel processes to use in calculations. Iterated over `B`
         (default is 1, which means no parallel computation).
@@ -37,7 +37,7 @@ class Shap:
     B : int
         Number of random paths to calculate variable attributions.
     keep_distributions : bool
-        Store the distribution of partial predictions.
+        Save the distribution of partial predictions.
     yhats_distributions : pd.DataFrame or None
         The distribution of partial predictions.
     processes : int

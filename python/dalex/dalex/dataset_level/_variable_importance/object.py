@@ -7,6 +7,66 @@ from ..._explainer.theme import get_default_colors
 
 
 class VariableImportance:
+    """Calculate dataset level variable importance
+
+    Parameters
+    -----------
+    loss_function : {'rmse', '1-auc', 'mse', 'mae', 'mad'} or function, optional
+        If string, then such loss function will be used to assess variable importance
+        (default is 'rmse' or `1-auc`, depends on `model_type` attribute).
+    type : {'variable_importance', 'ratio', 'difference'}, optional
+        Type of transformation that will be applied to dropout loss.
+    N : int, optional
+        Number of observations that will be sampled from the `data` attribute before
+        the calculation of variable importance. None means all `data` (default is 1000).
+    B : int, optional
+        Number of permutation rounds to perform on each variable (default is 10).
+    variables : array_like of str, optional
+        Variables for which the importance will be calculated
+        (default is None, which means all of the variables).
+        NOTE: Ignored if `variable_groups` is not None.
+    variable_groups : dict of lists, optional
+        Group the variables to calculate their joint variable importance
+        e.g. {'X': ['x1', 'x2'], 'Y': ['y1', 'y2']} (default is None).
+    keep_raw_permutations: bool, optional
+        Save results for all permutation rounds (default is True).
+    processes : int, optional
+        Number of parallel processes to use in calculations. Iterated over `B`
+        (default is 1, which means no parallel computation).
+    random_state : int, optional
+        Set seed for random number generator (default is random seed).
+
+    Attributes
+    -----------
+    result : pd.DataFrame
+        Main result attribute of an explanation.
+    loss_function : function
+        Loss function used to assess the variable importance.
+    type : {'variable_importance', 'ratio', 'difference'}
+        Type of transformation that will be applied to dropout loss.
+    N : int
+        Number of observations that will be sampled from the `data` attribute before
+        the calculation of variable importance.
+    B : int
+        Number of permutation rounds to perform on each variable.
+    variables : array_like of str or None
+        Variables for which the importance will be calculated
+    variable_groups : dict of lists or None
+        Grouped variables to calculate their joint variable importance.
+    keep_raw_permutations: bool
+        Save the results for all permutation rounds.
+    permutation : pd.DataFrame or None
+        The results for all permutation rounds.
+    processes : int
+        Number of parallel processes to use in calculations. Iterated over `B`.
+    random_state : int or None
+        Set seed for random number generator.
+
+    Notes
+    --------
+    https://pbiecek.github.io/ema/featureImportance.html
+    """
+
     def __init__(self,
                  loss_function='rmse',
                  type='variable_importance',
@@ -17,21 +77,6 @@ class VariableImportance:
                  keep_raw_permutations=True,
                  processes=1,
                  random_state=None):
-        """
-        Calculate feature importance of the model
-
-        :param loss_function: str or a function that will be used to assess variable importance, e.g. 'rmse' or '1-auc'
-        :param type: 'variable_importance'/'ratio'/'difference' type of transformation that should be applied for dropout loss
-        :param N: number of observations that should be sampled for calculation of variable importance
-        :param B: number of permutation rounds to perform on each variable
-        :param variables: vector of variables. If None then variable importance will be tested for each variable from the data separately
-        :param variable_groups: dict of lists of variables. Each list is treated as one group. This is for testing joint variable importance
-        :param processes: integer, number of parallel processes, iterated over Bs
-        :param random_state: random state for the permutations
-        :param keep_raw_permutations: bool, set to True if you want to save all steps
-
-        :return None
-        """
 
         loss_function = check_loss_function(loss_function)
         B = check_B(B)
@@ -54,6 +99,20 @@ class VariableImportance:
         self.processes = processes_
 
     def fit(self, explainer):
+        """Calculate the result of explanation
+
+        Fit method makes calculations in place and changes the attributes.
+
+        Parameters
+        -----------
+        explainer : Explainer object
+            Model wrapper created using the Explainer class.
+
+        Returns
+        -----------
+        None
+        """
+
         # if `variable_groups` are not specified, then extract from `variables`
         self.variable_groups = check_variable_groups(self.variable_groups, explainer)
         self.variables = check_variables(self.variables, self.variable_groups, explainer)

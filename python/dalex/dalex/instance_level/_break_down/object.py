@@ -22,7 +22,7 @@ class BreakDown:
         Specify which interactions will be present in an explanation. The larger the
         integer, the more frequently interactions will be presented (default is 1).
     keep_distributions : bool, optional
-        Store the distribution of partial predictions (default is False).
+        Save the distribution of partial predictions (default is False).
 
     Attributes
     -----------
@@ -35,7 +35,7 @@ class BreakDown:
     interaction_preference : int
         Frequency of interaction use.
     keep_distributions : bool
-        Store the distribution of partial predictions.
+        Save the distribution of partial predictions.
     yhats_distributions : pd.DataFrame or None
         The distribution of partial predictions.
 

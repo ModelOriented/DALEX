@@ -243,7 +243,7 @@ class Explainer:
         B : int, optional
             Number of random paths to calculate variable attributions (default is 25).
         keep_distributions :  bool, optional
-            Store the distribution of partial predictions (default is False).
+            Save the distribution of partial predictions (default is False).
         processes : int, optional
             Number of parallel processes to use in calculations. Iterated over `B`
             (default is 1, which means no parallel computation).
@@ -406,8 +406,6 @@ class Explainer:
             the calculation of variable importance. None means all `data` (default is 1000).
         B : int, optional
             Number of permutation rounds to perform on each variable (default is 10).
-        keep_raw_permutations: bool, optional
-            Save results for all permutation rounds (default is True).
         variables : array_like of str, optional
             Variables for which the importance will be calculated
             (default is None, which means all of the variables).
@@ -415,6 +413,8 @@ class Explainer:
         variable_groups : dict of lists, optional
             Group the variables to calculate their joint variable importance
             e.g. {'X': ['x1', 'x2'], 'Y': ['y1', 'y2']} (default is None).
+        keep_raw_permutations: bool, optional
+            Save results for all permutation rounds (default is True).
         processes : int, optional
             Number of parallel processes to use in calculations. Iterated over `B`
             (default is 1, which means no parallel computation).
@@ -481,7 +481,7 @@ class Explainer:
             Names of categorical variables that will be used for profile grouping
             (default is None, which means no grouping).
         span : float, optional
-            Smoothing coeffcient used as sd for gaussian kernel (default is 0.25).
+            Smoothing coefficient used as sd for gaussian kernel (default is 0.25).
         grid_points : int, optional
             Maximum number of points for profile calculations (default is 101).
             NOTE: The final number of points may be lower than `grid_points`,
