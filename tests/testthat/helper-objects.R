@@ -10,11 +10,11 @@ library("ranger")
 
 # models
 model_classif_glm <- glm(status == "fired"~., data = HR, family = "binomial")
-model_classif_ranger <- ranger(survived~., data = titanic_imputed, num.trees = 50, probability = TRUE)
-model_regr_ranger <- ranger(m2.price~., data = apartments, num.trees = 50)
+model_classif_ranger <- ranger::ranger(survived~., data = titanic_imputed, num.trees = 50, probability = TRUE)
+model_regr_ranger <- ranger::ranger(m2.price~., data = apartments, num.trees = 50)
 model_regr_lm <- lm(m2.price~., data = apartments)
-model_multiclassif_ranger <- ranger(status~., data = HR, num.trees = 50)
-model_multiclassif_ranger_prob <- ranger(status~., data = HR, num.trees = 50, probability = TRUE)
+model_multiclassif_ranger <- ranger::ranger(status~., data = HR, num.trees = 50)
+model_multiclassif_ranger_prob <- ranger::ranger(status~., data = HR, num.trees = 50, probability = TRUE)
 
 # explain()
 p_fun_ranger <- function(model, x) predict(model, x)$predictions
