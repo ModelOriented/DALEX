@@ -27,7 +27,7 @@ class CeterisParibus:
     variable_splits_type : {'uniform', 'quantiles'}, optional
         Way of calculating `variable_splits`. Set 'quantiles' for percentiles.
         (default is 'uniform', which means uniform grid of points).
-    include_new_observation: bool, optional
+    variable_splits_with_obs: bool, optional
         Add variable values of `new_observation` data to the `variable_splits`
         (default is True).
     processes : int, optional
@@ -48,7 +48,7 @@ class CeterisParibus:
         Split points for variables.
     variable_splits_type : {'uniform', 'quantiles'}
         Way of calculating `variable_splits`.
-    include_new_observation: bool
+    variable_splits_with_obs: bool
         Add variable values of `new_observation` data to the `variable_splits`.
     processes : int
         Number of parallel processes to use in calculations. Iterated over `B`.
@@ -63,7 +63,7 @@ class CeterisParibus:
                  grid_points=101,
                  variable_splits=None,
                  variable_splits_type='uniform',
-                 include_new_observation=True,
+                 variable_splits_with_obs=True,
                  processes=1):
 
         processes_ = check_processes(processes)
@@ -73,7 +73,7 @@ class CeterisParibus:
         self.grid_points = grid_points
         self.variable_splits = variable_splits
         self.variable_splits_type = variable_splits_type_
-        self.include_new_observation = include_new_observation
+        self.variable_splits_with_obs = variable_splits_with_obs
         self.result = None
         self.new_observation = None
         self.processes = processes_
@@ -114,7 +114,7 @@ class CeterisParibus:
                                                      self.grid_points,
                                                      explainer.data,
                                                      self.variable_splits_type,
-                                                     self.include_new_observation,
+                                                     self.variable_splits_with_obs,
                                                      self.new_observation)
 
         y = check_y(y)
@@ -189,24 +189,24 @@ class CeterisParibus:
         # are there any other objects to plot?
         if objects is None:
             _result_df = self.result.copy()
-            _include = self.include_new_observation
+            _include = self.variable_splits_with_obs
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             _result_df = pd.concat([self.result.copy(), objects.result.copy()])
-            _include = np.all([self.include_new_observation, objects.include_new_observation])
+            _include = np.all([self.variable_splits_with_obs, objects.variable_splits_with_obs])
         else:  # objects as tuple or array
             _result_df = self.result.copy()
-            _include = [self.include_new_observation]
+            _include = [self.variable_splits_with_obs]
             for ob in objects:
                 if not isinstance(ob, self.__class__):
                     raise TypeError("Some explanations aren't of CeterisParibus class")
                 _result_df = pd.concat([_result_df, ob.result.copy()])
-                _include += [ob.include_new_observation]
+                _include += [ob.variable_splits_with_obs]
             _include = np.all(_include)
 
         if _include is False and show_observations:
                 warnings.warn("show_observations will be set to False,"
-                              "because the include_new_observation attribute is False"
-                              "See `include_new_observation` parameter in `predict_profile`.")
+                              "because the variable_splits_with_obs attribute is False"
+                              "See `variable_splits_with_obs` parameter in `predict_profile`.")
                 show_observations = False
 
         # variables to use

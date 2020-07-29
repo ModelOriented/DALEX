@@ -77,7 +77,7 @@ def check_variable_splits(variable_splits,
                           grid_points,
                           data,
                           variable_splits_type,
-                          include_new_observation,
+                          variable_splits_with_obs,
                           new_observation):
     """
     Validate variable splits
@@ -87,7 +87,7 @@ def check_variable_splits(variable_splits,
                                                     variables,
                                                     grid_points,
                                                     variable_splits_type,
-                                                    include_new_observation,
+                                                    variable_splits_with_obs,
                                                     new_observation)
     else:
         if not isinstance(variable_splits, dict):

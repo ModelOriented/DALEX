@@ -289,7 +289,7 @@ class Explainer:
                         grid_points=101,
                         variable_splits=None,
                         variable_splits_type='uniform',
-                        include_new_observation=True,
+                        variable_splits_with_obs=True,
                         processes=1,
                         verbose=True):
         """Calculate instance level variable profiles as Ceteris Paribus
@@ -316,7 +316,7 @@ class Explainer:
         variable_splits_type : {'uniform', 'quantiles'}, optional
             Way of calculating `variable_splits`. Set 'quantiles' for percentiles.
             (default is 'uniform', which means uniform grid of points).
-        include_new_observation: bool, optional
+        variable_splits_with_obs: bool, optional
             Add variable values of `new_observation` data to the `variable_splits`
             (default is True).
         processes : int, optional
@@ -340,7 +340,7 @@ class Explainer:
                 grid_points=grid_points,
                 variable_splits=variable_splits,
                 variable_splits_type=variable_splits_type,
-                include_new_observation=include_new_observation,
+                variable_splits_with_obs=variable_splits_with_obs,
                 processes=processes
             )
 

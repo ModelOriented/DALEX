@@ -112,7 +112,7 @@ def calculate_variable_split(data,
                              variables,
                              grid_points,
                              variable_splits_type='uniform',
-                             include_new_observation=False,
+                             variable_splits_with_obs=False,
                              new_observation=None):
     """
     Calculate points for splitting the dataset
@@ -122,7 +122,7 @@ def calculate_variable_split(data,
     :param grid_points: how many points should split the dataset
     :param variable_splits_type: {'uniform', 'quantiles'}, optional way of calculating
         `variable_splits`. Set 'quantiles' for percentiles.
-    :param include_new_observation: bool, optional add variable values of `new_observation`
+    :param variable_splits_with_obs: bool, optional add variable values of `new_observation`
         data to the `variable_splits`.
     :param new_observation: pd.DataFrame or np.ndarray, Observations for which predictions
         need to be explained.
@@ -141,7 +141,7 @@ def calculate_variable_split(data,
                 column_splits = np.linspace(np.min(variable_column),
                                             np.max(variable_column),
                                             grid_points)
-            if include_new_observation:
+            if variable_splits_with_obs:
                 column_splits = np.concatenate((column_splits, new_observation.loc[:, variable]))
                 column_splits = np.unique(column_splits)
                 column_splits = np.sort(column_splits, kind='mergesort')

@@ -26,7 +26,7 @@ dalex 0.2.0
 * added `geom='profiles'` parameter to `model_profile` plot and `raw_profiles` attribute to `AggregatedProfiles`
 * added `variable_splits_type` parameter to `predict_profile` and `model_profile` to specify how grid points
  shall be calculated ([#266](https://github.com/ModelOriented/DALEX/issues/266))
-* added `include_new_observation` parameter to `predict_profile` function to extend split points with observation
+* added `variable_splits_with_obs` parameter to `predict_profile` function to extend split points with observation
  variable values ([#269](https://github.com/ModelOriented/DALEX/issues/269))
 * added `variable_splits` parameter to `model_profile`
 
@@ -35,7 +35,7 @@ dalex 0.2.0
 * use different `loss_function` for classification and regression ([#248](https://github.com/ModelOriented/DALEX/issues/248))
 * models that use `proba` yhats now get `model_type='classification'` if it's not specified
 * use uniform way of grid points calculation in `predict_profile` and `model_profile` (see `variable_splits_type` parameter)
-* add the variable values of `new_observation` to `variable_splits` in `predict_profile` (see `include_new_observation` parameter)
+* add the variable values of `new_observation` to `variable_splits` in `predict_profile` (see `variable_splits_with_obs` parameter)
 * use `N=1000` in `model_parts` and `N=300` in `model_profile` to comply with the R version
 * `keep_raw_permutation` is now set to `False` instead of `None` in `model_parts`
 * `intercept` parameter in `model_profile` is now named `center`
