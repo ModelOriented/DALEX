@@ -286,7 +286,7 @@ class AggregatedProfiles:
                                    'type': 'category', 'gridwidth': 2, 'autorange': 'reversed', 'automargin': True,
                                    'ticks': "outside", 'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True}) \
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
-                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True})
+                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': False})  # True
 
         fig = fig_update_line_plot(fig, title, title_x, plot_height, hovermode)
 

@@ -286,7 +286,7 @@ class CeterisParibus:
                                    'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                    'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True}) \
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
-                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True})
+                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': False})  # True
 
             if show_observations:
                 _points_df = _result_df.loc[_result_df['_original_'] == _result_df['_x_'], :].copy()
