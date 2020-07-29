@@ -178,7 +178,7 @@ class Explainer:
 
         Parameters
         ----------
-        data : pd.DataFrame (2d)
+        data : pd.DataFrame
             Data which will be used to make a prediction.
 
         Returns
