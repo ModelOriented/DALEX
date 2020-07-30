@@ -9,7 +9,7 @@
 #' Find information how to use the \code{shap} method here: \url{https://pbiecek.github.io/ema/shapley.html}.
 #' Find information how to use the \code{oscillations} method here: \url{https://pbiecek.github.io/ema/ceterisParibusOscillations.html}.
 #'
-#' @param explainer a model to be explained, preprocessed by the 'explain' function
+#' @param explainer a model to be explained, preprocessed by the \code{explain} function
 #' @param new_observation a new observation for which predictions need to be explained
 #' @param ... other parameters that will be passed to \code{iBreakDown::break_down}
 #' @param variable_splits named list of splits for variables. It is used by oscillations based measures. Will be passed to \code{\link[ingredients]{ceteris_paribus}}.
@@ -22,36 +22,49 @@
 #' @return Depending on the \code{type} there are different classes of the resulting object.
 #' It's a data frame with calculated average response.
 #'
+#'
+#'
 #' @aliases predict_parts_break_down predict_parts predict_parts_ibreak_down predict_parts_shap
 #' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
-#' @examples
-#' new_dragon <- data.frame(year_of_birth = 200,
-#'      height = 80,
-#'      weight = 12.5,
-#'      scars = 0,
-#'      number_of_lost_teeth  = 5)
 #'
-#' dragon_lm_model4 <- lm(life_length ~ year_of_birth + height +
-#'                                      weight + scars + number_of_lost_teeth,
-#'                        data = dragons)
-#' dragon_lm_explainer4 <- explain(dragon_lm_model4, data = dragons, y = dragons$year_of_birth,
-#'                                 label = "model_4v")
-#' dragon_lm_predict4 <- predict_parts_break_down(dragon_lm_explainer4,
-#'                 new_observation = new_dragon)
-#' head(dragon_lm_predict4)
-#' plot(dragon_lm_predict4)
+#' @examples
+#' library(DALEX)
+#'
+#' new_dragon <- data.frame(
+#'     year_of_birth = 200,
+#'     height = 80,
+#'     weight = 12.5,
+#'     scars = 0,
+#'     number_of_lost_teeth  = 5
+#' )
+#'
+#' model_lm <- lm(life_length ~ year_of_birth + height +
+#'                weight + scars + number_of_lost_teeth,
+#'                data = dragons)
+#'
+#' explainer_lm <- explain(model_lm,
+#'                         data = dragons,
+#'                         y = dragons$year_of_birth,
+#'                         label = "model_lm")
+#'
+#' bd_lm <- predict_parts_break_down(explainer_lm, new_observation = new_dragon)
+#' head(bd_lm)
+#' plot(bd_lm)
 #'
 #' \dontrun{
 #' library("ranger")
-#' dragon_ranger_model4 <- ranger(life_length ~ year_of_birth + height +
-#'                                                weight + scars + number_of_lost_teeth,
-#'                                  data = dragons, num.trees = 50)
-#' dragon_ranger_explainer4 <- explain(dragon_ranger_model4, data = dragons, y = dragons$year_of_birth,
-#'                                 label = "model_ranger")
-#' dragon_ranger_predict4 <- predict_parts_break_down(dragon_ranger_explainer4,
-#'                                                           new_observation = new_dragon)
-#' head(dragon_ranger_predict4)
-#' plot(dragon_ranger_predict4)
+#' model_ranger <- ranger(life_length ~ year_of_birth + height +
+#'                        weight + scars + number_of_lost_teeth,
+#'                        data = dragons, num.trees = 50)
+#'
+#' explainer_ranger <- explain(model_ranger,
+#'                             data = dragons,
+#'                             y = dragons$year_of_birth,
+#'                             label = "model_ranger")
+#'
+#' bd_ranger <- predict_parts_break_down(explainer_ranger, new_observation = new_dragon)
+#' head(bd_ranger)
+#' plot(bd_ranger)
 #'}
 #'
 #' @name predict_parts
@@ -78,7 +91,9 @@ predict_parts_oscillations <- function(explainer, new_observation, ...) {
   cp <- ingredients::ceteris_paribus(explainer,
                                      new_observation = new_observation,
                                      ...)
-  ingredients::calculate_oscillations(cp)
+  res <- ingredients::calculate_oscillations(cp)
+  class(res) <- c('predict_parts', class(res))
+  res
 }
 
 #' @name predict_parts
@@ -92,7 +107,9 @@ predict_parts_oscillations_uni <- function(explainer, new_observation, variable_
                                      new_observation = new_observation,
                                      variable_splits_type = variable_splits_type,
                                      ...)
-  ingredients::calculate_oscillations(cp)
+  res <- ingredients::calculate_oscillations(cp)
+  class(res) <- c('predict_parts', class(res))
+  res
 }
 
 #' @name predict_parts
@@ -115,7 +132,9 @@ predict_parts_oscillations_emp <- function(explainer, new_observation, variable_
                                      variable_splits = variable_splits,
                                      variables = variables,
                                      ...)
-  ingredients::calculate_oscillations(cp)
+  rest <- ingredients::calculate_oscillations(cp)
+  class(res) <- c('predict_parts', class(res))
+  res
 }
 
 #' @name predict_parts
@@ -125,9 +144,11 @@ predict_parts_break_down <- function(explainer, new_observation, ...) {
   test_explainer(explainer, has_data = TRUE, function_name = "predict_parts_break_down")
 
   # call the break_down
-  iBreakDown::break_down(explainer,
-                         new_observation = new_observation,
-                         ...)
+  res <- iBreakDown::break_down(explainer,
+                                new_observation = new_observation,
+                                ...)
+  class(res) <- c('predict_parts', class(res))
+  res
 }
 
 #' @name predict_parts
@@ -137,10 +158,12 @@ predict_parts_break_down_interactions <- function(explainer, new_observation, ..
   test_explainer(explainer, has_data = TRUE, function_name = "predict_parts_break_down_interactions")
 
   # call the break_down
-  iBreakDown::break_down(explainer,
-                         new_observation = new_observation,
-                         ...,
-                         interactions = TRUE)
+  res <- iBreakDown::break_down(explainer,
+                                new_observation = new_observation,
+                                ...,
+                                interactions = TRUE)
+  class(res) <- c('predict_parts', class(res))
+  res
 }
 
 #' @name predict_parts
@@ -150,9 +173,11 @@ predict_parts_shap <- function(explainer, new_observation, ...) {
   test_explainer(explainer, has_data = TRUE, function_name = "predict_parts_shap")
 
   # call the shap from iBreakDown
-  iBreakDown::shap(explainer,
-                         new_observation = new_observation,
-                         ...)
+  res <- iBreakDown::shap(explainer,
+                          new_observation = new_observation,
+                          ...)
+  class(res) <- c('predict_parts', class(res))
+  res
 }
 
 #' @name predict_parts

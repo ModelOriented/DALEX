@@ -15,11 +15,13 @@
 #' It's a data frame with calculated average response.
 #'
 #' @aliases variable_importance feature_importance model_parts
+#'
 #' @import ggplot2
 #' @importFrom stats model.frame reorder
 #' @export
+#'
 #' @examples
-#'  \dontrun{
+#' \dontrun{
 #' library("ranger")
 #' titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 50,
 #'                                probability = TRUE)
@@ -38,7 +40,7 @@
 #'                                      sum((observed - logit(predicted))^2))
 #' head(vi_glm, 8)
 #' plot(vi_glm)
-#'  }
+#'}
 #'
 model_parts <- function(explainer,
                               loss_function = loss_default(explainer$model_info$type),
@@ -51,11 +53,13 @@ model_parts <- function(explainer,
   if (!(type %in% c("difference", "ratio", "raw", "variable_importance"))) stop("Type shall be one of 'variable_importance', 'difference', 'ratio', 'raw'")
   if (type == "variable_importance") type <- "raw" #it's an alias
 
-  ingredients::feature_importance(x = explainer,
-                                  loss_function = loss_function,
-                                  type = type,
-                                  N = N,
-                                  ...)
+  res <- ingredients::feature_importance(x = explainer,
+                                         loss_function = loss_function,
+                                         type = type,
+                                         N = N,
+                                         ...)
+  class(res) <- c('model_parts', class(res))
+  res
 }
 #' @export
 feature_importance <- model_parts

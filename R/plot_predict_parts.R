@@ -1,0 +1,48 @@
+#' Plot Variable Attribution Explanations
+#'
+#' @param x an object of the class \code{predict_parts}
+#' @param ... other parameters described below
+#'
+#' @return An object of the class \code{ggplot}.
+#'
+#' @section Plot options:
+#'
+#' \subsection{break_down}{
+#' \itemize{
+#'  \item{max_features}{maximal number of features to be included in the plot. default value is \code{10}}
+#'  \item{min_max}{a range of OX axis. By default \code{NA}, therefore it will be extracted from the contributions of \code{x}.
+#'    But it can be set to some constants, useful if these plots are to be used for comparisons.}
+#'  \item{add_contributions}{if \code{TRUE}, variable contributions will be added to the plot.}
+#'  \item{shift_contributions}{number describing how much labels should be shifted to the right, as a fraction of range. By default equal to \code{0.05}.}
+#'  \item{vcolors}{If \code{NA} (default), DrWhy colors are used.}
+#'  \item{vnames}{a character vector, if specified then will be used as labels on OY axis. By default \code{NULL}.}
+#'  \item{digits}{number of decimal places (\code{\link{round}}) or significant digits (\code{\link{signif}}) to be used.}
+#'  \item{rounding_function}{a function to be used for rounding numbers.}
+#'  \item{plot_distributions}{if \code{TRUE} then distributions of conditional propotions will be plotted. This requires \code{keep_distributions=TRUE} in the
+#'    \code{\link{break_down}}, \code{\link{local_attributions}}, or \code{\link{local_interactions}}.}
+#'  \item{baseline}{if numeric then veritical line starts in \code{baseline}.}
+#'  \item{title}{a character. Plot title. By default \code{"Break Down profile"}.}
+#'  \item{subtitle}{a character. Plot subtitle. By default \code{NULL} - then subtitle is set to "created for the XXX, YYY model",
+#'        where XXX, YYY are labels of given explainers.}
+#'  \item{max_vars}{alias for the \code{max_features} parameter.}
+#' }
+#' }
+#' \subsection{shap}{
+#' \itemize{
+#'  \item{show_boxplots}{logical if \code{TRUE} (default) boxplot will be plotted to show uncertanity of attributions.}
+#'  \item{vcolors}{If \code{NA} (default), DrWhy colors are used.}
+#'  \item{max_features}{maximal number of features to be included in the plot. default value is \code{10}}
+#'  \item{max_vars}{alias for the \code{max_features} parameter.}
+#' }
+#' }
+#' \subsection{oscillations}{
+#' \itemize{
+#'  \item{bar_width}{width of bars. By default \code{10}}
+#' }
+#' }
+#'
+#' @export
+plot.predict_parts <- function(x, ...) {
+  class(x) <- class(x)[-1]
+  plot(x)
+}
