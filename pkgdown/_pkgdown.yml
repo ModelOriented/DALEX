@@ -37,7 +37,8 @@ reference:
     - plot.model_profile
     - print.model_diagnostics
     - plot.model_diagnostics
-    - variable_effect
+    - print.description
+    - print.model_info
   - title: Model performance measures
     desc: Model performance measures for packages from the DrWhy.AI universe
     contents:
@@ -51,16 +52,15 @@ reference:
     contents:
     - update_label
     - update_data
-    - print.description
     - yhat
     - model_info
-    - print.model_info
     - install_dependencies
     - colors_discrete_drwhy
     - colors_diverging_drwhy
     - colors_breakdown_drwhy
     - theme_drwhy
     - theme_drwhy_vertical
+    - variable_effect
   - title: Datasets
     desc: Datasets used in Examples and Vignettes
     contents:

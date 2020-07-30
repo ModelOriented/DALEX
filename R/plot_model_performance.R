@@ -138,6 +138,9 @@ plot.model_performance_boxplot <- function(df, show_outliers, loss_function, nla
 
 plot.model_performance_histogram <- function(df, nlabels) {
   observed <- predicted <- label <- NULL
+  # if factor, then levels shall be reversed
+  if (length(levels(df$label)) > 1) levels(df$label) <- rev(levels(df$label))
+
   ggplot(df, aes(observed - predicted, fill = label)) +
     geom_histogram(bins = 100) +
     facet_wrap(~label, ncol = 1) +
