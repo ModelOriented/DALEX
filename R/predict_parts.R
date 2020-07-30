@@ -108,7 +108,7 @@ predict_parts_oscillations_uni <- function(explainer, new_observation, variable_
                                      variable_splits_type = variable_splits_type,
                                      ...)
   res <- ingredients::calculate_oscillations(cp)
-    class(res) <- c('predict_parts', class(res))
+  class(res) <- c('predict_parts', class(res))
   res
 }
 
