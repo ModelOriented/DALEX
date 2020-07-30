@@ -8,7 +8,8 @@
 #'
 #' \subsection{aggregates}{
 #' \itemize{
-#'  \item{color}{a character. Either name of a color or name of a variable that should be used for coloring}
+#'  \item{color}{a character. Either name of a color, or hex code for a color,
+#'   or \code{_label_} if models shall be colored, or \code{_ids_} if instances shall be colored}
 #'  \item{size}{a numeric. Size of lines to be plotted}
 #'  \item{alpha}{a numeric between \code{0} and \code{1}. Opacity of lines}
 #'  \item{facet_ncol}{number of columns for the \code{\link[ggplot2]{facet_wrap}}}
