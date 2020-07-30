@@ -208,7 +208,7 @@ It's a data frame with calculated average response.</p>
     <p>Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. <a href='https://pbiecek.github.io/ema/'>https://pbiecek.github.io/ema/</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'> <span class='co'># \dontrun{</span>
+    <pre class="examples"><div class='input'><span class='co'># \dontrun{</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
 <span class='no'>titanic_ranger_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>survived</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>50</span>,
                                <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
@@ -255,7 +255,7 @@ It's a data frame with calculated average response.</p>
 #&gt; 5     embarked          255.6279    lm
 #&gt; 6          age          257.4473    lm
 #&gt; 7        class          264.0182    lm
-#&gt; 8       gender          278.2936    lm</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>vi_glm</span>)</div><div class='img'><img src='model_parts-2.png' alt='' width='700' height='433' /></div><div class='input'> # }
+#&gt; 8       gender          278.2936    lm</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>vi_glm</span>)</div><div class='img'><img src='model_parts-2.png' alt='' width='700' height='433' /></div><div class='input'># }
 
 </div></span></pre>
   </div>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot Variable Profile Explanations — plot.predict_profile • DALEX</title>
+<title>Plot Variable Importance Explanations — plot.model_parts • DALEX</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,8 +52,8 @@
 
 
 
-<meta property="og:title" content="Plot Variable Profile Explanations — plot.predict_profile" />
-<meta property="og:description" content="Plot Variable Profile Explanations" />
+<meta property="og:title" content="Plot Variable Importance Explanations — plot.model_parts" />
+<meta property="og:description" content="Plot Variable Importance Explanations" />
 <meta property="og:image" content="/logo.png" />
 
 <meta name="robots" content="noindex" />
@@ -150,16 +150,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot Variable Profile Explanations</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/R/plot_predict_profile.R'><code>R/plot_predict_profile.R</code></a></small>
-    <div class="hidden name"><code>plot.predict_profile.Rd</code></div>
+    <h1>Plot Variable Importance Explanations</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/DALEX/blob/master/R/plot_model_parts.R'><code>R/plot_model_parts.R</code></a></small>
+    <div class="hidden name"><code>plot.model_parts.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plot Variable Profile Explanations</p>
+    <p>Plot Variable Importance Explanations</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for predict_profile</span>
+    <pre class="usage"><span class='co'># S3 method for model_parts</span>
 <span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -167,11 +167,11 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>an object of the class <code>predict_profile</code></p></td>
+      <td><p>an object of the class <code>model_parts</code></p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>other parameters</p></td>
+      <td><p>other parameters described below</p></td>
     </tr>
     </table>
 
@@ -183,20 +183,16 @@
     
 
 
-<h3>ceteris_paribus</h3>
+<h3>variable_importance</h3>
 
 <ul>
-<li><p>colora character. Either name of a color or name of a variable that should be used for coloring</p></li>
-<li><p>sizea numeric. Size of lines to be plotted</p></li>
-<li><p>alphaa numeric between <code>0</code> and <code>1</code>. Opacity of lines</p></li>
-<li><p>facet_ncolnumber of columns for the <code><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></code></p></li>
-<li><p>variablesif not <code>NULL</code> then only <code>variables</code> will be presented</p></li>
-<li><p>variable_typea character. If <code>numerical</code> then only numerical variables will be plotted.
-       If <code>categorical</code> then only categorical variables will be plotted.</p></li>
-<li><p>titlea character. Plot title. By default <code>"Ceteris Paribus profile"</code>.</p></li>
+<li><p>max_varsmaximal number of features to be included in the plot. default value is <code>10</code></p></li>
+<li><p>show_boxplotslogical if <code>TRUE</code> (default) boxplot will be plotted to show permutation data.</p></li>
+<li><p>bar_widthwidth of bars. By default <code>10</code></p></li>
+<li><p>desc_sortinglogical. Should the bars be sorted descending? By default <code>TRUE</code></p></li>
+<li><p>titlethe plot's title, by default <code>'Feature Importance'</code></p></li>
 <li><p>subtitlea character. Plot subtitle. By default <code>NULL</code> - then subtitle is set to "created for the XXX, YYY model",
        where XXX, YYY are labels of given explainers.</p></li>
-<li><p>categorical_typea character. How categorical variables shall be plotted? Either <code>"lines"</code> (default) or <code>"bars"</code>.</p></li>
 </ul>
 
 

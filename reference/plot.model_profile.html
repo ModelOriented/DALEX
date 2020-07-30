@@ -182,6 +182,20 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An object of the class <code>ggplot</code>.</p>
+<h3>aggregates</h3>
+
+<ul>
+<li><p>colora character. Either name of a color, or hex code for a color,
+  or <code>_label_</code> if models shall be colored, or <code>_ids_</code> if instances shall be colored</p></li>
+<li><p>sizea numeric. Size of lines to be plotted</p></li>
+<li><p>alphaa numeric between <code>0</code> and <code>1</code>. Opacity of lines</p></li>
+<li><p>facet_ncolnumber of columns for the <code><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></code></p></li>
+<li><p>variablesif not <code>NULL</code> then only <code>variables</code> will be presented</p></li>
+<li><p>titlea character. Partial and accumulated dependence explainers have deafult value.</p></li>
+<li><p>subtitlea character. If <code>NULL</code> value will be dependent on model usage.</p></li>
+</ul>
+
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>titanic_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>survived</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
