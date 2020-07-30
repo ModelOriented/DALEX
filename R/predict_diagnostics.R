@@ -60,12 +60,13 @@ predict_diagnostics <-  function(explainer, new_observation, variables = NULL, .
   if (is.null(variables)) {
     residuals_all <- explainer$residual_function(explainer$model, explainer$data, explainer$y, explainer$predict_function)
     residuals_sel <- residuals_all[neighbours_id]
+    residuals_other <- residuals_all[-neighbours_id]
 
-    cut_points <- signif(pretty(residuals_all, nbins), 3)
-    test.res <- ks.test(residuals_all, residuals_sel)
+    cut_points <- signif(pretty(residuals_other, nbins), 3)
+    test.res <- ks.test(residuals_other, residuals_sel)
 
     df1 <- data.frame(as.data.frame(table(cut(residuals_sel, cut_points))/length(residuals_sel)), direction = "neighbours")
-    df2 <- data.frame(as.data.frame(-table(cut(residuals_all, cut_points))/length(residuals_all)), direction = "all")
+    df2 <- data.frame(as.data.frame(-table(cut(residuals_other, cut_points))/length(residuals_other)), direction = "all")
 
     res <- list(variables = variables,
                 histogram_neighbours = df1,

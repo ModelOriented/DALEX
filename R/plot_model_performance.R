@@ -2,7 +2,7 @@
 #'
 #' @param x a model to be explained, preprocessed by the \code{\link{explain}} function
 #' @param ... other parameters
-#' @param geom either \code{"ecdf"}, \code{"boxplot"}, \code{"gain"}, \code{"lift"} or \code{"histogram"} determines how residuals shall be summarized
+#' @param geom either \code{"prc"}, \code{"roc"}, \code{"ecdf"}, \code{"boxplot"}, \code{"gain"}, \code{"lift"} or \code{"histogram"} determines how residuals shall be summarized
 #' @param loss_function function that calculates the loss for a model based on model residuals. By default it's the root mean square. NOTE that this argument was called \code{lossFunction}.
 #' @param lossFunction alias for \code{loss_function} held for backwards compatibility.
 #' @param show_outliers number of largest residuals to be presented (only when geom = boxplot).
@@ -28,6 +28,7 @@
 #'                               y = titanic_imputed$survived,
 #'                               label = "ranger2")
 #' mp_ranger2 <- model_performance(explainer_ranger2)
+#' plot(mp_ranger, mp_ranger2, geom = "prc")
 #' plot(mp_ranger, mp_ranger2, geom = "roc")
 #' plot(mp_ranger, mp_ranger2, geom = "lift")
 #' plot(mp_ranger, mp_ranger2, geom = "gain")
@@ -88,6 +89,7 @@ plot.model_performance <- function(x, ..., geom = "ecdf", show_outliers = 0, ptl
            ecdf = plot.model_performance_ecdf(df, nlabels),
            boxplot = plot.model_performance_boxplot(df, show_outliers, loss_function, nlabels),
            histogram = plot.model_performance_histogram(df, nlabels),
+           prc = plot.model_performance_prc(df, nlabels),
            roc = plot.model_performance_roc(df, nlabels),
            gain = plot.model_performance_gain(df, nlabels),
            lift = plot.model_performance_lift(df, nlabels)
@@ -145,6 +147,32 @@ plot.model_performance_histogram <- function(df, nlabels) {
 
 }
 
+# precision-recall curve
+plot.model_performance_prc <- function(df, nlabels) {
+  dfl <- split(df, factor(df$label))
+  prcdfl <- lapply(dfl, function(df) {
+    pred_sorted <- df[order(df$predicted, decreasing = TRUE), ]
+
+    # assuming that y = 0/1 where 1 is the positive
+    recall <- cumsum(pred_sorted$observed)/sum(pred_sorted$observed)
+    precis <- cumsum(pred_sorted$observed)/seq_along(pred_sorted$observed)
+    data.frame(precis = precis, recall = recall, label = df$label[1])
+  })
+  prcdf <- do.call(rbind, prcdfl)
+
+  precis <- recall <- label <- NULL
+  ggplot(prcdf, aes(x = recall, y = precis, color = label)) +
+    geom_line() +
+    theme_drwhy() +
+    scale_color_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
+    scale_x_continuous("Recall", limits = c(0, 1), expand = c(0, 0)) +
+    scale_y_continuous("Precision", limits = c(0, 1), expand = c(0, 0)) +
+    coord_fixed() +
+    ggtitle("Precision Recall Curve")
+
+}
+
+# receiver operating characteristic
 plot.model_performance_roc <- function(df, nlabels) {
   dfl <- split(df, factor(df$label))
   rocdfl <- lapply(dfl, function(df) {
@@ -167,7 +195,6 @@ plot.model_performance_roc <- function(df, nlabels) {
     scale_y_continuous("True positive rate", limits = c(0, 1), expand = c(0, 0)) +
     coord_fixed() +
     ggtitle("Receiver Operator Characteristic")
-
 }
 
 plot.model_performance_gain <- function(df, nlabels) {

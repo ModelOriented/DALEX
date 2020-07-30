@@ -1,17 +1,25 @@
 #' Instance Level Parts of the Model Predictions
 #'
-#' Instance Level Variable Attributions as Break Down or SHAP Explanations.
+#' Instance Level Variable Attributions as Break Down, SHAP or Oscillations explanations.
 #' Model prediction is decomposed into parts that are attributed for particular variables.
 #' From DALEX version 1.0 this function calls the \code{\link[iBreakDown]{break_down}} or
-#' \code{\link[iBreakDown:break_down_uncertainty]{shap}} functions from the \code{iBreakDown} package.
-#' Find information how to use this function here: \url{https://pbiecek.github.io/ema/breakDown.html}.
+#' \code{\link[iBreakDown:break_down_uncertainty]{shap}} functions from the \code{iBreakDown} package or
+#' \code{\link[ingredients:ceteris_paribus]{ceteris_paribus}} from the \code{ingredients} package.
+#' Find information how to use the \code{break_down} method here: \url{https://pbiecek.github.io/ema/breakDown.html}.
+#' Find information how to use the \code{shap} method here: \url{https://pbiecek.github.io/ema/shapley.html}.
+#' Find information how to use the \code{oscillations} method here: \url{https://pbiecek.github.io/ema/ceterisParibusOscillations.html}.
 #'
 #' @param explainer a model to be explained, preprocessed by the \code{explain} function
-#' @param new_observation a new observarvation for which predictions need to be explained
+#' @param new_observation a new observation for which predictions need to be explained
 #' @param ... other parameters that will be passed to \code{iBreakDown::break_down}
-#' @param type the type of variable attributions. Either \code{shap}, \code{oscillations}, \code{break_down} or \code{break_down_interactions}.
+#' @param variable_splits named list of splits for variables. It is used by oscillations based measures. Will be passed to \code{\link[ingredients]{ceteris_paribus}}.
+#' @param variables names of variables for which splits shall be calculated. Will be passed to \code{\link[ingredients]{ceteris_paribus}}.
+#' @param N number of observations used for calculation of oscillations. By default 500.
+#' @param variable_splits_type how variable grids shall be calculated? Will be passed to \code{\link[ingredients]{ceteris_paribus}}.
+#' @param type the type of variable attributions. Either \code{shap}, \code{oscillations}, \code{oscillations_uni},
+#' \code{oscillations_emp}, \code{break_down} or \code{break_down_interactions}.
 #'
-#' @return Depending on the \code{type} there are different classess of the resulting object.
+#' @return Depending on the \code{type} there are different classes of the resulting object.
 #' It's a data frame with calculated average response.
 #'
 #'
@@ -67,7 +75,9 @@ predict_parts <- function(explainer, new_observation, ..., type = "break_down") 
           "break_down_interactions" = predict_parts_break_down_interactions(explainer, new_observation, ...),
           "shap"                    = predict_parts_shap(explainer, new_observation, ...),
           "oscillations"            = predict_parts_oscillations(explainer, new_observation, ...),
-          stop("The type argument shall be either 'shap' or 'break_down' or 'break_down_interactions' or 'oscillations'")
+          "oscillations_uni"        = predict_parts_oscillations_uni(explainer, new_observation, ...),
+          "oscillations_emp"        = predict_parts_oscillations_emp(explainer, new_observation, ...),
+          stop("The type argument shall be either 'shap' or 'break_down' or 'break_down_interactions' or 'oscillations' or 'oscillations_uni' or 'oscillations_emp'")
   )
 }
 
@@ -79,10 +89,50 @@ predict_parts_oscillations <- function(explainer, new_observation, ...) {
 
   # call the ceteris_paribus
   cp <- ingredients::ceteris_paribus(explainer,
-                         new_observation = new_observation,
-                         ...)
+                                     new_observation = new_observation,
+                                     ...)
   res <- ingredients::calculate_oscillations(cp)
+  class(res) <- c('predict_parts', class(res))
+  res
+}
 
+#' @name predict_parts
+#' @export
+predict_parts_oscillations_uni <- function(explainer, new_observation, variable_splits_type = "uniform", ...) {
+  # run checks against the explainer objects
+  test_explainer(explainer, has_data = TRUE, function_name = "predict_parts_oscillations_uni")
+
+  # call the ceteris_paribus
+  cp <- ingredients::ceteris_paribus(explainer,
+                                     new_observation = new_observation,
+                                     variable_splits_type = variable_splits_type,
+                                     ...)
+  res <- ingredients::calculate_oscillations(cp)
+    class(res) <- c('predict_parts', class(res))
+  res
+}
+
+#' @name predict_parts
+#' @export
+predict_parts_oscillations_emp <- function(explainer, new_observation, variable_splits = NULL, variables = colnames(explainer$data), N = 500, ...) {
+  # run checks against the explainer objects
+  test_explainer(explainer, has_data = TRUE, function_name = "predict_parts_oscillations_emp")
+  variables <- intersect(variables, colnames(new_observation))
+  N <- min(N, nrow(explainer$data))
+  data_sample <- explainer$data[sample(1:nrow(explainer$data), N),]
+
+  variable_splits <- lapply(variables, function(var) {
+    data_sample[,var]
+  })
+  names(variable_splits) <- variables
+
+  # call the ceteris_paribus
+  cp <- ingredients::ceteris_paribus(explainer,
+                                     new_observation = new_observation,
+                                     variable_splits = variable_splits,
+                                     variables = variables,
+                                     ...)
+  rest <- ingredients::calculate_oscillations(cp)
   class(res) <- c('predict_parts', class(res))
   res
 }

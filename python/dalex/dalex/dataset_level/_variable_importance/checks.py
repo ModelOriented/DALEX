@@ -1,19 +1,23 @@
 from warnings import warn
 
 from .._model_performance.utils import *
+from .._variable_importance.loss_functions import *
 
 
 def check_loss_function(loss_function):
     loss_functions = {
-        'rmse': rmse,
+        'rmse': loss_root_mean_square,
         'mse': mse,
         'mae': mae,
         'mad': mad,
         'r2': r2,
-        'auc': auc
+        '1-auc': loss_one_minus_auc,
+        'auc': loss_one_minus_auc  # semi backward compatibility
     }
     if isinstance(loss_function, str):
         loss_function = loss_functions[loss_function]
+    elif loss_function is None:
+        loss_function = loss_root_mean_square
 
     return loss_function
 

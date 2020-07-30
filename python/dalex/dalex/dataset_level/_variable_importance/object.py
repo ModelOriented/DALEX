@@ -20,7 +20,7 @@ class VariableImportance:
         """
         Calculate feature importance of the model
 
-        :param loss_function: a function that will be used to assess variable importance
+        :param loss_function: str or a function that will be used to assess variable importance, e.g. 'rmse' or '1-auc'
         :param type: 'variable_importance'/'ratio'/'difference' type of transformation that should be applied for dropout loss
         :param N: number of observations that should be sampled for calculation of variable importance
         :param B: number of permutation rounds to perform on each variable
@@ -88,7 +88,7 @@ class VariableImportance:
         :param split: either "model" or "variable", determines the plot layout
         :param title: str, the plot's title
         :param vertical_spacing: ratio of vertical space between the plots, by default it's 0.2/`number of plots`
-        :param show: True shows the plot, False returns the plotly Figure object that can be saved using `write_image()` method
+        :param show: True shows the plot, False returns the plotly Figure object that can be edited or saved using `write_image()` method
 
         :return None or plotly Figure (see :param show)
         """
@@ -103,6 +103,8 @@ class VariableImportance:
         if objects is None:
             n = 1
             _result_df = self.result.copy()
+            if split is 'variable':  # force split by model if only one explainer
+                split = 'model'
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             n = 2
             _result_df = pd.concat([self.result.copy(), objects.result.copy()])
@@ -214,10 +216,13 @@ class VariableImportance:
             n = len(df_list)
             if max_vars is not None and max_vars < n:
                 n = max_vars
-
+            
+            if vertical_spacing is None:
+                vertical_spacing = 0.2 / n
+            
             # init plot
             variable_names = perm[0:n]
-            fig = make_subplots(rows=n, cols=1, shared_xaxes=True, vertical_spacing=0.1, x_title='drop-out loss',
+            fig = make_subplots(rows=n, cols=1, shared_xaxes=True, vertical_spacing=vertical_spacing, x_title='drop-out loss',
                                 subplot_titles=variable_names)
 
             df_dict = {e.variable.array[0]: e for e in df_list}

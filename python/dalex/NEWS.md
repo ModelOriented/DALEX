@@ -1,3 +1,18 @@
+dalex (development)
+----------------------------------------------------------------
+* *fix:* 0.1.9 version of dalex had wrong `_original_` column in `predict_profile`
+* *fix:* `vertical_spacing` in `VariableImportance.plot` when `split='variable'`
+* *feature:* added `verbose` parameter where `tqdm` is used to verbose progress bar
+* *feature:* added `loss_one_minus_auc` function that can be used with `loss_function='1-auc'` in `model_parts`
+* *defaults:* use different `loss_function` for classification and regression ([#248](https://github.com/ModelOriented/DALEX/issues/248))
+* *defaults:* models that use `proba` yhats now get `model_type='classification'` if it's not specified
+* *fix:* `loss_function='auc'` now uses `loss_one_minus_auc` as this should be a descending measure
+* *feature:* added new example data sets: `apartments`, `dragons` and `hr`
+* *feature:* use `px.express` instead of core `plotly` to make `model_profile` and `predict_profile` plots;
+ thus, enhance performance and scalability
+* *feature:* added `color`, `opacity`, `title_x` parameters to `model_profile` and `predict_profile` plots ([#236](https://github.com/ModelOriented/DALEX/issues/236)),
+ changed tooltips and legends ([#262](https://github.com/ModelOriented/DALEX/issues/262))
+
 dalex 0.1.9
 ----------------------------------------------------------------
 * *feature:* added `random_state` parameter for `SHAP` and `model_profile` for reproducible calculations

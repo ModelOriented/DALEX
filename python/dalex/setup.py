@@ -8,7 +8,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setuptools.setup(
     name="dalex",
-    version="0.1.9",
+    version="0.1.9.9001",
     author="Wojciech Kretowicz, Hubert Baniecki, Przemyslaw Biecek",
     author_email="wojtekkretowicz@gmail.com, hbaniecki@gmail.com",
     description="DALEX in Python",
@@ -30,7 +30,7 @@ setuptools.setup(
     install_requires=[
         'pandas>=1.0.1',
         'numpy>=1.18.1',
-        'plotly>=4.5.2',
+        'plotly>=4.9.0',
         'tqdm>=4.42.1'
     ],
     packages=setuptools.find_packages(include=["dalex", "dalex.*"]),

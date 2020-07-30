@@ -1,9 +1,8 @@
-from plotly.subplots import make_subplots
+import plotly.express as px
 
-from dalex.dataset_level._aggregated_profiles.plot import tooltip_text, check_for_groups
 from .checks import *
 from .utils import aggregate_profiles
-from ..._explainer.theme import get_default_colors
+from ..._explainer.theme import get_default_colors, fig_update_line_plot
 
 
 class AggregatedProfiles:
@@ -49,7 +48,8 @@ class AggregatedProfiles:
         self.random_state = random_state
 
     def fit(self,
-            ceteris_paribus):
+            ceteris_paribus,
+            verbose=True):
 
         # are there any other cp?
         from dalex.instance_level import CeterisParibus
@@ -79,47 +79,46 @@ class AggregatedProfiles:
         all_profiles = create_x(all_profiles, self.variable_type)
 
         self.result = aggregate_profiles(all_profiles, self.type, self.groups, self.intercept,
-                                         self.span)
+                                         self.span, verbose)
 
         self.mean_prediction = all_observations['_yhat_'].mean()
 
-    def plot(self, objects=None, variables=None, size=2, facet_ncol=2, title="Aggregated Profiles",
-             horizontal_spacing=0.1, vertical_spacing=None, show=True):
+    def plot(self, objects=None, variables=None, size=2, alpha=1,
+             facet_ncol=2, title="Aggregated Profiles", title_x='prediction',
+             horizontal_spacing=0.05, vertical_spacing=None, show=True):
         """
         Plot function for AggregatedProfiles class.
 
         :param objects: object of AggregatedProfiles class or list or tuple containing such objects
         :param variables: str list, if not None then only variables will be presented
         :param size: float, width of lines
+        :param alpha: float, opacity of lines
         :param facet_ncol: int, number of columns on the plot grid
         :param title: str, the plot's title
+        :param title_x: str, x axis title
         :param horizontal_spacing: ratio of horizontal space between the plots, by default it's 0.1
         :param vertical_spacing: ratio of vertical space between the plots, by default it's 0.3/`number of plots`
-        :param show: True shows the plot, False returns the plotly Figure object that can be saved using `write_image()` method
+        :param show: True shows the plot, False returns the plotly Figure object that can be edited or saved using `write_image()` method
 
         :return None or plotly Figure (see :param show)
         """
+        # TODO: numerical+categorical in one plot https://github.com/plotly/plotly.py/issues/2647
 
         if isinstance(variables, str):
             variables = (variables,)
 
         # are there any other objects to plot?
         if objects is None:
-            _result_df = self.result.copy()
-            _mean_prediction = check_for_groups(self)
+            _result_df = self.result.assign(_mp_=self.mean_prediction)
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
-            _result_df = pd.concat([self.result.copy(), objects.result.copy()])
-            _mean_prediction = check_for_groups(self) + check_for_groups(objects)
+            _result_df = pd.concat([self.result.assign(_mp_=self.mean_prediction),
+                                    objects.result.assign(_mp_=objects.mean_prediction)])
         else:  # objects as tuple or array
-            _result_df = self.result.copy()
-            _mean_prediction = check_for_groups(self)
+            _result_df = self.result.assign(_mp_=self.mean_prediction)
             for ob in objects:
                 if not isinstance(ob, self.__class__):
                     raise TypeError("Some explanations aren't of AggregatedProfiles class")
-                _result_df = pd.concat([_result_df, ob.result.copy()])
-                _mean_prediction += check_for_groups(ob)
-
-        m = len(_mean_prediction)
+                _result_df = pd.concat([_result_df, ob.result.assign(_mp_=ob.mean_prediction)])
 
         # variables to use
         all_variables = _result_df['_vname_'].dropna().unique().tolist()
@@ -131,118 +130,55 @@ class AggregatedProfiles:
 
             _result_df = _result_df.loc[_result_df['_vname_'].isin(all_variables), :]
 
-        variable_names = all_variables
-        n = len(variable_names)
         is_x_numeric = pd.api.types.is_numeric_dtype(_result_df['_x_'])
-
-        dl = _result_df['_yhat_'].to_numpy()
-        min_max_margin = dl.ptp() * 0.15
-        min_max = [dl.min() - min_max_margin, dl.max() + min_max_margin]
-
-        # split var by variable
-        var_df_list = [v for k, v in _result_df.groupby('_vname_', sort=False)]
-        var_df_dict = {e['_vname_'].array[0]: e for e in var_df_list}
-
-        if vertical_spacing is None:
-            vertical_spacing = 0.3 / n
+        n = len(all_variables)
 
         facet_nrow = int(np.ceil(n / facet_ncol))
+        if vertical_spacing is None:
+            vertical_spacing = 0.2 / facet_nrow
+        plot_height = 78 + 71 + facet_nrow * (280 + 60)
+
+        color = '_label_'  # _groups_ doesnt make much sense for multiple AP objects
+        m = len(_result_df[color].dropna().unique())
 
         if is_x_numeric:
-            x_title, y_title = "", "prediction"
+            fig = px.line(_result_df,
+                          x="_x_", y="_yhat_", color=color, facet_col="_vname_",
+                          labels={'_yhat_': 'prediction', '_mp_': 'mean_prediction'},  # , color: 'group'},
+                          hover_name=color,
+                          hover_data={'_yhat_': ':.3f', '_mp_': ':.3f',
+                                      color: False, '_vname_': False, '_x_': False},
+                          facet_col_wrap=facet_ncol,
+                          facet_row_spacing=vertical_spacing,
+                          facet_col_spacing=horizontal_spacing,
+                          template="none",
+                          color_discrete_sequence=get_default_colors(m, 'line')) \
+                    .update_traces(dict(line_width=size, opacity=alpha)) \
+                    .update_xaxes({'matches': None, 'showticklabels': True,
+                                   'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
+                                   'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3}) \
+                    .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
+                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3})
         else:
-            x_title, y_title = "prediction", ""
+            fig = px.bar(_result_df,
+                         x="_x_", y="_yhat_", color="_label_", facet_col="_vname_",
+                         labels={'_yhat_': 'prediction', '_mp_': 'mean_prediction'},  # , color: 'group'},
+                         hover_name=color,
+                         hover_data={'_yhat_': ':.3f', '_mp_': ':.3f',
+                                     color: False, '_vname_': False, '_x_': False},
+                         facet_col_wrap=facet_ncol,
+                         facet_row_spacing=vertical_spacing,
+                         facet_col_spacing=horizontal_spacing,
+                         template="none",
+                         color_discrete_sequence=get_default_colors(m, 'line'),  # bar was forgotten
+                         barmode='group')  \
+                    .update_xaxes({'matches': None, 'showticklabels': True,
+                                   'type': 'category', 'gridwidth': 2, 'autorange': 'reversed', 'automargin': True,
+                                   'ticks': "outside", 'tickcolor': 'white', 'ticklen': 10}) \
+                    .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
+                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3})
 
-        fig = make_subplots(rows=facet_nrow, cols=facet_ncol, horizontal_spacing=horizontal_spacing,
-                            vertical_spacing=vertical_spacing, x_title=x_title, y_title=y_title,
-                            subplot_titles=variable_names)
-
-        colors = get_default_colors(m, 'line')
-
-        baseline = 0
-
-        for i in range(n):
-            name = variable_names[i]
-            var_df = var_df_dict[name].sort_values('_x_')
-
-            row = int(np.floor(i / facet_ncol) + 1)
-            col = int(np.mod(i, facet_ncol) + 1)
-
-            df_list = [v for k, v in var_df.groupby('_label_', sort=False)]
-
-            # line plot or bar plot? TODO: add is_numeric and implement 'both'
-            if is_x_numeric:
-                for j, df in enumerate(df_list):
-                    tt = df.apply(lambda r: tooltip_text(r, name, _mean_prediction[j]), axis=1)
-                    df = df.assign(tooltip_text=tt.values)
-
-                    fig.add_scatter(
-                        mode='lines',
-                        y=df['_yhat_'].tolist(),
-                        x=df['_x_'].tolist(),
-                        line={'color': colors[j], 'width': size, 'shape': 'spline'},
-                        hovertext=df['tooltip_text'].tolist(),
-                        hoverinfo='text',
-                        hoverlabel={'bgcolor': 'rgba(0,0,0,0.8)'},
-                        legendgroup=df.iloc[0, df.columns.get_loc('_label_')],
-                        name=df.iloc[0, df.columns.get_loc('_label_')],
-                        showlegend=i == 0,
-                        row=row, col=col
-                    )
-
-                fig.update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
-                                  'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True},
-                                 row=row, col=col)
-
-                fig.update_xaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
-                                  'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True},
-                                 row=row, col=col)
-
-                fig.update_yaxes({'range': min_max})
-
-            else:
-                for j, df in enumerate(df_list):
-                    df = df.assign(difference=lambda x: x['_yhat_'] - baseline)
-
-                    # lt = df.apply(lambda r: label_text(r), axis=1)
-                    # df = df.assign(label_text=lt.values)
-
-                    tt = df.apply(lambda r: tooltip_text(r, name, _mean_prediction[j]), axis=1)
-                    df = df.assign(tooltip_text=tt.values)
-
-                    fig.add_shape(type='line', x0=baseline, x1=baseline, y0=0, y1=len(df['_x_'].unique()) - 1,
-                                  yref="paper", xref="x",
-                                  line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'}, row=row, col=col)
-
-                    fig.add_bar(
-                        orientation="h",
-                        y=df['_x_'].tolist(),
-                        x=df['difference'].tolist(),
-                        # textposition="outside",
-                        # text=df['label_text'].tolist(),
-                        marker_color=colors[j],
-                        base=baseline,
-                        hovertext=df['tooltip_text'].tolist(),
-                        hoverinfo='text',
-                        hoverlabel={'bgcolor': 'rgba(0,0,0,0.8)'},
-                        legendgroup=df.iloc[0, df.columns.get_loc('_label_')],
-                        name=df.iloc[0, df.columns.get_loc('_label_')],
-                        showlegend=i == 0,
-                        row=row, col=col)
-
-                fig.update_yaxes({'type': 'category', 'autorange': 'reversed', 'gridwidth': 2, 'automargin': True,
-                                  'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True},
-                                 row=row, col=col)
-
-                fig.update_xaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
-                                  'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True},
-                                 row=row, col=col)
-
-                fig.update_xaxes({'range': min_max})
-
-        plot_height = 78 + 71 + facet_nrow * (280 + 60)
-        fig.update_layout(title_text=title, title_x=0.15, font={'color': "#371ea3"}, template="none",
-                          height=plot_height, margin={'t': 78, 'b': 71, 'r': 30}, hovermode='closest')
+        fig = fig_update_line_plot(fig, title, title_x, plot_height, 'x unified')
 
         if show:
             fig.show(config={'displaylogo': False, 'staticPlot': False,

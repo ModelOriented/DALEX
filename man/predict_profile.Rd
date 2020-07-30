@@ -10,7 +10,8 @@ predict_profile(
   new_observation,
   variables = NULL,
   ...,
-  type = "ceteris_paribus"
+  type = "ceteris_paribus",
+  variable_splits_type = "uniform"
 )
 
 individual_profile(
@@ -18,19 +19,22 @@ individual_profile(
   new_observation,
   variables = NULL,
   ...,
-  type = "ceteris_paribus"
+  type = "ceteris_paribus",
+  variable_splits_type = "uniform"
 )
 }
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the \code{explain} function}
 
-\item{new_observation}{a new observarvation for which predictions need to be explained}
+\item{new_observation}{a new observation for which predictions need to be explained}
 
 \item{variables}{character - names of variables to be explained}
 
 \item{...}{other parameters}
 
 \item{type}{character, currently only the \code{ceteris_paribus} is implemented}
+
+\item{variable_splits_type}{how variable grids shall be calculated? Use "quantiles" (default) for percentiles or "uniform" to get uniform grid of points. Will be passed to `ingredients`.}
 }
 \value{
 An object of the class \code{ceteris_paribus_explainer}.
