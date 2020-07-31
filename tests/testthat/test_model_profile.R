@@ -35,6 +35,8 @@ test_that("Output format - plot",{
 #:# OLD FUNCTION NAMES
 
 vr_pdp_rf  <- variable_effect(explainer_classif_ranger, variables = "age", type = "partial_dependency")
+vr_pdp_glm  <- variable_effect(explainer_classif_glm, variables = "age", type = "partial_dependency")
+vr_ale_rf  <- variable_effect(explainer_classif_ranger, variables = "age", type = "accumulated_dependency")
 vr_ale_glm  <- variable_effect(explainer_classif_glm, variables = "age", type = "accumulated_dependency")
 
 test_that("Data wasn't provided", {
@@ -53,11 +55,11 @@ test_that("Unsupported type",{
 
 test_that("Non standard predict functions",{
   expect_true("data.frame" %in% class(vr_pdp_rf))
-  expect_true("data.frame" %in% class(vr_ale_rf))
+  expect_true("data.frame" %in% class(vr_ale_glm))
 })
 
 test_that("Output format - plot",{
-  expect_is(plot(vr_pdp_rf, vr_pdp_rf), "gg")
+  expect_is(plot(vr_pdp_rf, vr_ale_glm), "gg")
   expect_is(plot(vr_pdp_rf, vr_pdp_glm), "gg")
   expect_is(plot(vr_ale_rf, vr_ale_glm), "gg")
 })
