@@ -5,7 +5,7 @@ mp_lm <- model_parts(explainer_regr_lm, N = 100)
 mp_ranger_ratio <- model_parts(explainer_regr_ranger, N = 100, type = "ratio")
 
 test_that("Description prints properly", {
-  des <- ingredients::describe(vi_ranger)
+  des <- ingredients::describe(mp_ranger)
   expect_error(print(des), NA)
 })
 
@@ -46,12 +46,12 @@ test_that("Inverse sorting of bars",{
 
 #:# alias
 
-fi_ranger <- feature_importance (explainer_regr_ranger, N = 100)
-fi_lm <- feature_importance (explainer_regr_lm, N = 100)
-fi_ranger_ratio <- feature_importance (explainer_regr_ranger, N = 100, type = "ratio")
-vi_ranger <- variable_importance  (explainer_regr_ranger, N = 100)
-vi_lm <- variable_importance  (explainer_regr_lm, N = 100)
-vi_ranger_ratio <- variable_importance  (explainer_regr_ranger, N = 100, type = "ratio")
+fi_ranger <- feature_importance(explainer_regr_ranger, N = 100)
+fi_lm <- feature_importance(explainer_regr_lm, N = 100)
+fi_ranger_ratio <- feature_importance(explainer_regr_ranger, N = 100, type = "ratio")
+vi_ranger <- variable_importance(explainer_regr_ranger, N = 100)
+vi_lm <- variable_importance(explainer_regr_lm, N = 100)
+vi_ranger_ratio <- variable_importance(explainer_regr_ranger, N = 100, type = "ratio")
 
 test_that("Output format",{
   expect_is(fi_ranger, c("model_parts", "feature_importance_explainer"))

@@ -30,7 +30,6 @@ alm_cp <- individual_profile(explainer_regr_lm, new_observation = apartments[1,-
 
 test_that("Data wasn't provided", {
   expect_error(individual_profile(explainer_wo_data))
-
 })
 
 test_that("Wrong object class (not explainer)", {
