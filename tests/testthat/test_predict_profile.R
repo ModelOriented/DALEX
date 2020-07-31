@@ -22,3 +22,27 @@ test_that("Output format - plot",{
   expect_is(plot(ranger_cp), "gg")
   expect_is(plot(lm_cp), "gg")
 })
+
+#:# aliases
+
+aranger_cp  <- individual_profile(explainer_classif_ranger, new_observation = titanic_imputed[1,-8], variables = "fare")
+alm_cp <- individual_profile(explainer_regr_lm, new_observation = apartments[1,-1], variables = "surface")
+
+test_that("Data wasn't provided", {
+  expect_error(individual_profile(explainer_wo_data))
+
+})
+
+test_that("Wrong object class (not explainer)", {
+  expect_error(individual_profile(c(1,1)))
+})
+
+test_that("Output format",{
+  expect_is(aranger_cp, c("ceteris_paribus_explainer", "predict_profile"))
+  expect_is(alm_cp, c("ceteris_paribus_explainer", "predict_profile"))
+})
+
+test_that("Output format - plot",{
+  expect_is(plot(aranger_cp), "gg")
+  expect_is(plot(alm_cp), "gg")
+})

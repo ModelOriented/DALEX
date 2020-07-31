@@ -1,8 +1,8 @@
 context("Check model_parts() function")
 
-vi_ranger <- model_parts(explainer_regr_ranger, N = 100)
-vi_lm <- model_parts(explainer_regr_lm, N = 100)
-vi_ranger_ratio <- model_parts(explainer_regr_ranger, N = 100, type = "ratio")
+mp_ranger <- model_parts(explainer_regr_ranger, N = 100)
+mp_lm <- model_parts(explainer_regr_lm, N = 100)
+mp_ranger_ratio <- model_parts(explainer_regr_ranger, N = 100, type = "ratio")
 
 test_that("Description prints properly", {
   des <- ingredients::describe(vi_ranger)
@@ -26,20 +26,47 @@ test_that("Wrong object class (not explainer)", {
 })
 
 test_that("Output format",{
+  expect_is(mp_ranger, c("model_parts", "feature_importance_explainer"))
+  expect_is(mp_lm, c("model_parts", "feature_importance_explainer"))
+  expect_is(mp_ranger_ratio, c("model_parts", "feature_importance_explainer"))
+})
+
+test_that("Output format - plot",{
+  expect_is(plot(mp_ranger_ratio), "gg")
+  expect_is(plot(mp_ranger, vi_lm), "gg")
+  expect_is(plot(mp_lm), "gg")
+})
+
+
+test_that("Inverse sorting of bars",{
+  expect_is(plot(mp_ranger_ratio, desc_sorting = FALSE), "gg")
+  expect_is(plot(mp_ranger, mp_lm, desc_sorting = FALSE), "gg")
+  expect_is(plot(mp_ranger, desc_sorting = FALSE), "gg")
+})
+
+#:# alias
+
+fi_ranger <- feature_importance (explainer_regr_ranger, N = 100)
+fi_lm <- feature_importance (explainer_regr_lm, N = 100)
+fi_ranger_ratio <- feature_importance (explainer_regr_ranger, N = 100, type = "ratio")
+vi_ranger <- variable_importance  (explainer_regr_ranger, N = 100)
+vi_lm <- variable_importance  (explainer_regr_lm, N = 100)
+vi_ranger_ratio <- variable_importance  (explainer_regr_ranger, N = 100, type = "ratio")
+
+test_that("Output format",{
+  expect_is(fi_ranger, c("model_parts", "feature_importance_explainer"))
+  expect_is(fi_lm, c("model_parts", "feature_importance_explainer"))
+  expect_is(fi_ranger_ratio, c("model_parts", "feature_importance_explainer"))
   expect_is(vi_ranger, c("model_parts", "feature_importance_explainer"))
   expect_is(vi_lm, c("model_parts", "feature_importance_explainer"))
   expect_is(vi_ranger_ratio, c("model_parts", "feature_importance_explainer"))
 })
 
 test_that("Output format - plot",{
+  expect_is(plot(fi_ranger_ratio), "gg")
+  expect_is(plot(fi_ranger, fi_lm), "gg")
+  expect_is(plot(fi_lm), "gg")
   expect_is(plot(vi_ranger_ratio), "gg")
   expect_is(plot(vi_ranger, vi_lm), "gg")
   expect_is(plot(vi_lm), "gg")
-})
-
-
-test_that("Inverse sorting of bars",{
-  expect_is(plot(vi_ranger_ratio, desc_sorting = FALSE), "gg")
-  expect_is(plot(vi_ranger, vi_lm, desc_sorting = FALSE), "gg")
-  expect_is(plot(vi_ranger, desc_sorting = FALSE), "gg")
 })

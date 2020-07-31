@@ -31,6 +31,38 @@ test_that("Output format - plot",{
   expect_is(plot(mp_ale_rf$agr_profiles, mp_ale_glm$agr_profiles), "gg")
 })
 
+# alias
+
+amp_pdp_rf  <- variable_profile(explainer_classif_ranger, variables = "age", type = "partial")
+amp_pdp_glm  <- variable_profile(explainer_classif_glm, variables = "age", type = "partial")
+amp_ale_rf  <- variable_profile(explainer_classif_ranger, variables = "age", type = "accumulated")
+amp_ale_glm  <- variable_profile(explainer_classif_glm, variables = "age", type = "accumulated")
+
+
+test_that("Data wasn't provided", {
+  expect_error(variable_profile(explainer_wo_data, type = "partial"))
+  expect_error(variable_profile(explainer_wo_data, type = "accumulated"))
+})
+
+test_that("Wrong object class (not explainer)", {
+  expect_error(variable_profile(c(1,1), type = "partial"))
+  expect_error(variable_profile(c(1,1), type = "accumulated"))
+})
+
+test_that("Unsupported type",{
+  expect_error(variable_profile(explainer_classif_rf, variable = "age", type = "unknown"))
+})
+
+test_that("Non standard predict functions",{
+  expect_is(amp_pdp_rf, 'model_profile')
+  expect_is(amp_ale_glm, 'model_profile')
+})
+
+test_that("Output format - plot",{
+  expect_is(plot(amp_pdp_rf$agr_profiles, amp_pdp_glm$agr_profiles), "gg")
+  expect_is(plot(amp_pdp_rf$agr_profiles, amp_pdp_glm$agr_profiles), "gg")
+  expect_is(plot(amp_ale_rf$agr_profiles, amp_ale_glm$agr_profiles), "gg")
+})
 
 #:# OLD FUNCTION NAMES
 
