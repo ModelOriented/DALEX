@@ -1,3 +1,8 @@
+DALEX 1.3.1.1
+---------------------------------------------------------------
+* fixed typo in `predict_parts_oscillations_emp`
+* rewrite tests
+
 DALEX 1.3.1
 ----------------------------------------------------------------
 * added `predict_parts` class to objects and `plot.predict_parts` function
