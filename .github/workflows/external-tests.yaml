@@ -1,0 +1,105 @@
+on:
+  push:
+    branches:
+      - master
+      - 'dev*'
+      - 'fix*'
+      - 'issue*'
+      - 'python*'
+      - 'r*'
+      - 'doc*'
+      - 'gh-actions'
+      - 'githubactions'
+    paths:
+      - '**.R'
+      - '**.r'
+      - '*DESCRIPTION'
+      - '**.Rmd'
+      - '**.rmd'
+      - '**.rda'
+      - '**.Rda'
+      - '**.rds'
+      - '**.Rds'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - '**.R'
+      - '**.r'
+      - '*DESCRIPTION'
+      - '**.Rmd'
+      - '**.rmd'
+      - '**.rda'
+      - '**.Rda'
+      - '**.rds'
+      - '**.Rds'
+
+name: External-tests
+
+jobs:
+  External-tests:
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: macOS-latest,   r: '4.0'}
+          - {os: windows-latest, r: 'devel'}
+          - {os: windows-latest, r: '4.0'}
+          - {os: windows-latest, r: '3.6'}
+          - {os: ubuntu-16.04, r: '4.0', rspm: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
+          - {os: ubuntu-16.04, r: '3.6', rspm: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
+          - {os: ubuntu-16.04, r: '3.5', rspm: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
+
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      RSPM: ${{ matrix.config.rspm }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: r-lib/actions/setup-r@master
+        with:
+          r-version: ${{ matrix.config.r }}
+
+      - uses: r-lib/actions/setup-pandoc@master
+
+      - name: Query dependencies
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        shell: Rscript {0}
+
+      - name: Cache R packages
+        if: runner.os != 'Windows'
+        uses: actions/cache@v1
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-r-${{ matrix.config.r }}-
+
+      - name: Install system dependencies
+        if: runner.os == 'Linux'
+        env:
+          RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
+        run: |
+          Rscript -e "remotes::install_github('r-hub/sysreqs')"
+          sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
+          sudo -s eval "$sysreqs"
+          sudo apt-get install -y qpdf
+      - name: Install dependencies
+        run: |
+          remotes::install_deps(dependencies = TRUE)
+          remotes::install_github("ModelOriented/ingredients")
+          remotes::install_github("ModelOriented/iBreakDown")
+          remotes::install_cran(c("rcmdcheck", "glmnet", "parsnip", "ranger", "randomForest", "e1071", "caret", "gbm", "rms", "rpart", "kernlab"))
+        shell: Rscript {0}
+
+      - name: Test
+        run: |
+          Sys.setenv(NOT_CRAN = "true")
+          source("tests/external_tests/external_test_yhat_model_info.R")
+        shell: Rscript {0}
