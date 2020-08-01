@@ -101,5 +101,6 @@ jobs:
       - name: Test
         run: |
           Sys.setenv(NOT_CRAN = "true")
+          remotes::install_local()
           source("tests/external_tests/external_test_yhat_model_info.R")
         shell: Rscript {0}
