@@ -68,7 +68,8 @@
 #' custom_predict <- function(X.model, newdata) {
 #'    predict(X.model, newdata)$predictions
 #' }
-#' aps_ranger_exp <- explain(aps_ranger, data = apartments, y = apartments$m2.price, predict_function = custom_predict)
+#' aps_ranger_exp <- explain(aps_ranger, data = apartments, y = apartments$m2.price,
+#'                           predict_function = custom_predict)
 #'
 #'
 #' # user provided residual_function

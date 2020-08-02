@@ -115,7 +115,8 @@ aps_ranger <- ranger::ranger(m2.price~., data = apartments, num.trees = 50)
 custom_predict <- function(X.model, newdata) {
    predict(X.model, newdata)$predictions
 }
-aps_ranger_exp <- explain(aps_ranger, data = apartments, y = apartments$m2.price, predict_function = custom_predict)
+aps_ranger_exp <- explain(aps_ranger, data = apartments, y = apartments$m2.price,
+                          predict_function = custom_predict)
 
 
 # user provided residual_function
@@ -123,16 +124,20 @@ aps_ranger <- ranger::ranger(m2.price~., data = apartments, num.trees = 50)
 custom_residual <- function(X.model, newdata, y, predict_function) {
    abs(y - predict_function(X.model, newdata))
 }
-aps_ranger_exp <- explain(aps_ranger, data = apartments, y = apartments$m2.price, residual_function = custom_residual)
+aps_ranger_exp <- explain(aps_ranger, data = apartments,
+                          y = apartments$m2.price,
+                          residual_function = custom_residual)
 
 # binary classification
-titanic_ranger <- ranger::ranger(as.factor(survived)~., data = titanic_imputed, num.trees = 50, probability = TRUE)
+titanic_ranger <- ranger::ranger(as.factor(survived)~., data = titanic_imputed, num.trees = 50,
+                                 probability = TRUE)
 # keep in mind that for binary classification y parameter has to be numeric  with 0 and 1 values
 titanic_ranger_exp <- explain(titanic_ranger, data = titanic_imputed, y = titanic_imputed$survived)
 
 # multilabel classification
 HR_ranger <- ranger::ranger(status~., data = HR, num.trees = 50, probability = TRUE)
-# keep in mind that for multilabel classification y parameter has to be a factor, with same levels as in training data
+# keep in mind that for multilabel classification y parameter has to be a factor,
+# with same levels as in training data
 HR_ranger_exp <- explain(HR_ranger, data = HR, y = HR$status)
 
 # set model_info

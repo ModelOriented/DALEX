@@ -200,7 +200,6 @@ test_that("rpart", {
 })
 
 test_that("yhat default", {
-  stop("test")
   model_classif_rpart <- rpart(as.factor(survived)~., data = titanic_imputed_cut)
   model_regr_rpart <- rpart(m2.price~., data = apartments_cut)
 
