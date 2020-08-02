@@ -1,6 +1,7 @@
 DALEX 1.3.2
 ----------------------------------------------------------------
 *  Fixed `plot.predict_parts` and `plot.model_profile`   ([#277](https://github.com/ModelOriented/DALEX/issues/277)).
+*  Fixed `plot.model_profile` for multiple profiles  ([#237](https://github.com/ModelOriented/DALEX/issues/237)).
 
 DALEX 1.3.1.1
 ---------------------------------------------------------------
