@@ -1,3 +1,8 @@
+DALEX 1.3.1.2
+---------------------------------------------------------------
+* External tests added
+* Extended documentation
+
 DALEX 1.3.1.1
 ---------------------------------------------------------------
 * fixed typo in `predict_parts_oscillations_emp`
