@@ -14,7 +14,8 @@ dalex 0.2.0
 * `loss_function='auc'` now uses `loss_one_minus_auc` as this should be a descending measure
 * plots are now saved with the original height and width
 * `model_profile` now properly passes the `variables` parameter to `CeterisParibus`
-
+* `variavbles` parameter in `predict_profile` now can also be a string
+ 
 ### features
 
 * use `px.express` instead of core `plotly` to make `model_profile` and `predict_profile` plots;

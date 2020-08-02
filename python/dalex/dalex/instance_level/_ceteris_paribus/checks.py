@@ -8,6 +8,8 @@ from .utils import calculate_variable_split
 
 
 def check_variables(variables, explainer, variable_splits):
+    if isinstance(variables, str):
+        variables = [variables]
     variables_ = deepcopy(variables)
     if variable_splits is not None:
         variables_ = variable_splits.keys()
@@ -16,7 +18,7 @@ def check_variables(variables, explainer, variable_splits):
         if not set(variables_).issubset(explainer.data.columns):
             raise ValueError('Invalid variable names')
     elif variables_ is not None and not isinstance(variables_, (list, np.ndarray, pd.Series)):
-        raise TypeError("Variables must be a list or numpy.ndarray or pd.Series")
+        raise TypeError("variables must be None or str or list or np.ndarray or pd.Series")
     else:
         variables_ = explainer.data.columns
 

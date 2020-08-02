@@ -306,7 +306,7 @@ class Explainer:
             Type of variable profiles (default is 'ceteris_paribus').
         y : pd.Series or np.ndarray (1d), optional
             Target variable with the same length as `new_observation`.
-        variables : array_like of str, optional
+        variables : str or array_like of str, optional
             Variables for which the profiles will be calculated
             (default is None, which means all of the variables).
         grid_points : int, optional
