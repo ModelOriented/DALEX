@@ -1,3 +1,7 @@
+DALEX 1.3.2
+----------------------------------------------------------------
+*  Fixed `plot.predict_parts` and `plot.model_profile`   ([#277](https://github.com/ModelOriented/DALEX/issues/277)).
+
 DALEX 1.3.1
 ----------------------------------------------------------------
 * added `predict_parts` class to objects and `plot.predict_parts` function
