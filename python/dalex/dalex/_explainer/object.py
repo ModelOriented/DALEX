@@ -520,6 +520,7 @@ class Explainer:
         I = np.random.choice(np.arange(N), N, replace=False)
 
         ceteris_paribus = CeterisParibus(grid_points=grid_points,
+                                         variables=variables,
                                          variable_splits=variable_splits,
                                          variable_splits_type='uniform',
                                          processes=processes)

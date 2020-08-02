@@ -13,6 +13,7 @@ dalex 0.2.0
 * `vertical_spacing` acts as intended in `VariableImportance.plot` when `split='variable'`
 * `loss_function='auc'` now uses `loss_one_minus_auc` as this should be a descending measure
 * plots are now saved with the original height and width
+* `model_profile` now properly passes the `variables` parameter to `CeterisParibus`
 
 ### features
 

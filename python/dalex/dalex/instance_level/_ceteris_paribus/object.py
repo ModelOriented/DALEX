@@ -63,7 +63,7 @@ class CeterisParibus:
                  grid_points=101,
                  variable_splits=None,
                  variable_splits_type='uniform',
-                 variable_splits_with_obs=True,
+                 variable_splits_with_obs=False,
                  processes=1):
 
         processes_ = check_processes(processes)
