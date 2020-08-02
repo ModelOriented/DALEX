@@ -227,26 +227,30 @@ class Explainer:
 
         Parameters
         -----------
-        new_observation : pd.Series or np.ndarray
+        new_observation : pd.Series or np.ndarray (1d) or pd.DataFrame (1,p)
             An observation for which a prediction needs to be explained.
         type : {'break_down_interactions', 'break_down', 'shap'}
             Type of variable attributions (default is 'break_down_interactions').
         order : list of int or str, optional
-            Use a fixed order of variables for attribution calculation. Use integer values
-            or string variable names (default is None which means order by importance).
+            Prameter specific for `break_down_interactions` and `break_down`. Use a fixed
+            order of variables for attribution calculation. Use integer values  or string
+            variable names (default is None, which means order by importance).
         interaction_preference : int, optional
-            Specify which interactions will be present in an explanation. The larger the
-            integer, the more frequently interactions will be presented (default is 1).
+            Parameter specific for `break_down_interactions` type. Specify which interactions
+            will be present in an explanation. The larger the integer, the more frequently
+            interactions will be presented (default is 1).
         path : list of int, optional
-            If specified, then attributions for this path will be plotted
-            (default is 'average', which plots attribution means for `B` random paths).
+            Parameter specific for `shap`. If specified, then attributions for this path
+            will be plotted (default is 'average', which plots attribution means for
+            `B` random paths).
         B : int, optional
-            Number of random paths to calculate variable attributions (default is 25).
+            Parameter specific for `shap`. Number of random paths to calculate
+            variable attributions (default is 25).
         keep_distributions :  bool, optional
             Save the distribution of partial predictions (default is False).
         processes : int, optional
-            Number of parallel processes to use in calculations. Iterated over `B`
-            (default is 1, which means no parallel computation).
+            Parameter specific for `shap`. Number of parallel processes to use in calculations.
+            Iterated over `B` (default is 1, which means no parallel computation).
         random_state : int, optional
             Set seed for random number generator (default is random seed).
 
@@ -296,7 +300,7 @@ class Explainer:
 
         Parameters
         -----------
-        new_observation : pd.DataFrame or np.ndarray
+        new_observation : pd.DataFrame or np.ndarray or pd.Series
             Observations for which predictions need to be explained.
         type : {'ceteris_paribus', TODO: 'oscilations'}
             Type of variable profiles (default is 'ceteris_paribus').
