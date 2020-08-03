@@ -63,7 +63,6 @@ plot.model_profile <- function(x, ..., geom = "aggregates") {
   )
 }
 
-
 plot.model_profile_aggregates <- function(x, ...) {
 #  plot(x$agr_profiles, ..., color = x$color)
   # fix for https://github.com/ModelOriented/DALEX/issues/237

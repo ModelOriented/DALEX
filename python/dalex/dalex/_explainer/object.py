@@ -5,6 +5,93 @@ from .helper import get_model_info
 
 
 class Explainer:
+    """ Create Model Explainer
+
+    Black-box models may have very different structures. This class creates a unified
+    representation of a model, which can be further processed by various explanations.
+    Methods of this class produce explanation objects, that contain the main result
+    attribute, and can be visualised using the plot method.
+
+    The `model` is the only required parameter, but most of the explanations require
+    that other parameters are provided (See `data`, `y`, `predict_function`, `model_type`).
+
+    Parameters
+    ----------
+    model : object
+        Model to be explained.
+    data : pd.DataFrame or np.ndarray (2d)
+        Data which will be used to calculate the explanations. It shouldn't contain
+        the target column (See `y`).
+        NOTE: If target variable is present in the data, some of the functionalities may
+        not work properly.
+    y : pd.Series or np.ndarray (1d)
+        Target variable with outputs / scores. It shall have the same length as `data`.
+    predict_function : function, optional
+        Function that takes two parameters (model, data) and returns a np.ndarray (1d)
+        with model predictions (default is predict method extracted from the model).
+        NOTE: This function needs to work with `data` as pd.DataFrame.
+    residual_function : function, optional
+        Function that takes three parameters (model, data, y) and returns a np.ndarray (1d)
+        with model residuals (default is a function constructed from `predict_function`).
+    weights : pd.Series or np.ndarray (1d), optional
+        Sampling weights for observations in `data`. It shall have the same length as
+        `data` (default is None).
+    label : str, optional
+        Model name to appear in result and plots
+        (default is last element of the class attribute extracted from the model).
+    model_class : str, optional
+        Class of the model that is used e.g. to choose the `predict_function`
+        (default is the class attribute extracted from the model).
+        NOTE: Use if your model is wrapped with Pipeline.
+    verbose : bool
+        Print diagnostic messages during the Explainer initialization (default is True).
+    precalculate : bool
+        Calculate y_hat (predicted values) and residuals during the Explainer
+        initialization (default is True).
+    model_type : {'regression', 'classification', None}
+        Model task type that is used e.g. in `model_performance` and `model_parts`
+        (default is try to extract the information from the model, else None).
+    model_info: dict, optional
+        Dict {'model_package', 'model_package_version', ...} containing additional
+        information to be stored.
+    colorize : TODO
+
+    Attributes
+    --------
+    model : object
+        A model to be explained.
+    data : pd.DataFrame
+        Data which will be used to calculate the explanations.
+    y : np.ndarray (1d)
+        Target variable with outputs / scores.
+    predict_function : function
+        Function that takes two arguments (model, data) and returns np.ndarray (1d)
+        with model predictions.
+    y_hat : np.ndarray (1d)
+        Model predictions for `data`.
+    residual_function : function
+        Function that takes three arguments (model, data, y) and returns np.ndarray (1d)
+        with model residuals.
+    residuals : np.ndarray (1d)
+        Model residuals for `data`.
+    weights : np.ndarray (1d)
+        Sampling weights for observations in `data`.
+    label : str
+        Model name to appear in result and plots.
+    model_class : str
+        Class of the model.
+    model_type : {'regression', 'classification', None}
+        Model task type.
+    model_info: dict
+        Dict {'model_package', 'model_package_version', ...} containing additional
+        information.
+
+    Notes
+    --------
+    https://pbiecek.github.io/ema/dataSetsIntro.html#ExplainersTitanicPythonCode
+
+    """
+
     def __init__(self,
                  model,
                  data=None,
@@ -20,28 +107,6 @@ class Explainer:
                  model_info=None,
                  colorize=True):
 
-        """Create Model Explainer
-
-        Black-box models may have very different structures.
-        This function creates a unified representation of a model, which can be further processed by various explainers.
-        Please NOTE, that the model is the only required argument.
-        But some explainers may require that other arguments will be provided too.
-
-        :param model: a model to be explained
-        :param data: data.frame or matrix - data that was used for fitting. If not provided then will be extracted from the model. Data should be passed without target column (this shall be provided as the y argument). NOTE: If target variable is present in the data, some of the functionalities my not work properly.
-        :param y: numeric vector with outputs / scores. If provided then it shall have the same size as data
-        :param predict_function: function that takes two arguments: model and new data and returns numeric vector with predictions
-        :param residual_function: function that takes three arguments: model, data and response vector y. It should return a numeric vector with model residuals for given data. If not provided, response residuals y-yhat are calculated.
-        :param weights: weights numeric vector with sampling weights. By default it's None. If provided then it shall have the same length as data
-        :param label: the name of the model. By default it's extracted from the 'class' attribute of the model
-        :param model_class: str, class of actual model, use if your model is wrapped
-        :param verbose: if True (default) then diagnostic messages will be printed
-        :param precalculate: if True (default) then predicted_values and residual are calculated when explainer is created.
-        :param model_type: type of a model, either classification or regression.
-        :param model_info: list containing additional information about the model
-        :param colorize: TODO
-        """
-
         verbose_cat("Preparation of a new explainer is initiated\n", verbose=verbose)
 
         # if requested, remove colors
@@ -56,13 +121,8 @@ class Explainer:
 
         # REPORT: checks for data
         """
-        Contrary to DALEX in R, data cannot be retrieved from model, thus data is necessary.
-        if data is None
-        tell user about the lack of the data
-        """
-
-        """
-        Input numpy/pandas
+        Contrary to the R package, data cannot be retrieved from model, thus data is necessary.
+        If data is None, tell user about the lack of the data.
         """
 
         data = check_data(data, verbose)
@@ -112,11 +172,19 @@ class Explainer:
         verbose_cat("\nA new explainer has been created!", verbose=verbose)
 
     def predict(self, data):
+        """Make a prediction
 
-        """This is a generic function for making a prediction.
-        
-        :param data: pd.DataFrame
-        :return: numpy.ndarray
+        This function uses the `predict_function` attribute.
+
+        Parameters
+        ----------
+        data : pd.DataFrame
+            Data which will be used to make a prediction.
+
+        Returns
+        ----------
+        np.ndarray (1d)
+            Model predictions for given `data`.
         """
 
         check_pred_data(data)
@@ -124,13 +192,24 @@ class Explainer:
         return self.predict_function(self.model, data)
 
     def residual(self, data, y):
+        """Calculate residuals
 
-        """This is a generic function for calculating residuals.
+        This function uses the `residual_function` attribute.
 
-        :param data: pd.DataFrame
-        :param y: numeric vector with outputs / scores. If provided then it shall have the same size as data
-        :return: array-like, prediction of the model
+        Parameters
+        -----------
+        data : pd.DataFrame
+            Data which will be used to calculate residuals.
+        y : pd.Series or np.ndarray (1d)
+            Target variable which will be used to calculate residuals.
+
+        Returns
+        -----------
+        np.ndarray (1d)
+            Model residuals for given `data` and `y`.
         """
+
+        check_pred_data(data)
 
         return self.residual_function(self.model, data, y)
 
@@ -141,22 +220,45 @@ class Explainer:
                       interaction_preference=1,
                       path="average",
                       B=25,
-                      processes=1,
                       keep_distributions=False,
+                      processes=1,
                       random_state=None):
+        """Calculate instance level variable attributions as Break Down or Shapley Values
 
-        """Instance Level Variable Attribution as Break Down or SHAP Explanations
+        Parameters
+        -----------
+        new_observation : pd.Series or np.ndarray (1d) or pd.DataFrame (1,p)
+            An observation for which a prediction needs to be explained.
+        type : {'break_down_interactions', 'break_down', 'shap'}
+            Type of variable attributions (default is 'break_down_interactions').
+        order : list of int or str, optional
+            Prameter specific for `break_down_interactions` and `break_down`. Use a fixed
+            order of variables for attribution calculation. Use integer values  or string
+            variable names (default is None, which means order by importance).
+        interaction_preference : int, optional
+            Parameter specific for `break_down_interactions` type. Specify which interactions
+            will be present in an explanation. The larger the integer, the more frequently
+            interactions will be presented (default is 1).
+        path : list of int, optional
+            Parameter specific for `shap`. If specified, then attributions for this path
+            will be plotted (default is 'average', which plots attribution means for
+            `B` random paths).
+        B : int, optional
+            Parameter specific for `shap`. Number of random paths to calculate
+            variable attributions (default is 25).
+        keep_distributions :  bool, optional
+            Save the distribution of partial predictions (default is False).
+        processes : int, optional
+            Parameter specific for `shap`. Number of parallel processes to use in calculations.
+            Iterated over `B` (default is 1, which means no parallel computation).
+        random_state : int, optional
+            Set seed for random number generator (default is random seed).
 
-        :param new_observation: pd.Series, a new observarvation for which predictions need to be explained
-        :param type: type the type of variable attributions. Either 'shap', 'break_down' or 'break_down_interactions'
-        :param order: if not `NULL`, then it will be a fixed order of variables. It can be a numeric vector or vector with names of variables.
-        :param interaction_preference: an integer specifying which interactions will be present in an explanation. The larger the integer, the more frequently interactions will be presented.
-        :param path: if specified, then this path will be highlighted on the plot. Use `average` in order to show an average effect
-        :param B: number of random paths
-        :param processes: integer, number of parallel processes, iterated over Bs
-        :param keep_distributions: if `TRUE`, then distribution of partial predictions is stored and can be plotted with the generic `plot()`.
-        :param random_state: int, seed for random number generator
-        :return: BreakDown / Shap
+        Returns
+        -----------
+        BreakDown or Shap class object
+            Explanation object containing the main result attribute and the plot method.
+            Object class, its attributes, and the plot method depend on the `type` parameter.
         """
 
         types = ('break_down_interactions', 'break_down', 'shap')
@@ -190,20 +292,47 @@ class Explainer:
                         variables=None,
                         grid_points=101,
                         variable_splits=None,
+                        variable_splits_type='uniform',
+                        variable_splits_with_obs=True,
                         processes=1,
                         verbose=True):
+        """Calculate instance level variable profiles as Ceteris Paribus
 
-        """Creates CeterisParibus object
+        Parameters
+        -----------
+        new_observation : pd.DataFrame or np.ndarray or pd.Series
+            Observations for which predictions need to be explained.
+        type : {'ceteris_paribus', TODO: 'oscilations'}
+            Type of variable profiles (default is 'ceteris_paribus').
+        y : pd.Series or np.ndarray (1d), optional
+            Target variable with the same length as `new_observation`.
+        variables : str or array_like of str, optional
+            Variables for which the profiles will be calculated
+            (default is None, which means all of the variables).
+        grid_points : int, optional
+            Maximum number of points for profile calculations (default is 101).
+            NOTE: The final number of points may be lower than `grid_points`,
+            eg. if there is not enough unique values for a given variable.
+        variable_splits : dict of lists, optional
+            Split points for variables e.g. {'x': [0, 0.2, 0.5, 0.8, 1], 'y': ['a', 'b']}
+            (default is None, which means that they will be calculated using one of
+            `variable_splits_type` and the `data` attribute).
+        variable_splits_type : {'uniform', 'quantiles'}, optional
+            Way of calculating `variable_splits`. Set 'quantiles' for percentiles.
+            (default is 'uniform', which means uniform grid of points).
+        variable_splits_with_obs: bool, optional
+            Add variable values of `new_observation` data to the `variable_splits`
+            (default is True).
+        processes : int, optional
+            Number of parallel processes to use in calculations. Iterated over `variables`
+            (default is 1, which means no parallel computation).
+        verbose : bool, optional
+            Print tqdm progress bar (default is True).
 
-        :param new_observation: DataFrame with observations for which the profiles will be calculated
-        :param type TODO
-        :param y: pandas Series with labels for the observations
-        :param variables: variables for which the profiles are calculated
-        :param grid_points: number of points in a single variable split if calculated automatically
-        :param variable_splits: mapping of variables into points the profile will be calculated, if None then calculate with the function `_calculate_variable_splits`
-        :param processes: integer, number of parallel processes, iterated over variables
-        :param verbose: print tqdm progress bar
-        :return CeterisParibus object
+        Returns
+        -----------
+        CeterisParibus class object
+            Explanation object containing the main result attribute and the plot method.
         """
 
         types = ('ceteris_paribus', )
@@ -214,6 +343,8 @@ class Explainer:
                 variables=variables,
                 grid_points=grid_points,
                 variable_splits=variable_splits,
+                variable_splits_type=variable_splits_type,
+                variable_splits_with_obs=variable_splits_with_obs,
                 processes=processes
             )
 
@@ -224,12 +355,21 @@ class Explainer:
     def model_performance(self,
                           model_type=None,
                           cutoff=0.5):
+        """Calculate dataset level model performance measures
 
-        """Model Performance Measures
+        Parameters
+        -----------
+        model_type : {'regression', 'classification', None}
+            Model task type that is used to choose the proper performance measures
+            (default is None, which means try to extract from the `model_type` attribute).
+        cutoff : float, optional
+            Cutoff for predictions in classification models. Needed for measures like
+            recall, precision, acc, f1 (default is 0.5).
 
-        :param model_type: type of prediction regression/classification
-        :param cutoff: a cutoff for classification models, needed for measures like recall, precision, ACC, F1. By default 0.5.
-        :return: ModelPerformance object
+        Returns
+        -----------
+        ModelPerformance class object
+            Explanation object containing the main result attribute and the plot method.
         """
 
         if model_type is None and self.model_type is None:
@@ -248,26 +388,47 @@ class Explainer:
     def model_parts(self,
                     loss_function=None,
                     type=('variable_importance', 'ratio', 'difference'),
-                    N=None,
+                    N=1000,
                     B=10,
-                    keep_raw_permutations=None,
                     variables=None,
                     variable_groups=None,
+                    keep_raw_permutations=True,
                     processes=1,
                     random_state=None):
 
-        """Creates VariableImportance object
+        """Calculate dataset level variable importance
 
-        :param loss_function: str or a function that will be used to assess variable importance, e.g. 'rmse' or '1-auc'
-        :param type: 'variable_importance'/'ratio'/'difference' type of transformation that should be applied for dropout loss
-        :param N: number of observations that should be sampled for calculation of variable importance
-        :param B: number of permutation rounds to perform on each variable
-        :param keep_raw_permutations: bool, set to True if you want to save all steps
-        :param variables: vector of variables. If None then variable importance will be tested for each variable from the data separately, ignored if variable_groups is not None
-        :param variable_groups: dict of lists of variables. Each list is treated as one group. This is for testing joint variable importance
-        :param processes: integer, number of parallel processes, iterated over Bs
-        :param random_state: random state for the permutations
-        :return: FeatureImportance object
+        Parameters
+        -----------
+        loss_function : {'rmse', '1-auc', 'mse', 'mae', 'mad'} or function, optional
+            If string, then such loss function will be used to assess variable importance
+            (default is 'rmse' or `1-auc`, depends on `model_type` attribute).
+        type : {'variable_importance', 'ratio', 'difference'}, optional
+            Type of transformation that will be applied to dropout loss.
+        N : int, optional
+            Number of observations that will be sampled from the `data` attribute before
+            the calculation of variable importance. None means all `data` (default is 1000).
+        B : int, optional
+            Number of permutation rounds to perform on each variable (default is 10).
+        variables : array_like of str, optional
+            Variables for which the importance will be calculated
+            (default is None, which means all of the variables).
+            NOTE: Ignored if `variable_groups` is not None.
+        variable_groups : dict of lists, optional
+            Group the variables to calculate their joint variable importance
+            e.g. {'X': ['x1', 'x2'], 'Y': ['y1', 'y2']} (default is None).
+        keep_raw_permutations: bool, optional
+            Save results for all permutation rounds (default is True).
+        processes : int, optional
+            Number of parallel processes to use in calculations. Iterated over `B`
+            (default is 1, which means no parallel computation).
+        random_state : int, optional
+            Set seed for random number generator (default is random seed).
+
+        Returns
+        -----------
+        VariableImportance class object
+            Explanation object containing the main result attribute and the plot method.
         """
 
         types = ('variable_importance', 'ratio', 'difference')
@@ -293,32 +454,60 @@ class Explainer:
 
     def model_profile(self,
                       type=('partial', 'accumulated', 'conditional'),
-                      N=500,
+                      N=300,
                       variables=None,
                       variable_type='numerical',
                       groups=None,
                       span=0.25,
                       grid_points=101,
-                      intercept=True,
+                      variable_splits=None,
+                      center=True,
                       processes=1,
                       random_state=None,
                       verbose=True):
 
-        """Dataset Level Variable Effect as Partial Dependency Profile or Accumulated Local Effects
+        """Calculate dataset level variable profiles as Partial or Accumulated Dependence
 
-        :param ceteris_paribus: a ceteris paribus explainer or list of ceteris paribus explainers
-        :param N: number of observations used for calculation of partial dependency profiles. By default, 500 observations will be chosen randomly. If None then all observations will be used.
-        :param variables: str or list or numpy.ndarray or pandas.Series, if not None then aggregate only for selected variables will be calculated, if None all will be selected
-        :param variable_type: TODO If "numerical" then only numerical variables will be calculated. If "categorical" then only categorical variables will be calculated.
-        :param groups: str or list or numpy.ndarray or pandas.Series, a variable names that will be used for grouping
-        :param type: either partial/conditional/accumulated for partial dependence, conditional profiles of accumulated local effects
-        :param span: smoothing coeffcient, by default 0.25.It's the sd for gaussian kernel
-        :param grid_points: number of points for profile
-        :param intercept: False if center data on 0
-        :param processes: integer, number of parallel processes, iterated over variables
-        :param random_state: int, seed for random number generator
-        :param verbose: print tqdm progress bar
-        :return: VariableEffect object
+        Parameters
+        -----------
+        type : {'partial', 'accumulated', 'conditional'}
+            Type of model profiles (default is 'partial' for Partial Dependence Profiles).
+        N : int, optional
+            Number of observations that will be sampled from the `data` attribute before
+            the calculation of variable profiles. None means all `data` (default is 300).
+        variables : str or array_like of str, optional
+            Variables for which the profiles will be calculated
+            (default is None, which means all of the variables).
+        variable_type : {'numerical', 'categorical'}
+            Calculate the profiles for numerical or categorical variables
+            (default is 'numerical').
+        groups : str or array_like of str, optional
+            Names of categorical variables that will be used for profile grouping
+            (default is None, which means no grouping).
+        span : float, optional
+            Smoothing coefficient used as sd for gaussian kernel (default is 0.25).
+        grid_points : int, optional
+            Maximum number of points for profile calculations (default is 101).
+            NOTE: The final number of points may be lower than `grid_points`,
+            eg. if there is not enough unique values for a given variable.
+        variable_splits : dict of lists, optional
+            Split points for variables e.g. {'x': [0, 0.2, 0.5, 0.8, 1], 'y': ['a', 'b']}
+            (default is None, which means that they will be distributed uniformly).
+        center : bool, optional
+            Theoretically Accumulated Profiles starts at 0. If True, then they are centered
+            around average response like Partial Profiles (default is True).
+        processes : int, optional
+            Number of parallel processes to use in calculations. Iterated over `variables`
+            (default is 1, which means no parallel computation).
+        random_state : int, optional
+            Set seed for random number generator (default is random seed).
+        verbose : bool, optional
+            Print tqdm progress bar (default is True).
+
+        Returns
+        -----------
+        AggregatedProfiles class object
+            Explanation object containing the main result attribute and the plot method.
         """
 
         types = ('partial', 'accumulated', 'conditional')
@@ -334,7 +523,11 @@ class Explainer:
 
         I = np.random.choice(np.arange(N), N, replace=False)
 
-        ceteris_paribus = CeterisParibus(grid_points=grid_points, processes=processes)
+        ceteris_paribus = CeterisParibus(grid_points=grid_points,
+                                         variables=variables,
+                                         variable_splits=variable_splits,
+                                         variable_splits_type='uniform',
+                                         processes=processes)
         ceteris_paribus.fit(self, self.data.iloc[I, :], self.y[I], verbose=verbose)
 
         model_profile_ = AggregatedProfiles(
@@ -343,7 +536,7 @@ class Explainer:
             variable_type=variable_type,
             groups=groups,
             span=span,
-            intercept=intercept,
+            center=center,
             random_state=random_state
         )
 
@@ -352,15 +545,25 @@ class Explainer:
         return model_profile_
 
     def dumps(self, *args, **kwargs):
-        """Return binary (pickled) representation of the explainer.
+        """Return the pickled representation (bytes object) of the Explainer
 
-        Note, that local functions and lambdas cannot be pickled.
-        Residual function by default contains lambda, thus, if default, is always dropped.
-        Original explainer is not changed.
+        This function uses the pickle package. See
+        https://docs.python.org/3/library/pickle.html#pickle.dumps
 
-        :param args: Positional arguments passed to pickle.dumps
-        :param kwargs: Keyword arguments passed to pickle.dumps
-        :return: binary (pickled) representation of the explainer
+        NOTE: local functions and lambdas cannot be pickled.
+        Attribute `residual_function` by default contains lambda; thus,
+        if not provided by the user, it will be dropped before the dump.
+
+        Parameters
+        -----------
+        args :
+            Positional arguments passed to the pickle.dumps function
+        kwargs :
+            Keyword arguments passed to the pickle.dumps function
+
+        Returns
+        -----------
+        bytes object
         """
 
         from copy import deepcopy
@@ -371,16 +574,23 @@ class Explainer:
         return pickle.dumps(to_dump, *args, **kwargs)
 
     def dump(self, file, *args, **kwargs):
-        """Save binary (pickled) representation of the explainer to the file.
+        """Write the pickled representation of the Explainer to the file (pickle)
 
-        Note, that local functions and lambdas cannot be pickled.
-        Residual function by default contains lambda, thus, if default, is always dropped.
-        Original explainer is not changed.
+        This function uses the pickle package. See
+        https://docs.python.org/3/library/pickle.html#pickle.dump
 
-        :param file: It can be a file object opened for binary writing, an io.BytesIO instance.
-        :param args: Positional arguments passed to pickle.dump
-        :param kwargs: Keyword arguments passed to pickle.dump
-        :return: binary (pickled) representation of the explainer
+        NOTE: local functions and lambdas cannot be pickled.
+        Attribute `residual_function` by default contains lambda; thus,
+        if not provided by the user, it will be dropped before the dump.
+
+        Parameters
+        -----------
+        file :
+            A file object opened for binary writing, or an io.BytesIO instance.
+        args :
+            Positional arguments passed to the pickle.dump function
+        kwargs :
+            Keyword arguments passed to the pickle.dump function
         """
 
         from copy import deepcopy
@@ -392,16 +602,29 @@ class Explainer:
 
     @staticmethod
     def loads(data, use_defaults=True, *args, **kwargs):
-        """Load explainer from binary (pickled) representation.
+        """Load the Explainer from the pickled representation (bytes object)
+
+        This function uses the pickle package. See
+        https://docs.python.org/3/library/pickle.html#pickle.loads
 
         Note, that local functions and lambdas cannot be pickled.
         If use_defaults is set to True, then dropped functions are set to defaults.
 
-        :param data: binary representation of the explainer
-        :param use_defaults: True, if dropped functions should be replaced with defaults
-        :param args: Positional arguments passed to pickle.loads
-        :param kwargs: Keyword arguments passed to pickle.loads
-        :return: Explainer
+        Parameters
+        -----------
+        data : bytes object
+            Binary representation of the Explainer.
+        use_defaults : bool
+            Replace empty `predict_function` and `residual_function` with default
+            values like in Explainer initialization (default is True).
+        args :
+            Positional arguments passed to the pickle.loads function
+        kwargs :
+            Keyword arguments passed to the pickle.loads function
+
+        Returns
+        -----------
+        Explainer object
         """
 
         import pickle
@@ -414,16 +637,29 @@ class Explainer:
 
     @staticmethod
     def load(file, use_defaults=True, *args, **kwargs):
-        """Load explainer from binary file (pickled).
+        """Read the pickled representation of the Explainer from the file (pickle)
+
+        This function uses the pickle package. See
+        https://docs.python.org/3/library/pickle.html#pickle.load
 
         Note, that local functions and lambdas cannot be pickled.
         If use_defaults is set to True, then dropped functions are set to defaults.
 
-        :param file: It can be a binary file object opened for reading, an io.BytesIO object
-        :param use_defaults: True, if dropped functions should be replaced with defaults
-        :param args: Positional arguments passed to pickle.load
-        :param kwargs: Keyword arguments passed to pickle.load
-        :return: Explainer
+        Parameters
+        -----------
+        file :
+            A binary file object opened for reading, or an io.BytesIO object.
+        use_defaults : bool
+            Replace empty `predict_function` and `residual_function` with default
+            values like in Explainer initialization (default is True).
+        args :
+            Positional arguments passed to the pickle.load function
+        kwargs :
+            Keyword arguments passed to the pickle.load function
+
+        Returns
+        -----------
+        Explainer object
         """
 
         import pickle

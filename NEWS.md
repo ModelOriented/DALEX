@@ -1,8 +1,10 @@
 DALEX 1.3.2
 ---------------------------------------------------------------
-* External tests added
-* Extended documentation
-* All dontrun changed to donttest according to CRAN policy
+* added external tests
+* update documentation
+* All `dontrun` changed to `donttest` according to CRAN policy
+* Fixed `plot.predict_parts` and `plot.model_profile` ([#277](https://github.com/ModelOriented/DALEX/issues/277)).
+* Fixed `plot.model_profile` for multiple profiles ([#237](https://github.com/ModelOriented/DALEX/issues/237)).
 
 DALEX 1.3.1.1
 ---------------------------------------------------------------
@@ -14,9 +16,9 @@ DALEX 1.3.1
 * added `predict_parts` class to objects and `plot.predict_parts` function
 * added `model_parts` class to objects and `plot.model_parts` function
 * plot parameters added to the documentation
-*  Now in the `predict_profile` function one can specify how grid points shall be calculated, see `variable_splits_type`  ([#267](https://github.com/ModelOriented/DALEX/issues/266)).
-*  The `predict_part` function has two new options for type: `oscillations_uni` and `oscillations_emp` ([#267](https://github.com/ModelOriented/DALEX/issues/267)).
-*  The `plot.model_performance` function has a new `geom="prc"` for Precision Recall curve  ([#273](https://github.com/ModelOriented/DALEX/issues/273)).
+* Now in the `predict_profile` function one can specify how grid points shall be calculated, see `variable_splits_type`  ([#267](https://github.com/ModelOriented/DALEX/issues/266)).
+* The `predict_part` function has two new options for type: `oscillations_uni` and `oscillations_emp` ([#267](https://github.com/ModelOriented/DALEX/issues/267)).
+* The `plot.model_performance` function has a new `geom="prc"` for Precision Recall curve  ([#273](https://github.com/ModelOriented/DALEX/issues/273)).
 
 DALEX 1.3.0
 ----------------------------------------------------------------

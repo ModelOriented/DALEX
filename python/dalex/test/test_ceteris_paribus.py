@@ -151,9 +151,9 @@ class CeterisParibusTestTitanic(unittest.TestCase):
         with self.assertRaises(TypeError):
             self.exp.predict_profile(self.X.iloc[[0], :], y=3)
 
-        with self.assertRaises(TypeError):
-            self.assertIsInstance(self.exp.predict_profile(self.X.iloc[[0], :], variables='age'),
-                                  dx.instance_level.CeterisParibus)
+        # with self.assertRaises(TypeError):
+        #     self.assertIsInstance(self.exp.predict_profile(self.X.iloc[[0], :], variables='age'),
+        #                           dx.instance_level.CeterisParibus)
 
         self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0, :]), dx.instance_level.CeterisParibus)
         self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0:10, :]), dx.instance_level.CeterisParibus)
