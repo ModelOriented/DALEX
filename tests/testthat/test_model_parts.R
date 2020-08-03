@@ -33,7 +33,7 @@ test_that("Output format",{
 
 test_that("Output format - plot",{
   expect_is(plot(mp_ranger_ratio), "gg")
-  expect_is(plot(mp_ranger, vi_lm), "gg")
+  expect_is(plot(mp_ranger, mp_lm), "gg")
   expect_is(plot(mp_lm), "gg")
 })
 
