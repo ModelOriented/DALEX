@@ -21,7 +21,7 @@
 #' diag_lm <- model_diagnostics(explainer_lm)
 #' diag_lm
 #' plot(diag_lm)
-#' \dontrun{
+#' \donttest{
 #' library("ranger")
 #' apartments_ranger_model <- ranger(m2.price ~ ., data = apartments)
 #' explainer_ranger <- explain(apartments_ranger_model,

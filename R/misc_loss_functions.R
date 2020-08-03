@@ -11,7 +11,7 @@
 #' @aliases loss_cross_entropy loss_sum_of_squares loss_root_mean_square loss_accuracy loss_one_minus_auc
 #' @export
 #' @examples
-#'  \dontrun{
+#'  \donttest{
 #' library("ranger")
 #' titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 50,
 #'                                probability = TRUE)

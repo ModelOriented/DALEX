@@ -37,7 +37,7 @@ explainer_glm <- explain(titanic_glm_model, data = titanic_imputed)
 expl_glm <- variable_effect(explainer_glm, "fare", "partial_dependency")
 plot(expl_glm)
 
- \dontrun{
+ \donttest{
 library("ranger")
 titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 50,
                                probability = TRUE)

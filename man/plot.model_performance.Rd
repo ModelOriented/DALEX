@@ -36,7 +36,7 @@ An object of the class \code{model_performance}.
 Plot Dataset Level Model Performance Explanations
 }
 \examples{
- \dontrun{
+ \donttest{
 library("ranger")
 titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 50,
                                probability = TRUE)

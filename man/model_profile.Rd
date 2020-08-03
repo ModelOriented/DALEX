@@ -67,28 +67,33 @@ Underneath this function calls the \code{\link[ingredients]{partial_dependence}}
 \examples{
 titanic_glm_model <- glm(survived~., data = titanic_imputed, family = "binomial")
 explainer_glm <- explain(titanic_glm_model, data = titanic_imputed)
-expl_glm <- model_profile(explainer_glm, "fare")
-plot(expl_glm)
+model_profile_glm_fare <- model_profile(explainer_glm, "fare")
+plot(model_profile_glm_fare)
 
- \dontrun{
+ \donttest{
 library("ranger")
 titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 50,
                                probability = TRUE)
 explainer_ranger  <- explain(titanic_ranger_model, data = titanic_imputed)
-expl_ranger <- model_profile(explainer_ranger)
-plot(expl_ranger, geom = "profiles")
+model_profile_ranger <- model_profile(explainer_ranger)
+plot(model_profile_ranger, geom = "profiles")
 
-vp_ra <- model_profile(explainer_ranger, type = "partial", variables = c("age", "fare"))
-plot(vp_ra, variables = c("age", "fare"), geom = "points")
+model_profile_ranger_1 <- model_profile(explainer_ranger, type = "partial",
+                                        variables = c("age", "fare"))
+plot(model_profile_ranger_1 , variables = c("age", "fare"), geom = "points")
 
-vp_ra <- model_profile(explainer_ranger, type = "partial", k = 3)
-plot(vp_ra, geom = "profiles")
+model_profile_ranger_2  <- model_profile(explainer_ranger, type = "partial", k = 3)
+plot(model_profile_ranger_2 , geom = "profiles")
 
-vp_ra <- model_profile(explainer_ranger, type = "partial", groups = "gender")
-plot(vp_ra, geom = "profiles")
+model_profile_ranger_3  <- model_profile(explainer_ranger, type = "partial", groups = "gender")
+plot(model_profile_ranger_3 , geom = "profiles")
 
-vp_ra <- model_profile(explainer_ranger, type = "accumulated")
-plot(vp_ra, geom = "profiles")
+model_profile_ranger_4  <- model_profile(explainer_ranger, type = "accumulated")
+plot(model_profile_ranger_4 , geom = "profiles")
+
+# Multiple profiles
+model_profile_ranger_fare <- model_profile(explainer_ranger, "fare")
+plot(model_profile_ranger_fare, model_profile_glm_fare)
  }
 
 }

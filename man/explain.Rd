@@ -135,10 +135,10 @@ titanic_ranger <- ranger::ranger(as.factor(survived)~., data = titanic_imputed, 
 titanic_ranger_exp <- explain(titanic_ranger, data = titanic_imputed, y = titanic_imputed$survived)
 
 # multilabel classification
-HR_ranger <- ranger::ranger(status~., data = HR, num.trees = 50, probability = TRUE)
+hr_ranger <- ranger::ranger(status~., data = HR, num.trees = 50, probability = TRUE)
 # keep in mind that for multilabel classification y parameter has to be a factor,
 # with same levels as in training data
-HR_ranger_exp <- explain(HR_ranger, data = HR, y = HR$status)
+hr_ranger_exp <- explain(hr_ranger, data = HR, y = HR$status)
 
 # set model_info
 model_info <- list(package = "stats", ver = "3.6.2", type = "regression")
@@ -146,7 +146,7 @@ aps_lm_model4 <- lm(m2.price ~., data = apartments)
 aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, label = "model_4v",
                              model_info = model_info)
 
-\dontrun{
+\donttest{
 # set model_info
 model_info <- list(package = "stats", ver = "3.6.2", type = "regression")
 aps_lm_model4 <- lm(m2.price ~., data = apartments)

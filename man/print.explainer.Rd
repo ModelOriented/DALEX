@@ -21,7 +21,7 @@ aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, y = apartments$m2
                              label = "model_4v")
 aps_lm_explainer4
 
- \dontrun{
+ \donttest{
 library("ranger")
 titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 50,
                                probability = TRUE)

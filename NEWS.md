@@ -1,7 +1,8 @@
-DALEX 1.3.1.2
+DALEX 1.3.2
 ---------------------------------------------------------------
 * External tests added
 * Extended documentation
+* All dontrun changed to donttest according to CRAN policy
 
 DALEX 1.3.1.1
 ---------------------------------------------------------------

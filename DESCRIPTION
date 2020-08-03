@@ -1,6 +1,6 @@
 Package: DALEX
 Title: moDel Agnostic Language for Exploration and eXplanation
-Version: 1.3.1.2
+Version: 1.3.2
 Authors@R: c(person("Przemyslaw", "Biecek", email = "przemyslaw.biecek@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-8423-1823")),
     person("Szymon", "Maksymiuk", role = "aut"),
     person("Hubert", "Baniecki", role = "aut",

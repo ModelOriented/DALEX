@@ -18,7 +18,7 @@ model_parts(
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the \code{explain} function}
 
-\item{loss_function}{a function that will be used to assess variable importance. By default it is 1-AUC for classification, cross entropy for multilabel classification and RMSE for regression.}
+\item{loss_function}{a function that will be used to assess variable importance. By default it is 1-AUC for classification, cross entropy for multilabel classification and RMSE for regression. Custom, user-made loss function should accept two obligatory parameters (observed, predicted), where \code{observed} states for actual values of the target, while \code{predicted} for predicted values. If attribute "loss_accuracy" is associated with function object, then it will be plotted as name of the loss function.}
 
 \item{...}{other parameters}
 
@@ -37,25 +37,42 @@ From DALEX version 1.0 this function calls the \code{\link[ingredients]{feature_
 Find information how to use this function here: \url{https://pbiecek.github.io/ema/featureImportance.html}.
 }
 \examples{
-\dontrun{
+\donttest{
+# regression
+
 library("ranger")
-titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 50,
-                               probability = TRUE)
-explainer_ranger  <- explain(titanic_ranger_model, data = titanic_imputed[,-8],
-                             y = titanic_imputed$survived)
-vi_ranger <- model_parts(explainer_ranger, type = "raw")
-head(vi_ranger, 8)
-plot(vi_ranger)
+apartments_ranger_model <- ranger(m2.price~., data = apartments, num.trees = 50)
+explainer_ranger  <- explain(apartments_ranger_model, data = apartments[,-1],
+                             y = apartments$m2.price, label = "Ranger Apartments")
+model_parts_ranger_aps <- model_parts(explainer_ranger, type = "raw")
+head(model_parts_ranger_aps, 8)
+plot(model_parts_ranger_aps)
+
+# binary classification
 
 titanic_glm_model <- glm(survived~., data = titanic_imputed, family = "binomial")
-explainer_glm <- explain(titanic_glm_model, data = titanic_imputed[,-8],
+explainer_glm_titanic <- explain(titanic_glm_model, data = titanic_imputed[,-8],
                          y = titanic_imputed$survived)
 logit <- function(x) exp(x)/(1+exp(x))
-vi_glm <- model_parts(explainer_glm, type = "raw",
-                        loss_function = function(observed, predicted)
-                                     sum((observed - logit(predicted))^2))
-head(vi_glm, 8)
-plot(vi_glm)
+custom_loss <- function(observed, predicted){
+   sum((observed - logit(predicted))^2)
+}
+attr(custom_loss, "loss_name") <- "Logit residuals"
+model_parts_glm_titanic <- model_parts(explainer_glm_titanic, type = "raw",
+                                       loss_function = custom_loss)
+head(model_parts_glm_titanic, 8)
+plot(model_parts_glm_titanic)
+
+# multilabel classification
+
+HR_ranger_model_HR <- ranger(status~., data = HR, num.trees = 50,
+                               probability = TRUE)
+explainer_ranger_HR  <- explain(HR_ranger_model_HR, data = HR[,-6],
+                             y = HR$status, label = "Ranger HR")
+model_parts_ranger_HR <- model_parts(explainer_ranger_HR, type = "raw")
+head(model_parts_ranger_HR, 8)
+plot(model_parts_ranger_HR)
+
 }
 
 }

@@ -15,6 +15,14 @@ model_performance(explainer, ..., cutoff = 0.5)
 }
 \value{
 An object of the class \code{model_performance}.
+
+It's a list with following fields:
+
+\itemize{
+\item \code{residuals} - data frame that contains residuals for each observation
+\item \code{measures} - list with calculated measures that are dedicated for the task, whether it is regression, binary classification or multiclass classification.
+\item \code{type} - character that specifies type of the task.
+}
 }
 \description{
 Function \code{model_performance()} calculates various performance measures for classification and regression models.
@@ -22,32 +30,43 @@ For classification models following measures are calculated: F1, accuracy, recal
 For regression models following measures are calculated: mean squared error, R squared, median absolute deviation.
 }
 \examples{
- \dontrun{
+\donttest{
+# regression
+
 library("ranger")
-titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 100,
-                               probability = TRUE)
-# It's a good practice to pass data without target variable
-explainer_ranger  <- explain(titanic_ranger_model, data = titanic_imputed[,-8],
-                             y = titanic_imputed$survived)
-# resulting dataframe has predicted values and residuals
-mp_ex_rn <- model_performance(explainer_ranger)
+apartments_ranger_model <- ranger(m2.price~., data = apartments, num.trees = 50)
+explainer_ranger_apartments  <- explain(apartments_ranger_model, data = apartments[,-1],
+                             y = apartments$m2.price, label = "Ranger Apartments")
+model_performance_ranger_aps <- model_performance(explainer_ranger_apartments )
+model_performance_ranger_aps
+plot(model_performance_ranger_aps)
+plot(model_performance_ranger_aps, geom = "boxplot")
+plot(model_performance_ranger_aps, geom = "histogram")
+
+# binary classification
 
 titanic_glm_model <- glm(survived~., data = titanic_imputed, family = "binomial")
-explainer_glm <- explain(titanic_glm_model, data = titanic_imputed[,-8],
-                         y = titanic_imputed$survived,
-                    predict_function = function(m,x) predict.glm(m,x,type = "response"),
-                         label = "glm")
-mp_ex_glm <- model_performance(explainer_glm)
-mp_ex_glm
-plot(mp_ex_glm)
-plot(mp_ex_glm, mp_ex_rn)
+explainer_glm_titanic <- explain(titanic_glm_model, data = titanic_imputed[,-8],
+                         y = titanic_imputed$survived)
+model_performance_glm_titanic <- model_performance(explainer_glm_titanic)
+model_performance_glm_titanic
+plot(model_performance_glm_titanic)
+plot(model_performance_glm_titanic, geom = "boxplot")
+plot(model_performance_glm_titanic, geom = "histogram")
 
-titanic_lm_model <- lm(survived~., data = titanic_imputed)
-explainer_lm <- explain(titanic_lm_model, data = titanic_imputed[,-8], y = titanic_imputed$survived)
-mp_ex_lm <- model_performance(explainer_lm)
-plot(mp_ex_lm)
-plot(mp_ex_glm, mp_ex_rn, mp_ex_lm)
- }
+# multilabel classification
+
+HR_ranger_model <- ranger(status~., data = HR, num.trees = 50,
+                               probability = TRUE)
+explainer_ranger_HR  <- explain(HR_ranger_model, data = HR[,-6],
+                             y = HR$status, label = "Ranger HR")
+model_performance_ranger_HR <- model_performance(explainer_ranger_HR)
+model_performance_ranger_HR
+plot(model_performance_ranger_HR)
+plot(model_performance_ranger_HR, geom = "boxplot")
+plot(model_performance_ranger_HR, geom = "histogram")
+
+}
 
 }
 \references{

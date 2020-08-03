@@ -64,7 +64,7 @@ head(dragon_lm_predict4)
 plot(dragon_lm_predict4,
     variables = c("year_of_birth", "height", "scars"))
 
-\dontrun{
+\donttest{
 library("ranger")
 dragon_ranger_model4 <- ranger(life_length ~ year_of_birth + height +
                                                weight + scars + number_of_lost_teeth,

@@ -51,7 +51,7 @@
 #' head(bd_lm)
 #' plot(bd_lm)
 #'
-#' \dontrun{
+#' \donttest{
 #' library("ranger")
 #' model_ranger <- ranger(life_length ~ year_of_birth + height +
 #'                        weight + scars + number_of_lost_teeth,

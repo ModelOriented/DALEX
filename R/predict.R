@@ -14,7 +14,7 @@
 #' explainer_glm <- explain(HR_glm_model, data = HR)
 #' predict(explainer_glm, HR[1:3,])
 #'
-#'  \dontrun{
+#'  \donttest{
 #' library("ranger")
 #' HR_ranger_model <- ranger(status~., data = HR, num.trees = 50, probability = TRUE)
 #' explainer_ranger  <- explain(HR_ranger_model, data = HR)

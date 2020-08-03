@@ -12,7 +12,7 @@
 #'
 #' @export
 #' @examples
-#'  \dontrun{
+#'  \donttest{
 #' library("ranger")
 #' titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 50,
 #'                                probability = TRUE)
@@ -141,7 +141,7 @@ plot.model_performance_histogram <- function(df, nlabels) {
   # if factor, then levels shall be reversed
   if (length(levels(df$label)) > 1) levels(df$label) <- rev(levels(df$label))
 
-  ggplot(df, aes(observed - predicted, fill = label)) +
+  ggplot(df, aes(diff, fill = label)) +
     geom_histogram(bins = 100) +
     facet_wrap(~label, ncol = 1) +
     theme_drwhy() + xlab("residuals") + theme(legend.position = "none") +
