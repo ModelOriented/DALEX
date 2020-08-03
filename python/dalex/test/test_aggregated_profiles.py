@@ -76,8 +76,8 @@ class APTestTitanic(unittest.TestCase):
         case11 = self.exp.model_profile(test_type, 100, variables=np.array(['age', 'class']), span=0.5, grid_points=30)
         case12 = self.exp2.model_profile(test_type, 100, variables=pd.Series(['age', 'class']), span=0.5,
                                          grid_points=30)
-        case13 = self.exp2.model_profile(test_type, 100, intercept=False, span=0.5, grid_points=30)
-        case14 = self.exp2.model_profile(test_type, 100, intercept=False, span=0.5, grid_points=30, processes=2)
+        case13 = self.exp2.model_profile(test_type, 100, center=False, span=0.5, grid_points=30)
+        case14 = self.exp2.model_profile(test_type, 100, center=False, span=0.5, grid_points=30, processes=2)
 
         self.assertIsInstance(case1, dx.dataset_level.AggregatedProfiles)
         self.assertIsInstance(case2, dx.dataset_level.AggregatedProfiles)

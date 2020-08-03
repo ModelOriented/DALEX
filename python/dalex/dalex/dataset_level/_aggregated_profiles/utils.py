@@ -3,7 +3,7 @@ import pandas as pd
 from tqdm import tqdm
 
 
-def aggregate_profiles(all_profiles, type, groups, intercept, span, verbose=True):
+def aggregate_profiles(all_profiles, type, groups, center, span, verbose=True):
     if type == 'partial':
         aggregated_profiles = \
             all_profiles.groupby(['_vname_', '_label_', '_x_'] + groups)['_yhat_'].mean().reset_index()
@@ -21,18 +21,18 @@ def aggregate_profiles(all_profiles, type, groups, intercept, span, verbose=True
     aggregated_profiles.loc[:, '_ids_'] = 0
 
     if type == 'partial':
-        if not intercept:
+        if not center:
             aggregated_profiles.loc[:, '_yhat_'] = aggregated_profiles.loc[:, '_yhat_'] - all_profiles[
                 '_yhat_'].mean()
 
         aggregated_profiles = aggregated_profiles
     elif type == 'conditional':
-        if not intercept:
+        if not center:
             aggregated_profiles.loc[:, '_yhat_'] = aggregated_profiles.loc[:, '_yhat_'] - all_profiles[
                 '_yhat_'].mean()
         aggregated_profiles = aggregated_profiles.reset_index().rename(columns={'level_2': '_grid_'})
     else:
-        if intercept:
+        if center:
             aggregated_profiles.loc[:, '_yhat_'] = aggregated_profiles.loc[:, '_yhat_'] + all_profiles[
                 '_yhat_'].mean()
         aggregated_profiles = aggregated_profiles.reset_index().rename(columns={'level_2': '_grid_'})

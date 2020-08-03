@@ -24,7 +24,7 @@ def prepare_data_for_shap_plot(x, baseline, prediction, max_vars, rounding_funct
     tt = x.apply(lambda row: tooltip_text(row, baseline, prediction), axis=1)
     x = x.assign(tooltip_text=tt)
 
-    lt = x.contribution.apply(lambda val: "+"+str(val) if val > 0 else str(val))
+    lt = x.contribution.astype(str).apply(lambda val: "+"+val if val[0] != "-" else val)
     x = x.assign(label_text=lt)
 
     return x

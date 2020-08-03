@@ -7,31 +7,76 @@ from ..._explainer.theme import get_default_colors
 
 
 class VariableImportance:
+    """Calculate dataset level variable importance
+
+    Parameters
+    -----------
+    loss_function : {'rmse', '1-auc', 'mse', 'mae', 'mad'} or function, optional
+        If string, then such loss function will be used to assess variable importance
+        (default is 'rmse' or `1-auc`, depends on `model_type` attribute).
+    type : {'variable_importance', 'ratio', 'difference'}, optional
+        Type of transformation that will be applied to dropout loss.
+    N : int, optional
+        Number of observations that will be sampled from the `data` attribute before
+        the calculation of variable importance. None means all `data` (default is 1000).
+    B : int, optional
+        Number of permutation rounds to perform on each variable (default is 10).
+    variables : array_like of str, optional
+        Variables for which the importance will be calculated
+        (default is None, which means all of the variables).
+        NOTE: Ignored if `variable_groups` is not None.
+    variable_groups : dict of lists, optional
+        Group the variables to calculate their joint variable importance
+        e.g. {'X': ['x1', 'x2'], 'Y': ['y1', 'y2']} (default is None).
+    keep_raw_permutations: bool, optional
+        Save results for all permutation rounds (default is True).
+    processes : int, optional
+        Number of parallel processes to use in calculations. Iterated over `B`
+        (default is 1, which means no parallel computation).
+    random_state : int, optional
+        Set seed for random number generator (default is random seed).
+
+    Attributes
+    -----------
+    result : pd.DataFrame
+        Main result attribute of an explanation.
+    loss_function : function
+        Loss function used to assess the variable importance.
+    type : {'variable_importance', 'ratio', 'difference'}
+        Type of transformation that will be applied to dropout loss.
+    N : int
+        Number of observations that will be sampled from the `data` attribute before
+        the calculation of variable importance.
+    B : int
+        Number of permutation rounds to perform on each variable.
+    variables : array_like of str or None
+        Variables for which the importance will be calculated
+    variable_groups : dict of lists or None
+        Grouped variables to calculate their joint variable importance.
+    keep_raw_permutations: bool
+        Save the results for all permutation rounds.
+    permutation : pd.DataFrame or None
+        The results for all permutation rounds.
+    processes : int
+        Number of parallel processes to use in calculations. Iterated over `B`.
+    random_state : int or None
+        Set seed for random number generator.
+
+    Notes
+    --------
+    https://pbiecek.github.io/ema/featureImportance.html
+    """
+
     def __init__(self,
                  loss_function='rmse',
                  type='variable_importance',
-                 N=None,
+                 N=1000,
                  B=10,
                  variables=None,
                  variable_groups=None,
+                 keep_raw_permutations=True,
                  processes=1,
-                 random_state=None,
-                 keep_raw_permutations=None):
-        """
-        Calculate feature importance of the model
-
-        :param loss_function: str or a function that will be used to assess variable importance, e.g. 'rmse' or '1-auc'
-        :param type: 'variable_importance'/'ratio'/'difference' type of transformation that should be applied for dropout loss
-        :param N: number of observations that should be sampled for calculation of variable importance
-        :param B: number of permutation rounds to perform on each variable
-        :param variables: vector of variables. If None then variable importance will be tested for each variable from the data separately
-        :param variable_groups: dict of lists of variables. Each list is treated as one group. This is for testing joint variable importance
-        :param processes: integer, number of parallel processes, iterated over Bs
-        :param random_state: random state for the permutations
-        :param keep_raw_permutations: bool, set to True if you want to save all steps
-
-        :return None
-        """
+                 random_state=None):
 
         loss_function = check_loss_function(loss_function)
         B = check_B(B)
@@ -54,6 +99,20 @@ class VariableImportance:
         self.processes = processes_
 
     def fit(self, explainer):
+        """Calculate the result of explanation
+
+        Fit method makes calculations in place and changes the attributes.
+
+        Parameters
+        -----------
+        explainer : Explainer object
+            Model wrapper created using the Explainer class.
+
+        Returns
+        -----------
+        None
+        """
+
         # if `variable_groups` are not specified, then extract from `variables`
         self.variable_groups = check_variable_groups(self.variable_groups, explainer)
         self.variables = check_variables(self.variables, self.variable_groups, explainer)
@@ -77,20 +136,36 @@ class VariableImportance:
              title="Variable Importance",
              vertical_spacing=None,
              show=True):
-        """
-        Plot function for VariableImportance class.
+        """Plot the Variable Importance explanation
 
-        :param objects: object of VariableImportance class or list or tuple containing such objects
-        :param max_vars: int, maximum number of variables that shall be presented for for each model
-        :param digits: int, number of columns in the plot grid
-        :param rounding_function: a function to be used for rounding numbers
-        :param bar_width: float, width of bars
-        :param split: either "model" or "variable", determines the plot layout
-        :param title: str, the plot's title
-        :param vertical_spacing: ratio of vertical space between the plots, by default it's 0.2/`number of plots`
-        :param show: True shows the plot, False returns the plotly Figure object that can be edited or saved using `write_image()` method
+        Parameters
+        -----------
+        objects : VariableImportance object or array_like of VariableImportance objects
+            Additional objects to plot in subplots (default is None).
+        max_vars : int, optional
+            Maximum number of variables that will be presented for for each subplot
+            (default is 10).
+        digits : int, optional
+            Number of decimal places (np.around) to round contributions.
+            See `rounding_function` parameter (default is 3).
+        rounding_function : function, optional
+            A funciton that will be used for rounding numbers (default is np.around).
+        bar_width : float, optional
+            Width of bars in px (default is 16).
+        split : {'model', 'variable'}, optional
+            Split the subplots by model or variable (default is 'model').
+        title : str, optional
+            Title of the plot (default is "Variable Importance").
+        vertical_spacing : float <0, 1>, optional
+            Ratio of vertical space between the plots (default is 0.2/number of rows).
+        show : bool, optional
+            True shows the plot; False returns the plotly Figure object that can be
+            edited or saved using the `write_image()` method (default is True).
 
-        :return None or plotly Figure (see :param show)
+        Returns
+        -----------
+        None or plotly.graph_objects.Figure
+            Return figure that can be edited or saved. See `show` parameter.
         """
 
         if isinstance(split, tuple):
@@ -280,6 +355,7 @@ class VariableImportance:
 
         if show:
             fig.show(config={'displaylogo': False, 'staticPlot': False,
+                             'toImageButtonOptions': {'height': None, 'width': None, },
                              'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
                                                         'zoom2d',
                                                         'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',
