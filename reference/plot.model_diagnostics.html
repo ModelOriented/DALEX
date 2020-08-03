@@ -228,7 +228,7 @@
 #&gt;  Mean   :   0.0   Mean   :260.0                      Mean   : 500.5  
 #&gt;  3rd Qu.: 381.4   3rd Qu.:381.4                      3rd Qu.: 750.2  
 #&gt;  Max.   : 469.0   Max.   :469.0                      Max.   :1000.0  
-#&gt;                                                                      </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>diag_lm</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'</span></div><div class='img'><img src='plot.model_diagnostics-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># \dontrun{</span>
+#&gt;                                                                      </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>diag_lm</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'</span></div><div class='img'><img src='plot.model_diagnostics-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># \donttest{</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
 <span class='no'>apartments_ranger_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>m2.price</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>)
 <span class='no'>explainer_ranger</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>apartments_ranger_model</span>,
@@ -238,10 +238,10 @@
 #&gt;   -&gt; data              :  1000  rows  6  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  1888.959 , mean =  3488.438 , max =  6157.655  
+#&gt;   -&gt; predicted values  :  numerical, min =  1864.79 , mean =  3489.617 , max =  6124.471  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -423.9186 , mean =  -1.419277 , max =  590.9136  
+#&gt;   -&gt; residuals         :  numerical, min =  -416.9617 , mean =  -2.598236 , max =  586.5273  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>diag_ranger</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_diagnostics.html'>model_diagnostics</a></span>(<span class='no'>explainer_ranger</span>)
 <span class='no'>diag_ranger</span></div><div class='output co'>#&gt;     m2.price    construction.year    surface           floor       
 #&gt;  Min.   :1607   Min.   :1920      Min.   : 20.00   Min.   : 1.000  
@@ -252,21 +252,21 @@
 #&gt;  Max.   :6595   Max.   :2010      Max.   :150.00   Max.   :10.000  
 #&gt;                                                                    
 #&gt;     no.rooms           district         y            y_hat     
-#&gt;  Min.   :1.00   Mokotow    :107   Min.   :1607   Min.   :1889  
-#&gt;  1st Qu.:2.00   Wola       :106   1st Qu.:2857   1st Qu.:2936  
-#&gt;  Median :3.00   Ursus      :105   Median :3386   Median :3420  
-#&gt;  Mean   :3.36   Ursynow    :103   Mean   :3487   Mean   :3488  
-#&gt;  3rd Qu.:4.00   Srodmiescie:100   3rd Qu.:4018   3rd Qu.:3943  
-#&gt;  Max.   :6.00   Bemowo     : 98   Max.   :6595   Max.   :6158  
+#&gt;  Min.   :1.00   Mokotow    :107   Min.   :1607   Min.   :1865  
+#&gt;  1st Qu.:2.00   Wola       :106   1st Qu.:2857   1st Qu.:2947  
+#&gt;  Median :3.00   Ursus      :105   Median :3386   Median :3427  
+#&gt;  Mean   :3.36   Ursynow    :103   Mean   :3487   Mean   :3490  
+#&gt;  3rd Qu.:4.00   Srodmiescie:100   3rd Qu.:4018   3rd Qu.:3951  
+#&gt;  Max.   :6.00   Bemowo     : 98   Max.   :6595   Max.   :6124  
 #&gt;                 (Other)    :381                                
-#&gt;    residuals        abs_residuals         label                ids        
-#&gt;  Min.   :-423.919   Min.   :  0.3188   Length:1000        Min.   :   1.0  
-#&gt;  1st Qu.: -87.833   1st Qu.: 40.4969   Class :character   1st Qu.: 250.8  
-#&gt;  Median : -28.104   Median : 82.0937   Mode  :character   Median : 500.5  
-#&gt;  Mean   :  -1.419   Mean   :107.3008                      Mean   : 500.5  
-#&gt;  3rd Qu.:  63.505   3rd Qu.:148.0011                      3rd Qu.: 750.2  
-#&gt;  Max.   : 590.914   Max.   :590.9136                      Max.   :1000.0  
-#&gt;                                                                           </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>diag_ranger</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'</span></div><div class='img'><img src='plot.model_diagnostics-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>diag_ranger</span>, <span class='no'>diag_lm</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'</span></div><div class='img'><img src='plot.model_diagnostics-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>diag_ranger</span>, <span class='no'>diag_lm</span>, <span class='kw'>variable</span> <span class='kw'>=</span> <span class='st'>"y"</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'</span></div><div class='img'><img src='plot.model_diagnostics-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>diag_ranger</span>, <span class='no'>diag_lm</span>, <span class='kw'>variable</span> <span class='kw'>=</span> <span class='st'>"construction.year"</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'</span></div><div class='img'><img src='plot.model_diagnostics-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>diag_ranger</span>, <span class='kw'>variable</span> <span class='kw'>=</span> <span class='st'>"y"</span>, <span class='kw'>yvariable</span> <span class='kw'>=</span> <span class='st'>"y_hat"</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'</span></div><div class='img'><img src='plot.model_diagnostics-6.png' alt='' width='700' height='433' /></div><div class='input'># }
+#&gt;    residuals        abs_residuals        label                ids        
+#&gt;  Min.   :-416.962   Min.   :  0.055   Length:1000        Min.   :   1.0  
+#&gt;  1st Qu.: -90.349   1st Qu.: 38.132   Class :character   1st Qu.: 250.8  
+#&gt;  Median : -23.639   Median : 80.144   Mode  :character   Median : 500.5  
+#&gt;  Mean   :  -2.598   Mean   :107.248                      Mean   : 500.5  
+#&gt;  3rd Qu.:  58.264   3rd Qu.:150.023                      3rd Qu.: 750.2  
+#&gt;  Max.   : 586.527   Max.   :586.527                      Max.   :1000.0  
+#&gt;                                                                          </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>diag_ranger</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'</span></div><div class='img'><img src='plot.model_diagnostics-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>diag_ranger</span>, <span class='no'>diag_lm</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'</span></div><div class='img'><img src='plot.model_diagnostics-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>diag_ranger</span>, <span class='no'>diag_lm</span>, <span class='kw'>variable</span> <span class='kw'>=</span> <span class='st'>"y"</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'</span></div><div class='img'><img src='plot.model_diagnostics-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>diag_ranger</span>, <span class='no'>diag_lm</span>, <span class='kw'>variable</span> <span class='kw'>=</span> <span class='st'>"construction.year"</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'</span></div><div class='img'><img src='plot.model_diagnostics-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>diag_ranger</span>, <span class='kw'>variable</span> <span class='kw'>=</span> <span class='st'>"y"</span>, <span class='kw'>yvariable</span> <span class='kw'>=</span> <span class='st'>"y_hat"</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'</span></div><div class='img'><img src='plot.model_diagnostics-6.png' alt='' width='700' height='433' /></div><div class='input'># }
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

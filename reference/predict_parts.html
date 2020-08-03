@@ -283,7 +283,7 @@ It's a data frame with calculated average response.</p>
 #&gt; model_lm: height = 80                    -9.734
 #&gt; model_lm: year_of_birth = 200            -6.639
 #&gt; model_lm: weight = 12.5                  -0.973</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>bd_lm</span>)</div><div class='img'><img src='predict_parts-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># \dontrun{</span>
+<span class='co'># \donttest{</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
 <span class='no'>model_ranger</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>life_length</span> ~ <span class='no'>year_of_birth</span> + <span class='no'>height</span> +
                        <span class='no'>weight</span> + <span class='no'>scars</span> + <span class='no'>number_of_lost_teeth</span>,
@@ -297,19 +297,19 @@ It's a data frame with calculated average response.</p>
 #&gt;   -&gt; data              :  2000  rows  8  cols 
 #&gt;   -&gt; target variable   :  2000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  593.2601 , mean =  1369.246 , max =  3445.788  
+#&gt;   -&gt; predicted values  :  numerical, min =  592.4232 , mean =  1369.91 , max =  3414.256  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -5016.788 , mean =  -1448.784 , max =  1010.054  
+#&gt;   -&gt; residuals         :  numerical, min =  -4953.277 , mean =  -1449.448 , max =  999.6154  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='no'>bd_ranger</span> <span class='kw'>&lt;-</span> <span class='fu'>predict_parts_break_down</span>(<span class='no'>explainer_ranger</span>, <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>new_dragon</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>bd_ranger</span>)</div><div class='output co'>#&gt;                                        contribution
-#&gt; model_ranger: intercept                    1369.246
-#&gt; model_ranger: scars = 0                    -344.511
-#&gt; model_ranger: number_of_lost_teeth = 5     -310.026
-#&gt; model_ranger: height = 80                    34.022
-#&gt; model_ranger: year_of_birth = 200            -9.785
-#&gt; model_ranger: weight = 12.5                   4.098</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>bd_ranger</span>)</div><div class='img'><img src='predict_parts-2.png' alt='' width='700' height='433' /></div><div class='input'># }
+#&gt; model_ranger: intercept                    1369.910
+#&gt; model_ranger: scars = 0                    -344.536
+#&gt; model_ranger: number_of_lost_teeth = 5     -298.719
+#&gt; model_ranger: height = 80                    48.110
+#&gt; model_ranger: year_of_birth = 200            -7.976
+#&gt; model_ranger: weight = 12.5                   2.085</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>bd_ranger</span>)</div><div class='img'><img src='predict_parts-2.png' alt='' width='700' height='433' /></div><div class='input'># }
 
 </div></span></pre>
   </div>

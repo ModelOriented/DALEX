@@ -190,13 +190,13 @@
 #&gt;   -&gt; data              :  2207  rows  8  cols 
 #&gt;   -&gt; target variable   :  2207  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.006688855 , mean =  0.3223692 , max =  0.9959719  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.00632682 , mean =  0.3223144 , max =  0.9977077  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7918718 , mean =  -0.0002124149 , max =  0.8810539  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7904832 , mean =  -0.0001575819 , max =  0.8751284  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>johny_d</span> <span class='kw'>&lt;-</span> <span class='no'>titanic_imputed</span>[<span class='fl'>24</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"gender"</span>, <span class='st'>"age"</span>, <span class='st'>"class"</span>, <span class='st'>"fare"</span>, <span class='st'>"sibsp"</span>, <span class='st'>"parch"</span>)]
 
-<span class='co'># \dontrun{</span>
+<span class='co'># \donttest{</span>
 <span class='no'>pl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='predict_diagnostics.html'>predict_diagnostics</a></span>(<span class='no'>explainer_glm</span>, <span class='no'>johny_d</span>, <span class='kw'>variables</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: p-value will be approximate in the presence of ties</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>pl</span>)</div><div class='img'><img src='plot.predict_diagnostics-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>pl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='predict_diagnostics.html'>predict_diagnostics</a></span>(<span class='no'>explainer_glm</span>, <span class='no'>johny_d</span>,
                        <span class='kw'>neighbors</span> <span class='kw'>=</span> <span class='fl'>10</span>,

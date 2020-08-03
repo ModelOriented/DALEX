@@ -195,7 +195,7 @@
 #&gt;   m2.price construction.year surface floor no.rooms    district
 #&gt; 1     5897              1953      25     3        1 Srodmiescie
 #&gt; 2     1818              1992     143     9        5     Bielany</div><div class='input'>
- <span class='co'># \dontrun{</span>
+ <span class='co'># \donttest{</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
 <span class='no'>titanic_ranger_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>survived</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>50</span>,
                                <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
@@ -206,10 +206,10 @@
 #&gt;   -&gt; data              :  2207  rows  7  cols 
 #&gt;   -&gt; target variable   :  2207  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.013074 , mean =  0.321456 , max =  1  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.009995148 , mean =  0.3218332 , max =  0.9965222  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8673285 , mean =  0.000700733 , max =  0.886168  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7943416 , mean =  0.0003236088 , max =  0.8875375  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_ranger</span></div><div class='output co'>#&gt; Model label:  model_ranger 
 #&gt; Model class:  ranger 
 #&gt; Data head  :

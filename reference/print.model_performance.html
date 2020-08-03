@@ -177,7 +177,7 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'> <span class='co'># \dontrun{</span>
+    <pre class="examples"><div class='input'> <span class='co'># \donttest{</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
 <span class='no'>titanic_ranger_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>survived</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>100</span>,
                                <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
@@ -188,24 +188,24 @@
 #&gt;   -&gt; data              :  2207  rows  7  cols 
 #&gt;   -&gt; target variable   :  2207  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.01385665 , mean =  0.3230004 , max =  0.9895265  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.008951845 , mean =  0.3217818 , max =  0.9966154  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8112348 , mean =  -0.0008436076 , max =  0.8896464  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8023334 , mean =  0.0003750096 , max =  0.8898999  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='co'># resulting dataframe has predicted values and residuals</span>
 <span class='no'>mp_ex_rn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span>(<span class='no'>explainer_ranger</span>)
 <span class='no'>mp_ex_rn</span></div><div class='output co'>#&gt; Measures for:  classification
-#&gt; recall     : 0.6005626 
-#&gt; precision  : 0.8989474 
-#&gt; f1         : 0.7200675 
-#&gt; accuracy   : 0.8495696 
-#&gt; auc        : 0.9041194
+#&gt; recall     : 0.5949367 
+#&gt; precision  : 0.8924051 
+#&gt; f1         : 0.7139241 
+#&gt; accuracy   : 0.8463978 
+#&gt; auc        : 0.8980939
 #&gt; 
 #&gt; Residuals:
 #&gt;          0%         10%         20%         30%         40%         50% 
-#&gt; -0.81123477 -0.24389164 -0.20560637 -0.18121953 -0.16448465 -0.12613442 
+#&gt; -0.80233340 -0.24847188 -0.20282026 -0.18122546 -0.16173147 -0.12381283 
 #&gt;         60%         70%         80%         90%        100% 
-#&gt; -0.09092585  0.02571324  0.22707254  0.59221579  0.88964643 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ex_rn</span>)</div><div class='img'><img src='print.model_performance-1.png' alt='' width='700' height='433' /></div><div class='input'> # }
+#&gt; -0.09050045  0.02543276  0.23891046  0.58516315  0.88989992 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mp_ex_rn</span>)</div><div class='img'><img src='print.model_performance-1.png' alt='' width='700' height='433' /></div><div class='input'> # }
 
 </div></span></pre>
   </div>

@@ -237,18 +237,18 @@ It's a data frame with calculated distribution of residuals.</p>
 #&gt;   -&gt; data              :  2207  rows  8  cols 
 #&gt;   -&gt; target variable   :  2207  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.008523395 , mean =  0.3216313 , max =  0.9954649  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.005624571 , mean =  0.3221549 , max =  0.9970937  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7857767 , mean =  0.0005255062 , max =  0.8764373  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7944499 , mean =  1.880322e-06 , max =  0.8768101  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>johny_d</span> <span class='kw'>&lt;-</span> <span class='no'>titanic_imputed</span>[<span class='fl'>24</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"gender"</span>, <span class='st'>"age"</span>, <span class='st'>"class"</span>, <span class='st'>"fare"</span>, <span class='st'>"sibsp"</span>, <span class='st'>"parch"</span>)]
 
-<span class='co'># \dontrun{</span>
+<span class='co'># \donttest{</span>
 <span class='no'>id_johny</span> <span class='kw'>&lt;-</span> <span class='fu'>predict_diagnostics</span>(<span class='no'>explainer_glm</span>, <span class='no'>johny_d</span>, <span class='kw'>variables</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: p-value will be approximate in the presence of ties</span></div><div class='input'><span class='no'>id_johny</span></div><div class='output co'>#&gt; 
 #&gt; 	Two-sample Kolmogorov-Smirnov test
 #&gt; 
 #&gt; data:  residuals_other and residuals_sel
-#&gt; D = 0.65263, p-value &lt; 2.2e-16
+#&gt; D = 0.65402, p-value &lt; 2.2e-16
 #&gt; alternative hypothesis: two-sided
 #&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>id_johny</span>)</div><div class='img'><img src='predict_diagnostics-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>id_johny</span> <span class='kw'>&lt;-</span> <span class='fu'>predict_diagnostics</span>(<span class='no'>explainer_glm</span>, <span class='no'>johny_d</span>,
@@ -256,29 +256,29 @@ It's a data frame with calculated distribution of residuals.</p>
                        <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"age"</span>, <span class='st'>"fare"</span>))
 <span class='no'>id_johny</span></div><div class='output co'>#&gt; Top profiles    : 
 #&gt;      gender        age class   fare sibsp parch    _yhat_ _vname_ _ids_ _label_
-#&gt; 24   female  0.1666667   1st 151.16     1     2 0.5023565     age    24  ranger
-#&gt; 24.1 female  2.0000000   1st 151.16     1     2 0.4903027     age    24  ranger
-#&gt; 24.2 female  4.0000000   1st 151.16     1     2 0.5596138     age    24  ranger
-#&gt; 24.3 female  7.0000000   1st 151.16     1     2 0.5683471     age    24  ranger
-#&gt; 24.4 female  9.0000000   1st 151.16     1     2 0.6316625     age    24  ranger
-#&gt; 24.5 female 13.0000000   1st 151.16     1     2 0.6917027     age    24  ranger
+#&gt; 24   female  0.1666667   1st 151.16     1     2 0.4676523     age    24  ranger
+#&gt; 24.1 female  2.0000000   1st 151.16     1     2 0.4534189     age    24  ranger
+#&gt; 24.2 female  4.0000000   1st 151.16     1     2 0.5229487     age    24  ranger
+#&gt; 24.3 female  7.0000000   1st 151.16     1     2 0.5231439     age    24  ranger
+#&gt; 24.4 female  9.0000000   1st 151.16     1     2 0.6182400     age    24  ranger
+#&gt; 24.5 female 13.0000000   1st 151.16     1     2 0.7142599     age    24  ranger
 #&gt; 
 #&gt; 
 #&gt; Top observations:
 #&gt;    gender age class   fare sibsp parch    _yhat_ _label_ _ids_
-#&gt; 24 female   2   1st 151.16     1     2 0.4903027  ranger     1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>id_johny</span>)</div><div class='img'><img src='predict_diagnostics-2.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; 24 female   2   1st 151.16     1     2 0.4534189  ranger     1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>id_johny</span>)</div><div class='img'><img src='predict_diagnostics-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>id_johny</span> <span class='kw'>&lt;-</span> <span class='fu'>predict_diagnostics</span>(<span class='no'>explainer_glm</span>,
                        <span class='no'>johny_d</span>,
                        <span class='kw'>neighbors</span> <span class='kw'>=</span> <span class='fl'>10</span>,
                        <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"class"</span>, <span class='st'>"gender"</span>))
 <span class='no'>id_johny</span></div><div class='output co'>#&gt; Top profiles    : 
 #&gt;      gender age            class   fare sibsp parch    _yhat_ _vname_ _ids_
-#&gt; 24   female   2              1st 151.16     1     2 0.4903027   class    24
-#&gt; 24.1 female   2              2nd 151.16     1     2 0.6436922   class    24
-#&gt; 24.2 female   2              3rd 151.16     1     2 0.3151144   class    24
-#&gt; 24.3 female   2        deck crew 151.16     1     2 0.3173187   class    24
-#&gt; 24.4 female   2 engineering crew 151.16     1     2 0.3527758   class    24
-#&gt; 24.5 female   2 restaurant staff 151.16     1     2 0.3536884   class    24
+#&gt; 24   female   2              1st 151.16     1     2 0.4534189   class    24
+#&gt; 24.1 female   2              2nd 151.16     1     2 0.6702611   class    24
+#&gt; 24.2 female   2              3rd 151.16     1     2 0.3367664   class    24
+#&gt; 24.3 female   2        deck crew 151.16     1     2 0.3392292   class    24
+#&gt; 24.4 female   2 engineering crew 151.16     1     2 0.3557864   class    24
+#&gt; 24.5 female   2 restaurant staff 151.16     1     2 0.3589861   class    24
 #&gt;      _label_
 #&gt; 24    ranger
 #&gt; 24.1  ranger
@@ -290,7 +290,7 @@ It's a data frame with calculated distribution of residuals.</p>
 #&gt; 
 #&gt; Top observations:
 #&gt;    gender age class   fare sibsp parch    _yhat_ _label_ _ids_
-#&gt; 24 female   2   1st 151.16     1     2 0.4903027  ranger     1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>id_johny</span>)</div><div class='output co'>#&gt; <span class='message'>'variable_type' changed to 'categorical' due to lack of numerical variables.</span></div><div class='output co'>#&gt; <span class='message'>'variable_type' changed to 'categorical' due to lack of numerical variables.</span></div><div class='img'><img src='predict_diagnostics-3.png' alt='' width='700' height='433' /></div><div class='input'># }
+#&gt; 24 female   2   1st 151.16     1     2 0.4534189  ranger     1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>id_johny</span>)</div><div class='output co'>#&gt; <span class='message'>'variable_type' changed to 'categorical' due to lack of numerical variables.</span></div><div class='output co'>#&gt; <span class='message'>'variable_type' changed to 'categorical' due to lack of numerical variables.</span></div><div class='img'><img src='predict_diagnostics-3.png' alt='' width='700' height='433' /></div><div class='input'># }
 
 </div></span></pre>
   </div>

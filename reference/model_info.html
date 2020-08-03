@@ -244,10 +244,10 @@ was executed withing <code>explain</code> function. DALEX will recognize subtype
 #&gt; Package version: 4.0.2 
 #&gt; Task type: regression</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
-<span class='no'>model_regr_rf</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>ranger</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>m2.price</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>50</span>)
-<span class='fu'>model_info</span>(<span class='no'>model_regr_rf</span>)</div><div class='output co'>#&gt; Package: ranger 
+<span class='no'>model_regr_rf</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>ranger</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>status</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>model_info</span>(<span class='no'>model_regr_rf</span>, <span class='kw'>is_multiclass</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Package: ranger 
 #&gt; Package version: 0.12.1 
-#&gt; Task type: regression</div><div class='input'>
+#&gt; Task type: multiclass</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
