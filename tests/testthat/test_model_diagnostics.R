@@ -18,6 +18,12 @@ explainer_ranger_wo_precalculate <- explain(apartments_ranger_model,
                                             precalculate = FALSE,
                                             verbose = FALSE)
 
+diag_ranger_1 <- model_diagnostics(explainer_ranger)
+diag_ranger_2 <- model_diagnostics(explainer_ranger, variables = c("surface", "construction.year"))
+diag_ranger_3 <- model_diagnostics(explainer_ranger_wo_precalculate)
+
+
+
 test_that("Choice of variables", {
   diag_ranger_1 <- model_diagnostics(explainer_ranger)
   expect_is(diag_ranger_1, "model_diagnostics")
@@ -34,7 +40,7 @@ test_that("Plot",{
   expect_is(plot(diag_ranger_1), "gg")
   expect_is(plot(diag_ranger_2), "gg")
   expect_is(plot(diag_ranger_3), "gg")
-  expect_is(plot(diag_ranger_1, diag_lm, variable = "construction.year"))
+  expect_is(plot(diag_ranger_1, diag_lm, variable = "construction.year"), "gg")
 })
 
 test_that("Print",{

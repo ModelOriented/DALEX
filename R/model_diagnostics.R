@@ -65,7 +65,7 @@ model_diagnostics <-  function(explainer, variables = NULL, ...) {
 
   # are there residuals
   if (is.null(explainer$residuals)) {
-    explainer$residuals <- explainer$residual_function(explainer$model, explainer$data)
+    explainer$residuals <- explainer$residual_function(explainer$model, explainer$data, explainer$y)
   }
   if (is.null(dim(explainer$residuals))) {
     results$residuals <- explainer$residuals
