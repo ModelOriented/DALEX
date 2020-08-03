@@ -44,5 +44,5 @@
 #' @export
 plot.predict_parts <- function(x, ...) {
   class(x) <- class(x)[-1]
-  plot(x)
+  plot(x, ...)
 }

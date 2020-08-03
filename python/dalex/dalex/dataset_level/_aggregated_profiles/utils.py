@@ -3,7 +3,7 @@ import pandas as pd
 from tqdm import tqdm
 
 
-def aggregate_profiles(all_profiles, type, groups, intercept, span, verbose=True):
+def aggregate_profiles(all_profiles, type, groups, center, span, verbose=True):
     if type == 'partial':
         aggregated_profiles = \
             all_profiles.groupby(['_vname_', '_label_', '_x_'] + groups)['_yhat_'].mean().reset_index()
@@ -16,23 +16,25 @@ def aggregate_profiles(all_profiles, type, groups, intercept, span, verbose=True
             all_profiles. \
                 loc[:, ["_vname_", "_label_", "_x_", "_yhat_", "_ids_", "_original_"] + groups]. \
                 groupby(['_vname_', '_label_']). \
-                progress_apply(lambda split_profile: split_over_variables_and_labels(split_profile, type, groups, span))
+                progress_apply(lambda split_profile: split_over_variables_and_labels(split_profile.copy(deep=True),
+                                                                                     type, groups, span))
+        # deepcopy due to https://github.com/ModelOriented/DALEX/issues/278
 
     aggregated_profiles.loc[:, '_ids_'] = 0
 
     if type == 'partial':
-        if not intercept:
+        if not center:
             aggregated_profiles.loc[:, '_yhat_'] = aggregated_profiles.loc[:, '_yhat_'] - all_profiles[
                 '_yhat_'].mean()
 
         aggregated_profiles = aggregated_profiles
     elif type == 'conditional':
-        if not intercept:
+        if not center:
             aggregated_profiles.loc[:, '_yhat_'] = aggregated_profiles.loc[:, '_yhat_'] - all_profiles[
                 '_yhat_'].mean()
         aggregated_profiles = aggregated_profiles.reset_index().rename(columns={'level_2': '_grid_'})
     else:
-        if intercept:
+        if center:
             aggregated_profiles.loc[:, '_yhat_'] = aggregated_profiles.loc[:, '_yhat_'] + all_profiles[
                 '_yhat_'].mean()
         aggregated_profiles = aggregated_profiles.reset_index().rename(columns={'level_2': '_grid_'})

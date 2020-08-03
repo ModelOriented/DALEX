@@ -9,11 +9,47 @@ from ..._explainer.theme import get_break_down_colors
 
 
 class BreakDown:
+    """Calculate instance level variable attributions as Break Down
+
+    Parameters
+    -----------
+    type : {'break_down_interactions', 'break_down'}
+        Type of variable attributions (default is 'break_down_interactions').
+    order : list of int or str, optional
+        Use a fixed order of variables for attribution calculation. Use integer values
+        or string variable names (default is None which means order by importance).
+    interaction_preference : int, optional
+        Specify which interactions will be present in an explanation. The larger the
+        integer, the more frequently interactions will be presented (default is 1).
+    keep_distributions : bool, optional
+        Save the distribution of partial predictions (default is False).
+
+    Attributes
+    -----------
+    result : pd.DataFrame
+        Main result attribute of an explanation.
+    type : {'break_down_interactions', 'break_down'}
+        Type of variable attributions.
+    order : list of int or str or None
+        Order of variables used in attribution calculation.
+    interaction_preference : int
+        Frequency of interaction use.
+    keep_distributions : bool
+        Save the distribution of partial predictions.
+    yhats_distributions : pd.DataFrame or None
+        The distribution of partial predictions.
+
+    Notes
+    --------
+    https://pbiecek.github.io/ema/breakDown.html
+    https://pbiecek.github.io/ema/iBreakDown.html
+    """
+
     def __init__(self,
                  type='break_down',
-                 keep_distributions=False,
                  order=None,
-                 interaction_preference=1):
+                 interaction_preference=1,
+                 keep_distributions=False):
 
         order = check_order(order)
 
@@ -27,6 +63,22 @@ class BreakDown:
     def fit(self,
             explainer,
             new_observation):
+        """Calculate the result of explanation
+
+        Fit method makes calculations in place and changes the attributes.
+
+        Parameters
+        -----------
+        explainer : Explainer object
+            Model wrapper created using the Explainer class.
+        new_observation : pd.Series or np.ndarray
+            An observation for which a prediction needs to be explained.
+
+        Returns
+        -----------
+        None
+        """
+
 
         new_observation = check_new_observation(new_observation, explainer)
         if new_observation.shape[0] != 1:
@@ -65,22 +117,40 @@ class BreakDown:
              title="Break Down",
              vertical_spacing=None,
              show=True):
-        """
-        Plot function for BreakDown class.
+        """Plot the Break Down explanation
 
-        :param objects: object of BreakDown class or list or tuple containing such objects
-        :param baseline: float, starting point of bars
-        :param max_vars: int, maximum number of variables that shall be presented for for each model
-        :param digits: int, number of columns in the plot grid
-        :param rounding_function: a function to be used for rounding numbers
-        :param bar_width: float, width of bars
-        :param min_max: 2-tuple of float values, range of x-axis
-        :param vcolors: 3-tuple of str values, color of bars
-        :param title: str, the plot's title
-        :param vertical_spacing: ratio of vertical space between the plots, by default it's 0.2/`number of plots`
-        :param show: True shows the plot, False returns the plotly Figure object that can be edited or saved using `write_image()` method
+        Parameters
+        -----------
+        objects : BreakDown object or array_like of BreakDown objects
+            Additional objects to plot in subplots (default is None).
+        baseline: float, optional
+            Starting x point for bars (default is average prediction).
+        max_vars : int, optional
+            Maximum number of variables that will be presented for for each subplot
+            (default is 10).
+        digits : int, optional
+            Number of decimal places (np.around) to round contributions.
+            See `rounding_function` parameter (default is 3).
+        rounding_function : function, optional
+            A funciton that will be used for rounding numbers (default is np.around).
+        bar_width : float, optional
+            Width of bars in px (default is 16).
+        min_max : 2-tuple of float, optional
+            Range of x-axis (default is [min - 0.15*(max-min), max + 0.15*(max-min)]).
+        vcolors : 3-tuple of str, optional
+            Color of bars (default is ["#371ea3", "#8bdcbe", "#f05a71"]).
+        title : str, optional
+            Title of the plot (default is "Break Down").
+        vertical_spacing : float <0, 1>, optional
+            Ratio of vertical space between the plots (default is 0.2/number of rows).
+        show : bool, optional
+            True shows the plot; False returns the plotly Figure object that can be
+            edited or saved using the `write_image()` method (default is True).
 
-        :return None or plotly Figure (see :param show)
+        Returns
+        -----------
+        None or plotly.graph_objects.Figure
+            Return figure that can be edited or saved. See `show` parameter.
         """
 
         # are there any other objects to plot?
@@ -199,8 +269,8 @@ class BreakDown:
 
         if show:
             fig.show(config={
-                'displaylogo': False,
-                'staticPlot': False,
+                'displaylogo': False, 'staticPlot': False,
+                'toImageButtonOptions': {'height': None, 'width': None, },
                 'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d', 'zoom2d', 'pan2d',
                                            'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines',
                                            'hoverCompareCartesian', 'hoverClosestCartesian']

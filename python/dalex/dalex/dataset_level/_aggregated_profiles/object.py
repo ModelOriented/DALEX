@@ -1,4 +1,5 @@
 import plotly.express as px
+from copy import deepcopy
 
 from .checks import *
 from .utils import aggregate_profiles
@@ -6,11 +7,62 @@ from ..._explainer.theme import get_default_colors, fig_update_line_plot
 
 
 class AggregatedProfiles:
-    """
-    The class for calculating an aggregation of ceteris paribus profiles.
-    It can be: Partial Dependency Profile (average across Ceteris Paribus Profiles),
-    Conditional Dependency Profile (local weighted average across Ceteris Paribus Profiles) or
-    Accumulated Local Dependency Profile (cummulated average local changes in Ceteris Paribus Profiles).
+    """Calculate dataset level variable profiles as Partial or Accumulated Dependence
+
+    Partial Dependence Profile (average across CP Profiles),
+    Individual Conditional Expectation (local weighted average across CP Profiles),
+    Accumulated Local Effects (cummulated average local changes in CP Profiles).
+
+    Parameters
+    -----------
+    type : {'partial', 'accumulated', 'conditional'}
+        Type of model profiles (default is 'partial' for Partial Dependence Profiles).
+    variables : str or array_like of str, optional
+        Variables for which the profiles will be calculated
+        (default is None, which means all of the variables).
+    variable_type : {'numerical', 'categorical'}
+        Calculate the profiles for numerical or categorical variables
+        (default is 'numerical').
+    groups : str or array_like of str, optional
+        Names of categorical variables that will be used for profile grouping
+        (default is None, which means no grouping).
+    span : float, optional
+        Smoothing coefficient used as sd for gaussian kernel (default is 0.25).
+    center : bool, optional
+        Theoretically Accumulated Profiles starts at 0. If True, then they are centered
+        around average response like Partial Profiles (default is True).
+    random_state : int, optional
+        Set seed for random number generator (default is random seed).
+
+    Attributes
+    -----------
+    result : pd.DataFrame
+        Main result attribute of an explanation.
+    mean_prediction : float
+        Average prediction for sampled `data` (using `N`).
+    raw_profiles : pd.DataFrame or None
+        Saved CeterisParibus object.
+        NOTE: None if more objects were passed to the `fit` method.
+    type : {'partial', 'accumulated', 'conditional'}
+        Type of model profiles.
+    variables : array_like of str or None
+        Variables for which the profiles will be calculated
+    variable_type : {'numerical', 'categorical'}
+        Calculate the profiles for numerical or categorical variables.
+    groups : str or array_like of str or None
+        Names of categorical variables that will be used for profile grouping.
+    span : float
+        Smoothing coefficient used as sd for gaussian kernel.
+    center : bool
+        Theoretically Accumulated Profiles starts at 0. If True, then they are centered
+        around average response like Partial Profiles.
+    random_state : int or None
+        Set seed for random number generator.
+
+    Notes
+    --------
+    https://pbiecek.github.io/ema/partialDependenceProfiles.html
+    https://pbiecek.github.io/ema/accumulatedLocalProfiles.html
     """
 
     def __init__(self,
@@ -19,19 +71,8 @@ class AggregatedProfiles:
                  variable_type='numerical',
                  groups=None,
                  span=0.25,
-                 intercept=True,
+                 center=True,
                  random_state=None):
-        """
-        Constructor for AggregatedProfiles.
-
-        :param variables: str or list or numpy.ndarray or pandas.Series, if not None then aggregate only for selected variables will be calculated, if None all will be selected
-        :param groups: str or list or numpy.ndarray or pandas.Series, a variable names that will be used for grouping
-        :param type: str, either partial/conditional/accumulated for partial dependence, conditional profiles of accumulated local effects
-        :param span: float, smoothing coeffcient, by default 0.25. It's the sd for gaussian kernel
-        :param variable_type: str, If numerical then only numerical variables will be calculated. If categorical then only categorical variables will be calculated.
-
-        :return None
-        """
 
         check_variable_type(variable_type)
         variables_ = check_variables(variables)
@@ -42,20 +83,36 @@ class AggregatedProfiles:
         self.type = type
         self.variables = variables_
         self.span = span
-        self.intercept = intercept
+        self.center = center
         self.result = None
         self.mean_prediction = None
+        self.raw_profiles = None
         self.random_state = random_state
 
     def fit(self,
             ceteris_paribus,
             verbose=True):
+        """Calculate the result of explanation
 
+        Fit method makes calculations in place and changes the attributes.
+
+        Parameters
+        -----------
+        ceteris_paribus : CeterisParibus object or array_like of CeterisParibus objects
+            Profile objects to aggregate.
+        verbose : bool, optional
+            Print tqdm progress bar (default is True).
+
+        Returns
+        -----------
+        None
+        """
         # are there any other cp?
         from dalex.instance_level import CeterisParibus
         if isinstance(ceteris_paribus, CeterisParibus):  # allow for ceteris_paribus to be a single element
             all_profiles = ceteris_paribus.result.copy()
             all_observations = ceteris_paribus.new_observation.copy()
+            self.raw_profiles = deepcopy(ceteris_paribus)
         elif isinstance(ceteris_paribus, list) or isinstance(ceteris_paribus,
                                                              tuple):  # ceteris_paribus as tuple or array
             all_profiles = None
@@ -78,32 +135,66 @@ class AggregatedProfiles:
 
         all_profiles = create_x(all_profiles, self.variable_type)
 
-        self.result = aggregate_profiles(all_profiles, self.type, self.groups, self.intercept,
+        self.result = aggregate_profiles(all_profiles, self.type, self.groups, self.center,
                                          self.span, verbose)
 
         self.mean_prediction = all_observations['_yhat_'].mean()
 
-    def plot(self, objects=None, variables=None, size=2, alpha=1,
-             facet_ncol=2, title="Aggregated Profiles", title_x='prediction',
-             horizontal_spacing=0.05, vertical_spacing=None, show=True):
-        """
-        Plot function for AggregatedProfiles class.
+    def plot(self,
+             objects=None,
+             geom='aggregates',
+             variables=None,
+             size=2,
+             alpha=1,
+             facet_ncol=2,
+             title="Aggregated Profiles",
+             title_x='prediction',
+             horizontal_spacing=0.05,
+             vertical_spacing=None,
+             show=True):
+        """Plot the Aggregated Profiles explanation
 
-        :param objects: object of AggregatedProfiles class or list or tuple containing such objects
-        :param variables: str list, if not None then only variables will be presented
-        :param size: float, width of lines
-        :param alpha: float, opacity of lines
-        :param facet_ncol: int, number of columns on the plot grid
-        :param title: str, the plot's title
-        :param title_x: str, x axis title
-        :param horizontal_spacing: ratio of horizontal space between the plots, by default it's 0.1
-        :param vertical_spacing: ratio of vertical space between the plots, by default it's 0.3/`number of plots`
-        :param show: True shows the plot, False returns the plotly Figure object that can be edited or saved using `write_image()` method
+        Parameters
+        -----------
+        objects : AggregatedProfiles object or array_like of AggregatedProfiles objects
+            Additional objects to plot in subplots (default is None).
+        geom : {'aggregates', 'profiles'}
+            If 'profiles' then raw profiles will be plotted in the background
+            (default is 'aggregates', which means plot only aggregated profiles).
+            NOTE: It is useful to use small values of the `N` parameter in object creation
+            before using `profiles`, because of plot performance and clarity (e.g. 100).
+        variables : str or array_like of str, optional
+            Variables for which the profiles will be calculated
+            (default is None, which means all of the variables).
+        size : float, optional
+            Width of lines in px (default is 2).
+        alpha : float <0, 1>, optional
+            Opacity of lines (default is 1).
+        color : str, optional
+            Variable name used for grouping (default is '_label_', which groups by models).
+        facet_ncol : int, optional
+            Number of columns on the plot grid (default is 2).
+        title : str, optional
+            Title of the plot (default is "Aggregated Profiles").
+        title_x : str, optional
+            Title of the x axis (default is "prediction").
+        horizontal_spacing : float <0, 1>, optional
+            Ratio of horizontal space between the plots (default is 0.05).
+        vertical_spacing : float <0, 1>, optional
+            Ratio of vertical space between the plots (default is 0.3/number of rows).
+        show : bool, optional
+            True shows the plot; False returns the plotly Figure object that can be
+            edited or saved using the `write_image()` method (default is True).
 
-        :return None or plotly Figure (see :param show)
+        Returns
+        -----------
+        None or plotly.graph_objects.Figure
+            Return figure that can be edited or saved. See `show` parameter.
         """
         # TODO: numerical+categorical in one plot https://github.com/plotly/plotly.py/issues/2647
 
+        if geom not in ("aggregates", "profiles"):
+            raise TypeError("geom should be 'aggregates' or 'profiles'")
         if isinstance(variables, str):
             variables = (variables,)
 
@@ -130,20 +221,30 @@ class AggregatedProfiles:
 
             _result_df = _result_df.loc[_result_df['_vname_'].isin(all_variables), :]
 
+        #  calculate y axis range to allow for fixedrange True
+        dl = _result_df['_yhat_'].to_numpy()
+        min_max_margin = dl.ptp() * 0.10
+        min_max = [dl.min() - min_max_margin, dl.max() + min_max_margin]
+
         is_x_numeric = pd.api.types.is_numeric_dtype(_result_df['_x_'])
         n = len(all_variables)
 
         facet_nrow = int(np.ceil(n / facet_ncol))
         if vertical_spacing is None:
-            vertical_spacing = 0.2 / facet_nrow
+            vertical_spacing = 0.3 / facet_nrow
         plot_height = 78 + 71 + facet_nrow * (280 + 60)
+        hovermode, render_mode = 'x unified', 'svg'
 
         color = '_label_'  # _groups_ doesnt make much sense for multiple AP objects
         m = len(_result_df[color].dropna().unique())
 
         if is_x_numeric:
+            if geom is 'profiles' and self.raw_profiles is not None:
+                render_mode = 'webgl'
+
             fig = px.line(_result_df,
                           x="_x_", y="_yhat_", color=color, facet_col="_vname_",
+                          category_orders={"_vname_": list(all_variables)},
                           labels={'_yhat_': 'prediction', '_mp_': 'mean_prediction'},  # , color: 'group'},
                           hover_name=color,
                           hover_data={'_yhat_': ':.3f', '_mp_': ':.3f',
@@ -152,16 +253,31 @@ class AggregatedProfiles:
                           facet_row_spacing=vertical_spacing,
                           facet_col_spacing=horizontal_spacing,
                           template="none",
+                          render_mode=render_mode,
                           color_discrete_sequence=get_default_colors(m, 'line')) \
                     .update_traces(dict(line_width=size, opacity=alpha)) \
                     .update_xaxes({'matches': None, 'showticklabels': True,
                                    'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
-                                   'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3}) \
+                                   'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True}) \
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
-                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3})
+                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True,
+                                   'range': min_max})
+
+            if geom is 'profiles' and self.raw_profiles is not None:
+                fig.update_traces(dict(line_width=2*size, opacity=1))
+                fig_cp = self.raw_profiles.plot(variables=list(all_variables),
+                                                facet_ncol=facet_ncol,
+                                                show_observations=False, show=False) \
+                    .update_traces(dict(line_width=1, opacity=0.5, line_color='#ceced9'))
+
+                for _, value in enumerate(fig.data):
+                    fig_cp.add_trace(value)
+                hovermode = False
+                fig = fig_cp
         else:
             fig = px.bar(_result_df,
                          x="_x_", y="_yhat_", color="_label_", facet_col="_vname_",
+                         category_orders={"_vname_": list(all_variables)},
                          labels={'_yhat_': 'prediction', '_mp_': 'mean_prediction'},  # , color: 'group'},
                          hover_name=color,
                          hover_data={'_yhat_': ':.3f', '_mp_': ':.3f',
@@ -174,14 +290,16 @@ class AggregatedProfiles:
                          barmode='group')  \
                     .update_xaxes({'matches': None, 'showticklabels': True,
                                    'type': 'category', 'gridwidth': 2, 'autorange': 'reversed', 'automargin': True,
-                                   'ticks': "outside", 'tickcolor': 'white', 'ticklen': 10}) \
+                                   'ticks': "outside", 'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True}) \
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
-                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3})
+                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True,
+                                   'range': min_max})
 
-        fig = fig_update_line_plot(fig, title, title_x, plot_height, 'x unified')
+        fig = fig_update_line_plot(fig, title, title_x, plot_height, hovermode)
 
         if show:
             fig.show(config={'displaylogo': False, 'staticPlot': False,
+                             'toImageButtonOptions': {'height': None, 'width': None, },
                              'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
                                                         'zoom2d', 'pan2d',
                                                         'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines',

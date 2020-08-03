@@ -108,23 +108,46 @@ def single_variable_profile(predict,
     return new_data
 
 
-def calculate_variable_split(data, variables, grid_points):
+def calculate_variable_split(data,
+                             variables,
+                             grid_points,
+                             variable_splits_type='uniform',
+                             variable_splits_with_obs=False,
+                             new_observation=None):
     """
     Calculate points for splitting the dataset
 
     :param data: dataset to split
     :param variables: variables to calculate ceteris paribus
     :param grid_points: how many points should split the dataset
+    :param variable_splits_type: {'uniform', 'quantiles'}, optional way of calculating
+        `variable_splits`. Set 'quantiles' for percentiles.
+    :param variable_splits_with_obs: bool, optional add variable values of `new_observation`
+        data to the `variable_splits`.
+    :param new_observation: pd.DataFrame or np.ndarray, Observations for which predictions
+        need to be explained.
     :return: dict, dictionary of split points for all variables
     """
     variable_splits = {}
-    for variable in variables:
-        if pd.api.types.is_numeric_dtype(data.loc[:, variable]):
-            # grid points might be larger than the number of unique values
-            probs = np.linspace(0, 1, grid_points)
+    # grid points might be larger than the number of unique values
+    probs = np.linspace(0, 1, grid_points)
 
-            variable_splits[variable] = np.unique(np.quantile(data.loc[:, variable], probs))
+    for variable in variables:
+        variable_column = data.loc[:, variable]
+        if pd.api.types.is_numeric_dtype(variable_column):
+            if variable_splits_type is 'quantile':
+                column_splits = np.unique(np.quantile(variable_column, probs))
+            elif variable_splits_type is 'uniform':
+                column_splits = np.linspace(np.min(variable_column),
+                                            np.max(variable_column),
+                                            grid_points)
+            if variable_splits_with_obs:
+                column_splits = np.concatenate((column_splits, new_observation.loc[:, variable]))
+                column_splits = np.unique(column_splits)
+                column_splits = np.sort(column_splits, kind='mergesort')
+
+            variable_splits[variable] = column_splits
         else:
-            variable_splits[variable] = np.unique(data.loc[:, variable])
+            variable_splits[variable] = np.unique(variable_column)
 
     return variable_splits

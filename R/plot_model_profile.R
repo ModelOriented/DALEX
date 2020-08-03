@@ -63,9 +63,14 @@ plot.model_profile <- function(x, ..., geom = "aggregates") {
   )
 }
 
-
 plot.model_profile_aggregates <- function(x, ...) {
-  plot(x$agr_profiles, ..., color = x$color)
+#  plot(x$agr_profiles, ..., color = x$color)
+  # fix for https://github.com/ModelOriented/DALEX/issues/237
+  tmp <- c(x = list(x), list(...), color = x$color)
+  n_profiles <- sum(unlist(sapply(tmp, class)) == "model_profile")
+  if (n_profiles > 1) tmp$color <- "_label_"
+  tmp <- lapply(tmp, function(el) if("model_profile" %in% class(el)) el$agr_profiles else el)
+  do.call(plot, tmp)
 }
 
 plot.model_profile_profiles <- function(x, ...) {

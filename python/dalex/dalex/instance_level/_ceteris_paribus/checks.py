@@ -8,6 +8,8 @@ from .utils import calculate_variable_split
 
 
 def check_variables(variables, explainer, variable_splits):
+    if isinstance(variables, str):
+        variables = [variables]
     variables_ = deepcopy(variables)
     if variable_splits is not None:
         variables_ = variable_splits.keys()
@@ -16,7 +18,7 @@ def check_variables(variables, explainer, variable_splits):
         if not set(variables_).issubset(explainer.data.columns):
             raise ValueError('Invalid variable names')
     elif variables_ is not None and not isinstance(variables_, (list, np.ndarray, pd.Series)):
-        raise TypeError("Variables must by list or numpy.ndarray or pd.Series")
+        raise TypeError("variables must be None or str or list or np.ndarray or pd.Series")
     else:
         variables_ = explainer.data.columns
 
@@ -72,11 +74,24 @@ def check_y(y):
     return y
 
 
-def check_variable_splits(variable_splits, variables, explainer, grid_points):
+def check_variable_splits(variable_splits,
+                          variables,
+                          grid_points,
+                          data,
+                          variable_splits_type,
+                          variable_splits_with_obs,
+                          new_observation):
     """
     Validate variable splits
     """
-    if variable_splits is not None:
+    if variable_splits is None:
+        variable_splits_ = calculate_variable_split(data,
+                                                    variables,
+                                                    grid_points,
+                                                    variable_splits_type,
+                                                    variable_splits_with_obs,
+                                                    new_observation)
+    else:
         if not isinstance(variable_splits, dict):
             raise TypeError("variable_splits has to be a dict")
 
@@ -91,9 +106,6 @@ def check_variable_splits(variable_splits, variables, explainer, grid_points):
             if isinstance(variable_splits_[key], list):
                 variable_splits_[key] = np.array(variable_splits_[key])
 
-    if variable_splits is None:
-        variable_splits_ = calculate_variable_split(explainer.data, variables, grid_points)
-
     return variable_splits_
 
 
@@ -106,3 +118,9 @@ def check_processes(processes):
 
     else:
         return processes
+
+
+def check_variable_splits_type(arg):
+    if arg not in ('uniform', 'quantile'):
+        raise ValueError("variable_splits_type has to be one of {'uniform', 'quantile'}")
+    return arg
