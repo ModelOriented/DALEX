@@ -21,7 +21,9 @@ test_that("Unsupported type",{
 })
 
 test_that("Non standard predict functions",{
+  mp_pdp_rf  <- model_profile(explainer_classif_ranger, variables = "age", type = "partial")
   expect_is(mp_pdp_rf, 'model_profile')
+  mp_ale_glm  <- model_profile(explainer_classif_glm, variables = "age", type = "accumulated")
   expect_is(mp_ale_glm, 'model_profile')
 })
 
@@ -30,6 +32,12 @@ test_that("Output format - plot",{
   expect_is(plot(mp_pdp_rf$agr_profiles, mp_pdp_glm$agr_profiles), "gg")
   expect_is(plot(mp_ale_rf$agr_profiles, mp_ale_glm$agr_profiles), "gg")
 })
+
+test_that("Print",{
+  expect_error(print(mp_pdp_rf), NA)
+  expect_error(print(mp_ale_glm), NA)
+})
+
 
 # alias
 
