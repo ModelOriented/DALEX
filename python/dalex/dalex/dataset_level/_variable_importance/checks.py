@@ -104,7 +104,7 @@ def check_random_state(random_state):
 
 
 def check_keep_raw_permutations(keep_raw_permutations, B):
-    return B > 1 if keep_raw_permutations is None else keep_raw_permutations
+    return B > 1 if keep_raw_permutations else keep_raw_permutations
 
 
 def check_processes(processes):

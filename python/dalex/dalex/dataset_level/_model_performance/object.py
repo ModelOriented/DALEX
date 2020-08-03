@@ -5,17 +5,34 @@ from .utils import *
 
 
 class ModelPerformance:
+    """Calculate dataset level model performance measures
+
+    Parameters
+    -----------
+    model_type : {'regression', 'classification'}
+        Model task type that is used to choose the proper performance measures.
+    cutoff : float, optional
+        Cutoff for predictions in classification models. Needed for measures like
+        recall, precision, acc, f1 (default is 0.5).
+
+    Attributes
+    -----------
+    result : pd.DataFrame
+        Main result attribute of an explanation.
+    residuals : pd.DataFrame
+        Residuals for `data`.
+    model_type : {'regression', 'classification'}
+        Model task type that is used to choose the proper performance measures.
+    cutoff : float
+        Cutoff for predictions in classification models.
+
+    Notes
+    --------
+    https://pbiecek.github.io/ema/modelPerformance.html
+    """
     def __init__(self,
                  model_type,
                  cutoff=0.5):
-        """
-        Constructor for ModelPerformance.
-
-        :param model_type: either "regression" or "classification" determines measures to calculate
-        :param cutoff: float, a cutoff for classification models, needed for measures like recall, precision, ACC, F1
-
-        :return None
-        """
 
         self.cutoff = cutoff
         self.model_type = model_type
@@ -23,6 +40,19 @@ class ModelPerformance:
         self.residuals = None
 
     def fit(self, explainer):
+        """Calculate the result of explanation
+
+        Fit method makes calculations in place and changes the attributes.
+
+        Parameters
+        -----------
+        explainer : Explainer object
+            Model wrapper created using the Explainer class.
+
+        Returns
+        -----------
+        None
+        """
 
         if explainer.y_hat is not None:
             y_pred = explainer.y_hat
@@ -82,15 +112,26 @@ class ModelPerformance:
 
         self.residuals = _residuals
 
-    def plot(self, objects=None, title="Reverse cumulative distribution of |residual|", show=False):
-        """
-        Plot function for ModelPerformance class.
+    def plot(self,
+             objects=None,
+             title="Reverse cumulative distribution of |residual|",
+             show=False):
+        """Plot the Model Performance explanation
 
-        :param objects: object of ModelPerformance class or list or tuple containing such objects
-        :param title: str, the plot's title
-        :param show: True shows the plot, False returns the plotly Figure object that can be edited or saved using `write_image()` method
+        Parameters
+        -----------
+        objects : ModelPerformance object or array_like of ModelPerformance objects
+            Additional objects to plot in subplots (default is None).
+        title : str, optional
+            Title of the plot (default depends on the `type` attribute).
+        show : bool, optional
+            True shows the plot; False returns the plotly Figure object that can be
+            edited or saved using the `write_image()` method (default is True).
 
-        :return None or plotly Figure (see :param show)
+        Returns
+        -----------
+        None or plotly.graph_objects.Figure
+            Return figure that can be edited or saved. See `show` parameter.
         """
 
         # are there any other objects to plot?
@@ -133,6 +174,7 @@ class ModelPerformance:
 
         if show:
             fig.show(config={'displaylogo': False, 'staticPlot': False,
+                             'toImageButtonOptions': {'height': None, 'width': None, },
                              'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
                                                         'zoom2d',
                                                         'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',
