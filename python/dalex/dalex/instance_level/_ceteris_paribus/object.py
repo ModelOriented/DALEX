@@ -246,6 +246,11 @@ class CeterisParibus:
         # prepare profiles data
         _result_df = _result_df.loc[_result_df['_vname_'].isin(variable_names), ].reset_index(drop=True)
 
+        #  calculate y axis range to allow for fixedrange True
+        dl = _result_df['_yhat_'].to_numpy()
+        min_max_margin = dl.ptp() * 0.10
+        min_max = [dl.min() - min_max_margin, dl.max() + min_max_margin]
+
         # create _x_
         for variable in variable_names:
             where_variable = _result_df['_vname_'] == variable
@@ -286,7 +291,8 @@ class CeterisParibus:
                                    'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                    'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True}) \
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
-                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': False})  # True
+                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True,
+                                   'range': min_max})
 
             if show_observations:
                 _points_df = _result_df.loc[_result_df['_original_'] == _result_df['_x_'], :].copy()
@@ -328,7 +334,8 @@ class CeterisParibus:
                                    'type': 'category', 'gridwidth': 2, 'autorange': 'reversed', 'automargin': True,
                                    'ticks': "outside", 'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True}) \
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
-                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True})
+                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True,
+                                   'range': min_max})
 
         fig = fig_update_line_plot(fig, title, title_x, plot_height, 'closest')
 
