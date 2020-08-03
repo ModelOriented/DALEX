@@ -1,4 +1,5 @@
 DALEX 1.3.2
+---------------------------------------------------------------
 *  Fixed `plot.predict_parts` and `plot.model_profile`   ([#277](https://github.com/ModelOriented/DALEX/issues/277)).
 *  Fixed `plot.model_profile` for multiple profiles  ([#237](https://github.com/ModelOriented/DALEX/issues/237)).
 *  External tests for not suggested packages added to gh-actions ([#237](https://github.com/ModelOriented/DALEX/issues/276)).
