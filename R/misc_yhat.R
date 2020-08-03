@@ -106,7 +106,7 @@ yhat.cv.glmnet <- function(X.model, newdata, ...) {
       return(pred[,2])
     }
   } else {
-    pred <- predict(X.model, newdata, type = "response")
+    pred <- as.numeric(predict(X.model, newdata, type = "response", s = X.model$lambda[length(X.model$lambda)]))
   }
   pred
 }
@@ -128,7 +128,7 @@ yhat.glmnet <- function(X.model, newdata, ...) {
       return(as.numeric(pred))
     }
   } else {
-    pred <- predict(X.model, newdata, type = "response")
+    pred <- as.numeric(predict(X.model, newdata, type = "response", s = X.model$lambda[length(X.model$lambda)]))
   }
   pred
 }

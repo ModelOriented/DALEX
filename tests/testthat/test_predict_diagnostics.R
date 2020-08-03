@@ -27,3 +27,8 @@ test_that("Output format - plot",{
   expect_is(plot(aranger_rd), "gg")
   expect_is(plot(alm_rd), "gg")
 })
+
+test_that("Print",{
+  expect_error(print(ranger_rd), NA)
+  expect_error(print(lm_rd), NA)
+})

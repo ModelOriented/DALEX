@@ -25,7 +25,7 @@
 #' expl_glm <- model_profile(explainer_glm, "fare")
 #' plot(expl_glm)
 #'
-#'  \dontrun{
+#'  \donttest{
 #' library("ranger")
 #' titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 50,
 #'                                probability = TRUE)

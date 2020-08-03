@@ -21,7 +21,7 @@
 #' diag_lm <- model_diagnostics(explainer_lm)
 #' diag_lm
 #' plot(diag_lm)
-#' \dontrun{
+#' \donttest{
 #' library("ranger")
 #' apartments_ranger_model <- ranger(m2.price ~ ., data = apartments)
 #' explainer_ranger <- explain(apartments_ranger_model,
@@ -65,7 +65,7 @@ model_diagnostics <-  function(explainer, variables = NULL, ...) {
 
   # are there residuals
   if (is.null(explainer$residuals)) {
-    explainer$residuals <- explainer$residual_function(explainer$model, explainer$data)
+    explainer$residuals <- explainer$residual_function(explainer$model, explainer$data, explainer$y)
   }
   if (is.null(dim(explainer$residuals))) {
     results$residuals <- explainer$residuals

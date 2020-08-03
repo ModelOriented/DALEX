@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - master
+      - 'issue*'
       - 'gh-actions'
       - 'githubactions'
     paths:

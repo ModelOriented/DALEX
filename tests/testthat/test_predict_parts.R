@@ -1,20 +1,6 @@
 context("Check predict_parts() function")
 
 new_apartments <- apartments_test[1001, -1]
-pp_lm_break_down <- predict_parts(explainer_regr_lm, new_observation = new_apartments, type = "break_down")
-pp_ranger_break_down <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "break_down")
-pp_lm_ibreak_down <- predict_parts(explainer_regr_lm, new_observation = new_apartments, type = "break_down_interactions")
-pp_ranger_ibreak_down <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "break_down_interactions")
-pp_lm_shap <- predict_parts(explainer_regr_lm, new_observation = new_apartments, type = "shap")
-pp_ranger_shap <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "shap")
-
-pp_lm_osc <- predict_parts(explainer_regr_lm, new_observation = new_apartments, type = "oscillations")
-pp_ranger_osc <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "oscillations")
-pp_lm_osc_uni <- predict_parts(explainer_regr_lm, new_observation = new_apartments, type = "oscillations_uni")
-pp_ranger_osc_uni <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "oscillations_uni")
-pp_lm_osc_emp <- predict_parts(explainer_regr_lm, new_observation = new_apartments, type = "oscillations_emp")
-pp_ranger_osc_emp <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "oscillations_emp")
-
 
 test_that("data not provided",{
   expect_error(predict_parts(explainer_wo_data, type = "break_down"))
@@ -33,6 +19,22 @@ test_that("Wrong object class (not explainer)", {
 })
 
 test_that("Output format",{
+
+  pp_lm_break_down <- predict_parts(explainer_regr_lm, new_observation = new_apartments, type = "break_down")
+  pp_ranger_break_down <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "break_down")
+  pp_lm_ibreak_down <- predict_parts(explainer_regr_lm, new_observation = new_apartments, type = "break_down_interactions")
+  pp_ranger_ibreak_down <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "break_down_interactions")
+  pp_lm_shap <- predict_parts(explainer_regr_lm, new_observation = new_apartments, type = "shap")
+  pp_ranger_shap <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "shap")
+
+  pp_lm_osc <- predict_parts(explainer_regr_lm, new_observation = new_apartments, type = "oscillations")
+  pp_ranger_osc <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "oscillations")
+  pp_lm_osc_uni <- predict_parts(explainer_regr_lm, new_observation = new_apartments, type = "oscillations_uni")
+  pp_ranger_osc_uni <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "oscillations_uni")
+  pp_lm_osc_emp <- predict_parts(explainer_regr_lm, new_observation = new_apartments, type = "oscillations_emp")
+  pp_ranger_osc_emp <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "oscillations_emp")
+
+
   expect_is(pp_lm_break_down, c("break_down", 'predict_parts'))
   expect_is(pp_ranger_break_down, c("break_down", 'predict_parts'))
   expect_is(pp_lm_ibreak_down, c("break_down", 'predict_parts'))
@@ -48,6 +50,20 @@ test_that("Output format",{
 })
 
 test_that("Output format - plot",{
+  pp_lm_break_down <- predict_parts(explainer_regr_lm, new_observation = new_apartments, type = "break_down")
+  pp_ranger_break_down <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "break_down")
+  pp_lm_ibreak_down <- predict_parts(explainer_regr_lm, new_observation = new_apartments, type = "break_down_interactions")
+  pp_ranger_ibreak_down <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "break_down_interactions")
+  pp_lm_shap <- predict_parts(explainer_regr_lm, new_observation = new_apartments, type = "shap")
+  pp_ranger_shap <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "shap")
+
+  pp_lm_osc <- predict_parts(explainer_regr_lm, new_observation = new_apartments, type = "oscillations")
+  pp_ranger_osc <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "oscillations")
+  pp_lm_osc_uni <- predict_parts(explainer_regr_lm, new_observation = new_apartments, type = "oscillations_uni")
+  pp_ranger_osc_uni <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "oscillations_uni")
+  pp_lm_osc_emp <- predict_parts(explainer_regr_lm, new_observation = new_apartments, type = "oscillations_emp")
+  pp_ranger_osc_emp <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "oscillations_emp")
+
   expect_is(plot(pp_ranger_break_down), "gg")
   expect_is(plot(pp_ranger_break_down, pp_lm_break_down), "gg")
   expect_is(plot(pp_ranger_ibreak_down), "gg")
@@ -64,14 +80,14 @@ test_that("Output format - plot",{
 
 #:# aliases
 
-va_lm_break_down <- variable_attribution(explainer_regr_lm, new_observation = new_apartments, type = "break_down")
-va_ranger_break_down <- variable_attribution(explainer_regr_ranger, new_observation = new_apartments, type = "break_down")
-va_lm_ibreak_down <- variable_attribution(explainer_regr_lm, new_observation = new_apartments, type = "break_down_interactions")
-va_ranger_ibreak_down <- variable_attribution(explainer_regr_ranger, new_observation = new_apartments, type = "break_down_interactions")
-va_lm_shap <- variable_attribution(explainer_regr_lm, new_observation = new_apartments, type = "shap")
-va_ranger_shap <- variable_attribution(explainer_regr_ranger, new_observation = new_apartments, type = "shap")
-
 test_that("Output format",{
+  va_lm_break_down <- variable_attribution(explainer_regr_lm, new_observation = new_apartments, type = "break_down")
+  va_ranger_break_down <- variable_attribution(explainer_regr_ranger, new_observation = new_apartments, type = "break_down")
+  va_lm_ibreak_down <- variable_attribution(explainer_regr_lm, new_observation = new_apartments, type = "break_down_interactions")
+  va_ranger_ibreak_down <- variable_attribution(explainer_regr_ranger, new_observation = new_apartments, type = "break_down_interactions")
+  va_lm_shap <- variable_attribution(explainer_regr_lm, new_observation = new_apartments, type = "shap")
+  va_ranger_shap <- variable_attribution(explainer_regr_ranger, new_observation = new_apartments, type = "shap")
+
   expect_is(va_lm_break_down, c("break_down", 'predict_parts'))
   expect_is(va_ranger_break_down, c("break_down", 'predict_parts'))
   expect_is(va_lm_ibreak_down, c("break_down", 'predict_parts'))
@@ -81,6 +97,13 @@ test_that("Output format",{
 })
 
 test_that("Output format - plot",{
+  va_lm_break_down <- variable_attribution(explainer_regr_lm, new_observation = new_apartments, type = "break_down")
+  va_ranger_break_down <- variable_attribution(explainer_regr_ranger, new_observation = new_apartments, type = "break_down")
+  va_lm_ibreak_down <- variable_attribution(explainer_regr_lm, new_observation = new_apartments, type = "break_down_interactions")
+  va_ranger_ibreak_down <- variable_attribution(explainer_regr_ranger, new_observation = new_apartments, type = "break_down_interactions")
+  va_lm_shap <- variable_attribution(explainer_regr_lm, new_observation = new_apartments, type = "shap")
+  va_ranger_shap <- variable_attribution(explainer_regr_ranger, new_observation = new_apartments, type = "shap")
+
   expect_is(plot(va_ranger_break_down), "gg")
   expect_is(plot(va_ranger_break_down, va_lm_break_down), "gg")
   expect_is(plot(va_ranger_ibreak_down), "gg")

@@ -46,7 +46,7 @@ explain(
 
 \item{predict_function}{function that takes two arguments: model and new data and returns numeric vector with predictions.   By default it is \code{yhat}.}
 
-\item{residual_function}{function that takes four arguments: model, data, response vector y and predict function (optionally). It should return a numeric vector with model residuals for given data. If not provided, response residuals (\eqn{y-\hat{y}}) are calculated. By default it is \code{residual_function_default}.}
+\item{residual_function}{function that takes four arguments: model, data, target vector y and predict function (optionally). It should return a numeric vector with model residuals for given data. If not provided, response residuals (\eqn{y-\hat{y}}) are calculated. By default it is \code{residual_function_default}.}
 
 \item{weights}{numeric vector with sampling weights. By default it's \code{NULL}. If provided then it shall have the same length as \code{data}}
 
@@ -105,20 +105,48 @@ aps_lm <- explain(aps_lm_model4)
 # silent execution
 aps_lm <- explain(aps_lm_model4, verbose = FALSE)
 
-# user provided predict_function
-aps_lm <- explain(aps_lm_model4, data = apartments, label = "model_4v", predict_function = predict)
-
 # set target variable
 aps_lm <- explain(aps_lm_model4, data = apartments, label = "model_4v", y = apartments$m2.price)
 aps_lm <- explain(aps_lm_model4, data = apartments, label = "model_4v", y = apartments$m2.price,
                                    predict_function = predict)
+
+# user provided predict_function
+aps_ranger <- ranger::ranger(m2.price~., data = apartments, num.trees = 50)
+custom_predict <- function(X.model, newdata) {
+   predict(X.model, newdata)$predictions
+}
+aps_ranger_exp <- explain(aps_ranger, data = apartments, y = apartments$m2.price,
+                          predict_function = custom_predict)
+
+
+# user provided residual_function
+aps_ranger <- ranger::ranger(m2.price~., data = apartments, num.trees = 50)
+custom_residual <- function(X.model, newdata, y, predict_function) {
+   abs(y - predict_function(X.model, newdata))
+}
+aps_ranger_exp <- explain(aps_ranger, data = apartments,
+                          y = apartments$m2.price,
+                          residual_function = custom_residual)
+
+# binary classification
+titanic_ranger <- ranger::ranger(as.factor(survived)~., data = titanic_imputed, num.trees = 50,
+                                 probability = TRUE)
+# keep in mind that for binary classification y parameter has to be numeric  with 0 and 1 values
+titanic_ranger_exp <- explain(titanic_ranger, data = titanic_imputed, y = titanic_imputed$survived)
+
+# multilabel classification
+hr_ranger <- ranger::ranger(status~., data = HR, num.trees = 50, probability = TRUE)
+# keep in mind that for multilabel classification y parameter has to be a factor,
+# with same levels as in training data
+hr_ranger_exp <- explain(hr_ranger, data = HR, y = HR$status)
+
 # set model_info
 model_info <- list(package = "stats", ver = "3.6.2", type = "regression")
 aps_lm_model4 <- lm(m2.price ~., data = apartments)
 aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, label = "model_4v",
                              model_info = model_info)
 
-\dontrun{
+\donttest{
 # set model_info
 model_info <- list(package = "stats", ver = "3.6.2", type = "regression")
 aps_lm_model4 <- lm(m2.price ~., data = apartments)

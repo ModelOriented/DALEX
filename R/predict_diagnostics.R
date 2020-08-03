@@ -29,7 +29,7 @@
 #'                          y = titanic_imputed$survived)
 #' johny_d <- titanic_imputed[24, c("gender", "age", "class", "fare", "sibsp", "parch")]
 #'
-#' \dontrun{
+#' \donttest{
 #' id_johny <- predict_diagnostics(explainer_glm, johny_d, variables = NULL)
 #' id_johny
 #' plot(id_johny)

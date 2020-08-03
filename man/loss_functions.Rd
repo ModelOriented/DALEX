@@ -39,7 +39,7 @@ numeric - value of the loss function
 Calculate Loss Functions
 }
 \examples{
- \dontrun{
+ \donttest{
 library("ranger")
 titanic_ranger_model <- ranger(survived~., data = titanic_imputed, num.trees = 50,
                                probability = TRUE)
