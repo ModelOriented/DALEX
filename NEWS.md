@@ -1,5 +1,6 @@
-DALEX 1.3.2
+DALEX (TBD)
 ---------------------------------------------------------------
+* This version requires `iBreakDown v1.3.1` and `ingredients v1.3.1`
 *  Fixed `plot.predict_parts` and `plot.model_profile`   ([#277](https://github.com/ModelOriented/DALEX/issues/277)).
 *  Fixed `plot.model_profile` for multiple profiles  ([#237](https://github.com/ModelOriented/DALEX/issues/237)).
 *  External tests for not suggested packages added to gh-actions ([#237](https://github.com/ModelOriented/DALEX/issues/276)).
@@ -8,6 +9,7 @@ DALEX 1.3.2
 *  Added value for `s` parameter in `yhat.glmnet` and `yhat.cv.glmnet`.
 *  Fixed `model_diagnostics` passing wrong arguments to residual_function.
 *  Fixed aesthetic for `hist` geometry in `plot.model_performance` using wrong arugments.
+* `model_performance` will not work if `model_info$type` is `NULL`
 
 DALEX 1.3.1.1
 ---------------------------------------------------------------
