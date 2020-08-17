@@ -167,12 +167,12 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     verbose_cat("  -> data              :  tibbble converted into a data.frame \n", verbose = verbose)
   }
   # as was requested in issue #155, It works becasue if data is NULL, instruction will not be evaluated
-  if (is.matrix(data) && is.null(rownames(data))) {
+  if ("matrix" %in% class(data) && is.null(rownames(data))) {
     rownames(data) <- 1:n
     verbose_cat("  -> data              :  rownames to data was added ( from 1 to", n, ") \n", verbose = verbose)
   }
   # issue #181 the same as above but for columns
-  if (any(c('matrix', 'data.frame', 'tbl') %in% class(data)) && is.null(colnames(data))) {
+  if (any(c("matrix", "data.frame", "tbl") %in% class(data)) && is.null(colnames(data))) {
     colnames(data) <- 1:ncol(data)
     verbose_cat("  -> data              :  colnames to data was added ( from 1 to", ncol(data), ") \n", verbose = verbose)
   }
