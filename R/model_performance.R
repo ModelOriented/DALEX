@@ -103,7 +103,7 @@ model_performance <- function(explainer, ..., cutoff = 0.5) {
       accuracy  = model_performance_accuracy(tp, fp, tn, fn),
       auc       = model_performance_auc(predicted, observed)
     )
-  } else {
+  } else if (type == "multiclass") {
     measures <- list(
       micro_F1 = model_performance_micro_f1(predicted, observed),
       macro_F1 = model_performance_macro_f1(predicted, observed),
@@ -111,6 +111,8 @@ model_performance <- function(explainer, ..., cutoff = 0.5) {
       accuracy = model_performance_accuracy_multi(predicted, observed),
       w_macro_auc = model_performance_weighted_macro_auc(predicted, observed)
     )
+  } else {
+    stop("`explainer$model_info$type` should be one of ['regression', 'classification', 'multiclass'] - pass `model_info = list(type = $type$)` to the `explain` function. Submit an issue on https://github.com/ModelOriented/DALEX/issues if you think that this model should be covered by default.")
   }
 
   residuals$label <- explainer$label

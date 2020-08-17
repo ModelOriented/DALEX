@@ -77,7 +77,7 @@ loss_default <- function(x) {
           "regression"     = loss_root_mean_square,
           "classification" = loss_one_minus_auc,
           "multiclass"     = loss_cross_entropy,
-          stop(x, " is not recognized as task name")
+          stop("`explainer$model_info$type` should be one of ['regression', 'classification', 'multiclass'] - pass `model_info = list(type = $type$)` to the `explain` function. Submit an issue on https://github.com/ModelOriented/DALEX/issues if you think that this model should be covered by default.")
   )
 }
 
