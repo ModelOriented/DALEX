@@ -78,6 +78,10 @@ class CeterisParibus:
         self.new_observation = None
         self.processes = processes_
 
+    def __str__(self):
+        from IPython.display import display
+        display(self.result)
+
     def fit(self,
             explainer,
             new_observation,

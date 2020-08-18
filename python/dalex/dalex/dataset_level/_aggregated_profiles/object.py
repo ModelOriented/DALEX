@@ -89,6 +89,10 @@ class AggregatedProfiles:
         self.raw_profiles = None
         self.random_state = random_state
 
+    def __str__(self):
+        from IPython.display import display
+        display(self.result)
+
     def fit(self,
             ceteris_paribus,
             verbose=True):

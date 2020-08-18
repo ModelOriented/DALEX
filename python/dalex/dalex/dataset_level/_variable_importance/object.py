@@ -98,6 +98,10 @@ class VariableImportance:
         self.permutation = None
         self.processes = processes_
 
+    def __str__(self):
+        from IPython.display import display
+        display(self.result)
+
     def fit(self, explainer):
         """Calculate the result of explanation
 

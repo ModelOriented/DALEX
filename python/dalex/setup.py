@@ -8,7 +8,6 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setuptools.setup(
     name="dalex",
-    version="0.2.0",
     author="Wojciech Kretowicz, Hubert Baniecki, Przemyslaw Biecek",
     author_email="wojtekkretowicz@gmail.com, hbaniecki@gmail.com",
     version="0.2.0.9000",

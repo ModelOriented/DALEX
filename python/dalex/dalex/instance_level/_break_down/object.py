@@ -60,6 +60,10 @@ class BreakDown:
         self.result = None
         self.yhats_distributions = None
 
+    def __str__(self):
+        from IPython.display import display
+        display(self.result)
+
     def fit(self,
             explainer,
             new_observation):

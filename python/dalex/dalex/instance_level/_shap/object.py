@@ -71,6 +71,10 @@ class Shap:
         self.processes = processes_
         self.random_state = random_state_
 
+    def __str__(self):
+        from IPython.display import display
+        display(self.result)
+
     def fit(self,
             explainer,
             new_observation):
