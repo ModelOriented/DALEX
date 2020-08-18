@@ -128,7 +128,7 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
             vi[0].columns).all())
 
     def test_constructor(self):
-        case1 = self.exp.model_parts(),
+        case1 = self.exp.model_parts()
         self.assertIsInstance(case1, (dx.dataset_level.VariableImportance,))
         self.assertIsInstance(case1.result, (pd.DataFrame,))
         self.assertEqual(list(case1.result.columns), ['variable', 'dropout_loss', 'label'])

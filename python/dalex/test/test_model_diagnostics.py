@@ -62,15 +62,17 @@ class ModelDiagnosticsTestTitanic(unittest.TestCase):
 
     def test_plot(self):
 
-        case1 = self.exp.model_diagnostics()
-        case2 = self.exp.model_diagnostics(variables=['fare', 'embarked'])
+        case1 = self.exp.model_diagnostics(variables=['fare', 'embarked'])
+        case2 = self.exp.model_diagnostics()
+        case3 = self.exp2.model_diagnostics()
 
         self.assertIsInstance(case1, dx.dataset_level.ResidualDiagnostics)
         self.assertIsInstance(case2, dx.dataset_level.ResidualDiagnostics)
+        self.assertIsInstance(case3, dx.dataset_level.ResidualDiagnostics)
 
-        fig1 = case1.plot(title="test1", show=False)
-        fig2 = case2.plot(case1, variable="abs_residuals", yvariable="y", show=False)
-        fig3 = case2.plot(smooth=False, line_width=6, marker_size=1, variable="fare")
+        fig1 = case1.plot(title="test1", variable="fare", show=False)
+        fig2 = case2.plot(case3, variable="sibsp", yvariable="abs_residuals", show=False)
+        fig3 = case2.plot(smooth=False, line_width=6, marker_size=1, variable="age", show=False)
 
         self.assertIsInstance(fig1, Figure)
         self.assertIsInstance(fig2, Figure)
