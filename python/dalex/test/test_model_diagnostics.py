@@ -56,7 +56,7 @@ class ModelDiagnosticsTestTitanic(unittest.TestCase):
         self.assertIsInstance(case2, (dx.dataset_level.ResidualDiagnostics,))
         self.assertIsInstance(case2.result, (pd.DataFrame,))
         self.assertEqual(case2.result.shape[0], self.exp.data.shape[0])
-        self.assertTrue(np.isin(['y', 'y_hat', 'residuals', 'abs_residuals', 'label', 'ids', 'age', 'gender'],
+        self.assertTrue(np.isin(['y', 'y_hat', 'residuals', 'abs_residuals', 'label', 'ids', 'age', 'class'],
                                 case2.result.columns).all())
         self.assertFalse(np.isin(['fare', 'sibsp', 'gender', 'embarked'], case2.result.columns).any())
 
