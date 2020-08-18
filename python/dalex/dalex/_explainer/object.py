@@ -1,4 +1,5 @@
-from dalex.dataset_level import ModelPerformance, VariableImportance, AggregatedProfiles
+from dalex.dataset_level import ModelPerformance, VariableImportance,\
+    AggregatedProfiles, ResidualDiagnostics
 from dalex.instance_level import BreakDown, Shap, CeterisParibus
 from .checks import *
 from .helper import get_model_info
@@ -543,6 +544,29 @@ class Explainer:
         model_profile_.fit(ceteris_paribus, verbose)
 
         return model_profile_
+
+    def model_diagnostics(self,
+                          variables=None):
+        """Calculate dataset level residuals diagnostics
+
+        Parameters
+        -----------
+        variables : str or array_like of str, optional
+            Variables for which the data will be calculated
+            (default is None, which means all of the variables).
+
+        Returns
+        -----------
+        ResidualDiagnostics class object
+            Explanation object containing the main result attribute and the plot method.
+        """
+
+        residual_diagnostics_ = ResidualDiagnostics(
+            variables=variables
+        )
+        residual_diagnostics_.fit(self)
+
+        return residual_diagnostics_
 
     def dumps(self, *args, **kwargs):
         """Return the pickled representation (bytes object) of the Explainer
