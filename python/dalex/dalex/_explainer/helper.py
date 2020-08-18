@@ -36,7 +36,12 @@ def unpack_kwargs_lime(explainer, new_observation, **kwargs):
     if 'data_row' not in explanation_dict:
         explanation_dict['data_row'] = new_observation
     if 'predict_fn' not in explanation_dict:
-        explanation_dict['predict_fn'] =\
-            explainer.model.predict if explainer.model_type == 'regression' else explainer.model.predict_proba
+        if hasattr(explainer.model, 'predict_proba'):
+            explanation_dict['predict_fn'] = explainer.model.predict_proba
+        elif hasattr(explainer.model, 'predict'):
+            explanation_dict['predict_fn'] = explainer.model.predict
+        else:
+            raise ValueError("Pass a `predict_fn` parameter to the `predict_surrogate` method. "
+                             "See https://lime-ml.readthedocs.io/en/latest/lime.html#lime.lime_tabular.LimeTabularExplainer.explain_instance")
 
     return explainer_dict, explanation_dict
