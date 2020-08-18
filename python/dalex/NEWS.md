@@ -1,6 +1,11 @@
 dalex (development)
 ----------------------------------------------------------------
-* ...
+
+### features
+
+* added `model_diagnostics` method to the `Explainer`, which performs residual diagnostics
+* added `predict_surrogate` method to the `Explainer`, which is a wrapper for the `lime`
+ tabular explanation from the [lime](https://github.com/marcotcr/lime) package
 
 dalex 0.2.0
 ----------------------------------------------------------------

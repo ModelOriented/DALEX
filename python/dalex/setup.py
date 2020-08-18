@@ -31,7 +31,8 @@ setuptools.setup(
         'pandas>=1.0.1',
         'numpy>=1.18.1',
         'plotly>=4.9.0',
-        'tqdm>=4.42.1'
+        'tqdm>=4.42.1',
+        'lime>=0.2.0.1'
     ],
     packages=setuptools.find_packages(include=["dalex", "dalex.*"]),
     python_requires='>=3.6',
