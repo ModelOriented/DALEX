@@ -14,7 +14,7 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 import dalex as dx
 
 
-class APTestTitanic(unittest.TestCase):
+class AggregatedProfilesTestTitanic(unittest.TestCase):
     def setUp(self):
         data = dx.datasets.load_titanic()
         data.loc[:, 'survived'] = LabelEncoder().fit_transform(data.survived)

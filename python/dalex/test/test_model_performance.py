@@ -45,17 +45,17 @@ class ModelPerformanceTestTitanic(unittest.TestCase):
         self.exp2 = dx.Explainer(clf, self.X, self.y, label="model2", verbose=False)
 
     def test_constructor(self):
-        self.assertIsInstance(self.exp.model_performance('classification'), (dx.dataset_level.ModelPerformance,))
-        self.assertIsInstance(self.exp.model_performance('classification').result, (pd.DataFrame,))
-        self.assertEqual(self.exp.model_performance('classification').result.shape[0], 1)
-        self.assertTrue(np.isin(['recall', 'precision', 'f1', 'accuracy', 'auc'],
-                                self.exp.model_performance('classification').result.columns).all())
+        case1 = self.exp.model_performance('classification')
+        self.assertIsInstance(case1, (dx.dataset_level.ModelPerformance,))
+        self.assertIsInstance(case1.result, (pd.DataFrame,))
+        self.assertEqual(case1.result.shape[0], 1)
+        self.assertTrue(np.isin(['recall', 'precision', 'f1', 'accuracy', 'auc'], case1.result.columns).all())
 
-        self.assertIsInstance(self.exp.model_performance('regression'), (dx.dataset_level.ModelPerformance,))
-        self.assertIsInstance(self.exp.model_performance('regression').result, (pd.DataFrame,))
-        self.assertEqual(self.exp.model_performance('regression').result.shape[0], 1)
-        self.assertTrue(np.isin(['mse', 'rmse', 'r2', 'mae', 'mad'],
-                                self.exp.model_performance('regression').result.columns).all())
+        case2 = self.exp.model_performance('regression')
+        self.assertIsInstance(case2, (dx.dataset_level.ModelPerformance,))
+        self.assertIsInstance(case2.result, (pd.DataFrame,))
+        self.assertEqual(case2.result.shape[0], 1)
+        self.assertTrue(np.isin(['mse', 'rmse', 'r2', 'mae', 'mad'], case2.result.columns).all())
 
     def test_plot(self):
 

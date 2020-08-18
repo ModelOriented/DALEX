@@ -128,14 +128,14 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
             vi[0].columns).all())
 
     def test_constructor(self):
-        self.assertIsInstance(self.exp.model_parts(), (dx.dataset_level.VariableImportance,))
-        self.assertIsInstance(self.exp.model_parts().result, (pd.DataFrame,))
-        self.assertEqual(list(self.exp.model_parts().result.columns),
-                         ['variable', 'dropout_loss', 'label'])
+        case1 = self.exp.model_parts(),
+        self.assertIsInstance(case1, (dx.dataset_level.VariableImportance,))
+        self.assertIsInstance(case1.result, (pd.DataFrame,))
+        self.assertEqual(list(case1.result.columns), ['variable', 'dropout_loss', 'label'])
 
-        vi = self.exp.model_parts(keep_raw_permutations=True)
-        self.assertTrue(hasattr(vi, 'permutation'))
-        self.assertIsInstance(vi.permutation, pd.DataFrame)
+        case2 = self.exp.model_parts(keep_raw_permutations=True)
+        self.assertTrue(hasattr(case2, 'permutation'))
+        self.assertIsInstance(case2.permutation, pd.DataFrame)
 
     def test_variables_and_variable_groups(self):
 

@@ -56,20 +56,13 @@ class ResidualDiagnostics:
         # otherwise only selected
         if self.variables is not None:
             result = result.loc[:, np.intersect1d(self.variables, result.columns)]
-
         # is there target
         if explainer.y is not None:
             result = result.assign(y=explainer.y)
-
-        # are there predictions
-        #:# add y_hat to the Explainer for the future
+        # are there predictions - add y_hat to the Explainer for the future
         if explainer.y_hat is None:
             explainer.y_hat = explainer.predict(explainer.data)
-
-        result = result.assign(y_hat=explainer.y_hat)
-
-        # are there residuals
-        #:# add residuals to the Explainer for the future
+        # are there residuals - add residuals to the Explainer for the future
         if explainer.residuals is None:
             explainer.residuals = explainer.residual(explainer.data, explainer.y)
 
@@ -82,7 +75,7 @@ class ResidualDiagnostics:
         )
 
     def plot(self,
-             objects,
+             objects=None,
              variable="y_hat",
              yvariable="residuals",
              smooth=True,
