@@ -2,6 +2,7 @@ import plotly.graph_objects as go
 
 from dalex.dataset_level._model_performance.plot import ecdf
 from .utils import *
+from ..._explainer.theme import get_default_colors
 
 
 class ModelPerformance:
@@ -121,7 +122,7 @@ class ModelPerformance:
         Parameters
         -----------
         objects : ModelPerformance object or array_like of ModelPerformance objects
-            Additional objects to plot in subplots (default is None).
+            Additional objects to plot (default is None).
         title : str, optional
             Title of the plot (default depends on the `type` attribute).
         show : bool, optional
@@ -136,31 +137,29 @@ class ModelPerformance:
 
         # are there any other objects to plot?
         if objects is None:
-            n = 1
-            _residuals_df_list = [self.residuals.copy()]
+            _df_list = [self.residuals.copy()]
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
-            n = 2
-            _residuals_df_list = [self.residuals.copy(), objects.residuals.copy()]
+            _df_list = [self.residuals.copy(), objects.residuals.copy()]
         else:  # objects as tuple or array
-            n = len(objects) + 1
-            _residuals_df_list = [self.residuals.copy()]
+            _df_list = [self.residuals.copy()]
             for ob in objects:
                 if not isinstance(ob, self.__class__):
                     raise TypeError("Some explanations aren't of ModelPerformance class")
-                _residuals_df_list += [ob.residuals.copy()]
+                _df_list += [ob.residuals.copy()]
 
+        colors = get_default_colors(len(_df_list), 'line')
         fig = go.Figure()
 
-        for i in range(n):
-            _residuals_df = _residuals_df_list[i]
-            _abs_residuals = np.abs(_residuals_df['residuals'])
+        for i, _df in enumerate(_df_list):
+            _abs_residuals = np.abs(_df['residuals'])
             _unique_abs_residuals = np.unique(_abs_residuals)
 
             fig.add_scatter(
                 x=_unique_abs_residuals,
                 y=1 - ecdf(_abs_residuals)(_unique_abs_residuals),
                 line_shape='hv',
-                name=_residuals_df.iloc[0, _residuals_df.columns.get_loc('label')]
+                name=_df.iloc[0, _df.columns.get_loc('label')],
+                marker=dict(color=colors[i])
             )
 
         fig.update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True, 'ticks': 'outside',

@@ -11,6 +11,7 @@ setuptools.setup(
     version="0.2.0",
     author="Wojciech Kretowicz, Hubert Baniecki, Przemyslaw Biecek",
     author_email="wojtekkretowicz@gmail.com, hbaniecki@gmail.com",
+    version="0.2.0.9000",
     description="DALEX in Python",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -31,8 +32,11 @@ setuptools.setup(
         'pandas>=1.0.1',
         'numpy>=1.18.1',
         'plotly>=4.9.0',
-        'tqdm>=4.42.1',
-        'lime>=0.2.0.1'
+        'tqdm>=4.42.1'
+    ],
+    test_requirements=[
+        'lime>=0.2.0.1',       # Explainer.predict_surrogate
+        'statsmodels>=0.11.1'  # LOWESS trendlines in ResidualDiagnostics.plot
     ],
     packages=setuptools.find_packages(include=["dalex", "dalex.*"]),
     python_requires='>=3.6',
