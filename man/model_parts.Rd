@@ -24,7 +24,7 @@ model_parts(
 
 \item{type}{character, type of transformation that should be applied for dropout loss. \code{variable_importance} and \code{raw} results raw drop lossess, \code{ratio} returns \code{drop_loss/drop_loss_full_model} while \code{difference} returns \code{drop_loss - drop_loss_full_model}}
 
-\item{N}{number of observations that should be sampled for calculation of variable importance. If negative then variable importance will be calculated on whole dataset (no sampling).}
+\item{N}{number of observations that should be sampled for calculation of variable importance. If \code{NULL} then variable importance will be calculated on whole dataset (no sampling).}
 
 \item{n_sample}{alias for \code{N} held for backwards compatibility. number of observations that should be sampled for calculation of variable importance.}
 }

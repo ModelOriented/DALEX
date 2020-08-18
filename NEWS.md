@@ -10,6 +10,7 @@ DALEX (TBD)
 *  Fixed `model_diagnostics` passing wrong arguments to residual_function.
 *  Fixed aesthetic for `hist` geometry in `plot.model_performance` using wrong arugments.
 * `model_performance` will not work if `model_info$type` is `NULL`
+*  Corrected description of `N` in `model_parts` ([#287](https://github.com/ModelOriented/DALEX/issues/287)).
 
 DALEX 1.3.1.1
 ---------------------------------------------------------------
