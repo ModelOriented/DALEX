@@ -1,8 +1,8 @@
-import numpy as np
+# check functions for Explainer.__init__
 import pandas as pd
 from copy import deepcopy
 
-from .helper import verbose_cat, is_y_in_data
+from .helper import *
 from .yhat import *
 
 
@@ -263,7 +263,9 @@ def check_if_empty_fields(explainer):
     return explainer
 
 
-def check_model_class(model_class, model_info, model, verbose):
+def check_model_class(model_class, model, verbose):
+    model_info = get_model_info(model)
+
     if model_class is None:
         model_class = str(type(model))
         from re import search

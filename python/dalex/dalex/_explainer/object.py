@@ -2,7 +2,7 @@ from dalex.dataset_level import ModelPerformance, VariableImportance,\
     AggregatedProfiles, ResidualDiagnostics
 from dalex.instance_level import BreakDown, Shap, CeterisParibus
 from .checks import *
-from .helper import get_model_info, unpack_kwargs_lime
+from .utils import unpack_kwargs_lime, create_surrogate_model
 
 
 class Explainer:
@@ -134,9 +134,7 @@ class Explainer:
         # REPORT: checks for weights
         weights = check_weights(weights, data, verbose)
 
-        model_info_ = get_model_info(model)
-
-        model_class, model_info_ = check_model_class(model_class, model_info_, model, verbose)
+        model_class, model_info_ = check_model_class(model_class, model, verbose)
 
         label, model_info_ = check_label(label, model_class, model_info_, verbose)
 
@@ -366,7 +364,7 @@ class Explainer:
     def predict_surrogate(self, new_observation, type='lime', **kwargs):
         """Wrapper for surrogate model explanations
 
-        This function uses the lime package to create model explanation.
+        This function uses the lime package to create the model explanation.
         See https://lime-ml.readthedocs.io/en/latest/lime.html#module-lime.lime_tabular
 
         Parameters
@@ -633,6 +631,60 @@ class Explainer:
         residual_diagnostics_.fit(self)
 
         return residual_diagnostics_
+
+    def model_surrogate(self,
+                        type=('tree', 'linear'),
+                        max_vars=5,
+                        max_depth=3,
+                        **kwargs):
+        """Create a surrogate interpretable model from the black-box model
+
+        This function uses the scikit-learn package to create a surrogate
+        interpretable model (e.g. decision tree) from the black--box model.
+        It aims to use the most important features and add a plot method to
+        the model, so that it can be easily interpreted. See Notes section
+        for references.
+
+        Parameters
+        -----------
+        type : {'tree', 'linear'}
+            Type of a surrogate model. This can be a decision tree or a linear model
+            (default is 'tree').
+        max_vars : int, optional
+            Maximum number of variables that will be used in surrogate model training.
+            These are the most important variables to the black-box model (default is 5).
+        max_depth : int, optional
+            The maximum depth of the tree. If None, then nodes are expanded until all
+            leaves are pure or until all leaves contain less than min_samples_split
+            samples (default is 3 for interpretable plot).
+        kwargs :
+            Keyword arguments passed to one of the: sklearn.tree.DecisionTreeClassifier,
+            sklearn.tree.DecisionTreeRegressor, sklearn.linear_model.LogisticRegression,
+            sklearn.linear_model.LinearRegression
+
+
+        Returns
+        -----------
+        sklearn.tree.DecisionTreeClassifier, sklearn.tree.DecisionTreeRegressor,
+        sklearn.linear_model.LogisticRegression, sklearn.linear_model.LinearRegression
+            A surrogate model with the `plot` method and the `feature_names` attribute.
+
+        Notes
+        -----------
+        https://christophm.github.io/interpretable-ml-book/global.html
+        https://github.com/scikit-learn/scikit-learn
+        """
+
+        types = ('tree', 'linear')
+        type = check_method_type(type, types)
+
+        surrogate_model = create_surrogate_model(explainer=self,
+                                                 type=type,
+                                                 max_vars=max_vars,
+                                                 max_depth=max_depth,
+                                                 **kwargs)
+
+        return surrogate_model
 
     def dumps(self, *args, **kwargs):
         """Return the pickled representation (bytes object) of the Explainer

@@ -1,5 +1,5 @@
 from os import path
-
+import dalex
 import setuptools
 
 this_directory = path.abspath(path.dirname(__file__))
@@ -10,7 +10,7 @@ setuptools.setup(
     name="dalex",
     author="Wojciech Kretowicz, Hubert Baniecki, Przemyslaw Biecek",
     author_email="wojtekkretowicz@gmail.com, hbaniecki@gmail.com",
-    version="0.2.0.9000",
+    version=dalex.__version__,
     description="DALEX in Python",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -35,6 +35,7 @@ setuptools.setup(
     ],
     test_requirements=[
         'lime>=0.2.0.1',       # Explainer.predict_surrogate
+        'scikit-learn>=0.21',  # Explainer.model_surrogate
         'statsmodels>=0.11.1'  # LOWESS trendlines in ResidualDiagnostics.plot
     ],
     packages=setuptools.find_packages(include=["dalex", "dalex.*"]),
