@@ -27,7 +27,7 @@ The `dalex` package is a part of [DrWhy.AI](http://DrWhy.AI) universe.
 ## Installation
 
 ```console
-pip install dalex==0.1.9
+pip install dalex -U
 ```
 
 ## Resources

@@ -14,7 +14,6 @@ from dalex.instance_level._ceteris_paribus import utils
 
 
 class CeterisParibusTestTitanic(unittest.TestCase):
-
     def setUp(self):
         data = dx.datasets.load_titanic()
         data.loc[:, 'survived'] = LabelEncoder().fit_transform(data.survived)

@@ -12,7 +12,7 @@ import dalex as dx
 from plotly.graph_objs import Figure
 
 
-class ModelPerformanceTestTitanic(unittest.TestCase):
+class ModelDiagnosticsTestTitanic(unittest.TestCase):
     def setUp(self):
         data = dx.datasets.load_titanic()
         data.loc[:, 'survived'] = LabelEncoder().fit_transform(data.survived)
@@ -45,31 +45,38 @@ class ModelPerformanceTestTitanic(unittest.TestCase):
         self.exp2 = dx.Explainer(clf, self.X, self.y, label="model2", verbose=False)
 
     def test_constructor(self):
-        case1 = self.exp.model_performance('classification')
-        self.assertIsInstance(case1, (dx.dataset_level.ModelPerformance,))
+        case1 = self.exp.model_diagnostics()
+        self.assertIsInstance(case1, (dx.dataset_level.ResidualDiagnostics,))
         self.assertIsInstance(case1.result, (pd.DataFrame,))
-        self.assertEqual(case1.result.shape[0], 1)
-        self.assertTrue(np.isin(['recall', 'precision', 'f1', 'accuracy', 'auc'], case1.result.columns).all())
+        self.assertEqual(case1.result.shape[0], self.exp.data.shape[0])
+        self.assertTrue(np.isin(['y', 'y_hat', 'residuals', 'abs_residuals', 'label', 'ids'],
+                                case1.result.columns).all())
 
-        case2 = self.exp.model_performance('regression')
-        self.assertIsInstance(case2, (dx.dataset_level.ModelPerformance,))
+        case2 = self.exp.model_diagnostics(variables=['age', 'class'])
+        self.assertIsInstance(case2, (dx.dataset_level.ResidualDiagnostics,))
         self.assertIsInstance(case2.result, (pd.DataFrame,))
-        self.assertEqual(case2.result.shape[0], 1)
-        self.assertTrue(np.isin(['mse', 'rmse', 'r2', 'mae', 'mad'], case2.result.columns).all())
+        self.assertEqual(case2.result.shape[0], self.exp.data.shape[0])
+        self.assertTrue(np.isin(['y', 'y_hat', 'residuals', 'abs_residuals', 'label', 'ids', 'age', 'class'],
+                                case2.result.columns).all())
+        self.assertFalse(np.isin(['fare', 'sibsp', 'gender', 'embarked'], case2.result.columns).any())
 
     def test_plot(self):
 
-        case1 = self.exp.model_performance('classification')
-        case2 = self.exp2.model_performance('classification')
+        case1 = self.exp.model_diagnostics(variables=['fare', 'embarked'])
+        case2 = self.exp.model_diagnostics()
+        case3 = self.exp2.model_diagnostics()
 
-        self.assertIsInstance(case1, dx.dataset_level.ModelPerformance)
-        self.assertIsInstance(case2, dx.dataset_level.ModelPerformance)
+        self.assertIsInstance(case1, dx.dataset_level.ResidualDiagnostics)
+        self.assertIsInstance(case2, dx.dataset_level.ResidualDiagnostics)
+        self.assertIsInstance(case3, dx.dataset_level.ResidualDiagnostics)
 
-        fig1 = case1.plot(title="test1", show=False)
-        fig2 = case2.plot(case1, show=False)
+        fig1 = case1.plot(title="test1", variable="fare", show=False)
+        fig2 = case2.plot(case3, variable="sibsp", yvariable="abs_residuals", show=False)
+        fig3 = case2.plot(smooth=False, line_width=6, marker_size=1, variable="age", show=False)
 
         self.assertIsInstance(fig1, Figure)
         self.assertIsInstance(fig2, Figure)
+        self.assertIsInstance(fig3, Figure)
 
 
 if __name__ == '__main__':

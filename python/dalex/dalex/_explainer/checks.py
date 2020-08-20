@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from copy import deepcopy
 
 from .helper import verbose_cat, is_y_in_data
 from .yhat import *
@@ -290,3 +291,30 @@ def check_loss_function(explainer, loss_function):
 
 def check_model_type(model_type, model_type_):
     return model_type_ if model_type is None else model_type
+
+
+def check_new_observation_lime(new_observation):
+    # lime accepts only np.array as data_row
+
+    new_observation_ = deepcopy(new_observation)
+    if isinstance(new_observation_, pd.Series):
+        new_observation_ = new_observation_.to_numpy()
+    elif isinstance(new_observation_, np.ndarray):
+        if new_observation_.ndim == 2:
+            if new_observation.shape[0] != 1:
+                raise ValueError("Wrong new_observation dimension")
+            # make 2D array 1D
+            new_observation_ = new_observation_.flatten()
+        elif new_observation_.ndim > 2:
+            raise ValueError("Wrong new_observation dimension")
+    elif isinstance(new_observation_, list):
+        new_observation_ = np.array(new_observation_)
+    elif isinstance(new_observation_, pd.DataFrame):
+        if new_observation.shape[0] != 1:
+            raise ValueError("Wrong new_observation dimension")
+        else:
+            new_observation_ = new_observation.to_numpy().flatten()
+    else:
+        raise TypeError("new_observation must be a list or numpy.ndarray or pandas.Series or pandas.DataFrame")
+
+    return new_observation_

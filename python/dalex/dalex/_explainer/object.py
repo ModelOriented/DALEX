@@ -1,7 +1,8 @@
-from dalex.dataset_level import ModelPerformance, VariableImportance, AggregatedProfiles
+from dalex.dataset_level import ModelPerformance, VariableImportance,\
+    AggregatedProfiles, ResidualDiagnostics
 from dalex.instance_level import BreakDown, Shap, CeterisParibus
 from .checks import *
-from .helper import get_model_info
+from .helper import get_model_info, unpack_kwargs_lime
 
 
 class Explainer:
@@ -259,6 +260,12 @@ class Explainer:
         BreakDown or Shap class object
             Explanation object containing the main result attribute and the plot method.
             Object class, its attributes, and the plot method depend on the `type` parameter.
+
+        Notes
+        --------
+        https://pbiecek.github.io/ema/breakDown.html
+        https://pbiecek.github.io/ema/iBreakDown.html
+        https://pbiecek.github.io/ema/shapley.html
         """
 
         types = ('break_down_interactions', 'break_down', 'shap')
@@ -333,6 +340,10 @@ class Explainer:
         -----------
         CeterisParibus class object
             Explanation object containing the main result attribute and the plot method.
+
+        Notes
+        --------
+        https://pbiecek.github.io/ema/ceterisParibus.html
         """
 
         types = ('ceteris_paribus', )
@@ -352,6 +363,45 @@ class Explainer:
 
         return predict_profile_
 
+    def predict_surrogate(self, new_observation, type='lime', **kwargs):
+        """Wrapper for surrogate model explanations
+
+        This function uses the lime package to create model explanation.
+        See https://lime-ml.readthedocs.io/en/latest/lime.html#module-lime.lime_tabular
+
+        Parameters
+        -----------
+        new_observation : pd.Series or np.ndarray (1d) or pd.DataFrame (1,p)
+            An observation for which a prediction needs to be explained.
+        type : {'lime'}
+            Type of explanation method
+            (default is 'lime', which uses the lime package to create an explanation).
+        kwargs :
+            Keyword arguments passed to the lime.lime_tabular.LimeTabularExplainer object
+            and the LimeTabularExplainer.explain_instance method. Exceptions are:
+            `training_data`, `mode`, `data_row` and `predict_fn`. Other parameters:
+            https://lime-ml.readthedocs.io/en/latest/lime.html#module-lime.lime_tabular
+
+        Returns
+        -----------
+        lime.explanation.Explanation
+            Explanation object.
+
+        Notes
+        -----------
+        https://github.com/marcotcr/lime
+        """
+
+        if type == 'lime':
+            from lime.lime_tabular import LimeTabularExplainer
+            new_observation = check_new_observation_lime(new_observation)
+
+            explainer_dict, explanation_dict = unpack_kwargs_lime(self, new_observation, **kwargs)
+            lime_tabular_explainer = LimeTabularExplainer(**explainer_dict)
+            explanation = lime_tabular_explainer.explain_instance(**explanation_dict)
+
+            return explanation
+
     def model_performance(self,
                           model_type=None,
                           cutoff=0.5):
@@ -370,6 +420,10 @@ class Explainer:
         -----------
         ModelPerformance class object
             Explanation object containing the main result attribute and the plot method.
+
+        Notes
+        --------
+        https://pbiecek.github.io/ema/modelPerformance.html
         """
 
         if model_type is None and self.model_type is None:
@@ -429,6 +483,10 @@ class Explainer:
         -----------
         VariableImportance class object
             Explanation object containing the main result attribute and the plot method.
+
+        Notes
+        --------
+        https://pbiecek.github.io/ema/featureImportance.html
         """
 
         types = ('variable_importance', 'ratio', 'difference')
@@ -508,6 +566,11 @@ class Explainer:
         -----------
         AggregatedProfiles class object
             Explanation object containing the main result attribute and the plot method.
+
+        Notes
+        --------
+        https://pbiecek.github.io/ema/partialDependenceProfiles.html
+        https://pbiecek.github.io/ema/accumulatedLocalProfiles.html
         """
 
         types = ('partial', 'accumulated', 'conditional')
@@ -543,6 +606,33 @@ class Explainer:
         model_profile_.fit(ceteris_paribus, verbose)
 
         return model_profile_
+
+    def model_diagnostics(self,
+                          variables=None):
+        """Calculate dataset level residuals diagnostics
+
+        Parameters
+        -----------
+        variables : str or array_like of str, optional
+            Variables for which the data will be calculated
+            (default is None, which means all of the variables).
+
+        Returns
+        -----------
+        ResidualDiagnostics class object
+            Explanation object containing the main result attribute and the plot method.
+
+        Notes
+        --------
+        https://pbiecek.github.io/ema/residualDiagnostic.html
+        """
+
+        residual_diagnostics_ = ResidualDiagnostics(
+            variables=variables
+        )
+        residual_diagnostics_.fit(self)
+
+        return residual_diagnostics_
 
     def dumps(self, *args, **kwargs):
         """Return the pickled representation (bytes object) of the Explainer

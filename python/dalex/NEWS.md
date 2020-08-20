@@ -1,6 +1,17 @@
 dalex (development)
 ----------------------------------------------------------------
-* ...
+
+### bug fixes
+
+* `ModelPerformance.plot` now uses a drwhy color palette
+
+### features
+
+* added the `ResidualDiagnostics` object with a `plot` method
+* added `model_diagnostics` method to the `Explainer`, which performs residual diagnostics
+* added `predict_surrogate` method to the `Explainer`, which is a wrapper for the `lime`
+ tabular explanation from the [lime](https://github.com/marcotcr/lime) package
+* added a `__str__` method to all of the explanation objects (it prints the `result` attribute)
 
 dalex 0.2.0
 ----------------------------------------------------------------

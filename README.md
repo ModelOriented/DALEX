@@ -38,7 +38,7 @@ install.packages("DALEX")
 The **Python** version of dalex is available on [pip](https://pypi.org/project/dalex/)
 
 ```console
-pip install dalex
+pip install dalex -U
 ```
 
 ## Learn more
