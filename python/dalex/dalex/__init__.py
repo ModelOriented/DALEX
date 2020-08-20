@@ -9,6 +9,5 @@ __all__ = [
     "Explainer",
     "dataset_level",
     "instance_level",
-    "datasets",
-    "__version__"
+    "datasets"
 ]
