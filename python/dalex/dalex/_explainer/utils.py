@@ -97,6 +97,7 @@ def create_surrogate_model(explainer, type, max_vars, max_depth, **kwargs):
 
 def plot_tree_custom(model, **kwargs):
     # wrapper for the plot_tree function, that makes the plot look useful
+    # it does not return the plot (because plot_tree works so)
     import matplotlib.pyplot as plt
     from sklearn.tree import plot_tree
     fig, ax = plt.subplots(figsize=(16, 10))
