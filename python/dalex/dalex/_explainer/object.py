@@ -424,6 +424,8 @@ class Explainer:
         https://pbiecek.github.io/ema/modelPerformance.html
         """
 
+        check_y_again(self.y)
+
         if model_type is None and self.model_type is None:
             raise TypeError("if self.model_type is None, then model_type must be not None")
         elif model_type is None:
@@ -486,6 +488,8 @@ class Explainer:
         --------
         https://pbiecek.github.io/ema/featureImportance.html
         """
+
+        check_y_again(self.y)
 
         types = ('variable_importance', 'ratio', 'difference')
         type = check_method_type(type, types)
@@ -624,6 +628,8 @@ class Explainer:
         --------
         https://pbiecek.github.io/ema/residualDiagnostic.html
         """
+
+        check_y_again(self.y)
 
         residual_diagnostics_ = ResidualDiagnostics(
             variables=variables

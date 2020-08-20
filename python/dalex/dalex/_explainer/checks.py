@@ -108,6 +108,14 @@ def check_y(y, data, verbose):
     return y
 
 
+def check_y_again(y):
+    if y is None:
+        raise ValueError("'y' attribute in Explainer is missing")
+    if isinstance(y[0], str):
+        raise ValueError("'y' attribute in Explainer is of str type and it should be numerical "
+                         "to allow for calculations")
+
+
 def check_weights(weights, data, verbose):
     if weights is None:
         # weights not specified

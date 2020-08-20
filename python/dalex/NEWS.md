@@ -15,6 +15,8 @@ dalex (development)
  or linear model from the black-box model using the [scikit-learn](https://github.com/scikit-learn/scikit-learn) package
 * added a `__str__` method to all of the explanation objects (it prints the `result` attribute)
 * added `dalex.__version__`
+* added informative error messages in `Explainer` methods when `y` is of wrong type
+ ([#294](https://github.com/ModelOriented/DALEX/issues/294))
 
 dalex 0.2.0
 ----------------------------------------------------------------

@@ -26,6 +26,7 @@ def auc(y_pred, y_true):
     df = pd.DataFrame({'y_pred': y_pred, 'y_true': y_true})
     df = df.sort_values('y_pred', ascending=False)
 
+    # assumes that y = 0/1 where 1 is the positive label
     tpr = df.loc[:, 'y_true'].cumsum() / df.loc[:, 'y_true'].sum()
     fpr = (1 - df.loc[:, 'y_true']).cumsum() / (1 - df.loc[:, 'y_true']).sum()
 
