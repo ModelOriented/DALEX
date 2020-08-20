@@ -10,7 +10,7 @@ import dalex as dx
 import pandas as pd
 
 
-class PredictSurrogateTestTitanic(unittest.TestCase):
+class ModelSurrogateTest(unittest.TestCase):
     def setUp(self):
         data = dx.datasets.load_titanic()
         self.X = data.drop(columns=['survived', 'class', 'embarked'])
