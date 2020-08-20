@@ -1,5 +1,5 @@
 from os import path
-import dalex
+from dalex import __version__
 import setuptools
 
 this_directory = path.abspath(path.dirname(__file__))
@@ -10,7 +10,7 @@ setuptools.setup(
     name="dalex",
     author="Wojciech Kretowicz, Hubert Baniecki, Przemyslaw Biecek",
     author_email="wojtekkretowicz@gmail.com, hbaniecki@gmail.com",
-    version=dalex.__version__,
+    version=__version__,
     description="DALEX in Python",
     long_description=long_description,
     long_description_content_type="text/markdown",
