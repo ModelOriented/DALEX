@@ -1,7 +1,7 @@
 #' Plot Instance Level Residual Diagnostics
 #'
 #' @param x an object with instance level residual diagnostics created with \code{\link{predict_diagnostics}} function
-#' @param ... other parameters
+#' @param ... other parameters that will be passed to \code{plot.ceteris_paribus_explaine}.
 #'
 #' @return an \code{ggplot2} object of the class \code{gg}.
 #'
@@ -53,7 +53,7 @@ plot.predict_diagnostics <- function(x, ...) {
     cp_new_instance <- x$cp_new_instance
     variables <- x$variables
 
-    pl <- plot(cp_neighbors, color = '#ceced9') +
+    pl <- plot(cp_neighbors, color = '#ceced9', ...) +
       ingredients::show_residuals(cp_neighbors, variables = variables) +
       ingredients::show_observations(cp_new_instance, variables = variables, size = 5) +
       ingredients::show_profiles(cp_new_instance, variables = variables, size = 2) +

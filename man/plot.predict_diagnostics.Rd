@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{an object with instance level residual diagnostics created with \code{\link{predict_diagnostics}} function}
 
-\item{...}{other parameters}
+\item{...}{other parameters that will be passed to \code{plot.ceteris_paribus_explaine}.}
 }
 \value{
 an \code{ggplot2} object of the class \code{gg}.

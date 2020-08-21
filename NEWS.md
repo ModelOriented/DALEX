@@ -1,5 +1,6 @@
 DALEX (TBD)
 ---------------------------------------------------------------
+* `plot.predict_diagnostics` now passess ellipsis to `plot.ceteris_paribus_explainer`
 * This version requires `iBreakDown v1.3.1` and `ingredients v1.3.1`
 *  Fixed `plot.predict_parts` and `plot.model_profile`   ([#277](https://github.com/ModelOriented/DALEX/issues/277)).
 *  Fixed `plot.model_profile` for multiple profiles  ([#237](https://github.com/ModelOriented/DALEX/issues/237)).
