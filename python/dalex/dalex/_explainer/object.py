@@ -646,7 +646,7 @@ class Explainer:
         """Create a surrogate interpretable model from the black-box model
 
         This function uses the scikit-learn package to create a surrogate
-        interpretable model (e.g. decision tree) from the black--box model.
+        interpretable model (e.g. decision tree) from the black-box model.
         It aims to use the most important features and add a plot method to
         the model, so that it can be easily interpreted. See Notes section
         for references.
@@ -673,7 +673,11 @@ class Explainer:
         -----------
         sklearn.tree.DecisionTreeClassifier, sklearn.tree.DecisionTreeRegressor,
         sklearn.linear_model.LogisticRegression, sklearn.linear_model.LinearRegression
-            A surrogate model with the `plot` method and the `feature_names` attribute.
+            A surrogate model with additional:
+                - `plot` method
+                - `performance` attribute
+                - `feature_names` attribute
+                - `class_names` attribute
 
         Notes
         -----------
