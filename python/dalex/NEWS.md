@@ -5,6 +5,7 @@ dalex (development)
 
 * `ModelPerformance.plot` now uses a drwhy color palette
 * use `unique` method instead of `np.unique` in `variable_splits` ([#293](https://github.com/ModelOriented/DALEX/issues/293))
+* `v0.2.0` didn't export new datasets
 
 ### features
 
