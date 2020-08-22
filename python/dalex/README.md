@@ -34,10 +34,12 @@ pip install dalex -U
 
 * Introduction to the `dalex` package: [Titanic: tutorial and examples](http://dalex.drwhy.ai/python-dalex-titanic.html)
 * Important features explained: [FIFA20: explain default vs tuned model with dalex](http://dalex.drwhy.ai/python-dalex-fifa.html)
-* Code in the form of [jupyter notebook](https://github.com/pbiecek/DALEX_docs/blob/master/jupyter-notebooks/dalex-titanic.ipynb) - more to come
+* [How to use dalex with xgboost](http://dalex.drwhy.ai/python-dalex-xgboost.html)
+* [New features in v0.2.1](http://dalex.drwhy.ai/python-dalex-new.html)
+* Code in the form of [jupyter notebook](https://github.com/pbiecek/DALEX_docs/tree/master/jupyter-notebooks)
 * [YouTube video](https://www.youtube.com/watch?v=PuKF2GS4_3Y) showing how to do [Break Down](https://pbiecek.github.io/ema/breakDown.html) analysis
-* Theoretical introduction to the plots: [Explanatory Model Analysis. Explore, Explain and Examine Predictive Models.](https://pbiecek.github.io/ema)
 * Changelog: [NEWS](https://github.com/ModelOriented/DALEX/blob/master/python/dalex/NEWS.md)
+* Theoretical introduction to the plots: [Explanatory Model Analysis: Explore, Explain and Examine Predictive Models](https://pbiecek.github.io/ema)
 
 ## Plots
 

@@ -49,7 +49,7 @@ def fig_update_line_plot(fig, title, title_x, plot_height, hovermode):
             fig.layout[axis].title.text = ''
         elif type(fig.layout[axis]) == go.layout.XAxis:  # remove redundant axis labels
             fig.layout[axis].title.text = ''
-        elif axis is 'annotations':
+        elif axis == 'annotations':
             for index, annotation in enumerate(fig.layout[axis]):  # fix annotation text
                 annotation.update(text=annotation.text.split("=")[-1],
                                   font=dict(size=13))  # , x=0, xref='x' + str(index+1))  # title on the left bug

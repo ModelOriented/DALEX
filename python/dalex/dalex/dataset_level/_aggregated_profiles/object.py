@@ -243,7 +243,7 @@ class AggregatedProfiles:
         m = len(_result_df[color].dropna().unique())
 
         if is_x_numeric:
-            if geom is 'profiles' and self.raw_profiles is not None:
+            if geom == 'profiles' and self.raw_profiles is not None:
                 render_mode = 'webgl'
 
             fig = px.line(_result_df,
@@ -267,7 +267,7 @@ class AggregatedProfiles:
                                    'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True,
                                    'range': min_max})
 
-            if geom is 'profiles' and self.raw_profiles is not None:
+            if geom == 'profiles' and self.raw_profiles is not None:
                 fig.update_traces(dict(line_width=2*size, opacity=1))
                 fig_cp = self.raw_profiles.plot(variables=list(all_variables),
                                                 facet_ncol=facet_ncol,

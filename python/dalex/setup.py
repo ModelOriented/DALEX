@@ -1,16 +1,30 @@
-from os import path
-
+import codecs
+import os
 import setuptools
 
-this_directory = path.abspath(path.dirname(__file__))
-with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+this_directory = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(this_directory, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
+
+
+# https://packaging.python.org/guides/single-sourcing-package-version/
+def read(rel_path):
+    with codecs.open(os.path.join(this_directory, rel_path), 'r') as fp:
+        return fp.read()
+
+
+def get_version(rel_path):
+    for line in read(rel_path).splitlines():
+        if line.startswith('__version__'):
+            delim = '"' if '"' in line else "'"
+            return line.split(delim)[1]
+
 
 setuptools.setup(
     name="dalex",
     author="Wojciech Kretowicz, Hubert Baniecki, Przemyslaw Biecek",
     author_email="wojtekkretowicz@gmail.com, hbaniecki@gmail.com",
-    version="0.2.0.9000",
+    version=get_version("dalex/__init__.py"),
     description="DALEX in Python",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -35,6 +49,7 @@ setuptools.setup(
     ],
     test_requirements=[
         'lime>=0.2.0.1',       # Explainer.predict_surrogate
+        'scikit-learn>=0.21',  # Explainer.model_surrogate
         'statsmodels>=0.11.1'  # LOWESS trendlines in ResidualDiagnostics.plot
     ],
     packages=setuptools.find_packages(include=["dalex", "dalex.*"]),

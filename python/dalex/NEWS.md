@@ -4,6 +4,8 @@ dalex (development)
 ### bug fixes
 
 * `ModelPerformance.plot` now uses a drwhy color palette
+* use `unique` method instead of `np.unique` in `variable_splits` ([#293](https://github.com/ModelOriented/DALEX/issues/293))
+* `v0.2.0` didn't export new datasets
 
 ### features
 
@@ -11,7 +13,12 @@ dalex (development)
 * added `model_diagnostics` method to the `Explainer`, which performs residual diagnostics
 * added `predict_surrogate` method to the `Explainer`, which is a wrapper for the `lime`
  tabular explanation from the [lime](https://github.com/marcotcr/lime) package
+ * added `model_surrogate` method to the `Explainer`, which creates a basic surrogate decision tree
+ or linear model from the black-box model using the [scikit-learn](https://github.com/scikit-learn/scikit-learn) package
 * added a `__str__` method to all of the explanation objects (it prints the `result` attribute)
+* added `dalex.__version__`
+* added informative error messages in `Explainer` methods when `y` is of wrong type
+ ([#294](https://github.com/ModelOriented/DALEX/issues/294))
 
 dalex 0.2.0
 ----------------------------------------------------------------
@@ -25,8 +32,8 @@ dalex 0.2.0
 * `loss_function='auc'` now uses `loss_one_minus_auc` as this should be a descending measure
 * plots are now saved with the original height and width
 * `model_profile` now properly passes the `variables` parameter to `CeterisParibus`
-* `variavbles` parameter in `predict_profile` now can also be a string
- 
+* `variables` parameter in `predict_profile` now can also be a string
+
 ### features
 
 * use `px.express` instead of core `plotly` to make `model_profile` and `predict_profile` plots;
@@ -66,19 +73,19 @@ dalex 0.1.9
  later allow for a concatenation without the dtype conversion
 * *fix:* `variables` parameter now can be a single `str` value
 * *fix:* number rounding in `predict_parts`, `model_parts` ([#245](https://github.com/ModelOriented/DALEX/issues/245))
-* *fix:* CP calculations for models that take only variables as an input 
+* *fix:* CP calculations for models that take only variables as an input
 
 dalex 0.1.8
 ----------------------------------------------------------------
 * *bugfix:* `variable_splits` parameter now works correctly in `predict_profile`
 * *bugfix:* fix baseline for 3+ models in `AggregatedProfiles.plot` ([#234](https://github.com/ModelOriented/DALEX/issues/234))
-* *printing:* now rounding numbers in `Explainer` messages 
+* *printing:* now rounding numbers in `Explainer` messages
 * *fix:* minor checks fixes in `instance_level`
 * *bugfix:* `AggregatedProfiles.plot` now works with `groups`
 
 dalex 0.1.7
 ----------------------------------------------------------------
-* *feature:* parameter `N` in `model_profile` can be set to `None`, to select all observations 
+* *feature:* parameter `N` in `model_profile` can be set to `None`, to select all observations
 * *input:* `groups` and `variable` parameters in `model_profile` can be: `str`, `list`, `numpy.ndarray`, `pandas.Series`
 * *fix:* `check_label` returned only a first letter
 * *bugfix:* removed the conversion of `all_variables` to `str` in
