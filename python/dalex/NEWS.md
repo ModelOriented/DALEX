@@ -7,6 +7,7 @@ dalex (development)
 * use `unique` method instead of `np.unique` in `variable_splits` ([#293](https://github.com/ModelOriented/DALEX/issues/293))
 * `v0.2.0` didn't export new datasets
 * fixed a bug where `Shap` calculated wrong `contributions`
+* fixed barplot baseline in categorical `model_profile` and `predict_profile` plots (set to 0)
 
 ### features
 

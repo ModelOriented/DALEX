@@ -326,6 +326,7 @@ class CeterisParibus:
                          labels={'_yhat_': 'prediction', '_label_': 'label', '_ids_': 'id'},  # , color: 'group'},
                          # hover_data={'_yhat_': ':.3f', '_ids_': True, '_vname_': False, color: False},
                          custom_data=['_text_'],
+                         base=0,
                          facet_col_wrap=facet_ncol,
                          facet_row_spacing=vertical_spacing,
                          facet_col_spacing=horizontal_spacing,
