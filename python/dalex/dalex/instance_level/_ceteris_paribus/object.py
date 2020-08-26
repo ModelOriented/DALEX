@@ -319,7 +319,7 @@ class CeterisParibus:
         else:
             if len(_result_df['_ids_'].unique()) > 1:  # https://github.com/plotly/plotly.py/issues/2657
                 raise TypeError("Please pick one observation per label.")
-            _result_df = _result_df.assign(baselne=0)
+            _result_df = _result_df.assign(baseline=0)
             fig = px.bar(_result_df,
                          x="_x_", y="_yhat_", color="_label_", facet_col="_vname_",
                          category_orders={"_vname_": list(variable_names)},
