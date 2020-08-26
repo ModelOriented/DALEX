@@ -279,12 +279,13 @@ class AggregatedProfiles:
                 hovermode = False
                 fig = fig_cp
         else:
+            _result_df = _result_df.assign(baseline=0)
             fig = px.bar(_result_df,
                          x="_x_", y="_yhat_", color="_label_", facet_col="_vname_",
                          category_orders={"_vname_": list(all_variables)},
                          labels={'_yhat_': 'prediction', '_mp_': 'mean_prediction'},  # , color: 'group'},
                          hover_name=color,
-                         base=0,
+                         base="baseline",
                          hover_data={'_yhat_': ':.3f', '_mp_': ':.3f',
                                      color: False, '_vname_': False, '_x_': False},
                          facet_col_wrap=facet_ncol,

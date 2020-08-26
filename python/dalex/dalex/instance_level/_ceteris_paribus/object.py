@@ -319,14 +319,14 @@ class CeterisParibus:
         else:
             if len(_result_df['_ids_'].unique()) > 1:  # https://github.com/plotly/plotly.py/issues/2657
                 raise TypeError("Please pick one observation per label.")
-
+            _result_df = _result_df.assign(baselne=0)
             fig = px.bar(_result_df,
                          x="_x_", y="_yhat_", color="_label_", facet_col="_vname_",
                          category_orders={"_vname_": list(variable_names)},
                          labels={'_yhat_': 'prediction', '_label_': 'label', '_ids_': 'id'},  # , color: 'group'},
                          # hover_data={'_yhat_': ':.3f', '_ids_': True, '_vname_': False, color: False},
                          custom_data=['_text_'],
-                         base=0,
+                         base="baseline",
                          facet_col_wrap=facet_ncol,
                          facet_row_spacing=vertical_spacing,
                          facet_col_spacing=horizontal_spacing,
