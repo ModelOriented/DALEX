@@ -20,7 +20,7 @@ The `DALEX` package xrays any model and helps to explore and explain its behavio
 
 The philosophy behind `DALEX` explanations is described in the [Explanatory Model Analysis](https://pbiecek.github.io/ema/) e-book. The `DALEX` package is a part of [DrWhy.AI](http://DrWhy.AI) universe.
 
-If you work with `scikitlearn`, `keras`, `H2O`, `mljar` or `mlr`, you may be interested in the [DALEXtra](https://github.com/ModelOriented/DALEXtra) package. It is an extension pack for `DALEX` with easy to use connectors to models created in these libraries.
+If you work with `scikitlearn`, `keras`, `H2O`, `tidymodels`, `xgboost`, `mlr` or `mlr3`, you may be interested in the [DALEXtra](https://github.com/ModelOriented/DALEXtra) package. It is an extension pack for `DALEX` with easy to use connectors to models created in these libraries.
 
 <p align="center">
 <a href="https://pbiecek.github.io/ema/introduction.html#bookstructure"><img src="https://github.com/ModelOriented/DALEX/raw/master/misc/DALEXpiramide.png" width="800"/></a>
