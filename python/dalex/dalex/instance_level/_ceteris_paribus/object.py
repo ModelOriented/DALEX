@@ -192,18 +192,21 @@ class CeterisParibus:
 
         # are there any other objects to plot?
         if objects is None:
-            _result_df = self.result.copy()
+            _result_df = self.result.assign(_original_yhat_=lambda x: self.new_observation.loc[x.index, '_yhat_'])
             _include = self.variable_splits_with_obs
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
-            _result_df = pd.concat([self.result.copy(), objects.result.copy()])
+            _result_df = pd.concat([
+                self.result.assign(_original_yhat_=lambda x: self.new_observation.loc[x.index, '_yhat_']),
+                objects.result.assign(_original_yhat_=lambda x: objects.new_observation.loc[x.index, '_yhat_'])])
             _include = np.all([self.variable_splits_with_obs, objects.variable_splits_with_obs])
         else:  # objects as tuple or array
-            _result_df = self.result.copy()
+            _result_df = self.result.assign(_original_yhat_=lambda x: self.new_observation.loc[x.index, '_yhat_'])
             _include = [self.variable_splits_with_obs]
             for ob in objects:
                 if not isinstance(ob, self.__class__):
                     raise TypeError("Some explanations aren't of CeterisParibus class")
-                _result_df = pd.concat([_result_df, ob.result.copy()])
+                _result_df = pd.concat([
+                    _result_df, ob.result.assign(_original_yhat_=lambda x: ob.new_observation.loc[x.index, '_yhat_'])])
                 _include += [ob.variable_splits_with_obs]
             _include = np.all(_include)
 
@@ -317,16 +320,20 @@ class CeterisParibus:
                     fig.add_trace(value)
 
         else:
-            if len(_result_df['_ids_'].unique()) > 1:  # https://github.com/plotly/plotly.py/issues/2657
+            if len(_result_df['_ids_'].unique()) > 1 and len(_result_df['_label_'].unique()) == 1:
+                color = '_ids_'
+                m = len(_result_df[color].dropna().unique())
+            elif len(_result_df['_ids_'].unique()) > 1:  # https://github.com/plotly/plotly.py/issues/2657
                 raise TypeError("Please pick one observation per label.")
-            _result_df = _result_df.assign(baseline=0)
+
+            _result_df = _result_df.assign(_diff_=lambda x: x['_yhat_'] - x['_original_yhat_'])
             fig = px.bar(_result_df,
-                         x="_x_", y="_yhat_", color="_label_", facet_col="_vname_",
+                         x="_x_", y="_diff_", color=color, facet_col="_vname_",
                          category_orders={"_vname_": list(variable_names)},
                          labels={'_yhat_': 'prediction', '_label_': 'label', '_ids_': 'id'},  # , color: 'group'},
                          # hover_data={'_yhat_': ':.3f', '_ids_': True, '_vname_': False, color: False},
                          custom_data=['_text_'],
-                         base="baseline",
+                         base="_original_yhat_",
                          facet_col_wrap=facet_ncol,
                          facet_row_spacing=vertical_spacing,
                          facet_col_spacing=horizontal_spacing,
@@ -341,6 +348,12 @@ class CeterisParibus:
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                    'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True,
                                    'range': min_max})
+
+            # add hline https://github.com/plotly/plotly.py/issues/2141
+            for i, bar in enumerate(fig.data):
+                fig.add_shape(type='line', y0=bar.base[0], y1=bar.base[0], x0=-1, x1=len(bar.x),
+                              xref=bar.xaxis, yref=bar.yaxis, layer='below',
+                              line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'})
 
         fig = fig_update_line_plot(fig, title, title_x, plot_height, 'closest')
 

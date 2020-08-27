@@ -139,10 +139,10 @@ class AggregatedProfiles:
 
         all_profiles = create_x(all_profiles, self.variable_type)
 
-        self.result = aggregate_profiles(all_profiles, self.type, self.groups, self.center,
-                                         self.span, verbose)
-
         self.mean_prediction = all_observations['_yhat_'].mean()
+
+        self.result = aggregate_profiles(all_profiles, self.mean_prediction, self.type, self.groups, self.center,
+                                         self.span, verbose)
 
     def plot(self,
              objects=None,
@@ -279,14 +279,14 @@ class AggregatedProfiles:
                 hovermode = False
                 fig = fig_cp
         else:
-            _result_df = _result_df.assign(baseline=0)
+            _result_df = _result_df.assign(_diff_=lambda x: x['_yhat_'] - x['_mp_'])
             fig = px.bar(_result_df,
-                         x="_x_", y="_yhat_", color="_label_", facet_col="_vname_",
+                         x="_x_", y="_diff_", color="_label_", facet_col="_vname_",
                          category_orders={"_vname_": list(all_variables)},
                          labels={'_yhat_': 'prediction', '_mp_': 'mean_prediction'},  # , color: 'group'},
                          hover_name=color,
-                         base="baseline",
-                         hover_data={'_yhat_': ':.3f', '_mp_': ':.3f',
+                         base="_mp_",
+                         hover_data={'_yhat_': ':.3f', '_mp_': ':.3f', '_diff_': False,
                                      color: False, '_vname_': False, '_x_': False},
                          facet_col_wrap=facet_ncol,
                          facet_row_spacing=vertical_spacing,
@@ -300,6 +300,12 @@ class AggregatedProfiles:
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                    'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True,
                                    'range': min_max})
+
+            # add hline https://github.com/plotly/plotly.py/issues/2141
+            for i, bar in enumerate(fig.data):
+                fig.add_shape(type='line', y0=bar.base[0], y1=bar.base[0], x0=-1, x1=len(bar.x),
+                              xref=bar.xaxis, yref=bar.yaxis, layer='below',
+                              line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'})
 
         fig = fig_update_line_plot(fig, title, title_x, plot_height, hovermode)
 
