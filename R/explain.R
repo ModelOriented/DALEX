@@ -19,6 +19,7 @@
 #' This will happen also if \code{verbose} is TRUE. Set both \code{verbose} and \code{precalculate} to FALSE to omit calculations.
 #' @param colorize logical. If TRUE (default) then \code{WARNINGS}, \code{ERRORS} and \code{NOTES} are colorized. Will work only in the R console.
 #' @param model_info a named list (\code{package}, \code{version}, \code{type}) containg information about model. If \code{NULL}, \code{DALEX} will seek for information on it's own.
+#' @param positive_class a character indicating by name which class should be treated as positive for binary classification (ie. which class should be associated with 1 value). Keep in mind that some models assumes positive class on its own. Then parameter will not work.
 #' @param type type of a model, either \code{classification} or \code{regression}. If not specified then \code{type} will be extracted from \code{model_info}.
 #'
 #' @return An object of the class \code{explainer}.
@@ -120,7 +121,7 @@
 explain.default <- function(model, data = NULL, y = NULL, predict_function = NULL,
                             residual_function = NULL, weights = NULL, ...,
                             label = NULL, verbose = TRUE, precalculate = TRUE,
-                            colorize = TRUE, model_info = NULL, type = NULL) {
+                            colorize = TRUE, model_info = NULL, type = NULL, positive_class = NULL) {
 
   verbose_cat("Preparation of a new explainer is initiated\n", verbose = verbose)
 
@@ -143,6 +144,10 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
       verbose_cat("  -> model label       : 'label' was not a string class object. Converted. (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
     }
     verbose_cat("  -> model label       : ", label, "\n", verbose = verbose)
+  }
+
+  if (!is.null(positive_class)) {
+    attr(model, "positive_class") <- positive_class
   }
 
   # REPORT: checks for data
@@ -194,12 +199,6 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     if (length(y) != n) {
       verbose_cat("  -> target variable   :  length of 'y' is different than number of rows in 'data' (",color_codes$red_start,"WARNING",color_codes$red_end,") \n", verbose = verbose)
     }
-    if ((is.factor(y) | is.character(y))) {
-      verbose_cat("  -> target variable   :  Please note that 'y' is a factor.  (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
-      verbose_cat("  -> target variable   :  Consider changing the 'y' to a logical or numerical vector.\n", verbose = verbose)
-      verbose_cat("  -> target variable   :  Otherwise I will not be able to calculate residuals or loss function.\n", verbose = verbose)
-    }
-
 ### check removed due to https://github.com/ModelOriented/DALEX/issues/164
 #    if (!is.null(data)) {
 #      if (is_y_in_data(data, y)) {
@@ -259,7 +258,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
       if ((is.factor(y_hat) | is.character(y_hat))) {
         verbose_cat("  -> predicted values  :  factor (",color_codes$red_start,"WARNING",color_codes$red_end,") with levels: ", paste(unique(y_hat), collapse = ", "), "\n", verbose = verbose)
       } else if (!is.null(dim(y_hat))) {
-        verbose_cat("  -> predicted values  :  predict function returns multiple columns: ", ncol(y_hat), " (",color_codes$red_start,"WARNING",color_codes$red_end,") some of functionalities may not work \n", verbose = verbose)
+        verbose_cat("  -> predicted values  :  predict function returns multiple columns: ", ncol(y_hat), " (",color_codes$yellow_start,"default",color_codes$yellow_end,") \n", verbose = verbose)
       } else {
         verbose_cat("  -> predicted values  :  numerical, min = ", min(y_hat), ", mean = ", mean(y_hat), ", max = ", max(y_hat), " \n", verbose = verbose)
       }
@@ -279,6 +278,24 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     model_info$type <- type
     verbose_cat("  -> model_info        :  type set to ", type, "\n", verbose = verbose)
   }
+
+  if (!is.numeric(y) & model_info$type == "regression") {
+    verbose_cat("  -> model_info        :  Model info detected regression task but 'y' is a", class(y), ".  (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
+    verbose_cat("  -> model_info        :  By deafult regressions tasks supports only numercical 'y' parameter. \n", verbose = verbose)
+    verbose_cat("  -> model_info        :  Consider changing to numerical vector.\n", verbose = verbose)
+    verbose_cat("  -> model_info        :  Otherwise I will not be able to calculate residuals or loss function.\n", verbose = verbose)
+  } else if (!is.numeric(y) & model_info$type == "classification") {
+    verbose_cat("  -> model_info        :  Model info detected classification task but 'y' is a", class(y), ".  (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
+    verbose_cat("  -> model_info        :  By deafult classification tasks supports only numercical 'y' parameter. \n", verbose = verbose)
+    verbose_cat("  -> model_info        :  Consider changing to numerical vector with 0 and 1 values.\n", verbose = verbose)
+    verbose_cat("  -> model_info        :  Otherwise I will not be able to calculate residuals or loss function.\n", verbose = verbose)
+  } else if (!is.factor(y) & model_info$type == "multiclass") {
+    verbose_cat("  -> model_info        :  Model info detected multiclass task but 'y' is a", class(y), ".  (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
+    verbose_cat("  -> model_info        :  By deafult classification tasks supports only factor 'y' parameter. \n", verbose = verbose)
+    verbose_cat("  -> model_info        :  Consider changing to a factor vector with true class names.\n", verbose = verbose)
+    verbose_cat("  -> model_info        :  Otherwise I will not be able to calculate residuals or loss function.\n", verbose = verbose)
+  }
+
 
   # REPORT: checks for residual_function
   if (is.null(residual_function)) {
