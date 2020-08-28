@@ -157,8 +157,8 @@ def check_predict_function_and_model_type(predict_function, model_type,
                              verbose=verbose)
 
         verbose_cat("  -> predict function  : " + str(predict_function) + " will be used (default)", verbose=verbose)
-
     else:
+        _, model_type_ = get_predict_function_and_model_type(model, model_class)
         model_info_['predict_function_default'] = False
         verbose_cat("  -> predict function  : " + str(predict_function) + " will be used", verbose=verbose)
 
@@ -188,7 +188,7 @@ def check_predict_function_and_model_type(predict_function, model_type,
                         verbose=verbose)
             print(error)
 
-    return predict_function, y_hat, model_info_, model_type
+    return predict_function, model_type, y_hat, model_info_
 
 
 def check_residual_function(residual_function, predict_function, model, data, y, model_info, precalculate, verbose):

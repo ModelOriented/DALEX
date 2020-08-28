@@ -28,6 +28,7 @@ dalex (development)
 * `CeterisParibus.plot(variable_type='categorical')` now allows for multiple observations
 * new verbose checks for `model_type`
 * add `type` to `model_info` in `dump` and `dumps` for R compatibility
+ ([#303](https://github.com/ModelOriented/DALEX/issues/303))
 
 ### defaults
 
