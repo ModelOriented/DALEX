@@ -72,7 +72,7 @@ class AggregatedProfilesTestTitanic(unittest.TestCase):
         testZerosCat = caseCenterCat.result.groupby('_vname_').apply(lambda x: x['_yhat_'].abs().min()).tolist()
 
         self.assertListEqual(testZerosNum, np.zeros(len(testZerosNum)).tolist())
-        self.assertListEqual(testZerosCat, np.zeros(len(testZerosNum)).tolist())
+        self.assertListEqual(testZerosCat, np.zeros(len(testZerosCat)).tolist())
 
     def test_conditional(self):
         self.helper_test('conditional')
