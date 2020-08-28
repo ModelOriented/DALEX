@@ -1,6 +1,8 @@
 dalex (development)
 ----------------------------------------------------------------
 
+* updated the `pandas` dependency to `>=1.1.0`
+
 ### bug fixes
 
 * `ModelPerformance.plot` now uses a drwhy color palette
@@ -11,6 +13,8 @@ dalex (development)
 * `model_profile` uses observation mean instead of profile mean in `_yhat_` centering
 * fixed barplot baseline in categorical `model_profile` and `predict_profile` plots
  ([#297](https://github.com/ModelOriented/DALEX/issues/297))
+* fixed `model_profile(type='accumulated')` giving wrong results
+ (#[302](https://github.com/ModelOriented/DALEX/issues/302))
 * vertical/horizontal lines in plots now end on the plot edges
 
 ### features
