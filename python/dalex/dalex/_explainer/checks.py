@@ -268,7 +268,7 @@ def check_if_local_and_lambda(to_dump):
         to_dump.residual_function = None
 
     # for R compatibility
-    to_dump.model_info.type = to_dump.model_type
+    to_dump.model_info['type'] = to_dump.model_type
 
     return to_dump
 

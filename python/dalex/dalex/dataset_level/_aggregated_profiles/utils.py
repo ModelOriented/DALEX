@@ -80,7 +80,7 @@ def split_over_variables_and_labels(split_profile, type, groups, span):
         # diff causes NaNs at the beginning of each group
         split_profile.loc[np.isnan(split_profile['_yhat_']), '_yhat_'] = 0
 
-    par_profile = split_profile.groupby(['_x_'] + groups). \
+    par_profile = split_profile.groupby(['_x_'] + groups, sort=False). \
         apply(lambda point: (point['_yhat_'] * point['_w_']).sum() / point['_w_'].sum() \
         if point['_w_'].sum() != 0 else 0)
 
@@ -91,7 +91,7 @@ def split_over_variables_and_labels(split_profile, type, groups, span):
         if len(groups) == 0:
             par_profile['_yhat_'] = par_profile['_yhat_'].cumsum()
         else:
-            par_profile['_yhat_'] = par_profile.groupby(groups)['_yhat_'].transform(
+            par_profile['_yhat_'] = par_profile.groupby(groups, sort=False)['_yhat_'].transform(
                 lambda column: column.cumsum())
 
     return par_profile

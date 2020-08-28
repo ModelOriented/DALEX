@@ -555,8 +555,9 @@ class Explainer:
             Split points for variables e.g. {'x': [0, 0.2, 0.5, 0.8, 1], 'y': ['a', 'b']}
             (default is None, which means that they will be distributed uniformly).
         center : bool, optional
-            Theoretically Accumulated Profiles starts at 0. If True, then they are centered
-            around average response like Partial Profiles (default is True).
+            Theoretically Accumulated Profiles start at 0, but are centered to compare
+            them with Partial Dependence Profiles (default is True, which means center
+            around the average y_hat calculated on the data sample).
         processes : int, optional
             Number of parallel processes to use in calculations. Iterated over `variables`
             (default is 1, which means no parallel computation).
