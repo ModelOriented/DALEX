@@ -289,7 +289,7 @@ class AggregatedProfiles:
             _result_df = _result_df.assign(_diff_=lambda x: x['_yhat_'] - x['_mp_'])
             mp_format = ':.3f'
             if not center:
-                min_max[0] = 0
+                min_max = [np.min([min_max[0], 0]), np.max([min_max[1], 0])]
                 mp_format = False
 
             fig = px.bar(_result_df,
