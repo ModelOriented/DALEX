@@ -22,12 +22,26 @@ def check_path(path):
     return path_
 
 
+def check_if_predict_function_accepts_arrays(predict_function, model, data, model_info, verbose):
+    try:
+        predict_function(model, data)
+        model_info['arrays_accepted'] = True
+        verbose_cat("  -> predict function  : accepts pandas.DataFrame and numpy.ndarray",
+                    verbose=verbose)
+    except:
+        model_info['arrays_accepted'] = False
+        verbose_cat("  -> predict function  : accepts only pandas.DataFrame, numpy.ndarray causes problems",
+                    verbose=verbose)
+    finally:
+        return model_info
+
+
 def check_pred_data(data):
-    if not isinstance(data, (pd.DataFrame,)):
+    if not isinstance(data, (pd.DataFrame, np.ndarray)):
         raise TypeError('data has to be pandas.DataFrame')
 
-    # if isinstance(data, np.ndarray) and data.ndim != 2:
-    #     raise ValueError("data must have 2 dimensions")
+    if isinstance(data, np.ndarray) and data.ndim != 2:
+        raise ValueError("data must have 2 dimensions")
 
 
 def check_label(label, model_class, model_info, verbose):

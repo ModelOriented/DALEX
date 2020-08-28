@@ -45,10 +45,9 @@ class PredictTestTitanic(unittest.TestCase):
         self.assertIsInstance(self.exp.predict(self.X.iloc[[0]]), np.ndarray)
         with self.assertRaises(TypeError):
             self.exp.predict(self.X.iloc[0])
-        with self.assertRaises(TypeError):
+        with self.assertRaises(ValueError):
             self.exp.predict(self.X.iloc[0].values)
-        with self.assertRaises(TypeError):
-            self.exp.predict(self.X.iloc[[0]].values)
+        self.assertIsInstance(self.exp.predict(self.X.iloc[[0]].values), np.ndarray)
 
         self.assertIsInstance(self.exp.predict(self.X.iloc[:100]), np.ndarray)
 

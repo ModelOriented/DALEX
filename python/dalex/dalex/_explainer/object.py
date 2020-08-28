@@ -1,6 +1,7 @@
 from dalex.dataset_level import ModelPerformance, VariableImportance,\
     AggregatedProfiles, ResidualDiagnostics
 from dalex.instance_level import BreakDown, Shap, CeterisParibus
+from dalex.wrappers import ShapWrapper
 from .checks import *
 from .utils import unpack_kwargs_lime, create_surrogate_model
 
@@ -142,6 +143,11 @@ class Explainer:
         predict_function, pred, model_info_, model_type_ = check_predict_function(predict_function, model, data,
                                                                                   model_class, model_info_,
                                                                                   precalculate, verbose)
+        model_info_ = check_if_predict_function_accepts_arrays(predict_function,
+                                                               model,
+                                                               data.values[[0]],
+                                                               model_info_,
+                                                               verbose)
 
         model_type = check_model_type(model_type, model_type_)
         # if data is specified then we may test predict_function
@@ -177,12 +183,12 @@ class Explainer:
 
         Parameters
         ----------
-        data : pd.DataFrame
+        data : pandas.DataFrame, numpy.ndarray 2d
             Data which will be used to make a prediction.
 
         Returns
         ----------
-        np.ndarray (1d)
+        numpy.ndarray (1d)
             Model predictions for given `data`.
         """
 
@@ -214,21 +220,22 @@ class Explainer:
 
     def predict_parts(self,
                       new_observation,
-                      type=('break_down_interactions', 'break_down', 'shap'),
+                      type=('break_down_interactions', 'break_down', 'shap', 'shap_wrapper'),
                       order=None,
                       interaction_preference=1,
                       path="average",
                       B=25,
                       keep_distributions=False,
                       processes=1,
-                      random_state=None):
+                      random_state=None,
+                      **kwargs):
         """Calculate instance level variable attributions as Break Down or Shapley Values
 
         Parameters
         -----------
         new_observation : pd.Series or np.ndarray (1d) or pd.DataFrame (1,p)
             An observation for which a prediction needs to be explained.
-        type : {'break_down_interactions', 'break_down', 'shap'}
+        type : {'break_down_interactions', 'break_down', 'shap', 'shap_wrapper}
             Type of variable attributions (default is 'break_down_interactions').
         order : list of int or str, optional
             Prameter specific for `break_down_interactions` and `break_down`. Use a fixed
@@ -252,10 +259,14 @@ class Explainer:
             Iterated over `B` (default is 1, which means no parallel computation).
         random_state : int, optional
             Set seed for random number generator (default is random seed).
+        **kwargs : dict
+            key-values parameters passed to a 'shap_values' method of the 'shap_explainer'
+            used only if type == 'shap_wrapper', you can specify here a 'shap' explainer
+            using parameter 'explainer_type' (https://github.com/slundberg/shap)
 
         Returns
         -----------
-        BreakDown or Shap class object
+        BreakDown, Shap or ShapWrapper class object
             Explanation object containing the main result attribute and the plot method.
             Object class, its attributes, and the plot method depend on the `type` parameter.
 
@@ -266,7 +277,7 @@ class Explainer:
         https://pbiecek.github.io/ema/shapley.html
         """
 
-        types = ('break_down_interactions', 'break_down', 'shap')
+        types = ('break_down_interactions', 'break_down', 'shap', 'shap_wrapper')
         type = check_method_type(type, types)
         path_ = check_path(path)
 
@@ -285,8 +296,10 @@ class Explainer:
                 processes=processes,
                 random_state=random_state
             )
+        elif type == 'shap_wrapper':
+            predict_parts_ = ShapWrapper('shap')
 
-        predict_parts_.fit(self, new_observation)
+        predict_parts_.fit(self, new_observation, **kwargs)
 
         return predict_parts_
 
@@ -441,14 +454,15 @@ class Explainer:
 
     def model_parts(self,
                     loss_function=None,
-                    type=('variable_importance', 'ratio', 'difference'),
+                    type=('variable_importance', 'ratio', 'difference', 'shap'),
                     N=1000,
                     B=10,
                     variables=None,
                     variable_groups=None,
                     keep_raw_permutations=True,
                     processes=1,
-                    random_state=None):
+                    random_state=None,
+                    **kwargs):
 
         """Calculate dataset level variable importance
 
@@ -457,7 +471,7 @@ class Explainer:
         loss_function : {'rmse', '1-auc', 'mse', 'mae', 'mad'} or function, optional
             If string, then such loss function will be used to assess variable importance
             (default is 'rmse' or `1-auc`, depends on `model_type` attribute).
-        type : {'variable_importance', 'ratio', 'difference'}, optional
+        type : {'variable_importance', 'ratio', 'difference', 'shap'}, optional
             Type of transformation that will be applied to dropout loss.
         N : int, optional
             Number of observations that will be sampled from the `data` attribute before
@@ -478,6 +492,11 @@ class Explainer:
             (default is 1, which means no parallel computation).
         random_state : int, optional
             Set seed for random number generator (default is random seed).
+        **kwargs : dict
+            used only if type == 'shap'
+            key word arguments to pass to 'shap' explainer's method 'shap_values'
+            you can specify here a 'shap' explainer using the parameter
+            'explainer_type' (https://github.com/slundberg/shap)
 
         Returns
         -----------
@@ -491,24 +510,35 @@ class Explainer:
 
         check_y_again(self.y)
 
-        types = ('variable_importance', 'ratio', 'difference')
+        types = ('variable_importance', 'ratio', 'difference', 'shap')
         type = check_method_type(type, types)
 
         loss_function = check_loss_function(self, loss_function)
 
-        model_parts_ = VariableImportance(
-            loss_function=loss_function,
-            type=type,
-            N=N,
-            B=B,
-            variables=variables,
-            variable_groups=variable_groups,
-            processes=processes,
-            random_state=random_state,
-            keep_raw_permutations=keep_raw_permutations,
-        )
+        if type != 'shap':
+            model_parts_ = VariableImportance(
+                loss_function=loss_function,
+                type=type,
+                N=N,
+                B=B,
+                variables=variables,
+                variable_groups=variable_groups,
+                processes=processes,
+                random_state=random_state,
+                keep_raw_permutations=keep_raw_permutations,
+            )
+            model_parts_.fit(self)
+        else:
+            model_parts_ = ShapWrapper('feature_importance')
+            if N is None:
+                N = self.data.shape[0]
+            else:
+                N = min(N, self.data.shape[0])
 
-        model_parts_.fit(self)
+            sampled_rows = np.random.choice(np.arange(N), N, replace=False)
+            sampled_data = self.data.iloc[sampled_rows, :]
+
+            model_parts_.fit(self, sampled_data, **kwargs)
 
         return model_parts_
 
