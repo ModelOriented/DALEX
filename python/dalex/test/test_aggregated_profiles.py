@@ -68,8 +68,8 @@ class AggregatedProfilesTestTitanic(unittest.TestCase):
         self.assertIsInstance(figCenterNum, Figure)
         self.assertIsInstance(figCenterCat, Figure)
 
-        testZerosNum = caseCenterNum.result.groupby('_vname_').apply(lambda x: x['_yhat_'].min()).tolist()
-        testZerosCat = caseCenterCat.result.groupby('_vname_').apply(lambda x: x['_yhat_'].min()).tolist()
+        testZerosNum = caseCenterNum.result.groupby('_vname_').apply(lambda x: x['_yhat_'].abs().min()).tolist()
+        testZerosCat = caseCenterCat.result.groupby('_vname_').apply(lambda x: x['_yhat_'].abs().min()).tolist()
 
         self.assertListEqual(testZerosNum, np.zeros(len(testZerosNum)).tolist())
         self.assertListEqual(testZerosCat, np.zeros(len(testZerosNum)).tolist())
