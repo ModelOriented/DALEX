@@ -143,11 +143,12 @@ def check_weights(weights, data, verbose):
     return weights
 
 
-def check_predict_function(predict_function, model, data, model_class, model_info_, precalculate, verbose):
+def check_predict_function_and_model_type(predict_function, model_type,
+                                          model, data, model_class, model_info_, precalculate, verbose):
     if predict_function is None:
         # predict_function not specified
         # try the default
-        predict_function, model_type_ = yhat(model, model_class)
+        predict_function, model_type_ = get_predict_function_and_model_type(model, model_class)
 
         model_info_['predict_function_default'] = True
 
@@ -158,23 +159,36 @@ def check_predict_function(predict_function, model, data, model_class, model_inf
         verbose_cat("  -> predict function  : " + str(predict_function) + " will be used (default)", verbose=verbose)
 
     else:
-        model_type_ = None
         model_info_['predict_function_default'] = False
         verbose_cat("  -> predict function  : " + str(predict_function) + " will be used", verbose=verbose)
 
-    pred = None
+    if model_type is None:
+        # model_type not specified
+        if model_type_ is None:
+            verbose_cat("  -> model type  : model_type not provided and cannot be extracted", verbose=verbose)
+            verbose_cat("  -> model type  : some functionalities won't be available", verbose=verbose)
+        else:
+            # use extracted model_type
+            model_type = model_type_
+            model_info_['model_type_default'] = True
+            verbose_cat("  -> model type  : " + str(model_type) + " will be used (default)", verbose=verbose)
+    else:
+        model_info_['model_type_default'] = False
+        verbose_cat("  -> model type  : " + str(model_type) + " will be used", verbose=verbose)
+
+    y_hat = None
     if data is not None and (verbose or precalculate):
         try:
-            pred = predict_function(model, data)
+            y_hat = predict_function(model, data)
             verbose_cat(str.format("  -> predicted values  : min = {0:.3}, mean = {1:.3}, max = {2:.3}",
-                                   np.min(pred), np.mean(pred), np.max(pred)), verbose=verbose)
+                                   np.min(y_hat), np.mean(y_hat), np.max(y_hat)), verbose=verbose)
 
         except (Exception, ValueError, TypeError) as error:
             verbose_cat("  -> predicted values  :  the predict_function returns an error when executed",
                         verbose=verbose)
             print(error)
 
-    return predict_function, pred, model_info_, model_type_
+    return predict_function, y_hat, model_info_, model_type
 
 
 def check_residual_function(residual_function, predict_function, model, data, y, model_info, precalculate, verbose):
@@ -253,13 +267,16 @@ def check_if_local_and_lambda(to_dump):
         print("  -> Residual function is lambda, thus has to be dropped.")
         to_dump.residual_function = None
 
+    # for R compatibility
+    to_dump.model_info.type = to_dump.model_type
+
     return to_dump
 
 
 def check_if_empty_fields(explainer):
     if explainer.predict_function is None:
         print("  -> Predict function is not present, setting to default")
-        predict_function, pred = check_predict_function(None, explainer.model, None, False, False)
+        predict_function, pred = check_predict_function_and_model_type(None, None, explainer.model, None, False, False)
         explainer.predict_function = predict_function
     if explainer.residual_function is None:
         print("  -> Residual function is not present, setting to default")
@@ -275,7 +292,12 @@ def check_model_class(model_class, model, verbose):
     model_info = get_model_info(model)
 
     if model_class is None:
-        model_class = str(type(model))
+        if hasattr(model, "_final_estimator"):
+            model_class = str(type(model._final_estimator))
+            model_info['Pipeline'] = True
+        else:
+            model_class = str(type(model))
+            model_info['Pipeline'] = False
         from re import search
         model_class = search("(?<=<class ').*(?='>)", model_class)[0]
         model_info['model_class_default'] = True
@@ -297,10 +319,6 @@ def check_loss_function(explainer, loss_function):
         return 'rmse'
     elif explainer.model_type == 'classification':
         return '1-auc'
-
-
-def check_model_type(model_type, model_type_):
-    return model_type_ if model_type is None else model_type
 
 
 def check_new_observation_lime(new_observation):

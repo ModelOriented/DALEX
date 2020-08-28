@@ -25,10 +25,15 @@ dalex (development)
 * added `dalex.__version__`
 * added informative error messages in `Explainer` methods when `y` is of wrong type
  ([#294](https://github.com/ModelOriented/DALEX/issues/294))
+* `CeterisParibus.plot(variable_type='categorical')` now allows for multiple observations
+* new verbose checks for `model_type`
+* add `type` to `model_info` in `dump` and `dumps` for R compatibility
 
 ### defaults
 
 * removed `_grid_` column in `AggregatedProfiles.result` and `center` only works with `type=accumulated`
+* use `Pipeline._final_estimator` to extract `model_class` of the actual model
+* use `model._estimator_type` to extract `model_type` if possible 
 
 dalex 0.2.0
 ----------------------------------------------------------------
