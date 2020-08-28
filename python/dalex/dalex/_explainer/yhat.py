@@ -19,7 +19,7 @@ def get_predict_function_and_model_type(model, model_class):
     if yhat_exception_dict.get(model_class, None) is not None:
         return yhat_exception_dict.get(model_class)
 
-    model_type = None
+    model_type_ = None
     # additional extraction sklearn
     if hasattr(model, '_estimator_type'):
         if model._estimator_type == 'classifier':
