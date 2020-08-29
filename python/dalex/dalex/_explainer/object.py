@@ -299,7 +299,7 @@ class Explainer:
                 random_state=random_state
             )
         elif type == 'shap_wrapper':
-            predict_parts_ = ShapWrapper('shap')
+            predict_parts_ = ShapWrapper('predict_parts')
 
         predict_parts_.fit(self, new_observation, **kwargs)
 
@@ -531,7 +531,7 @@ class Explainer:
             )
             model_parts_.fit(self)
         else:
-            model_parts_ = ShapWrapper('feature_importance')
+            model_parts_ = ShapWrapper('model_parts')
             if N is None:
                 N = self.data.shape[0]
             else:

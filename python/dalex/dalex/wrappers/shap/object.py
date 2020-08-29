@@ -73,13 +73,13 @@ class ShapWrapper:
         https://github.com/slundberg/shap
         """
 
-        if self.type == 'shap':
+        if self.type == 'predict_parts':
             shap.force_plot(self.shap_explainer.expected_value[1],
                             self.result[1] if isinstance(self.result, list) else self.result,
                             self.new_observation.values,
                             matplotlib=True,
                             **kwargs)
-        elif self.type == 'feature_importance':
+        elif self.type == 'model_parts':
             shap.summary_plot(self.result,
                               self.new_observation,
                               **kwargs)
