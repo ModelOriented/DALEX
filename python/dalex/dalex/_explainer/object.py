@@ -264,7 +264,7 @@ class Explainer:
         **kwargs : dict
             key-values parameters passed to a 'shap_values' method of the 'shap_explainer'
             used only if type == 'shap_wrapper', you can specify here a 'shap' explainer
-            using parameter 'shap_explainer' (https://github.com/slundberg/shap)
+            using parameter 'shap_explainer_type' (https://github.com/slundberg/shap)
 
         Returns
         -----------
@@ -498,7 +498,7 @@ class Explainer:
             used only if type == 'shap_wrapper'
             key word arguments to pass to 'shap' explainer's method 'shap_values'
             you can specify here a 'shap' explainer using the parameter
-            'shap_explainer' (https://github.com/slundberg/shap)
+            'shap_explainer_type' (https://github.com/slundberg/shap)
 
         Returns
         -----------
@@ -512,7 +512,7 @@ class Explainer:
 
         check_y_again(self.y)
 
-        types = ('variable_importance', 'ratio', 'difference', 'shap')
+        types = ('variable_importance', 'ratio', 'difference', 'shap_wrapper')
         type = check_method_type(type, types)
 
         loss_function = check_loss_function(self, loss_function)
