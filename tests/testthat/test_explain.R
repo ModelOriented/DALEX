@@ -40,6 +40,12 @@ test_that("Checks for y",{
   expect_is(explainer_ranger_5, "explainer")
   expect_is(explainer_ranger_6, "explainer")
   expect_is(explainer_ranger_7, "explainer")
+  expect_output(explain(model_multiclassif_ranger_prob, data = HR, y = as.numeric(HR$status)),
+                "Model info detected multiclass task but 'y' is a numeric")
+  expect_output(explain(model_regr_ranger, data = apartments, y = apartments$district),
+                "Model info detected regression task but 'y' is a factor")
+  expect_output(explain(model_classif_ranger, data = titanic_imputed, y = as.factor(titanic_imputed$survived)),
+                "Model info detected classification task but 'y' is a factor")
 
 })
 

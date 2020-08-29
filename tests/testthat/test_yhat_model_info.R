@@ -276,5 +276,6 @@ test_that("yhat default", {
 test_that("yhat ranger", {
   expect_length(DALEX:::yhat.ranger(model_classif_ranger, titanic_imputed[1,]), 1)
   expect_length(DALEX:::yhat.ranger(model_regr_ranger, apartments[1,]), 1)
+  expect_identical(colnames(DALEX:::yhat.ranger(model_multiclassif_ranger_prob, HR[1,])), c("fired", "ok", "promoted"))
 
 })

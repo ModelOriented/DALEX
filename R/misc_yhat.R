@@ -123,7 +123,7 @@ yhat.glmnet <- function(X.model, newdata, ...) {
     if(length(dim(pred)) > 2){
       return(pred[,,1])
     }
-  # For binary classifiaction matrix with one column is returned
+    # For binary classifiaction matrix with one column is returned
     if (ncol(pred) == 1) {
       return(as.numeric(pred))
     }
@@ -142,7 +142,10 @@ yhat.ranger <- function(X.model, newdata, ...) {
     # please note, that probability=TRUE should be set during training
     pred <- predict(X.model, newdata, ..., probability = TRUE)$predictions
     # if newdata has only one row then the vector needs to be transformed into a matrix
-    if (nrow(newdata) == 1) pred <- matrix(pred, nrow = 1)
+    if (nrow(newdata) == 1) {
+      pred <- matrix(pred, nrow = 1)
+      colnames(pred) <- colnames(X.model$predictions)
+    }
     # if result is a vector then ncol parameter is null
     if (is.null(ncol(pred))) return(pred)
     # binary classification
@@ -236,3 +239,4 @@ yhat.default <- function(X.model, newdata, ...) {
 #   newdata_pool <- catboost::catboost.load_pool(newdata)
 #   catboost::catboost.predict(X.model, newdata_pool)
 # }
+
