@@ -29,8 +29,9 @@ class AggregatedProfiles:
     span : float, optional
         Smoothing coefficient used as sd for gaussian kernel (default is 0.25).
     center : bool, optional
-        Theoretically Accumulated Profiles starts at 0. If True, then they are centered
-        around average response like Partial Profiles (default is True).
+        Theoretically Accumulated Profiles start at 0, but are centered to compare
+        them with Partial Dependence Profiles (default is True, which means center
+        around the average y_hat calculated on the data sample).
     random_state : int, optional
         Set seed for random number generator (default is random seed).
 
@@ -54,8 +55,9 @@ class AggregatedProfiles:
     span : float
         Smoothing coefficient used as sd for gaussian kernel.
     center : bool
-        Theoretically Accumulated Profiles starts at 0. If True, then they are centered
-        around average response like Partial Profiles.
+        Theoretically Accumulated Profiles start at 0, but are centered to compare
+        them with Partial Dependence Profiles (default is True, which means center
+        around the average y_hat calculated on the data sample).
     random_state : int or None
         Set seed for random number generator.
 
@@ -139,15 +141,16 @@ class AggregatedProfiles:
 
         all_profiles = create_x(all_profiles, self.variable_type)
 
-        self.result = aggregate_profiles(all_profiles, self.type, self.groups, self.center,
-                                         self.span, verbose)
-
         self.mean_prediction = all_observations['_yhat_'].mean()
+
+        self.result = aggregate_profiles(all_profiles, self.mean_prediction, self.type, self.groups, self.center,
+                                         self.span, verbose)
 
     def plot(self,
              objects=None,
              geom='aggregates',
              variables=None,
+             center=True,
              size=2,
              alpha=1,
              facet_ncol=2,
@@ -170,6 +173,10 @@ class AggregatedProfiles:
         variables : str or array_like of str, optional
             Variables for which the profiles will be calculated
             (default is None, which means all of the variables).
+        center : bool, optional
+            Theoretically Accumulated Profiles start at 0, but are centered to compare
+            them with Partial Dependence Profiles (default is True, which means center
+            around the average y_hat calculated on the data sample).
         size : float, optional
             Width of lines in px (default is 2).
         alpha : float <0, 1>, optional
@@ -204,16 +211,16 @@ class AggregatedProfiles:
 
         # are there any other objects to plot?
         if objects is None:
-            _result_df = self.result.assign(_mp_=self.mean_prediction)
+            _result_df = self.result.assign(_mp_=self.mean_prediction if center else 0)
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
-            _result_df = pd.concat([self.result.assign(_mp_=self.mean_prediction),
-                                    objects.result.assign(_mp_=objects.mean_prediction)])
+            _result_df = pd.concat([self.result.assign(_mp_=self.mean_prediction if center else 0),
+                                    objects.result.assign(_mp_=objects.mean_prediction if center else 0)])
         else:  # objects as tuple or array
-            _result_df = self.result.assign(_mp_=self.mean_prediction)
+            _result_df = self.result.assign(_mp_=self.mean_prediction if center else 0)
             for ob in objects:
                 if not isinstance(ob, self.__class__):
                     raise TypeError("Some explanations aren't of AggregatedProfiles class")
-                _result_df = pd.concat([_result_df, ob.result.assign(_mp_=ob.mean_prediction)])
+                _result_df = pd.concat([_result_df, ob.result.assign(_mp_=ob.mean_prediction if center else 0)])
 
         # variables to use
         all_variables = _result_df['_vname_'].dropna().unique().tolist()
@@ -279,12 +286,19 @@ class AggregatedProfiles:
                 hovermode = False
                 fig = fig_cp
         else:
+            _result_df = _result_df.assign(_diff_=lambda x: x['_yhat_'] - x['_mp_'])
+            mp_format = ':.3f'
+            if not center:
+                min_max = [np.min([min_max[0], 0]), np.max([min_max[1], 0])]
+                mp_format = False
+
             fig = px.bar(_result_df,
-                         x="_x_", y="_yhat_", color="_label_", facet_col="_vname_",
+                         x="_x_", y="_diff_", color="_label_", facet_col="_vname_",
                          category_orders={"_vname_": list(all_variables)},
                          labels={'_yhat_': 'prediction', '_mp_': 'mean_prediction'},  # , color: 'group'},
                          hover_name=color,
-                         hover_data={'_yhat_': ':.3f', '_mp_': ':.3f',
+                         base="_mp_",
+                         hover_data={'_yhat_': ':.3f', '_mp_': mp_format, '_diff_': False,
                                      color: False, '_vname_': False, '_x_': False},
                          facet_col_wrap=facet_ncol,
                          facet_row_spacing=vertical_spacing,
@@ -298,6 +312,12 @@ class AggregatedProfiles:
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                    'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True,
                                    'range': min_max})
+
+            # add hline https://github.com/plotly/plotly.py/issues/2141
+            for i, bar in enumerate(fig.data):
+                fig.add_shape(type='line', y0=bar.base[0], y1=bar.base[0], x0=-1, x1=len(bar.x),
+                              xref=bar.xaxis, yref=bar.yaxis, layer='below',
+                              line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'})
 
         fig = fig_update_line_plot(fig, title, title_x, plot_height, hovermode)
 

@@ -3,7 +3,7 @@ import pandas as pd
 from tqdm import tqdm
 
 
-def aggregate_profiles(all_profiles, type, groups, center, span, verbose=True):
+def aggregate_profiles(all_profiles, mean_prediction, type, groups, center, span, verbose=True):
     if type == 'partial':
         aggregated_profiles = \
             all_profiles.groupby(['_vname_', '_label_', '_x_'] + groups)['_yhat_'].mean().reset_index()
@@ -17,27 +17,16 @@ def aggregate_profiles(all_profiles, type, groups, center, span, verbose=True):
                 loc[:, ["_vname_", "_label_", "_x_", "_yhat_", "_ids_", "_original_"] + groups]. \
                 groupby(['_vname_', '_label_']). \
                 progress_apply(lambda split_profile: split_over_variables_and_labels(split_profile.copy(deep=True),
-                                                                                     type, groups, span))
+                                                                                     type, groups, span)). \
+                reset_index(level=[0, 1])  # remove level_2
         # deepcopy due to https://github.com/ModelOriented/DALEX/issues/278
 
     aggregated_profiles.loc[:, '_ids_'] = 0
 
-    if type == 'partial':
-        if not center:
-            aggregated_profiles.loc[:, '_yhat_'] = aggregated_profiles.loc[:, '_yhat_'] - all_profiles[
-                '_yhat_'].mean()
-
-        aggregated_profiles = aggregated_profiles
-    elif type == 'conditional':
-        if not center:
-            aggregated_profiles.loc[:, '_yhat_'] = aggregated_profiles.loc[:, '_yhat_'] - all_profiles[
-                '_yhat_'].mean()
-        aggregated_profiles = aggregated_profiles.reset_index().rename(columns={'level_2': '_grid_'})
-    else:
-        if center:
-            aggregated_profiles.loc[:, '_yhat_'] = aggregated_profiles.loc[:, '_yhat_'] + all_profiles[
-                '_yhat_'].mean()
-        aggregated_profiles = aggregated_profiles.reset_index().rename(columns={'level_2': '_grid_'})
+    if type == 'accumulated' and center:
+        aggregated_profiles.loc[:, '_yhat_'] = aggregated_profiles.loc[:, '_yhat_'] - \
+                                               aggregated_profiles.loc[:, '_yhat_'].mean() + \
+                                               mean_prediction
 
     # postprocessing
     if len(groups) != 0:
@@ -91,7 +80,7 @@ def split_over_variables_and_labels(split_profile, type, groups, span):
         # diff causes NaNs at the beginning of each group
         split_profile.loc[np.isnan(split_profile['_yhat_']), '_yhat_'] = 0
 
-    par_profile = split_profile.groupby(['_x_'] + groups). \
+    par_profile = split_profile.groupby(['_x_'] + groups, sort=False). \
         apply(lambda point: (point['_yhat_'] * point['_w_']).sum() / point['_w_'].sum() \
         if point['_w_'].sum() != 0 else 0)
 
@@ -102,7 +91,7 @@ def split_over_variables_and_labels(split_profile, type, groups, span):
         if len(groups) == 0:
             par_profile['_yhat_'] = par_profile['_yhat_'].cumsum()
         else:
-            par_profile['_yhat_'] = par_profile.groupby(groups)['_yhat_'].transform(
+            par_profile['_yhat_'] = par_profile.groupby(groups, sort=False)['_yhat_'].transform(
                 lambda column: column.cumsum())
 
     return par_profile
