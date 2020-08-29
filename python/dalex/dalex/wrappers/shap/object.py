@@ -37,12 +37,12 @@ class ShapWrapper:
     def fit(self,
             explainer,
             new_observation,
-            explainer_type=None,
+            shap_explainer=None,
             **kwargs):
 
         check_compatibility(explainer)
 
-        explainer_type = check_explainer_type(explainer_type, explainer.model)
+        explainer_type = check_explainer_type(shap_explainer, explainer.model)
 
         if explainer_type == "TreeExplainer":
             self.shap_explainer = shap.TreeExplainer(explainer.model, explainer.data.values)

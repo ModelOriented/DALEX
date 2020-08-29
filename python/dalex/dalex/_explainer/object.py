@@ -264,7 +264,7 @@ class Explainer:
         **kwargs : dict
             key-values parameters passed to a 'shap_values' method of the 'shap_explainer'
             used only if type == 'shap_wrapper', you can specify here a 'shap' explainer
-            using parameter 'explainer_type' (https://github.com/slundberg/shap)
+            using parameter 'shap_explainer' (https://github.com/slundberg/shap)
 
         Returns
         -----------
@@ -456,7 +456,7 @@ class Explainer:
 
     def model_parts(self,
                     loss_function=None,
-                    type=('variable_importance', 'ratio', 'difference', 'shap'),
+                    type=('variable_importance', 'ratio', 'difference', 'shap_wrapper'),
                     N=1000,
                     B=10,
                     variables=None,
@@ -473,7 +473,7 @@ class Explainer:
         loss_function : {'rmse', '1-auc', 'mse', 'mae', 'mad'} or function, optional
             If string, then such loss function will be used to assess variable importance
             (default is 'rmse' or `1-auc`, depends on `model_type` attribute).
-        type : {'variable_importance', 'ratio', 'difference', 'shap'}, optional
+        type : {'variable_importance', 'ratio', 'difference', 'shap_wrapper'}, optional
             Type of transformation that will be applied to dropout loss.
         N : int, optional
             Number of observations that will be sampled from the `data` attribute before
@@ -495,10 +495,10 @@ class Explainer:
         random_state : int, optional
             Set seed for random number generator (default is random seed).
         **kwargs : dict
-            used only if type == 'shap'
+            used only if type == 'shap_wrapper'
             key word arguments to pass to 'shap' explainer's method 'shap_values'
             you can specify here a 'shap' explainer using the parameter
-            'explainer_type' (https://github.com/slundberg/shap)
+            'shap_explainer' (https://github.com/slundberg/shap)
 
         Returns
         -----------
@@ -517,7 +517,7 @@ class Explainer:
 
         loss_function = check_loss_function(self, loss_function)
 
-        if type != 'shap':
+        if type != 'shap_wrapper':
             model_parts_ = VariableImportance(
                 loss_function=loss_function,
                 type=type,
