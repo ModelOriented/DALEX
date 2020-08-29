@@ -144,7 +144,7 @@ yhat.ranger <- function(X.model, newdata, ...) {
     # if newdata has only one row then the vector needs to be transformed into a matrix
     if (nrow(newdata) == 1) {
       pred <- matrix(pred, nrow = 1)
-      colnames(pred) <- attributes(X.model$predictions)$dimnames[[2]]
+      colnames(pred) <- colnames(X.model$predictions)
     }
     # if result is a vector then ncol parameter is null
     if (is.null(ncol(pred))) return(pred)

@@ -10,8 +10,10 @@ DALEX (TBD)
 *  Added value for `s` parameter in `yhat.glmnet` and `yhat.cv.glmnet`.
 *  Fixed `model_diagnostics` passing wrong arguments to residual_function.
 *  Fixed aesthetic for `hist` geometry in `plot.model_performance` using wrong arugments.
-* `model_performance` will not work if `model_info$type` is `NULL`
+* `model_performance` will not work if `model_info$type` is `NULL`.
 *  Corrected description of `N` in `model_parts` ([#287](https://github.com/ModelOriented/DALEX/issues/287)).
+*  Reworked warnings reffering `y` parameter in `explain` function.
+*  Solved bug in `yhat.ranger` causing `predicts_parts` not to plot correctly when task is multiclass.
 
 DALEX 1.3.1.1
 ---------------------------------------------------------------
