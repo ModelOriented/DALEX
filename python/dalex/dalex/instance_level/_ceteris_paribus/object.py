@@ -256,9 +256,12 @@ class CeterisParibus:
         min_max = [dl.min() - min_max_margin, dl.max() + min_max_margin]
 
         # create _x_
-        for variable in variable_names:
-            where_variable = _result_df['_vname_'] == variable
-            _result_df.loc[where_variable, '_x_'] = _result_df.loc[where_variable, variable]
+        if len(variable_names) == 1:
+            _result_df.loc[:, '_x_'] = deepcopy(_result_df.loc[:, variable_names[0]])
+        else:
+            for variable in variable_names:
+                where_variable = _result_df['_vname_'] == variable
+                _result_df.loc[where_variable, '_x_'] = deepcopy(_result_df.loc[where_variable, variable])
 
         # change x column to proper character values
         if variable_type == 'categorical':

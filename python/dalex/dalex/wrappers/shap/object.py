@@ -22,7 +22,7 @@ class ShapWrapper:
         explainer_type = check_explainer_type(explainer_type, explainer.model)
 
         if explainer_type == "TreeExplainer":
-            self.shap_explainer = shap.TreeExplainer(explainer.model)
+            self.shap_explainer = shap.TreeExplainer(explainer.model, explainer.data.values)
         elif explainer_type == "DeepExplainer":
             self.shap_explainer = shap.DeepExplainer(explainer.model, explainer.data.values)
         elif explainer_type == "GradientExplainer":

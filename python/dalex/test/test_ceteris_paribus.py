@@ -180,12 +180,18 @@ class CeterisParibusTestTitanic(unittest.TestCase):
         fig5 = case1.plot(case3, size=1, color="gender", facet_ncol=1, show_observations=False,
                           title="title", horizontal_spacing=0.2, vertical_spacing=0.2,
                           show=False)
+        fig6 = case2.plot(variables=["gender"], show=False)
+        fig7 = case2.plot(variables=["gender", 'class'], show=False)
+        fig8 = case2.plot(variables=["gender", 'class'], variable_type='categorical', show=False)
 
         self.assertIsInstance(fig1, Figure)
         self.assertIsInstance(fig2, Figure)
         self.assertIsInstance(fig3, Figure)
         self.assertIsInstance(fig4, Figure)
         self.assertIsInstance(fig5, Figure)
+        self.assertIsInstance(fig6, Figure)
+        self.assertIsInstance(fig7, Figure)
+        self.assertIsInstance(fig8, Figure)
 
 
 if __name__ == '__main__':

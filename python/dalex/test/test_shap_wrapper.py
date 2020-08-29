@@ -6,11 +6,13 @@ from sklearn.impute import SimpleImputer
 from sklearn.neural_network import MLPRegressor
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
+from sklearn.ensemble import RandomForestClassifier
+from dalex.wrappers import ShapWrapper
 
 import dalex as dx
 
 
-class PredictTestTitanic(unittest.TestCase):
+class MLPRegressorTestShapWrapperTitanicFullDataset(unittest.TestCase):
     def setUp(self):
         data = dx.datasets.load_titanic()
         data.loc[:, 'survived'] = LabelEncoder().fit_transform(data.survived)
@@ -42,13 +44,42 @@ class PredictTestTitanic(unittest.TestCase):
         self.exp = dx.Explainer(clf, self.X, self.y, verbose=False)
 
     def test(self):
-        self.assertIsInstance(self.exp.predict(self.X.iloc[[0]]), np.ndarray)
         with self.assertRaises(TypeError):
-            self.exp.predict(self.X.iloc[0])
-        with self.assertRaises(ValueError):
-            self.exp.predict(self.X.iloc[0].values)
+            self.exp.predict_parts(self.X.iloc[[0]], type='shap_wrapper')
 
-        self.assertIsInstance(self.exp.predict(self.X.iloc[:100]), np.ndarray)
+
+class RandomForestClassifierTestShapWrapperTitanicNumericalDataset(unittest.TestCase):
+    def setUp(self):
+        data = dx.datasets.load_titanic()
+        data.loc[:, 'survived'] = LabelEncoder().fit_transform(data.survived)
+
+        self.X = data.loc[:, ["age", "fare", "sibsp", "parch"]]
+        self.y = data.survived
+
+        clf = RandomForestClassifier(n_estimators=100)
+        clf.fit(self.X, self.y)
+
+        self.exp = dx.Explainer(clf, self.X, self.y, verbose=False)
+
+    def test_predict_parts(self):
+        case1 = self.exp.predict_parts(self.X.iloc[[0]], type='shap_wrapper')
+        case2 = self.exp.predict_parts(self.X.iloc[[0]], type='shap_wrapper', explainer_type='KernelExplainer')
+
+        self.assertIsInstance(case1, ShapWrapper)
+        self.assertEqual(case1.explainer_type, 'TreeExplainer')
+
+        self.assertIsInstance(case2, ShapWrapper)
+        self.assertEqual(case2.explainer_type, "KernelExplainer")
+
+    def test_model_parts(self):
+        case1 = self.exp.model_parts(type='shap', N=22)
+        case2 = self.exp.model_parts(type='shap', N=22, explainer_type='KernelExplainer')
+
+        self.assertIsInstance(case1, ShapWrapper)
+        self.assertEqual(case1.explainer_type, 'TreeExplainer')
+
+        self.assertIsInstance(case2, ShapWrapper)
+        self.assertEqual(case2.explainer_type, "KernelExplainer")
 
 
 if __name__ == '__main__':

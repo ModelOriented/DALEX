@@ -11,8 +11,8 @@ def check_explainer_type(explainer_type, model):
 
     # https://github.com/slundberg/shap/blob/8c18d6e3b56fe6675b04f6bccef47885f843ae43/shap/explainers/pytree.py#L138
     model_type = str(type(model))
-    if model_type.endswith("sklearn.ensemble.forest.RandomForestRegressor'>") or\
-        model_type.endswith("sklearn.ensemble.forest.RandomForestClassifier'>") or\
+    if model_type.endswith("sklearn.ensemble._forest.RandomForestRegressor'>") or\
+        model_type.endswith("sklearn.ensemble._forest.RandomForestClassifier'>") or\
         model_type.endswith("xgboost.core.Booster'>") or\
         model_type.endswith("lightgbm.basic.Booster'>"):
         explainer_type = "TreeExplainer"
