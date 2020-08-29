@@ -66,8 +66,6 @@ This will happen also if \code{verbose} is TRUE. Set both \code{verbose} and \co
 \item{model_info}{a named list (\code{package}, \code{version}, \code{type}) containg information about model. If \code{NULL}, \code{DALEX} will seek for information on it's own.}
 
 \item{type}{type of a model, either \code{classification} or \code{regression}. If not specified then \code{type} will be extracted from \code{model_info}.}
-
-\item{positive_class}{a character indicating by name which class should be treated as positive for binary classification (ie. which class should be associated with 1 value). Keep in mind that some models assumes positive class on its own. Then parameter will not work.}
 }
 \value{
 An object of the class \code{explainer}.

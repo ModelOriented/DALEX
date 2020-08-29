@@ -19,7 +19,6 @@
 #' This will happen also if \code{verbose} is TRUE. Set both \code{verbose} and \code{precalculate} to FALSE to omit calculations.
 #' @param colorize logical. If TRUE (default) then \code{WARNINGS}, \code{ERRORS} and \code{NOTES} are colorized. Will work only in the R console.
 #' @param model_info a named list (\code{package}, \code{version}, \code{type}) containg information about model. If \code{NULL}, \code{DALEX} will seek for information on it's own.
-#' @param positive_class a character indicating by name which class should be treated as positive for binary classification (ie. which class should be associated with 1 value). Keep in mind that some models assumes positive class on its own. Then parameter will not work.
 #' @param type type of a model, either \code{classification} or \code{regression}. If not specified then \code{type} will be extracted from \code{model_info}.
 #'
 #' @return An object of the class \code{explainer}.
@@ -144,10 +143,6 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
       verbose_cat("  -> model label       : 'label' was not a string class object. Converted. (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
     }
     verbose_cat("  -> model label       : ", label, "\n", verbose = verbose)
-  }
-
-  if (!is.null(positive_class)) {
-    attr(model, "positive_class") <- positive_class
   }
 
   # REPORT: checks for data
