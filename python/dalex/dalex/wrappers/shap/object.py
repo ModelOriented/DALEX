@@ -9,20 +9,18 @@ class ShapWrapper:
     Parameters
     ----------
     type : str
-        explainer type from 'shap' package, {'TreeExplainer', 'DeepExplainer', 'GradientExplainer', 'LinearExplainer', 'KernelExplainer'}
+        {'predict_parts', 'model_parts'}
 
     Attributes
     ----------
     result : list or numpy.ndarray
         list in case of multiple outputs
-    type : str
+    shap_explainer_type : 'shap' package explainer
         explainer type from 'shap' package, {'TreeExplainer', 'DeepExplainer', 'GradientExplainer', 'LinearExplainer', 'KernelExplainer'}
-    shap_explainer : 'shap' package explainer
-        actual explainer from 'shap' package
     new_observation : pandas.Series or pandas.DataFrame
         observations for which shap values will be calculated
-    explainer_type : str
-        {'shap', 'feature_importance'}
+    type : str
+        {'predict_parts', 'model_parts'}
 
     https://github.com/slundberg/shap
     """
@@ -67,8 +65,8 @@ class ShapWrapper:
         ----------
         **kwargs : key word arguments
             key word arguments passed to 'shap's 'force_plot' in case of
-            type == 'shap' or passed to 'shap's 'summary_plot' in case of
-            type == 'feature_importance
+            type == 'predict_parts' or passed to 'shap's 'summary_plot' in case of
+            type == 'model_parts'
 
         https://github.com/slundberg/shap
         """
