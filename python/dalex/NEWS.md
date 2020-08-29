@@ -1,4 +1,4 @@
-dalex (development)
+dalex 0.2.1
 ----------------------------------------------------------------
 
 ### bug fixes
@@ -9,6 +9,7 @@ dalex (development)
 
 ### features
 
+* added wrapper for a `shap` library, available through the `predict_parts` and `model_parts` methods
 * added the `ResidualDiagnostics` object with a `plot` method
 * added `model_diagnostics` method to the `Explainer`, which performs residual diagnostics
 * added `predict_surrogate` method to the `Explainer`, which is a wrapper for the `lime`

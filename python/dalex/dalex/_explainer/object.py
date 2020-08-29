@@ -500,7 +500,7 @@ class Explainer:
 
         Returns
         -----------
-        VariableImportance class object
+        VariableImportance or ShapWrapper class object
             Explanation object containing the main result attribute and the plot method.
 
         Notes
