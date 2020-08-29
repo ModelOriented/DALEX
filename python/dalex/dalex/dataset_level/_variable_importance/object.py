@@ -236,14 +236,14 @@ class VariableImportance:
             # split df by model
             df_list = [v for k, v in _result_df.groupby('label', sort=False)]
 
-            for i in range(n):
-                m = df_list[i].shape[0]
+            for i, df in enumerate(df_list):
+                m = df.shape[0]
                 if max_vars is not None and max_vars < m:
                     m = max_vars
 
                 # take only m variables (for max_vars)
                 # sort rows of df by variable permutation and drop unused variables
-                df = df_list[i].sort_values('dropout_loss').tail(m) \
+                df = df.sort_values('dropout_loss').tail(m) \
                     .set_index('variable').reindex(perm).dropna().reset_index()
 
                 baseline = df.iloc[0, df.columns.get_loc('full_model')]
@@ -253,12 +253,11 @@ class VariableImportance:
                 lt = df.difference.apply(lambda val:
                                          "+"+str(rounding_function(np.abs(val), digits)) if val > 0
                                          else str(rounding_function(np.abs(val), digits)))
-                df = df.assign(label_text=lt)
-
                 tt = df.apply(lambda row: tooltip_text(row, rounding_function, digits), axis=1)
-                df = df.assign(tooltip_text=tt)
+                df = df.assign(label_text=lt,
+                               tooltip_text=tt)
 
-                fig.add_shape(type='line', x0=baseline, x1=baseline, y0=0, y1=m - 1, yref="paper", xref="x",
+                fig.add_shape(type='line', x0=baseline, x1=baseline, y0=-1, y1=m, yref="paper", xref="x",
                               line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'}, row=i + 1, col=1)
 
                 fig.add_bar(
@@ -318,12 +317,11 @@ class VariableImportance:
                 lt = df.difference.apply(lambda val:
                                          "+"+str(rounding_function(np.abs(val), digits)) if val > 0
                                          else str(rounding_function(np.abs(val), digits)))
-                df = df.assign(label_text=lt)
-
                 tt = df.apply(lambda row: tooltip_text(row, rounding_function, digits), axis=1)
-                df = df.assign(tooltip_text=tt)
+                df = df.assign(label_text=lt,
+                               tooltip_text=tt)
 
-                fig.add_shape(type='line', x0=baseline, x1=baseline, y0=0, y1=m - 1, yref="paper", xref="x",
+                fig.add_shape(type='line', x0=baseline, x1=baseline, y0=-1, y1=m, yref="paper", xref="x",
                               line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'}, row=i + 1, col=1)
 
                 fig.add_bar(

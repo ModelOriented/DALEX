@@ -22,40 +22,40 @@ def shap(explainer,
     p = new_observation.shape[1]
 
     if processes == 1:
-        result = [
-            iterate_paths(explainer.predict_function, explainer.model, explainer.data, explainer.label, new_observation,
-                          p, b + 1)
+        result_list = [
+            iterate_paths(explainer.predict_function, explainer.model, explainer.data,
+                          explainer.label, new_observation, p, b + 1)
             for b in range(B)]
     else:
         pool = mp.Pool(processes)
-        result = pool.starmap_async(iterate_paths,
-                                    [(explainer.predict_function, explainer.model, explainer.data, explainer.label,
-                                      new_observation, p, b + 1) for b in range(B)]).get()
+        result_list = pool.starmap_async(iterate_paths,
+                                         [(explainer.predict_function, explainer.model, explainer.data,
+                                           explainer.label, new_observation, p, b + 1) for b in range(B)]).get()
         pool.close()
+
+    result = pd.concat(result_list)
 
     if path is not None:
         if isinstance(path, str) and path == 'average':
-            # let's calculate an average attribution
-            extracted_contributions = [None] * B
-            for i in range(B):
-                extracted_contributions[i] = result[i].sort_values(['label', 'variable']).loc[:, 'contribution']
+            # average over all of the paths
+            variable_average = result.pivot(index='variable', columns='B', values='contribution').mean(axis=1)
+            # sort pd.Series by index of abs-sorted pd.Series
+            variable_average_sorted = \
+                variable_average.reindex(variable_average.abs().sort_values(ascending=False).index)
+            # make the final result - sort and fill with values
+            result_average = result_list[0].set_index('variable').reindex(variable_average_sorted.index).reset_index()
 
-            extracted_contributions = pd.concat(extracted_contributions, axis=1)
-            result_average = deepcopy(result[0])
-            result_average = result_average.sort_values(['label', 'variable'])
-            result_average['contribution'] = extracted_contributions.mean(axis=1)
-            result_average['B'] = 0
-            result_average['sign'] = np.sign(result_average['contribution'])
+            result_average = result_average.assign(contribution=variable_average_sorted.values,
+                                                   B=0,
+                                                   sign=np.sign(variable_average_sorted.values))
 
-            result.append(result_average)
+            result = pd.concat((result, result_average))
         else:
             tmp = get_single_random_path(explainer.predict_function, explainer.model, explainer.data, explainer.label,
                                          new_observation, path, 0)
-            # tmp['B'] = 0
 
-            result.append(tmp)
+            result = pd.concat((result, tmp))
 
-    result = pd.concat(result)
     if keep_distributions:
         yhats_distributions = calculate_yhats_distributions(explainer)
     else:

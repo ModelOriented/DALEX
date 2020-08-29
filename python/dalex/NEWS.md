@@ -1,11 +1,21 @@
 dalex (development)
 ----------------------------------------------------------------
 
+* updated the `pandas` dependency to `>=1.1.0`
+
 ### bug fixes
 
 * `ModelPerformance.plot` now uses a drwhy color palette
 * use `unique` method instead of `np.unique` in `variable_splits` ([#293](https://github.com/ModelOriented/DALEX/issues/293))
 * `v0.2.0` didn't export new datasets
+* fixed a bug where `predict_parts(type='shap')` calculated wrong `contributions` 
+ ([#300](https://github.com/ModelOriented/DALEX/issues/300))
+* `model_profile` uses observation mean instead of profile mean in `_yhat_` centering
+* fixed barplot baseline in categorical `model_profile` and `predict_profile` plots
+ ([#297](https://github.com/ModelOriented/DALEX/issues/297))
+* fixed `model_profile(type='accumulated')` giving wrong results
+ (#[302](https://github.com/ModelOriented/DALEX/issues/302))
+* vertical/horizontal lines in plots now end on the plot edges
 
 ### features
 
@@ -19,6 +29,16 @@ dalex (development)
 * added `dalex.__version__`
 * added informative error messages in `Explainer` methods when `y` is of wrong type
  ([#294](https://github.com/ModelOriented/DALEX/issues/294))
+* `CeterisParibus.plot(variable_type='categorical')` now allows for multiple observations
+* new verbose checks for `model_type`
+* add `type` to `model_info` in `dump` and `dumps` for R compatibility
+ ([#303](https://github.com/ModelOriented/DALEX/issues/303))
+
+### defaults
+
+* removed `_grid_` column in `AggregatedProfiles.result` and `center` only works with `type=accumulated`
+* use `Pipeline._final_estimator` to extract `model_class` of the actual model
+* use `model._estimator_type` to extract `model_type` if possible 
 
 dalex 0.2.0
 ----------------------------------------------------------------

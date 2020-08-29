@@ -138,12 +138,13 @@ class Explainer:
 
         label, model_info_ = check_label(label, model_class, model_info_, verbose)
 
-        # REPORT: checks for predict_function
-        predict_function, pred, model_info_, model_type_ = check_predict_function(predict_function, model, data,
-                                                                                  model_class, model_info_,
-                                                                                  precalculate, verbose)
+        # REPORT: checks for predict_function and model_type
+        # these two are together only because of `yhat_exception_dict`
+        predict_function, model_type, y_hat_, model_info_ = \
+            check_predict_function_and_model_type(predict_function, model_type,
+                                                  model, data, model_class, model_info_,
+                                                  precalculate, verbose)
 
-        model_type = check_model_type(model_type, model_type_)
         # if data is specified then we may test predict_function
         # at this moment we have predict function
 
@@ -159,7 +160,7 @@ class Explainer:
         self.data = data
         self.y = y
         self.predict_function = predict_function
-        self.y_hat = pred
+        self.y_hat = y_hat_
         self.residual_function = residual_function
         self.residuals = residuals
         self.model_class = model_class
@@ -554,8 +555,9 @@ class Explainer:
             Split points for variables e.g. {'x': [0, 0.2, 0.5, 0.8, 1], 'y': ['a', 'b']}
             (default is None, which means that they will be distributed uniformly).
         center : bool, optional
-            Theoretically Accumulated Profiles starts at 0. If True, then they are centered
-            around average response like Partial Profiles (default is True).
+            Theoretically Accumulated Profiles start at 0, but are centered to compare
+            them with Partial Dependence Profiles (default is True, which means center
+            around the average y_hat calculated on the data sample).
         processes : int, optional
             Number of parallel processes to use in calculations. Iterated over `variables`
             (default is 1, which means no parallel computation).
