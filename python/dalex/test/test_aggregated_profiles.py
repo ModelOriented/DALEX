@@ -56,6 +56,23 @@ class AggregatedProfilesTestTitanic(unittest.TestCase):
 
     def test_accumulated(self):
         self.helper_test('accumulated')
+        caseCenterNum = self.exp2.model_profile(type='accumulated', center=False)
+        caseCenterCat = self.exp2.model_profile(type='accumulated', variable_type='categorical', center=False)
+
+        self.assertIsInstance(caseCenterNum, dx.dataset_level.AggregatedProfiles)
+        self.assertIsInstance(caseCenterCat, dx.dataset_level.AggregatedProfiles)
+
+        figCenterNum = caseCenterNum.plot(show=False)
+        figCenterCat = caseCenterCat.plot(show=False)
+
+        self.assertIsInstance(figCenterNum, Figure)
+        self.assertIsInstance(figCenterCat, Figure)
+
+        testZerosNum = caseCenterNum.result.groupby('_vname_').apply(lambda x: x['_yhat_'].abs().min()).tolist()
+        testZerosCat = caseCenterCat.result.groupby('_vname_').apply(lambda x: x['_yhat_'].abs().min()).tolist()
+
+        self.assertListEqual(testZerosNum, np.zeros(len(testZerosNum)).tolist())
+        self.assertListEqual(testZerosCat, np.zeros(len(testZerosCat)).tolist())
 
     def test_conditional(self):
         self.helper_test('conditional')
@@ -76,8 +93,7 @@ class AggregatedProfilesTestTitanic(unittest.TestCase):
         case11 = self.exp.model_profile(test_type, 100, variables=np.array(['age', 'class']), span=0.5, grid_points=30)
         case12 = self.exp2.model_profile(test_type, 100, variables=pd.Series(['age', 'class']), span=0.5,
                                          grid_points=30)
-        case13 = self.exp2.model_profile(test_type, 100, center=False, span=0.5, grid_points=30)
-        case14 = self.exp2.model_profile(test_type, 100, center=False, span=0.5, grid_points=30, processes=2)
+        case13 = self.exp2.model_profile(test_type, 100, center=False, span=0.5, grid_points=30, processes=2)
 
         self.assertIsInstance(case1, dx.dataset_level.AggregatedProfiles)
         self.assertIsInstance(case2, dx.dataset_level.AggregatedProfiles)
@@ -92,7 +108,6 @@ class AggregatedProfilesTestTitanic(unittest.TestCase):
         self.assertIsInstance(case11, dx.dataset_level.AggregatedProfiles)
         self.assertIsInstance(case12, dx.dataset_level.AggregatedProfiles)
         self.assertIsInstance(case13, dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(case14, dx.dataset_level.AggregatedProfiles)
 
         case_3_models = self.exp3.model_profile(test_type, 100)
 
