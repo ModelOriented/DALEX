@@ -18,8 +18,7 @@ explain.default(
   precalculate = TRUE,
   colorize = TRUE,
   model_info = NULL,
-  type = NULL,
-  positive_class = NULL
+  type = NULL
 )
 
 explain(
@@ -35,8 +34,7 @@ explain(
   precalculate = TRUE,
   colorize = TRUE,
   model_info = NULL,
-  type = NULL,
-  positive_class = NULL
+  type = NULL
 )
 }
 \arguments{

@@ -120,7 +120,7 @@
 explain.default <- function(model, data = NULL, y = NULL, predict_function = NULL,
                             residual_function = NULL, weights = NULL, ...,
                             label = NULL, verbose = TRUE, precalculate = TRUE,
-                            colorize = TRUE, model_info = NULL, type = NULL, positive_class = NULL) {
+                            colorize = TRUE, model_info = NULL, type = NULL) {
 
   verbose_cat("Preparation of a new explainer is initiated\n", verbose = verbose)
 
