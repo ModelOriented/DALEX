@@ -287,6 +287,10 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt;   -&gt; predict function  :  yhat.lm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  
 #&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  Model info detected regression task but 'y' is a NULL .  ( </span><span style='color: #BB0000;'> WARNING </span><span> )
+#&gt;   -&gt; model_info        :  By deafult regressions tasks supports only numercical 'y' parameter. 
+#&gt;   -&gt; model_info        :  Consider changing to numerical vector.
+#&gt;   -&gt; model_info        :  Otherwise I will not be able to calculate residuals or loss function.
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>aps_lm_explainer4</span></div><div class='output co'>#&gt; Model label:  model_4v 
 #&gt; Model class:  lm 
@@ -303,6 +307,10 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt;   -&gt; predict function  :  yhat.lm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  
 #&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  Model info detected regression task but 'y' is a NULL .  ( </span><span style='color: #BB0000;'> WARNING </span><span> )
+#&gt;   -&gt; model_info        :  By deafult regressions tasks supports only numercical 'y' parameter. 
+#&gt;   -&gt; model_info        :  Consider changing to numerical vector.
+#&gt;   -&gt; model_info        :  Otherwise I will not be able to calculate residuals or loss function.
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='co'># silent execution</span>
@@ -385,11 +393,8 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  7847  rows  6  cols 
 #&gt;   -&gt; target variable   :  7847  values 
-#&gt;   -&gt; target variable   :  Please note that 'y' is a factor.  ( </span><span style='color: #BB0000;'> WARNING </span><span> )
-#&gt;   -&gt; target variable   :  Consider changing the 'y' to a logical or numerical vector.
-#&gt;   -&gt; target variable   :  Otherwise I will not be able to calculate residuals or loss function.
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  ( </span><span style='color: #BB0000;'> WARNING </span><span> ) some of functionalities may not work 
+#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task multiclass ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between 1 and probability of true class ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.2770176 , max =  0.8496848  
@@ -405,6 +410,10 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt;   -&gt; predict function  :  yhat.lm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  
 #&gt;   -&gt; model_info        :  package stats , ver. 3.6.2 , task regression 
+#&gt;   -&gt; model_info        :  Model info detected regression task but 'y' is a NULL .  ( </span><span style='color: #BB0000;'> WARNING </span><span> )
+#&gt;   -&gt; model_info        :  By deafult regressions tasks supports only numercical 'y' parameter. 
+#&gt;   -&gt; model_info        :  Consider changing to numerical vector.
+#&gt;   -&gt; model_info        :  Otherwise I will not be able to calculate residuals or loss function.
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='co'># \donttest{</span>
@@ -419,6 +428,10 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt;   -&gt; predict function  :  yhat.lm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  
 #&gt;   -&gt; model_info        :  package stats , ver. 3.6.2 , task regression 
+#&gt;   -&gt; model_info        :  Model info detected regression task but 'y' is a NULL .  ( </span><span style='color: #BB0000;'> WARNING </span><span> )
+#&gt;   -&gt; model_info        :  By deafult regressions tasks supports only numercical 'y' parameter. 
+#&gt;   -&gt; model_info        :  Consider changing to numerical vector.
+#&gt;   -&gt; model_info        :  Otherwise I will not be able to calculate residuals or loss function.
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='no'>aps_lm_explainer4</span> <span class='kw'>&lt;-</span> <span class='fu'>explain</span>(<span class='no'>aps_lm_model4</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"model_4v"</span>,
@@ -430,6 +443,10 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt;   -&gt; predict function  :  yhat.lm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  
 #&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  Model info detected regression task but 'y' is a NULL .  ( </span><span style='color: #BB0000;'> WARNING </span><span> )
+#&gt;   -&gt; model_info        :  By deafult regressions tasks supports only numercical 'y' parameter. 
+#&gt;   -&gt; model_info        :  Consider changing to numerical vector.
+#&gt;   -&gt; model_info        :  Otherwise I will not be able to calculate residuals or loss function.
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='co'># more complex model</span>
@@ -442,6 +459,10 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  1824.984 , mean =  3490.111 , max =  6156.888  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  Model info detected regression task but 'y' is a NULL .  ( </span><span style='color: #BB0000;'> WARNING </span><span> )
+#&gt;   -&gt; model_info        :  By deafult regressions tasks supports only numercical 'y' parameter. 
+#&gt;   -&gt; model_info        :  Consider changing to numerical vector.
+#&gt;   -&gt; model_info        :  Otherwise I will not be able to calculate residuals or loss function.
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>aps_ranger_explainer4</span></div><div class='output co'>#&gt; Model label:  model_ranger 
 #&gt; Model class:  ranger 

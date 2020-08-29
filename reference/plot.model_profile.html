@@ -206,6 +206,10 @@
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  0.008128381 , mean =  0.3221568 , max =  0.9731431  
 #&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  Model info detected classification task but 'y' is a NULL .  ( </span><span style='color: #BB0000;'> WARNING </span><span> )
+#&gt;   -&gt; model_info        :  By deafult classification tasks supports only numercical 'y' parameter. 
+#&gt;   -&gt; model_info        :  Consider changing to numerical vector with 0 and 1 values.
+#&gt;   -&gt; model_info        :  Otherwise I will not be able to calculate residuals or loss function.
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>expl_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_profile.html'>model_profile</a></span>(<span class='no'>explainer_glm</span>, <span class='st'>"fare"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>expl_glm</span>)</div><div class='img'><img src='plot.model_profile-1.png' alt='' width='700' height='433' /></div><div class='input'>
@@ -220,6 +224,10 @@
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  0.0003571429 , mean =  0.3204109 , max =  0.990091  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  Model info detected classification task but 'y' is a NULL .  ( </span><span style='color: #BB0000;'> WARNING </span><span> )
+#&gt;   -&gt; model_info        :  By deafult classification tasks supports only numercical 'y' parameter. 
+#&gt;   -&gt; model_info        :  Consider changing to numerical vector with 0 and 1 values.
+#&gt;   -&gt; model_info        :  Otherwise I will not be able to calculate residuals or loss function.
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>expl_ranger</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_profile.html'>model_profile</a></span>(<span class='no'>explainer_ranger</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>expl_ranger</span>)</div><div class='img'><img src='plot.model_profile-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>expl_ranger</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"aggregates"</span>)</div><div class='img'><img src='plot.model_profile-3.png' alt='' width='700' height='433' /></div><div class='input'>
