@@ -1,4 +1,4 @@
-from .shap.object import ShapWrapper
+from ._shap.object import ShapWrapper
 
 __all__ = [
     "ShapWrapper"

@@ -63,13 +63,20 @@ class RandomForestClassifierTestShapWrapperTitanicNumericalDataset(unittest.Test
 
     def test_predict_parts(self):
         case1 = self.exp.predict_parts(self.X.iloc[[0]], type='shap_wrapper')
-        case2 = self.exp.predict_parts(self.X.iloc[[0]], type='shap_wrapper', shap_explainer_type='KernelExplainer')
+        case2 = self.exp.predict_parts(self.X.iloc[1:2, :], type='shap_wrapper', shap_explainer_type='KernelExplainer')
+        case3 = self.exp.predict_parts(self.X.iloc[1, :], type='shap_wrapper')
 
         self.assertIsInstance(case1, ShapWrapper)
         self.assertEqual(case1.shap_explainer_type, 'TreeExplainer')
 
         self.assertIsInstance(case2, ShapWrapper)
         self.assertEqual(case2.shap_explainer_type, "KernelExplainer")
+
+        self.assertIsInstance(case3, ShapWrapper)
+
+        case1.plot()
+        case2.plot()
+        case3.plot()
 
     def test_model_parts(self):
         case1 = self.exp.model_parts(type='shap_wrapper', N=22)
@@ -80,6 +87,9 @@ class RandomForestClassifierTestShapWrapperTitanicNumericalDataset(unittest.Test
 
         self.assertIsInstance(case2, ShapWrapper)
         self.assertEqual(case2.shap_explainer_type, "KernelExplainer")
+
+        case1.plot()
+        case2.plot()
 
 
 if __name__ == '__main__':
