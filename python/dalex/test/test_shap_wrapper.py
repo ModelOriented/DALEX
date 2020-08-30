@@ -1,6 +1,5 @@
 import unittest
 
-import numpy as np
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.neural_network import MLPRegressor
@@ -74,9 +73,9 @@ class RandomForestClassifierTestShapWrapperTitanicNumericalDataset(unittest.Test
 
         self.assertIsInstance(case3, ShapWrapper)
 
-        case1.plot()
-        case2.plot()
-        case3.plot()
+        case1.plot(show=False)
+        case2.plot(show=False)
+        case3.plot(show=False)
 
     def test_model_parts(self):
         case1 = self.exp.model_parts(type='shap_wrapper', N=22)
@@ -88,8 +87,8 @@ class RandomForestClassifierTestShapWrapperTitanicNumericalDataset(unittest.Test
         self.assertIsInstance(case2, ShapWrapper)
         self.assertEqual(case2.shap_explainer_type, "KernelExplainer")
 
-        case1.plot()
-        case2.plot()
+        case1.plot(show=False)
+        case2.plot(show=False)
 
 
 if __name__ == '__main__':
