@@ -1,4 +1,3 @@
-import shap
 from .checks import *
 
 
@@ -68,6 +67,7 @@ class ShapWrapper:
         -----------
         None
         """
+        from shap import TreeExplainer, DeepExplainer, GradientExplainer, LinearExplainer, KernelExplainer
 
         check_compatibility(explainer)
         shap_explainer_type = check_shap_explainer_type(shap_explainer_type, explainer.model)
@@ -76,15 +76,15 @@ class ShapWrapper:
             new_observation = check_new_observation_predict_parts(new_observation, explainer)
 
         if shap_explainer_type == "TreeExplainer":
-            self.shap_explainer = shap.TreeExplainer(explainer.model, explainer.data.values)
+            self.shap_explainer = TreeExplainer(explainer.model, explainer.data.values)
         elif shap_explainer_type == "DeepExplainer":
-            self.shap_explainer = shap.DeepExplainer(explainer.model, explainer.data.values)
+            self.shap_explainer = DeepExplainer(explainer.model, explainer.data.values)
         elif shap_explainer_type == "GradientExplainer":
-            self.shap_explainer = shap.GradientExplainer(explainer.model, explainer.data.values)
+            self.shap_explainer = GradientExplainer(explainer.model, explainer.data.values)
         elif shap_explainer_type == "LinearExplainer":
-            self.shap_explainer = shap.LinearExplainer(explainer.model, explainer.data.values)
+            self.shap_explainer = LinearExplainer(explainer.model, explainer.data.values)
         elif shap_explainer_type == "KernelExplainer":
-            self.shap_explainer = shap.KernelExplainer(
+            self.shap_explainer = KernelExplainer(
                 lambda x: explainer.predict(x), explainer.data.values)
 
         self.result = self.shap_explainer.shap_values(new_observation.values, **kwargs)
@@ -112,7 +112,8 @@ class ShapWrapper:
         --------
         https://github.com/slundberg/shap
         """
-
+        from shap import force_plot, summary_plot
+        
         if self.type == 'predict_parts':
             if isinstance(self.shap_explainer.expected_value, (np.ndarray, list)):
                 base_value = self.shap_explainer.expected_value[1]
@@ -120,13 +121,13 @@ class ShapWrapper:
                 base_value = self.shap_explainer.expected_value
 
             shap_values = self.result[1] if isinstance(self.result, list) else self.result
-            shap.force_plot(base_value=base_value,
-                            shap_values=shap_values,
-                            features=self.new_observation.values,
-                            feature_names=self.new_observation.columns,
-                            matplotlib=True,
-                            **kwargs)
+            force_plot(base_value=base_value,
+                       shap_values=shap_values,
+                       features=self.new_observation.values,
+                       feature_names=self.new_observation.columns,
+                       matplotlib=True,
+                       **kwargs)
         elif self.type == 'model_parts':
-            shap.summary_plot(shap_values=self.result,
-                              features=self.new_observation,
-                              **kwargs)
+            summary_plot(shap_values=self.result,
+                         features=self.new_observation,
+                         **kwargs)
