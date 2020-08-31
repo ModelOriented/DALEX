@@ -50,7 +50,8 @@ setuptools.setup(
     test_requirements=[
         'lime>=0.2.0.1',       # Explainer.predict_surrogate
         'scikit-learn>=0.21',  # Explainer.model_surrogate
-        'statsmodels>=0.11.1'  # LOWESS trendlines in ResidualDiagnostics.plot
+        'statsmodels>=0.11.1',  # LOWESS trendlines in ResidualDiagnostics.plot
+        'shap>=0.35.0' # ShapWrapper
     ],
     packages=setuptools.find_packages(include=["dalex", "dalex.*"]),
     python_requires='>=3.6',

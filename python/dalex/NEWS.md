@@ -1,4 +1,4 @@
-dalex (development)
+dalex 0.2.1
 ----------------------------------------------------------------
 
 * updated the `pandas` dependency to `>=1.1.0`
@@ -19,6 +19,10 @@ dalex (development)
 
 ### features
 
+* added new `type='shap_wrapper'` to `predict_parts` and `model_parts` methods, which returns a new
+ `ShapWrapper` object. It contains the main result attribute (`shapley_values`) and the plot method 
+ (`force_plot` and `summary_plot` respectively). These come from the [shap](https://github.com/slundberg/shap) package
+* `Explainer.predict` method now accepts `numpy.ndarray`
 * added the `ResidualDiagnostics` object with a `plot` method
 * added `model_diagnostics` method to the `Explainer`, which performs residual diagnostics
 * added `predict_surrogate` method to the `Explainer`, which is a wrapper for the `lime`
@@ -129,7 +133,7 @@ dalex 0.1.5
 * *feature:* add `xgboost` package compatibility ([#188](https://github.com/ModelOriented/DALEX/issues/188))
 * *feature:* added `model_class` parameter to `Explainer` to handle wrapped
 models
-* *feature:* `Exaplainer`s `model_info` remembers if parameters are default
+* *feature:* `Exaplainer` attribute `model_info` remembers if parameters are default
 * *bugfix:* `variable_groups` parameter now works correctly in `model_parts`
 * *fix:* changed parameter order in `Explainer`: `model_type`, `model_info`,
 `colorize`
