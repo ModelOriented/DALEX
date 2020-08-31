@@ -60,9 +60,8 @@ class BreakDown:
         self.result = None
         self.yhats_distributions = None
 
-    def __str__(self):
-        from IPython.display import display
-        display(self.result)
+    def _repr_html_(self):
+        return self.result._repr_html_()
 
     def fit(self,
             explainer,

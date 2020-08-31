@@ -179,16 +179,16 @@ def check_predict_function_and_model_type(predict_function, model_type,
     if model_type is None:
         # model_type not specified
         if model_type_ is None:
-            verbose_cat("  -> model type  : model_type not provided and cannot be extracted", verbose=verbose)
-            verbose_cat("  -> model type  : some functionalities won't be available", verbose=verbose)
+            verbose_cat("  -> model type        : model_type not provided and cannot be extracted", verbose=verbose)
+            verbose_cat("  -> model type        : some functionalities won't be available", verbose=verbose)
         else:
             # use extracted model_type
             model_type = model_type_
             model_info_['model_type_default'] = True
-            verbose_cat("  -> model type  : " + str(model_type) + " will be used (default)", verbose=verbose)
+            verbose_cat("  -> model type        : " + str(model_type) + " will be used (default)", verbose=verbose)
     else:
         model_info_['model_type_default'] = False
-        verbose_cat("  -> model type  : " + str(model_type) + " will be used", verbose=verbose)
+        verbose_cat("  -> model type        : " + str(model_type) + " will be used", verbose=verbose)
 
     y_hat = None
     if data is not None and (verbose or precalculate):

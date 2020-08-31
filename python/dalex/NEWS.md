@@ -29,7 +29,7 @@ dalex 0.2.1
  tabular explanation from the [lime](https://github.com/marcotcr/lime) package
  * added `model_surrogate` method to the `Explainer`, which creates a basic surrogate decision tree
  or linear model from the black-box model using the [scikit-learn](https://github.com/scikit-learn/scikit-learn) package
-* added a `__str__` method to all of the explanation objects (it prints the `result` attribute)
+* added a `_repr_html_` method to all of the explanation objects (it prints the `result` attribute)
 * added `dalex.__version__`
 * added informative error messages in `Explainer` methods when `y` is of wrong type
  ([#294](https://github.com/ModelOriented/DALEX/issues/294))
@@ -37,6 +37,7 @@ dalex 0.2.1
 * new verbose checks for `model_type`
 * add `type` to `model_info` in `dump` and `dumps` for R compatibility
  ([#303](https://github.com/ModelOriented/DALEX/issues/303))
+* `ModelPerformance.result` now has `label` as index
 
 ### defaults
 

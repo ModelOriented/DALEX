@@ -29,14 +29,12 @@ def prepare_data_for_break_down_plot(x, baseline, max_vars, rounding_function, d
     x.loc[:, 'contribution'] = rounding_function(x.loc[:, 'contribution'], digits)
     x.loc[:, 'cumulative'] = rounding_function(x.loc[:, 'cumulative'], digits)
 
-    x['tooltip_text'] = x.apply(lambda row: tooltip_text(row), axis=1)
+    x = x.assign(tooltip_text=x.apply(lambda row: tooltip_text(row), axis=1),
+                 label_text=label_text(x.contribution))
 
     x.iloc[[0, x.shape[0] - 1], x.columns.get_loc('tooltip_text')] = "Average response: " + str(
         x.iloc[0, x.columns.get_loc('cumulative')]) + "<br>Prediction: " + str(
         x.iloc[x.shape[0] - 1, x.columns.get_loc('cumulative')])
-
-    lt = x.contribution.astype(str).apply(lambda val: "+"+val if val[0] != "-" else val)
-    x = x.assign(label_text=lt)
 
     x.iloc[0, x.columns.get_loc("label_text")] = x.iloc[0, x.columns.get_loc('cumulative')]
     x.iloc[x.shape[0] - 1, x.columns.get_loc("label_text")] = x.iloc[x.shape[0] - 1, x.columns.get_loc('cumulative')]
@@ -50,3 +48,11 @@ def tooltip_text(row):
     else:
         key_word = "decreases"
     return str(row.variable) + "<br>" + key_word + " average response by"
+
+
+def label_text(x):
+    # convert floats to str but do better than numpy and pandas
+    y = [None]*len(x)
+    for i, val in enumerate(x):
+        y[i] = "+"+str(val) if val > 0 else str(val)
+    return y

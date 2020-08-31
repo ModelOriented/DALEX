@@ -18,6 +18,8 @@ def unpack_kwargs_lime(explainer, new_observation, **kwargs):
         explainer_dict['training_data'] = explainer.data.to_numpy()
     if 'mode' not in explainer_dict:
         explainer_dict['mode'] = explainer.model_type
+    if 'feature_names' not in explainer_dict:
+        explainer_dict['feature_names'] = explainer.data.columns
     if 'data_row' not in explanation_dict:
         explanation_dict['data_row'] = new_observation
     if 'predict_fn' not in explanation_dict:
@@ -95,17 +97,17 @@ def create_surrogate_model(explainer, type, max_vars, max_depth, **kwargs):
     return surrogate_model
 
 
-def plot_tree_custom(model, **kwargs):
+def plot_tree_custom(model, figsize=(16, 10), fontsize=10, filled=True, proportion=True, **kwargs):
     # wrapper for the plot_tree function, that makes the plot look useful
     # it does not return the plot (because plot_tree works so)
     import matplotlib.pyplot as plt
     from sklearn.tree import plot_tree
-    fig, ax = plt.subplots(figsize=(16, 10))
+    fig, ax = plt.subplots(figsize=figsize)
     _ = plot_tree(model,
-                  filled=True,
-                  fontsize=10,
+                  filled=filled,
+                  fontsize=fontsize,
                   ax=ax,
                   feature_names=model.feature_names,
                   class_names=model.class_names,
-                  proportion=True,
+                  proportion=proportion,
                   **kwargs)

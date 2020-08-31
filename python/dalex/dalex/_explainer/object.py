@@ -147,10 +147,10 @@ class Explainer:
                                                   precalculate, verbose)
       
         model_info_ = check_if_predict_function_accepts_arrays(predict_function,
-                                                         model,
-                                                         data.values[[0]],
-                                                         model_info_,
-                                                         verbose)
+                                                               model,
+                                                               data.values[[0]],
+                                                               model_info_,
+                                                               verbose)
 
         # if data is specified then we may test predict_function
         # at this moment we have predict function
@@ -231,7 +231,7 @@ class Explainer:
                       processes=1,
                       random_state=None,
                       **kwargs):
-        """Calculate instance level variable attributions as Break Down or Shapley Values
+        """Calculate instance level variable attributions as Break Down, Shapley Values or Shap Values
 
         Parameters
         -----------
@@ -261,10 +261,15 @@ class Explainer:
             Iterated over `B` (default is 1, which means no parallel computation).
         random_state : int, optional
             Set seed for random number generator (default is random seed).
-        **kwargs : dict
-            key-values parameters passed to a 'shap_values' method of the 'shap_explainer'
-            used only if type == 'shap_wrapper', you can specify here a 'shap' explainer
-            using parameter 'shap_explainer_type' (https://github.com/slundberg/shap)
+        kwargs :
+            Used only for 'shap_wrapper'. Pass `shap_explainer_type` to specify, which
+            Explainer shall be used: {'TreeExplainer', 'DeepExplainer', 'GradientExplainer',
+            'LinearExplainer', 'KernelExplainer'} (default is None, which automatically
+            chooses an Explainer to use).
+            Also keyword arguments passed to one of the: shap.TreeExplainer.shap_values,
+            shap.DeepExplainer.shap_values, shap.GradientExplainer.shap_values,
+            shap.LinearExplainer.shap_values, shap.KernelExplainer.shap_values.
+            See https://github.com/slundberg/shap
 
         Returns
         -----------
@@ -277,6 +282,7 @@ class Explainer:
         https://pbiecek.github.io/ema/breakDown.html
         https://pbiecek.github.io/ema/iBreakDown.html
         https://pbiecek.github.io/ema/shapley.html
+        https://github.com/slundberg/shap
         """
 
         types = ('break_down_interactions', 'break_down', 'shap', 'shap_wrapper')
@@ -494,20 +500,25 @@ class Explainer:
             (default is 1, which means no parallel computation).
         random_state : int, optional
             Set seed for random number generator (default is random seed).
-        **kwargs : dict
-            used only if type == 'shap_wrapper'
-            key word arguments to pass to 'shap' explainer's method 'shap_values'
-            you can specify here a 'shap' explainer using the parameter
-            'shap_explainer_type' (https://github.com/slundberg/shap)
+        kwargs :
+            Used only for 'shap_wrapper'. Pass `shap_explainer_type` to specify, which
+            Explainer shall be used: {'TreeExplainer', 'DeepExplainer', 'GradientExplainer',
+            'LinearExplainer', 'KernelExplainer'}.
+            Also keyword arguments passed to one of the: shap.TreeExplainer.shap_values,
+            shap.DeepExplainer.shap_values, shap.GradientExplainer.shap_values,
+            shap.LinearExplainer.shap_values, shap.KernelExplainer.shap_values.
+            See https://github.com/slundberg/shap
 
         Returns
         -----------
         VariableImportance or ShapWrapper class object
             Explanation object containing the main result attribute and the plot method.
+            Object class, its attributes, and the plot method depend on the `type` parameter.
 
         Notes
         --------
         https://pbiecek.github.io/ema/featureImportance.html
+        https://github.com/slundberg/shap
         """
 
         check_y_again(self.y)

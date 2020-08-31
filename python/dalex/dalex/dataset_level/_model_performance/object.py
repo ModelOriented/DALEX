@@ -40,9 +40,8 @@ class ModelPerformance:
         self.result = None
         self.residuals = None
 
-    def __str__(self):
-        from IPython.display import display
-        display(self.result)
+    def _repr_html_(self):
+        return self.result._repr_html_()
 
     def fit(self, explainer):
         """Calculate the result of explanation
@@ -85,7 +84,7 @@ class ModelPerformance:
                     'r2': [r2_],
                     'mae': [mae_],
                     'mad': [mad_]
-                })
+                }, index=[explainer.label])
         elif self.model_type == 'classification':
             tp = ((y_true == 1) * (y_pred >= self.cutoff)).sum()
             fp = ((y_true == 0) * (y_pred >= self.cutoff)).sum()
@@ -104,7 +103,7 @@ class ModelPerformance:
                 'f1': [f1_],
                 'accuracy': [accuracy_],
                 'auc': [auc_]
-            })
+            }, index=[explainer.label])
         else:
             raise ValueError("'model_type' must be 'regression' or 'classification'")
 
