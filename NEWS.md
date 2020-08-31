@@ -1,4 +1,4 @@
-DALEX (TBD)
+DALEX 2.0
 ---------------------------------------------------------------
 * `plot.predict_diagnostics` now passess ellipsis to `plot.ceteris_paribus_explainer`
 * This version requires `iBreakDown v1.3.1` and `ingredients v1.3.1`
