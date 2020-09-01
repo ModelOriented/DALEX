@@ -41,6 +41,12 @@
 #' @name variable_effect
 #' @export
 variable_effect <-  function(explainer, variables, ..., type = "partial_dependency") {
+  # Deprecated
+  if (!exists("message_variable_effect", envir = .DALEX.env)) {
+    .DALEX.env$message_variable_effect = TRUE
+    .Deprecated("DALEX::model_profile()", package = "DALEX", msg = "'variable_effect()' is deprecated. Use 'DALEX::model_profile()' instead.\nFind examples and detailed introduction at: https://pbiecek.github.io/ema/")
+  }
+
   switch (type,
           "partial_dependency" = variable_effect_partial_dependency(explainer, variables, ...),
           "accumulated_dependency" = variable_effect_accumulated_dependency(explainer, variables, ...),

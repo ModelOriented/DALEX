@@ -1,4 +1,4 @@
-DALEX 2.0
+DALEX 2.0.0
 ---------------------------------------------------------------
 * `plot.predict_diagnostics` now passess ellipsis to `plot.ceteris_paribus_explainer`
 * This version requires `iBreakDown v1.3.1` and `ingredients v1.3.1`
@@ -14,6 +14,7 @@ DALEX 2.0
 *  Corrected description of `N` in `model_parts` ([#287](https://github.com/ModelOriented/DALEX/issues/287)).
 *  New warning messages for `y` parameter in `explain` function.
 *  Solved bug in `yhat.ranger` causing `predicts_parts` not to plot correctly when task is multiclass.
+*  `variable_effect` is now deprecated
 
 DALEX 1.3.1.1
 ---------------------------------------------------------------
