@@ -2,12 +2,18 @@
 % Please edit documentation in R/misc_theme_drwhy.R
 \name{theme_drwhy}
 \alias{theme_drwhy}
+\alias{theme_ema}
 \alias{theme_drwhy_vertical}
+\alias{theme_ema_vertical}
 \title{DrWhy Theme for ggplot objects}
 \usage{
 theme_drwhy()
 
+theme_ema()
+
 theme_drwhy_vertical()
+
+theme_ema_vertical()
 }
 \value{
 theme for ggplot2 objects

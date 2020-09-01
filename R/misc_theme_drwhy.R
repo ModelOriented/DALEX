@@ -25,6 +25,22 @@ theme_drwhy <- function() {
 
 #' @export
 #' @rdname theme_drwhy
+theme_ema <- function() {
+  theme_drwhy() %+replace%
+    theme(text = element_text(color = "black", size = 12),
+          plot.title = element_text(color = "black", size = 14, hjust = 0),
+          plot.subtitle = element_blank(),
+          axis.text = element_text(color = "black", size = 12),
+          axis.text.x = element_text(color = "black", size = 12),
+          axis.text.y = element_text(color = "black", size = 12),
+          axis.title = element_text(color = "black", size = 12),
+          legend.text = element_text(color = "black", size = 12),
+          legend.position = "none",
+          strip.text = element_text(color = "black", size = 12, hjust = 0))
+}
+
+#' @export
+#' @rdname theme_drwhy
 theme_drwhy_vertical <- function() {
   theme_bw(base_line_size = 0) %+replace%
     theme(axis.ticks = element_blank(), legend.background = element_blank(),
@@ -42,8 +58,24 @@ theme_drwhy_vertical <- function() {
           strip.text = element_text(color = "#371ea3", size = 12, hjust = 0),
           panel.grid.major.x = element_line(color = "grey90", size = 0.5, linetype = 1),
           panel.grid.minor.x = element_line(color = "grey90", size = 0.5,  linetype = 1))
-
 }
+
+#' @export
+#' @rdname theme_drwhy
+theme_ema_vertical <- function() {
+  theme_drwhy_vertical() %+replace%
+    theme(text = element_text(color = "black", size = 12),
+          plot.title = element_text(color = "black", size = 14, hjust = 0),
+          plot.subtitle = element_blank(),
+          axis.text = element_text(color = "black", size = 12),
+          axis.text.x = element_text(color = "black", size = 12),
+          axis.text.y = element_text(color = "black", size = 12),
+          axis.title = element_text(color = "black", size = 12),
+          legend.text = element_text(color = "black", size = 12),
+          legend.position = "none",
+          strip.text = element_text(color = "black", size = 12, hjust = 0))
+}
+
 
 
 #' DrWhy color palettes for ggplot objects
