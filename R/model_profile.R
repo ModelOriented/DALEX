@@ -113,7 +113,7 @@ single_variable <- function(explainer, variable, type = "pdp",  ...) {
   # Deprecated
   if (!exists("message_partial_dependency", envir = .DALEX.env)) {
     .DALEX.env$message_partial_dependency = TRUE
-    .Deprecated("ingredients::partial_dependency()", package = "ingredients", msg = "Please note that 'single_variable()' is now deprecated, it is better to use 'ingredients::partial_dependency()' instead.\nFind examples and detailed introduction at: https://pbiecek.github.io/ema/")
+    .Deprecated("DALEX::model_profile()", package = "DALEX", msg = "'single_variable()' is deprecated. Use 'DALEX::model_profile()' instead.\nFind examples and detailed introduction at: https://pbiecek.github.io/ema/")
   }
 
    model_profile(explainer, variables = variable, ...)
