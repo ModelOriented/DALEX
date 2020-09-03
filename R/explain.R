@@ -164,7 +164,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
   # as for issue #15, if data is in the tibble format then needs to be translated to data.frame
   if ("tbl" %in% class(data)) {
     data <- as.data.frame(data)
-    verbose_cat("  -> data              :  tibbble converted into a data.frame \n", verbose = verbose)
+    verbose_cat("  -> data              :  tibble converted into a data.frame \n", verbose = verbose)
   }
   # as was requested in issue #155, It works becasue if data is NULL, instruction will not be evaluated
   if ("matrix" %in% class(data) && is.null(rownames(data))) {
