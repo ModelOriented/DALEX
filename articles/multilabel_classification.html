@@ -150,7 +150,7 @@
 #&gt; Target node size:                 10 
 #&gt; Variable importance mode:         none 
 #&gt; Splitrule:                        gini 
-#&gt; OOB prediction error (Brier s.):  0.2189002</code></pre>
+#&gt; OOB prediction error (Brier s.):  0.2167626</code></pre>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"DALEX"</span>)
 <span class="no">explain_HR_ranger</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span>(<span class="no">model_HR_ranger</span>,
                               <span class="kw">data</span> <span class="kw">=</span> <span class="no">HR</span>[,-<span class="fl">6</span>],
@@ -165,7 +165,7 @@
 #&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task multiclass (  default  ) 
 #&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  0.00144623 , mean =  0.2822081 , max =  0.8765155  
+#&gt;   -&gt; residuals         :  numerical, min =  0.000141844 , mean =  0.2764461 , max =  0.9098915  
 #&gt;   A new explainer has been created!</code></pre>
 <p>Ofcourse sixth column, that we have omitted during creation of explainer, stands for target column (<code>status</code>) and it is good practice not to put it in <code>data</code>. Keep in mind that default <code>yhat</code> function for <code>ranger</code> and for any other package that is supported by <code>DALEX</code>, enforces probability output. Therfore residuals cannot be standard <span class="math inline">\(y - \hat{y}\)</span>. Since <code>DALEX 1.2.2</code> in case of multiclass classification one minus probability of the TRUE class is standard residual function.</p>
 </div>
@@ -188,7 +188,7 @@
 #&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task multiclass (  default  ) 
 #&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  0.00144623 , mean =  0.2822081 , max =  0.8765155  
+#&gt;   -&gt; residuals         :  numerical, min =  0.000141844 , mean =  0.2764461 , max =  0.9098915  
 #&gt;   A new explainer has been created!</code></pre>
 <p>And now we can use <code><a href="../reference/model_parts.html">model_parts()</a></code></p>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">mp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/model_parts.html">model_parts</a></span>(<span class="no">explain_HR_ranger_new_y</span>, <span class="kw">loss_function</span> <span class="kw">=</span> <span class="no">loss_cross_entropy</span>)
@@ -245,17 +245,17 @@
 <a href="#model-performance" class="anchor"></a>Model Performance</h2>
 <div class="sourceCode" id="cb14"><html><body><pre class="r">(<span class="no">mp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/model_performance.html">model_performance</a></span>(<span class="no">explain_HR_ranger</span>))</pre></body></html></div>
 <pre><code>#&gt; Measures for:  multiclass
-#&gt; micro_F1   : 0.867975 
-#&gt; macro_F1   : 0.8658404 
-#&gt; w_macro_F1 : 0.8667244 
-#&gt; accuracy   : 0.867975 
-#&gt; w_macro_auc: 0.9763289
+#&gt; micro_F1   : 0.8703963 
+#&gt; macro_F1   : 0.8683019 
+#&gt; w_macro_F1 : 0.8691607 
+#&gt; accuracy   : 0.8703963 
+#&gt; w_macro_auc: 0.97791
 #&gt; 
 #&gt; Residuals:
-#&gt;         0%        10%        20%        30%        40%        50%        60% 
-#&gt; 0.00144623 0.02799158 0.06502355 0.12126941 0.18473178 0.24861302 0.31856010 
-#&gt;        70%        80%        90%       100% 
-#&gt; 0.39666128 0.48621184 0.59742044 0.87651550</code></pre>
+#&gt;          0%         10%         20%         30%         40%         50% 
+#&gt; 0.000141844 0.023993681 0.059909254 0.115880885 0.176538716 0.240892340 
+#&gt;         60%         70%         80%         90%        100% 
+#&gt; 0.313610761 0.392085303 0.481130991 0.589575668 0.909891532</code></pre>
 <div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">mp</span>)</pre></body></html></div>
 <p><img src="multilabel_classification_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 </div>
