@@ -60,7 +60,11 @@ model_diagnostics <-  function(explainer, variables = NULL, ...) {
   if (is.null(dim(explainer$y_hat))) {
     results$y_hat <- explainer$y_hat
   } else {
-    results$y_hat <- explainer$y_hat[, 1] # this will work only for first column
+    if ("array" %in% class(explainer$y_hat) && length(dim(explainer$y_hat)) == 1) {
+      results$y_hat <- as.vector(explainer$y_hat)
+    } else {
+      results$y_hat <- explainer$y_hat[, 1] # this will work only for first column
+    }
   }
 
   # are there residuals
@@ -70,7 +74,11 @@ model_diagnostics <-  function(explainer, variables = NULL, ...) {
   if (is.null(dim(explainer$residuals))) {
     results$residuals <- explainer$residuals
   } else {
-    results$residuals <- explainer$residuals[, 1] # this will work only for first column
+    if ("array" %in% class(explainer$residuals) && length(dim(explainer$residuals)) == 1) {
+      results$residuals <- as.vector(explainer$residuals)
+    } else {
+      results$residuals <- explainer$residuals[, 1] # this will work only for first column
+    }
   }
   results$abs_residuals <- abs(results$residuals)
   results$label <- explainer$label

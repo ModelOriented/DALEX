@@ -49,3 +49,15 @@ test_that("Print",{
   expect_error(print(diag_ranger_3), NA)
 })
 
+explainer_array <- explainer_ranger
+explainer_array$y_hat <- as.array(explainer_array$y_hat)
+
+explainer_array2 <- explainer_ranger
+explainer_array2$residuals <- as.array(explainer_array2$residuals)
+
+test_that("array", {
+  diag_array <- model_diagnostics(explainer_array)
+  expect_is(diag_array, 'model_diagnostics')
+  diag_array2 <- model_diagnostics(explainer_array2)
+  expect_is(diag_array2, 'model_diagnostics')
+})

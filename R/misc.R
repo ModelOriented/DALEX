@@ -38,7 +38,7 @@ test_explainer <- function(explainer,
                            has_y = FALSE,
                            function_name = "variable_profile") {
   # run checks against the explainer objects
-  if (!("explainer" %in% class(explainer)))
+  if (!("explainer" %in% class(explainer)) && !("dalex._explainer.object.Explainer" %in% class(explainer)))
        stop(paste0("The ",function_name," function requires an object created with explain() function."))
   if (has_data && is.null(explainer$data))
     stop(paste0("The ",function_name," function requires explainers created with specified 'data' parameter."))
