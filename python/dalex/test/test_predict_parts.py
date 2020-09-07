@@ -85,7 +85,7 @@ class PredictPartsTestTitanic(unittest.TestCase):
                               dx.instance_level.BreakDown)
 
         with self.assertRaises(TypeError):
-            self.exp.predict_parts(self.X.iloc[[0]], type='break_down',
+            self.exp.predict_parts(self.X.iloc[[0]], type='shap',
                                    path=['gender', 'embarked', 'sibsp', 'fare', 'age', 'parch', 'class'])
 
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='break_down', B=1),

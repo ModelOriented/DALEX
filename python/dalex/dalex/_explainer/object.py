@@ -526,7 +526,6 @@ class Explainer:
         """
 
         check_data_again(self.data)
-        check_y_again(self.y)
 
         types = ('variable_importance', 'ratio', 'difference', 'shap_wrapper')
         type = check_method_type(type, types)
@@ -534,6 +533,8 @@ class Explainer:
         loss_function = check_method_loss_function(self, loss_function)
 
         if type != 'shap_wrapper':
+            check_y_again(self.y)
+
             model_parts_ = VariableImportance(
                 loss_function=loss_function,
                 type=type,

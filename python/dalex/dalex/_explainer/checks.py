@@ -94,6 +94,8 @@ def check_weights(weights, data, verbose):
         # do nothing
         pass
     else:
+        check_data_again()
+
         if isinstance(weights, pd.Series):
             weights = np.array(weights)
             verbose_cat(
@@ -202,12 +204,14 @@ def check_predict_function_and_model_type(predict_function, model_type,
         except (Exception, ValueError, TypeError) as error:
             verbose_cat("  -> predicted values  :  the predict_function returns an error when executed",
                         verbose=verbose)
-            print(error)
+            print("\n" + error)
 
     return predict_function, model_type, y_hat, model_info_
 
 
 def check_if_predict_function_accepts_arrays(predict_function, model, data, model_info, verbose):
+    if data is None:
+        return model_info
     try:
         predict_function(model, data)
         model_info['arrays_accepted'] = True
