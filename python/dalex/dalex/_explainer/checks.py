@@ -213,7 +213,8 @@ def check_if_predict_function_accepts_arrays(predict_function, model, data, mode
     if data is None:
         return model_info
     try:
-        predict_function(model, data)
+        data_values = data.values[[0]]
+        predict_function(model, data_values)
         model_info['arrays_accepted'] = True
         verbose_cat("  -> predict function  : accepts pandas.DataFrame and numpy.ndarray",
                     verbose=verbose)

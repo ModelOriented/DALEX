@@ -144,7 +144,7 @@ class Explainer:
       
         model_info_ = check_if_predict_function_accepts_arrays(predict_function,
                                                                model,
-                                                               data.values[[0]],
+                                                               data,
                                                                model_info_,
                                                                verbose)
 
