@@ -180,6 +180,31 @@ def check_predict_function_and_model_type(predict_function, model_type,
         model_info_['predict_function_default'] = False
         verbose_cat("  -> predict function  : " + str(predict_function) + " will be used", verbose=verbose)
 
+    y_hat = None
+    if data is not None:
+        if verbose or precalculate:
+            try:
+                y_hat = predict_function(model, data)
+                verbose_cat(str.format("  -> predicted values  : min = {0:.3}, mean = {1:.3}, max = {2:.3}",
+                                       np.min(y_hat), np.mean(y_hat), np.max(y_hat)), verbose=verbose)
+
+            except (Exception, ValueError, TypeError) as error:
+                verbose_cat("  -> predicted values  :  the predict_function returns an error when executed",
+                            verbose=verbose)
+                print("\n" + error)
+
+        # check if predict_function accepts arrays
+        try:
+            data_values = data.values[[0]]
+            predict_function(model, data_values)
+            model_info_['arrays_accepted'] = True
+            verbose_cat("  -> predict function  : accepts pandas.DataFrame and numpy.ndarray",
+                        verbose=verbose)
+        except:
+            model_info_['arrays_accepted'] = False
+            verbose_cat("  -> predict function  : accepts only pandas.DataFrame, numpy.ndarray causes problems",
+                        verbose=verbose)
+
     if model_type is None:
         # model_type not specified
         if model_type_ is None:
@@ -194,36 +219,7 @@ def check_predict_function_and_model_type(predict_function, model_type,
         model_info_['model_type_default'] = False
         verbose_cat("  -> model type        : " + str(model_type) + " will be used", verbose=verbose)
 
-    y_hat = None
-    if data is not None and (verbose or precalculate):
-        try:
-            y_hat = predict_function(model, data)
-            verbose_cat(str.format("  -> predicted values  : min = {0:.3}, mean = {1:.3}, max = {2:.3}",
-                                   np.min(y_hat), np.mean(y_hat), np.max(y_hat)), verbose=verbose)
-
-        except (Exception, ValueError, TypeError) as error:
-            verbose_cat("  -> predicted values  :  the predict_function returns an error when executed",
-                        verbose=verbose)
-            print("\n" + error)
-
     return predict_function, model_type, y_hat, model_info_
-
-
-def check_if_predict_function_accepts_arrays(predict_function, model, data, model_info, verbose):
-    if data is None:
-        return model_info
-    try:
-        data_values = data.values[[0]]
-        predict_function(model, data_values)
-        model_info['arrays_accepted'] = True
-        verbose_cat("  -> predict function  : accepts pandas.DataFrame and numpy.ndarray",
-                    verbose=verbose)
-    except:
-        model_info['arrays_accepted'] = False
-        verbose_cat("  -> predict function  : accepts only pandas.DataFrame, numpy.ndarray causes problems",
-                    verbose=verbose)
-    finally:
-        return model_info
 
 
 def check_residual_function(residual_function, predict_function, model, data, y, model_info, precalculate, verbose):
@@ -255,15 +251,13 @@ def check_residual_function(residual_function, predict_function, model, data, y,
 
 
 def check_model_info(model_info, model_info_, verbose):
-    if model_info is not None:
-        for key, value in model_info_.items():
-            model_info[key] = value
-    else:
-        model_info = model_info_
+    if isinstance(model_info, dict):
+        for key, value in model_info.items():
+            model_info_[key] = value
 
-    verbose_cat("  -> model_info        : package " + model_info['model_package'], verbose=verbose)
+    verbose_cat("  -> model_info        : package " + model_info_['model_package'], verbose=verbose)
 
-    return model_info
+    return model_info_
 
 
 def check_method_type(type, types):

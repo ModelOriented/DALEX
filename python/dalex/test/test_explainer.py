@@ -45,10 +45,10 @@ class ExplainerTest(unittest.TestCase):
         case3 = dx.Explainer(self.model, None, self.y, verbose=False)
         case4 = dx.Explainer(self.model, None, None, verbose=False)
 
-        self.assertIsInstance(case1, dx.Explaine)
-        self.assertIsInstance(case2, dx.Explaine)
-        self.assertIsInstance(case3, dx.Explaine)
-        self.assertIsInstance(case4, dx.Explaine)
+        self.assertIsInstance(case1, dx.Explainer)
+        self.assertIsInstance(case2, dx.Explainer)
+        self.assertIsInstance(case3, dx.Explainer)
+        self.assertIsInstance(case4, dx.Explainer)
 
         with self.assertRaises(ValueError):
             case2.model_performance()

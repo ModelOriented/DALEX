@@ -131,8 +131,10 @@ class Explainer:
         # REPORT: checks for weights
         weights = check_weights(weights, data, verbose)
 
+        # REPORT: checks for model_class
         model_class, model_info_ = check_model_class(model_class, model, verbose)
 
+        # REPORT: checks for label
         label, model_info_ = check_label(label, model_class, model_info_, verbose)
 
         # REPORT: checks for predict_function and model_type
@@ -141,12 +143,6 @@ class Explainer:
             check_predict_function_and_model_type(predict_function, model_type,
                                                   model, data, model_class, model_info_,
                                                   precalculate, verbose)
-      
-        model_info_ = check_if_predict_function_accepts_arrays(predict_function,
-                                                               model,
-                                                               data,
-                                                               model_info_,
-                                                               verbose)
 
         # if data is specified then we may test predict_function
         # at this moment we have predict function
@@ -156,6 +152,7 @@ class Explainer:
                                                                             model, data, y,
                                                                             model_info_, precalculate, verbose)
 
+        # REPORT: checks for model_info
         model_info = check_model_info(model_info, model_info_, verbose)
 
         # READY to create an explainer

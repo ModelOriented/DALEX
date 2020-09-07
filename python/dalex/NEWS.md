@@ -3,6 +3,11 @@ dalex (development)
 
 * updated the `tqdm` dependency to `>=4.48.2`
 
+### bug fixes
+
+* fixed the wrong order of `Explainer` verbose messages
+* fixed a bug that caused `model_info` parameter to be overwritten by the default values
+
 ### features
 
 * added informative error messages when importing optional dependencies ([#316](https://github.com/ModelOriented/DALEX/issues/316))
