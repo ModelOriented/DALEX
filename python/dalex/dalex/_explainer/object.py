@@ -296,13 +296,13 @@ class Explainer:
         elif type == 'shap':
             predict_parts_ = Shap(
                 keep_distributions=keep_distributions,
-                path=path_,
+                path=path,
                 B=B,
                 processes=processes,
                 random_state=random_state
             )
         elif type == 'shap_wrapper':
-            global_checks.check_import('shap', msg='Install shap>=0.35.0 for SHAP explanations.')
+            global_checks.global_check_import('shap', msg='Install shap>=0.35.0 for SHAP explanations.')
             predict_parts_ = ShapWrapper('predict_parts')
 
         predict_parts_.fit(self, new_observation, **kwargs)
@@ -414,7 +414,7 @@ class Explainer:
         check_data_again(self.data)
 
         if type == 'lime':
-            global_checks.check_import('lime', msg='Install lime>=0.2.0.1 for LIME explanations.')
+            global_checks.global_check_import('lime', msg='Install lime>=0.2.0.1 for LIME explanations.')
             from lime.lime_tabular import LimeTabularExplainer
             new_observation = check_new_observation_lime(new_observation)
 
@@ -547,7 +547,7 @@ class Explainer:
             )
             model_parts_.fit(self)
         elif type == 'shap_wrapper':
-            global_checks.check_import('shap', msg='Install shap>=0.35.0 for SHAP explanations.')
+            global_checks.global_check_import('shap', msg='Install shap>=0.35.0 for SHAP explanations.')
             model_parts_ = ShapWrapper('model_parts')
             if N is None:
                 N = self.data.shape[0]
@@ -738,7 +738,7 @@ class Explainer:
         https://github.com/scikit-learn/scikit-learn
         """
 
-        global_checks.check_import('scikit-learn', msg='Install scikit-learn>=0.21 for surrogate models.')
+        global_checks.global_check_import('scikit-learn', msg='Install scikit-learn>=0.21 for surrogate models.')
         check_data_again(self.data)
 
         types = ('tree', 'linear')
