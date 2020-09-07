@@ -6,77 +6,19 @@ from .helper import *
 from .yhat import *
 
 
-def check_path(path):
-    if not isinstance(path, (str, list, np.ndarray, pd.Series)):
-        raise TypeError('path must be str or list or numpy.ndarray or pd.Series')
-    if isinstance(path, str):
-        if path != 'average':
-            raise ValueError("if path is str, then it must be 'average'")
-        else:
-            return path
-
-    path_ = np.array(path)
-    if not isinstance(path_[0], np.integer):
-        raise TypeError('if path is array-like, then must be array of integers')
-
-    return path_
-
-
-def check_if_predict_function_accepts_arrays(predict_function, model, data, model_info, verbose):
-    try:
-        predict_function(model, data)
-        model_info['arrays_accepted'] = True
-        verbose_cat("  -> predict function  : accepts pandas.DataFrame and numpy.ndarray",
-                    verbose=verbose)
-    except:
-        model_info['arrays_accepted'] = False
-        verbose_cat("  -> predict function  : accepts only pandas.DataFrame, numpy.ndarray causes problems",
-                    verbose=verbose)
-    finally:
-        return model_info
-
-
-def check_pred_data(data):
-    if not isinstance(data, (pd.DataFrame, np.ndarray)):
-        raise TypeError('data has to be pandas.DataFrame')
-
-    if isinstance(data, np.ndarray) and data.ndim != 2:
-        raise ValueError("data must have 2 dimensions")
-
-
-def check_label(label, model_class, model_info, verbose):
-    if label is None:
-        # label not specified
-        # try to extract something
-
-        label = model_class.split('.')[-1]
-        verbose_cat("  -> label             : not specified, model's class short name is taken instead (default)",
-                    verbose=verbose)
-
-        model_info['label_default'] = True
-    else:
-        if not isinstance(label, str):
-            raise TypeError("Label is not a string")
-
-        verbose_cat("  -> label             : " + label, verbose=verbose)
-        model_info['label_default'] = False
-
-    return label, model_info
-
-
 def check_data(data, verbose):
-    if isinstance(data, np.ndarray):
-        verbose_cat("data is converted to pd.DataFrame, columns are set as string numbers", verbose=verbose)
-        data = pd.DataFrame(data)
-        data.columns = data.columns.astype(str)
-    elif not isinstance(data, pd.DataFrame) and data is not None:
-        raise TypeError("data must be pandas.DataFrame or numpy.ndarray")
-    elif data is None:
+    if data is None:
         verbose_cat("  -> data   : not specified!", verbose=verbose)
+    else:
+        if isinstance(data, np.ndarray):
+            verbose_cat("data is converted to pd.DataFrame, columns are set as string numbers", verbose=verbose)
+            data = pd.DataFrame(data)
+            data.columns = data.columns.astype(str)
+        elif not isinstance(data, pd.DataFrame):
+            raise TypeError("data must be pandas.DataFrame or numpy.ndarray")
 
-    if data is not None:
         if data.index.unique().shape[0] != data.shape[0]:
-            raise ValueError("Index is not unique")
+            raise ValueError("'data' index is not unique")
 
         verbose_cat("  -> data              : " + str(data.shape[0]) + " rows " + str(data.shape[1]) + " cols",
                     verbose=verbose)
@@ -84,40 +26,56 @@ def check_data(data, verbose):
     return data
 
 
-def check_y(y, data, verbose):
-    if isinstance(y, pd.Series):
-        y = np.array(y)
-        verbose_cat("  -> target variable   : Argument 'y' was a pandas.Series. Converted to a numpy.ndarray.",
-                    verbose=verbose)
-    elif isinstance(y, np.ndarray) and len(y.shape) != 1:
-        raise ValueError("y must have only one dimension")
-    elif not isinstance(y, np.ndarray) and data is not None:
-        raise TypeError("y must be a 1D numpy.ndarray or pandas.Series")
-    elif y is None:
-        verbose_cat("  -> target variable   : not specified!", verbose=verbose)
+def check_method_data(data):
+    if not isinstance(data, (pd.DataFrame, np.ndarray)):
+        raise TypeError('data has to be pandas.DataFrame or numpy.ndarray')
 
-    if y is not None:
+    if isinstance(data, np.ndarray) and data.ndim != 2:
+        raise ValueError("data must have 2 dimensions")
+
+
+def check_data_again(data):
+    if data is None:
+        raise ValueError("'data' attribute in Explainer is missing")
+
+
+def check_y(y, data, verbose):
+    if y is None:
+        verbose_cat("  -> target variable   : not specified!", verbose=verbose)
+    else:
+        if isinstance(y, pd.Series):
+            y = np.array(y)
+            verbose_cat("  -> target variable   : Argument 'y' was a pandas.Series. Converted to a numpy.ndarray.",
+                        verbose=verbose)
+        elif isinstance(y, np.ndarray) and len(y.shape) != 1:
+            raise ValueError("y must have only one dimension")
+        elif not isinstance(y, np.ndarray):
+            raise TypeError("y must be a 1D numpy.ndarray or pandas.Series")
+
         verbose_cat("  -> target variable   : " + str(y.shape[0]) + " values", verbose=verbose)
 
-    if y.shape[0] != data.shape[0]:
-        verbose_cat("  -> target variable   : length of 'y' is different than number of rows in 'data'",
-                    verbose=verbose)
+        if isinstance(y[0], str):
+            verbose_cat("  -> target variable   : Please note that 'y' is character vector.", verbose=verbose)
+            verbose_cat("  -> target variable   : Consider changing the 'y' to a logical or numerical vector.",
+                        verbose=verbose)
+            verbose_cat(
+                "  -> target variable   : Otherwise I will not be able to calculate residuals or loss function.",
+                verbose=verbose)
 
-    if isinstance(y[0], str):
-        verbose_cat("  -> target variable   : Please note that 'y' is character vector.", verbose=verbose)
-        verbose_cat("  -> target variable   : Consider changing the 'y' to a logical or numerical vector.",
-                    verbose=verbose)
-        verbose_cat(
-            "  -> target variable   : Otherwise I will not be able to calculate residuals or loss function.",
-            verbose=verbose)
+        if data is not None:
+            if y.shape[0] != data.shape[0]:
+                verbose_cat("  -> target variable   : length of 'y' is different than number of rows in 'data'",
+                            verbose=verbose)
 
-    if data is not None and is_y_in_data(data, y):
-        verbose_cat(
-            "  -> data              : A column identical to the target variable `y` has been found in the `data`.",
-            verbose=verbose)
-        verbose_cat(
-            "  -> data              : It is highly recommended to pass `data` without the target variable column",
-            verbose=verbose)
+            if is_y_in_data(data, y):
+                verbose_cat(
+                    "  -> data              : A column identical to the target variable" +
+                    " `y` has been found in the `data`.",
+                    verbose=verbose)
+                verbose_cat(
+                    "  -> data              : It is highly recommended to pass `data` without" +
+                    " the target variable column",
+                    verbose=verbose)
 
     return y
 
@@ -155,6 +113,50 @@ def check_weights(weights, data, verbose):
                 verbose=verbose)
 
     return weights
+
+
+def check_model_class(model_class, model, verbose):
+    model_info = get_model_info(model)
+
+    if model_class is None:
+        if hasattr(model, "_final_estimator"):
+            model_class = str(type(model._final_estimator))
+            model_info['Pipeline'] = True
+        else:
+            model_class = str(type(model))
+            model_info['Pipeline'] = False
+        from re import search
+        model_class = search("(?<=<class ').*(?='>)", model_class)[0]
+        model_info['model_class_default'] = True
+
+        verbose_cat("  -> model_class       : " + model_class + " (default)", verbose=verbose)
+
+    else:
+        model_info['model_class_default'] = False
+
+        verbose_cat("  -> model_class       : " + model_class, verbose=verbose)
+
+    return model_class, model_info
+
+
+def check_label(label, model_class, model_info, verbose):
+    if label is None:
+        # label not specified
+        # try to extract something
+
+        label = model_class.split('.')[-1]
+        verbose_cat("  -> label             : not specified, model's class short name is taken instead (default)",
+                    verbose=verbose)
+
+        model_info['label_default'] = True
+    else:
+        if not isinstance(label, str):
+            raise TypeError("Label is not a string")
+
+        verbose_cat("  -> label             : " + label, verbose=verbose)
+        model_info['label_default'] = False
+
+    return label, model_info
 
 
 def check_predict_function_and_model_type(predict_function, model_type,
@@ -203,6 +205,20 @@ def check_predict_function_and_model_type(predict_function, model_type,
             print(error)
 
     return predict_function, model_type, y_hat, model_info_
+
+
+def check_if_predict_function_accepts_arrays(predict_function, model, data, model_info, verbose):
+    try:
+        predict_function(model, data)
+        model_info['arrays_accepted'] = True
+        verbose_cat("  -> predict function  : accepts pandas.DataFrame and numpy.ndarray",
+                    verbose=verbose)
+    except:
+        model_info['arrays_accepted'] = False
+        verbose_cat("  -> predict function  : accepts only pandas.DataFrame, numpy.ndarray causes problems",
+                    verbose=verbose)
+    finally:
+        return model_info
 
 
 def check_residual_function(residual_function, predict_function, model, data, y, model_info, precalculate, verbose):
@@ -302,31 +318,7 @@ def check_if_empty_fields(explainer):
     return explainer
 
 
-def check_model_class(model_class, model, verbose):
-    model_info = get_model_info(model)
-
-    if model_class is None:
-        if hasattr(model, "_final_estimator"):
-            model_class = str(type(model._final_estimator))
-            model_info['Pipeline'] = True
-        else:
-            model_class = str(type(model))
-            model_info['Pipeline'] = False
-        from re import search
-        model_class = search("(?<=<class ').*(?='>)", model_class)[0]
-        model_info['model_class_default'] = True
-
-        verbose_cat("  -> model_class       : " + model_class + " (default)", verbose=verbose)
-
-    else:
-        model_info['model_class_default'] = False
-
-        verbose_cat("  -> model_class       : " + model_class, verbose=verbose)
-
-    return model_class, model_info
-
-
-def check_loss_function(explainer, loss_function):
+def check_method_loss_function(explainer, loss_function):
     if loss_function is not None or explainer.model_type is None:  # user passed a function or type is not known
         return loss_function
     elif explainer.model_type == 'regression':

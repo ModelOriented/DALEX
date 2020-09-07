@@ -2,7 +2,7 @@ import plotly.graph_objects as go
 
 from dalex.dataset_level._model_performance.plot import ecdf
 from .utils import *
-from ..._explainer.theme import get_default_colors
+from ... import theme, global_checks
 
 
 class ModelPerformance:
@@ -143,14 +143,15 @@ class ModelPerformance:
             _df_list = [self.residuals.copy()]
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             _df_list = [self.residuals.copy(), objects.residuals.copy()]
-        else:  # objects as tuple or array
+        elif isinstance(objects, (list, tuple)):  # objects as tuple or array
             _df_list = [self.residuals.copy()]
             for ob in objects:
-                if not isinstance(ob, self.__class__):
-                    raise TypeError("Some explanations aren't of ModelPerformance class")
+                global_checks.global_check_object_class(ob, self.__class__)
                 _df_list += [ob.residuals.copy()]
+        else:
+            global_checks.global_raise_objects_class(objects, self.__class__)
 
-        colors = get_default_colors(len(_df_list), 'line')
+        colors = theme.get_default_colors(len(_df_list), 'line')
         fig = go.Figure()
 
         for i, _df in enumerate(_df_list):
@@ -175,12 +176,6 @@ class ModelPerformance:
                           margin={'t': 78, 'b': 71, 'r': 30})
 
         if show:
-            fig.show(config={'displaylogo': False, 'staticPlot': False,
-                             'toImageButtonOptions': {'height': None, 'width': None, },
-                             'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
-                                                        'zoom2d',
-                                                        'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',
-                                                        'toggleSpikelines', 'hoverCompareCartesian',
-                                                        'hoverClosestCartesian']})
+            fig.show(config=theme.get_default_config())
         else:
             return fig

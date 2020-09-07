@@ -3,7 +3,7 @@ from plotly.subplots import make_subplots
 from .plot import *
 from .checks import *
 from .utils import calculate_variable_importance
-from ..._explainer.theme import get_default_colors
+from ... import theme, global_checks
 
 
 class VariableImportance:
@@ -186,13 +186,14 @@ class VariableImportance:
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             n = 2
             _result_df = pd.concat([self.result.copy(), objects.result.copy()])
-        else:  # objects as tuple or array
+        elif isinstance(objects, (list, tuple)):  # objects as tuple or array
             n = len(objects) + 1
             _result_df = self.result.copy()
             for ob in objects:
-                if not isinstance(ob, self.__class__):
-                    raise TypeError("Some explanations aren't of VariableImportance class")
+                global_checks.global_check_object_class(ob, self.__class__)
                 _result_df = pd.concat([_result_df, ob.result.copy()])
+        else:
+            global_checks.global_raise_objects_class(objects, self.__class__)
 
         dl = _result_df.loc[_result_df.variable != '_baseline_', 'dropout_loss'].to_numpy()
         min_max_margin = dl.ptp() * 0.15
@@ -216,7 +217,7 @@ class VariableImportance:
 
         plot_height = 78 + 71
 
-        colors = get_default_colors(n, 'bar')
+        colors = theme.get_default_colors(n, 'bar')
 
         if vertical_spacing is None:
             vertical_spacing = 0.2 / n
@@ -284,9 +285,7 @@ class VariableImportance:
                     row=i + 1, col=1)
 
                 plot_height += m * bar_width + (m + 1) * bar_width / 4 + 30
-
-        elif split == "variable":
-
+        else:
             # split df by variable
             df_list = [v for k, v in _result_df.groupby('variable', sort=False)]
 
@@ -355,12 +354,6 @@ class VariableImportance:
                           height=plot_height, margin={'t': 78, 'b': 71, 'r': 30})
 
         if show:
-            fig.show(config={'displaylogo': False, 'staticPlot': False,
-                             'toImageButtonOptions': {'height': None, 'width': None, },
-                             'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
-                                                        'zoom2d',
-                                                        'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',
-                                                        'toggleSpikelines', 'hoverCompareCartesian',
-                                                        'hoverClosestCartesian']})
+            fig.show(config=theme.get_default_config())
         else:
             return fig

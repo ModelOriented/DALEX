@@ -1,6 +1,7 @@
 import numpy as np
 import plotly.graph_objects as go
 
+
 def get_default_colors(n, type):
     default_colors = ["#8bdcbe", "#f05a71", "#371ea3", "#46bac2", "#ae2c87", "#ffa58c", "#4378bf"]
 
@@ -40,6 +41,16 @@ def get_default_colors(n, type):
 
 def get_break_down_colors():
     return ["#371ea3", "#8bdcbe", "#f05a71"]
+
+
+def get_default_config():
+    return {
+                'displaylogo': False, 'staticPlot': False,
+                'toImageButtonOptions': {'height': None, 'width': None, },
+                'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d', 'zoom2d', 'pan2d',
+                                           'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines',
+                                           'hoverCompareCartesian', 'hoverClosestCartesian']
+            }
 
 
 def fig_update_line_plot(fig, title, y_title, plot_height, hovermode):

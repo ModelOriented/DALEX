@@ -3,7 +3,7 @@ from plotly.subplots import make_subplots
 from .plot import *
 from .checks import *
 from .utils import shap
-from ..._explainer.theme import get_break_down_colors
+from ... import theme, global_checks
 
 
 class Shap:
@@ -57,11 +57,11 @@ class Shap:
                  processes=1,
                  random_state=None):
 
+        path_ = check_path(path)
         processes_ = check_processes(processes)
-
         random_state_ = check_random_state(random_state)
 
-        self.path = path
+        self.path = path_
         self.keep_distributions = keep_distributions
         self.B = B
         self.result = None
@@ -162,17 +162,18 @@ class Shap:
                             objects.result.loc[objects.result['B'] == 0,].copy()]
             _intercept_list = [self.intercept, objects.intercept]
             _prediction_list = [self.prediction, objects.prediction]
-        else:  # objects as tuple or array
+        elif isinstance(objects, (list, tuple)):  # objects as tuple or array
             n = len(objects) + 1
             _result_list = [self.result.loc[self.result['B'] == 0,].copy()]
             _intercept_list = [self.intercept]
             _prediction_list = [self.prediction]
             for ob in objects:
-                if not isinstance(ob, self.__class__):
-                    raise TypeError("Some explanations aren't of Shap class")
+                global_checks.global_check_object_class(ob, self.__class__)
                 _result_list += [ob.result.loc[ob.result['B'] == 0,].copy()]
                 _intercept_list += [ob.intercept]
                 _prediction_list += [ob.prediction]
+        else:
+            global_checks.global_raise_objects_class(objects, self.__class__)
 
         # TODO: add intercept and prediction list update for multi-class
         # deleted_indexes = []
@@ -197,16 +198,14 @@ class Shap:
         plot_height = 78 + 71
 
         if vcolors is None:
-            vcolors = get_break_down_colors()
+            vcolors = theme.get_break_down_colors()
 
         if min_max is None:
             temp_min_max = [np.Inf, -np.Inf]
         else:
             temp_min_max = min_max
 
-        for i in range(n):
-            _result = _result_list[i]
-
+        for i, _result in enumerate(_result_list):
             if _result.shape[0] <= max_vars:
                 m = _result.shape[0]
             else:
@@ -268,12 +267,6 @@ class Shap:
                           height=plot_height, margin={'t': 78, 'b': 71, 'r': 30})
 
         if show:
-            fig.show(config={'displaylogo': False, 'staticPlot': False,
-                             'toImageButtonOptions': {'height': None, 'width': None, },
-                             'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
-                                                        'zoom2d', 'pan2d',
-                                                        'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines',
-                                                        'hoverCompareCartesian',
-                                                        'hoverClosestCartesian']})
+            fig.show(config=theme.get_default_config())
         else:
             return fig

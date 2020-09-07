@@ -45,7 +45,7 @@ setuptools.setup(
         'pandas>=1.1.0',
         'numpy>=1.18.1',
         'plotly>=4.9.0',
-        'tqdm>=4.42.1'
+        'tqdm>=4.48.2'
     ],
     test_requirements=[
         'lime>=0.2.0.1',       # Explainer.predict_surrogate

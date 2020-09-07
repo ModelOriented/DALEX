@@ -1,8 +1,7 @@
 import plotly.express as px
 
 from .checks import *
-from ..._explainer.theme import get_default_colors
-from ..._explainer.utils import check_import
+from ... import theme, global_checks
 
 
 class ResidualDiagnostics:
@@ -66,7 +65,7 @@ class ResidualDiagnostics:
         if explainer.residuals is None:
             explainer.residuals = explainer.residual(explainer.data, explainer.y)
 
-        self.result  = result.assign(
+        self.result = result.assign(
             y_hat=explainer.y_hat,
             residuals=explainer.residuals,
             abs_residuals=np.abs(explainer.residuals),
@@ -113,27 +112,27 @@ class ResidualDiagnostics:
             Return figure that can be edited or saved. See `show` parameter.
         """
 
-        check_import('statsmodels', msg='Install statsmodels>=0.11.1 for smoothing line.')
+        global_checks.global_check_import('statsmodels', msg='Install statsmodels>=0.11.1 for smoothing line.')
 
         # are there any other objects to plot?
         if objects is None:
             _df_list = [self.result.copy()]
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             _df_list = [self.result.copy(), objects.result.copy()]
-        else:  # objects as tuple or array
+        elif isinstance(objects, (list, tuple)):  # objects as tuple or array
             _df_list = [self.result.copy()]
             for ob in objects:
-                if not isinstance(ob, self.__class__):
-                    raise TypeError("Some explanations aren't of ResidualDiagnostics class: " +
-                                    type(ob))
+                global_checks.global_check_object_class(ob, self.__class__)
                 _df_list += [ob.result.copy()]
+        else:
+            global_checks.global_raise_objects_class(objects, self.__class__)
 
         fig = px.scatter(pd.concat(_df_list),
                          x=variable,
                          y=yvariable,
                          color="label",
                          trendline="lowess" if smooth else None,
-                         color_discrete_sequence=get_default_colors(len(_df_list), 'line')) \
+                         color_discrete_sequence=theme.get_default_colors(len(_df_list), 'line')) \
                .update_traces(dict(marker_size=marker_size, line_width=line_width))
 
         # wait for https://github.com/plotly/plotly.py/pull/2558 to add hline to the plot
@@ -148,12 +147,6 @@ class ResidualDiagnostics:
                           margin={'t': 78, 'b': 71, 'r': 30})
 
         if show:
-            fig.show(config={'displaylogo': False, 'staticPlot': False,
-                             'toImageButtonOptions': {'height': None, 'width': None, },
-                             'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
-                                                        'zoom2d',
-                                                        'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',
-                                                        'toggleSpikelines', 'hoverCompareCartesian',
-                                                        'hoverClosestCartesian']})
+            fig.show(config=theme.get_default_config())
         else:
             return fig

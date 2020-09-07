@@ -3,7 +3,8 @@ from dalex.dataset_level import ModelPerformance, VariableImportance,\
 from dalex.instance_level import BreakDown, Shap, CeterisParibus
 from dalex.wrappers import ShapWrapper
 from .checks import *
-from .utils import unpack_kwargs_lime, create_surrogate_model, check_import
+from .utils import unpack_kwargs_lime, create_surrogate_model
+from .. import global_checks
 
 
 class Explainer:
@@ -122,11 +123,6 @@ class Explainer:
                 'green_end': ""}
 
         # REPORT: checks for data
-        """
-        Contrary to the R package, data cannot be retrieved from model, thus data is necessary.
-        If data is None, tell user about the lack of the data.
-        """
-
         data = check_data(data, verbose)
 
         # REPORT: checks for y
@@ -194,7 +190,7 @@ class Explainer:
             Model predictions for given `data`.
         """
 
-        check_pred_data(data)
+        check_method_data(data)
 
         return self.predict_function(self.model, data)
 
@@ -216,7 +212,7 @@ class Explainer:
             Model residuals for given `data` and `y`.
         """
 
-        check_pred_data(data)
+        check_method_data(data)
 
         return self.residual_function(self.model, data, y)
 
@@ -285,9 +281,10 @@ class Explainer:
         https://github.com/slundberg/shap
         """
 
+        check_data_again(self.data)
+
         types = ('break_down_interactions', 'break_down', 'shap', 'shap_wrapper')
         type = check_method_type(type, types)
-        path_ = check_path(path)
 
         if type == 'break_down_interactions' or type == 'break_down':
             predict_parts_ = BreakDown(
@@ -305,7 +302,7 @@ class Explainer:
                 random_state=random_state
             )
         elif type == 'shap_wrapper':
-            check_import('shap', msg='Install shap>=0.35.0 for SHAP explanations.')
+            global_checks.check_import('shap', msg='Install shap>=0.35.0 for SHAP explanations.')
             predict_parts_ = ShapWrapper('predict_parts')
 
         predict_parts_.fit(self, new_observation, **kwargs)
@@ -366,6 +363,8 @@ class Explainer:
         https://pbiecek.github.io/ema/ceterisParibus.html
         """
 
+        check_data_again(self.data)
+
         types = ('ceteris_paribus', )
         type = check_method_type(type, types)
 
@@ -412,8 +411,10 @@ class Explainer:
         https://github.com/marcotcr/lime
         """
 
+        check_data_again(self.data)
+
         if type == 'lime':
-            check_import('lime', msg='Install lime>=0.2.0.1 for LIME explanations.')
+            global_checks.check_import('lime', msg='Install lime>=0.2.0.1 for LIME explanations.')
             from lime.lime_tabular import LimeTabularExplainer
             new_observation = check_new_observation_lime(new_observation)
 
@@ -447,6 +448,7 @@ class Explainer:
         https://pbiecek.github.io/ema/modelPerformance.html
         """
 
+        check_data_again(self.data)
         check_y_again(self.y)
 
         if model_type is None and self.model_type is None:
@@ -523,12 +525,13 @@ class Explainer:
         https://github.com/slundberg/shap
         """
 
+        check_data_again(self.data)
         check_y_again(self.y)
 
         types = ('variable_importance', 'ratio', 'difference', 'shap_wrapper')
         type = check_method_type(type, types)
 
-        loss_function = check_loss_function(self, loss_function)
+        loss_function = check_method_loss_function(self, loss_function)
 
         if type != 'shap_wrapper':
             model_parts_ = VariableImportance(
@@ -544,7 +547,7 @@ class Explainer:
             )
             model_parts_.fit(self)
         elif type == 'shap_wrapper':
-            check_import('shap', msg='Install shap>=0.35.0 for SHAP explanations.')
+            global_checks.check_import('shap', msg='Install shap>=0.35.0 for SHAP explanations.')
             model_parts_ = ShapWrapper('model_parts')
             if N is None:
                 N = self.data.shape[0]
@@ -622,6 +625,8 @@ class Explainer:
         https://pbiecek.github.io/ema/accumulatedLocalProfiles.html
         """
 
+        check_data_again(self.data)
+
         types = ('partial', 'accumulated', 'conditional')
         type = check_method_type(type, types)
 
@@ -676,6 +681,7 @@ class Explainer:
         https://pbiecek.github.io/ema/residualDiagnostic.html
         """
 
+        check_data_again(self.data)
         check_y_again(self.y)
 
         residual_diagnostics_ = ResidualDiagnostics(
@@ -732,7 +738,8 @@ class Explainer:
         https://github.com/scikit-learn/scikit-learn
         """
 
-        check_import('scikit-learn', msg='Install scikit-learn>=0.21 for surrogate models.')
+        global_checks.check_import('scikit-learn', msg='Install scikit-learn>=0.21 for surrogate models.')
+        check_data_again(self.data)
 
         types = ('tree', 'linear')
         type = check_method_type(type, types)
