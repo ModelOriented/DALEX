@@ -8,9 +8,9 @@ def global_check_import(name=None, msg=""):
         try:
             import_module(name)
         except ImportError:
-            print("Missing optional dependency '" + name + "'." +
-                  msg +
-                  "Use pip or conda to install " + name + ".")
+            raise ImportError("Missing optional dependency '" + name + "'." +
+                              msg +
+                              "Use pip or conda to install " + name + ".")
 
 
 def global_check_object_class(ob, class_object):

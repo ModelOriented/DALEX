@@ -112,7 +112,7 @@ class ResidualDiagnostics:
             Return figure that can be edited or saved. See `show` parameter.
         """
 
-        global_checks.global_check_import('statsmodels', msg='Install statsmodels>=0.11.1 for smoothing line.')
+        global_checks.global_check_import('statsmodels', msg=' Install statsmodels>=0.11.1 for smoothing line. ')
 
         # are there any other objects to plot?
         if objects is None:
