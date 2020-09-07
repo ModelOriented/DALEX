@@ -2,6 +2,7 @@ import plotly.express as px
 
 from .checks import *
 from ..._explainer.theme import get_default_colors
+from ..._explainer.utils import check_import
 
 
 class ResidualDiagnostics:
@@ -112,6 +113,8 @@ class ResidualDiagnostics:
             Return figure that can be edited or saved. See `show` parameter.
         """
 
+        check_import('statsmodels', msg='Install statsmodels>=0.11.1 for smoothing line.')
+
         # are there any other objects to plot?
         if objects is None:
             _df_list = [self.result.copy()]
@@ -121,7 +124,8 @@ class ResidualDiagnostics:
             _df_list = [self.result.copy()]
             for ob in objects:
                 if not isinstance(ob, self.__class__):
-                    raise TypeError("Some explanations aren't of ResidualDiagnostics class")
+                    raise TypeError("Some explanations aren't of ResidualDiagnostics class: " +
+                                    type(ob))
                 _df_list += [ob.result.copy()]
 
         fig = px.scatter(pd.concat(_df_list),

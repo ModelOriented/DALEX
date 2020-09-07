@@ -154,7 +154,7 @@ class AggregatedProfiles:
              alpha=1,
              facet_ncol=2,
              title="Aggregated Profiles",
-             title_x='prediction',
+             y_title='prediction',
              horizontal_spacing=0.05,
              vertical_spacing=None,
              show=True):
@@ -186,7 +186,7 @@ class AggregatedProfiles:
             Number of columns on the plot grid (default is 2).
         title : str, optional
             Title of the plot (default is "Aggregated Profiles").
-        title_x : str, optional
+        y_title : str, optional
             Title of the x axis (default is "prediction").
         horizontal_spacing : float <0, 1>, optional
             Ratio of horizontal space between the plots (default is 0.05).
@@ -318,7 +318,7 @@ class AggregatedProfiles:
                               xref=bar.xaxis, yref=bar.yaxis, layer='below',
                               line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'})
 
-        fig = fig_update_line_plot(fig, title, title_x, plot_height, hovermode)
+        fig = fig_update_line_plot(fig, title, y_title, plot_height, hovermode)
 
         if show:
             fig.show(config={'displaylogo': False, 'staticPlot': False,

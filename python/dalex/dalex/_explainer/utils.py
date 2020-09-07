@@ -1,6 +1,6 @@
 # utility functions for Explainer methods
 import numpy as np
-
+from importlib import import_module
 
 def unpack_kwargs_lime(explainer, new_observation, **kwargs):
     # utility function for predict_surrogate(type='lime')
@@ -111,3 +111,13 @@ def plot_tree_custom(model, figsize=(16, 10), fontsize=10, filled=True, proporti
                   class_names=model.class_names,
                   proportion=proportion,
                   **kwargs)
+
+
+def check_import(name=None, msg=""):
+    if name:
+        try:
+            import_module(name)
+        except ImportError:
+            print("Missing optional dependency '" + name + "'." +
+                  msg +
+                  "Use pip or conda to install " + name + ".")

@@ -1,3 +1,15 @@
+dalex (development)
+----------------------------------------------------------------
+
+### features
+
+* added informative error messages when importing optional dependencies ([#316](https://github.com/ModelOriented/DALEX/issues/316))
+
+### defaults
+
+* wrong parameter name `title_x` changed to `y_title` in `CeterisParibus.plot` and `AggregatedProfiles.plot` ([#317](https://github.com/ModelOriented/DALEX/issues/317))
+
+
 dalex 0.2.1
 ----------------------------------------------------------------
 

@@ -139,7 +139,7 @@ class CeterisParibus:
              facet_ncol=2,
              show_observations=True,
              title="Ceteris Paribus Profiles",
-             title_x='prediction',
+             y_title='prediction',
              horizontal_spacing=0.05,
              vertical_spacing=None,
              show=True):
@@ -166,7 +166,7 @@ class CeterisParibus:
             Show observation points (default is True).
         title : str, optional
             Title of the plot (default is "Ceteris Paribus Profiles").
-        title_x : str, optional
+        y_title : str, optional
             Title of the x axis (default is "prediction").
         horizontal_spacing : float <0, 1>, optional
             Ratio of horizontal space between the plots (default is 0.05).
@@ -357,7 +357,7 @@ class CeterisParibus:
                               xref=bar.xaxis, yref=bar.yaxis, layer='below',
                               line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'})
 
-        fig = fig_update_line_plot(fig, title, title_x, plot_height, 'closest')
+        fig = fig_update_line_plot(fig, title, y_title, plot_height, 'closest')
 
         fig.update_layout(
             hoverlabel=dict(bgcolor='rgba(0,0,0,0.8)')

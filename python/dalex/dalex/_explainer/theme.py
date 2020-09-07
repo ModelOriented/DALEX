@@ -42,7 +42,7 @@ def get_break_down_colors():
     return ["#371ea3", "#8bdcbe", "#f05a71"]
 
 
-def fig_update_line_plot(fig, title, title_x, plot_height, hovermode):
+def fig_update_line_plot(fig, title, y_title, plot_height, hovermode):
 
     for axis in fig.layout:
         if type(fig.layout[axis]) == go.layout.YAxis:  # remove redundant axis labels
@@ -62,7 +62,7 @@ def fig_update_line_plot(fig, title, title_x, plot_height, hovermode):
                 y=0.5,
                 font=dict(size=13),
                 showarrow=False,
-                text=title_x,
+                text=y_title,
                 textangle=-90,
                 xref="paper",
                 yref="paper"
