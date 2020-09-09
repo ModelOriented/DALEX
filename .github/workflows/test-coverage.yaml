@@ -3,6 +3,7 @@ on:
     branches:
       - master
       - 'issue*'
+      - 'codecov*'
       - 'gh-actions'
       - 'githubactions'
     paths:
@@ -57,7 +58,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          install.packages(c("remotes"))
+          install.packages(c("remotes", "randomForest"))
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("covr")
         shell: Rscript {0}
