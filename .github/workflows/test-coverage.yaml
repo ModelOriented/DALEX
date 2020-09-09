@@ -3,7 +3,6 @@ on:
     branches:
       - master
       - 'issue*'
-      - 'codecov*'
       - 'gh-actions'
       - 'githubactions'
     paths:
