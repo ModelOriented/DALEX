@@ -63,8 +63,8 @@ class Arena:
         now = datetime.now()
         self.timestamp = datetime.timestamp(now)
 
-    def clear_cache(self):
-        self.cache = []
+    def clear_cache(self, plot_type=None):
+        self.cache = list(filter(lambda p: p.plot_type != plot_type, self.cache))
         self.update_timestamp()
 
     def find_in_cache(self, plot_type, params):
@@ -224,8 +224,8 @@ class Arena:
         if not option in options.keys():
             return
         with self.mutex:
-            self.clear_cache()
             self.options.get(plot_type)[option] = value
+            self.clear_cache(plot_type)
         if self.precalculate:
             self.fill_cache()
 
