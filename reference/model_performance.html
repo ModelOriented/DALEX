@@ -163,14 +163,14 @@ For classification models following measures are calculated: F1, accuracy, recal
 For regression models following measures are calculated: mean squared error, R squared, median absolute deviation.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>model_performance</span>(<span class='no'>explainer</span>, <span class='no'>...</span>, <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</pre>
+    <pre class="usage"><span class='fu'>model_performance</span>(<span class='kw'>explainer</span>, <span class='kw'>...</span>, cutoff = <span class='fl'>0.5</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>explainer</th>
-      <td><p>a model to be explained, preprocessed by the <code><a href='explain.html'>explain</a></code> function</p></td>
+      <td><p>a model to be explained, preprocessed by the <code><a href='explain.default.html'>explain</a></code> function</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -200,10 +200,11 @@ For regression models following measures are calculated: mean squared error, R s
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># regression</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
-<span class='no'>apartments_ranger_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>m2.price</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>50</span>)
-<span class='no'>explainer_ranger_apartments</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>apartments_ranger_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments</span>[,-<span class='fl'>1</span>],
-                             <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>apartments</span>$<span class='no'>m2.price</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"Ranger Apartments"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/imbs-hl/ranger'>"ranger"</a></span>)
+<span class='kw'>apartments_ranger_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>m2.price</span><span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>apartments</span>, num.trees = <span class='fl'>50</span>)
+<span class='kw'>explainer_ranger_apartments</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='explain.default.html'>explain</a></span>(<span class='kw'>apartments_ranger_model</span>, data = <span class='kw'>apartments</span>[,<span class='op'>-</span><span class='fl'>1</span>],
+                             y = <span class='kw'>apartments</span><span class='op'>$</span><span class='kw'>m2.price</span>, label = <span class='st'>"Ranger Apartments"</span>)
+</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  Ranger Apartments 
 #&gt;   -&gt; data              :  1000  rows  5  cols 
 #&gt;   -&gt; target variable   :  1000  values 
@@ -212,8 +213,9 @@ For regression models following measures are calculated: mean squared error, R s
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -436.5377 , mean =  -1.426037 , max =  743.8861  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>model_performance_ranger_aps</span> <span class='kw'>&lt;-</span> <span class='fu'>model_performance</span>(<span class='no'>explainer_ranger_apartments</span> )
-<span class='no'>model_performance_ranger_aps</span></div><div class='output co'>#&gt; Measures for:  regression
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>model_performance_ranger_aps</span> <span class='op'>&lt;-</span> <span class='fu'>model_performance</span>(<span class='kw'>explainer_ranger_apartments</span> )
+<span class='kw'>model_performance_ranger_aps</span>
+</div><div class='output co'>#&gt; Measures for:  regression
 #&gt; mse        : 23783.55 
 #&gt; rmse       : 154.2191 
 #&gt; r2         : 0.9710404 
@@ -223,12 +225,16 @@ For regression models following measures are calculated: mean squared error, R s
 #&gt;          0%         10%         20%         30%         40%         50% 
 #&gt; -436.537667 -167.145158 -114.019537  -78.532267  -53.677333  -25.737000 
 #&gt;         60%         70%         80%         90%        100% 
-#&gt;    3.202057   39.277400  106.426046  198.733311  743.886111 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>model_performance_ranger_aps</span>)</div><div class='img'><img src='model_performance-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>model_performance_ranger_aps</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"boxplot"</span>)</div><div class='img'><img src='model_performance-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>model_performance_ranger_aps</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"histogram"</span>)</div><div class='img'><img src='model_performance-3.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt;    3.202057   39.277400  106.426046  198.733311  743.886111 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>model_performance_ranger_aps</span>)
+</div><div class='img'><img src='model_performance-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>model_performance_ranger_aps</span>, geom = <span class='st'>"boxplot"</span>)
+</div><div class='img'><img src='model_performance-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>model_performance_ranger_aps</span>, geom = <span class='st'>"histogram"</span>)
+</div><div class='img'><img src='model_performance-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># binary classification</span>
 
-<span class='no'>titanic_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>survived</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
-<span class='no'>explainer_glm_titanic</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>titanic_glm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[,-<span class='fl'>8</span>],
-                         <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>$<span class='no'>survived</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+<span class='kw'>titanic_glm_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='kw'>survived</span><span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>titanic_imputed</span>, family = <span class='st'>"binomial"</span>)
+<span class='kw'>explainer_glm_titanic</span> <span class='op'>&lt;-</span> <span class='fu'><a href='explain.default.html'>explain</a></span>(<span class='kw'>titanic_glm_model</span>, data = <span class='kw'>titanic_imputed</span>[,<span class='op'>-</span><span class='fl'>8</span>],
+                         y = <span class='kw'>titanic_imputed</span><span class='op'>$</span><span class='kw'>survived</span>)
+</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  2207  rows  7  cols 
 #&gt;   -&gt; target variable   :  2207  values 
@@ -237,8 +243,9 @@ For regression models following measures are calculated: mean squared error, R s
 #&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9628583 , mean =  -2.569729e-10 , max =  0.9663346  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>model_performance_glm_titanic</span> <span class='kw'>&lt;-</span> <span class='fu'>model_performance</span>(<span class='no'>explainer_glm_titanic</span>)
-<span class='no'>model_performance_glm_titanic</span></div><div class='output co'>#&gt; Measures for:  classification
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>model_performance_glm_titanic</span> <span class='op'>&lt;-</span> <span class='fu'>model_performance</span>(<span class='kw'>explainer_glm_titanic</span>)
+<span class='kw'>model_performance_glm_titanic</span>
+</div><div class='output co'>#&gt; Measures for:  classification
 #&gt; recall     : 0.5738397 
 #&gt; precision  : 0.7472527 
 #&gt; f1         : 0.6491647 
@@ -249,13 +256,17 @@ For regression models following measures are calculated: mean squared error, R s
 #&gt;          0%         10%         20%         30%         40%         50% 
 #&gt; -0.96285832 -0.32240247 -0.23986439 -0.19544185 -0.14842925 -0.11460334 
 #&gt;         60%         70%         80%         90%        100% 
-#&gt; -0.06940964  0.06185475  0.29607060  0.72120412  0.96633458 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>model_performance_glm_titanic</span>)</div><div class='img'><img src='model_performance-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>model_performance_glm_titanic</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"boxplot"</span>)</div><div class='img'><img src='model_performance-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>model_performance_glm_titanic</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"histogram"</span>)</div><div class='img'><img src='model_performance-6.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; -0.06940964  0.06185475  0.29607060  0.72120412  0.96633458 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>model_performance_glm_titanic</span>)
+</div><div class='img'><img src='model_performance-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>model_performance_glm_titanic</span>, geom = <span class='st'>"boxplot"</span>)
+</div><div class='img'><img src='model_performance-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>model_performance_glm_titanic</span>, geom = <span class='st'>"histogram"</span>)
+</div><div class='img'><img src='model_performance-6.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># multilabel classification</span>
 
-<span class='no'>HR_ranger_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>status</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>50</span>,
-                               <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>explainer_ranger_HR</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='explain.html'>explain</a></span>(<span class='no'>HR_ranger_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR</span>[,-<span class='fl'>6</span>],
-                             <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR</span>$<span class='no'>status</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"Ranger HR"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+<span class='kw'>HR_ranger_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>status</span><span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>HR</span>, num.trees = <span class='fl'>50</span>,
+                               probability = <span class='fl'>TRUE</span>)
+<span class='kw'>explainer_ranger_HR</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='explain.default.html'>explain</a></span>(<span class='kw'>HR_ranger_model</span>, data = <span class='kw'>HR</span>[,<span class='op'>-</span><span class='fl'>6</span>],
+                             y = <span class='kw'>HR</span><span class='op'>$</span><span class='kw'>status</span>, label = <span class='st'>"Ranger HR"</span>)
+</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  Ranger HR 
 #&gt;   -&gt; data              :  7847  rows  5  cols 
 #&gt;   -&gt; target variable   :  7847  values 
@@ -264,8 +275,9 @@ For regression models following measures are calculated: mean squared error, R s
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task multiclass ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between 1 and probability of true class ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.2769613 , max =  0.9160218  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>model_performance_ranger_HR</span> <span class='kw'>&lt;-</span> <span class='fu'>model_performance</span>(<span class='no'>explainer_ranger_HR</span>)
-<span class='no'>model_performance_ranger_HR</span></div><div class='output co'>#&gt; Measures for:  multiclass
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>model_performance_ranger_HR</span> <span class='op'>&lt;-</span> <span class='fu'>model_performance</span>(<span class='kw'>explainer_ranger_HR</span>)
+<span class='kw'>model_performance_ranger_HR</span>
+</div><div class='output co'>#&gt; Measures for:  multiclass
 #&gt; micro_F1   : 0.870014 
 #&gt; macro_F1   : 0.8678788 
 #&gt; w_macro_F1 : 0.8687785 
@@ -276,8 +288,11 @@ For regression models following measures are calculated: mean squared error, R s
 #&gt;         0%        10%        20%        30%        40%        50%        60% 
 #&gt; 0.00000000 0.02555376 0.05683133 0.11707943 0.17633126 0.24091292 0.31364170 
 #&gt;        70%        80%        90%       100% 
-#&gt; 0.39212599 0.48521070 0.59293321 0.91602179 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>model_performance_ranger_HR</span>)</div><div class='img'><img src='model_performance-7.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>model_performance_ranger_HR</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"boxplot"</span>)</div><div class='img'><img src='model_performance-8.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>model_performance_ranger_HR</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"histogram"</span>)</div><div class='img'><img src='model_performance-9.png' alt='' width='700' height='433' /></div><div class='input'>
-# }
+#&gt; 0.39212599 0.48521070 0.59293321 0.91602179 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>model_performance_ranger_HR</span>)
+</div><div class='img'><img src='model_performance-7.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>model_performance_ranger_HR</span>, geom = <span class='st'>"boxplot"</span>)
+</div><div class='img'><img src='model_performance-8.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>model_performance_ranger_HR</span>, geom = <span class='st'>"histogram"</span>)
+</div><div class='img'><img src='model_performance-9.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># }</span>
 
 </div></span></pre>
   </div>
