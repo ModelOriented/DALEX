@@ -6,22 +6,23 @@ from flask import Flask, request, abort
 from flask_cors import CORS
 import requests
 import random
+import traceback
 
 def convert(o):
     if isinstance(o, np.generic): return o.item()  
     raise TypeError
 
-def start_server(arena, host, port):
+def start_server(arena, host, port, disable_logs):
     cli = sys.modules['flask.cli']
     cli.show_server_banner = lambda *x: None
     app = Flask(__name__)
     CORS(app)
     shutdown_token = str(random.randrange(2<<63))
     plots = arena.plots
-
+    
     log = logging.getLogger('werkzeug')
-    log.disabled = True
-    app.logger.disabled = True
+    log.disabled = disable_logs
+    app.logger.disabled = disable_logs
 
     arena._stop_server = lambda: requests.get('http://' + host + ':' + str(port) + '/shutdown?token=' + shutdown_token)
 
@@ -31,36 +32,17 @@ def start_server(arena, host, port):
             'version': '1.1.0',
             'api': 'arenar_api',
             'timestamp': arena.timestamp*1000,
-            'availableParams': {
-                'observation': arena.list_observations(),
-                'variable': arena.list_variables(),
-                'model': arena.list_models(),
-                'dataset': arena.list_datasets()
-            },
+            'availableParams': arena.list_available_params(),
             'availablePlots': [plot.info for plot in plots]
         }
 
-    def get_explainer(request):
-        name = request.args.get('model')
-        return next((x for x in arena.get_models() if x.label == name), None)
-
-    def get_observation(request):
-        name = request.args.get('observation')
-        observation = next((df.loc[name] for df in arena.get_observations() if len(df.index.intersection([name])) > 0), None)
-        return observation
-
-    def get_variable(request):
-        variable = request.args.get('variable')
-        if variable in arena.list_variables():
-            return variable
-        return None
-
     def get_params(request):
-        return {
-            'model': get_explainer(request),
-            'observation': get_observation(request),
-            'variable': get_variable(request)
-        }
+        result = {}
+        for param_type in ['model', 'observation', 'variable', 'dataset']:
+            param_value = arena.find_param_value(param_type, request.args.get(param_type))
+            if not param_value is None:
+                result[param_type] = param_value
+        return result
 
     @app.route("/<string:plot_type>", methods=['GET'])
     def get_plot(plot_type):
@@ -75,18 +57,12 @@ def start_server(arena, host, port):
                 raise Exception('Failed to stop the server.')
             shutdown()
             return ''
-        plot_class = next((c for c in plots if c.info.get('plotType') == plot_type), None)
-        if plot_class is None:
+        params = get_params(request)
+        try:
+            result = arena.get_plot(plot_type, params)
+        except Exception:
             abort(404)
             return
-        params = get_params(request)
-        kwargs = {'arena': arena}
-        for p in plot_class.info.get('requiredParams'):
-            if params.get(p) is None:
-                abort(404)
-                return
-            kwargs[p] = params.get(p)
-        result = plot_class(**kwargs).serialize()
-        return json.dumps(result, default=convert)
+        return json.dumps(result.serialize(), default=convert)
 
     app.run(host=host, port=port)

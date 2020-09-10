@@ -1,21 +1,26 @@
+from .params import ModelParam, DatasetParam, VariableParam, ObservationParam
+
 class PlotContainer:
-    def __init__(self,
-                 arena,
-                 name='',
-                 plot_type='',
-                 plot_component='',
-                 plot_category='',
-                 params={},
-                 data={}):
+    def __init__(self, arena):
         if type(arena).__name__ != 'Arena' or type(arena).__module__ != 'dalex._arena.object':
             raise Exception('Invalid Arena argument')
-        self.name = name
-        self.plot_type = plot_type
-        self.plot_component = plot_component
-        self.plot_category = plot_category
-        self.params = params
-        self.data = data
-        self.options = arena.options.get(plot_type)
+        info = self.__class__.info
+        self.name = info.get('name')
+        self.plot_type = info.get('plotType')
+        self.plot_component = info.get('plotType')
+        self.plot_category = info.get('plotCategory')
+        self.params = {}
+        self.data = {}
+        self.arena = arena
+    def fit(self, params):
+        required_params = {}
+        for p in self.__class__.info.get('requiredParams'):
+            self.check_param(p, params.get(p))
+        for p in self.__class__.info.get('requiredParams'):
+            required_params[p] = params.get(p)
+            self.params[p] = params.get(p).get_label()
+        self._fit(**required_params)
+        return self
     def serialize(self):
         return {
             'name': self.name,
@@ -30,3 +35,8 @@ class PlotContainer:
             raise Exception('Invalid message type')
         self.plot_component = 'Message'
         self.data = {'message': msg, 'type': msg_type}
+
+    def check_param(self, param_type, value):
+        correct_class = {'model': ModelParam, 'variable': VariableParam, 'observation': ObservationParam, 'dataset': DatasetParam}.get(param_type)
+        if not isinstance(value, correct_class):
+            raise Exception('Invalid param ' + str(param_type))

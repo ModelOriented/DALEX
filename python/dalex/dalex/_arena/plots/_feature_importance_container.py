@@ -1,4 +1,3 @@
-from dalex import Explainer
 from .._plot_container import PlotContainer
 
 class FeatureImportanceContainer(PlotContainer):
@@ -12,19 +11,10 @@ class FeatureImportanceContainer(PlotContainer):
         'N': { 'default': None, 'desc': 'Number of observations to use. None for all.' },
         'B': { 'default': 10, 'desc': 'Number of permutation rounds to perform each variable' }
     }
-    def __init__(self, arena, model):
-        super().__init__(
-            arena,
-            name=self.__class__.info.get('name'),
-            plot_category=self.__class__.info.get('plotCategory'),
-            plot_type=self.__class__.info.get('plotType'),
-            plot_component='FeatureImportance'
-        )
-        if not isinstance(model, Explainer):
-            raise Exception('Invalid Explainer argument')
-        fi = model.model_parts(
-            N=arena.get_option(self.plot_type, 'N'),
-            B=arena.get_option(self.plot_type, 'B')
+    def _fit(self, model):
+        fi = model.explainer.model_parts(
+            N=self.arena.get_option(self.plot_type, 'N'),
+            B=self.arena.get_option(self.plot_type, 'B')
         ).permutation
         def q1(x):
             return x.quantile(0.25)
@@ -42,7 +32,4 @@ class FeatureImportanceContainer(PlotContainer):
             'max': stats.loc['max'].tolist(),
             'q1': stats.loc['q1'].tolist(),
             'q3': stats.loc['q3'].tolist()
-        }
-        self.params = {
-            'model': model.label
         }

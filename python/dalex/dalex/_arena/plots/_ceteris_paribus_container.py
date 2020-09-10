@@ -1,7 +1,5 @@
 from pandas.api.types import is_numeric_dtype
-from dalex import Explainer
 from .._plot_container import PlotContainer
-from ..helper import get_variables
 
 class CeterisParibusContainer(PlotContainer):
     info = {
@@ -14,37 +12,26 @@ class CeterisParibusContainer(PlotContainer):
         'grid_points': { 'default': 101, 'desc': 'Maximum number of points for profile' },
         'grid_type': { 'default': 'quantile', 'desc': 'grid type "quantile" or "uniform"'}
     }
-    def __init__(self, arena, model, variable, observation):
-        super().__init__(
-            arena,
-            name=self.__class__.info.get('name'),
-            plot_category=self.__class__.info.get('plotCategory'),
-            plot_type=self.__class__.info.get('plotType')
-        )
-        if not isinstance(model, Explainer):
-            raise Exception('Invalid Explainer argument')
-        if not variable in get_variables(model):
+    def _fit(self, model, variable, observation):
+        if not variable.variable in model.variables:
             raise Exception('Variable is not a column of explainer')
-        cp = model.predict_profile(
-            observation,
-            variables=variable,
-            grid_points=arena.get_option(self.plot_type, 'grid_points'),
-            variable_splits_type=arena.get_option(self.plot_type, 'grid_type')
+        row = observation.get_row()
+        cp = model.explainer.predict_profile(
+            row,
+            variables=variable.variable,
+            grid_points=self.arena.get_option(self.plot_type, 'grid_points'),
+            variable_splits_type=self.arena.get_option(self.plot_type, 'grid_type'),
+            verbose=False
         )
-        if is_numeric_dtype(observation[variable]):
+        if is_numeric_dtype(row[variable.variable]):
             self.plot_component = 'NumericalCeterisParibus'
         else:
             self.plot_component = 'CategoricalCeterisParibus'
         self.data = {
-            'x': cp.result[variable].tolist(),
+            'x': cp.result[variable.variable].tolist(),
             'y': cp.result['_yhat_'].tolist(),
-            'variable': variable,
+            'variable': variable.variable,
             'min': cp.result['_yhat_'].min(),
             'max': cp.result['_yhat_'].max(),
             'observation': cp.new_observation.iloc[0].to_dict()
-        }
-        self.params = {
-            'model': model.label,
-            'variable': variable,
-            'observation': observation.index[0]
         }

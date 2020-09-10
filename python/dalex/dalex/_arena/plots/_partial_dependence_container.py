@@ -1,7 +1,5 @@
 from pandas.api.types import is_numeric_dtype
-from dalex import Explainer
 from .._plot_container import PlotContainer
-from ..helper import get_variables
 
 class PartialDependenceContainer(PlotContainer):
     info = {
@@ -15,43 +13,33 @@ class PartialDependenceContainer(PlotContainer):
         'grid_points': { 'default': 101, 'desc': 'Maximum number of points for profile' },
         'N': { 'default': 500, 'desc': 'Number of observations to use. None for all.' }
     }
-    def __init__(self, arena, model, variable):
-        super().__init__(
-            arena,
-            name=self.__class__.info.get('name'),
-            plot_category=self.__class__.info.get('plotCategory'),
-            plot_type=self.__class__.info.get('plotType')
-        )
-        if not isinstance(model, Explainer):
-            raise Exception('Invalid Explainer argument')
-        if not variable in get_variables(model):
+    def _fit(self, model, variable):
+        if not variable.variable in model.variables:
             raise Exception('Variable is not a column of explainer')
-        if is_numeric_dtype(model.data[variable]):
+        if is_numeric_dtype(model.explainer.data[variable.variable]):
             self.plot_component = 'LinearDependence'
-            profile = model.model_profile(
+            profile = model.explainer.model_profile(
                 type='partial',
-                variables=variable,
+                variables=variable.variable,
                 variable_type='numerical',
-                grid_points=arena.get_option(self.plot_type, 'grid_points'),
+                grid_points=self.arena.get_option(self.plot_type, 'grid_points'),
                 # TODO
-                #variable_splits_type=arena.get_option(self.plot_type, 'grid_type'),
-                N=arena.get_option(self.plot_type, 'N')
+                #variable_splits_type=self.arena.get_option(self.plot_type, 'grid_type'),
+                N=self.arena.get_option(self.plot_type, 'N'),
+                verbose=False
             )
         else:
             self.plot_component = 'CategoricalDependence'
-            profile = model.model_profile(
+            profile = model.explainer.model_profile(
                 type='partial',
-                variables=variable,
+                variables=variable.variable,
                 variable_type='categorical',
-                N=arena.get_option(self.plot_type, 'N')
+                N=self.arena.get_option(self.plot_type, 'N'),
+                verbose=False
             )
         self.data = {
             'x': profile.result['_x_'].tolist(),
             'y': profile.result['_yhat_'].tolist(),
-            'variable': variable,
+            'variable': variable.variable,
             'base': profile.mean_prediction
-        }
-        self.params = {
-            'model': model.label,
-            'variable': variable
         }

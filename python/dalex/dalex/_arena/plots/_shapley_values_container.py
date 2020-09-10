@@ -11,24 +11,11 @@ class ShapleyValuesContainer(PlotContainer):
     options = {
         'B': { 'default': 10, 'desc': 'Number of random paths' }
     }
-    def __init__(self, arena, model, observation):
-        super().__init__(
-            arena,
-            name=self.__class__.info.get('name'),
-            plot_category=self.__class__.info.get('plotCategory'),
-            plot_type=self.__class__.info.get('plotType'),
-            plot_component='SHAPValues'
-        )
-        if not isinstance(model, Explainer):
-            raise Exception('Invalid Explainer argument')
-        self.params = {
-            'model': model.label,
-            'observation': observation.index[0]
-        }
-        shap = model.predict_parts(
-            observation,
+    def _fit(self, model, observation):
+        shap = model.explainer.predict_parts(
+            observation.get_row(),
             type='shap',
-            B=arena.get_option(self.plot_type, 'B')
+            B=self.arena.get_option(self.plot_type, 'B')
         )
         intercept = shap.intercept
         result = shap.result
