@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Data for HR survival
+# Data for HR example
 
 In the following vignette, we will walk through a multilabel classification example with `DALEX`. The purpose of this tutorial is that for some of `DALEX` functionalities binary classification is a default one, and therefore we need to put some self-made code to work here. All of the examples will be performed with `HR` dataset that is available in `DALEX`, it's target column is `status` with three-level factor. For all cases our model will be `ranger`. 
 
