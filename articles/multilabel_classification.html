@@ -106,7 +106,7 @@
       <h1 data-toc-skip>How to use multilabel classification and DALEX?</h1>
                         <h4 class="author">Szymon Maksymiuk</h4>
             
-            <h4 class="date">2020-09-10</h4>
+            <h4 class="date">2020-09-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/DALEX/blob/master/vignettes/multilabel_classification.Rmd"><code>vignettes/multilabel_classification.Rmd</code></a></small>
       <div class="hidden name"><code>multilabel_classification.Rmd</code></div>
@@ -115,10 +115,10 @@
 
     
     
-<div id="data-for-titanic-survival" class="section level1">
+<div id="data-for-hr-example" class="section level1">
 <h1 class="hasAnchor">
-<a href="#data-for-titanic-survival" class="anchor"></a>Data for Titanic survival</h1>
-<p>In the following vignette we will march through multilabel classification with <code>DALEX</code>. Purpose of of this examples is that for some of <code>DALEX</code> functionalities binary cliassification is default one, and therefore we need to put some self-made code to work here. All of examples will be performed with <code>HR</code> dataset that is available with <code>DALEX</code>, it’s target column is <code>status</code> with three level factor. For all cases our model will be <code>ranger</code>.</p>
+<a href="#data-for-hr-example" class="anchor"></a>Data for HR example</h1>
+<p>In the following vignette, we will walk through a multilabel classification example with <code>DALEX</code>. The purpose of this tutorial is that for some of <code>DALEX</code> functionalities binary classification is a default one, and therefore we need to put some self-made code to work here. All of the examples will be performed with <code>HR</code> dataset that is available in <code>DALEX</code>, it’s target column is <code>status</code> with three-level factor. For all cases our model will be <code>ranger</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st"><a href="https://ModelOriented.github.io/DALEX">"DALEX"</a></span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">HR</span>)
@@ -154,7 +154,7 @@
 #&gt; Target node size:                 10 
 #&gt; Variable importance mode:         none 
 #&gt; Splitrule:                        gini 
-#&gt; OOB prediction error (Brier s.):  0.2182286</code></pre>
+#&gt; OOB prediction error (Brier s.):  0.218345</code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st"><a href="https://ModelOriented.github.io/DALEX">"DALEX"</a></span>)
 <span class="kw">explain_HR_ranger</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.default.html">explain</a></span>(<span class="kw">model_HR_ranger</span>,
@@ -171,15 +171,15 @@
 #&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task multiclass (  default  ) 
 #&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  0.0003773585 , mean =  0.2795883 , max =  0.867003  
+#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.2781406 , max =  0.9018216  
 #&gt;   A new explainer has been created!</code></pre>
-<p>Ofcourse sixth column, that we have omitted during creation of explainer, stands for target column (<code>status</code>) and it is good practice not to put it in <code>data</code>. Keep in mind that default <code>yhat</code> function for <code>ranger</code> and for any other package that is supported by <code>DALEX</code>, enforces probability output. Therfore residuals cannot be standard <span class="math inline">\(y - \hat{y}\)</span>. Since <code>DALEX 1.2.2</code> in case of multiclass classification one minus probability of the TRUE class is standard residual function.</p>
+<p>The sixth column, that we have omitted during the creation of the explainer, stands for the target column (<code>status</code>). It is good practice not to put it in <code>data</code>. Keep in mind that the default <code>yhat</code> function for <code>ranger</code>, and for any other package that is supported by <code>DALEX</code>, enforces probability output. Therefore residuals cannot be standard <span class="math inline">\(y - \hat{y}\)</span>. Since <code>DALEX 1.2.2</code> in the case of multiclass classification one minus probability of the TRUE class is a standard residual function.</p>
 </div>
 <div id="model-parts" class="section level1">
 <h1 class="hasAnchor">
 <a href="#model-parts" class="anchor"></a>Model Parts</h1>
-<p>In order to use <code><a href="../reference/model_parts.html">model_parts()</a></code> (former <code><a href="../reference/model_parts.html">variable_importance()</a></code>) function it is necessary to switch default <code>loss_function</code> argument to one that handle multiple classes. <code>DALEX</code> has one function like that implemented and it is called <code><a href="../reference/loss_cross_entropy.html">loss_cross_entropy()</a></code>. To use it, <code>y</code> parameter passed to <code>explain</code> function should have exactly the same format as the target vector used for the training process (ie. same number of levels and names of those levels).</p>
-<p>Also we need probability outputs so there is no need to change deafult <code>predict_function</code> parameter.</p>
+<p>In order to use <code><a href="../reference/model_parts.html">model_parts()</a></code> (former <code><a href="../reference/model_parts.html">variable_importance()</a></code>) function it is necessary to switch default <code>loss_function</code> argument to one that handle multiple classes. <code>DALEX</code> has implemented one function like that and it is called <code><a href="../reference/loss_cross_entropy.html">loss_cross_entropy()</a></code>. To use it, <code>y</code> parameter passed to <code>explain</code> function should have exactly the same format as the target vector used for the training process (ie. the same number of levels and names of those levels).</p>
+<p>Also, we need probability outputs so there is no need to change the default <code>predict_function</code> parameter.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st"><a href="https://ModelOriented.github.io/DALEX">"DALEX"</a></span>)
 <span class="kw">explain_HR_ranger_new_y</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.default.html">explain</a></span>(<span class="kw">model_HR_ranger</span>,
@@ -196,7 +196,7 @@
 #&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task multiclass (  default  ) 
 #&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  0.0003773585 , mean =  0.2795883 , max =  0.867003  
+#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.2781406 , max =  0.9018216  
 #&gt;   A new explainer has been created!</code></pre>
 <p>And now we can use <code><a href="../reference/model_parts.html">model_parts()</a></code></p>
 <div class="sourceCode" id="cb9"><pre class="downlit">
@@ -209,7 +209,7 @@
 <div id="model-profile" class="section level1">
 <h1 class="hasAnchor">
 <a href="#model-profile" class="anchor"></a>Model Profile</h1>
-<p>There is no need for tricks in order to use <code><a href="../reference/model_profile.html">model_profile()</a></code> (former <code><a href="../reference/variable_effect.html">variable_effect()</a></code>). Our target will be one-hot-encoded, and all of explantions will be performed for each of class separately.</p>
+<p>There is no need for tricks in order to use <code><a href="../reference/model_profile.html">model_profile()</a></code> (former <code><a href="../reference/variable_effect.html">variable_effect()</a></code>). Our target will be one-hot-encoded, and all of the explanations will be performed for each of class separately.</p>
 <div id="partial_dependency" class="section level2">
 <h2 class="hasAnchor">
 <a href="#partial_dependency" class="anchor"></a>partial_dependency</h2>
@@ -234,7 +234,7 @@
 <div id="instance-level-explanations" class="section level1">
 <h1 class="hasAnchor">
 <a href="#instance-level-explanations" class="anchor"></a>Instance level explanations</h1>
-<p>As above, <code><a href="../reference/predict_parts.html">predict_parts()</a></code> (former <code><a href="../reference/predict_parts.html">variable_attribution()</a></code>) works perfectly fine with multilabel classification and default explainer. Just like before, our target will be splitted into variables standing for each factor level and computations will be performed then.</p>
+<p>As above, <code><a href="../reference/predict_parts.html">predict_parts()</a></code> (former <code><a href="../reference/predict_parts.html">variable_attribution()</a></code>) works perfectly fine with multilabel classification and default explainer. Just like before, our target will be split into variables standing for each factor level and computations will be performed then.</p>
 <div id="break_down" class="section level2">
 <h2 class="hasAnchor">
 <a href="#break_down" class="anchor"></a>break_down</h2>
@@ -257,7 +257,7 @@
 <div id="model_performance-and-predict_diagnostics" class="section level1">
 <h1 class="hasAnchor">
 <a href="#model_performance-and-predict_diagnostics" class="anchor"></a>model_performance and predict_diagnostics</h1>
-<p>Those two function are merged into one paragraph becasue they require same action in order to get them work with multilabel classification. The most important thing here is to realise that both function are based on residuals. Since <code>DALEX 1.2.2</code>, explain function recognize if model is a multiclass classification task and uses dedicated residal function as default.</p>
+<p>The description of those two functions is merged into one paragraph because they require the same action to get them to work with multilabel classification. The most important thing here is to realize that both functions are based on residuals. Since <code>DALEX 1.2.2</code>, explain function recognizes if a model is a multiclass classification task and uses a dedicated residual function as default.</p>
 <div id="model-performance" class="section level2">
 <h2 class="hasAnchor">
 <a href="#model-performance" class="anchor"></a>Model Performance</h2>
@@ -265,17 +265,17 @@
 (<span class="kw">mp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_performance.html">model_performance</a></span>(<span class="kw">explain_HR_ranger</span>))
 </pre></div>
 <pre><code>#&gt; Measures for:  multiclass
-#&gt; micro_F1   : 0.8675927 
-#&gt; macro_F1   : 0.865496 
-#&gt; w_macro_F1 : 0.8663665 
-#&gt; accuracy   : 0.8675927 
-#&gt; w_macro_auc: 0.9764272
+#&gt; micro_F1   : 0.8693768 
+#&gt; macro_F1   : 0.8675475 
+#&gt; w_macro_F1 : 0.8682871 
+#&gt; accuracy   : 0.8693768 
+#&gt; w_macro_auc: 0.9771341
 #&gt; 
 #&gt; Residuals:
-#&gt;           0%          10%          20%          30%          40%          50% 
-#&gt; 0.0003773585 0.0276383162 0.0664325782 0.1204890579 0.1806937139 0.2421046985 
-#&gt;          60%          70%          80%          90%         100% 
-#&gt; 0.3110783052 0.3894907908 0.4860808016 0.6011953777 0.8670029583</code></pre>
+#&gt;         0%        10%        20%        30%        40%        50%        60% 
+#&gt; 0.00000000 0.02565885 0.06144643 0.11782448 0.17817636 0.24302963 0.31417185 
+#&gt;        70%        80%        90%       100% 
+#&gt; 0.39654818 0.48227974 0.59573921 0.90182163</code></pre>
 <div class="sourceCode" id="cb16"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">mp</span>)
 </pre></div>
@@ -324,7 +324,7 @@
 #&gt;  [5] pillar_1.4.6      ingredients_2.0   tools_4.0.2       digest_0.6.25    
 #&gt;  [9] lattice_0.20-41   evaluate_0.14     memoise_1.1.0     lifecycle_0.2.0  
 #&gt; [13] tibble_3.0.3      gtable_0.3.0      pkgconfig_2.0.3   rlang_0.4.7      
-#&gt; [17] Matrix_1.2-18     yaml_2.2.1        pkgdown_1.6.0     xfun_0.16        
+#&gt; [17] Matrix_1.2-18     yaml_2.2.1        pkgdown_1.6.1     xfun_0.16        
 #&gt; [21] stringr_1.4.0     dplyr_1.0.2       knitr_1.29        desc_1.2.0       
 #&gt; [25] generics_0.0.2    fs_1.5.0          vctrs_0.3.4       systemfonts_0.3.1
 #&gt; [29] rprojroot_1.3-2   grid_4.0.2        tidyselect_1.1.0  glue_1.4.2       
