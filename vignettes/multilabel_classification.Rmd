@@ -18,9 +18,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Data for Titanic survival
+# Data for HR example
 
-In the following vignette we will march through multilabel classification with `DALEX`. Purpose of of this examples is that for some of `DALEX` functionalities binary cliassification is default one, and therefore we need to put some self-made code to work here. All of examples will be performed with `HR` dataset that is available with `DALEX`, it's target column is `status` with three level factor. For all cases our model will be `ranger`. 
+In the following vignette, we will walk through a multilabel classification example with `DALEX`. The purpose of this tutorial is that for some of `DALEX` functionalities binary classification is a default one, and therefore we need to put some self-made code to work here. All of the examples will be performed with `HR` dataset that is available in `DALEX`, it's target column is `status` with three-level factor. For all cases our model will be `ranger`. 
 
 ```{r}
 library("DALEX")
@@ -46,15 +46,14 @@ explain_HR_ranger <- explain(model_HR_ranger,
                               label = "Ranger Multilabel Classification",
                               colorize = FALSE)
 ```
-
-Ofcourse sixth column, that we have omitted during creation of explainer, stands for target column (`status`) and it is good practice not to put it in `data`. Keep in mind that default `yhat` function for `ranger` and for any other package that is supported by `DALEX`, enforces probability output. Therfore residuals cannot be standard $y - \hat{y}$. Since `DALEX 1.2.2` in case of multiclass classification one minus probability of the TRUE class is standard residual function.
+The sixth column, that we have omitted during the creation of the explainer, stands for the target column (`status`). It is good practice not to put it in `data`. Keep in mind that the default `yhat` function for `ranger`, and for any other package that is supported by `DALEX`, enforces probability output. Therefore residuals cannot be standard $y - \hat{y}$. Since `DALEX 1.2.2` in the case of multiclass classification one minus probability of the TRUE class is a standard residual function.
 
 # Model Parts
 
-In order to use `model_parts()` (former `variable_importance()`) function it is necessary to switch default `loss_function` argument to one that handle multiple classes. `DALEX` has one function like that implemented and it is called `loss_cross_entropy()`.
-To use it, `y` parameter passed to `explain` function should have exactly the same format as the target vector used for the training process (ie. same number of levels and names of those levels).
+In order to use `model_parts()` (former `variable_importance()`) function it is necessary to switch default `loss_function` argument to one that handle multiple classes. `DALEX` has implemented one function like that and it is called `loss_cross_entropy()`.
+To use it, `y` parameter passed to `explain` function should have exactly the same format as the target vector used for the training process (ie. the same number of levels and names of those levels).
 
-Also we need probability outputs so there is no need to change deafult `predict_function` parameter.
+Also, we need probability outputs so there is no need to change the default `predict_function` parameter.
 
 ```{r}
 library("DALEX")
@@ -75,7 +74,7 @@ As we see above, we can enjoy perfectly fine variable importance plot.
 
 # Model Profile
 
-There is no need for tricks in order to use `model_profile()` (former `variable_effect()`). Our target will be one-hot-encoded, and all of explantions will be performed for each of class separately.
+There is no need for tricks in order to use `model_profile()` (former `variable_effect()`). Our target will be one-hot-encoded, and all of the explanations will be performed for each of class separately.
 
 ## partial_dependency
 
@@ -95,7 +94,7 @@ plot(mp_a)
 
 # Instance level explanations
 
-As above, `predict_parts()` (former `variable_attribution()`) works perfectly fine with multilabel classification and default explainer. Just like before, our target will be splitted into variables standing for each factor level and computations will be performed then. 
+As above, `predict_parts()` (former `variable_attribution()`) works perfectly fine with multilabel classification and default explainer. Just like before, our target will be split into variables standing for each factor level and computations will be performed then. 
 
 ## break_down
 
@@ -114,7 +113,7 @@ plot(shap)
 
 # model_performance and predict_diagnostics
 
-Those two function are merged into one paragraph becasue they require same action in order to get them work with multilabel classification. The most important thing here is to realise that both function are based on residuals. Since `DALEX 1.2.2`, explain function recognize if model is a multiclass classification task and uses dedicated residal function as default. 
+The description of those two functions is merged into one paragraph because they require the same action to get them to work with multilabel classification. The most important thing here is to realize that both functions are based on residuals. Since `DALEX 1.2.2`, explain function recognizes if a model is a multiclass classification task and uses a dedicated residual function as default. 
 
 ## Model Performance
 
