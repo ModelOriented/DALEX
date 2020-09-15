@@ -22,7 +22,7 @@ def get_version(rel_path):
 def run_setup():
     # fixes warning https://github.com/pypa/setuptools/issues/2230
     from setuptools import setup, find_packages
-    from dalex._global_checks import OPTIONAL_DEPENDENCIES
+    from .dalex._global_checks import OPTIONAL_DEPENDENCIES
 
     test_requirements = []  # input dependencies for test, but not for user
     test_requirements += [k + ">=" + v for k, v in OPTIONAL_DEPENDENCIES.items()]
