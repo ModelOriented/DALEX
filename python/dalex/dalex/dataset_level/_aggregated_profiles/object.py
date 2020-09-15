@@ -3,7 +3,7 @@ from copy import deepcopy
 
 from .checks import *
 from .utils import aggregate_profiles
-from ... import theme, global_checks
+from ... import _theme, _global_checks
 
 
 class AggregatedProfiles:
@@ -122,11 +122,11 @@ class AggregatedProfiles:
             all_profiles = None
             all_observations = None
             for cp in ceteris_paribus:
-                global_checks.global_check_class(cp, CeterisParibus)
+                _global_checks.global_check_class(cp, CeterisParibus)
                 all_profiles = pd.concat([all_profiles, cp.result.copy()])
                 all_observations = pd.concat([all_observations, cp.new_observation.copy()])
         else:
-            global_checks.global_raise_objects_class(ceteris_paribus, CeterisParibus)
+            _global_checks.global_raise_objects_class(ceteris_paribus, CeterisParibus)
 
         all_variables = prepare_all_variables(all_profiles, self.variables)
 
@@ -214,10 +214,10 @@ class AggregatedProfiles:
         elif isinstance(objects, (list, tuple)):  # objects as tuple or array
             _result_df = self.result.assign(_mp_=self.mean_prediction if center else 0)
             for ob in objects:
-                global_checks.global_check_object_class(ob, self.__class__)
+                _global_checks.global_check_object_class(ob, self.__class__)
                 _result_df = pd.concat([_result_df, ob.result.assign(_mp_=ob.mean_prediction if center else 0)])
         else:
-            global_checks.global_raise_objects_class(objects, self.__class__)
+            _global_checks.global_raise_objects_class(objects, self.__class__)
 
         # variables to use
         all_variables = _result_df['_vname_'].dropna().unique().tolist()
@@ -262,7 +262,7 @@ class AggregatedProfiles:
                           facet_col_spacing=horizontal_spacing,
                           template="none",
                           render_mode=render_mode,
-                          color_discrete_sequence=theme.get_default_colors(m, 'line')) \
+                          color_discrete_sequence=_theme.get_default_colors(m, 'line')) \
                     .update_traces(dict(line_width=size, opacity=alpha)) \
                     .update_xaxes({'matches': None, 'showticklabels': True,
                                    'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
@@ -301,7 +301,7 @@ class AggregatedProfiles:
                          facet_row_spacing=vertical_spacing,
                          facet_col_spacing=horizontal_spacing,
                          template="none",
-                         color_discrete_sequence=theme.get_default_colors(m, 'line'),  # bar was forgotten
+                         color_discrete_sequence=_theme.get_default_colors(m, 'line'),  # bar was forgotten
                          barmode='group')  \
                     .update_xaxes({'matches': None, 'showticklabels': True,
                                    'type': 'category', 'gridwidth': 2, 'autorange': 'reversed', 'automargin': True,
@@ -316,9 +316,9 @@ class AggregatedProfiles:
                               xref=bar.xaxis, yref=bar.yaxis, layer='below',
                               line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'})
 
-        fig = theme.fig_update_line_plot(fig, title, y_title, plot_height, hovermode)
+        fig = _theme.fig_update_line_plot(fig, title, y_title, plot_height, hovermode)
 
         if show:
-            fig.show(config=theme.get_default_config())
+            fig.show(config=_theme.get_default_config())
         else:
             return fig

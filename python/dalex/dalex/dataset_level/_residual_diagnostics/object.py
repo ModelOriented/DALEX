@@ -1,7 +1,7 @@
 import plotly.express as px
 
 from .checks import *
-from ... import theme, global_checks
+from ... import _theme, _global_checks
 
 
 class ResidualDiagnostics:
@@ -112,7 +112,7 @@ class ResidualDiagnostics:
             Return figure that can be edited or saved. See `show` parameter.
         """
 
-        global_checks.global_check_import('statsmodels', msg=' Install statsmodels>=0.11.1 for smoothing line. ')
+        _global_checks.global_check_import('statsmodels', 'smoothing line')
 
         # are there any other objects to plot?
         if objects is None:
@@ -122,17 +122,17 @@ class ResidualDiagnostics:
         elif isinstance(objects, (list, tuple)):  # objects as tuple or array
             _df_list = [self.result.copy()]
             for ob in objects:
-                global_checks.global_check_object_class(ob, self.__class__)
+                _global_checks.global_check_object_class(ob, self.__class__)
                 _df_list += [ob.result.copy()]
         else:
-            global_checks.global_raise_objects_class(objects, self.__class__)
+            _global_checks.global_raise_objects_class(objects, self.__class__)
 
         fig = px.scatter(pd.concat(_df_list),
                          x=variable,
                          y=yvariable,
                          color="label",
                          trendline="lowess" if smooth else None,
-                         color_discrete_sequence=theme.get_default_colors(len(_df_list), 'line')) \
+                         color_discrete_sequence=_theme.get_default_colors(len(_df_list), 'line')) \
                .update_traces(dict(marker_size=marker_size, line_width=line_width))
 
         # wait for https://github.com/plotly/plotly.py/pull/2558 to add hline to the plot
@@ -147,6 +147,6 @@ class ResidualDiagnostics:
                           margin={'t': 78, 'b': 71, 'r': 30})
 
         if show:
-            fig.show(config=theme.get_default_config())
+            fig.show(config=_theme.get_default_config())
         else:
             return fig

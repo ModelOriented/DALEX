@@ -4,7 +4,7 @@ from dalex.instance_level import BreakDown, Shap, CeterisParibus
 from dalex.wrappers import ShapWrapper
 from .checks import *
 from .utils import unpack_kwargs_lime, create_surrogate_model
-from .. import global_checks
+from .. import _global_checks
 
 
 class Explainer:
@@ -299,7 +299,7 @@ class Explainer:
                 random_state=random_state
             )
         elif type == 'shap_wrapper':
-            global_checks.global_check_import('shap', msg=' Install shap>=0.35.0 for SHAP explanations. ')
+            _global_checks.global_check_import('shap', 'SHAP explanations')
             predict_parts_ = ShapWrapper('predict_parts')
 
         predict_parts_.fit(self, new_observation, **kwargs)
@@ -411,7 +411,7 @@ class Explainer:
         check_data_again(self.data)
 
         if type == 'lime':
-            global_checks.global_check_import('lime', msg=' Install lime>=0.2.0.1 for LIME explanations. ')
+            _global_checks.global_check_import('lime', 'LIME explanations')
             from lime.lime_tabular import LimeTabularExplainer
             new_observation = check_new_observation_lime(new_observation)
 
@@ -545,7 +545,7 @@ class Explainer:
             )
             model_parts_.fit(self)
         elif type == 'shap_wrapper':
-            global_checks.global_check_import('shap', msg=' Install shap>=0.35.0 for SHAP explanations. ')
+            _global_checks.global_check_import('shap', 'SHAP explanations')
             model_parts_ = ShapWrapper('model_parts')
             if N is None:
                 N = self.data.shape[0]
@@ -736,7 +736,7 @@ class Explainer:
         https://github.com/scikit-learn/scikit-learn
         """
 
-        global_checks.global_check_import('sklearn', msg=' Install scikit-learn>=0.21 for surrogate models. ')
+        _global_checks.global_check_import('scikit-learn', 'surrogate models')
         check_data_again(self.data)
 
         types = ('tree', 'linear')

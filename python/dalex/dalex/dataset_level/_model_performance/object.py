@@ -2,7 +2,7 @@ import plotly.graph_objects as go
 
 from dalex.dataset_level._model_performance.plot import ecdf
 from .utils import *
-from ... import theme, global_checks
+from ... import _theme, _global_checks
 
 
 class ModelPerformance:
@@ -146,12 +146,12 @@ class ModelPerformance:
         elif isinstance(objects, (list, tuple)):  # objects as tuple or array
             _df_list = [self.residuals.copy()]
             for ob in objects:
-                global_checks.global_check_object_class(ob, self.__class__)
+                _global_checks.global_check_object_class(ob, self.__class__)
                 _df_list += [ob.residuals.copy()]
         else:
-            global_checks.global_raise_objects_class(objects, self.__class__)
+            _global_checks.global_raise_objects_class(objects, self.__class__)
 
-        colors = theme.get_default_colors(len(_df_list), 'line')
+        colors = _theme.get_default_colors(len(_df_list), 'line')
         fig = go.Figure()
 
         for i, _df in enumerate(_df_list):
@@ -176,6 +176,6 @@ class ModelPerformance:
                           margin={'t': 78, 'b': 71, 'r': 30})
 
         if show:
-            fig.show(config=theme.get_default_config())
+            fig.show(config=_theme.get_default_config())
         else:
             return fig

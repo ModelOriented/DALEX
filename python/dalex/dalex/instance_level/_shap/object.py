@@ -3,7 +3,7 @@ from plotly.subplots import make_subplots
 from .plot import *
 from .checks import *
 from .utils import shap
-from ... import theme, global_checks
+from ... import _theme, _global_checks
 
 
 class Shap:
@@ -168,12 +168,12 @@ class Shap:
             _intercept_list = [self.intercept]
             _prediction_list = [self.prediction]
             for ob in objects:
-                global_checks.global_check_object_class(ob, self.__class__)
+                _global_checks.global_check_object_class(ob, self.__class__)
                 _result_list += [ob.result.loc[ob.result['B'] == 0,].copy()]
                 _intercept_list += [ob.intercept]
                 _prediction_list += [ob.prediction]
         else:
-            global_checks.global_raise_objects_class(objects, self.__class__)
+            _global_checks.global_raise_objects_class(objects, self.__class__)
 
         # TODO: add intercept and prediction list update for multi-class
         # deleted_indexes = []
@@ -198,7 +198,7 @@ class Shap:
         plot_height = 78 + 71
 
         if vcolors is None:
-            vcolors = theme.get_break_down_colors()
+            vcolors = _theme.get_break_down_colors()
 
         if min_max is None:
             temp_min_max = [np.Inf, -np.Inf]
@@ -267,6 +267,6 @@ class Shap:
                           height=plot_height, margin={'t': 78, 'b': 71, 'r': 30})
 
         if show:
-            fig.show(config=theme.get_default_config())
+            fig.show(config=_theme.get_default_config())
         else:
             return fig

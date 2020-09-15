@@ -3,7 +3,7 @@ from plotly.subplots import make_subplots
 from .plot import *
 from .checks import *
 from .utils import calculate_variable_importance
-from ... import theme, global_checks
+from ... import _theme, _global_checks
 
 
 class VariableImportance:
@@ -190,10 +190,10 @@ class VariableImportance:
             n = len(objects) + 1
             _result_df = self.result.copy()
             for ob in objects:
-                global_checks.global_check_object_class(ob, self.__class__)
+                _global_checks.global_check_object_class(ob, self.__class__)
                 _result_df = pd.concat([_result_df, ob.result.copy()])
         else:
-            global_checks.global_raise_objects_class(objects, self.__class__)
+            _global_checks.global_raise_objects_class(objects, self.__class__)
 
         dl = _result_df.loc[_result_df.variable != '_baseline_', 'dropout_loss'].to_numpy()
         min_max_margin = dl.ptp() * 0.15
@@ -217,7 +217,7 @@ class VariableImportance:
 
         plot_height = 78 + 71
 
-        colors = theme.get_default_colors(n, 'bar')
+        colors = _theme.get_default_colors(n, 'bar')
 
         if vertical_spacing is None:
             vertical_spacing = 0.2 / n
@@ -354,6 +354,6 @@ class VariableImportance:
                           height=plot_height, margin={'t': 78, 'b': 71, 'r': 30})
 
         if show:
-            fig.show(config=theme.get_default_config())
+            fig.show(config=_theme.get_default_config())
         else:
             return fig

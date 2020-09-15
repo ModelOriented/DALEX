@@ -5,7 +5,7 @@ import plotly.express as px
 from .checks import *
 from .utils import calculate_ceteris_paribus
 from .plot import tooltip_text
-from ... import theme, global_checks
+from ... import _theme, _global_checks
 
 
 class CeterisParibus:
@@ -202,13 +202,13 @@ class CeterisParibus:
             _result_df = self.result.assign(_original_yhat_=lambda x: self.new_observation.loc[x.index, '_yhat_'])
             _include = [self.variable_splits_with_obs]
             for ob in objects:
-                global_checks.global_check_object_class(ob, self.__class__)
+                _global_checks.global_check_object_class(ob, self.__class__)
                 _result_df = pd.concat([
                     _result_df, ob.result.assign(_original_yhat_=lambda x: ob.new_observation.loc[x.index, '_yhat_'])])
                 _include += [ob.variable_splits_with_obs]
             _include = np.all(_include)
         else:
-            global_checks.global_raise_objects_class(objects, self.__class__)
+            _global_checks.global_raise_objects_class(objects, self.__class__)
 
         if _include is False and show_observations:
                 warnings.warn("show_observations will be set to False,"
@@ -294,7 +294,7 @@ class CeterisParibus:
                           facet_row_spacing=vertical_spacing,
                           facet_col_spacing=horizontal_spacing,
                           template="none",
-                          color_discrete_sequence=theme.get_default_colors(m, 'line')) \
+                          color_discrete_sequence=_theme.get_default_colors(m, 'line')) \
                     .update_traces(dict(line_width=size, opacity=alpha,
                                         hovertemplate="%{customdata[0]}<extra></extra>")) \
                     .update_xaxes({'matches': None, 'showticklabels': True,
@@ -341,7 +341,7 @@ class CeterisParibus:
                          facet_row_spacing=vertical_spacing,
                          facet_col_spacing=horizontal_spacing,
                          template="none",
-                         color_discrete_sequence=theme.get_default_colors(m, 'line'),  # bar was forgotten
+                         color_discrete_sequence=_theme.get_default_colors(m, 'line'),  # bar was forgotten
                          barmode='group')  \
                     .update_traces(dict(opacity=alpha),
                                    hovertemplate="%{customdata[0]}<extra></extra>") \
@@ -358,10 +358,10 @@ class CeterisParibus:
                               xref=bar.xaxis, yref=bar.yaxis, layer='below',
                               line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'})
 
-        fig = theme.fig_update_line_plot(fig, title, y_title, plot_height, 'closest')
+        fig = _theme.fig_update_line_plot(fig, title, y_title, plot_height, 'closest')
         fig.update_layout(hoverlabel=dict(bgcolor='rgba(0,0,0,0.8)'))
 
         if show:
-            fig.show(config=theme.get_default_config())
+            fig.show(config=_theme.get_default_config())
         else:
             return fig

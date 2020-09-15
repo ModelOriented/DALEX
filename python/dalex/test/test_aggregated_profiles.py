@@ -56,8 +56,9 @@ class AggregatedProfilesTestTitanic(unittest.TestCase):
 
     def test_accumulated(self):
         self.helper_test('accumulated')
-        caseCenterNum = self.exp2.model_profile(type='accumulated', center=False)
-        caseCenterCat = self.exp2.model_profile(type='accumulated', variable_type='categorical', center=False)
+        caseCenterNum = self.exp2.model_profile(type='accumulated', center=False, verbose=False)
+        caseCenterCat = self.exp2.model_profile(type='accumulated', variable_type='categorical',
+                                                center=False, verbose=False)
 
         self.assertIsInstance(caseCenterNum, dx.dataset_level.AggregatedProfiles)
         self.assertIsInstance(caseCenterCat, dx.dataset_level.AggregatedProfiles)
@@ -78,22 +79,24 @@ class AggregatedProfilesTestTitanic(unittest.TestCase):
         self.helper_test('conditional')
 
     def helper_test(self, test_type):
-        case1 = self.exp.model_profile(test_type)
-        case2 = self.exp.model_profile(test_type, 100, variables=['age', 'fare'])
-        case3 = self.exp.model_profile(test_type, 120, groups='gender')
-        case4 = self.exp2.model_profile(test_type, 120, groups=['gender'])
-        case5 = self.exp.model_profile(test_type, 120, groups=np.array(['gender', 'class']))
-        case6 = self.exp2.model_profile(test_type, 120, groups=pd.Series(['gender', 'class']))
-        case7 = self.exp.model_profile(test_type, 150, variables=['age', 'fare'], groups='class')
-        case8 = self.exp.model_profile(test_type, 100, variables=['age'], span=0.5, grid_points=30)
-        case9 = self.exp2.model_profile(test_type, 100, variables='age', span=0.5, grid_points=30)
+        case1 = self.exp.model_profile(test_type, verbose=False)
+        case2 = self.exp.model_profile(test_type, 100, variables=['age', 'fare'], verbose=False)
+        case3 = self.exp.model_profile(test_type, 120, groups='gender', verbose=False)
+        case4 = self.exp2.model_profile(test_type, 120, groups=['gender'], verbose=False)
+        case5 = self.exp.model_profile(test_type, 120, groups=np.array(['gender', 'class']), verbose=False)
+        case6 = self.exp2.model_profile(test_type, 120, groups=pd.Series(['gender', 'class']), verbose=False)
+        case7 = self.exp.model_profile(test_type, 150, variables=['age', 'fare'], groups='class', verbose=False)
+        case8 = self.exp.model_profile(test_type, 100, variables=['age'], span=0.5, grid_points=30, verbose=False)
+        case9 = self.exp2.model_profile(test_type, 100, variables='age', span=0.5, grid_points=30, verbose=False)
         case10 = self.exp.model_profile(test_type, None, variables=['age', 'fare', 'gender'],
                                         groups=['class', 'embarked'],
-                                        span=0.5, grid_points=30)
-        case11 = self.exp.model_profile(test_type, 100, variables=np.array(['age', 'class']), span=0.5, grid_points=30)
+                                        span=0.5, grid_points=30, verbose=False)
+        case11 = self.exp.model_profile(test_type, 100, variables=np.array(['age', 'class']),
+                                        span=0.5, grid_points=30, verbose=False)
         case12 = self.exp2.model_profile(test_type, 100, variables=pd.Series(['age', 'class']), span=0.5,
-                                         grid_points=30)
-        case13 = self.exp2.model_profile(test_type, 100, center=False, span=0.5, grid_points=30, processes=2)
+                                         grid_points=30, verbose=False)
+        case13 = self.exp2.model_profile(test_type, 100, center=False, span=0.5, grid_points=30,
+                                         processes=2, verbose=False)
 
         self.assertIsInstance(case1, dx.dataset_level.AggregatedProfiles)
         self.assertIsInstance(case2, dx.dataset_level.AggregatedProfiles)
@@ -109,7 +112,7 @@ class AggregatedProfilesTestTitanic(unittest.TestCase):
         self.assertIsInstance(case12, dx.dataset_level.AggregatedProfiles)
         self.assertIsInstance(case13, dx.dataset_level.AggregatedProfiles)
 
-        case_3_models = self.exp3.model_profile(test_type, 100)
+        case_3_models = self.exp3.model_profile(test_type, 100, verbose=False)
 
         fig1 = case1.plot(show=False, size=3, facet_ncol=1, title="test1", horizontal_spacing=0.2, vertical_spacing=0.2)
         fig2 = case2.plot(show=False)
