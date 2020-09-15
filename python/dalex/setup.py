@@ -15,24 +15,18 @@ def read(rel_path):
 def get_version(rel_path):
     for line in read(rel_path).splitlines():
         if line.startswith('__version__'):
-            delim = '"' if '"' in line else "'"
-            return line.split(delim)[1]
-
-
-OPTIONAL_DEPENDENCIES = {
-    'dalex': '99.0',           # test_global.py
-    'lime': '0.2.0.1',         # Explainer.predict_surrogate
-    'scikit-learn': '0.21.0',  # Explainer.model_surrogate
-    'statsmodels': '0.11.1',   # LOWESS trendlines in ResidualDiagnostics.plot
-    'shap': '0.35.0'           # ShapWrapper
-}
+            delimiter = '"' if '"' in line else "'"
+            return line.split(delimiter)[1]
 
 
 def run_setup():
     # fixes warning https://github.com/pypa/setuptools/issues/2230
     from setuptools import setup, find_packages
+    from dalex._global_checks import OPTIONAL_DEPENDENCIES
 
-    test_requirements = [k + ">=" + v for k, v in OPTIONAL_DEPENDENCIES.items()]
+    test_requirements = []  # input dependencies for test, but not for user
+    test_requirements += [k + ">=" + v for k, v in OPTIONAL_DEPENDENCIES.items()]
+    del test_requirements[0]  # remove artificial dependency used in test_global.py
 
     setup(
         name="dalex",

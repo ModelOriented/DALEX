@@ -1,7 +1,15 @@
 import pkg_resources
 from importlib import import_module
 from re import search
-from setup import OPTIONAL_DEPENDENCIES
+
+
+OPTIONAL_DEPENDENCIES = {
+    'dalex': '99.0',           # artificial dependency used in test_global.py
+    'lime': '0.2.0.1',         # Explainer.predict_surrogate
+    'scikit-learn': '0.21.0',  # Explainer.model_surrogate
+    'statsmodels': '0.11.1',   # LOWESS trendlines in ResidualDiagnostics.plot
+    'shap': '0.35.0'           # ShapWrapper
+}
 
 
 def global_check_import(name=None, functionality=None):
