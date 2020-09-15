@@ -84,10 +84,6 @@ class PredictPartsTestTitanic(unittest.TestCase):
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='break_down', path=[3, 0, 1, 2, 4, 5, 6]),
                               dx.instance_level.BreakDown)
 
-        with self.assertRaises(TypeError):
-            self.exp.predict_parts(self.X.iloc[[0]], type='break_down',
-                                   path=['gender', 'embarked', 'sibsp', 'fare', 'age', 'parch', 'class'])
-
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='break_down', B=1),
                               dx.instance_level.BreakDown)
 
@@ -148,10 +144,6 @@ class PredictPartsTestTitanic(unittest.TestCase):
         self.assertIsInstance(
             self.exp.predict_parts(self.X.iloc[[0]], type='break_down_interactions', path=[3, 0, 1, 2, 4, 5, 6]),
             dx.instance_level.BreakDown)
-
-        with self.assertRaises(TypeError):
-            self.exp.predict_parts(self.X.iloc[[0]], type='break_down_interactions',
-                                   path=['gender', 'embarked', 'sibsp', 'fare', 'age', 'parch', 'class'])
 
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='break_down_interactions', B=1),
                               dx.instance_level.BreakDown)

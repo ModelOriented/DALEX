@@ -11,7 +11,7 @@ from dalex.wrappers import ShapWrapper
 import dalex as dx
 
 
-class MLPRegressorTestShapWrapperTitanicFullDataset(unittest.TestCase):
+class TestShapWrapperMLPRegressorTitanicFullDataset(unittest.TestCase):
     def setUp(self):
         data = dx.datasets.load_titanic()
         data.loc[:, 'survived'] = LabelEncoder().fit_transform(data.survived)
@@ -47,7 +47,7 @@ class MLPRegressorTestShapWrapperTitanicFullDataset(unittest.TestCase):
             self.exp.predict_parts(self.X.iloc[[0]], type='shap_wrapper')
 
 
-class RandomForestClassifierTestShapWrapperTitanicNumericalDataset(unittest.TestCase):
+class TestShapWrapperRandomForestClassifierTitanicNumericalDataset(unittest.TestCase):
     def setUp(self):
         data = dx.datasets.load_titanic()
         data.loc[:, 'survived'] = LabelEncoder().fit_transform(data.survived)

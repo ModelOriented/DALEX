@@ -1,6 +1,5 @@
 import codecs
 import os
-import setuptools
 
 this_directory = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(this_directory, 'README.md'), encoding='utf-8') as f:
@@ -16,44 +15,70 @@ def read(rel_path):
 def get_version(rel_path):
     for line in read(rel_path).splitlines():
         if line.startswith('__version__'):
-            delim = '"' if '"' in line else "'"
-            return line.split(delim)[1]
+            delimiter = '"' if '"' in line else "'"
+            return line.split(delimiter)[1]
 
 
-setuptools.setup(
-    name="dalex",
-    author="Wojciech Kretowicz, Hubert Baniecki, Przemyslaw Biecek",
-    author_email="wojtekkretowicz@gmail.com, hbaniecki@gmail.com",
-    version=get_version("dalex/__init__.py"),
-    description="DALEX in Python",
-    long_description=long_description,
-    long_description_content_type="text/markdown",
-    url="https://github.com/ModelOriented/DALEX",
-    classifiers=[
-        "Development Status :: 4 - Beta",
-        "Topic :: Scientific/Engineering",
-        "Topic :: Scientific/Engineering :: Artificial Intelligence",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "License :: OSI Approved",
-        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
-        "Operating System :: OS Independent",
-    ],
-    install_requires=[
-        'pandas>=1.1.0',
-        'numpy>=1.18.1',
-        'plotly>=4.9.0',
-        'tqdm>=4.42.1'
-    ],
-    test_requirements=[
-        'lime>=0.2.0.1',       # Explainer.predict_surrogate
-        'scikit-learn>=0.21',  # Explainer.model_surrogate
-        'statsmodels>=0.11.1', # LOWESS trendlines in ResidualDiagnostics.plot
-        'shap>=0.35.0'         # ShapWrapper
-    ],
-    packages=setuptools.find_packages(include=["dalex", "dalex.*"]),
-    python_requires='>=3.6',
-    include_package_data=True
-)
+def get_optional_dependencies(rel_path):
+    # read _global_checks.py and construct a list of optional dependencies
+    flag = False
+    to_parse = "{"
+
+    for line in read(rel_path).splitlines():
+        if flag:
+            if line == "}":  # end
+                to_parse += line
+                break
+            to_parse += line.strip()
+        if line.startswith('OPTIONAL_DEPENDENCIES'):  # start
+            flag = True
+
+    od_dict = eval(to_parse)
+    od_list = [k + ">=" + v for k, v in od_dict.items()]
+    del od_list[0]  # remove artificial dependency used in test_global.py
+    return od_list
+
+
+def run_setup():
+    # fixes warning https://github.com/pypa/setuptools/issues/2230
+    from setuptools import setup, find_packages
+
+    test_requirements = []  # input dependencies for test, but not for user
+    test_requirements += get_optional_dependencies("dalex/_global_checks.py")
+
+    setup(
+        name="dalex",
+        author="Wojciech Kretowicz, Hubert Baniecki, Przemyslaw Biecek",
+        author_email="wojtekkretowicz@gmail.com, hbaniecki@gmail.com",
+        version=get_version("dalex/__init__.py"),
+        description="DALEX in Python",
+        long_description=long_description,
+        long_description_content_type="text/markdown",
+        url="https://github.com/ModelOriented/DALEX",
+        classifiers=[
+            "Development Status :: 4 - Beta",
+            "Topic :: Scientific/Engineering",
+            "Topic :: Scientific/Engineering :: Artificial Intelligence",
+            "Programming Language :: Python :: 3",
+            "Programming Language :: Python :: 3.6",
+            "Programming Language :: Python :: 3.7",
+            "Programming Language :: Python :: 3.8",
+            "License :: OSI Approved",
+            "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+            "Operating System :: OS Independent",
+        ],
+        install_requires=[
+            'pandas>=1.1.0',
+            'numpy>=1.18.1',
+            'plotly>=4.9.0',
+            'tqdm>=4.48.2'
+        ],
+        test_requirements=test_requirements,
+        packages=find_packages(include=["dalex", "dalex.*"]),
+        python_requires='>=3.6',
+        include_package_data=True
+    )
+
+
+if __name__ == "__main__":
+    run_setup()

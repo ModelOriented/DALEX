@@ -4,6 +4,7 @@ from dalex.instance_level import BreakDown, Shap, CeterisParibus
 from dalex.wrappers import ShapWrapper
 from .checks import *
 from .utils import unpack_kwargs_lime, create_surrogate_model
+from .. import _global_checks
 
 
 class Explainer:
@@ -122,11 +123,6 @@ class Explainer:
                 'green_end': ""}
 
         # REPORT: checks for data
-        """
-        Contrary to the R package, data cannot be retrieved from model, thus data is necessary.
-        If data is None, tell user about the lack of the data.
-        """
-
         data = check_data(data, verbose)
 
         # REPORT: checks for y
@@ -135,8 +131,10 @@ class Explainer:
         # REPORT: checks for weights
         weights = check_weights(weights, data, verbose)
 
+        # REPORT: checks for model_class
         model_class, model_info_ = check_model_class(model_class, model, verbose)
 
+        # REPORT: checks for label
         label, model_info_ = check_label(label, model_class, model_info_, verbose)
 
         # REPORT: checks for predict_function and model_type
@@ -145,12 +143,6 @@ class Explainer:
             check_predict_function_and_model_type(predict_function, model_type,
                                                   model, data, model_class, model_info_,
                                                   precalculate, verbose)
-      
-        model_info_ = check_if_predict_function_accepts_arrays(predict_function,
-                                                               model,
-                                                               data.values[[0]],
-                                                               model_info_,
-                                                               verbose)
 
         # if data is specified then we may test predict_function
         # at this moment we have predict function
@@ -160,6 +152,7 @@ class Explainer:
                                                                             model, data, y,
                                                                             model_info_, precalculate, verbose)
 
+        # REPORT: checks for model_info
         model_info = check_model_info(model_info, model_info_, verbose)
 
         # READY to create an explainer
@@ -194,7 +187,7 @@ class Explainer:
             Model predictions for given `data`.
         """
 
-        check_pred_data(data)
+        check_method_data(data)
 
         return self.predict_function(self.model, data)
 
@@ -216,7 +209,7 @@ class Explainer:
             Model residuals for given `data` and `y`.
         """
 
-        check_pred_data(data)
+        check_method_data(data)
 
         return self.residual_function(self.model, data, y)
 
@@ -285,9 +278,10 @@ class Explainer:
         https://github.com/slundberg/shap
         """
 
+        check_data_again(self.data)
+
         types = ('break_down_interactions', 'break_down', 'shap', 'shap_wrapper')
         type = check_method_type(type, types)
-        path_ = check_path(path)
 
         if type == 'break_down_interactions' or type == 'break_down':
             predict_parts_ = BreakDown(
@@ -299,12 +293,13 @@ class Explainer:
         elif type == 'shap':
             predict_parts_ = Shap(
                 keep_distributions=keep_distributions,
-                path=path_,
+                path=path,
                 B=B,
                 processes=processes,
                 random_state=random_state
             )
         elif type == 'shap_wrapper':
+            _global_checks.global_check_import('shap', 'SHAP explanations')
             predict_parts_ = ShapWrapper('predict_parts')
 
         predict_parts_.fit(self, new_observation, **kwargs)
@@ -365,6 +360,8 @@ class Explainer:
         https://pbiecek.github.io/ema/ceterisParibus.html
         """
 
+        check_data_again(self.data)
+
         types = ('ceteris_paribus', )
         type = check_method_type(type, types)
 
@@ -411,7 +408,10 @@ class Explainer:
         https://github.com/marcotcr/lime
         """
 
+        check_data_again(self.data)
+
         if type == 'lime':
+            _global_checks.global_check_import('lime', 'LIME explanations')
             from lime.lime_tabular import LimeTabularExplainer
             new_observation = check_new_observation_lime(new_observation)
 
@@ -445,6 +445,7 @@ class Explainer:
         https://pbiecek.github.io/ema/modelPerformance.html
         """
 
+        check_data_again(self.data)
         check_y_again(self.y)
 
         if model_type is None and self.model_type is None:
@@ -521,14 +522,16 @@ class Explainer:
         https://github.com/slundberg/shap
         """
 
-        check_y_again(self.y)
+        check_data_again(self.data)
 
         types = ('variable_importance', 'ratio', 'difference', 'shap_wrapper')
         type = check_method_type(type, types)
 
-        loss_function = check_loss_function(self, loss_function)
+        loss_function = check_method_loss_function(self, loss_function)
 
         if type != 'shap_wrapper':
+            check_y_again(self.y)
+
             model_parts_ = VariableImportance(
                 loss_function=loss_function,
                 type=type,
@@ -541,7 +544,8 @@ class Explainer:
                 keep_raw_permutations=keep_raw_permutations,
             )
             model_parts_.fit(self)
-        else:
+        elif type == 'shap_wrapper':
+            _global_checks.global_check_import('shap', 'SHAP explanations')
             model_parts_ = ShapWrapper('model_parts')
             if N is None:
                 N = self.data.shape[0]
@@ -619,6 +623,8 @@ class Explainer:
         https://pbiecek.github.io/ema/accumulatedLocalProfiles.html
         """
 
+        check_data_again(self.data)
+
         types = ('partial', 'accumulated', 'conditional')
         type = check_method_type(type, types)
 
@@ -673,6 +679,7 @@ class Explainer:
         https://pbiecek.github.io/ema/residualDiagnostic.html
         """
 
+        check_data_again(self.data)
         check_y_again(self.y)
 
         residual_diagnostics_ = ResidualDiagnostics(
@@ -728,6 +735,9 @@ class Explainer:
         https://christophm.github.io/interpretable-ml-book/global.html
         https://github.com/scikit-learn/scikit-learn
         """
+
+        _global_checks.global_check_import('scikit-learn', 'surrogate models')
+        check_data_again(self.data)
 
         types = ('tree', 'linear')
         type = check_method_type(type, types)

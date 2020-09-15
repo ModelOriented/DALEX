@@ -38,10 +38,17 @@ def check_shap_explainer_type(shap_explainer_type, model):
 def check_compatibility(explainer):
     """Placeholder for more specific checks"""
 
-    if explainer.model_info['arrays_accepted']:
-        return True
+    if 'arrays_accepted' in explainer.model_info:
+        if not explainer.model_info['arrays_accepted']:
+            raise TypeError("'predict_function' not compatible with the 'shap' package")
     else:
-        raise TypeError("Model not compatible with the 'shap' package")
+        # data was None but now is available
+        try:
+            data_values = explainer.data.values[[0]]
+            explainer.predict(data_values)
+            explainer.model_info['arrays_accepted'] = True
+        except:
+            raise TypeError("'predict_function' not compatible with the 'shap' package")
 
 
 def check_new_observation_predict_parts(new_observation, explainer):

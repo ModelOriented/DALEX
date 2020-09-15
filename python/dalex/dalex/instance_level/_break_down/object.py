@@ -5,7 +5,7 @@ from plotly.subplots import make_subplots
 from .plot import *
 from .checks import *
 from .utils import local_interactions
-from ..._explainer.theme import get_break_down_colors
+from ... import _theme, _global_checks
 
 
 class BreakDown:
@@ -81,7 +81,6 @@ class BreakDown:
         -----------
         None
         """
-
 
         new_observation = check_new_observation(new_observation, explainer)
         if new_observation.shape[0] != 1:
@@ -163,18 +162,17 @@ class BreakDown:
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             n = 2
             _result_list = [self.result.copy(), objects.result.copy()]
-        else:  # objects as tuple or array
+        elif isinstance(objects, (list, tuple)):  # objects as tuple or array
             n = len(objects) + 1
             _result_list = [self.result.copy()]
             for ob in objects:
-                if not isinstance(ob, self.__class__):
-                    raise TypeError("Some explanations aren't of Break Down class")
+                _global_checks.global_check_object_class(ob, self.__class__)
                 _result_list += [ob.result.copy()]
+        else:
+            _global_checks.global_raise_objects_class(objects, self.__class__)
 
         deleted_indexes = []
-        for i in range(n):
-            _result = _result_list[i]
-
+        for i, _result in enumerate(_result_list):
             if len(_result['label'].unique()) > 1:
                 n += len(_result['label'].unique()) - 1
                 # add new data frames to list
@@ -182,7 +180,7 @@ class BreakDown:
 
                 deleted_indexes += [i]
 
-        _result_list = [j for i, j in enumerate(_result_list) if i not in deleted_indexes]
+        _result_list = [val for i, val in enumerate(_result_list) if i not in deleted_indexes]
         model_names = [result.iloc[0, result.columns.get_loc("label")] for result in _result_list]
 
         if vertical_spacing is None:
@@ -194,16 +192,14 @@ class BreakDown:
         plot_height = 78 + 71
 
         if vcolors is None:
-            vcolors = get_break_down_colors()
+            vcolors = _theme.get_break_down_colors()
 
         if min_max is None:
             temp_min_max = [np.Inf, -np.Inf]
         else:
             temp_min_max = min_max
 
-        for i in range(n):
-            _result = _result_list[i]
-
+        for i, _result in enumerate(_result_list):
             if _result.shape[0] - 2 <= max_vars:
                 m = _result.shape[0]
             else:
@@ -271,12 +267,6 @@ class BreakDown:
                           height=plot_height, margin={'t': 78, 'b': 71, 'r': 30})
 
         if show:
-            fig.show(config={
-                'displaylogo': False, 'staticPlot': False,
-                'toImageButtonOptions': {'height': None, 'width': None, },
-                'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d', 'zoom2d', 'pan2d',
-                                           'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines',
-                                           'hoverCompareCartesian', 'hoverClosestCartesian']
-            })
+            fig.show(config=_theme.get_default_config())
         else:
             return fig

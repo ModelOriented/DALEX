@@ -1,3 +1,23 @@
+dalex (development)
+----------------------------------------------------------------
+
+* updated the `tqdm` dependency to `>=4.48.2`
+
+### bug fixes
+
+* fixed the wrong order of `Explainer` verbose messages
+* fixed a bug that caused `model_info` parameter to be overwritten by the default values
+
+### features
+
+* added informative error messages when importing optional dependencies ([#316](https://github.com/ModelOriented/DALEX/issues/316))
+* allow for `data` and `y` to be `None` - added checks in `Explainer` methods
+
+### defaults
+
+* wrong parameter name `title_x` changed to `y_title` in `CeterisParibus.plot` and `AggregatedProfiles.plot` ([#317](https://github.com/ModelOriented/DALEX/issues/317))
+
+
 dalex 0.2.1
 ----------------------------------------------------------------
 
