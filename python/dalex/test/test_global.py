@@ -16,3 +16,6 @@ class Global(unittest.TestCase):
         global_check_import("statsmodels")
         global_check_import("scikit-learn")
         global_check_import("lime")
+
+        with self.assertRaises(ImportError):
+            global_check_import("sklearn", "this won't work")

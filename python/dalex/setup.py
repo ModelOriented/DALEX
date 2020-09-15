@@ -81,5 +81,4 @@ def run_setup():
 
 
 if __name__ == "__main__":
-    # allows for "from setup import OPTIONAL_DEPENDENCIES" in '_global_checks.py'
     run_setup()
