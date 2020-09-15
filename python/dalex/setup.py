@@ -19,14 +19,32 @@ def get_version(rel_path):
             return line.split(delimiter)[1]
 
 
+def get_optional_dependencies(rel_path):
+    # read _global_checks.py and construct a list of optional dependencies
+    flag = False
+    to_parse = "{"
+
+    for line in read(rel_path).splitlines():
+        if flag:
+            if line == "}":  # end
+                to_parse += line
+                break
+            to_parse += line.strip()
+        if line.startswith('OPTIONAL_DEPENDENCIES'):  # start
+            flag = True
+
+    od_dict = eval(to_parse)
+    od_list = [k + ">=" + v for k, v in od_dict.items()]
+    del od_list[0]  # remove artificial dependency used in test_global.py
+    return od_list
+
+
 def run_setup():
     # fixes warning https://github.com/pypa/setuptools/issues/2230
     from setuptools import setup, find_packages
-    from .dalex._global_checks import OPTIONAL_DEPENDENCIES
 
     test_requirements = []  # input dependencies for test, but not for user
-    test_requirements += [k + ">=" + v for k, v in OPTIONAL_DEPENDENCIES.items()]
-    del test_requirements[0]  # remove artificial dependency used in test_global.py
+    test_requirements += get_optional_dependencies("dalex/_global_checks.py")
 
     setup(
         name="dalex",

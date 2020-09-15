@@ -2,14 +2,21 @@ import pkg_resources
 from importlib import import_module
 from re import search
 
-
+# WARNING: below code is parsed by setup.py
+# WARNING: each dependency should be in new line
+# - dalex:          artificial dependency used in test_global.py
+# - lime:           Explainer.predict_surrogate
+# - scikit-learn:   Explainer.model_surrogate
+# - statsmodels     LOWESS trendlines in ResidualDiagnostics.plot
+# - shap            ShapWrapper
 OPTIONAL_DEPENDENCIES = {
-    'dalex': '99.0',           # artificial dependency used in test_global.py
-    'lime': '0.2.0.1',         # Explainer.predict_surrogate
-    'scikit-learn': '0.21.0',  # Explainer.model_surrogate
-    'statsmodels': '0.11.1',   # LOWESS trendlines in ResidualDiagnostics.plot
-    'shap': '0.35.0'           # ShapWrapper
+    'dalex': '99.0',
+    'lime': '0.2.0.1',
+    'scikit-learn': '0.21.0',
+    'statsmodels': '0.11.1',
+    'shap': '0.35.0'
 }
+# WARNING
 
 
 def global_check_import(name=None, functionality=None):
