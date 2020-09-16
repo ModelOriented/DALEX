@@ -1,0 +1,89 @@
+import numpy as np
+from copy import deepcopy
+
+
+class _ConfusionMatrix:
+
+    def __init__(self, y_true, y_pred, cutoff):
+        assert len(y_true) == len(y_pred)
+        assert 0 < cutoff < 1
+
+        self.cutoff = cutoff
+        self.tp = ((y_true == 1) * (y_pred >= self.cutoff)).sum()
+        self.fp = ((y_true == 0) * (y_pred >= self.cutoff)).sum()
+        self.tn = ((y_true == 0) * (y_pred < self.cutoff)).sum()
+        self.fn = ((y_true == 1) * (y_pred < self.cutoff)).sum()
+
+
+class _SubConfusionMatrix:
+
+    def __init__(self, y_true, y_pred, protected, cutoff, ):
+        assert len(y_true) == len(y_pred) == len(protected)
+        assert isinstance(cutoff, dict)
+
+        subgroups = np.unique(protected)
+        sub_dict = {}
+
+        for sub in subgroups:
+            sub_indexes = np.where(protected == sub)
+            sub_y_true = y_true[sub_indexes]
+            sub_y_pred = y_pred[sub_indexes]
+
+            sub_dict[sub] = _ConfusionMatrix(sub_y_true, sub_y_pred, cutoff.get(sub))
+        self.sub_dict = sub_dict
+
+
+class _SubroupConfusionMatrixMetrics:
+    """Calculate confusion matrix metrics for each subgroup
+
+    Parameters
+    -----------
+    sub_confusion_matrix : _SubConfusionMatrix
+        Object with calculated confusion matrix values for each subgroup
+
+    Attributes
+    -----------
+    subgroup_confusion_matrix_metrics : dict
+        Dictionary with confusion matrix metrics for each subgroup
+    """
+
+    def __init__(self, sub_confusion_matrix):
+        assert isinstance(sub_confusion_matrix, _SubConfusionMatrix)
+
+        matrix_dict = sub_confusion_matrix.sub_dict
+        subgroup_confusion_matrix_metrics = {}
+
+        for sub in matrix_dict.keys():
+            cm = matrix_dict.get(sub)
+            tp, tn, fp, fn = cm.tp, cm.tn, cm.fp, cm.fn
+
+            TNR = PPV = NPV = FNR = FPR = FDR = FOR = ACC = STP = np.nan
+
+            if tp + fn > 0:
+                TPR = tp / (tp + fn)
+                FNR = fn / (tp + fn)
+            if tn + fp > 0:
+                TNR = tn / (tn + fp)
+                FPR = fp / (fp + tn)
+            if tp + fp > 0:
+                PPV = tp / (tp + fp)
+                FDR = fp / (tp + fp)
+            if tn + fn > 0:
+                NPV = tn / (tn + fn)
+                FOR = fn / (tn + fn)
+            if fp + tp + fn + tn > 0:
+                ACC = (tp + tn) / (tp + tn + fp + fn)
+                STP = (tp + fp) / (tp + tn + fp + fn)
+
+            cf_metrics = {'TPR': TPR, 'TNR': TNR, 'PPV': PPV, 'NPV': NPV,
+                          'FNR': FNR, 'FPR': FPR, "FDR": FDR, 'FOR': FOR, 'ACC': ACC, 'STP': STP}
+
+            for metric in cf_metrics.keys():
+                if not np.isnan(cf_metrics.get(metric)):
+                    cf_metrics[metric] = round(cf_metrics.get(metric), 3)
+
+            subgroup_confusion_matrix_metrics[sub] = deepcopy(cf_metrics)
+
+        self.subgroup_confusion_matrix_metrics = subgroup_confusion_matrix_metrics
+
+
