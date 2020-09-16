@@ -1,5 +1,6 @@
-import numpy as np
 from copy import deepcopy
+import numpy as np
+import pandas as pd
 
 
 class _ConfusionMatrix:
@@ -86,4 +87,21 @@ class _SubroupConfusionMatrixMetrics:
 
         self.subgroup_confusion_matrix_metrics = subgroup_confusion_matrix_metrics
 
+    def _2DataFrame(self) -> pd.DataFrame:
 
+        columns = ['Metric', 'Subgroup', 'Score']
+        data = pd.DataFrame(columns=columns)
+        metrics = self.subgroup_confusion_matrix_metrics
+        for subgroup in metrics.keys():
+            metric = metrics.get(subgroup)
+            subgroup_vec = np.repeat(subgroup, len(metric))
+
+            sub_df = pd.DataFrame({'Metric': metric.keys(), 'Subgroup': subgroup_vec, 'Score': metric.values()})
+
+            data = data.append(sub_df)
+        return data
+
+    def __str__(self):
+
+        return f'Object _SubroupConfusionMatrixMetrics was converted` to data frame, top rows: \n' \
+               f'{self._2DataFrame().head().to_string()}'

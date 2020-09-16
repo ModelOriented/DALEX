@@ -70,7 +70,7 @@ class FairnessTest(unittest.TestCase):
         with self.assertRaises(AssertionError):
             cm_ = _SubConfusionMatrix(y_true, y_pred, protected,  cutoff)
 
-    def test_SubgroupConfusionMatrixMetrics(self, ):
+    def test_SubgroupConfusionMatrixMetrics(self):
         from dalex.fairness.group_fairness.utils import _SubConfusionMatrix
         from dalex.fairness.group_fairness.utils import _SubroupConfusionMatrixMetrics
 
@@ -82,8 +82,11 @@ class FairnessTest(unittest.TestCase):
         scf = _SubConfusionMatrix(y_true, y_pred, protected, cutoff)
         scf_metrics = _SubroupConfusionMatrixMetrics(scf)
 
-        self.assertEqual()
+        # @TODO self.assertEqual()
 
+    def test_metrics(self):
+
+        # @TODO
 
 if __name__ == '__main__':
     unittest.main()
