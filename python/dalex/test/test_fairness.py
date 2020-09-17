@@ -85,8 +85,9 @@ class FairnessTest(unittest.TestCase):
         # @TODO self.assertEqual()
 
     def test_metrics(self):
-
         # @TODO
+        pass
+
 
 if __name__ == '__main__':
     unittest.main()
