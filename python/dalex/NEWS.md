@@ -8,12 +8,15 @@ dalex (development)
 * fixed the wrong order of `Explainer` verbose messages
 * fixed a bug that caused `model_info` parameter to be overwritten by the default values
 * fixed a bug occurring when the variable from `groups` was not of `str` type ([#327](https://github.com/ModelOriented/DALEX/issues/327))
-
+* fixed `model_profile`: `variable_type='categorical'` not working when user passed `variables` parameter ([#329](https://github.com/ModelOriented/DALEX/issues/329)) +
+ the reverse order of bars in `'categorical'` plots + (again) added `variable_splits_type` parameter to `model_profile` to specify how grid points
+ shall be calculated ([#266](https://github.com/ModelOriented/DALEX/issues/266)) + allow for both `'quantile'` and `'quantiles'` types (alias)
+ 
 ### features
 
 * added informative error messages when importing optional dependencies ([#316](https://github.com/ModelOriented/DALEX/issues/316))
 * allow for `data` and `y` to be `None` - added checks in `Explainer` methods
-
+ 
 ### defaults
 
 * wrong parameter name `title_x` changed to `y_title` in `CeterisParibus.plot` and `AggregatedProfiles.plot` ([#317](https://github.com/ModelOriented/DALEX/issues/317))
@@ -90,7 +93,7 @@ dalex 0.2.0
 * added `color`, `opacity`, `title_x` parameters to `model_profile` and `predict_profile` plots ([#236](https://github.com/ModelOriented/DALEX/issues/236)),
  changed tooltips and legends ([#262](https://github.com/ModelOriented/DALEX/issues/262))
 * added `geom='profiles'` parameter to `model_profile` plot and `raw_profiles` attribute to `AggregatedProfiles`
-* added `variable_splits_type` parameter to `predict_profile` and `model_profile` to specify how grid points
+* added `variable_splits_type` parameter to `predict_profile` to specify how grid points
  shall be calculated ([#266](https://github.com/ModelOriented/DALEX/issues/266))
 * added `variable_splits_with_obs` parameter to `predict_profile` function to extend split points with observation
  variable values ([#269](https://github.com/ModelOriented/DALEX/issues/269))

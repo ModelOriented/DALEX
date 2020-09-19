@@ -346,7 +346,7 @@ class CeterisParibus:
                     .update_traces(dict(opacity=alpha),
                                    hovertemplate="%{customdata[0]}<extra></extra>") \
                     .update_xaxes({'matches': None, 'showticklabels': True,
-                                   'type': 'category', 'gridwidth': 2, 'autorange': 'reversed', 'automargin': True,
+                                   'type': 'category', 'gridwidth': 2, 'automargin': True,  # autorange="reversed"
                                    'ticks': "outside", 'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True}) \
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                    'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True,

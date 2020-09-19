@@ -568,6 +568,7 @@ class Explainer:
                       span=0.25,
                       grid_points=101,
                       variable_splits=None,
+                      variable_splits_type='uniform',
                       center=True,
                       processes=1,
                       random_state=None,
@@ -600,6 +601,9 @@ class Explainer:
         variable_splits : dict of lists, optional
             Split points for variables e.g. {'x': [0, 0.2, 0.5, 0.8, 1], 'y': ['a', 'b']}
             (default is None, which means that they will be distributed uniformly).
+        variable_splits_type : {'uniform', 'quantiles'}, optional
+            Way of calculating `variable_splits`. Set 'quantiles' for percentiles.
+            (default is 'uniform', which means uniform grid of points).
         center : bool, optional
             Theoretically Accumulated Profiles start at 0, but are centered to compare
             them with Partial Dependence Profiles (default is True, which means center
@@ -641,9 +645,10 @@ class Explainer:
         ceteris_paribus = CeterisParibus(grid_points=grid_points,
                                          variables=variables,
                                          variable_splits=variable_splits,
-                                         variable_splits_type='uniform',
+                                         variable_splits_type=variable_splits_type,
                                          processes=processes)
-        ceteris_paribus.fit(self, self.data.iloc[I, :], self.y[I], verbose=verbose)
+        _y = self.y[I] if self.y is not None else self.y
+        ceteris_paribus.fit(self, self.data.iloc[I, :], y=_y, verbose=verbose)
 
         model_profile_ = AggregatedProfiles(
             type=type,

@@ -135,12 +135,12 @@ def calculate_variable_split(data,
     for variable in variables:
         variable_column = data.loc[:, variable]
         if pd.api.types.is_numeric_dtype(variable_column):
-            if variable_splits_type == 'quantile':
-                column_splits = np.unique(np.quantile(variable_column, probs))
-            elif variable_splits_type == 'uniform':
+            if variable_splits_type == 'uniform':
                 column_splits = np.linspace(np.min(variable_column),
                                             np.max(variable_column),
                                             grid_points)
+            else:
+                column_splits = np.unique(np.quantile(variable_column, probs))
             if variable_splits_with_obs:
                 column_splits = np.concatenate((column_splits, new_observation.loc[:, variable]))
                 column_splits = np.unique(column_splits)

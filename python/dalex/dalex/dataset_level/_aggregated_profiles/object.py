@@ -128,9 +128,7 @@ class AggregatedProfiles:
         else:
             _global_checks.global_raise_objects_class(ceteris_paribus, CeterisParibus)
 
-        all_variables = prepare_all_variables(all_profiles, self.variables)
-
-        all_profiles, vnames = prepare_numerical_categorical(all_variables, all_profiles, self.variable_type)
+        all_profiles, vnames = prepare_numerical_categorical(all_profiles, self.variables, self.variable_type)
 
         # select only suitable variables
         all_profiles = all_profiles.loc[all_profiles['_vname_'].isin(vnames), :]
@@ -304,7 +302,7 @@ class AggregatedProfiles:
                          color_discrete_sequence=_theme.get_default_colors(m, 'line'),  # bar was forgotten
                          barmode='group')  \
                     .update_xaxes({'matches': None, 'showticklabels': True,
-                                   'type': 'category', 'gridwidth': 2, 'autorange': 'reversed', 'automargin': True,
+                                   'type': 'category', 'gridwidth': 2, 'automargin': True,  # autorange="reversed"
                                    'ticks': "outside", 'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True}) \
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                    'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True,
