@@ -6,7 +6,7 @@ from dalex import Explainer
 from pandas.core.frame import DataFrame
 from .server import start_server
 from ._plot_container import PlotContainer
-from .params import ModelParam, DatasetParam, VariableParam, ObservationParam
+from .params import ModelParam, DatasetParam, VariableParam, ObservationParam, Param
 from .plots._break_down_container import BreakDownContainer
 from .plots._shapley_values_container import ShapleyValuesContainer
 from .plots._feature_importance_container import FeatureImportanceContainer
@@ -17,12 +17,15 @@ from .plots._metrics_container import MetricsContainer
 
 
 class Arena:
-    def __init__(self, precalculate=False):
+    def __init__(self, precalculate=False, enable_attributes=True, enable_custom_params=True):
         self.models = []
         self.observations = []
         self.datasets = []
+        self.variables_cache = []
         self.server_thread = None
         self.precalculate = bool(precalculate)
+        self.enable_attributes = bool(enable_attributes)
+        self.enable_custom_params = bool(enable_custom_params)
         self.timestamp = datetime.timestamp(datetime.now())
         self.cache = []
         self.mutex = threading.Lock()
@@ -107,6 +110,7 @@ class Arena:
         with self.mutex:
             self.update_timestamp()
             self.models.append(param)
+            self.variables_cache = []
         if precalculate:
             self.fill_cache({'model': param})
 
@@ -149,6 +153,7 @@ class Arena:
         with self.mutex:
             self.update_timestamp()
             self.datasets.append(param)
+            self.variables_cache = []
         if precalculate:
             self.fill_cache({'dataset': param})
 
@@ -158,10 +163,23 @@ class Arena:
                 result = self.observations
         elif param_type == 'variable':
             with self.mutex:
-                result_datasets = [col for dataset in self.datasets for col in dataset.variables]
-                result_explainers = [col for model in self.models for col in model.variables]
-                result_str = np.unique(result_datasets + result_explainers).tolist()
-                result = [VariableParam(x) for x in result_str]
+                if not self.variables_cache:
+                    result_datasets = [col for dataset in self.datasets for col in dataset.variables]
+                    result_explainers = [col for model in self.models for col in model.variables]
+                    result_str = np.unique(result_datasets + result_explainers).tolist()
+                    self.variables_cache = [VariableParam(x) for x in result_str]
+                    if self.enable_attributes:
+                        for var in self.variables_cache:
+                            try:
+                                for dataset in self.datasets:
+                                    if var.variable in dataset.variables:
+                                        var.update_attributes(dataset.dataset[var.variable])
+                                for model in self.models:
+                                    if var.variable in model.variables:
+                                        var.update_attributes(model.explainer.data[var.variable])
+                            except:
+                                var.clear_attributes()
+                result = self.variables_cache
         elif param_type == 'model':
             with self.mutex:
                 result = self.models
@@ -231,7 +249,7 @@ class Arena:
         if self.precalculate:
             self.fill_cache()
 
-    def get_plot(self, plot_type, params_values):
+    def get_plot(self, plot_type, params_values, cache=True):
         plot_class = next((c for c in self.plots if c.info.get('plotType') == plot_type), None)
         if plot_class is None:
             raise Exception('Not supported plot type')
@@ -243,9 +261,35 @@ class Arena:
                 raise Exception('Required param is missing')
             required_params_values[p] = params_values.get(p)
             required_params_labels[p] = params_values.get(p).get_label()
-        result = self.find_in_cache(plot_type, required_params_labels)
+        result = self.find_in_cache(plot_type, required_params_labels) if cache else None
         if result is None:
             result = plot_class(self).fit(required_params_values)
-            self.put_to_cache(result)
+            if cache:
+                self.put_to_cache(result)
         return result
 
+    def get_params_attributes(self, param_type=None):
+        if not self.enable_attributes:
+            return {}
+        if param_type is None:
+            obj = {}
+            for p in ['model', 'observation', 'variable', 'dataset']:
+                obj[p] = self.get_params_attributes(p)
+            return obj
+        attrs = Param.get_param_class(param_type).list_attributes(self)
+        array = []
+        for attr in attrs:
+            array.append({
+                'name': attr,
+                'values': [param.get_attributes().get(attr) for param in self.get_params(param_type)]
+            })
+        return array
+
+    def get_param_attributes(self, param_type, param_label):
+        if not self.enable_attributes:
+            return {}
+        param_value = self.find_param_value(param_type=param_type, param_label=param_label)
+        if param_value:
+            return param_value.get_attributes()
+        else:
+            return {}

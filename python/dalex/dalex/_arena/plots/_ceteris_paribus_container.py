@@ -21,6 +21,7 @@ class CeterisParibusContainer(PlotContainer):
             variables=variable.variable,
             grid_points=self.arena.get_option(self.plot_type, 'grid_points'),
             variable_splits_type=self.arena.get_option(self.plot_type, 'grid_type'),
+            variable_splits_with_obs=False,
             verbose=False
         )
         if is_numeric_dtype(row[variable.variable]):

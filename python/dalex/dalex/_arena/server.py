@@ -2,11 +2,13 @@ import logging
 import sys
 import json
 import numpy as np
-from flask import Flask, request, abort
+from flask import Flask, request, abort, Response
 from flask_cors import CORS
 import requests
 import random
 import traceback
+import pandas as pd
+from .params import ObservationParam
 
 def convert(o):
     if isinstance(o, np.generic): return o.item()  
@@ -28,21 +30,38 @@ def start_server(arena, host, port, disable_logs):
 
     @app.route("/", methods=['GET'])
     def main():
-        return {
-            'version': '1.1.0',
+        result = {
+            'version': '1.2.0',
             'api': 'arenar_api',
             'timestamp': arena.timestamp*1000,
             'availableParams': arena.list_available_params(),
-            'availablePlots': [plot.info for plot in plots]
+            'availablePlots': [plot.info for plot in plots],
+            'options': { 'attributes': arena.enable_attributes, 'customParams': arena.enable_custom_params }
         }
+        return Response(json.dumps(result, default=convert), content_type='application/json')
 
     def get_params(request):
         result = {}
+        custom_params = False
         for param_type in ['model', 'observation', 'variable', 'dataset']:
-            param_value = arena.find_param_value(param_type, request.args.get(param_type))
-            if not param_value is None:
-                result[param_type] = param_value
-        return result
+            param_label = request.args.get(param_type)
+            if (not param_label is None) and param_label.startswith('{') and param_label.endswith('}') and param_type == 'observation':
+                custom_params = True
+                try:
+                    obj = json.loads(param_label)
+                    data = result['model'].explainer.data if not result['model'] is None else None
+                    if data is None:
+                        raise Exception('Custom observation requires model param')
+                    df = data.head(n=0).append({ k: v for k, v in obj.items() if k in data.columns }, ignore_index=True,).tail(n=1).reset_index(drop=True)
+                    param = ObservationParam(df, 0)
+                    result[param_type] = param
+                except:
+                    raise Exception('Invalid custom observation')
+            else:
+                param_value = arena.find_param_value(param_type, request.args.get(param_type))
+                if not param_value is None:
+                    result[param_type] = param_value
+        return (result, custom_params)
 
     @app.route("/<string:plot_type>", methods=['GET'])
     def get_plot(plot_type):
@@ -57,12 +76,23 @@ def start_server(arena, host, port, disable_logs):
                 raise Exception('Failed to stop the server.')
             shutdown()
             return ''
-        params = get_params(request)
+        params, custom_params = get_params(request)
+        if not arena.enable_custom_params and custom_params:
+            abort(403)
+            return
         try:
-            result = arena.get_plot(plot_type, params)
-        except Exception:
+            result = arena.get_plot(plot_type, params, cache=not custom_params)
+            return Response(json.dumps(result.serialize(), default=convert), content_type='application/json')
+        except Exception as e:
             abort(404)
             return
-        return json.dumps(result.serialize(), default=convert)
+
+    @app.route("/attribute/<string:param_type>/<string:param_label>", methods=['GET'])
+    def get_attribute(param_type, param_label):
+        if not param_type in ['model', 'variable', 'observation', 'dataset']:
+            abort(404)
+            return
+        result = arena.get_param_attributes(param_type, param_label)
+        return Response(json.dumps(result, default=convert), content_type='application/json')
 
     app.run(host=host, port=port)
