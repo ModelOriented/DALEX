@@ -2,9 +2,6 @@ import logging
 import sys
 import json
 import numpy as np
-from flask import Flask, request, abort, Response
-from flask_cors import CORS
-import requests
 import random
 import pandas as pd
 from .params import ObservationParam
@@ -14,6 +11,10 @@ def convert(o):
     raise TypeError
 
 def start_server(arena, host, port, disable_logs):
+    from flask import Flask, request, abort, Response
+    from flask_cors import CORS
+    import requests
+
     cli = sys.modules['flask.cli']
     cli.show_server_banner = lambda *x: None
     app = Flask(__name__)

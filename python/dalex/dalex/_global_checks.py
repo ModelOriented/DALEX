@@ -9,12 +9,18 @@ from re import search
 # - scikit-learn:   Explainer.model_surrogate
 # - statsmodels     LOWESS trendlines in ResidualDiagnostics.plot
 # - shap            ShapWrapper
+# - Flask:          Arena.run_server
+# - Flask-Cors:     Arena.run_server
+# - requests:       Arena.stop_server
 OPTIONAL_DEPENDENCIES = {
     'dalex': '99.0',
     'lime': '0.2.0.1',
     'scikit-learn': '0.21.0',
     'statsmodels': '0.11.1',
-    'shap': '0.35.0'
+    'shap': '0.35.0',
+    'flask': '1.1.2',
+    'flask_cors': '3.0.8',
+    'requests': '2.24.0'
 }
 # WARNING
 

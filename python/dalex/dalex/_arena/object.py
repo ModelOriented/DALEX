@@ -7,14 +7,8 @@ from pandas.core.frame import DataFrame
 from .server import start_server
 from ._plot_container import PlotContainer
 from .params import ModelParam, DatasetParam, VariableParam, ObservationParam, Param
-from .plots._break_down_container import BreakDownContainer
-from .plots._shapley_values_container import ShapleyValuesContainer
-from .plots._feature_importance_container import FeatureImportanceContainer
-from .plots._partial_dependence_container import PartialDependenceContainer
-from .plots._accumulated_dependence_container import AccumulatedDependenceContainer
-from .plots._ceteris_paribus_container import CeterisParibusContainer
-from .plots._metrics_container import MetricsContainer
 from .plots import *
+from .._global_checks import global_check_import
 
 class Arena:
     def __init__(self, precalculate=False, enable_attributes=True, enable_custom_params=True):
@@ -54,6 +48,9 @@ class Arena:
                    disable_logs=True):
         if self.server_thread:
             raise Exception('Server is already running')
+        global_check_import('flask')
+        global_check_import('flask_cors')
+        global_check_import('requests')
         self.server_thread = threading.Thread(target=start_server, args=(self, host, port, disable_logs))
         self.server_thread.start()
 
