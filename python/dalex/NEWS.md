@@ -7,6 +7,7 @@ dalex (development)
 
 * fixed the wrong order of `Explainer` verbose messages
 * fixed a bug that caused `model_info` parameter to be overwritten by the default values
+* fixed a bug occurring when the variable from `groups` was not of `str` type ([#327](https://github.com/ModelOriented/DALEX/issues/327))
 
 ### features
 
