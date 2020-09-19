@@ -14,7 +14,7 @@ from .plots._partial_dependence_container import PartialDependenceContainer
 from .plots._accumulated_dependence_container import AccumulatedDependenceContainer
 from .plots._ceteris_paribus_container import CeterisParibusContainer
 from .plots._metrics_container import MetricsContainer
-
+from .plots import *
 
 class Arena:
     def __init__(self, precalculate=False, enable_attributes=True, enable_custom_params=True):
