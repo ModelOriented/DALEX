@@ -6,7 +6,6 @@ from flask import Flask, request, abort, Response
 from flask_cors import CORS
 import requests
 import random
-import traceback
 import pandas as pd
 from .params import ObservationParam
 

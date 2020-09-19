@@ -71,7 +71,10 @@ def run_setup():
             'pandas>=1.1.0',
             'numpy>=1.18.1',
             'plotly>=4.9.0',
-            'tqdm>=4.48.2'
+            'tqdm>=4.48.2',
+            'Flask==1.1.2',
+            'Flask-Cors==3.0.8',
+            'requests==2.24.0'
         ],
         test_requirements=test_requirements,
         packages=find_packages(include=["dalex", "dalex.*"]),
