@@ -62,3 +62,6 @@ class ExplainerTest(unittest.TestCase):
 
         self.assertIsInstance(case5, dx.instance_level.BreakDown)
         self.assertIsInstance(case6, dx.instance_level.CeterisParibus)
+
+        case5 = dx.Explainer(self.model, self.X, self.y, predict_function=1, verbose=False)
+        self.assertIsInstance(case5, dx.Explainer)

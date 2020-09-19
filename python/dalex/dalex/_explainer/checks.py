@@ -189,9 +189,9 @@ def check_predict_function_and_model_type(predict_function, model_type,
                                        np.min(y_hat), np.mean(y_hat), np.max(y_hat)), verbose=verbose)
 
             except (Exception, ValueError, TypeError) as error:
-                verbose_cat("  -> predicted values  :  the predict_function returns an error when executed",
+                verbose_cat("  -> predicted values  :  the predict_function returns an error when executed \n",
                             verbose=verbose)
-                print("\n" + error)
+                print(error)
 
         # check if predict_function accepts arrays
         try:
