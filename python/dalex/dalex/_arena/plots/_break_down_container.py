@@ -16,5 +16,5 @@ class BreakDownContainer(PlotContainer):
             'variables_value': bd[1:-1].variable_value.tolist(),
             'contribution': bd[1:-1].contribution.tolist(),
             'intercept': bd.contribution[0],
-            'prediction': bd.cumulative.head(1)[0]
+            'prediction': bd.cumulative.tail(1).iloc[0]
         }
