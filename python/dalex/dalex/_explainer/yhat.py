@@ -15,7 +15,10 @@ def yhat_xgboost(m, d):
     return m.predict(DMatrix(d))
 
 
-def get_tf_prediction_function(model):
+def get_tf_yhat(model):
+    if not str(type(model)).startswith("<class 'tensorflow.python.keras.engine"):
+        return None
+
     if model.output_shape[1] == 1:
         return yhat_tf_regression, "regression"
     elif model.output_shape[1] == 2:
@@ -37,7 +40,8 @@ def get_predict_function_and_model_type(model, model_class):
     # check for exceptions
     yhat_exception_dict = {
         "xgboost.core.Booster": (yhat_xgboost, None),  # there is no way of checking for regr/classif
-        "tensorflow.python.keras.engine.sequential.Sequential": get_tf_prediction_function(model)
+        "tensorflow.python.keras.engine.sequential.Sequential": get_tf_yhat(model),
+        "tensorflow.python.keras.engine.training.Model": get_tf_yhat(model)
     }
     if yhat_exception_dict.get(model_class, None) is not None:
         return yhat_exception_dict.get(model_class)
