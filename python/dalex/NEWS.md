@@ -20,7 +20,7 @@ dalex (development)
 ### defaults
 
 * wrong parameter name `title_x` changed to `y_title` in `CeterisParibus.plot` and `AggregatedProfiles.plot` ([#317](https://github.com/ModelOriented/DALEX/issues/317))
-
+* now warning the user in `Explainer` when `predict_function` returns an error or doesn't return `numpy.ndarray (1d)` ([#325](https://github.com/ModelOriented/DALEX/issues/325))
 
 dalex 0.2.1
 ----------------------------------------------------------------

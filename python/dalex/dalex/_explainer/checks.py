@@ -1,6 +1,7 @@
 # check functions for Explainer.__init__
 import pandas as pd
 from copy import deepcopy
+from warnings import warn
 
 from .helper import *
 from .yhat import *
@@ -189,9 +190,14 @@ def check_predict_function_and_model_type(predict_function, model_type,
                                        np.min(y_hat), np.mean(y_hat), np.max(y_hat)), verbose=verbose)
 
             except (Exception, ValueError, TypeError) as error:
-                verbose_cat("  -> predicted values  :  the predict_function returns an error when executed \n",
-                            verbose=verbose)
-                print(error)
+                # verbose_cat("  -> predicted values  : the predict_function returns an error when executed \n",
+                #             verbose=verbose)
+
+                warn("\n  -> predicted values  : the predict_function returns an error when executed \n" +
+                     str(error), stacklevel=2)
+
+        if not isinstance(y_hat, np.ndarray) or y_hat.shape != (data.shape[0], ):
+            warn("\n  -> predicted values  : predict_function must return numpy.ndarray (1d)", stacklevel=2)
 
         # check if predict_function accepts arrays
         try:
