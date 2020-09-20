@@ -1,6 +1,7 @@
 dalex (development)
 ----------------------------------------------------------------
 
+* added support for `tensorflow.python.keras.engine.sequential.Sequential` ([#326](https://github.com/ModelOriented/DALEX/issues/326))
 * updated the `tqdm` dependency to `>=4.48.2`
 
 ### bug fixes
