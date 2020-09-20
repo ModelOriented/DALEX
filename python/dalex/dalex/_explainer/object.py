@@ -4,6 +4,7 @@ from dalex.instance_level import BreakDown, Shap, CeterisParibus
 from dalex.wrappers import ShapWrapper
 from .checks import *
 from .utils import unpack_kwargs_lime, create_surrogate_model
+from dalex.fairness.group_fairness import GroupFairnessClassificationObject
 
 
 class Explainer:
@@ -739,6 +740,31 @@ class Explainer:
                                                  **kwargs)
 
         return surrogate_model
+
+
+    def model_group_fairness(self, protected, privileged, cutoff = 0.5, **kwargs):
+        """Creates GroupFairnessObject that enables bias detection and visualization.
+
+        Method returns GroupFairnessObject that for now supports explained classifiers.
+        For now method works with classification type explainers.
+
+
+        protected : nd.array (1d)
+
+        :param privileged:
+        :param cutoff:
+        :param kwargs:
+        :return:
+        """
+
+        # TODO: check if classification type
+
+        y = self.y
+        y_hat = self.y_hat
+        fobject = GroupFairnessClassificationObject(y, y_hat, protected, privileged, cutoff, **kwargs)
+
+        return fobject
+
 
     def dumps(self, *args, **kwargs):
         """Return the pickled representation (bytes object) of the Explainer

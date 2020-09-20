@@ -1,19 +1,18 @@
-from .utils import *
 from .checks import *
+from .utils import *
+from ..basics._base_objects import _FairnessObject
 
-class GroupFairnessObject:
 
-    def __init__(self, y, y_hat, protected, privileged, cutoff = 0.5):
+class GroupFairnessClassificationObject(_FairnessObject):
 
-        y, y_hat, protected, privileged, cutoff = check_parameters(y, y_hat, protected, privileged, cutoff)
+    def __init__(self, y, y_hat, protected, privileged, verbose, cutoff=0.5):
+        super().__init__(y, y_hat, protected, privileged, verbose)
 
-        self.cutoff = cutoff
-        self.privileged = privileged
-        self.protected = protected
-        self.y_hat = y_hat
-        self.y = y
+        sub_confusion_matrix = SubgroupConfusionMatrix(y_true=self.y,
+                                                       y_pred=self.y_hat,
+                                                       protected=self.protected,
+                                                       cutoff=self.cutoff)
 
-        sub_confusion_matrix = SubgroupConfusionMatrix(y_true=y, y_pred=y_hat, protected=protected, cutoff=cutoff)
         sub_confusion_matrix_metrics = SubgroupConfusionMatrixMetrics(sub_confusion_matrix)
         df_ratios = calculate_ratio(sub_confusion_matrix_metrics, privileged)
         parity_loss = calculate_parity_loss(sub_confusion_matrix_metrics, privileged)
@@ -21,8 +20,7 @@ class GroupFairnessObject:
         self.parity_loss = parity_loss
         self.metric_ratios = df_ratios
 
-
-    def fairness_check(self, epsilon = 0.8):
+    def fairness_check(self, epsilon=0.8):
         """Check if classifier passes popular fairness metrics
 
         Fairness check is easy way to check if model is fair. For that method uses 5 popular
@@ -46,11 +44,11 @@ class GroupFairnessObject:
 
         """
 
-        epsilon =  check_epsilon(epsilon)
+        epsilon = check_epsilon(epsilon)
         metric_ratios = self.metric_ratios
 
         subgroups = np.unique(self.protected)
         subgroups_without_privileged = subgroups[subgroups != self.privileged]
         metric_ratios = metric_ratios.loc[subgroups_without_privileged, fairness_check_metrics()]
         # TODO : finish the console output here
-
+        pass
