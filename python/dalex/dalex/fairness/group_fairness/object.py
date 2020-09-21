@@ -5,8 +5,11 @@ from ..basics._base_objects import _FairnessObject
 
 class GroupFairnessClassificationObject(_FairnessObject):
 
-    def __init__(self, y, y_hat, protected, privileged, verbose, cutoff=0.5):
+    def __init__(self, y, y_hat, protected, privileged, verbose=True, cutoff=0.5):
         super().__init__(y, y_hat, protected, privileged, verbose)
+
+        cutoff = check_cutoff(protected, cutoff, verbose)
+        self.cutoff = cutoff
 
         sub_confusion_matrix = SubgroupConfusionMatrix(y_true=self.y,
                                                        y_pred=self.y_hat,
@@ -17,6 +20,7 @@ class GroupFairnessClassificationObject(_FairnessObject):
         df_ratios = calculate_ratio(sub_confusion_matrix_metrics, privileged)
         parity_loss = calculate_parity_loss(sub_confusion_matrix_metrics, privileged)
 
+        self.subgroup_metrics = sub_confusion_matrix_metrics
         self.parity_loss = parity_loss
         self.metric_ratios = df_ratios
 
@@ -50,5 +54,21 @@ class GroupFairnessClassificationObject(_FairnessObject):
         subgroups = np.unique(self.protected)
         subgroups_without_privileged = subgroups[subgroups != self.privileged]
         metric_ratios = metric_ratios.loc[subgroups_without_privileged, fairness_check_metrics()]
-        # TODO : finish the console output here
-        pass
+
+        metrics_exceeded = ((metric_ratios > 1 / epsilon) | (epsilon > metric_ratios)).apply(sum, 1)
+
+        print(f'\nRatios of metrics, base: {self.privileged}')
+        for rowname in metrics_exceeded.index :
+            print(f'{rowname}, metrics exceeded: {metrics_exceeded[rowname]}')
+
+        print(f'\nRatio values: \n')
+        print(metric_ratios.to_string())
+
+        if sum(metrics_exceeded) > 2 :
+            conclusion = 'not fair'
+        else :
+            conclusion = 'fair'
+
+        print(f'\nConclusion: your model is {conclusion}')
+        return
+

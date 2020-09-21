@@ -4,13 +4,12 @@ from ..basics.checks import check_parameters
 from ..basics.exceptions import ParameterCheckError
 
 
-def check_classifier_parameters(y, y_hat, protected, privileged, cutoff, verbose):
-    y, y_hat, protected, privileged = check_parameters(y, y_hat, protected, privileged, verbose)
+def check_cutoff(protected, cutoff, verbose):
 
     if isinstance(cutoff, float):
         if not 0 < cutoff < 1:
             raise ParameterCheckError("if cutoff is a float it should be in [0, 1] range")
-        verbose_cat("Converting cutoff to dict")
+        verbose_cat("Converting cutoff to dict", verbose)
 
         subgroups = np.unique(protected)
         value = cutoff
@@ -18,7 +17,7 @@ def check_classifier_parameters(y, y_hat, protected, privileged, cutoff, verbose
         for subgroup in subgroups:
             cutoff[subgroup] = value
 
-    return y, y_hat, protected, privileged, cutoff
+    return cutoff
 
 
 def check_epsilon(epsilon):

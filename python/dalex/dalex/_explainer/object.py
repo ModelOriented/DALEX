@@ -5,7 +5,7 @@ from dalex.wrappers import ShapWrapper
 from .checks import *
 from .utils import unpack_kwargs_lime, create_surrogate_model
 from dalex.fairness.group_fairness import GroupFairnessClassificationObject
-
+from dalex.fairness.basics.exceptions import *
 
 class Explainer:
     """ Create Model Explainer
@@ -757,11 +757,15 @@ class Explainer:
         :return:
         """
 
-        # TODO: check if classification type
+        if self.model_type != 'classification' :
+            raise TypeNotSupportedError("fairness module at the moment supports only explainers of type classification")
 
-        y = self.y
-        y_hat = self.y_hat
-        fobject = GroupFairnessClassificationObject(y, y_hat, protected, privileged, cutoff, **kwargs)
+        fobject = GroupFairnessClassificationObject(y = self.y,
+                                                    y_hat = self.y_hat,
+                                                    protected = protected,
+                                                    privileged = privileged,
+                                                    cutoff = cutoff,
+                                                    **kwargs)
 
         return fobject
 
