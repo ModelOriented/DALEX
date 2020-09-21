@@ -5,7 +5,7 @@ import plotly.express as px
 from .checks import *
 from .utils import calculate_ceteris_paribus
 from .plot import tooltip_text
-from ... import _theme, _global_checks
+from ... import _theme, _global_checks, _global_utils
 
 
 class CeterisParibus:
@@ -220,7 +220,7 @@ class CeterisParibus:
         all_variables = list(_result_df['_vname_'].dropna().unique())
 
         if variables is not None:
-            all_variables = np.intersect1d(all_variables, variables).tolist()
+            all_variables = _global_utils.intersect_unsorted(variables, all_variables)
             if len(all_variables) == 0:
                 raise TypeError("variables do not overlap with " + ''.join(variables))
 

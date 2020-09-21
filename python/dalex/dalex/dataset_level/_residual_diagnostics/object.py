@@ -1,7 +1,7 @@
 import plotly.express as px
 
 from .checks import *
-from ... import _theme, _global_checks
+from ... import _theme, _global_checks, _global_utils
 
 
 class ResidualDiagnostics:
@@ -54,7 +54,7 @@ class ResidualDiagnostics:
         # if variables = NULL then all variables are added
         # otherwise only selected
         if self.variables is not None:
-            result = result.loc[:, np.intersect1d(self.variables, result.columns)]
+            result = result.loc[:, _global_utils.intersect_unsorted(self.variables, result.columns)]
         # is there target
         if explainer.y is not None:
             result = result.assign(y=explainer.y)

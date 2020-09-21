@@ -68,8 +68,8 @@ def run_setup():
             "Operating System :: OS Independent",
         ],
         install_requires=[
-            'pandas>=1.1.0',
-            'numpy>=1.18.1',
+            'pandas>=1.1.2',
+            'numpy>=1.18.4',
             'plotly>=4.9.0',
             'tqdm>=4.48.2'
         ],

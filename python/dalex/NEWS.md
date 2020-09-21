@@ -1,8 +1,13 @@
 dalex (development)
 ----------------------------------------------------------------
 
+...
+
+dalex 0.2.2
+----------------------------------------------------------------
+
 * added support for `tensorflow.python.keras.engine.sequential.Sequential` and `tensorflow.python.keras.engine.training.Model` ([#326](https://github.com/ModelOriented/DALEX/issues/326))
-* updated the `tqdm` dependency to `>=4.48.2`
+* updated the `tqdm` dependency to `>=4.48.2`, `pandas` dependency to `>=1.1.2` and `numpy` dependency to `>=1.18.4`
 
 ### bug fixes
 

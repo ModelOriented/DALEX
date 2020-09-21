@@ -3,7 +3,7 @@ from copy import deepcopy
 
 from .checks import *
 from .utils import aggregate_profiles
-from ... import _theme, _global_checks
+from ... import _theme, _global_checks, _global_utils
 
 
 class AggregatedProfiles:
@@ -221,7 +221,7 @@ class AggregatedProfiles:
         all_variables = _result_df['_vname_'].dropna().unique().tolist()
 
         if variables is not None:
-            all_variables = np.intersect1d(all_variables, variables).tolist()
+            all_variables = _global_utils.intersect_unsorted(variables, all_variables)
             if len(all_variables) == 0:
                 raise TypeError("variables do not overlap with " + ''.join(variables))
 

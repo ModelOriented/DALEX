@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from ... import _global_utils
 
 
 def prepare_data_for_break_down_plot(x, baseline, max_vars, rounding_function, digits):
@@ -30,7 +31,7 @@ def prepare_data_for_break_down_plot(x, baseline, max_vars, rounding_function, d
     x.loc[:, 'cumulative'] = rounding_function(x.loc[:, 'cumulative'], digits)
 
     x = x.assign(tooltip_text=x.apply(lambda row: tooltip_text(row), axis=1),
-                 label_text=label_text(x.contribution))
+                 label_text=_global_utils.convert_float_to_str(x.contribution, "+"))
 
     x.iloc[[0, x.shape[0] - 1], x.columns.get_loc('tooltip_text')] = "Average response: " + str(
         x.iloc[0, x.columns.get_loc('cumulative')]) + "<br>Prediction: " + str(
@@ -49,10 +50,3 @@ def tooltip_text(row):
         key_word = "decreases"
     return str(row.variable) + "<br>" + key_word + " average response by"
 
-
-def label_text(x):
-    # convert floats to str but do better than numpy and pandas
-    y = [None]*len(x)
-    for i, val in enumerate(x):
-        y[i] = "+"+str(val) if val > 0 else str(val)
-    return y
