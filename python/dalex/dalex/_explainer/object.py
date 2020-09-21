@@ -746,15 +746,34 @@ class Explainer:
         """Creates GroupFairnessObject that enables bias detection and visualization.
 
         Method returns GroupFairnessObject that for now supports explained classifiers.
-        For now method works with classification type explainers.
+        GroupFairnessObject works as a wrapper of protected attribute and explainer from which
+        y and y_hat attributes were extracted. Along with information about privileged subgroup
+        (value in protected attribute) those 3 vectors create triplet (Y, Y_hat, Protected) which is a base for all fairness
+        calculations and visualizations.
 
-
+        Parameters
+        -----------
         protected : nd.array (1d)
+            Vector, preferably 1-dimensional nd.array containing strings, which denotes the membership to subgroup.
+            It does not have to be binary. It does not need to be in data. It is suggested not to use
+            sensitive attributes in modelling.
+        privileged : str
+            Privileged is subgroup that is suspected to have the most privilege. It needs to be present
+            in protected.
+        cutoff : float or dict
+            cutoff is a threshold for probabilistic output of classifier. Cutoff might be single
+            value - same for all subgroups or dict - individually adjusted for each subgroup (dict must have
+            values from protected attribute as keys).
+        kwargs :
+            keyword arguments. For now it supports verbose, which is boolean value telling if
+            additional output should be printed (True, default) or not (False)
 
-        :param privileged:
-        :param cutoff:
-        :param kwargs:
-        :return:
+        Returns
+        -----------
+        GroupFairnessClassificationObject a subclass of _FairnessObject
+        Object that is ready for other transformations and visualizations which is
+        all user needs for detecting unfairness.
+
         """
 
         if self.model_type != 'classification' :

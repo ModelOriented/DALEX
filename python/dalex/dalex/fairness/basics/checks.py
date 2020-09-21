@@ -32,7 +32,7 @@ def check_parameters(y, y_hat, protected, privileged, verbose):
         except:
             ParameterCheckError("failed to convert list to nd.array")
 
-    else :
+    else:
         ParameterCheckError("Please convert protected to flat np.ndarray")
 
     if protected.dtype.type is not np.string_:
@@ -46,7 +46,6 @@ def check_parameters(y, y_hat, protected, privileged, verbose):
         raise ParameterCheckError('privileged parameter must be a String')
 
     if privileged not in protected:
-
         raise ParameterCheckError("privileged parameter must be in protected vector")
 
     return y, y_hat, protected, privileged
