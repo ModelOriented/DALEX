@@ -22,7 +22,7 @@
 #' @return An object of the class \code{model_profile}.
 #' It's a data frame with calculated average model responses.
 #'
-#' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
+#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
 #'
 #' @name model_profile
 #' @examples

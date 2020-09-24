@@ -25,7 +25,7 @@
 #'
 #'
 #' @aliases predict_parts_break_down predict_parts predict_parts_ibreak_down predict_parts_shap
-#' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
+#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
 #'
 #' @examples
 #' library(DALEX)
