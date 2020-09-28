@@ -159,17 +159,17 @@
     <p>Calculate Loss Functions</p>
     </div>
 
-    <pre class="usage"><span class='fu'>loss_cross_entropy</span>(<span class='kw'>observed</span>, <span class='kw'>predicted</span>, p_min = <span class='fl'>1e-04</span>, na.rm = <span class='fl'>TRUE</span>)
+    <pre class="usage"><span class='fu'>loss_cross_entropy</span><span class='op'>(</span><span class='va'>observed</span>, <span class='va'>predicted</span>, p_min <span class='op'>=</span> <span class='fl'>1e-04</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>loss_sum_of_squares</span>(<span class='kw'>observed</span>, <span class='kw'>predicted</span>, na.rm = <span class='fl'>TRUE</span>)
+<span class='fu'>loss_sum_of_squares</span><span class='op'>(</span><span class='va'>observed</span>, <span class='va'>predicted</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>loss_root_mean_square</span>(<span class='kw'>observed</span>, <span class='kw'>predicted</span>, na.rm = <span class='fl'>TRUE</span>)
+<span class='fu'>loss_root_mean_square</span><span class='op'>(</span><span class='va'>observed</span>, <span class='va'>predicted</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>loss_accuracy</span>(<span class='kw'>observed</span>, <span class='kw'>predicted</span>, na.rm = <span class='fl'>TRUE</span>)
+<span class='fu'>loss_accuracy</span><span class='op'>(</span><span class='va'>observed</span>, <span class='va'>predicted</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>loss_one_minus_auc</span>(<span class='kw'>observed</span>, <span class='kw'>predicted</span>)
+<span class='fu'>loss_one_minus_auc</span><span class='op'>(</span><span class='va'>observed</span>, <span class='va'>predicted</span><span class='op'>)</span>
 
-<span class='fu'>loss_default</span>(<span class='kw'>x</span>)</pre>
+<span class='fu'>loss_default</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -202,13 +202,13 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'> <span class='co'># \donttest{</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/imbs-hl/ranger'>"ranger"</a></span>)
-<span class='kw'>titanic_ranger_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>survived</span><span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>titanic_imputed</span>, num.trees = <span class='fl'>50</span>,
-                               probability = <span class='fl'>TRUE</span>)
-<span class='fu'>loss_one_minus_auc</span>(<span class='kw'>titanic_imputed</span><span class='op'>$</span><span class='kw'>survived</span>, <span class='fu'><a href='yhat.html'>yhat</a></span>(<span class='kw'>titanic_ranger_model</span>, <span class='kw'>titanic_imputed</span>))
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/imbs-hl/ranger'>"ranger"</a></span><span class='op'>)</span>
+<span class='va'>titanic_ranger_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>survived</span><span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>titanic_imputed</span>, num.trees <span class='op'>=</span> <span class='fl'>50</span>,
+                               probability <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'>loss_one_minus_auc</span><span class='op'>(</span><span class='va'>titanic_imputed</span><span class='op'>$</span><span class='va'>survived</span>, <span class='fu'><a href='yhat.html'>yhat</a></span><span class='op'>(</span><span class='va'>titanic_ranger_model</span>, <span class='va'>titanic_imputed</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 0.1013664</div><div class='input'>
-<span class='kw'>HR_ranger_model_multi</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>status</span><span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>HR</span>, num.trees = <span class='fl'>50</span>, probability = <span class='fl'>TRUE</span>)
-<span class='fu'>loss_cross_entropy</span>(<span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='kw'>HR</span><span class='op'>$</span><span class='kw'>status</span>), <span class='fu'><a href='yhat.html'>yhat</a></span>(<span class='kw'>HR_ranger_model_multi</span>, <span class='kw'>HR</span>))
+<span class='va'>HR_ranger_model_multi</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>status</span><span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>HR</span>, num.trees <span class='op'>=</span> <span class='fl'>50</span>, probability <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'>loss_cross_entropy</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>HR</span><span class='op'>$</span><span class='va'>status</span><span class='op'>)</span>, <span class='fu'><a href='yhat.html'>yhat</a></span><span class='op'>(</span><span class='va'>HR_ranger_model_multi</span>, <span class='va'>HR</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 2994.432</div><div class='input'>
  <span class='co'># }</span>
 </div></pre>

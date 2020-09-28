@@ -165,41 +165,41 @@ Find information how to use the oscillations method here: https://pbiecek.github
     <div class="ref-description">
     <p>Instance Level Variable Attributions as Break Down, SHAP or Oscillations explanations.
 Model prediction is decomposed into parts that are attributed for particular variables.
-From DALEX version 1.0 this function calls the <code><a href='https://rdrr.io/pkg/iBreakDown/man/break_down.html'>break_down</a></code> or
-<code><a href='https://rdrr.io/pkg/iBreakDown/man/break_down_uncertainty.html'>shap</a></code> functions from the <code>iBreakDown</code> package or
-<code><a href='https://rdrr.io/pkg/ingredients/man/ceteris_paribus.html'>ceteris_paribus</a></code> from the <code>ingredients</code> package.
+From DALEX version 1.0 this function calls the <code><a href='https://ModelOriented.github.io/iBreakDown/reference/break_down.html'>break_down</a></code> or
+<code><a href='https://ModelOriented.github.io/iBreakDown/reference/break_down_uncertainty.html'>shap</a></code> functions from the <code>iBreakDown</code> package or
+<code><a href='https://ModelOriented.github.io/ingredients/reference/ceteris_paribus.html'>ceteris_paribus</a></code> from the <code>ingredients</code> package.
 Find information how to use the <code>break_down</code> method here: <a href='https://pbiecek.github.io/ema/breakDown.html'>https://pbiecek.github.io/ema/breakDown.html</a>.
 Find information how to use the <code>shap</code> method here: <a href='https://pbiecek.github.io/ema/shapley.html'>https://pbiecek.github.io/ema/shapley.html</a>.
 Find information how to use the <code>oscillations</code> method here: <a href='https://pbiecek.github.io/ema/ceterisParibusOscillations.html'>https://pbiecek.github.io/ema/ceterisParibusOscillations.html</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>predict_parts</span>(<span class='kw'>explainer</span>, <span class='kw'>new_observation</span>, <span class='kw'>...</span>, type = <span class='st'>"break_down"</span>)
+    <pre class="usage"><span class='fu'>predict_parts</span><span class='op'>(</span><span class='va'>explainer</span>, <span class='va'>new_observation</span>, <span class='va'>...</span>, type <span class='op'>=</span> <span class='st'>"break_down"</span><span class='op'>)</span>
 
-<span class='fu'>predict_parts_oscillations</span>(<span class='kw'>explainer</span>, <span class='kw'>new_observation</span>, <span class='kw'>...</span>)
+<span class='fu'>predict_parts_oscillations</span><span class='op'>(</span><span class='va'>explainer</span>, <span class='va'>new_observation</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>predict_parts_oscillations_uni</span>(
-  <span class='kw'>explainer</span>,
-  <span class='kw'>new_observation</span>,
-  variable_splits_type = <span class='st'>"uniform"</span>,
-  <span class='kw'>...</span>
-)
+<span class='fu'>predict_parts_oscillations_uni</span><span class='op'>(</span>
+  <span class='va'>explainer</span>,
+  <span class='va'>new_observation</span>,
+  variable_splits_type <span class='op'>=</span> <span class='st'>"uniform"</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
-<span class='fu'>predict_parts_oscillations_emp</span>(
-  <span class='kw'>explainer</span>,
-  <span class='kw'>new_observation</span>,
-  variable_splits = <span class='kw'>NULL</span>,
-  variables = <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='kw'>explainer</span><span class='op'>$</span><span class='kw'>data</span>),
-  N = <span class='fl'>500</span>,
-  <span class='kw'>...</span>
-)
+<span class='fu'>predict_parts_oscillations_emp</span><span class='op'>(</span>
+  <span class='va'>explainer</span>,
+  <span class='va'>new_observation</span>,
+  variable_splits <span class='op'>=</span> <span class='cn'>NULL</span>,
+  variables <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>explainer</span><span class='op'>$</span><span class='va'>data</span><span class='op'>)</span>,
+  N <span class='op'>=</span> <span class='fl'>500</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
-<span class='fu'>predict_parts_break_down</span>(<span class='kw'>explainer</span>, <span class='kw'>new_observation</span>, <span class='kw'>...</span>)
+<span class='fu'>predict_parts_break_down</span><span class='op'>(</span><span class='va'>explainer</span>, <span class='va'>new_observation</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>predict_parts_break_down_interactions</span>(<span class='kw'>explainer</span>, <span class='kw'>new_observation</span>, <span class='kw'>...</span>)
+<span class='fu'>predict_parts_break_down_interactions</span><span class='op'>(</span><span class='va'>explainer</span>, <span class='va'>new_observation</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>predict_parts_shap</span>(<span class='kw'>explainer</span>, <span class='kw'>new_observation</span>, <span class='kw'>...</span>)
+<span class='fu'>predict_parts_shap</span><span class='op'>(</span><span class='va'>explainer</span>, <span class='va'>new_observation</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>variable_attribution</span>(<span class='kw'>explainer</span>, <span class='kw'>new_observation</span>, <span class='kw'>...</span>, type = <span class='st'>"break_down"</span>)</pre>
+<span class='fu'>variable_attribution</span><span class='op'>(</span><span class='va'>explainer</span>, <span class='va'>new_observation</span>, <span class='va'>...</span>, type <span class='op'>=</span> <span class='st'>"break_down"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -214,7 +214,7 @@ Find information how to use the <code>oscillations</code> method here: <a href='
     </tr>
     <tr>
       <th>...</th>
-      <td><p>other parameters that will be passed to <code><a href='https://rdrr.io/pkg/iBreakDown/man/break_down.html'>iBreakDown::break_down</a></code></p></td>
+      <td><p>other parameters that will be passed to <code><a href='https://ModelOriented.github.io/iBreakDown/reference/break_down.html'>iBreakDown::break_down</a></code></p></td>
     </tr>
     <tr>
       <th>type</th>
@@ -223,15 +223,15 @@ Find information how to use the <code>oscillations</code> method here: <a href='
     </tr>
     <tr>
       <th>variable_splits_type</th>
-      <td><p>how variable grids shall be calculated? Will be passed to <code><a href='https://rdrr.io/pkg/ingredients/man/ceteris_paribus.html'>ceteris_paribus</a></code>.</p></td>
+      <td><p>how variable grids shall be calculated? Will be passed to <code><a href='https://ModelOriented.github.io/ingredients/reference/ceteris_paribus.html'>ceteris_paribus</a></code>.</p></td>
     </tr>
     <tr>
       <th>variable_splits</th>
-      <td><p>named list of splits for variables. It is used by oscillations based measures. Will be passed to <code><a href='https://rdrr.io/pkg/ingredients/man/ceteris_paribus.html'>ceteris_paribus</a></code>.</p></td>
+      <td><p>named list of splits for variables. It is used by oscillations based measures. Will be passed to <code><a href='https://ModelOriented.github.io/ingredients/reference/ceteris_paribus.html'>ceteris_paribus</a></code>.</p></td>
     </tr>
     <tr>
       <th>variables</th>
-      <td><p>names of variables for which splits shall be calculated. Will be passed to <code><a href='https://rdrr.io/pkg/ingredients/man/ceteris_paribus.html'>ceteris_paribus</a></code>.</p></td>
+      <td><p>names of variables for which splits shall be calculated. Will be passed to <code><a href='https://ModelOriented.github.io/ingredients/reference/ceteris_paribus.html'>ceteris_paribus</a></code>.</p></td>
     </tr>
     <tr>
       <th>N</th>
@@ -248,24 +248,24 @@ It's a data frame with calculated average response.</p>
     <p>Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. <a href='https://pbiecek.github.io/ema/'>https://pbiecek.github.io/ema/</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://ModelOriented.github.io/DALEX'>DALEX</a></span>)
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ModelOriented.github.io/DALEX/'>DALEX</a></span><span class='op'>)</span>
 
-<span class='kw'>new_dragon</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
-    year_of_birth = <span class='fl'>200</span>,
-    height = <span class='fl'>80</span>,
-    weight = <span class='fl'>12.5</span>,
-    scars = <span class='fl'>0</span>,
-    number_of_lost_teeth  = <span class='fl'>5</span>
-)
+<span class='va'>new_dragon</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
+    year_of_birth <span class='op'>=</span> <span class='fl'>200</span>,
+    height <span class='op'>=</span> <span class='fl'>80</span>,
+    weight <span class='op'>=</span> <span class='fl'>12.5</span>,
+    scars <span class='op'>=</span> <span class='fl'>0</span>,
+    number_of_lost_teeth  <span class='op'>=</span> <span class='fl'>5</span>
+<span class='op'>)</span>
 
-<span class='kw'>model_lm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>life_length</span> <span class='op'>~</span> <span class='kw'>year_of_birth</span> <span class='op'>+</span> <span class='kw'>height</span> <span class='op'>+</span>
-               <span class='kw'>weight</span> <span class='op'>+</span> <span class='kw'>scars</span> <span class='op'>+</span> <span class='kw'>number_of_lost_teeth</span>,
-               data = <span class='kw'>dragons</span>)
+<span class='va'>model_lm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>life_length</span> <span class='op'>~</span> <span class='va'>year_of_birth</span> <span class='op'>+</span> <span class='va'>height</span> <span class='op'>+</span>
+               <span class='va'>weight</span> <span class='op'>+</span> <span class='va'>scars</span> <span class='op'>+</span> <span class='va'>number_of_lost_teeth</span>,
+               data <span class='op'>=</span> <span class='va'>dragons</span><span class='op'>)</span>
 
-<span class='kw'>explainer_lm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='explain.default.html'>explain</a></span>(<span class='kw'>model_lm</span>,
-                        data = <span class='kw'>dragons</span>,
-                        y = <span class='kw'>dragons</span><span class='op'>$</span><span class='kw'>year_of_birth</span>,
-                        label = <span class='st'>"model_lm"</span>)
+<span class='va'>explainer_lm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='explain.default.html'>explain</a></span><span class='op'>(</span><span class='va'>model_lm</span>,
+                        data <span class='op'>=</span> <span class='va'>dragons</span>,
+                        y <span class='op'>=</span> <span class='va'>dragons</span><span class='op'>$</span><span class='va'>year_of_birth</span>,
+                        label <span class='op'>=</span> <span class='st'>"model_lm"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  model_lm 
 #&gt;   -&gt; data              :  2000  rows  8  cols 
@@ -276,26 +276,26 @@ It's a data frame with calculated average response.</p>
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -5421.316 , mean =  -1450.523 , max =  1176.912  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='kw'>bd_lm</span> <span class='op'>&lt;-</span> <span class='fu'>predict_parts_break_down</span>(<span class='kw'>explainer_lm</span>, new_observation = <span class='kw'>new_dragon</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>bd_lm</span>)
+<span class='va'>bd_lm</span> <span class='op'>&lt;-</span> <span class='fu'>predict_parts_break_down</span><span class='op'>(</span><span class='va'>explainer_lm</span>, new_observation <span class='op'>=</span> <span class='va'>new_dragon</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>bd_lm</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                                    contribution
 #&gt; model_lm: intercept                    1370.986
 #&gt; model_lm: scars = 0                    -397.300
 #&gt; model_lm: number_of_lost_teeth = 5     -302.277
 #&gt; model_lm: height = 80                    -9.734
 #&gt; model_lm: year_of_birth = 200            -6.639
-#&gt; model_lm: weight = 12.5                  -0.973</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>bd_lm</span>)
+#&gt; model_lm: weight = 12.5                  -0.973</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>bd_lm</span><span class='op'>)</span>
 </div><div class='img'><img src='predict_parts-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># \donttest{</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/imbs-hl/ranger'>"ranger"</a></span>)
-<span class='kw'>model_ranger</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>life_length</span> <span class='op'>~</span> <span class='kw'>year_of_birth</span> <span class='op'>+</span> <span class='kw'>height</span> <span class='op'>+</span>
-                       <span class='kw'>weight</span> <span class='op'>+</span> <span class='kw'>scars</span> <span class='op'>+</span> <span class='kw'>number_of_lost_teeth</span>,
-                       data = <span class='kw'>dragons</span>, num.trees = <span class='fl'>50</span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/imbs-hl/ranger'>"ranger"</a></span><span class='op'>)</span>
+<span class='va'>model_ranger</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>life_length</span> <span class='op'>~</span> <span class='va'>year_of_birth</span> <span class='op'>+</span> <span class='va'>height</span> <span class='op'>+</span>
+                       <span class='va'>weight</span> <span class='op'>+</span> <span class='va'>scars</span> <span class='op'>+</span> <span class='va'>number_of_lost_teeth</span>,
+                       data <span class='op'>=</span> <span class='va'>dragons</span>, num.trees <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span>
 
-<span class='kw'>explainer_ranger</span> <span class='op'>&lt;-</span> <span class='fu'><a href='explain.default.html'>explain</a></span>(<span class='kw'>model_ranger</span>,
-                            data = <span class='kw'>dragons</span>,
-                            y = <span class='kw'>dragons</span><span class='op'>$</span><span class='kw'>year_of_birth</span>,
-                            label = <span class='st'>"model_ranger"</span>)
+<span class='va'>explainer_ranger</span> <span class='op'>&lt;-</span> <span class='fu'><a href='explain.default.html'>explain</a></span><span class='op'>(</span><span class='va'>model_ranger</span>,
+                            data <span class='op'>=</span> <span class='va'>dragons</span>,
+                            y <span class='op'>=</span> <span class='va'>dragons</span><span class='op'>$</span><span class='va'>year_of_birth</span>,
+                            label <span class='op'>=</span> <span class='st'>"model_ranger"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  model_ranger 
 #&gt;   -&gt; data              :  2000  rows  8  cols 
@@ -306,15 +306,15 @@ It's a data frame with calculated average response.</p>
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -4953.277 , mean =  -1449.448 , max =  999.6154  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='kw'>bd_ranger</span> <span class='op'>&lt;-</span> <span class='fu'>predict_parts_break_down</span>(<span class='kw'>explainer_ranger</span>, new_observation = <span class='kw'>new_dragon</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>bd_ranger</span>)
+<span class='va'>bd_ranger</span> <span class='op'>&lt;-</span> <span class='fu'>predict_parts_break_down</span><span class='op'>(</span><span class='va'>explainer_ranger</span>, new_observation <span class='op'>=</span> <span class='va'>new_dragon</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>bd_ranger</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                                        contribution
 #&gt; model_ranger: intercept                    1369.910
 #&gt; model_ranger: scars = 0                    -344.536
 #&gt; model_ranger: number_of_lost_teeth = 5     -298.719
 #&gt; model_ranger: height = 80                    48.110
 #&gt; model_ranger: year_of_birth = 200            -7.976
-#&gt; model_ranger: weight = 12.5                   2.085</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>bd_ranger</span>)
+#&gt; model_ranger: weight = 12.5                   2.085</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>bd_ranger</span><span class='op'>)</span>
 </div><div class='img'><img src='predict_parts-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
 
 </div></span></pre>

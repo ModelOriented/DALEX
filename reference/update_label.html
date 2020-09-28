@@ -159,7 +159,7 @@
     <p>Function allows users to update label of any explainer in a unified way. It doesn't require knowledge about structre of an explainer.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>update_label</span>(<span class='kw'>explainer</span>, <span class='kw'>label</span>, verbose = <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>update_label</span><span class='op'>(</span><span class='va'>explainer</span>, <span class='va'>label</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -183,8 +183,8 @@
     <p>updated explainer object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>aps_lm_model4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>m2.price</span> <span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>apartments</span>)
-<span class='kw'>aps_lm_explainer4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='explain.default.html'>explain</a></span>(<span class='kw'>aps_lm_model4</span>, data = <span class='kw'>apartments</span>, label = <span class='st'>"model_4v"</span>)
+    <pre class="examples"><div class='input'><span class='va'>aps_lm_model4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>m2.price</span> <span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>apartments</span><span class='op'>)</span>
+<span class='va'>aps_lm_explainer4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='explain.default.html'>explain</a></span><span class='op'>(</span><span class='va'>aps_lm_model4</span>, data <span class='op'>=</span> <span class='va'>apartments</span>, label <span class='op'>=</span> <span class='st'>"model_4v"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  model_4v 
 #&gt;   -&gt; data              :  1000  rows  6  cols 
@@ -197,7 +197,7 @@
 #&gt;   -&gt; model_info        :  Consider changing to numerical vector.
 #&gt;   -&gt; model_info        :  Otherwise I will not be able to calculate residuals or loss function.
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>explainer</span> <span class='op'>&lt;-</span> <span class='fu'>update_label</span>(<span class='kw'>aps_lm_explainer4</span>, label = <span class='st'>"lm"</span>)
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='va'>explainer</span> <span class='op'>&lt;-</span> <span class='fu'>update_label</span><span class='op'>(</span><span class='va'>aps_lm_explainer4</span>, label <span class='op'>=</span> <span class='st'>"lm"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;   -&gt; model label       :  lm 
 #&gt;  </span><span style='color: #00BB00;'> An explainer has been updated! </span><span> </div></span></pre>
   </div>

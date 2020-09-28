@@ -159,6 +159,7 @@
 <ul>
 <li>Fixed R package not working with Python Explainer (<a href="https://github.com/ModelOriented/DALEX/issues/318"><a href='https://github.com/ModelOriented/DALEX/issues/318'>#318</a></a>)</li>
 <li>Fixed <code><a href="../reference/model_diagnostics.html">model_diagnostics()</a></code> returning an error when <code>y_hat</code> or <code>residuals</code> is of <code>array</code> class (<a href="https://github.com/ModelOriented/DALEX/issues/319"><a href='https://github.com/ModelOriented/DALEX/issues/319'>#319</a></a>)</li>
+<li>Fixed grid lines in <code>theme_drwhy</code> on Windows</li>
 </ul>
 </div>
     <div id="dalex-20" class="section level2">
@@ -259,11 +260,11 @@
 <a href="#dalex-10" class="anchor"></a>DALEX 1.0</h2>
 <ul>
 <li>
-<code>variable_profile</code> calls <code><a href="https://rdrr.io/pkg/ingredients/man/ceteris_paribus.html">ingredients::ceteris_paribus</a></code> (<a href="https://github.com/ModelOriented/DALEX/issues/131"><a href='https://github.com/ModelOriented/DALEX/issues/131'>#131</a></a>).</li>
+<code>variable_profile</code> calls <code><a href="https://ModelOriented.github.io/ingredients/reference/ceteris_paribus.html">ingredients::ceteris_paribus</a></code> (<a href="https://github.com/ModelOriented/DALEX/issues/131"><a href='https://github.com/ModelOriented/DALEX/issues/131'>#131</a></a>).</li>
 <li>
-<code>variable_response</code> and <code>feature_response</code> moved to <code>variable_effect</code> and now it calls <code><a href="https://rdrr.io/pkg/ingredients/man/partial_dependence.html">ingredients::partial_dependency</a></code> (<a href="https://github.com/ModelOriented/DALEX/issues/131"><a href='https://github.com/ModelOriented/DALEX/issues/131'>#131</a></a>).</li>
+<code>variable_response</code> and <code>feature_response</code> moved to <code>variable_effect</code> and now it calls <code><a href="https://ModelOriented.github.io/ingredients/reference/partial_dependence.html">ingredients::partial_dependency</a></code> (<a href="https://github.com/ModelOriented/DALEX/issues/131"><a href='https://github.com/ModelOriented/DALEX/issues/131'>#131</a></a>).</li>
 <li>
-<code>prediction_breakdown</code> moved to <code>variable_attribution</code> and now it calls <code><a href="https://rdrr.io/pkg/iBreakDown/man/break_down.html">iBreakDown::break_down</a></code> (<a href="https://github.com/ModelOriented/DALEX/issues/131"><a href='https://github.com/ModelOriented/DALEX/issues/131'>#131</a></a>).</li>
+<code>prediction_breakdown</code> moved to <code>variable_attribution</code> and now it calls <code><a href="https://ModelOriented.github.io/iBreakDown/reference/break_down.html">iBreakDown::break_down</a></code> (<a href="https://github.com/ModelOriented/DALEX/issues/131"><a href='https://github.com/ModelOriented/DALEX/issues/131'>#131</a></a>).</li>
 <li>updated <code>variable_importance</code>, not it calls the <code>ingredients::variable_importance</code> (<a href="https://github.com/ModelOriented/DALEX/issues/131"><a href='https://github.com/ModelOriented/DALEX/issues/131'>#131</a></a>).</li>
 <li>updated <code>model_performance</code> (<a href="https://github.com/ModelOriented/DALEX/issues/130"><a href='https://github.com/ModelOriented/DALEX/issues/130'>#130</a></a>).</li>
 <li>added <code>yhat</code> for <code>lrm</code> models from <code>rms</code> package</li>
@@ -373,11 +374,11 @@
 <li>
 <code>ingredients</code> and <code>iBreakDown</code> are added to additional features (<a href="https://github.com/pbiecek/DALEX/issues/72"><a href='https://github.com/ModelOriented/DALEX/issues/72'>#72</a></a>).</li>
 <li>
-<code>feature_response()</code> and <code>variable_response()</code> are marked as Deprecated. It is suggested to use <code><a href="https://rdrr.io/pkg/ingredients/man/partial_dependence.html">ingredients::partial_dependency()</a></code>, <code><a href="https://rdrr.io/pkg/ingredients/man/accumulated_dependence.html">ingredients::accumulated_dependency()</a></code> instead (<a href="https://github.com/pbiecek/DALEX/issues/74"><a href='https://github.com/ModelOriented/DALEX/issues/74'>#74</a></a>).</li>
+<code>feature_response()</code> and <code>variable_response()</code> are marked as Deprecated. It is suggested to use <code><a href="https://ModelOriented.github.io/ingredients/reference/partial_dependence.html">ingredients::partial_dependency()</a></code>, <code><a href="https://ModelOriented.github.io/ingredients/reference/accumulated_dependence.html">ingredients::accumulated_dependency()</a></code> instead (<a href="https://github.com/pbiecek/DALEX/issues/74"><a href='https://github.com/ModelOriented/DALEX/issues/74'>#74</a></a>).</li>
 <li>
-<code><a href="../reference/model_parts.html">variable_importance()</a></code> is marked as Deprecated. It is suggested to use <code><a href="https://rdrr.io/pkg/ingredients/man/feature_importance.html">ingredients::feature_importance()</a></code> instead (<a href="https://github.com/pbiecek/DALEX/issues/75"><a href='https://github.com/ModelOriented/DALEX/issues/75'>#75</a></a>).</li>
+<code><a href="../reference/model_parts.html">variable_importance()</a></code> is marked as Deprecated. It is suggested to use <code><a href="https://ModelOriented.github.io/ingredients/reference/feature_importance.html">ingredients::feature_importance()</a></code> instead (<a href="https://github.com/pbiecek/DALEX/issues/75"><a href='https://github.com/ModelOriented/DALEX/issues/75'>#75</a></a>).</li>
 <li>
-<code>prediction_breakdown()</code> is marked as Deprecated. It is suggested to use <code><a href="https://rdrr.io/pkg/iBreakDown/man/break_down.html">iBreakDown::break_down()</a></code> or <code><a href="https://rdrr.io/pkg/iBreakDown/man/break_down_uncertainty.html">iBreakDown::shap()</a></code> instead (<a href="https://github.com/pbiecek/DALEX/issues/76"><a href='https://github.com/ModelOriented/DALEX/issues/76'>#76</a></a>).</li>
+<code>prediction_breakdown()</code> is marked as Deprecated. It is suggested to use <code><a href="https://ModelOriented.github.io/iBreakDown/reference/break_down.html">iBreakDown::break_down()</a></code> or <code><a href="https://ModelOriented.github.io/iBreakDown/reference/break_down_uncertainty.html">iBreakDown::shap()</a></code> instead (<a href="https://github.com/pbiecek/DALEX/issues/76"><a href='https://github.com/ModelOriented/DALEX/issues/76'>#76</a></a>).</li>
 </ul>
 </div>
     <div id="dalex-031" class="section level2">

@@ -161,37 +161,37 @@ This function creates a unified representation of a model, which can be further 
 This function creates a unified representation of a model, which can be further processed by functions for explanations.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>explain.default</span>(
-  <span class='kw'>model</span>,
-  data = <span class='kw'>NULL</span>,
-  y = <span class='kw'>NULL</span>,
-  predict_function = <span class='kw'>NULL</span>,
-  residual_function = <span class='kw'>NULL</span>,
-  weights = <span class='kw'>NULL</span>,
-  <span class='kw'>...</span>,
-  label = <span class='kw'>NULL</span>,
-  verbose = <span class='fl'>TRUE</span>,
-  precalculate = <span class='fl'>TRUE</span>,
-  colorize = <span class='fl'>TRUE</span>,
-  model_info = <span class='kw'>NULL</span>,
-  type = <span class='kw'>NULL</span>
-)
+    <pre class="usage"><span class='fu'>explain.default</span><span class='op'>(</span>
+  <span class='va'>model</span>,
+  data <span class='op'>=</span> <span class='cn'>NULL</span>,
+  y <span class='op'>=</span> <span class='cn'>NULL</span>,
+  predict_function <span class='op'>=</span> <span class='cn'>NULL</span>,
+  residual_function <span class='op'>=</span> <span class='cn'>NULL</span>,
+  weights <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>,
+  label <span class='op'>=</span> <span class='cn'>NULL</span>,
+  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  precalculate <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  colorize <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  model_info <span class='op'>=</span> <span class='cn'>NULL</span>,
+  type <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span>
 
-<span class='fu'>explain</span>(
-  <span class='kw'>model</span>,
-  data = <span class='kw'>NULL</span>,
-  y = <span class='kw'>NULL</span>,
-  predict_function = <span class='kw'>NULL</span>,
-  residual_function = <span class='kw'>NULL</span>,
-  weights = <span class='kw'>NULL</span>,
-  <span class='kw'>...</span>,
-  label = <span class='kw'>NULL</span>,
-  verbose = <span class='fl'>TRUE</span>,
-  precalculate = <span class='fl'>TRUE</span>,
-  colorize = <span class='fl'>TRUE</span>,
-  model_info = <span class='kw'>NULL</span>,
-  type = <span class='kw'>NULL</span>
-)</pre>
+<span class='fu'>explain</span><span class='op'>(</span>
+  <span class='va'>model</span>,
+  data <span class='op'>=</span> <span class='cn'>NULL</span>,
+  y <span class='op'>=</span> <span class='cn'>NULL</span>,
+  predict_function <span class='op'>=</span> <span class='cn'>NULL</span>,
+  residual_function <span class='op'>=</span> <span class='cn'>NULL</span>,
+  weights <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>,
+  label <span class='op'>=</span> <span class='cn'>NULL</span>,
+  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  precalculate <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  colorize <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  model_info <span class='op'>=</span> <span class='cn'>NULL</span>,
+  type <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -279,8 +279,8 @@ But some explanations may expect that other arguments will be provided too.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># simple explainer for regression problem</span>
-<span class='kw'>aps_lm_model4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>m2.price</span> <span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>apartments</span>)
-<span class='kw'>aps_lm_explainer4</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span>(<span class='kw'>aps_lm_model4</span>, data = <span class='kw'>apartments</span>, label = <span class='st'>"model_4v"</span>)
+<span class='va'>aps_lm_model4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>m2.price</span> <span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>apartments</span><span class='op'>)</span>
+<span class='va'>aps_lm_explainer4</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span><span class='op'>(</span><span class='va'>aps_lm_model4</span>, data <span class='op'>=</span> <span class='va'>apartments</span>, label <span class='op'>=</span> <span class='st'>"model_4v"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  model_4v 
 #&gt;   -&gt; data              :  1000  rows  6  cols 
@@ -293,7 +293,7 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt;   -&gt; model_info        :  Consider changing to numerical vector.
 #&gt;   -&gt; model_info        :  Otherwise I will not be able to calculate residuals or loss function.
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>aps_lm_explainer4</span>
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='va'>aps_lm_explainer4</span>
 </div><div class='output co'>#&gt; Model label:  model_4v 
 #&gt; Model class:  lm 
 #&gt; Data head  :
@@ -302,7 +302,7 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt; 2     1818              1992     143     9        5     Bielany</div><div class='input'>
 <span class='co'># various parameters for the explain function</span>
 <span class='co'># all defaults</span>
-<span class='kw'>aps_lm</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span>(<span class='kw'>aps_lm_model4</span>)
+<span class='va'>aps_lm</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span><span class='op'>(</span><span class='va'>aps_lm_model4</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  1000  rows  6  cols </span><span style='color: #BBBB00;'> extracted from the model </span><span> 
@@ -317,10 +317,10 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='co'># silent execution</span>
-<span class='kw'>aps_lm</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span>(<span class='kw'>aps_lm_model4</span>, verbose = <span class='fl'>FALSE</span>)
+<span class='va'>aps_lm</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span><span class='op'>(</span><span class='va'>aps_lm_model4</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='co'># set target variable</span>
-<span class='kw'>aps_lm</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span>(<span class='kw'>aps_lm_model4</span>, data = <span class='kw'>apartments</span>, label = <span class='st'>"model_4v"</span>, y = <span class='kw'>apartments</span><span class='op'>$</span><span class='kw'>m2.price</span>)
+<span class='va'>aps_lm</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span><span class='op'>(</span><span class='va'>aps_lm_model4</span>, data <span class='op'>=</span> <span class='va'>apartments</span>, label <span class='op'>=</span> <span class='st'>"model_4v"</span>, y <span class='op'>=</span> <span class='va'>apartments</span><span class='op'>$</span><span class='va'>m2.price</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  model_4v 
 #&gt;   -&gt; data              :  1000  rows  6  cols 
@@ -330,8 +330,8 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -247.4728 , mean =  2.093656e-14 , max =  469.0023  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>aps_lm</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span>(<span class='kw'>aps_lm_model4</span>, data = <span class='kw'>apartments</span>, label = <span class='st'>"model_4v"</span>, y = <span class='kw'>apartments</span><span class='op'>$</span><span class='kw'>m2.price</span>,
-                                   predict_function = <span class='kw'>predict</span>)
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='va'>aps_lm</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span><span class='op'>(</span><span class='va'>aps_lm_model4</span>, data <span class='op'>=</span> <span class='va'>apartments</span>, label <span class='op'>=</span> <span class='st'>"model_4v"</span>, y <span class='op'>=</span> <span class='va'>apartments</span><span class='op'>$</span><span class='va'>m2.price</span>,
+                                   predict_function <span class='op'>=</span> <span class='va'>predict</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  model_4v 
 #&gt;   -&gt; data              :  1000  rows  6  cols 
@@ -343,12 +343,12 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt;   -&gt; residuals         :  numerical, min =  -247.4728 , mean =  2.093656e-14 , max =  469.0023  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='co'># user provided predict_function</span>
-<span class='kw'>aps_ranger</span> <span class='op'>&lt;-</span> <span class='kw'>ranger</span>::<span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>m2.price</span><span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>apartments</span>, num.trees = <span class='fl'>50</span>)
-<span class='kw'>custom_predict</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>X.model</span>, <span class='kw'>newdata</span>) {
-   <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='kw'>X.model</span>, <span class='kw'>newdata</span>)<span class='op'>$</span><span class='kw'>predictions</span>
-}
-<span class='kw'>aps_ranger_exp</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span>(<span class='kw'>aps_ranger</span>, data = <span class='kw'>apartments</span>, y = <span class='kw'>apartments</span><span class='op'>$</span><span class='kw'>m2.price</span>,
-                          predict_function = <span class='kw'>custom_predict</span>)
+<span class='va'>aps_ranger</span> <span class='op'>&lt;-</span> <span class='fu'>ranger</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>m2.price</span><span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>apartments</span>, num.trees <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span>
+<span class='va'>custom_predict</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>X.model</span>, <span class='va'>newdata</span><span class='op'>)</span> <span class='op'>{</span>
+   <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>X.model</span>, <span class='va'>newdata</span><span class='op'>)</span><span class='op'>$</span><span class='va'>predictions</span>
+<span class='op'>}</span>
+<span class='va'>aps_ranger_exp</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span><span class='op'>(</span><span class='va'>aps_ranger</span>, data <span class='op'>=</span> <span class='va'>apartments</span>, y <span class='op'>=</span> <span class='va'>apartments</span><span class='op'>$</span><span class='va'>m2.price</span>,
+                          predict_function <span class='op'>=</span> <span class='va'>custom_predict</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  1000  rows  6  cols 
@@ -361,13 +361,13 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 
 <span class='co'># user provided residual_function</span>
-<span class='kw'>aps_ranger</span> <span class='op'>&lt;-</span> <span class='kw'>ranger</span>::<span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>m2.price</span><span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>apartments</span>, num.trees = <span class='fl'>50</span>)
-<span class='kw'>custom_residual</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>X.model</span>, <span class='kw'>newdata</span>, <span class='kw'>y</span>, <span class='kw'>predict_function</span>) {
-   <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='kw'>y</span> <span class='op'>-</span> <span class='fu'>predict_function</span>(<span class='kw'>X.model</span>, <span class='kw'>newdata</span>))
-}
-<span class='kw'>aps_ranger_exp</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span>(<span class='kw'>aps_ranger</span>, data = <span class='kw'>apartments</span>,
-                          y = <span class='kw'>apartments</span><span class='op'>$</span><span class='kw'>m2.price</span>,
-                          residual_function = <span class='kw'>custom_residual</span>)
+<span class='va'>aps_ranger</span> <span class='op'>&lt;-</span> <span class='fu'>ranger</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>m2.price</span><span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>apartments</span>, num.trees <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span>
+<span class='va'>custom_residual</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>X.model</span>, <span class='va'>newdata</span>, <span class='va'>y</span>, <span class='va'>predict_function</span><span class='op'>)</span> <span class='op'>{</span>
+   <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='va'>y</span> <span class='op'>-</span> <span class='fu'>predict_function</span><span class='op'>(</span><span class='va'>X.model</span>, <span class='va'>newdata</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='va'>aps_ranger_exp</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span><span class='op'>(</span><span class='va'>aps_ranger</span>, data <span class='op'>=</span> <span class='va'>apartments</span>,
+                          y <span class='op'>=</span> <span class='va'>apartments</span><span class='op'>$</span><span class='va'>m2.price</span>,
+                          residual_function <span class='op'>=</span> <span class='va'>custom_residual</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  1000  rows  6  cols 
@@ -379,10 +379,10 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt;   -&gt; residuals         :  numerical, min =  0.03 , mean =  109.9946 , max =  616.1627  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='co'># binary classification</span>
-<span class='kw'>titanic_ranger</span> <span class='op'>&lt;-</span> <span class='kw'>ranger</span>::<span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='kw'>survived</span>)<span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>titanic_imputed</span>, num.trees = <span class='fl'>50</span>,
-                                 probability = <span class='fl'>TRUE</span>)
+<span class='va'>titanic_ranger</span> <span class='op'>&lt;-</span> <span class='fu'>ranger</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='va'>survived</span><span class='op'>)</span><span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>titanic_imputed</span>, num.trees <span class='op'>=</span> <span class='fl'>50</span>,
+                                 probability <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='co'># keep in mind that for binary classification y parameter has to be numeric  with 0 and 1 values</span>
-<span class='kw'>titanic_ranger_exp</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span>(<span class='kw'>titanic_ranger</span>, data = <span class='kw'>titanic_imputed</span>, y = <span class='kw'>titanic_imputed</span><span class='op'>$</span><span class='kw'>survived</span>)
+<span class='va'>titanic_ranger_exp</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span><span class='op'>(</span><span class='va'>titanic_ranger</span>, data <span class='op'>=</span> <span class='va'>titanic_imputed</span>, y <span class='op'>=</span> <span class='va'>titanic_imputed</span><span class='op'>$</span><span class='va'>survived</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  2207  rows  8  cols 
@@ -394,10 +394,10 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt;   -&gt; residuals         :  numerical, min =  -0.8182788 , mean =  -9.911504e-05 , max =  0.8845082  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='co'># multilabel classification</span>
-<span class='kw'>hr_ranger</span> <span class='op'>&lt;-</span> <span class='kw'>ranger</span>::<span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>status</span><span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>HR</span>, num.trees = <span class='fl'>50</span>, probability = <span class='fl'>TRUE</span>)
+<span class='va'>hr_ranger</span> <span class='op'>&lt;-</span> <span class='fu'>ranger</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>status</span><span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>HR</span>, num.trees <span class='op'>=</span> <span class='fl'>50</span>, probability <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='co'># keep in mind that for multilabel classification y parameter has to be a factor,</span>
 <span class='co'># with same levels as in training data</span>
-<span class='kw'>hr_ranger_exp</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span>(<span class='kw'>hr_ranger</span>, data = <span class='kw'>HR</span>, y = <span class='kw'>HR</span><span class='op'>$</span><span class='kw'>status</span>)
+<span class='va'>hr_ranger_exp</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span><span class='op'>(</span><span class='va'>hr_ranger</span>, data <span class='op'>=</span> <span class='va'>HR</span>, y <span class='op'>=</span> <span class='va'>HR</span><span class='op'>$</span><span class='va'>status</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  7847  rows  6  cols 
@@ -409,10 +409,10 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.2770176 , max =  0.8496848  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='co'># set model_info</span>
-<span class='kw'>model_info</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(package = <span class='st'>"stats"</span>, ver = <span class='st'>"3.6.2"</span>, type = <span class='st'>"regression"</span>)
-<span class='kw'>aps_lm_model4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>m2.price</span> <span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>apartments</span>)
-<span class='kw'>aps_lm_explainer4</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span>(<span class='kw'>aps_lm_model4</span>, data = <span class='kw'>apartments</span>, label = <span class='st'>"model_4v"</span>,
-                             model_info = <span class='kw'>model_info</span>)
+<span class='va'>model_info</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"stats"</span>, ver <span class='op'>=</span> <span class='st'>"3.6.2"</span>, type <span class='op'>=</span> <span class='st'>"regression"</span><span class='op'>)</span>
+<span class='va'>aps_lm_model4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>m2.price</span> <span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>apartments</span><span class='op'>)</span>
+<span class='va'>aps_lm_explainer4</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span><span class='op'>(</span><span class='va'>aps_lm_model4</span>, data <span class='op'>=</span> <span class='va'>apartments</span>, label <span class='op'>=</span> <span class='st'>"model_4v"</span>,
+                             model_info <span class='op'>=</span> <span class='va'>model_info</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  model_4v 
 #&gt;   -&gt; data              :  1000  rows  6  cols 
@@ -428,10 +428,10 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='co'># \donttest{</span>
 <span class='co'># set model_info</span>
-<span class='kw'>model_info</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(package = <span class='st'>"stats"</span>, ver = <span class='st'>"3.6.2"</span>, type = <span class='st'>"regression"</span>)
-<span class='kw'>aps_lm_model4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>m2.price</span> <span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>apartments</span>)
-<span class='kw'>aps_lm_explainer4</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span>(<span class='kw'>aps_lm_model4</span>, data = <span class='kw'>apartments</span>, label = <span class='st'>"model_4v"</span>,
-                             model_info = <span class='kw'>model_info</span>)
+<span class='va'>model_info</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"stats"</span>, ver <span class='op'>=</span> <span class='st'>"3.6.2"</span>, type <span class='op'>=</span> <span class='st'>"regression"</span><span class='op'>)</span>
+<span class='va'>aps_lm_model4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>m2.price</span> <span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>apartments</span><span class='op'>)</span>
+<span class='va'>aps_lm_explainer4</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span><span class='op'>(</span><span class='va'>aps_lm_model4</span>, data <span class='op'>=</span> <span class='va'>apartments</span>, label <span class='op'>=</span> <span class='st'>"model_4v"</span>,
+                             model_info <span class='op'>=</span> <span class='va'>model_info</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  model_4v 
 #&gt;   -&gt; data              :  1000  rows  6  cols 
@@ -445,8 +445,8 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt;   -&gt; model_info        :  Otherwise I will not be able to calculate residuals or loss function.
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='kw'>aps_lm_explainer4</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span>(<span class='kw'>aps_lm_model4</span>, data = <span class='kw'>apartments</span>, label = <span class='st'>"model_4v"</span>,
-                             weights = <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='kw'>apartments</span><span class='op'>$</span><span class='kw'>construction.year</span> <span class='op'>&gt;</span> <span class='fl'>2000</span>))
+<span class='va'>aps_lm_explainer4</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span><span class='op'>(</span><span class='va'>aps_lm_model4</span>, data <span class='op'>=</span> <span class='va'>apartments</span>, label <span class='op'>=</span> <span class='st'>"model_4v"</span>,
+                             weights <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>apartments</span><span class='op'>$</span><span class='va'>construction.year</span> <span class='op'>&gt;</span> <span class='fl'>2000</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  model_4v 
 #&gt;   -&gt; data              :  1000  rows  6  cols 
@@ -462,9 +462,9 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='co'># more complex model</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/imbs-hl/ranger'>"ranger"</a></span>)
-<span class='kw'>aps_ranger_model4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>m2.price</span> <span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>apartments</span>, num.trees = <span class='fl'>50</span>)
-<span class='kw'>aps_ranger_explainer4</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span>(<span class='kw'>aps_ranger_model4</span>, data = <span class='kw'>apartments</span>, label = <span class='st'>"model_ranger"</span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/imbs-hl/ranger'>"ranger"</a></span><span class='op'>)</span>
+<span class='va'>aps_ranger_model4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>m2.price</span> <span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>apartments</span>, num.trees <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span>
+<span class='va'>aps_ranger_explainer4</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span><span class='op'>(</span><span class='va'>aps_ranger_model4</span>, data <span class='op'>=</span> <span class='va'>apartments</span>, label <span class='op'>=</span> <span class='st'>"model_ranger"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  model_ranger 
 #&gt;   -&gt; data              :  1000  rows  6  cols 
@@ -477,7 +477,7 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt;   -&gt; model_info        :  Consider changing to numerical vector.
 #&gt;   -&gt; model_info        :  Otherwise I will not be able to calculate residuals or loss function.
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>aps_ranger_explainer4</span>
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='va'>aps_ranger_explainer4</span>
 </div><div class='output co'>#&gt; Model label:  model_ranger 
 #&gt; Model class:  ranger 
 #&gt; Data head  :
