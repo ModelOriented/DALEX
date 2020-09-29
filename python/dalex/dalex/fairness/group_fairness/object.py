@@ -1,7 +1,8 @@
 from .checks import *
 from .utils import *
 from ..basics._base_objects import _FairnessObject
-
+from ..basics.checks import check_other_objects
+from .plot import *
 
 class GroupFairnessClassificationObject(_FairnessObject):
 
@@ -72,3 +73,13 @@ class GroupFairnessClassificationObject(_FairnessObject):
         print(f'\nConclusion: your model is {conclusion}')
         return
 
+    def plot(self, type, *args, **kwargs):
+        other_objects = []
+        for arg in args:
+            if isinstance(arg, GroupFairnessClassificationObject):
+                other_objects.append(arg)
+
+        other_objects = check_other_objects(self, other_objects)
+
+        if type == 'fairness_check':
+            plot_fairness_check(self, other_objects, **kwargs)

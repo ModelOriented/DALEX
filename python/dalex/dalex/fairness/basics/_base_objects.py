@@ -8,6 +8,8 @@ class _AbsObject(metaclass=abc.ABCMeta):
     def fairness_check(self):
         pass
 
+    def plot(self):
+        pass
 
 class _FairnessObject(_AbsObject):
 
@@ -19,4 +21,7 @@ class _FairnessObject(_AbsObject):
         self.y = y
 
     def fairness_check(self):
+        pass
+
+    def plot(self):
         pass

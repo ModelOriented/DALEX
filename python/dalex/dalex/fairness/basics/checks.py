@@ -18,22 +18,22 @@ def check_parameters(y, y_hat, protected, privileged, verbose):
         raise ParameterCheckError("y_hat must have probabilistic output between 0 and 1")
 
     if not isinstance(protected, np.ndarray):
-    # if is not numpy array check what type it is and change to np array
+        # if is not numpy array check what type it is and change to np array
         if isinstance(protected, list):
             try:
                 verbose_cat("protected list will be converted to nd.array", verbose)
-                protected = np.array(protected, dtype = 'U')
+                protected = np.array(protected, dtype='U')
             except:
-                ParameterCheckError("failed to convert list to nd.array", verbose)
+                ParameterCheckError("failed to convert list to nd.array, try converting it manually", verbose)
 
         elif isinstance(protected, pd.Series):
             try:
                 verbose_cat("protected Series will be converted to nd.array", verbose)
-                protected = np.array(protected, dtype = 'U')
+                protected = np.array(protected, dtype='U')
             except:
                 ParameterCheckError("failed to convert list to nd.array")
         else:
-            ParameterCheckError("Unsupported protected type provided. Please convert protected to flat np.ndarray")
+            ParameterCheckError("unsupported protected type provided. Please convert protected to flat np.ndarray")
 
     if protected.dtype.type is not np.str_:
         verbose_cat("protected array is not string type, converting to string ", verbose)
@@ -55,3 +55,14 @@ def check_parameters(y, y_hat, protected, privileged, verbose):
         raise ParameterCheckError("privileged parameter must be in protected vector")
 
     return y, y_hat, protected, privileged
+
+
+def check_other_objects(object, other):
+    class_name = object.__class__.__name__
+
+    other_objects = []
+    for obj in other:
+        if isinstance(obj, class_name):
+            other_objects.append(obj)
+
+    return other_objects
