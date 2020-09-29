@@ -30,7 +30,7 @@ def check_parameters(y, y_hat, protected, privileged, verbose):
             try:
                 verbose_cat("protected Series will be converted to nd.array", verbose)
                 protected = np.array(protected, dtype='U')
-            except:
+            except ParameterCheckError:
                 ParameterCheckError("failed to convert list to nd.array")
         else:
             ParameterCheckError("unsupported protected type provided. Please convert protected to flat np.ndarray")
@@ -42,14 +42,11 @@ def check_parameters(y, y_hat, protected, privileged, verbose):
         except:
             ParameterCheckError('Could not convert protected to String type')
 
-    if isinstance(privileged, int):
+    if not isinstance(privileged, str):
         try:
             privileged = str(privileged)
         except:
             ParameterCheckError('Could not convert privileged to String')
-
-    if not isinstance(privileged, str):
-        raise ParameterCheckError('privileged parameter must be a String')
 
     if privileged not in protected:
         raise ParameterCheckError("privileged parameter must be in protected vector")
@@ -57,8 +54,8 @@ def check_parameters(y, y_hat, protected, privileged, verbose):
     return y, y_hat, protected, privileged
 
 
-def check_other_objects(object, other):
-    class_name = object.__class__.__name__
+def check_other_objects(fobject, other):
+    class_name = fobject.__class__.__name__
 
     other_objects = []
     for obj in other:

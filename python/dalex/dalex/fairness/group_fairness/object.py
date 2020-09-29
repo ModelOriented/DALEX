@@ -9,7 +9,7 @@ class GroupFairnessClassificationObject(_FairnessObject):
     def __init__(self, y, y_hat, protected, privileged, verbose=True, cutoff=0.5):
         super().__init__(y, y_hat, protected, privileged, verbose)
 
-        cutoff = check_cutoff(protected, cutoff, verbose)
+        cutoff = check_cutoff(self.protected, cutoff, verbose)
         self.cutoff = cutoff
 
         sub_confusion_matrix = SubgroupConfusionMatrix(y_true=self.y,
@@ -18,8 +18,8 @@ class GroupFairnessClassificationObject(_FairnessObject):
                                                        cutoff=self.cutoff)
 
         sub_confusion_matrix_metrics = SubgroupConfusionMatrixMetrics(sub_confusion_matrix)
-        df_ratios = calculate_ratio(sub_confusion_matrix_metrics, privileged)
-        parity_loss = calculate_parity_loss(sub_confusion_matrix_metrics, privileged)
+        df_ratios = calculate_ratio(sub_confusion_matrix_metrics, self.privileged)
+        parity_loss = calculate_parity_loss(sub_confusion_matrix_metrics, self.privileged)
 
         self.subgroup_metrics = sub_confusion_matrix_metrics
         self.parity_loss = parity_loss
@@ -48,7 +48,7 @@ class GroupFairnessClassificationObject(_FairnessObject):
         Console output
 
         """
-
+        # TODO: Check for NaN's
         epsilon = check_epsilon(epsilon)
         metric_ratios = self.metric_ratios
 
@@ -65,7 +65,7 @@ class GroupFairnessClassificationObject(_FairnessObject):
         print(f'\nRatio values: \n')
         print(metric_ratios.to_string())
 
-        if sum(metrics_exceeded) > 2 :
+        if sum(metrics_exceeded) >= 2 :
             conclusion = 'not fair'
         else :
             conclusion = 'fair'
