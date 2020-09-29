@@ -1,4 +1,4 @@
-from dalex.dataset_level import ModelPerformance, VariableImportance,\
+from dalex.dataset_level import ModelPerformance, VariableImportance, \
     AggregatedProfiles, ResidualDiagnostics
 from dalex.instance_level import BreakDown, Shap, CeterisParibus
 from dalex.wrappers import ShapWrapper
@@ -6,6 +6,7 @@ from .checks import *
 from .utils import unpack_kwargs_lime, create_surrogate_model
 from dalex.fairness.group_fairness import GroupFairnessClassificationObject
 from dalex.fairness.basics.exceptions import *
+
 
 class Explainer:
     """ Create Model Explainer
@@ -146,7 +147,7 @@ class Explainer:
             check_predict_function_and_model_type(predict_function, model_type,
                                                   model, data, model_class, model_info_,
                                                   precalculate, verbose)
-      
+
         model_info_ = check_if_predict_function_accepts_arrays(predict_function,
                                                                model,
                                                                data.values[[0]],
@@ -241,7 +242,7 @@ class Explainer:
         type : {'break_down_interactions', 'break_down', 'shap', 'shap_wrapper}
             Type of variable attributions (default is 'break_down_interactions').
         order : list of int or str, optional
-            Prameter specific for `break_down_interactions` and `break_down`. Use a fixed
+            Parameter specific for `break_down_interactions` and `break_down`. Use a fixed
             order of variables for attribution calculation. Use integer values  or string
             variable names (default is None, which means order by importance).
         interaction_preference : int, optional
@@ -366,7 +367,7 @@ class Explainer:
         https://pbiecek.github.io/ema/ceterisParibus.html
         """
 
-        types = ('ceteris_paribus', )
+        types = ('ceteris_paribus',)
         type = check_method_type(type, types)
 
         if type == 'ceteris_paribus':
@@ -741,8 +742,7 @@ class Explainer:
 
         return surrogate_model
 
-
-    def model_group_fairness(self, protected, privileged, cutoff = 0.5, **kwargs):
+    def model_group_fairness(self, protected, privileged, cutoff=0.5, **kwargs):
         """Creates GroupFairnessObject that enables bias detection and visualization.
 
         Method returns GroupFairnessObject that for now supports explained classifiers.
@@ -755,6 +755,7 @@ class Explainer:
         -----------
         protected : nd.array (1d)
             Vector, preferably 1-dimensional nd.array containing strings, which denotes the membership to subgroup.
+            List and pandas Series are also supported, however if provided they will be transformed to (1-d) np.ndarray with dtype 'U'
             It does not have to be binary. It does not need to be in data. It is suggested not to use
             sensitive attributes in modelling.
         privileged : str
@@ -776,18 +777,17 @@ class Explainer:
 
         """
 
-        if self.model_type != 'classification' :
+        if self.model_type != 'classification':
             raise TypeNotSupportedError("fairness module at the moment supports only explainers of type classification")
 
-        fobject = GroupFairnessClassificationObject(y = self.y,
-                                                    y_hat = self.y_hat,
-                                                    protected = protected,
-                                                    privileged = privileged,
-                                                    cutoff = cutoff,
+        fobject = GroupFairnessClassificationObject(y=self.y,
+                                                    y_hat=self.y_hat,
+                                                    protected=protected,
+                                                    privileged=privileged,
+                                                    cutoff=cutoff,
                                                     **kwargs)
 
         return fobject
-
 
     def dumps(self, *args, **kwargs):
         """Return the pickled representation (bytes object) of the Explainer
