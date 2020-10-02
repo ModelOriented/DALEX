@@ -4,6 +4,7 @@ from ..basics._base_objects import _FairnessObject
 from ..basics.checks import check_other_objects
 from .plot import *
 
+
 class GroupFairnessClassificationObject(_FairnessObject):
 
     def __init__(self, y, y_hat, protected, privileged, verbose=True, cutoff=0.5):
@@ -59,21 +60,21 @@ class GroupFairnessClassificationObject(_FairnessObject):
         metrics_exceeded = ((metric_ratios > 1 / epsilon) | (epsilon > metric_ratios)).apply(sum, 1)
 
         print(f'\nRatios of metrics, base: {self.privileged}')
-        for rowname in metrics_exceeded.index :
+        for rowname in metrics_exceeded.index:
             print(f'{rowname}, metrics exceeded: {metrics_exceeded[rowname]}')
 
         print(f'\nRatio values: \n')
         print(metric_ratios.to_string())
 
-        if sum(metrics_exceeded) >= 2 :
+        if sum(metrics_exceeded) >= 2:
             conclusion = 'not fair'
-        else :
+        else:
             conclusion = 'fair'
 
         print(f'\nConclusion: your model is {conclusion}')
         return
 
-    def plot(self, type, *args, **kwargs):
+    def plot(self, type = 'fairness_check',  *args, **kwargs):
         other_objects = []
         for arg in args:
             if isinstance(arg, GroupFairnessClassificationObject):
@@ -83,3 +84,5 @@ class GroupFairnessClassificationObject(_FairnessObject):
 
         if type == 'fairness_check':
             plot_fairness_check(self, other_objects, **kwargs)
+
+
