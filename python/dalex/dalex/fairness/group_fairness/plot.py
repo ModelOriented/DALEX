@@ -1,4 +1,5 @@
 import numpy as np
+from .utils import *
 
 def plot_fairness_check(fobject, other_objects, epsilon = 0.8, **kwargs):
 
@@ -7,7 +8,7 @@ def plot_fairness_check(fobject, other_objects, epsilon = 0.8, **kwargs):
     data = data.stack()
     data = data.reset_index()
     data.columns = ["subgroup", "metric", "score"]
-    data = data.loc[data.metric.isin(['ACC', 'TPR','FPR', 'PPV', 'STP'])]
+    data = data.loc[data.metric.isin(fairness_check_metrics())]
     data = data.loc[data.subgroup != fobject.privileged]
     data.score -= 1
 
@@ -70,7 +71,7 @@ def plot_fairness_check(fobject, other_objects, epsilon = 0.8, **kwargs):
         fig.add_shape(middle_green[i])
 
     fig.update_shapes(dict(xref='x'))
-    fig.update_layout(template='plotly_white')
+    fig.update_layout(template='plotly_white', title = 'Fairness Check')
     fig.show()
 
 
