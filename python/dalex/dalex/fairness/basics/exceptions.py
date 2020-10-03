@@ -28,3 +28,18 @@ class TypeNotSupportedError(Exception):
             return f'Type Not Supported Error, {self.message}'
         else:
             return 'Type Not Supported Error has been raised'
+
+class FarinessObjecsDifferenceError(Exception):
+
+    def __init__(self, *args):
+        if args:
+            self.message = args[0]
+        else:
+            self.message = None
+
+    def __str__(self):
+
+        if self.message:
+            return f'FairnessObject difference error has been raised, {self.message}'
+        else:
+            return 'FairnessObject difference error has been raised'

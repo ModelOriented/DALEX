@@ -5,6 +5,7 @@ def plot_fairness_check(fobject, other_objects, epsilon = 0.8, **kwargs):
 
     data = fobject.metric_ratios
 
+
     data = data.stack()
     data = data.reset_index()
     data.columns = ["subgroup", "metric", "score"]

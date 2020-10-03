@@ -7,7 +7,8 @@ from .plot import *
 
 class GroupFairnessClassificationObject(_FairnessObject):
 
-    def __init__(self, y, y_hat, protected, privileged, verbose=True, cutoff=0.5):
+    def __init__(self, y, y_hat, protected, privileged, label, verbose=True, cutoff=0.5):
+
         super().__init__(y, y_hat, protected, privileged, verbose)
 
         cutoff = check_cutoff(self.protected, cutoff, verbose)
@@ -25,7 +26,7 @@ class GroupFairnessClassificationObject(_FairnessObject):
         self.subgroup_metrics = sub_confusion_matrix_metrics
         self.parity_loss = parity_loss
         self.metric_ratios = df_ratios
-
+        self.label = label
     def fairness_check(self, epsilon=0.8):
         """Check if classifier passes popular fairness metrics
 

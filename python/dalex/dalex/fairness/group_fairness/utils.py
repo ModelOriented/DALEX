@@ -150,3 +150,4 @@ def fairness_check_metrics():
     return ["TPR", "PPV", "STP", "ACC", "FPR"]
 
 
+def check_FairnessObjects(fobject, other_fobjects):

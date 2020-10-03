@@ -63,3 +63,13 @@ def check_other_objects(fobject, other):
             other_objects.append(obj)
 
     return other_objects
+
+def check_other_FairnessObjects(fobject, other):
+
+    for other_obj in other:
+        if fobject.protected != other_obj.protected:
+            raise FarinessObjecsDifferenceError('protected attributes are not the same')
+
+        if fobject.privileged != other_obj.privileged:
+            raise FarinessObjecsDifferenceError('privileged subgroups are not the same')
+        if
