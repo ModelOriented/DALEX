@@ -157,7 +157,8 @@ class FairnessTest(unittest.TestCase):
                                                  y_hat=exp.y_hat,
                                                  protected=protected,
                                                  privileged='male_old',
-                                                 verbose=False)
+                                                 verbose=False,
+                                                 label = exp.label)
         self.assertEqual(gfco.__class__.__name__, 'GroupFairnessClassificationObject')
 
     def test_parameter_checks(self):
@@ -180,13 +181,15 @@ class FairnessTest(unittest.TestCase):
                                                      y_hat=exp.y_hat,
                                                      protected=protected,
                                                      privileged='male_old',
-                                                     verbose=False)
+                                                     verbose=False,
+                                                     label= exp.label)
         with self.assertRaises(ParameterCheckError):
             gfco = GroupFairnessClassificationObject(y=exp.y[:-1, ],
                                                      y_hat=exp.y_hat[:-1, ],
                                                      protected=protected,
                                                      privileged='male_old',
-                                                     verbose=False)
+                                                     verbose=False,
+                                                     label= exp.label)
 
         with self.assertRaises(ParameterCheckError):
             gfco = exp.model_group_fairness(protected=protected,
