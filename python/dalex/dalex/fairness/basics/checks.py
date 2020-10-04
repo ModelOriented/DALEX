@@ -55,21 +55,35 @@ def check_parameters(y, y_hat, protected, privileged, verbose):
 
 
 def check_other_objects(fobject, other):
-    class_name = fobject.__class__.__name__
+    class_type = fobject.__class__
 
     other_objects = []
     for obj in other:
-        if isinstance(obj, class_name):
+        if isinstance(obj, class_type):
             other_objects.append(obj)
 
     return other_objects
 
-def check_other_FairnessObjects(fobject, other):
 
+def check_other_FairnessObjects(fobject, other):
+    """
+    Checking compatibility of GroupFairnessClassification objects
+    """
     for other_obj in other:
-        if fobject.protected != other_obj.protected:
+        if any(fobject.protected != other_obj.protected):
             raise FarinessObjecsDifferenceError('protected attributes are not the same')
 
         if fobject.privileged != other_obj.privileged:
             raise FarinessObjecsDifferenceError('privileged subgroups are not the same')
-        if
+
+        if any(fobject.y != other_obj.y):
+            raise FarinessObjecsDifferenceError('target variable (y) is not the same')
+
+    # check uniqueness of label
+    labels = [fobject.label]
+    for other_obj in other:
+        labels.append(other_obj.label)
+
+    if len(labels) != len(set(labels)):
+        raise FarinessObjecsDifferenceError(
+            'explainer labels are not unique and therefore objects cannot be plotted together')

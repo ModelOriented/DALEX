@@ -1,17 +1,14 @@
 import numpy as np
 from .utils import *
-
-def plot_fairness_check(fobject, other_objects, epsilon = 0.8, **kwargs):
-
-    data = fobject.metric_ratios
+from ..basics.checks import check_other_FairnessObjects
 
 
-    data = data.stack()
-    data = data.reset_index()
-    data.columns = ["subgroup", "metric", "score"]
-    data = data.loc[data.metric.isin(fairness_check_metrics())]
-    data = data.loc[data.subgroup != fobject.privileged]
-    data.score -= 1
+def plot_fairness_check(fobject, other_objects, epsilon=0.8, **kwargs):
+    check_other_FairnessObjects(fobject, other_objects)
+    data = _metric_ratios_2DF(fobject)
+    for other_obj in other_objects:
+        other_data = _metric_ratios_2DF(other_obj)
+        data = data.append(other_data)
 
     upper_bound = max([max(data.score[np.invert(np.isnan(data.score.to_numpy()))]), 1 / epsilon - 1]) + 0.1
     lower_bound = min([min(data.score[np.invert(np.isnan(data.score.to_numpy()))]), epsilon - 1]) - 0.1
@@ -26,13 +23,19 @@ def plot_fairness_check(fobject, other_objects, epsilon = 0.8, **kwargs):
 
     import plotly.express as px
 
-    fig = (px.bar(data, y='subgroup', x='score', facet_row='metric', orientation='h'))
+    fig = (px.bar(data,
+                  y='subgroup',
+                  x='score',
+                  color='label',
+                  facet_row='metric',
+                  barmode='group',
+                  orientation='h'))
 
     fig.update_xaxes(tickvals=ticks,
                      ticktext=(ticks + 1).round(1),
                      range=[lower_bound, upper_bound])
 
-    refs = ['y', 'y2', 'y3', 'y4','y5']
+    refs = ['y', 'y2', 'y3', 'y4', 'y5']
     left_red = [{'type': "rect",
                  'x0': lower_bound,
                  'y0': -1,
@@ -72,12 +75,24 @@ def plot_fairness_check(fobject, other_objects, epsilon = 0.8, **kwargs):
         fig.add_shape(middle_green[i])
 
     fig.update_shapes(dict(xref='x'))
-    fig.update_layout(template='plotly_white', title = 'Fairness Check')
+    fig.update_layout(template='plotly_white', title='Fairness Check')
     fig.show()
 
 
+def _metric_ratios_2DF(fobject):
+    """
+    Converts GroupFairnessClassificationObject
+    to elegant DataFrame with 4 columns (subgroup, metric, score, label)
+    """
 
+    data = fobject.metric_ratios
+    data = data.stack()
+    data = data.reset_index()
+    data.columns = ["subgroup", "metric", "score"]
+    data = data.loc[data.metric.isin(fairness_check_metrics())]
+    data = data.loc[data.subgroup != fobject.privileged]
+    data.score -= 1
 
+    data['label'] = np.repeat(fobject.label, data.shape[0])
 
-
-
+    return data

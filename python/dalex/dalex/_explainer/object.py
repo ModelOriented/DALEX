@@ -785,6 +785,7 @@ class Explainer:
                                                     protected=protected,
                                                     privileged=privileged,
                                                     cutoff=cutoff,
+                                                    label=self.label,
                                                     **kwargs)
 
         return fobject

@@ -75,7 +75,7 @@ class GroupFairnessClassificationObject(_FairnessObject):
         print(f'\nConclusion: your model is {conclusion}')
         return
 
-    def plot(self, type = 'fairness_check',  *args, **kwargs):
+    def plot(self,   *args, type = 'fairness_check', **kwargs):
         other_objects = []
         for arg in args:
             if isinstance(arg, GroupFairnessClassificationObject):
