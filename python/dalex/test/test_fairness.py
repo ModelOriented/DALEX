@@ -231,8 +231,7 @@ class FairnessTest(unittest.TestCase):
                                         verbose=False)
 
         self.assertEqual(type(gfco.protected), np.ndarray)
-
-
+    
 
     def test_model_group_fairness(self):
         exp = FairnessTest.exp
@@ -242,8 +241,6 @@ class FairnessTest(unittest.TestCase):
                                         verbose=False)
 
         self.assertEqual(mgf.__class__.__name__, 'GroupFairnessClassificationObject')
-
-
 
 if __name__ == '__main__':
     unittest.main()

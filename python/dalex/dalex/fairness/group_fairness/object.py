@@ -27,6 +27,7 @@ class GroupFairnessClassificationObject(_FairnessObject):
         self.parity_loss = parity_loss
         self.metric_ratios = df_ratios
         self.label = label
+
     def fairness_check(self, epsilon=0.8):
         """Check if classifier passes popular fairness metrics
 
@@ -75,7 +76,7 @@ class GroupFairnessClassificationObject(_FairnessObject):
         print(f'\nConclusion: your model is {conclusion}')
         return
 
-    def plot(self,   *args, type = 'fairness_check', **kwargs):
+    def plot(self, *args, type='fairness_check', show=True, **kwargs):
         other_objects = []
         for arg in args:
             if isinstance(arg, GroupFairnessClassificationObject):
@@ -84,6 +85,4 @@ class GroupFairnessClassificationObject(_FairnessObject):
         other_objects = check_other_objects(self, other_objects)
 
         if type == 'fairness_check':
-            plot_fairness_check(self, other_objects, **kwargs)
-
-
+            plot_fairness_check(self, other_objects, show, **kwargs)
