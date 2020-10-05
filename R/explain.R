@@ -279,7 +279,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     verbose_cat("  -> model_info        :  By deafult regressions tasks supports only numercical 'y' parameter. \n", verbose = verbose)
     verbose_cat("  -> model_info        :  Consider changing to numerical vector.\n", verbose = verbose)
     verbose_cat("  -> model_info        :  Otherwise I will not be able to calculate residuals or loss function.\n", verbose = verbose)
-  } else if (!is.numeric(y) & model_info$type == "classification") {
+  } else if ((!is.numeric(y) | !is.logical(y)) & model_info$type == "classification") {
     verbose_cat("  -> model_info        :  Model info detected classification task but 'y' is a", class(y), ".  (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
     verbose_cat("  -> model_info        :  By deafult classification tasks supports only numercical 'y' parameter. \n", verbose = verbose)
     verbose_cat("  -> model_info        :  Consider changing to numerical vector with 0 and 1 values.\n", verbose = verbose)
