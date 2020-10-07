@@ -231,7 +231,7 @@ class FairnessTest(unittest.TestCase):
                                         verbose=False)
 
         self.assertEqual(type(gfco.protected), np.ndarray)
-    
+
 
     def test_model_group_fairness(self):
         exp = FairnessTest.exp
@@ -241,6 +241,38 @@ class FairnessTest(unittest.TestCase):
                                         verbose=False)
 
         self.assertEqual(mgf.__class__.__name__, 'GroupFairnessClassificationObject')
+
+    def test_plot_fairness_check(self):
+        import plotly.graph_objects as go
+        exp = FairnessTest.exp
+        protected = FairnessTest.german_protected
+        mgf = exp.model_group_fairness(protected=protected,
+                                       privileged='male_old',
+                                       verbose=False)
+        fig = mgf.plot(show=False)
+        self.assertEqual(fig.layout.title.text, "Fairness Check")
+        self.assertEqual(fig.__class__, go.Figure)
+
+        # test errors in plots
+
+        with self.assertRaises(FarinessObjecsDifferenceError):
+            mgf_wrong = exp.model_group_fairness(protected=protected,
+                                                 privileged='male_young',
+                                                 verbose=False
+                                                 )
+            mgf.plot([mgf_wrong])
+
+        with self.assertRaises(FarinessObjecsDifferenceError):
+            exp_wrong = deepcopy(exp)
+            exp_wrong.y = exp_wrong.y[:-1]
+            exp_wrong.y_hat = exp_wrong.y_hat[:-1]
+
+            mgf_wrong = exp_wrong.model_group_fairness(protected=protected[:-1],
+                                                       privileged='male_old',
+                                                       verbose=False)
+            mgf.plot([mgf_wrong])
+
+    def test_fairness_check(self):
 
 if __name__ == '__main__':
     unittest.main()
