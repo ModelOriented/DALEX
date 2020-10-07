@@ -1,8 +1,7 @@
 from .checks import *
-from .utils import *
+from .plot import *
 from ..basics._base_objects import _FairnessObject
 from ..basics.checks import check_other_objects
-from .plot import *
 
 
 class GroupFairnessClassificationObject(_FairnessObject):
@@ -28,7 +27,7 @@ class GroupFairnessClassificationObject(_FairnessObject):
         self.metric_ratios = df_ratios
         self.label = label
 
-    def fairness_check(self, epsilon=0.8):
+    def fairness_check(self, epsilon=0.8, verbose=True):
         """Check if classifier passes popular fairness metrics
 
         Fairness check is easy way to check if model is fair. For that method uses 5 popular
@@ -51,7 +50,6 @@ class GroupFairnessClassificationObject(_FairnessObject):
         Console output
 
         """
-        # TODO: Check for NaN's
         epsilon = check_epsilon(epsilon)
         metric_ratios = self.metric_ratios
 
@@ -74,15 +72,66 @@ class GroupFairnessClassificationObject(_FairnessObject):
             conclusion = 'fair'
 
         print(f'\nConclusion: your model is {conclusion}')
+
+        if any(np.isnan(metric_ratios)):
+            verbose_cat(
+                '\nWarning!\nTake into consideration that NaN\'s are present, consider checking \'metric_scores\' '
+                'plot to see the difference', verbose=verbose)
+
         return
 
-    def plot(self, *args, type='fairness_check', show=True, **kwargs):
-        other_objects = []
-        for arg in args:
-            if isinstance(arg, GroupFairnessClassificationObject):
-                other_objects.append(arg)
+    def plot(self,
+             objects=None,
+             type='fairness_check',
+             title=None,
+             show=True,
+             **kwargs):
+        """
+        Parameters
+        -----------
+        objects : GroupFairnessClassificationObject objec
+            Additional objects to plot (default is None).
+        type : str, optional
+            Type of the plot. Default is 'farienss_check'. When the type of plot is specified, user may provide
+            additional keyword arguments (**kwargs) which will be used in creating plot of certain type. Below there
+            is list of types and **kwargs used by them
 
-        other_objects = check_other_objects(self, other_objects)
+            fairness_check:
+                fairness_check plot visualizes the fairness_check method for one or more GroupFairnessClassification objects.
+                It accepts following keyword arguments: 'epsilon' - which denotes the decision boundary (like in fairness_check method)
+
+        title : str, optional
+            Title of the plot (default depends on the `type` attribute).
+        show : bool, optional
+            True shows the plot; False returns the plotly Figure object that can be
+            edited or saved using the `write_image()` method (default is True).
+
+        Returns
+        -----------
+        None or plotly.graph_objects.Figure
+            Return figure that can be edited or saved. See `show` parameter.
+        """
+        other_objects = None
+        if objects is not None:
+            other_objects = []
+            for obj in objects:
+                if isinstance(obj, self.__class__):
+                    other_objects.append(obj)
+        if other_objects is not None:
+            check_other_objects(self, other_objects)
 
         if type == 'fairness_check':
-            plot_fairness_check(self, other_objects, show, **kwargs)
+            fig = plot_fairness_check(self,
+                                      other_objects=other_objects,
+                                      title=title, **kwargs)
+
+            if show:
+                fig.show(config={'displaylogo': False, 'staticPlot': False,
+                                 'toImageButtonOptions': {'height': None, 'width': None, },
+                                 'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
+                                                            'zoom2d',
+                                                            'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',
+                                                            'toggleSpikelines', 'hoverCompareCartesian',
+                                                            'hoverClosestCartesian']})
+            else:
+                return fig
