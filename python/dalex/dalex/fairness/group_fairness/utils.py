@@ -90,13 +90,13 @@ class SubgroupConfusionMatrixMetrics:
 
     def to_vertical_DataFrame(self) -> pd.DataFrame:
 
-        columns = ['Metric', 'Subgroup', 'Score']
+        columns = ['metric', 'subgroup', 'score']
         data = pd.DataFrame(columns=columns)
         metrics = self.subgroup_confusion_matrix_metrics
         for subgroup in metrics.keys():
             metric = metrics.get(subgroup)
             subgroup_vec = np.repeat(subgroup, len(metric))
-            sub_df = pd.DataFrame({'Metric': metric.keys(), 'Subgroup': subgroup_vec, 'Score': metric.values()})
+            sub_df = pd.DataFrame({'metric': metric.keys(), 'subgroup': subgroup_vec, 'score': metric.values()})
             data = data.append(sub_df)
         return data
 

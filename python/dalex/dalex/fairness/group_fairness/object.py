@@ -120,18 +120,30 @@ class GroupFairnessClassificationObject(_FairnessObject):
         if other_objects is not None:
             check_other_objects(self, other_objects)
 
+        config_fairness_plot = {'displaylogo': False, 'staticPlot': False,
+                                 'toImageButtonOptions': {'height': None, 'width': None, },
+                                 'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
+                                                            'zoom2d',
+                                                            'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',
+                                                            'toggleSpikelines', 'hoverCompareCartesian',
+                                                            'hoverClosestCartesian']}
+
         if type == 'fairness_check':
             fig = plot_fairness_check(self,
                                       other_objects=other_objects,
                                       title=title, **kwargs)
 
             if show:
-                fig.show(config={'displaylogo': False, 'staticPlot': False,
-                                 'toImageButtonOptions': {'height': None, 'width': None, },
-                                 'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
-                                                            'zoom2d',
-                                                            'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',
-                                                            'toggleSpikelines', 'hoverCompareCartesian',
-                                                            'hoverClosestCartesian']})
+                fig.show(config = config_fairness_plot)
+            else:
+                return fig
+
+        if type == "metric_scores" :
+            fig = plot_metric_scores(self,
+                                     other_objects = other_objects,
+                                     title = title,
+                                     **kwargs)
+            if show:
+                fig.show(config = config_fairness_plot)
             else:
                 return fig

@@ -272,7 +272,6 @@ class FairnessTest(unittest.TestCase):
                                                        verbose=False)
             mgf.plot([mgf_wrong])
 
-    def test_fairness_check(self):
 
 if __name__ == '__main__':
     unittest.main()

@@ -8,7 +8,12 @@ from ..._explainer.theme import get_default_colors
 import warnings
 
 
-def plot_fairness_check(fobject, title=None, other_objects=None, show=True, epsilon=0.8, verbose=True):
+def plot_fairness_check(fobject,
+                        title=None,
+                        other_objects=None,
+                        epsilon=0.8,
+                        verbose=True):
+
     data = _metric_ratios_2DF(fobject)
     n = 1
     if other_objects is not None:
@@ -146,7 +151,31 @@ def plot_fairness_check(fobject, title=None, other_objects=None, show=True, epsi
 
     return fig
 
+def plot_metric_scores(fobject,
+                       other_objects,
+                       title = None):
 
+    data = fobject.subgroup_metrics.to_vertical_DataFrame()
+    data['label'] =  np.repeat(fobject.label, data.shape[0]).astype('U')
+    n = 1
+    if other_objects is not None:
+        check_other_FairnessObjects(fobject, other_objects)
+        for other_obj in other_objects:
+            other_data = other_obj.subgroup_metrics.to_vertical_DataFrame()
+            other_data['label'] = np.repeat(other_obj.label, other_data.shape[0]).astype('U')
+            data = data.append(other_data)
+            n += 1
+
+    data = data.loc[data.metric.isin(fairness_check_metrics())]
+    data.label
+    fig = px.scatter(data,
+                     x='score',
+                     y='subgroup',
+                     color = 'label',
+                     facet_col='metric',
+                     facet_col_wrap=1)
+
+    fig.show()
 
 def _metric_ratios_2DF(fobject):
     """
