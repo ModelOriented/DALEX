@@ -70,14 +70,20 @@ def check_other_FairnessObjects(fobject, other):
     Checking compatibility of GroupFairnessClassification objects
     """
     for other_obj in other:
+        if fobject.protected.shape != other_obj.protected.shape:
+            raise FarinessObjecsDifferenceError('protected attributes have different shapes')
+
         if any(fobject.protected != other_obj.protected):
             raise FarinessObjecsDifferenceError('protected attributes are not the same')
 
         if fobject.privileged != other_obj.privileged:
             raise FarinessObjecsDifferenceError('privileged subgroups are not the same')
 
+        if fobject.y.shape != other_obj.y.shape:
+            raise FarinessObjecsDifferenceError('target variable (y) has different shape among explainers')
+
         if any(fobject.y != other_obj.y):
-            raise FarinessObjecsDifferenceError('target variable (y) is not the same')
+            raise FarinessObjecsDifferenceError('target variable (y) is not the same among explainers')
 
     # check uniqueness of label
     labels = [fobject.label]
