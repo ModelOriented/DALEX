@@ -181,11 +181,11 @@ def plot_metric_scores(fobject,
 
     for i in range(len(data.subgroup.unique())):
         subgroup = data.subgroup.unique()[i]
-        subgroup_tick_dict[subgroup] = tick_values[i]
+        subgroup_tick_dict[subgroup] = i
 
     for i in range(len(data.label.unique())):
         label = data.label.unique()[i]
-        label_tick_dict[label] = i
+        label_tick_dict[label] = tick_values[i]
 
     data['subgroup_numeric'] = [subgroup_tick_dict.get(sub) for sub in data.subgroup]
     data = data.reset_index(drop=True)
@@ -229,7 +229,7 @@ def plot_metric_scores(fobject,
                 y = float(data.loc[(data.metric == metric) &
                                    (data.label == label) &
                                    (data.subgroup == subgroup)].subgroup_numeric)
-
+                # horizontal
                 fig.add_shape(type='line',
                               xref='x',
                               yref=refs_dict.get(metric),
@@ -243,14 +243,14 @@ def plot_metric_scores(fobject,
                                   color=color_dict.get(label),
                                   width=1),
                               layer='below')
-
+            # vertical
             fig.add_shape(type='line',
                           xref='x',
                           yref=refs_dict.get(metric),
                           x0=x,
                           x1=x,
-                          y0=np.round(label_tick_dict.get(label), 2),
-                          y1=np.round(label_tick_dict.get(label) + 1, 2),
+                          y0=0,
+                          y1=np.ceil(max(data.subgroup_numeric)),
                           line=dict(
                               color=color_dict.get(label),
                               width=1),
