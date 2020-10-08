@@ -5,6 +5,7 @@ from .utils import *
 from ..basics.checks import check_other_FairnessObjects
 from ..._explainer.helper import verbose_cat
 from ..._explainer.theme import get_default_colors
+from plotly.validators.scatter.marker import SymbolValidator
 import warnings
 
 
@@ -132,13 +133,11 @@ def plot_fairness_check(fobject,
 
     # delete 'metric=' from facet names
     fig.for_each_annotation(
-        lambda a: a.update(text=a.text.replace("metric=", ""), xanchor='left', x=0, font={'size': 15}))
+        lambda a: a.update(text=a.text.replace("metric=", ""), xanchor='left', x=0.05, font={'size': 15}))
 
     # delete y axis names [fixed] number of refs
-    fig['layout']['yaxis']['title']['text'] = ''
-    fig['layout']['yaxis2']['title']['text'] = ''
-    fig['layout']['yaxis4']['title']['text'] = ''
-    fig['layout']['yaxis5']['title']['text'] = ''
+    for i in ['', '2', '4', '5']:
+        fig.update_layout({'yaxis' + i + '_title_text': ''})
 
     fig.update_layout(legend=dict(
         orientation="h",
@@ -199,6 +198,13 @@ def plot_metric_scores(fobject,
                      facet_col='metric',
                      facet_col_wrap=1)
 
+    sub_label, sub_level = pd.factorize(data.subgroup)
+    fig.update_traces(mode='markers',
+                      marker_size=10,
+                      marker_symbol= sub_label )
+
+    fig.update_xaxes(tickvals = np.arange(0,1.01,0.1))
+
     # cols and ref dicts are dependent on the arrangement of metrics and labels
     color_dict = {}
     colors = get_default_colors(len(data.label.unique()), 'line')
@@ -218,25 +224,25 @@ def plot_metric_scores(fobject,
         for label in data.label.unique():
             x = float(privileged_data.loc[(privileged_data.metric == metric) &
                                           (privileged_data.label == label), :].score)
-
+            # lines
             for subgroup in data.subgroup.unique():
                 y = float(data.loc[(data.metric == metric) &
-                                          (data.label == label) &
-                                          (data.subgroup == subgroup)].subgroup_numeric)
+                                   (data.label == label) &
+                                   (data.subgroup == subgroup)].subgroup_numeric)
 
                 fig.add_shape(type='line',
                               xref='x',
                               yref=refs_dict.get(metric),
                               x0=float(data.loc[(data.metric == metric) &
-                                          (data.label == label) &
-                                          (data.subgroup == subgroup)].score),
+                                                (data.label == label) &
+                                                (data.subgroup == subgroup)].score),
                               x1=x,
                               y0=y,
                               y1=y,
                               line=dict(
                                   color=color_dict.get(label),
-                                  width=1))
-
+                                  width=1),
+                              layer='below')
 
             fig.add_shape(type='line',
                           xref='x',
@@ -247,19 +253,40 @@ def plot_metric_scores(fobject,
                           y1=np.round(label_tick_dict.get(label) + 1, 2),
                           line=dict(
                               color=color_dict.get(label),
-                              width=1))
+                              width=1),
+                          layer='below')
 
     if title is None:
         title = 'Metric Scores'
 
     fig.update_layout(title_text=title,
+                      template='plotly_white',
                       title_x=0.5,
                       title_y=0.99,
                       titlefont={'size': 25},
                       font={'color': "#371ea3"},
                       margin={'t': 78, 'b': 71, 'r': 30})
 
-    fig.show()
+    fig.for_each_annotation(
+        lambda a: a.update(text=a.text.replace("metric=", ""), xanchor='left', x=0.05, font={'size': 15}))
+
+    fig.update_layout(legend=dict(
+        orientation="h",
+        yanchor="bottom",
+        y=1.03,
+        x=0.5,
+        xanchor='center'
+    ))
+
+    # disable all y grids and
+    # delete y axis names [fixed] number of refs
+    for i in ['', '2', '3', '4', '5']:
+        fig.update_layout({'yaxis' + i + '_showgrid': False,
+                           'yaxis' + i + '_zeroline': False})
+        if i != '3':
+            fig.update_layout({'yaxis' + i + '_title_text': ''})
+
+    return fig
 
 
 def _metric_ratios_2DF(fobject):
