@@ -194,24 +194,30 @@ def plot_metric_scores(fobject,
     data = data.reset_index(drop=True)
     data.subgroup_numeric = data.subgroup_numeric + pd.Series([label_tick_dict.get(lab) for lab in data.label])
 
+    # drwhy colors
+    colors = get_default_colors(len(data.label.unique()), 'line')
+
     # fig creation
     fig = px.scatter(data,
                      x='score',
                      y='subgroup_numeric',
                      color='label',
+                     color_discrete_sequence=colors,
                      facet_col='metric',
-                     facet_col_wrap=1)
+                     facet_col_wrap=1,
+                     hover_name="label",
+                     hover_data={
+                         'label': False,
+                         'metric': False,
+                         'subgroup_numeric': False})
 
-    sub_label, sub_level = pd.factorize(data.subgroup)
     fig.update_traces(mode='markers',
-                      marker_size=10,
-                      marker_symbol=sub_label)
+                      marker_size=10)
 
     fig.update_xaxes(tickvals=np.arange(0, 1.01, 0.1))
 
     # cols and ref dicts are dependent on the arrangement of metrics and labels
     color_dict = {}
-    colors = get_default_colors(len(data.label.unique()), 'line')
     k = 1
     for label in data.label.unique():
         color_dict[label] = colors[len(colors) - k]

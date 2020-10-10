@@ -73,7 +73,7 @@ class GroupFairnessClassificationObject(_FairnessObject):
 
         print(f'\nConclusion: your model is {conclusion}')
 
-        if any(np.isnan(metric_ratios)):
+        if np.isnan(metric_ratios).sum().sum() > 0:
             verbose_cat(
                 '\nWarning!\nTake into consideration that NaN\'s are present, consider checking \'metric_scores\' '
                 'plot to see the difference', verbose=verbose)
@@ -121,12 +121,12 @@ class GroupFairnessClassificationObject(_FairnessObject):
             check_other_objects(self, other_objects)
 
         config_fairness_plot = {'displaylogo': False, 'staticPlot': False,
-                                 'toImageButtonOptions': {'height': None, 'width': None, },
-                                 'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
-                                                            'zoom2d',
-                                                            'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',
-                                                            'toggleSpikelines', 'hoverCompareCartesian',
-                                                            'hoverClosestCartesian']}
+                                'toImageButtonOptions': {'height': None, 'width': None, },
+                                'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
+                                                           'zoom2d',
+                                                           'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',
+                                                           'toggleSpikelines', 'hoverCompareCartesian',
+                                                           'hoverClosestCartesian']}
 
         if type == 'fairness_check':
             fig = plot_fairness_check(self,
@@ -134,16 +134,16 @@ class GroupFairnessClassificationObject(_FairnessObject):
                                       title=title, **kwargs)
 
             if show:
-                fig.show(config = config_fairness_plot)
+                fig.show(config=config_fairness_plot)
             else:
                 return fig
 
-        if type == "metric_scores" :
+        if type == "metric_scores":
             fig = plot_metric_scores(self,
-                                     other_objects = other_objects,
-                                     title = title,
+                                     other_objects=other_objects,
+                                     title=title,
                                      **kwargs)
             if show:
-                fig.show(config = config_fairness_plot)
+                fig.show(config=config_fairness_plot)
             else:
                 return fig
