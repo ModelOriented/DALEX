@@ -164,21 +164,24 @@ def plot_metric_scores(fobject,
             data = data.append(other_data)
             n += 1
 
-    # subgroup y-axis value creation
+    # metric choosing and name change
+    data = data.loc[data.metric.isin(fairness_check_metrics())]
+    data.loc[data.metric == 'TPR', 'metric'] = 'TPR    TP/(TP + FN)'
+    data.loc[data.metric == 'ACC', 'metric'] = 'ACC   (TP + TN)/(TP + FP + TN + FN)'
+    data.loc[data.metric == 'PPV', 'metric'] = 'PPV    TP/(TP + FP)'
+    data.loc[data.metric == 'FPR', 'metric'] = 'FPR    FP/(FP + TN)'
+    data.loc[data.metric == 'STP', 'metric'] = 'STP   (TP + FP)/(TP + FP + TN + FN)'
 
+    # subgroup y-axis value creation
     n_ticks = len(data.subgroup.unique())
     tick_values = np.arange(0, 1.01, 1 / n_ticks)
-    upper_free_tick = tick_values[-1]
-    lower_free_tick = tick_values[0]
     tick_values = tick_values[1:-1]
 
     privileged_data = data.loc[data.subgroup == fobject.privileged]
     data = data.loc[data.subgroup != fobject.privileged]
 
-    data = data.loc[data.metric.isin(fairness_check_metrics())]
     subgroup_tick_dict = {}
     label_tick_dict = {}
-
     for i in range(len(data.subgroup.unique())):
         subgroup = data.subgroup.unique()[i]
         subgroup_tick_dict[subgroup] = i
@@ -191,6 +194,7 @@ def plot_metric_scores(fobject,
     data = data.reset_index(drop=True)
     data.subgroup_numeric = data.subgroup_numeric + pd.Series([label_tick_dict.get(lab) for lab in data.label])
 
+    # fig creation
     fig = px.scatter(data,
                      x='score',
                      y='subgroup_numeric',
@@ -201,9 +205,9 @@ def plot_metric_scores(fobject,
     sub_label, sub_level = pd.factorize(data.subgroup)
     fig.update_traces(mode='markers',
                       marker_size=10,
-                      marker_symbol= sub_label )
+                      marker_symbol=sub_label)
 
-    fig.update_xaxes(tickvals = np.arange(0,1.01,0.1))
+    fig.update_xaxes(tickvals=np.arange(0, 1.01, 0.1))
 
     # cols and ref dicts are dependent on the arrangement of metrics and labels
     color_dict = {}
@@ -219,7 +223,7 @@ def plot_metric_scores(fobject,
     for metric in data.metric.unique():
         refs_dict[metric] = refs[len(refs) - j]
         j += 1
-
+    # add lines
     for metric in data.metric.unique():
         for label in data.label.unique():
             x = float(privileged_data.loc[(privileged_data.metric == metric) &
@@ -253,7 +257,7 @@ def plot_metric_scores(fobject,
                           y1=np.ceil(max(data.subgroup_numeric)),
                           line=dict(
                               color=color_dict.get(label),
-                              width=1),
+                              width=2),
                           layer='below')
 
     if title is None:
@@ -285,6 +289,14 @@ def plot_metric_scores(fobject,
                            'yaxis' + i + '_zeroline': False})
         if i != '3':
             fig.update_layout({'yaxis' + i + '_title_text': ''})
+
+    # names on y axis - each subgroup in middle of integers - 0.5, 1.5 ,...
+    subgroup_tick_dict_updated = {}
+    for sub, val in subgroup_tick_dict.items():
+        subgroup_tick_dict_updated[sub] = val + 0.5
+
+    fig.update_yaxes(tickvals=list(subgroup_tick_dict_updated.values()),
+                     ticktext=list(subgroup_tick_dict_updated.keys()))
 
     return fig
 
