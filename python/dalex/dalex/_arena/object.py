@@ -1,6 +1,7 @@
 import threading
 import time
 import numpy as np
+import webbrowser
 from datetime import datetime
 from dalex import Explainer
 from pandas.core.frame import DataFrame
@@ -9,6 +10,7 @@ from ._plot_container import PlotContainer
 from .params import ModelParam, DatasetParam, VariableParam, ObservationParam, Param
 from .plots import *
 from .._global_checks import global_check_import
+from .static import get_json, upload_arena, generate_token
 
 class Arena:
     """ Creates Arena object
@@ -565,13 +567,13 @@ class Arena:
         dict or list
         """
 
-        if not self.enable_attributes:
-            return {}
         if param_type is None:
             obj = {}
             for p in ['model', 'observation', 'variable', 'dataset']:
                 obj[p] = self.get_params_attributes(p)
             return obj
+        if not self.enable_attributes:
+            return []
         attrs = Param.get_param_class(param_type).list_attributes(self)
         array = []
         for attr in attrs:
@@ -606,3 +608,50 @@ class Arena:
             return param_value.get_attributes()
         else:
             return {}
+
+    def save(self, filename="datasource.json"):
+        """Generate all plots and saves them to JSON file
+
+        Function generates only not cached plots.
+
+        Parameters
+        -----------
+        filename : str
+            Path or filename to output file
+
+        Returns
+        --------
+        None
+        """
+        with open(filename, 'w') as file:
+            file.write(get_json(self))
+
+    def upload(self, token=None, arena_url='https://arena.drwhy.ai/', open_browser=True):
+        """Generate all plots and uploads them to GitHub Gist
+
+        Function generates only not cached plots. If token is not provided
+        then function uses OAuth to open GitHub authorization page.
+
+        Parameters
+        -----------
+        token : str or None
+            GitHub personal access token. If token is None, then OAuth is used.
+        arena_url : str
+            Address of Arena dashboard instance
+        open_browser : bool
+            Whether to open Arena after upload.
+
+        Returns
+        --------
+        Link to the Arena
+        """
+        global_check_import('requests')
+        if token is None:
+            global_check_import('flask')
+            global_check_import('flask_cors')
+            token = generate_token()
+        data_url = upload_arena(self, token)
+        url = arena_url + '?data=' + data_url
+        if open_browser:
+            webbrowser.open(url)
+        return url
