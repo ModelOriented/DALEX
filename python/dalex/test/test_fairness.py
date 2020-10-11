@@ -253,6 +253,9 @@ class FairnessTest(unittest.TestCase):
         self.assertEqual(fig.layout.title.text, "Fairness Check")
         self.assertEqual(fig.__class__, go.Figure)
 
+
+        #fig['']
+
         # test errors in plots
 
         with self.assertRaises(FarinessObjecsDifferenceError):
@@ -271,6 +274,7 @@ class FairnessTest(unittest.TestCase):
                                                        privileged='male_old',
                                                        verbose=False)
             mgf.plot([mgf_wrong])
+
 
 
 if __name__ == '__main__':

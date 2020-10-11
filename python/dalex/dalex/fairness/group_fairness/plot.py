@@ -68,6 +68,11 @@ def plot_fairness_check(fobject,
                      ticktext=(ticks + 1).round(1),
                      range=[lower_bound, upper_bound])
 
+    # sometimes in jupyter it does not show all y variables, this code seems to prevent this
+    data_unprivileged = data.loc[data.subgroup != fobject.privileged, :]
+    fig.update_yaxes(tickvals=data_unprivileged.subgroup.unique(),
+                    ticktext=data_unprivileged.subgroup.unique())
+
     # refs are dependent on fixed numbers of metrics
     refs = ['y', 'y2', 'y3', 'y4', 'y5']
     left_red = [{'type': "rect",
@@ -139,13 +144,7 @@ def plot_fairness_check(fobject,
     for i in ['', '2', '4', '5']:
         fig.update_layout({'yaxis' + i + '_title_text': ''})
 
-    fig.update_layout(legend=dict(
-        orientation="h",
-        yanchor="bottom",
-        y=1.03,
-        x=0.5,
-        xanchor='center'
-    ))
+
 
     return fig
 
@@ -172,9 +171,13 @@ def plot_metric_scores(fobject,
     data.loc[data.metric == 'FPR', 'metric'] = 'FPR    FP/(FP + TN)'
     data.loc[data.metric == 'STP', 'metric'] = 'STP   (TP + FP)/(TP + FP + TN + FN)'
 
+    # for x axis
+    min_score = min(data.score)
+    max_score = max(data.score)
+
     # subgroup y-axis value creation
-    n_ticks = len(data.subgroup.unique())
-    tick_values = np.arange(0, 1.01, 1 / n_ticks)
+    n_ticks = len(data.label.unique())
+    tick_values = np.arange(0, 1.01, 1 / (n_ticks +1))
     tick_values = tick_values[1:-1]
 
     privileged_data = data.loc[data.subgroup == fobject.privileged]
@@ -218,9 +221,9 @@ def plot_metric_scores(fobject,
 
     # cols and ref dicts are dependent on the arrangement of metrics and labels
     color_dict = {}
-    k = 1
+    k = 0
     for label in data.label.unique():
-        color_dict[label] = colors[len(colors) - k]
+        color_dict[label] = colors[k]
         k += 1
 
     refs = ['y', 'y2', 'y3', 'y4', 'y5']
@@ -280,13 +283,13 @@ def plot_metric_scores(fobject,
     fig.for_each_annotation(
         lambda a: a.update(text=a.text.replace("metric=", ""), xanchor='left', x=0.05, font={'size': 15}))
 
-    fig.update_layout(legend=dict(
-        orientation="h",
-        yanchor="bottom",
-        y=1.03,
-        x=0.5,
-        xanchor='center'
-    ))
+    # fig.update_layout(legend=dict(
+    #     orientation="h",
+    #     yanchor="bottom",
+    #     y=1.03,
+    #     x=0.5,
+    #     xanchor='center'
+    # ))
 
     # disable all y grids and
     # delete y axis names [fixed] number of refs
@@ -301,8 +304,12 @@ def plot_metric_scores(fobject,
     for sub, val in subgroup_tick_dict.items():
         subgroup_tick_dict_updated[sub] = val + 0.5
 
+    # centers axis values
     fig.update_yaxes(tickvals=list(subgroup_tick_dict_updated.values()),
                      ticktext=list(subgroup_tick_dict_updated.keys()))
+
+    # fixes rare bug where axis are in center and blank fields on left and right
+    fig.update_xaxes(range = [min_score -0.05, max_score +0.05])
 
     return fig
 
