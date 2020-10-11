@@ -81,7 +81,6 @@ def plot_fairness_check(fobject,
             "<extra></extra>"
 
         ]))
-    fig.update_layout(hoverlabel_align='left')
 
     fig.update_yaxes(tickvals=list(subgroup_tick_dict.values()),
                      ticktext=list(subgroup_tick_dict.keys()))
@@ -223,19 +222,22 @@ def plot_metric_scores(fobject,
                      color_discrete_sequence=colors,
                      facet_col='metric',
                      facet_col_wrap=1,
-                     custom_data=['subgroup'])
+                     custom_data=['subgroup','label'])
 
     fig.update_traces(
         hovertemplate="<br>".join([
+            "<b>%{customdata[1]}</b><br>"
             "Subgroup: %{customdata[0]}",
             "Score: %{x}"
-        ]),
-        hoverlabel={'align': np.where(data.score > 0, 'right', 'left')}
-    )
+            "<extra></extra>"
 
+        ]))
+
+    # point size
     fig.update_traces(mode='markers',
-                      marker_size=10)
+                      marker_size=7)
 
+    # axis ticks
     fig.update_xaxes(tickvals=np.arange(0, 1.01, 0.1))
 
     # cols and ref dicts are dependent on the arrangement of metrics and labels
@@ -273,8 +275,7 @@ def plot_metric_scores(fobject,
                               y1=y,
                               line=dict(
                                   color=color_dict.get(label),
-                                  width=1),
-                              layer='below')
+                                  width=1))
             # vertical
             fig.add_shape(type='line',
                           xref='x',
@@ -285,9 +286,9 @@ def plot_metric_scores(fobject,
                           y1=np.ceil(max(data.subgroup_numeric)),
                           line=dict(
                               color=color_dict.get(label),
-                              width=2),
-                          layer='below')
+                              width=2))
 
+    # theme and appearance
     if title is None:
         title = 'Metric Scores'
 
@@ -301,14 +302,6 @@ def plot_metric_scores(fobject,
 
     fig.for_each_annotation(
         lambda a: a.update(text=a.text.replace("metric=", ""), xanchor='left', x=0.05, font={'size': 15}))
-
-    # fig.update_layout(legend=dict(
-    #     orientation="h",
-    #     yanchor="bottom",
-    #     y=1.03,
-    #     x=0.5,
-    #     xanchor='center'
-    # ))
 
     # disable all y grids and
     # delete y axis names [fixed] number of refs
@@ -326,6 +319,7 @@ def plot_metric_scores(fobject,
     # centers axis values
     fig.update_yaxes(tickvals=list(subgroup_tick_dict_updated.values()),
                      ticktext=list(subgroup_tick_dict_updated.keys()))
+    fig.update_layout(yaxis_title = "subgroup")
 
     # fixes rare bug where axis are in center and blank fields on left and right
     fig.update_xaxes(range=[min_score - 0.05, max_score + 0.05])
