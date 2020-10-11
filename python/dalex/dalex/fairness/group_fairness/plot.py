@@ -1,12 +1,9 @@
-from .utils import *
 import plotly.express as px
-import plotly.graph_objects as go
+
 from .utils import *
 from ..basics.checks import check_other_FairnessObjects
 from ..._explainer.helper import verbose_cat
 from ..._explainer.theme import get_default_colors
-from plotly.validators.scatter.marker import SymbolValidator
-import warnings
 
 
 def plot_fairness_check(fobject,
@@ -84,7 +81,7 @@ def plot_fairness_check(fobject,
             "<extra></extra>"
 
         ]))
-    fig.update_layout(hoverlabel_align = 'left')
+    fig.update_layout(hoverlabel_align='left')
 
     fig.update_yaxes(tickvals=list(subgroup_tick_dict.values()),
                      ticktext=list(subgroup_tick_dict.keys()))
