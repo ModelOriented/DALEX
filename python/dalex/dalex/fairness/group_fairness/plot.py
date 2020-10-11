@@ -46,9 +46,26 @@ def plot_fairness_check(fobject,
     data.loc[data.metric == 'FPR', 'metric'] = 'Predictive equality ratio   FP/(FP + TN)'
     data.loc[data.metric == 'STP', 'metric'] = 'Statistical parity ratio   (TP + FP)/(TP + FP + TN + FN)'
 
+    # without privileged
+    data = data.loc[data.subgroup != fobject.privileged]
+
+    # subgroup y-axis value creation
+    n_ticks = len(data.subgroup.unique())
+    tick_values = np.linspace(0, 1, n_ticks + 2)[1:-1]
+
+    subgroup_tick_dict = {}
+    for i in range(len(data.subgroup.unique())):
+        subgroup = data.subgroup.unique()[i]
+        subgroup_tick_dict[subgroup] = tick_values[i]
+
+    data['subgroup_numeric'] = [subgroup_tick_dict.get(sub) for sub in data.subgroup]
+    data = data.reset_index(drop=True)
+
+    # for hover
+    data['dispx'] = np.round(data.score + 1, 3)
     # make fig
     fig = px.bar(data,
-                 y='subgroup',
+                 y='subgroup_numeric',
                  x='score',
                  color='label',
                  color_discrete_sequence=colors,
@@ -56,30 +73,34 @@ def plot_fairness_check(fobject,
                  facet_col_wrap=1,
                  barmode='group',
                  orientation='h',
-                 hover_name="label",
-                 hover_data={
-                     'label': False,
-                     'metric': False,
-                     'score': False,
-                     'Ratio to privileged': np.round(data.score + 1, 2)}  # add 1 to scores
+                 custom_data=['subgroup', 'dispx', 'label']
                  )
+
+    fig.update_traces(
+        hovertemplate="<br>".join([
+            "<b>%{customdata[2]}</b><br>"
+            "Subgroup: %{customdata[0]}",
+            "Score: %{customdata[1]}",
+            "<extra></extra>"
+
+        ]))
+    fig.update_layout(hoverlabel_align = 'left')
+
+    fig.update_yaxes(tickvals=list(subgroup_tick_dict.values()),
+                     ticktext=list(subgroup_tick_dict.keys()))
+
     # change axes range and labs
     fig.update_xaxes(tickvals=ticks,
                      ticktext=(ticks + 1).round(1),
                      range=[lower_bound, upper_bound])
 
-    # sometimes in jupyter it does not show all y variables, this code seems to prevent this
-    data_unprivileged = data.loc[data.subgroup != fobject.privileged, :]
-    fig.update_yaxes(tickvals=data_unprivileged.subgroup.unique(),
-                    ticktext=data_unprivileged.subgroup.unique())
-
     # refs are dependent on fixed numbers of metrics
     refs = ['y', 'y2', 'y3', 'y4', 'y5']
     left_red = [{'type': "rect",
                  'x0': -1,
-                 'y0': -1,
+                 'y0': 0,
                  'x1': epsilon - 1,
-                 'y1': np.inf,
+                 'y1': 1,
                  'yref': yref,
                  'line': {'width': 0},
                  'fillcolor': '#f05a71',
@@ -88,9 +109,9 @@ def plot_fairness_check(fobject,
 
     middle_green = [{'type': "rect",
                      'x0': epsilon - 1,
-                     'y0': -1,
+                     'y0': 0,
                      'x1': 1 / epsilon - 1,
-                     'y1': np.inf,
+                     'y1': 1,
                      'yref': yref,
                      'line': {'width': 0},
                      'fillcolor': '#c7f5bf',
@@ -99,9 +120,9 @@ def plot_fairness_check(fobject,
 
     right_red = [{'type': "rect",
                   'x0': 1 / epsilon - 1,
-                  'y0': -1,
-                  'x1': 100000,
-                  'y1': np.inf,
+                  'y0': 0,
+                  'x1': 100000,  # hard coded :(
+                  'y1': 1,
                   'yref': yref,
                   'line': {'width': 0},
                   'fillcolor': '#f05a71',
@@ -111,8 +132,8 @@ def plot_fairness_check(fobject,
     black_line = [{'type': 'line',
                    'x0': 0,
                    'x1': 0,
-                   'y0': -1,
-                   'y1': np.inf,
+                   'y0': 0,
+                   'y1': 1,
                    'yref': yref,
                    'xref': "x",
                    'line': {'color': "#371ea3", 'width': 1.5}} for yref in refs]
@@ -123,7 +144,7 @@ def plot_fairness_check(fobject,
         fig.add_shape(middle_green[i])
         fig.add_shape(black_line[i])
 
-    fig.update_shapes(dict(xref='x'))
+        fig.update_shapes(dict(xref='x'))
 
     if title is None:
         title = 'Fairness Check'
@@ -143,8 +164,6 @@ def plot_fairness_check(fobject,
     # delete y axis names [fixed] number of refs
     for i in ['', '2', '4', '5']:
         fig.update_layout({'yaxis' + i + '_title_text': ''})
-
-
 
     return fig
 
@@ -177,8 +196,7 @@ def plot_metric_scores(fobject,
 
     # subgroup y-axis value creation
     n_ticks = len(data.label.unique())
-    tick_values = np.arange(0, 1.01, 1 / (n_ticks +1))
-    tick_values = tick_values[1:-1]
+    tick_values = np.linspace(0, 1, n_ticks + 2)[1:-1]
 
     privileged_data = data.loc[data.subgroup == fobject.privileged]
     data = data.loc[data.subgroup != fobject.privileged]
@@ -208,11 +226,15 @@ def plot_metric_scores(fobject,
                      color_discrete_sequence=colors,
                      facet_col='metric',
                      facet_col_wrap=1,
-                     hover_name="label",
-                     hover_data={
-                         'label': False,
-                         'metric': False,
-                         'subgroup_numeric': False})
+                     custom_data=['subgroup'])
+
+    fig.update_traces(
+        hovertemplate="<br>".join([
+            "Subgroup: %{customdata[0]}",
+            "Score: %{x}"
+        ]),
+        hoverlabel={'align': np.where(data.score > 0, 'right', 'left')}
+    )
 
     fig.update_traces(mode='markers',
                       marker_size=10)
@@ -309,7 +331,7 @@ def plot_metric_scores(fobject,
                      ticktext=list(subgroup_tick_dict_updated.keys()))
 
     # fixes rare bug where axis are in center and blank fields on left and right
-    fig.update_xaxes(range = [min_score -0.05, max_score +0.05])
+    fig.update_xaxes(range=[min_score - 0.05, max_score + 0.05])
 
     return fig
 
