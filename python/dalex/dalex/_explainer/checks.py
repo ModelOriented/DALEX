@@ -183,6 +183,18 @@ def check_predict_function_and_model_type(predict_function, model_type,
 
     y_hat = None
     if data is not None:
+        # check if predict_function accepts arrays
+        try:
+            data_values = data.values[[0]]
+            predict_function(model, data_values)
+            model_info_['arrays_accepted'] = True
+            verbose_cat("  -> predict function  : accepts pandas.DataFrame and numpy.ndarray",
+                        verbose=verbose)
+        except:
+            model_info_['arrays_accepted'] = False
+            verbose_cat("  -> predict function  : accepts only pandas.DataFrame, numpy.ndarray causes problems",
+                        verbose=verbose)
+
         if verbose or precalculate:
             try:
                 y_hat = predict_function(model, data)
@@ -196,20 +208,8 @@ def check_predict_function_and_model_type(predict_function, model_type,
                 warn("\n  -> predicted values  : the predict_function returns an error when executed \n" +
                      str(error), stacklevel=2)
 
-        if not isinstance(y_hat, np.ndarray) or y_hat.shape != (data.shape[0], ):
-            warn("\n  -> predicted values  : predict_function must return numpy.ndarray (1d)", stacklevel=2)
-
-        # check if predict_function accepts arrays
-        try:
-            data_values = data.values[[0]]
-            predict_function(model, data_values)
-            model_info_['arrays_accepted'] = True
-            verbose_cat("  -> predict function  : accepts pandas.DataFrame and numpy.ndarray",
-                        verbose=verbose)
-        except:
-            model_info_['arrays_accepted'] = False
-            verbose_cat("  -> predict function  : accepts only pandas.DataFrame, numpy.ndarray causes problems",
-                        verbose=verbose)
+            if not isinstance(y_hat, np.ndarray) or y_hat.shape != (data.shape[0], ):
+                warn("\n  -> predicted values  : predict_function must return numpy.ndarray (1d)", stacklevel=2)
 
     if model_type is None:
         # model_type not specified

@@ -48,6 +48,8 @@ def run_setup():
 
     setup(
         name="dalex",
+        maintainer="Hubert Baniecki",
+        maintainer_email="hbaniecki@gmail.com",
         author="Wojciech Kretowicz, Hubert Baniecki, Przemyslaw Biecek",
         author_email="wojtekkretowicz@gmail.com, hbaniecki@gmail.com",
         version=get_version("dalex/__init__.py"),

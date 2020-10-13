@@ -1,7 +1,14 @@
 dalex (development)
 ----------------------------------------------------------------
 
-...
+### bug fixes
+
+* removed unnecessary warning when `precalculate=False and verbose=False` ([#340](https://github.com/ModelOriented/DALEX/issues/340))
+
+### defaults
+
+* added the `N=500000` argument to `ResidualDiagnostics.plot`, which samples observations from 
+ the `result` parameter to omit performance issues when `smooth=True` ([#341](https://github.com/ModelOriented/DALEX/issues/341))
 
 dalex 0.2.2
 ----------------------------------------------------------------
