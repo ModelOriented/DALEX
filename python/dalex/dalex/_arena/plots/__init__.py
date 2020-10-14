@@ -5,6 +5,7 @@ from ._partial_dependence_container import PartialDependenceContainer
 from ._accumulated_dependence_container import AccumulatedDependenceContainer
 from ._ceteris_paribus_container import CeterisParibusContainer
 from ._metrics_container import MetricsContainer
+from ._roc_container import ROCContainer
 
 __all__ = [
     'ShapleyValuesContainer',
@@ -13,5 +14,6 @@ __all__ = [
     'AccumulatedDependenceContainer',
     'CeterisParibusContainer',
     'BreakDownContainer',
-    'MetricsContainer'
+    'MetricsContainer',
+    'ROCContainer'
 ]

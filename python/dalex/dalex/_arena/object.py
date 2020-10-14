@@ -80,7 +80,8 @@ class Arena:
             AccumulatedDependenceContainer,
             CeterisParibusContainer,
             BreakDownContainer,
-            MetricsContainer
+            MetricsContainer,
+            ROCContainer
         ]
         self.options = {}
         for plot in self.plots:
