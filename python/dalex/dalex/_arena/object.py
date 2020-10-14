@@ -157,7 +157,10 @@ class Arena:
         -------
         This function must be called from mutex context
         """
-        self.cache = list(filter(lambda p: p.plot_type != plot_type, self.cache))
+        if plot_type is None:
+            self.cache = []
+        else:
+            self.cache = list(filter(lambda p: p.plot_type != plot_type, self.cache))
         self.update_timestamp()
 
     def find_in_cache(self, plot_type, params):
