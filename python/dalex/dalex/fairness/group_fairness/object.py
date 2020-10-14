@@ -92,13 +92,17 @@ class GroupFairnessClassificationObject(_FairnessObject):
         objects : GroupFairnessClassificationObject objec
             Additional objects to plot (default is None).
         type : str, optional
-            Type of the plot. Default is 'farienss_check'. When the type of plot is specified, user may provide
+            Type of the plot. Default is 'fairness_check'. When the type of plot is specified, user may provide
             additional keyword arguments (**kwargs) which will be used in creating plot of certain type. Below there
             is list of types and **kwargs used by them
 
             fairness_check:
                 fairness_check plot visualizes the fairness_check method for one or more GroupFairnessClassification objects.
                 It accepts following keyword arguments: 'epsilon' - which denotes the decision boundary (like in fairness_check method)
+            metric_scores:
+                metric_scores plot shows real values of metrics. Each model displays values in each metric and each subgroup.
+                Vertical lines show metric score for privileged subgroup and points connected with the lines
+                show scores for unprivileged subgroups. This plot is simple and it does not have additional keyword arguments.
 
         title : str, optional
             Title of the plot (default depends on the `type` attribute).
