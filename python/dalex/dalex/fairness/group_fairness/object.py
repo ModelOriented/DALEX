@@ -4,7 +4,7 @@ from ..basics._base_objects import _FairnessObject
 from ..basics.checks import check_other_objects
 
 
-class GroupFairnessClassificationObject(_FairnessObject):
+class GroupFairnessClassification(_FairnessObject):
 
     def __init__(self, y, y_hat, protected, privileged, label, verbose=True, cutoff=0.5):
 
@@ -22,7 +22,8 @@ class GroupFairnessClassificationObject(_FairnessObject):
         df_ratios = calculate_ratio(sub_confusion_matrix_metrics, self.privileged)
         parity_loss = calculate_parity_loss(sub_confusion_matrix_metrics, self.privileged)
 
-        self.subgroup_metrics = sub_confusion_matrix_metrics
+        self._subgroup_confusion_matrix_metrics_object = sub_confusion_matrix_metrics
+        self.subgroup_metrics = sub_confusion_matrix_metrics.to_horizontal_DataFrame()
         self.parity_loss = parity_loss
         self.metric_ratios = df_ratios
         self.label = label
@@ -30,9 +31,11 @@ class GroupFairnessClassificationObject(_FairnessObject):
     def fairness_check(self, epsilon=0.8, verbose=True):
         """Check if classifier passes popular fairness metrics
 
-        Fairness check is easy way to check if model is fair. For that method uses 5 popular
-        metrics of group fairness. Model is considered to be fair if confusion matrix metrics are
-        close to each other. This arbitrary decision is based on epsilon, which default value
+        Fairness check is easy way to check if model is fair.
+        For that method uses 5 popular metrics of group fairness.
+        Model is considered to be fair if confusion matrix
+        metrics are close to each other.
+        This arbitrary decision is based on epsilon, which default value
         is 0.8 which matches four-fifths (80%) rule.
 
         Methods in use: Equal opportunity, Predictive parity, Predictive equality,
@@ -41,8 +44,9 @@ class GroupFairnessClassificationObject(_FairnessObject):
         Parameters
         -----------
         epsilon : float (default 0.8)
-            Parameter defines acceptable fairness scores. The closer to 1 the more strict the vardict is.
-            If the ratio of certain unprivileged and privileged subgroup is within (epsilon, 1/epsilon) than
+            Parameter defines acceptable fairness scores. The closer to 1 the
+            more strict the vardict is. If the ratio of certain unprivileged
+            and privileged subgroup is within (epsilon, 1/epsilon) than
             there is no discrimination in this metric and for this subgroups.
 
         Returns
@@ -89,20 +93,29 @@ class GroupFairnessClassificationObject(_FairnessObject):
         """
         Parameters
         -----------
-        objects : GroupFairnessClassificationObject objec
+        objects : GroupFairnessClassification object
             Additional objects to plot (default is None).
         type : str, optional
-            Type of the plot. Default is 'fairness_check'. When the type of plot is specified, user may provide
-            additional keyword arguments (**kwargs) which will be used in creating plot of certain type. Below there
-            is list of types and **kwargs used by them
+            Type of the plot. Default is 'fairness_check'.
+            When the type of plot is specified, user may provide additional
+            keyword arguments (**kwargs) which will
+            be used in creating plot of certain type.
+            Below there is list of types and **kwargs used by them
 
             fairness_check:
-                fairness_check plot visualizes the fairness_check method for one or more GroupFairnessClassification objects.
-                It accepts following keyword arguments: 'epsilon' - which denotes the decision boundary (like in fairness_check method)
+                fairness_check plot visualizes the fairness_check method
+                for one or more GroupFairnessClassification objects.
+                It accepts following keyword arguments:
+                 'epsilon' - which denotes the decision
+                             boundary (like in fairness_check method)
             metric_scores:
-                metric_scores plot shows real values of metrics. Each model displays values in each metric and each subgroup.
-                Vertical lines show metric score for privileged subgroup and points connected with the lines
-                show scores for unprivileged subgroups. This plot is simple and it does not have additional keyword arguments.
+                metric_scores plot shows real values of metrics.
+                Each model displays values in each metric and each subgroup.
+                Vertical lines show metric score for privileged
+                subgroup and points connected with the lines
+                show scores for unprivileged subgroups.
+                This plot is simple and it does
+                not have additional keyword arguments.
 
         title : str, optional
             Title of the plot (default depends on the `type` attribute).

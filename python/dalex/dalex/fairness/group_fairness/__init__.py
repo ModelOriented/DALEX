@@ -1,5 +1,5 @@
-from .object import GroupFairnessClassificationObject
+from .object import GroupFairnessClassification
 
 __all__ = [
-    "GroupFairnessClassificationObject"
+    "GroupFairnessClassification"
 ]

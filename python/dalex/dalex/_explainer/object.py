@@ -4,7 +4,7 @@ from dalex.instance_level import BreakDown, Shap, CeterisParibus
 from dalex.wrappers import ShapWrapper
 from .checks import *
 from .utils import unpack_kwargs_lime, create_surrogate_model
-from dalex.fairness.group_fairness import GroupFairnessClassificationObject
+from dalex.fairness.group_fairness import GroupFairnessClassification
 from dalex.fairness.basics.exceptions import *
 
 
@@ -742,10 +742,10 @@ class Explainer:
 
         return surrogate_model
 
-    def model_group_fairness(self, protected, privileged, cutoff=0.5, **kwargs):
+    def model_fairness(self, protected, privileged, cutoff=0.5, **kwargs):
         """Creates GroupFairnessObject that enables bias detection and visualization.
 
-        Method returns GroupFairnessObject that for now supports explained classifiers.
+        Method returns GroupFairness Object that for now supports explained classifiers.
         GroupFairnessObject works as a wrapper of protected attribute and explainer from which
         y and y_hat attributes were extracted. Along with information about privileged subgroup
         (value in protected attribute) those 3 vectors create triplet (Y, Y_hat, Protected) which is a base for all fairness
@@ -771,22 +771,22 @@ class Explainer:
 
         Returns
         -----------
-        GroupFairnessClassificationObject a subclass of _FairnessObject
+        GroupFairnessClassification a subclass of _FairnessObject
         Object that is ready for other transformations and visualizations which is
         all user needs for detecting unfairness.
 
         """
 
         if self.model_type != 'classification':
-            raise TypeNotSupportedError("fairness module at the moment supports only explainers of type classification")
+            raise ModelTypeNotSupportedError("fairness module at the moment supports only explainers of type classification")
 
-        fobject = GroupFairnessClassificationObject(y=self.y,
-                                                    y_hat=self.y_hat,
-                                                    protected=protected,
-                                                    privileged=privileged,
-                                                    cutoff=cutoff,
-                                                    label=self.label,
-                                                    **kwargs)
+        fobject = GroupFairnessClassification(y=self.y,
+                                              y_hat=self.y_hat,
+                                              protected=protected,
+                                              privileged=privileged,
+                                              cutoff=cutoff,
+                                              label=self.label,
+                                              **kwargs)
 
         return fobject
 

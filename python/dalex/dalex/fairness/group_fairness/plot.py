@@ -93,7 +93,7 @@ def plot_fairness_check(fobject,
     # refs are dependent on fixed numbers of metrics
     refs = ['y', 'y2', 'y3', 'y4', 'y5']
     left_red = [{'type': "rect",
-                 'x0': -1,
+                 'x0': lower_bound,
                  'y0': 0,
                  'x1': epsilon - 1,
                  'y1': 1,
@@ -117,7 +117,7 @@ def plot_fairness_check(fobject,
     right_red = [{'type': "rect",
                   'x0': 1 / epsilon - 1,
                   'y0': 0,
-                  'x1': 100000,  # hard coded :(
+                  'x1': upper_bound,
                   'y1': 1,
                   'yref': yref,
                   'line': {'width': 0},
@@ -161,19 +161,21 @@ def plot_fairness_check(fobject,
     for i in ['', '2', '4', '5']:
         fig.update_layout({'yaxis' + i + '_title_text': ''})
 
+    fig.update_layout({'yaxis3_title_text': 'subgroup'})
+
     return fig
 
 
 def plot_metric_scores(fobject,
                        other_objects,
                        title=None):
-    data = fobject.subgroup_metrics.to_vertical_DataFrame()
+    data = fobject._subgroup_confusion_matrix_metrics_object.to_vertical_DataFrame()
     data['label'] = np.repeat(fobject.label, data.shape[0]).astype('U')
     n = 1
     if other_objects is not None:
         check_other_FairnessObjects(fobject, other_objects)
         for other_obj in other_objects:
-            other_data = other_obj.subgroup_metrics.to_vertical_DataFrame()
+            other_data = other_obj._subgroup_confusion_matrix_metrics_object.to_vertical_DataFrame()
             other_data['label'] = np.repeat(other_obj.label, other_data.shape[0]).astype('U')
             data = data.append(other_data)
             n += 1
@@ -319,7 +321,12 @@ def plot_metric_scores(fobject,
     # centers axis values
     fig.update_yaxes(tickvals=list(subgroup_tick_dict_updated.values()),
                      ticktext=list(subgroup_tick_dict_updated.keys()))
-    fig.update_layout(yaxis_title = "subgroup")
+
+    # delete y axis names [fixed] number of refs
+    for i in ['', '2', '4', '5']:
+        fig.update_layout({'yaxis' + i + '_title_text': ''})
+
+    fig.update_layout({'yaxis3_title_text': 'subgroup'})
 
     # fixes rare bug where axis are in center and blank fields on left and right
     fig.update_xaxes(range=[min_score - 0.05, max_score + 0.05])
@@ -329,7 +336,7 @@ def plot_metric_scores(fobject,
 
 def _metric_ratios_2DF(fobject):
     """
-    Converts GroupFairnessClassificationObject
+    Converts GroupFairnessClassification
     to elegant DataFrame with 4 columns (subgroup, metric, score, label)
     """
 

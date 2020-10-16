@@ -14,7 +14,7 @@ class ParameterCheckError(Exception):
             return 'Parameter Check Error has been raised'
 
 
-class TypeNotSupportedError(Exception):
+class ModelTypeNotSupportedError(Exception):
 
     def __init__(self, *args):
         if args:
@@ -25,11 +25,12 @@ class TypeNotSupportedError(Exception):
     def __str__(self):
 
         if self.message:
-            return f'Type Not Supported Error, {self.message}'
+            return f'Model Type Not Supported Error, {self.message}'
         else:
-            return 'Type Not Supported Error has been raised'
+            return 'Model Type Not Supported Error has been raised'
 
-class FarinessObjecsDifferenceError(Exception):
+
+class FairnessObjectsDifferenceError(Exception):
 
     def __init__(self, *args):
         if args:

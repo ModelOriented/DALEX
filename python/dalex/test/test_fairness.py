@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 from dalex.fairness.group_fairness.utils import *
-from dalex.fairness.group_fairness.object import GroupFairnessClassificationObject
+from dalex.fairness.group_fairness.object import GroupFairnessClassification
 from dalex.fairness.basics.exceptions import *
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
@@ -125,7 +125,7 @@ class FairnessTest(unittest.TestCase):
         TPR_parity_loss = parity_loss.iloc[0]
 
         TPR_ratios = ratios.TPR / ratios.TPR[0]
-        TPR_log = np.log(TPR_ratios)
+        TPR_log =abs(np.log(TPR_ratios))
 
         self.assertEqual(TPR_log.sum(), TPR_parity_loss)
 
@@ -153,13 +153,13 @@ class FairnessTest(unittest.TestCase):
         exp = FairnessTest.exp
         protected = FairnessTest.german_protected
 
-        gfco = GroupFairnessClassificationObject(y=exp.y,
-                                                 y_hat=exp.y_hat,
-                                                 protected=protected,
-                                                 privileged='male_old',
-                                                 verbose=False,
-                                                 label=exp.label)
-        self.assertEqual(gfco.__class__.__name__, 'GroupFairnessClassificationObject')
+        gfco = GroupFairnessClassification(y=exp.y,
+                                           y_hat=exp.y_hat,
+                                           protected=protected,
+                                           privileged='male_old',
+                                           verbose=False,
+                                           label=exp.label)
+        self.assertEqual(gfco.__class__.__name__, 'GroupFairnessClassification')
 
     def test_parameter_checks(self):
         exp = FairnessTest.exp
@@ -168,86 +168,86 @@ class FairnessTest(unittest.TestCase):
         #  error handling
         wrong_protected = np.array([protected, protected])
         with self.assertRaises(ParameterCheckError):
-            gfco = exp.model_group_fairness(protected=wrong_protected,
-                                            privileged='male_old',
-                                            verbose=False)
+            gfco = exp.model_fairness(protected=wrong_protected,
+                                      privileged='male_old',
+                                      verbose=False)
 
         with self.assertRaises(ParameterCheckError):
-            gfco = exp.model_group_fairness(protected=protected,
-                                            privileged='not_existing',
-                                            verbose=False)
+            gfco = exp.model_fairness(protected=protected,
+                                      privileged='not_existing',
+                                      verbose=False)
         with self.assertRaises(ParameterCheckError):
-            gfco = GroupFairnessClassificationObject(y=exp.y[:-1, ],
-                                                     y_hat=exp.y_hat,
-                                                     protected=protected,
-                                                     privileged='male_old',
-                                                     verbose=False,
-                                                     label=exp.label)
+            gfco = GroupFairnessClassification(y=exp.y[:-1, ],
+                                               y_hat=exp.y_hat,
+                                               protected=protected,
+                                               privileged='male_old',
+                                               verbose=False,
+                                               label=exp.label)
         with self.assertRaises(ParameterCheckError):
-            gfco = GroupFairnessClassificationObject(y=exp.y[:-1, ],
-                                                     y_hat=exp.y_hat[:-1, ],
-                                                     protected=protected,
-                                                     privileged='male_old',
-                                                     verbose=False,
-                                                     label=exp.label)
+            gfco = GroupFairnessClassification(y=exp.y[:-1, ],
+                                               y_hat=exp.y_hat[:-1, ],
+                                               protected=protected,
+                                               privileged='male_old',
+                                               verbose=False,
+                                               label=exp.label)
 
         with self.assertRaises(ParameterCheckError):
-            gfco = exp.model_group_fairness(protected=protected,
-                                            privileged='male_old',
-                                            cutoff=1.2,
-                                            verbose=False)
+            gfco = exp.model_fairness(protected=protected,
+                                      privileged='male_old',
+                                      cutoff=1.2,
+                                      verbose=False)
 
         with self.assertRaises(ParameterCheckError):
-            gfco = exp.model_group_fairness(protected=protected,
-                                            privileged='male_old',
-                                            cutoff='not_int',
-                                            verbose=False)
+            gfco = exp.model_fairness(protected=protected,
+                                      privileged='male_old',
+                                      cutoff='not_int',
+                                      verbose=False)
 
         # conversion check
-        gfco = exp.model_group_fairness(protected=protected,
-                                        privileged='male_old',
-                                        cutoff=0.6,
-                                        verbose=False)
+        gfco = exp.model_fairness(protected=protected,
+                                  privileged='male_old',
+                                  cutoff=0.6,
+                                  verbose=False)
 
         self.assertEqual(list(gfco.cutoff.values()), [0.6, 0.6, 0.6, 0.6])
 
-        gfco = exp.model_group_fairness(protected=protected,
-                                        privileged='male_old',
-                                        cutoff={'male_old': 0.9},
-                                        verbose=False)
+        gfco = exp.model_fairness(protected=protected,
+                                  privileged='male_old',
+                                  cutoff={'male_old': 0.9},
+                                  verbose=False)
         self.assertEqual(gfco.cutoff, {'male_old': 0.9, 'female_old': 0.5, 'male_young': 0.5, 'female_young': 0.5})
 
         np.random.seed(1)
         new_protected = np.random.choice(np.array([0, 1]), 1000)
-        gfco = exp.model_group_fairness(protected=new_protected,
-                                        privileged=1,
-                                        verbose=False)
+        gfco = exp.model_fairness(protected=new_protected,
+                                  privileged=1,
+                                  verbose=False)
 
         self.assertEqual(gfco.privileged, '1')
         self.assertEqual(list(gfco.protected), list(new_protected.astype('U')))
 
-        gfco = exp.model_group_fairness(protected=list(protected),
-                                        privileged='male_old',
-                                        verbose=False)
+        gfco = exp.model_fairness(protected=list(protected),
+                                  privileged='male_old',
+                                  verbose=False)
 
         self.assertEqual(type(gfco.protected), np.ndarray)
 
     def test_model_group_fairness(self):
         exp = FairnessTest.exp
         protected = FairnessTest.german_protected
-        mgf = exp.model_group_fairness(protected=protected,
-                                       privileged='male_old',
-                                       verbose=False)
+        mgf = exp.model_fairness(protected=protected,
+                                 privileged='male_old',
+                                 verbose=False)
 
-        self.assertEqual(mgf.__class__.__name__, 'GroupFairnessClassificationObject')
+        self.assertEqual(mgf.__class__.__name__, 'GroupFairnessClassification')
 
     def test_plot_fairness_check(self):
         import plotly.graph_objects as go
         exp = FairnessTest.exp
         protected = FairnessTest.german_protected
-        mgf = exp.model_group_fairness(protected=protected,
-                                       privileged='male_old',
-                                       verbose=False)
+        mgf = exp.model_fairness(protected=protected,
+                                 privileged='male_old',
+                                 verbose=False)
         fig = mgf.plot(show=False)
         self.assertEqual(fig.layout.title.text, "Fairness Check")
         self.assertEqual(fig.__class__, go.Figure)
@@ -263,30 +263,30 @@ class FairnessTest(unittest.TestCase):
         self.assertEqual(fig['data'][5]['legendgroup'], "second")
 
         # test errors in plots
-        with self.assertRaises(FarinessObjecsDifferenceError):
-            mgf_wrong = exp.model_group_fairness(protected=protected,
-                                                 privileged='male_young',
-                                                 verbose=False
-                                                 )
+        with self.assertRaises(FairnessObjectsDifferenceError):
+            mgf_wrong = exp.model_fairness(protected=protected,
+                                           privileged='male_young',
+                                           verbose=False
+                                           )
             mgf.plot([mgf_wrong])
 
-        with self.assertRaises(FarinessObjecsDifferenceError):
+        with self.assertRaises(FairnessObjectsDifferenceError):
             exp_wrong = deepcopy(exp)
             exp_wrong.y = exp_wrong.y[:-1]
             exp_wrong.y_hat = exp_wrong.y_hat[:-1]
 
-            mgf_wrong = exp_wrong.model_group_fairness(protected=protected[:-1],
-                                                       privileged='male_old',
-                                                       verbose=False)
+            mgf_wrong = exp_wrong.model_fairness(protected=protected[:-1],
+                                                 privileged='male_old',
+                                                 verbose=False)
             mgf.plot([mgf_wrong])
 
     def test_plot_metric_scores(self):
         import plotly.graph_objects as go
         exp = FairnessTest.exp
         protected = FairnessTest.german_protected
-        mgf = exp.model_group_fairness(protected=protected,
-                                       privileged='male_old',
-                                       verbose=False)
+        mgf = exp.model_fairness(protected=protected,
+                                 privileged='male_old',
+                                 verbose=False)
         fig = mgf.plot(show=False, type='metric_scores')
         self.assertEqual(fig.layout.title.text, "Metric Scores")
         self.assertEqual(fig.__class__, go.Figure)
@@ -302,21 +302,21 @@ class FairnessTest(unittest.TestCase):
         self.assertEqual(fig['data'][5]['legendgroup'], "second")
 
         # test errors in plots
-        with self.assertRaises(FarinessObjecsDifferenceError):
-            mgf_wrong = exp.model_group_fairness(protected=protected,
-                                                 privileged='male_young',
-                                                 verbose=False
-                                                 )
+        with self.assertRaises(FairnessObjectsDifferenceError):
+            mgf_wrong = exp.model_fairness(protected=protected,
+                                           privileged='male_young',
+                                           verbose=False
+                                           )
             mgf.plot([mgf_wrong], type='metric_scores')
 
-        with self.assertRaises(FarinessObjecsDifferenceError):
+        with self.assertRaises(FairnessObjectsDifferenceError):
             exp_wrong = deepcopy(exp)
             exp_wrong.y = exp_wrong.y[:-1]
             exp_wrong.y_hat = exp_wrong.y_hat[:-1]
 
-            mgf_wrong = exp_wrong.model_group_fairness(protected=protected[:-1],
-                                                       privileged='male_old',
-                                                       verbose=False)
+            mgf_wrong = exp_wrong.model_fairness(protected=protected[:-1],
+                                                 privileged='male_old',
+                                                 verbose=False)
             mgf.plot([mgf_wrong], type='metric_scores')
 
 

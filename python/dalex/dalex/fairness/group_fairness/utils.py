@@ -116,7 +116,7 @@ class SubgroupConfusionMatrixMetrics:
 def calculate_parity_loss(sub_confusion_matrix_metrics, privileged):
     """
     Calculates parity_loss with formula
-    M_parity_loss = sum(log(M/M_p))
+    M_parity_loss = sum(|log(M/M_p)|)
 
     where
     M - vector of metrics for each subgroup
@@ -126,7 +126,8 @@ def calculate_parity_loss(sub_confusion_matrix_metrics, privileged):
     df_ratio = calculate_ratio(sub_confusion_matrix_metrics, privileged)
     columns = df_ratio.columns
     df_log = np.log(df_ratio.to_numpy())
-    df_summed = pd.DataFrame(df_log, index=df_ratio.index.values, columns=columns).apply(sum)
+    df_absolute_log = abs(df_log)
+    df_summed = pd.DataFrame(df_absolute_log, index=df_ratio.index.values, columns=columns).apply(sum)
     return df_summed
 
 
