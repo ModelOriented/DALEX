@@ -18,7 +18,7 @@
 #' \item \code{type} - character that specifies type of the task.
 #' }
 #'
-#' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
+#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
 #' @importFrom stats median weighted.mean
 #' @export
 #' @examples

@@ -2,6 +2,7 @@ DALEX 2.0.1
 ---------------------------------------------------------------
 * Fixed R package not working with Python Explainer ([#318](https://github.com/ModelOriented/DALEX/issues/318))
 * Fixed `model_diagnostics()` returning an error when `y_hat` or `residuals` is of `array` class ([#319](https://github.com/ModelOriented/DALEX/issues/319))
+* Fixed grid lines in `theme_drwhy` on Windows
 
 DALEX 2.0
 ---------------------------------------------------------------

@@ -54,6 +54,7 @@ In many applications we need to know, understand or prove how input variables ar
 
 ### R package
 
+* [Workshop: Explanation and exploration of machine learning models with R and DALEX at eRum 2020](https://github.com/pbiecek/XAIatERUM2020), [cheatsheet](https://github.com/pbiecek/XAIatERUM2020/blob/master/Cheatsheet.pdf)
 * [XAI in the jungle of competing frameworks for machine learning](https://medium.com/@ModelOriented/xai-in-the-jungle-of-competing-frameworks-for-machine-learning-fa6e96a99644)
 * [Gentle introduction to DALEX with examples](https://pbiecek.github.io/DALEX_docs/) showt introduction to the `DALEX` package.
 * [How to use DALEXtra to explain and visualize scikitlearn and keras models](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/How-to-use-DALEXtra-to-explain-and-visualize-scikitlearn-models.html) 
@@ -81,6 +82,7 @@ In many applications we need to know, understand or prove how input variables ar
 
 ### Talks about DALEX
 
+* [Talk with your model! at USeR 2020](https://www.youtube.com/watch?v=9WWn5ew8D8o)
 * [Talk about DALEX at Complexity Institute / NTU February 2018](https://github.com/pbiecek/pbiecek.github.io/blob/master/Presentations/DALEX_at_NTU_2018.pdf)
 * [Talk about DALEX at SER / WTU April 2018](https://github.com/pbiecek/Talks/blob/master/2018/SER_DALEX.pdf)
 * [Talk about DALEX at STWUR May 2018 (in Polish)](https://github.com/STWUR/eRementarz-29-05-2018)
@@ -107,4 +109,4 @@ The other way is to use approximated explainers – techniques that find only ap
 
 ## Acknowledgments
 
-Work on this package was financially supported by the `NCN Opus grant 2016/21/B/ST6/02176`.
+Work on this package was financially supported by the `NCN Opus grant 2016/21/B/ST6/02176` and `NCN Opus grant 2017/27/B/ST6/0130`.

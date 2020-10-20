@@ -13,7 +13,7 @@
 #' @return An object of the class 'aggregated_profiles_explainer'.
 #' It's a data frame with calculated average response.
 #'
-#' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
+#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
 #' @export
 #'
 #' @examples

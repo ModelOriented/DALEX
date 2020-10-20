@@ -1,7 +1,7 @@
 import plotly.express as px
 
 from .checks import *
-from ..._explainer.theme import get_default_colors
+from ... import _theme, _global_checks, _global_utils
 
 
 class ResidualDiagnostics:
@@ -54,7 +54,7 @@ class ResidualDiagnostics:
         # if variables = NULL then all variables are added
         # otherwise only selected
         if self.variables is not None:
-            result = result.loc[:, np.intersect1d(self.variables, result.columns)]
+            result = result.loc[:, _global_utils.intersect_unsorted(self.variables, result.columns)]
         # is there target
         if explainer.y is not None:
             result = result.assign(y=explainer.y)
@@ -65,7 +65,7 @@ class ResidualDiagnostics:
         if explainer.residuals is None:
             explainer.residuals = explainer.residual(explainer.data, explainer.y)
 
-        self.result  = result.assign(
+        self.result = result.assign(
             y_hat=explainer.y_hat,
             residuals=explainer.residuals,
             abs_residuals=np.abs(explainer.residuals),
@@ -81,6 +81,7 @@ class ResidualDiagnostics:
              line_width=2,
              marker_size=3,
              title="Residual Diagnostics",
+             N=50000,
              show=True):
         """Plot the Residual Diagnostics explanation
 
@@ -102,6 +103,10 @@ class ResidualDiagnostics:
             Size of points (default is 3).
         title : str, optional
             Title of the plot (default depends on the `type` attribute).
+        N : int, optional
+            Number of observations that will be sampled from the `result` attribute before
+            calculating the smooth line. This is for performance issues with large data.
+            None means all `result` (default is 50 000).
         show : bool, optional
             True shows the plot; False returns the plotly Figure object that can be
             edited or saved using the `write_image()` method (default is True).
@@ -112,25 +117,35 @@ class ResidualDiagnostics:
             Return figure that can be edited or saved. See `show` parameter.
         """
 
+        _global_checks.global_check_import('statsmodels', 'smoothing line')
+
         # are there any other objects to plot?
         if objects is None:
             _df_list = [self.result.copy()]
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             _df_list = [self.result.copy(), objects.result.copy()]
-        else:  # objects as tuple or array
+        elif isinstance(objects, (list, tuple)):  # objects as tuple or array
             _df_list = [self.result.copy()]
             for ob in objects:
-                if not isinstance(ob, self.__class__):
-                    raise TypeError("Some explanations aren't of ResidualDiagnostics class")
+                _global_checks.global_check_object_class(ob, self.__class__)
                 _df_list += [ob.result.copy()]
+        else:
+            _global_checks.global_raise_objects_class(objects, self.__class__)
 
-        fig = px.scatter(pd.concat(_df_list),
+        _df = pd.concat(_df_list)
+
+        if N and smooth:
+            if N < _df.shape[0]:
+                _df = _df.sample(N, random_state=0, replace=False)
+
+        fig = px.scatter(_df,
                          x=variable,
                          y=yvariable,
+                         hover_name='ids',
                          color="label",
                          trendline="lowess" if smooth else None,
-                         color_discrete_sequence=get_default_colors(len(_df_list), 'line')) \
-               .update_traces(dict(marker_size=marker_size, line_width=line_width))
+                         color_discrete_sequence=_theme.get_default_colors(len(_df_list), 'line')) \
+                .update_traces(dict(marker_size=marker_size, line_width=line_width))
 
         # wait for https://github.com/plotly/plotly.py/pull/2558 to add hline to the plot
 
@@ -144,12 +159,6 @@ class ResidualDiagnostics:
                           margin={'t': 78, 'b': 71, 'r': 30})
 
         if show:
-            fig.show(config={'displaylogo': False, 'staticPlot': False,
-                             'toImageButtonOptions': {'height': None, 'width': None, },
-                             'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
-                                                        'zoom2d',
-                                                        'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',
-                                                        'toggleSpikelines', 'hoverCompareCartesian',
-                                                        'hoverClosestCartesian']})
+            fig.show(config=_theme.get_default_config())
         else:
             return fig

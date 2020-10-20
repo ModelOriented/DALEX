@@ -16,7 +16,7 @@
 #' @return An object of the class 'predict_diagnostics'.
 #' It's a data frame with calculated distribution of residuals.
 #'
-#' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
+#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
 #' @export
 #' @importFrom stats ks.test
 #' @importFrom graphics plot

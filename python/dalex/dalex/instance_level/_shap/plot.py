@@ -1,4 +1,5 @@
 import numpy as np
+from ... import _global_utils
 
 
 def prepare_data_for_shap_plot(x, baseline, prediction, max_vars, rounding_function, digits):
@@ -21,11 +22,8 @@ def prepare_data_for_shap_plot(x, baseline, prediction, max_vars, rounding_funct
     baseline = rounding_function(baseline, digits)
     prediction = rounding_function(prediction, digits)
 
-    tt = x.apply(lambda row: tooltip_text(row, baseline, prediction), axis=1)
-    x = x.assign(tooltip_text=tt)
-
-    lt = x.contribution.astype(str).apply(lambda val: "+"+val if val[0] != "-" else val)
-    x = x.assign(label_text=lt)
+    x = x.assign(tooltip_text=x.apply(lambda row: tooltip_text(row, baseline, prediction), axis=1),
+                 label_text=_global_utils.convert_float_to_str(x.contribution, "+"))
 
     return x
 

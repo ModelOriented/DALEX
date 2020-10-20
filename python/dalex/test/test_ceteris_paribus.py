@@ -108,7 +108,8 @@ class CeterisParibusTestTitanic(unittest.TestCase):
                                              self.X.iloc[[0], :].copy(),
                                              splits,
                                              self.y.iloc[0],
-                                             1)
+                                             processes=1,
+                                             verbose=False)
 
         self.assertIsInstance(cp, tuple)
         self.assertIsInstance(cp[0], pd.DataFrame)
@@ -120,7 +121,8 @@ class CeterisParibusTestTitanic(unittest.TestCase):
                                              self.X.iloc[[0], :].copy(),
                                              splits,
                                              self.y.iloc[0],
-                                             1)
+                                             processes=1,
+                                             verbose=False)
 
         self.assertIsInstance(cp, tuple)
         self.assertIsInstance(cp[0], pd.DataFrame)
@@ -132,43 +134,47 @@ class CeterisParibusTestTitanic(unittest.TestCase):
                                              self.X.iloc[[0], :].copy(),
                                              splits,
                                              self.y.iloc[0],
-                                             1)
+                                             processes=1,
+                                             verbose=False)
 
         self.assertIsInstance(cp, tuple)
         self.assertIsInstance(cp[0], pd.DataFrame)
         self.assertIsInstance(cp[1], pd.DataFrame)
 
     def test_constructor(self):
-        cp = self.exp.predict_profile(self.X.iloc[[0], :])
+        cp = self.exp.predict_profile(self.X.iloc[[0], :], verbose=False)
         self.assertIsInstance(cp, (dx.instance_level.CeterisParibus,))
         self.assertIsInstance(cp.result, (pd.DataFrame,))
         self.assertIsInstance(cp.new_observation, (pd.DataFrame,))
 
         with self.assertRaises(ValueError):
-            self.exp.predict_profile(self.X.iloc[[0], :], variables=['aaa'])
+            self.exp.predict_profile(self.X.iloc[[0], :], variables=['aaa'], verbose=False)
 
         with self.assertRaises(TypeError):
-            self.exp.predict_profile(self.X.iloc[[0], :], y=3)
+            self.exp.predict_profile(self.X.iloc[[0], :], y=3, verbose=False)
 
         # with self.assertRaises(TypeError):
         #     self.assertIsInstance(self.exp.predict_profile(self.X.iloc[[0], :], variables='age'),
         #                           dx.instance_level.CeterisParibus)
 
-        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0, :]), dx.instance_level.CeterisParibus)
-        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0:10, :]), dx.instance_level.CeterisParibus)
-        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[[0], :], variables=['age']),
+        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0, :], verbose=False),
                               dx.instance_level.CeterisParibus)
-        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0, :].values.reshape(-1, )),
+        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0:10, :], verbose=False),
                               dx.instance_level.CeterisParibus)
-        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0:10, :].values), dx.instance_level.CeterisParibus)
-        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0:10, :].values, processes=2),
+        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[[0], :], variables=['age'], verbose=False),
+                              dx.instance_level.CeterisParibus)
+        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0, :].values.reshape(-1, ), verbose=False),
+                              dx.instance_level.CeterisParibus)
+        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0:10, :].values, verbose=False),
+                              dx.instance_level.CeterisParibus)
+        self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0:10, :].values, processes=2, verbose=False),
                               dx.instance_level.CeterisParibus)
 
     def test_plot(self):
 
-        case1 = self.exp.predict_profile(self.X.iloc[2:10, :])
-        case2 = self.exp.predict_profile(self.X.iloc[0, :])
-        case3 = self.exp.predict_profile(self.X.iloc[1, :])
+        case1 = self.exp.predict_profile(self.X.iloc[2:10, :], verbose=False)
+        case2 = self.exp.predict_profile(self.X.iloc[0, :], verbose=False)
+        case3 = self.exp.predict_profile(self.X.iloc[1, :], verbose=False)
 
         self.assertIsInstance(case1, dx.instance_level.CeterisParibus)
         self.assertIsInstance(case2, dx.instance_level.CeterisParibus)

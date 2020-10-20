@@ -22,7 +22,7 @@ def check_variable_type(variable_type):
         raise ValueError("variable_type needs to be 'numerical' or 'categorical'")
 
 
-def prepare_all_variables(all_profiles, variables):
+def prepare_numerical_categorical(all_profiles, variables, variable_type):
     # variables to use
     all_variables = all_profiles['_vname_'].dropna().unique()  # variables do not need to be string
 
@@ -32,10 +32,6 @@ def prepare_all_variables(all_profiles, variables):
             raise ValueError("variables do not overlap with " + all_variables)
         all_variables = np.array(list(all_variables_intersect))
 
-    return all_variables
-
-
-def prepare_numerical_categorical(all_variables, all_profiles, variable_type):
     # only numerical or only factors?
     is_numeric = np.empty_like(all_variables, bool)
     for i, var in enumerate(all_variables):
@@ -50,7 +46,10 @@ def prepare_numerical_categorical(all_variables, all_profiles, variable_type):
 
     else:
         vnames = all_variables[~is_numeric]
-        if vnames.shape[0] == 0:
+        if variables is not None:
+            # take all if the user wants to convert numerical into categorical
+            vnames = all_variables
+        elif vnames.shape[0] == 0:
             raise ValueError("There are no non-numerical variables")
 
         all_profiles['_x_'] = ""

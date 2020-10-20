@@ -5,7 +5,7 @@ import plotly.express as px
 from .checks import *
 from .utils import calculate_ceteris_paribus
 from .plot import tooltip_text
-from ..._explainer.theme import get_default_colors, fig_update_line_plot
+from ... import _theme, _global_checks, _global_utils
 
 
 class CeterisParibus:
@@ -139,7 +139,7 @@ class CeterisParibus:
              facet_ncol=2,
              show_observations=True,
              title="Ceteris Paribus Profiles",
-             title_x='prediction',
+             y_title='prediction',
              horizontal_spacing=0.05,
              vertical_spacing=None,
              show=True):
@@ -166,7 +166,7 @@ class CeterisParibus:
             Show observation points (default is True).
         title : str, optional
             Title of the plot (default is "Ceteris Paribus Profiles").
-        title_x : str, optional
+        y_title : str, optional
             Title of the x axis (default is "prediction").
         horizontal_spacing : float <0, 1>, optional
             Ratio of horizontal space between the plots (default is 0.05).
@@ -198,16 +198,17 @@ class CeterisParibus:
                 self.result.assign(_original_yhat_=lambda x: self.new_observation.loc[x.index, '_yhat_']),
                 objects.result.assign(_original_yhat_=lambda x: objects.new_observation.loc[x.index, '_yhat_'])])
             _include = np.all([self.variable_splits_with_obs, objects.variable_splits_with_obs])
-        else:  # objects as tuple or array
+        elif isinstance(objects, (list, tuple)):  # objects as tuple or array
             _result_df = self.result.assign(_original_yhat_=lambda x: self.new_observation.loc[x.index, '_yhat_'])
             _include = [self.variable_splits_with_obs]
             for ob in objects:
-                if not isinstance(ob, self.__class__):
-                    raise TypeError("Some explanations aren't of CeterisParibus class")
+                _global_checks.global_check_object_class(ob, self.__class__)
                 _result_df = pd.concat([
                     _result_df, ob.result.assign(_original_yhat_=lambda x: ob.new_observation.loc[x.index, '_yhat_'])])
                 _include += [ob.variable_splits_with_obs]
             _include = np.all(_include)
+        else:
+            _global_checks.global_raise_objects_class(objects, self.__class__)
 
         if _include is False and show_observations:
                 warnings.warn("show_observations will be set to False,"
@@ -219,7 +220,7 @@ class CeterisParibus:
         all_variables = list(_result_df['_vname_'].dropna().unique())
 
         if variables is not None:
-            all_variables = np.intersect1d(all_variables, variables).tolist()
+            all_variables = _global_utils.intersect_unsorted(variables, all_variables)
             if len(all_variables) == 0:
                 raise TypeError("variables do not overlap with " + ''.join(variables))
 
@@ -293,7 +294,7 @@ class CeterisParibus:
                           facet_row_spacing=vertical_spacing,
                           facet_col_spacing=horizontal_spacing,
                           template="none",
-                          color_discrete_sequence=get_default_colors(m, 'line')) \
+                          color_discrete_sequence=_theme.get_default_colors(m, 'line')) \
                     .update_traces(dict(line_width=size, opacity=alpha,
                                         hovertemplate="%{customdata[0]}<extra></extra>")) \
                     .update_xaxes({'matches': None, 'showticklabels': True,
@@ -340,12 +341,12 @@ class CeterisParibus:
                          facet_row_spacing=vertical_spacing,
                          facet_col_spacing=horizontal_spacing,
                          template="none",
-                         color_discrete_sequence=get_default_colors(m, 'line'),  # bar was forgotten
+                         color_discrete_sequence=_theme.get_default_colors(m, 'line'),  # bar was forgotten
                          barmode='group')  \
                     .update_traces(dict(opacity=alpha),
                                    hovertemplate="%{customdata[0]}<extra></extra>") \
                     .update_xaxes({'matches': None, 'showticklabels': True,
-                                   'type': 'category', 'gridwidth': 2, 'autorange': 'reversed', 'automargin': True,
+                                   'type': 'category', 'gridwidth': 2, 'automargin': True,  # autorange="reversed"
                                    'ticks': "outside", 'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True}) \
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                    'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True,
@@ -357,19 +358,10 @@ class CeterisParibus:
                               xref=bar.xaxis, yref=bar.yaxis, layer='below',
                               line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'})
 
-        fig = fig_update_line_plot(fig, title, title_x, plot_height, 'closest')
-
-        fig.update_layout(
-            hoverlabel=dict(bgcolor='rgba(0,0,0,0.8)')
-        )
+        fig = _theme.fig_update_line_plot(fig, title, y_title, plot_height, 'closest')
+        fig.update_layout(hoverlabel=dict(bgcolor='rgba(0,0,0,0.8)'))
 
         if show:
-            fig.show(config={'displaylogo': False, 'staticPlot': False,
-                             'toImageButtonOptions': {'height': None, 'width': None, },
-                             'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
-                                                        'zoom2d', 'pan2d',
-                                                        'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines',
-                                                        'hoverCompareCartesian',
-                                                        'hoverClosestCartesian']})
+            fig.show(config=_theme.get_default_config())
         else:
             return fig
