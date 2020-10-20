@@ -45,7 +45,7 @@ class GroupFairnessClassification(_FairnessObject):
         -----------
         epsilon : float (default 0.8)
             Parameter defines acceptable fairness scores. The closer to 1 the
-            more strict the vardict is. If the ratio of certain unprivileged
+            more strict the verdict is. If the ratio of certain unprivileged
             and privileged subgroup is within (epsilon, 1/epsilon) than
             there is no discrimination in this metric and for this subgroups.
 
