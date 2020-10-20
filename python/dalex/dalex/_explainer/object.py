@@ -1,7 +1,10 @@
-from dalex.dataset_level import ModelPerformance, VariableImportance,\
+from dalex.dataset_level import ModelPerformance, VariableImportance, \
     AggregatedProfiles, ResidualDiagnostics
 from dalex.instance_level import BreakDown, Shap, CeterisParibus
 from dalex.wrappers import ShapWrapper
+from dalex.fairness.group_fairness import GroupFairnessClassification
+from dalex.fairness.basics.exceptions import *
+
 from .checks import *
 from .utils import unpack_kwargs_lime, create_surrogate_model
 from .. import _global_checks
@@ -233,7 +236,7 @@ class Explainer:
         type : {'break_down_interactions', 'break_down', 'shap', 'shap_wrapper}
             Type of variable attributions (default is 'break_down_interactions').
         order : list of int or str, optional
-            Prameter specific for `break_down_interactions` and `break_down`. Use a fixed
+            Parameter specific for `break_down_interactions` and `break_down`. Use a fixed
             order of variables for attribution calculation. Use integer values  or string
             variable names (default is None, which means order by importance).
         interaction_preference : int, optional
@@ -754,6 +757,60 @@ class Explainer:
                                                  **kwargs)
 
         return surrogate_model
+
+    def model_fairness(self, protected, privileged, cutoff=0.5, **kwargs):
+        """Creates GroupFairnessClassification object that enables bias detection and visualization.
+
+        Method returns GroupFairnessClassification object that for now
+        supports explained classifiers. GroupFairnessClassification object
+        works as a wrapper of protected attribute and Explainer from which
+        y and y_hat attributes were extracted. Along with information about
+        privileged subgroup (value in protected attribute) those 3 vectors
+        create triplet (Y, Y_hat, Protected) which is a base for all further fairness
+        calculations and visualizations.
+
+        Parameters
+        -----------
+        protected : np.ndarray (1d)
+            Vector, preferably 1-dimensional nd.array containing strings,
+            which denotes the membership to subgroup. List and pandas Series
+            are also supported, however if provided they will be transformed
+            to (1-d) np.ndarray with dtype 'U'. It does not have to be binary.
+            It does not need to be in data. It is sometimes suggested not to use
+            sensitive attributes in modelling.
+        privileged : str
+            Privileged is subgroup that is suspected to have the most privilege.
+            It needs to be present in protected.
+        cutoff : float or dict
+            cutoff is a threshold for probabilistic output of classifier.
+            Cutoff might be single value - same for all subgroups or
+            dict - individually adjusted for each subgroup (dict must have
+            values from protected attribute as keys).
+        kwargs :
+            keyword arguments. For now it supports verbose, which is boolean
+            value telling if additional output should be printed
+            (True, default) or not (False)
+
+        Returns
+        -----------
+        GroupFairnessClassification a subclass of _FairnessObject
+        Object that is ready for other transformations and visualizations which is
+        all user needs for detecting unfairness.
+
+        """
+
+        if self.model_type != 'classification':
+            raise ModelTypeNotSupportedError("fairness module at the moment supports only explainers of type classification")
+
+        fobject = GroupFairnessClassification(y=self.y,
+                                              y_hat=self.y_hat,
+                                              protected=protected,
+                                              privileged=privileged,
+                                              cutoff=cutoff,
+                                              label=self.label,
+                                              **kwargs)
+
+        return fobject
 
     def dumps(self, *args, **kwargs):
         """Return the pickled representation (bytes object) of the Explainer

@@ -8,5 +8,6 @@ __all__ = [
     "load_dragons",
     "load_dragons_test",
     "load_hr",
-    "load_hr_test"
+    "load_hr_test",
+    "load_german"
 ]
