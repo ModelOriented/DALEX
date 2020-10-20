@@ -1,8 +1,5 @@
-**/.idea/**
+**/.idea/*
 **/.ipynb_checkpoints/*
 **/__pycache__/*
 **/.tox/*
 **/dalex.egg-info/*
-**/main.py
-**/venv/**
-**.ipynb
