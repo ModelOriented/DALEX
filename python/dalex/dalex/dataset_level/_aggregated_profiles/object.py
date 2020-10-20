@@ -3,7 +3,7 @@ from copy import deepcopy
 
 from .checks import *
 from .utils import aggregate_profiles
-from ..._explainer.theme import get_default_colors, fig_update_line_plot
+from ... import _theme, _global_checks, _global_utils
 
 
 class AggregatedProfiles:
@@ -118,22 +118,17 @@ class AggregatedProfiles:
             all_profiles = ceteris_paribus.result.copy()
             all_observations = ceteris_paribus.new_observation.copy()
             self.raw_profiles = deepcopy(ceteris_paribus)
-        elif isinstance(ceteris_paribus, list) or isinstance(ceteris_paribus,
-                                                             tuple):  # ceteris_paribus as tuple or array
+        elif isinstance(ceteris_paribus, (list, tuple)):  # ceteris_paribus as tuple or array
             all_profiles = None
             all_observations = None
             for cp in ceteris_paribus:
-                if not isinstance(cp, CeterisParibus):
-                    raise TypeError("Some explanations aren't of CeterisParibus class")
+                _global_checks.global_check_class(cp, CeterisParibus)
                 all_profiles = pd.concat([all_profiles, cp.result.copy()])
                 all_observations = pd.concat([all_observations, cp.new_observation.copy()])
         else:
-            raise TypeError(
-                "'ceteris_paribus' should be either Ceteris Paribus object or list/tuple of CeterisParbus objects")
+            _global_checks.global_raise_objects_class(ceteris_paribus, CeterisParibus)
 
-        all_variables = prepare_all_variables(all_profiles, self.variables)
-
-        all_profiles, vnames = prepare_numerical_categorical(all_variables, all_profiles, self.variable_type)
+        all_profiles, vnames = prepare_numerical_categorical(all_profiles, self.variables, self.variable_type)
 
         # select only suitable variables
         all_profiles = all_profiles.loc[all_profiles['_vname_'].isin(vnames), :]
@@ -154,7 +149,7 @@ class AggregatedProfiles:
              alpha=1,
              facet_ncol=2,
              title="Aggregated Profiles",
-             title_x='prediction',
+             y_title='prediction',
              horizontal_spacing=0.05,
              vertical_spacing=None,
              show=True):
@@ -186,7 +181,7 @@ class AggregatedProfiles:
             Number of columns on the plot grid (default is 2).
         title : str, optional
             Title of the plot (default is "Aggregated Profiles").
-        title_x : str, optional
+        y_title : str, optional
             Title of the x axis (default is "prediction").
         horizontal_spacing : float <0, 1>, optional
             Ratio of horizontal space between the plots (default is 0.05).
@@ -214,18 +209,19 @@ class AggregatedProfiles:
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             _result_df = pd.concat([self.result.assign(_mp_=self.mean_prediction if center else 0),
                                     objects.result.assign(_mp_=objects.mean_prediction if center else 0)])
-        else:  # objects as tuple or array
+        elif isinstance(objects, (list, tuple)):  # objects as tuple or array
             _result_df = self.result.assign(_mp_=self.mean_prediction if center else 0)
             for ob in objects:
-                if not isinstance(ob, self.__class__):
-                    raise TypeError("Some explanations aren't of AggregatedProfiles class")
+                _global_checks.global_check_object_class(ob, self.__class__)
                 _result_df = pd.concat([_result_df, ob.result.assign(_mp_=ob.mean_prediction if center else 0)])
+        else:
+            _global_checks.global_raise_objects_class(objects, self.__class__)
 
         # variables to use
         all_variables = _result_df['_vname_'].dropna().unique().tolist()
 
         if variables is not None:
-            all_variables = np.intersect1d(all_variables, variables).tolist()
+            all_variables = _global_utils.intersect_unsorted(variables, all_variables)
             if len(all_variables) == 0:
                 raise TypeError("variables do not overlap with " + ''.join(variables))
 
@@ -264,7 +260,7 @@ class AggregatedProfiles:
                           facet_col_spacing=horizontal_spacing,
                           template="none",
                           render_mode=render_mode,
-                          color_discrete_sequence=get_default_colors(m, 'line')) \
+                          color_discrete_sequence=_theme.get_default_colors(m, 'line')) \
                     .update_traces(dict(line_width=size, opacity=alpha)) \
                     .update_xaxes({'matches': None, 'showticklabels': True,
                                    'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
@@ -303,10 +299,10 @@ class AggregatedProfiles:
                          facet_row_spacing=vertical_spacing,
                          facet_col_spacing=horizontal_spacing,
                          template="none",
-                         color_discrete_sequence=get_default_colors(m, 'line'),  # bar was forgotten
+                         color_discrete_sequence=_theme.get_default_colors(m, 'line'),  # bar was forgotten
                          barmode='group')  \
                     .update_xaxes({'matches': None, 'showticklabels': True,
-                                   'type': 'category', 'gridwidth': 2, 'autorange': 'reversed', 'automargin': True,
+                                   'type': 'category', 'gridwidth': 2, 'automargin': True,  # autorange="reversed"
                                    'ticks': "outside", 'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True}) \
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                    'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True,
@@ -318,15 +314,9 @@ class AggregatedProfiles:
                               xref=bar.xaxis, yref=bar.yaxis, layer='below',
                               line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'})
 
-        fig = fig_update_line_plot(fig, title, title_x, plot_height, hovermode)
+        fig = _theme.fig_update_line_plot(fig, title, y_title, plot_height, hovermode)
 
         if show:
-            fig.show(config={'displaylogo': False, 'staticPlot': False,
-                             'toImageButtonOptions': {'height': None, 'width': None, },
-                             'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
-                                                        'zoom2d', 'pan2d',
-                                                        'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toggleSpikelines',
-                                                        'hoverCompareCartesian',
-                                                        'hoverClosestCartesian']})
+            fig.show(config=_theme.get_default_config())
         else:
             return fig

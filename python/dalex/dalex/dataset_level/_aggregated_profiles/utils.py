@@ -6,7 +6,7 @@ from tqdm import tqdm
 def aggregate_profiles(all_profiles, mean_prediction, type, groups, center, span, verbose=True):
     if type == 'partial':
         aggregated_profiles = \
-            all_profiles.groupby(['_vname_', '_label_', '_x_'] + groups)['_yhat_'].mean().reset_index()
+            all_profiles.groupby(['_vname_', '_label_', '_x_'] + groups, sort=False)['_yhat_'].mean().reset_index()
 
     else:
         # split all_profiles into groups
@@ -30,8 +30,9 @@ def aggregate_profiles(all_profiles, mean_prediction, type, groups, center, span
 
     # postprocessing
     if len(groups) != 0:
-        aggregated_profiles['_groups_'] = aggregated_profiles.loc[:, groups].apply(lambda row: '_'.join(row), axis=1)
-        aggregated_profiles.drop(columns=groups)
+        aggregated_profiles['_groups_'] = aggregated_profiles.loc[:, groups].apply(
+            lambda row: '_'.join(row.astype(str)), axis=1)
+        aggregated_profiles.drop(columns=groups, inplace=True)
 
         aggregated_profiles.loc[:, '_label_'] = \
             aggregated_profiles.loc[:, ['_label_', '_groups_']].apply(lambda row: '_'.join(row), axis=1)

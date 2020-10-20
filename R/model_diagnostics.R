@@ -1,7 +1,7 @@
 #' Dataset Level Model Diagnostics
 #'
 #' This function performs model diagnostic of residuals.
-#' Residuals are calculated and ploted against predictions, true y values or selected variables.
+#' Residuals are calculated and plotted against predictions, true y values or selected variables.
 #' Find information how to use this function here: \url{https://pbiecek.github.io/ema/residualDiagnostic.html}.
 #'
 #' @param explainer a model to be explained, preprocessed by the \code{explain} function
@@ -11,7 +11,7 @@
 #' @return An object of the class \code{model_diagnostics}.
 #' It's a data frame with residuals and selected variables.
 #'
-#' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
+#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
 #' @export
 #' @examples
 #' apartments_lm_model <- lm(m2.price ~ ., data = apartments)

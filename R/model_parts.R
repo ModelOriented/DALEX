@@ -10,7 +10,7 @@
 #' @param N number of observations that should be sampled for calculation of variable importance. If \code{NULL} then variable importance will be calculated on whole dataset (no sampling).
 #' @param n_sample alias for \code{N} held for backwards compatibility. number of observations that should be sampled for calculation of variable importance.
 #'
-#' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
+#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
 #' @return An object of the class \code{feature_importance}.
 #' It's a data frame with calculated average response.
 #'

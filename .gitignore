@@ -3,3 +3,8 @@
 .RData
 
 python/misc/*
+
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+**.ipynb
+**.pickle

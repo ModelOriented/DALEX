@@ -121,6 +121,6 @@ def check_processes(processes):
 
 
 def check_variable_splits_type(arg):
-    if arg not in ('uniform', 'quantile'):
-        raise ValueError("variable_splits_type has to be one of {'uniform', 'quantile'}")
+    if arg not in ('uniform', 'quantile', 'quantiles'):
+        raise ValueError("variable_splits_type has to be one of {'uniform', 'quantiles'}")
     return arg

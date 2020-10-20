@@ -78,8 +78,10 @@ def create_surrogate_model(explainer, type, max_vars, max_depth, **kwargs):
 
     # add additional attributes to the surrogate model object
     surrogate_model.feature_names = variables.tolist()
-    surrogate_model.class_names = \
-        surrogate_model.classes_.astype(str).tolist() if hasattr(surrogate_model, 'classes_') else None
+    if hasattr(surrogate_model, 'classes_'):
+        surrogate_model.class_names = surrogate_model.classes_.astype(str).tolist()
+    else:
+        surrogate_model.class_names = None
 
     from .object import Explainer
     surrogate_explainer = Explainer(surrogate_model, X, y_hat, model_type=explainer.model_type, verbose=False)

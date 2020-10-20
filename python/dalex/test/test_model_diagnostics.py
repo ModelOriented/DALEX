@@ -10,6 +10,7 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 
 import dalex as dx
 from plotly.graph_objs import Figure
+import time
 
 
 class ModelDiagnosticsTestTitanic(unittest.TestCase):
@@ -43,6 +44,10 @@ class ModelDiagnosticsTestTitanic(unittest.TestCase):
 
         self.exp = dx.Explainer(clf, self.X, self.y, verbose=False)
         self.exp2 = dx.Explainer(clf, self.X, self.y, label="model2", verbose=False)
+        self.exp_performance = dx.Explainer(clf,
+                                            pd.concat([self.X for _ in range(100)]).reset_index(drop=True),
+                                            pd.concat([self.y for _ in range(100)]).reset_index(drop=True),
+                                            verbose=False)
 
     def test_constructor(self):
         case1 = self.exp.model_diagnostics()
@@ -70,13 +75,20 @@ class ModelDiagnosticsTestTitanic(unittest.TestCase):
         self.assertIsInstance(case2, dx.dataset_level.ResidualDiagnostics)
         self.assertIsInstance(case3, dx.dataset_level.ResidualDiagnostics)
 
-        fig1 = case1.plot(title="test1", variable="fare", show=False)
-        fig2 = case2.plot(case3, variable="sibsp", yvariable="abs_residuals", show=False)
+        fig1 = case1.plot(title="test1", variable="fare", N=1000, show=False)
+        fig2 = case2.plot(case3, variable="sibsp", yvariable="abs_residuals",  N=None, show=False)
         fig3 = case2.plot(smooth=False, line_width=6, marker_size=1, variable="age", show=False)
 
         self.assertIsInstance(fig1, Figure)
         self.assertIsInstance(fig2, Figure)
         self.assertIsInstance(fig3, Figure)
+
+    def test_performance(self):
+        case = self.exp_performance.model_diagnostics()
+        start_time = time.time()
+        fig = case.plot(show=False)
+        end_time = time.time()
+        self.assertTrue((end_time - start_time) < 160)
 
 
 if __name__ == '__main__':
