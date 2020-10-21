@@ -797,6 +797,24 @@ class Explainer:
         Object that is ready for other transformations and visualizations which is
         all user needs for detecting unfairness.
 
+         GroupFairnessClassification object has following fields:
+        subgroup_metrics : pd.DataFrame
+            DataFrame containing raw metric scores for each subgroup
+        result : pd.DataFrame
+            DataFrame with scaled subgroup_metrics. The scaling is performed by
+            dividing all metric scores by scores of privileged subgroup.
+        parity_loss : pd.Series
+            It is modified and summarised result. From each metric (column) logarithm
+            is calculated, then the absolute value is taken and summarised. So for
+            metric M parity_loss is sum(abs(log(M_i/M_privileged))) where M_i is
+            metric score for subgroup i.
+        label : str
+            label taken from Explainer. When plotting labels must be unique.
+        cutoff : dict
+            Value for each subgroup (key in dict)
+        and other
+
+
         """
 
         if self.model_type != 'classification':
