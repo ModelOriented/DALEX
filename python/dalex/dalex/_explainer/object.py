@@ -365,7 +365,7 @@ class Explainer:
 
         check_data_again(self.data)
 
-        types = ('ceteris_paribus', )
+        types = ('ceteris_paribus',)
         type = check_method_type(type, types)
 
         if type == 'ceteris_paribus':
@@ -800,7 +800,8 @@ class Explainer:
         """
 
         if self.model_type != 'classification':
-            raise ModelTypeNotSupportedError("fairness module at the moment supports only explainers of type classification")
+            raise ModelTypeNotSupportedError(
+                "fairness module at the moment supports only explainers of type classification")
 
         fobject = GroupFairnessClassification(y=self.y,
                                               y_hat=self.y_hat,
