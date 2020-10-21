@@ -1,4 +1,0 @@
-[console_scripts]
-lsm2bin = tifffile.lsm2bin:main
-tifffile = tifffile:main
-
