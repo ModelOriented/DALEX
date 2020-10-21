@@ -275,20 +275,20 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
   }
 
   if (!is.numeric(y) & model_info$type == "regression") {
-    verbose_cat("  -> model_info        :  Model info detected regression task but 'y' is a", class(y), ".  (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
+    verbose_cat("  -> model_info        :  Model info detected regression task but 'y' is a", class(y)[1], ".  (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
     verbose_cat("  -> model_info        :  By deafult regressions tasks supports only numercical 'y' parameter. \n", verbose = verbose)
     verbose_cat("  -> model_info        :  Consider changing to numerical vector.\n", verbose = verbose)
     verbose_cat("  -> model_info        :  Otherwise I will not be able to calculate residuals or loss function.\n", verbose = verbose)
   } else if (is.logical(y) & model_info$type == "classification") {
-    verbose_cat("  -> model_info        :  Model info detected classification task but 'y' is a", class(y), ". Converted to numeric.  (",color_codes$yellow_start,"NOTE",color_codes$yellow_end,")\n", verbose = verbose)
+    verbose_cat("  -> model_info        :  Model info detected classification task but 'y' is a", class(y)[1], ". Converted to numeric.  (",color_codes$yellow_start,"NOTE",color_codes$yellow_end,")\n", verbose = verbose)
     y <- as.numeric(y)
   } else if (!is.numeric(y) & model_info$type == "classification") {
-    verbose_cat("  -> model_info        :  Model info detected classification task but 'y' is a", class(y), ".  (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
+    verbose_cat("  -> model_info        :  Model info detected classification task but 'y' is a", class(y)[1], ".  (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
     verbose_cat("  -> model_info        :  By deafult classification tasks supports only numercical 'y' parameter. \n", verbose = verbose)
     verbose_cat("  -> model_info        :  Consider changing to numerical vector with 0 and 1 values.\n", verbose = verbose)
     verbose_cat("  -> model_info        :  Otherwise I will not be able to calculate residuals or loss function.\n", verbose = verbose)
   } else if (!is.factor(y) & model_info$type == "multiclass") {
-    verbose_cat("  -> model_info        :  Model info detected multiclass task but 'y' is a", class(y), ".  (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
+    verbose_cat("  -> model_info        :  Model info detected multiclass task but 'y' is a", class(y)[1], ".  (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
     verbose_cat("  -> model_info        :  By deafult classification tasks supports only factor 'y' parameter. \n", verbose = verbose)
     verbose_cat("  -> model_info        :  Consider changing to a factor vector with true class names.\n", verbose = verbose)
     verbose_cat("  -> model_info        :  Otherwise I will not be able to calculate residuals or loss function.\n", verbose = verbose)
