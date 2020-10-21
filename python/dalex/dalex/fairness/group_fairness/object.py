@@ -2,7 +2,7 @@ from .checks import *
 from .plot import *
 from ..basics._base_objects import _FairnessObject
 from ..basics.checks import check_other_objects
-
+from ..._theme import get_default_config
 
 class GroupFairnessClassification(_FairnessObject):
 
@@ -25,7 +25,7 @@ class GroupFairnessClassification(_FairnessObject):
         self._subgroup_confusion_matrix_metrics_object = sub_confusion_matrix_metrics
         self.subgroup_metrics = sub_confusion_matrix_metrics.to_horizontal_DataFrame()
         self.parity_loss = parity_loss
-        self.metric_ratios = df_ratios
+        self.result = df_ratios
         self.label = label
 
     def fairness_check(self, epsilon=0.8, verbose=True):
@@ -55,7 +55,7 @@ class GroupFairnessClassification(_FairnessObject):
 
         """
         epsilon = check_epsilon(epsilon)
-        metric_ratios = self.metric_ratios
+        metric_ratios = self.result
 
         subgroups = np.unique(self.protected)
         subgroups_without_privileged = subgroups[subgroups != self.privileged]
@@ -137,13 +137,6 @@ class GroupFairnessClassification(_FairnessObject):
         if other_objects is not None:
             check_other_objects(self, other_objects)
 
-        config_fairness_plot = {'displaylogo': False, 'staticPlot': False,
-                                'toImageButtonOptions': {'height': None, 'width': None, },
-                                'modeBarButtonsToRemove': ['sendDataToCloud', 'lasso2d', 'autoScale2d', 'select2d',
-                                                           'zoom2d',
-                                                           'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d',
-                                                           'toggleSpikelines', 'hoverCompareCartesian',
-                                                           'hoverClosestCartesian']}
 
         if type == 'fairness_check':
             fig = plot_fairness_check(self,
@@ -151,7 +144,7 @@ class GroupFairnessClassification(_FairnessObject):
                                       title=title, **kwargs)
 
             if show:
-                fig.show(config=config_fairness_plot)
+                fig.show(config=get_default_config())
             else:
                 return fig
 
@@ -161,6 +154,6 @@ class GroupFairnessClassification(_FairnessObject):
                                      title=title,
                                      **kwargs)
             if show:
-                fig.show(config=config_fairness_plot)
+                fig.show(config=get_default_config())
             else:
                 return fig

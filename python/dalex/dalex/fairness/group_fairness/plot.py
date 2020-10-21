@@ -3,7 +3,7 @@ import plotly.express as px
 from .utils import *
 from ..basics.checks import check_other_FairnessObjects
 from ..._explainer.helper import verbose_cat
-from ..._explainer.theme import get_default_colors
+from ..._theme import get_default_colors
 
 
 def plot_fairness_check(fobject,
@@ -340,7 +340,7 @@ def _metric_ratios_2DF(fobject):
     to elegant DataFrame with 4 columns (subgroup, metric, score, label)
     """
 
-    data = fobject.metric_ratios
+    data = fobject.result
     data = data.stack()
     data = data.reset_index()
     data.columns = ["subgroup", "metric", "score"]
