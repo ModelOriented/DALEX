@@ -90,6 +90,15 @@ class Arena:
                 options[o] = plot.options.get(o).get('default')
             self.options[plot.info.get('plotType')] = options
 
+    def get_supported_plots(self):
+        """Returns plots classes that can produce at least one valid chart for this Arena.
+
+        Returns
+        -----------
+        List of classes extending PlotContainer
+        """
+        return [plot for plot in self.plots if plot.test_arena(self)]
+
     def run_server(self,
                    host='127.0.0.1',
                    port=8181,
@@ -213,7 +222,7 @@ class Arena:
         """
         if not isinstance(fixed_params, dict):
             raise Exception('Params argument must be a dict')
-        for plot_class in self.plots:
+        for plot_class in self.get_supported_plots():
             required_params = plot_class.info.get('requiredParams')
             if [k for k in fixed_params.keys() if not k in required_params]:
                 continue

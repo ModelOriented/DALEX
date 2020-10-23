@@ -20,7 +20,6 @@ def start_server(arena, host, port, disable_logs):
     app = Flask(__name__)
     CORS(app)
     shutdown_token = str(random.randrange(2<<63))
-    plots = arena.plots
     
     log = logging.getLogger('werkzeug')
     log.disabled = disable_logs
@@ -35,7 +34,7 @@ def start_server(arena, host, port, disable_logs):
             'api': 'arenar_api',
             'timestamp': arena.timestamp*1000,
             'availableParams': arena.list_available_params(),
-            'availablePlots': [plot.info for plot in plots],
+            'availablePlots': [plot.info for plot in arena.get_supported_plots()],
             'options': { 'attributes': arena.enable_attributes, 'customParams': arena.enable_custom_params }
         }
         return Response(json.dumps(result, default=convert), content_type='application/json')

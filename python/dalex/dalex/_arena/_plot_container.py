@@ -40,3 +40,22 @@ class PlotContainer:
         correct_class = {'model': ModelParam, 'variable': VariableParam, 'observation': ObservationParam, 'dataset': DatasetParam}.get(param_type)
         if not isinstance(value, correct_class):
             raise Exception('Invalid param ' + str(param_type))
+    @staticmethod
+    def test_arena(arena):
+        """Tests if plot can be created for at least one combination of params
+
+        This method searches for params, that can produce valid chart. Displaying
+        error messages are not counted as valid. One example of usage are charts for
+        classification models. Such charts should override this method and check if
+        there is at least one classification model in arena.
+
+        Parameters
+        -----------
+        arena : dalex.Arena
+            Object of class dalex.Arena
+
+        Returns
+        -----------
+        bool
+        """
+        return True
