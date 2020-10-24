@@ -4,6 +4,7 @@ from ..basics._base_objects import _FairnessObject
 from ..basics.checks import check_other_objects
 from ..._theme import get_default_config
 
+
 class GroupFairnessClassification(_FairnessObject):
 
     def __init__(self, y, y_hat, protected, privileged, label, verbose=True, cutoff=0.5):

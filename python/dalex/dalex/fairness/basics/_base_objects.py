@@ -11,6 +11,7 @@ class _AbsObject(metaclass=abc.ABCMeta):
     def plot(self):
         pass
 
+
 class _FairnessObject(_AbsObject):
 
     def __init__(self, y, y_hat, protected, privileged, verbose):

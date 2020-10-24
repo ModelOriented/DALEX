@@ -187,7 +187,7 @@ def load_german():
     -----------
     pd.DataFrame
     """
-    
+
     abs_dir_path = os.path.dirname(os.path.abspath(__file__))
     abs_datasets_path = os.path.join(abs_dir_path, 'data', 'german.csv')
 
