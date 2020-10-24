@@ -21,7 +21,7 @@ def try_port(port):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     result = False
     try:
-        sock.bind(("0.0.0.0", port))
+        sock.bind(("127.0.0.1", port))
         result = True
     except:
         pass

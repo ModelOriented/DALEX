@@ -67,10 +67,14 @@ class ArenaTestTitanic(unittest.TestCase):
         arena.push_model(self.exp)
         arena.push_model(self.exp2)
         port = get_free_port()
-        arena.run_server(port=port)
-        time.sleep(1)
-        self.assertFalse(try_port(port))
-        arena.stop_server()
+        try:
+            arena.run_server(port=port)
+            time.sleep(2)
+            self.assertFalse(try_port(port))
+            arena.stop_server()
+        except AssertionError as e:
+            arena.stop_server()
+            raise e
 
     def test_plots(self):
         arena = dx.Arena()
