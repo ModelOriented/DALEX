@@ -130,10 +130,10 @@ class FairnessTest(unittest.TestCase):
 
     data = dx.datasets.load_german()
 
-    X = data.drop(columns='Risk')
-    y = data.Risk
+    X = data.drop(columns='risk')
+    y = data.risk
 
-    categorical_features = ['Sex', 'Job', 'Housing', 'Saving_accounts', "Checking_account", 'Purpose']
+    categorical_features = ['sex', 'job', 'housing', 'saving_accounts', "checking_account", 'purpose']
     categorical_transformer = Pipeline(steps=[
         ('onehot', OneHotEncoder(handle_unknown='ignore'))])
 
@@ -146,7 +146,7 @@ class FairnessTest(unittest.TestCase):
     clf.fit(X, y)
 
     exp = dx.Explainer(clf, X, y)
-    german_protected = data.Sex + '_' + np.where(data.Age < 25, 'young', 'old')
+    german_protected = data.sex + '_' + np.where(data.age < 25, 'young', 'old')
 
     def test_GroupFairnessClassificationObject(self):
         exp = FairnessTest.exp

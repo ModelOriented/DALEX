@@ -1,4 +1,4 @@
-Risk,Sex,Job,Housing,Saving_accounts,Checking_account,Credit_amount,Duration,Purpose,Age
+risk,sex,job,housing,saving_accounts,checking_account,credit_amount,duration,purpose,age
 1,male,2,own,not_known,little,1169,6,radio/TV,67
 0,female,2,own,little,moderate,5951,48,radio/TV,22
 1,male,1,own,little,not_known,2096,12,education,49
