@@ -1,5 +1,4 @@
 import unittest
-import numpy as np
 from dalex.fairness.group_fairness.utils import *
 from dalex.fairness.group_fairness.object import GroupFairnessClassification
 from dalex.fairness.basics.exceptions import *

@@ -21,12 +21,14 @@ def check_parameters(y, y_hat, protected, privileged, verbose):
         # if is not numpy array check what type it is and change to np array
         if isinstance(protected, list):
             try:
+                 verbose_cat("protected list will be converted to nd.array", verbose)
                  protected = np.array(protected, dtype='U')
             except:
                 ParameterCheckError("failed to convert list to nd.array, try converting it manually", verbose)
 
         elif isinstance(protected, pd.Series):
             try:
+                verbose_cat("protected Series will be converted to nd.array", verbose)
                 protected = np.array(protected, dtype='U')
             except ParameterCheckError:
                 ParameterCheckError("failed to convert list to nd.array")
@@ -35,6 +37,7 @@ def check_parameters(y, y_hat, protected, privileged, verbose):
 
     if protected.dtype.type is not np.str_:
         try:
+            verbose_cat("protected array is not string type, converting to string ", verbose)
             protected = protected.astype(str)
         except:
             ParameterCheckError('Could not convert protected to String type')

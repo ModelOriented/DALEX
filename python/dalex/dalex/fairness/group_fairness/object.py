@@ -7,7 +7,7 @@ from ..._theme import get_default_config
 
 class GroupFairnessClassification(_FairnessObject):
 
-    def __init__(self, y, y_hat, protected, privileged, label, verbose=True, cutoff=0.5):
+    def __init__(self, y, y_hat, protected, privileged, label, verbose=False, cutoff=0.5):
 
         super().__init__(y, y_hat, protected, privileged, verbose)
 
@@ -49,6 +49,9 @@ class GroupFairnessClassification(_FairnessObject):
             more strict the verdict is. If the ratio of certain unprivileged
             and privileged subgroup is within (epsilon, 1/epsilon) than
             there is no discrimination in this metric and for this subgroups.
+        verbose : boolean
+            Shows communicate about potential problems (NAN's in model metrics)
+            that can cause misinterpretation.
 
         Returns
         -----------

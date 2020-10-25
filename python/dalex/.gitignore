@@ -3,3 +3,5 @@
 **/__pycache__/*
 **/.tox/*
 **/dalex.egg-info/*
+**venv/**
+main.py

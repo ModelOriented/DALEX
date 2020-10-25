@@ -790,7 +790,7 @@ class Explainer:
         kwargs :
             Keyword arguments. It supports `verbose`, which is a boolean
             value telling if additional output should be printed
-            (True, default) or not (False).
+            (True) or not (False, default).
 
         Returns
         -----------
