@@ -1,7 +1,7 @@
 import numpy as np
 from ..._explainer.helper import verbose_cat
-from ..basics.checks import check_parameters
-from ..basics.exceptions import ParameterCheckError
+from .._basics.checks import check_parameters
+from .._basics.exceptions import ParameterCheckError
 
 
 def check_cutoff(protected, cutoff, verbose):

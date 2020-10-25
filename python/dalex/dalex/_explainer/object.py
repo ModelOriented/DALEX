@@ -2,8 +2,8 @@ from dalex.dataset_level import ModelPerformance, VariableImportance, \
     AggregatedProfiles, ResidualDiagnostics
 from dalex.instance_level import BreakDown, Shap, CeterisParibus
 from dalex.wrappers import ShapWrapper
-from dalex.fairness.group_fairness import GroupFairnessClassification
-from dalex.fairness.basics.exceptions import *
+from dalex.fairness._group_fairness import GroupFairnessClassification
+from dalex.fairness._basics.exceptions import *
 
 from .checks import *
 from .utils import unpack_kwargs_lime, create_surrogate_model

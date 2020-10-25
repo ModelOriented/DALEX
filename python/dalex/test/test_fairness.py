@@ -1,7 +1,7 @@
 import unittest
-from dalex.fairness.group_fairness.utils import *
-from dalex.fairness.group_fairness.object import GroupFairnessClassification
-from dalex.fairness.basics.exceptions import *
+from dalex.fairness._group_fairness.utils import *
+from dalex.fairness._group_fairness.object import GroupFairnessClassification
+from dalex.fairness._basics.exceptions import *
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
@@ -12,7 +12,7 @@ import dalex as dx
 class FairnessTest(unittest.TestCase):
 
     def test_ConfusionMatrix(self):
-        from dalex.fairness.group_fairness.utils import ConfusionMatrix
+        from dalex.fairness._group_fairness.utils import ConfusionMatrix
         y_true = np.array([0, 0, 0, 0, 1, 1, 1, 1])
         y_pred = np.array([0.32, 0.54, 0.56, 0.67, 0.34, 0.67, 0.98, 1])
         cutoff = 0.55
@@ -40,7 +40,7 @@ class FairnessTest(unittest.TestCase):
     cutoff = {'a': 0.5, 'b': 0.4, 'c': 0.6}
 
     def test_SubConfusionMatrix(self):
-        from dalex.fairness.group_fairness.utils import SubgroupConfusionMatrix
+        from dalex.fairness._group_fairness.utils import SubgroupConfusionMatrix
 
         y_true = FairnessTest.y_true
         y_pred = FairnessTest.y_pred

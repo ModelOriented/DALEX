@@ -1,7 +1,7 @@
 from .checks import *
 from .plot import *
-from ..basics._base_objects import _FairnessObject
-from ..basics.checks import check_other_objects
+from .._basics._base_objects import _FairnessObject
+from .._basics.checks import check_other_objects
 from ..._theme import get_default_config
 
 

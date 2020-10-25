@@ -1,7 +1,7 @@
 import plotly.express as px
 
 from .utils import *
-from ..basics.checks import check_other_FairnessObjects
+from .._basics.checks import check_other_FairnessObjects
 from ..._explainer.helper import verbose_cat
 from ..._theme import get_default_colors
 
