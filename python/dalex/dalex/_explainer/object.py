@@ -2,8 +2,7 @@ from dalex.dataset_level import ModelPerformance, VariableImportance, \
     AggregatedProfiles, ResidualDiagnostics
 from dalex.instance_level import BreakDown, Shap, CeterisParibus
 from dalex.wrappers import ShapWrapper
-from dalex.fairness._group_fairness import GroupFairnessClassification
-from dalex.fairness._basics.exceptions import *
+from dalex.fairness import GroupFairnessClassification
 
 from .checks import *
 from .utils import unpack_kwargs_lime, create_surrogate_model
@@ -772,7 +771,7 @@ class Explainer:
         Parameters
         -----------
         protected : np.ndarray (1d)
-            Vector, preferably 1-dimensional nd.array containing strings,
+            Vector, preferably 1-dimensional np.ndarray containing strings,
             which denotes the membership to a subgroup. It doesn't have to be binary.
             It doesn't need to be in data. It is sometimes suggested not to use
             sensitive attributes in modelling, but still check model bias for them.
@@ -822,7 +821,7 @@ class Explainer:
         """
 
         if self.model_type != 'classification':
-            raise ModelTypeNotSupportedError(
+            raise ValueError(
                 "model_fairness for now supports only classification models."
                 "Explainer attribute 'model_type' must be 'classification'")
 

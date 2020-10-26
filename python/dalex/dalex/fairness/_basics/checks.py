@@ -21,17 +21,17 @@ def check_parameters(y, y_hat, protected, privileged, verbose):
         # if is not numpy array check what type it is and change to np array
         if isinstance(protected, list):
             try:
-                 verbose_cat("protected list will be converted to nd.array", verbose)
+                 verbose_cat("protected list will be converted to np.ndarray", verbose)
                  protected = np.array(protected, dtype='U')
             except:
-                ParameterCheckError("failed to convert list to nd.array, try converting it manually", verbose)
+                ParameterCheckError("failed to convert list to np.ndarray, try converting it manually", verbose)
 
         elif isinstance(protected, pd.Series):
             try:
-                verbose_cat("protected Series will be converted to nd.array", verbose)
+                verbose_cat("protected Series will be converted to np.ndarray", verbose)
                 protected = np.array(protected, dtype='U')
             except ParameterCheckError:
-                ParameterCheckError("failed to convert list to nd.array")
+                ParameterCheckError("failed to convert list to np.ndarray")
         else:
             ParameterCheckError("unsupported protected type provided. Please convert protected to flat np.ndarray")
 
@@ -80,10 +80,10 @@ def check_other_FairnessObjects(fobject, other):
             raise FairnessObjectsDifferenceError('privileged subgroups are not the same')
 
         if fobject.y.shape != other_obj.y.shape:
-            raise FairnessObjectsDifferenceError('target variable (y) has different shape among explainers')
+            raise FairnessObjectsDifferenceError('target variable (y) has different shape among Explainer objects')
 
         if any(fobject.y != other_obj.y):
-            raise FairnessObjectsDifferenceError('target variable (y) is not the same among explainers')
+            raise FairnessObjectsDifferenceError('target variable (y) is not the same among Explainer objects')
 
     # check uniqueness of label
     labels = [fobject.label]
@@ -92,4 +92,4 @@ def check_other_FairnessObjects(fobject, other):
 
     if len(labels) != len(set(labels)):
         raise FairnessObjectsDifferenceError(
-            'explainer labels are not unique and therefore objects cannot be plotted together')
+            'Explainer labels are not unique and therefore objects cannot be plotted together')
