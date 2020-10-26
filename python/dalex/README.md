@@ -4,6 +4,8 @@
 
 [![Python-check](https://github.com/ModelOriented/DALEX/workflows/Python-check/badge.svg)](https://github.com/ModelOriented/DALEX/actions?query=workflow%3APython-check)
 [![PyPI version](https://badge.fury.io/py/dalex.svg)](https://badge.fury.io/py/dalex)
+[![Supported Python
+versions](https://img.shields.io/pypi/pyversions/dalex.svg)](https://pypi.org/project/dalex/)
 [![Downloads](https://pepy.tech/badge/dalex)](https://pepy.tech/project/dalex)
 
 ## Overview
@@ -34,7 +36,6 @@ pip install dalex -U
 * [How to use dalex with tensorflow](http://dalex.drwhy.ai/python-dalex-tensorflow.html)
 * [Interesting features in v0.2.1](http://dalex.drwhy.ai/python-dalex-new.html)
 * [New fairness module](http://dalex.drwhy.ai/python-dalex-fairness.html)
-
 * Code in the form of [jupyter notebook](https://github.com/pbiecek/DALEX_docs/tree/master/jupyter-notebooks)
 * [YouTube video](https://www.youtube.com/watch?v=PuKF2GS4_3Y) showing how to do [Break Down](https://pbiecek.github.io/ema/breakDown.html) analysis
 * Changelog: [NEWS](https://github.com/ModelOriented/DALEX/blob/master/python/dalex/NEWS.md)

@@ -8,6 +8,7 @@ with open(os.path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 with open(os.path.join(this_directory, 'NEWS.md'), encoding='utf-8')as f:
     news = f.read()
 
+
 # https://packaging.python.org/guides/single-sourcing-package-version/
 def read(rel_path):
     with codecs.open(os.path.join(this_directory, rel_path), 'r') as fp:
@@ -72,7 +73,6 @@ def run_setup():
             "Programming Language :: Python :: 3.6",
             "Programming Language :: Python :: 3.7",
             "Programming Language :: Python :: 3.8",
-            "Programming Language :: Python :: 3.9",
             "License :: OSI Approved",
             "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
             "Operating System :: OS Independent",
