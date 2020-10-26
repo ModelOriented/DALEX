@@ -9,5 +9,6 @@ __all__ = [
     "Explainer",
     "dataset_level",
     "instance_level",
+    "fairness",
     "datasets"
 ]

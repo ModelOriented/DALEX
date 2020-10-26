@@ -1,13 +1,19 @@
 dalex (development)
 ----------------------------------------------------------------
 
+* added new `fairmodels` module, which will focus on bias detection, visualization and mitigation
+
 ### bug fixes
 
 * removed unnecessary warning when `precalculate=False and verbose=False` ([#340](https://github.com/ModelOriented/DALEX/issues/340))
 
+### features
+
+* added `model_fairness` method to the `Explainer`, which performs fairness explanation
+
 ### defaults
 
-* added the `N=500000` argument to `ResidualDiagnostics.plot`, which samples observations from 
+* added the `N=50000` argument to `ResidualDiagnostics.plot`, which samples observations from 
  the `result` parameter to omit performance issues when `smooth=True` ([#341](https://github.com/ModelOriented/DALEX/issues/341))
 
 dalex 0.2.2
