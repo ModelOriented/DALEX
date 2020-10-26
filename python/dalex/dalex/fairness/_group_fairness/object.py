@@ -24,7 +24,7 @@ class GroupFairnessClassification(_FairnessObject):
         parity_loss = calculate_parity_loss(sub_confusion_matrix_metrics, self.privileged)
 
         self._subgroup_confusion_matrix_metrics_object = sub_confusion_matrix_metrics
-        self.subgroup_metrics = sub_confusion_matrix_metrics.to_horizontal_DataFrame()
+        self.metric_scores = sub_confusion_matrix_metrics.to_horizontal_DataFrame()
         self.parity_loss = parity_loss
         self.result = df_ratios
         self.label = label

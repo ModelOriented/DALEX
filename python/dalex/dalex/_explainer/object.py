@@ -798,9 +798,9 @@ class Explainer:
             Explanation object containing the main result attribute and the plot method.
             It has the following main attributes:
                 result : pd.DataFrame
-                    Scaled `subgroup_metrics`. The scaling is performed by
+                    Scaled `metric_scores`. The scaling is performed by
                     dividing all metric scores by scores of the privileged subgroup.
-                subgroup_metrics : pd.DataFrame
+                metric_scores : pd.DataFrame
                     Raw metric scores for each subgroup.
                 parity_loss : pd.Series
                     It is a summarised `result`. From each metric (column) a logarithm

@@ -5,3 +5,4 @@
 **/dalex.egg-info/*
 **venv/**
 main.py
+*.ipynb
