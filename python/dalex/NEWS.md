@@ -1,7 +1,7 @@
 dalex 0.3.0
 ----------------------------------------------------------------
 
-* added new `fairness` module, which will focus on bias detection, visualization and mitigation
+* added new `fairness` module, which will focus on bias detection, visualization and mitigation [@jakwisn](https://github.com/jakwisn)
 
 ### bug fixes
 

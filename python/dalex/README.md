@@ -3,9 +3,9 @@
 [moDel Agnostic Language for Exploration and eXplanation](http://dalex.drwhy.ai/)
 
 [![Python-check](https://github.com/ModelOriented/DALEX/workflows/Python-check/badge.svg)](https://github.com/ModelOriented/DALEX/actions?query=workflow%3APython-check)
-[![PyPI version](https://badge.fury.io/py/dalex.svg)](https://badge.fury.io/py/dalex)
 [![Supported Python
 versions](https://img.shields.io/pypi/pyversions/dalex.svg)](https://pypi.org/project/dalex/)
+[![PyPI version](https://badge.fury.io/py/dalex.svg)](https://badge.fury.io/py/dalex)
 [![Downloads](https://pepy.tech/badge/dalex)](https://pepy.tech/project/dalex)
 
 ## Overview
@@ -54,7 +54,7 @@ This package uses [plotly](https://plotly.com/python/) to render the plots:
 Machine Learning models are widely used and have various applications in classification or regression tasks. Due to increasing computational power, availability of new data sources and new methods, ML models are more and more complex. Models created with techniques like boosting, bagging of neural networks are true black boxes. It is hard to trace the link between input variables and model outcomes. They are use because of high performance, but lack of interpretability is one of their weakest sides.
 
 In many applications we need to know, understand or prove how input variables are used in the model and what impact do they have on final model prediction.
-`DALEX` is a set of tools that help to understand how complex models are working.
+`dalex` is a set of tools that help to understand how complex models are working.
 
 [Talk with your model! at USeR 2020](https://www.youtube.com/watch?v=9WWn5ew8D8o)
 
@@ -65,7 +65,7 @@ Main authors of the `dalex` package are:
 * [Hubert Baniecki](https://github.com/hbaniecki)
 * [Wojciech Kretowicz](https://github.com/wojciechkretowicz)
 
-Under the supervision of [Przemyslaw Biecek](https://github.com/pbiecek) 
+Under the supervision of [Przemyslaw Biecek](https://github.com/pbiecek).
 
 Other contributors:
 
