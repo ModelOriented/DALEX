@@ -3,8 +3,10 @@ import os
 
 this_directory = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(this_directory, 'README.md'), encoding='utf-8') as f:
-    long_description = f.read()
+    readme = f.read()
 
+with open(os.path.join(this_directory, 'NEWS.md'), encoding='utf-8')as f:
+    news = f.read()
 
 # https://packaging.python.org/guides/single-sourcing-package-version/
 def read(rel_path):
@@ -50,13 +52,18 @@ def run_setup():
         name="dalex",
         maintainer="Hubert Baniecki",
         maintainer_email="hbaniecki@gmail.com",
-        author="Wojciech Kretowicz, Hubert Baniecki, Przemyslaw Biecek",
-        author_email="wojtekkretowicz@gmail.com, hbaniecki@gmail.com",
+        author="Hubert Baniecki, Wojciech Kretowicz, Przemyslaw Biecek et al.",
+        author_email="hbaniecki@gmail.com, wojtekkretowicz@gmail.com, przemyslaw.biecek@gmail.com",
         version=get_version("dalex/__init__.py"),
-        description="DALEX in Python",
-        long_description=long_description,
+        description="Explore, Explain and Examine Predictive Models",
+        long_description=u"\n\n".join([readme, news]),
         long_description_content_type="text/markdown",
         url="https://github.com/ModelOriented/DALEX",
+        project_urls={
+            "Documentation": "https://github.com/ModelOriented/DALEX/tree/master/python/dalex#resources",
+            "Code": "https://github.com/ModelOriented/DALEX/tree/master/python/dalex",
+            "Issue tracker": "https://github.com/ModelOriented/DALEX/issues",
+        },
         classifiers=[
             "Development Status :: 4 - Beta",
             "Topic :: Scientific/Engineering",
@@ -65,6 +72,7 @@ def run_setup():
             "Programming Language :: Python :: 3.6",
             "Programming Language :: Python :: 3.7",
             "Programming Language :: Python :: 3.8",
+            "Programming Language :: Python :: 3.9",
             "License :: OSI Approved",
             "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
             "Operating System :: OS Independent",
