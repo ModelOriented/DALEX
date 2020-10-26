@@ -8,7 +8,7 @@ def check_cutoff(protected, cutoff, verbose):
     if isinstance(cutoff, dict):
         for value in cutoff.values():
             if not isinstance(value, float):
-                raise ParameterCheckError("Cutoff values must be floats")
+                raise ParameterCheckError("cutoff values must be floats")
             else:
                 for value in cutoff.values():
                     if not 0 < value < 1:
@@ -24,7 +24,7 @@ def check_cutoff(protected, cutoff, verbose):
 
         # if some keys are in protected but not in cutoff, add them to cutoff with default value
         if protected_set - cutoff_set != set():
-            verbose_cat("Adding default(0.5) cutoffs for subgroups not provided in cutoff keys", verbose)
+            verbose_cat("Adding default (0.5) cutoffs for subgroups not provided in cutoff keys", verbose)
             for subgroup in protected_set - cutoff_set:
                 cutoff[subgroup] = 0.5
 
@@ -41,7 +41,7 @@ def check_cutoff(protected, cutoff, verbose):
             cutoff[subgroup] = value
 
     else:
-        raise ParameterCheckError(f"cuttof must be a float or a dict, not {type(cutoff)}")
+        raise ParameterCheckError(f"cutoff must be a float or a dict, not {type(cutoff)}")
 
     return cutoff
 
