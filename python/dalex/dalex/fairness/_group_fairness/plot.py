@@ -1,7 +1,7 @@
 import plotly.express as px
 
 from .utils import *
-from .._basics.checks import check_other_FairnessObjects
+from .._basics.checks import check_other_fairness_objects
 from ..._explainer.helper import verbose_cat
 from ..._theme import get_default_colors
 
@@ -11,12 +11,12 @@ def plot_fairness_check(fobject,
                         other_objects=None,
                         epsilon=0.8,
                         verbose=True):
-    data = _metric_ratios_2DF(fobject)
+    data = _metric_ratios_2_df(fobject)
     n = 1
     if other_objects is not None:
-        check_other_FairnessObjects(fobject, other_objects)
+        check_other_fairness_objects(fobject, other_objects)
         for other_obj in other_objects:
-            other_data = _metric_ratios_2DF(other_obj)
+            other_data = _metric_ratios_2_df(other_obj)
             data = data.append(other_data)
             n += 1
 
@@ -173,7 +173,7 @@ def plot_metric_scores(fobject,
     data['label'] = np.repeat(fobject.label, data.shape[0]).astype('U')
     n = 1
     if other_objects is not None:
-        check_other_FairnessObjects(fobject, other_objects)
+        check_other_fairness_objects(fobject, other_objects)
         for other_obj in other_objects:
             other_data = other_obj._subgroup_confusion_matrix_metrics_object.to_vertical_DataFrame()
             other_data['label'] = np.repeat(other_obj.label, other_data.shape[0]).astype('U')
@@ -334,7 +334,7 @@ def plot_metric_scores(fobject,
     return fig
 
 
-def _metric_ratios_2DF(fobject):
+def _metric_ratios_2_df(fobject):
     """
     Converts GroupFairnessClassification
     to elegant DataFrame with 4 columns (subgroup, metric, score, label)
@@ -351,3 +351,4 @@ def _metric_ratios_2DF(fobject):
     data['label'] = np.repeat(fobject.label, data.shape[0])
 
     return data
+

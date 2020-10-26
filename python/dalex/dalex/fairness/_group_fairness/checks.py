@@ -1,6 +1,5 @@
 import numpy as np
 from ..._explainer.helper import verbose_cat
-from .._basics.checks import check_parameters
 from .._basics.exceptions import ParameterCheckError
 
 
@@ -27,8 +26,6 @@ def check_cutoff(protected, cutoff, verbose):
             verbose_cat("Adding default (0.5) cutoffs for subgroups not provided in cutoff keys", verbose)
             for subgroup in protected_set - cutoff_set:
                 cutoff[subgroup] = 0.5
-
-
 
     elif isinstance(cutoff, float):
         if not 0 < cutoff < 1:

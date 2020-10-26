@@ -65,7 +65,7 @@ def check_other_objects(fobject, other):
     return other_objects
 
 
-def check_other_FairnessObjects(fobject, other):
+def check_other_fairness_objects(fobject, other):
     """
     Checking compatibility of GroupFairnessClassification objects
     """
@@ -80,10 +80,10 @@ def check_other_FairnessObjects(fobject, other):
             raise FairnessObjectsDifferenceError('privileged subgroups are not the same')
 
         if fobject.y.shape != other_obj.y.shape:
-            raise FairnessObjectsDifferenceError('target variable (y) has different shape among Explainer objects')
+            raise FairnessObjectsDifferenceError('target variable (y) has different shape among Fairness objects')
 
         if any(fobject.y != other_obj.y):
-            raise FairnessObjectsDifferenceError('target variable (y) is not the same among Explainer objects')
+            raise FairnessObjectsDifferenceError('target variable (y) is not the same among Fairness objects')
 
     # check uniqueness of label
     labels = [fobject.label]
@@ -92,4 +92,6 @@ def check_other_FairnessObjects(fobject, other):
 
     if len(labels) != len(set(labels)):
         raise FairnessObjectsDifferenceError(
-            'Explainer labels are not unique and therefore objects cannot be plotted together')
+            'Fairness labels are not unique and therefore objects cannot be plotted together'
+        )
+
