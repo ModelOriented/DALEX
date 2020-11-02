@@ -24,6 +24,8 @@ The `dalex` package is a part of [DrWhy.AI](http://DrWhy.AI) universe.
 
 ## Installation
 
+The `dalex` package is available [on PyPi](https://pypi.org/project/dalex/)
+
 ```console
 pip install dalex -U
 ```

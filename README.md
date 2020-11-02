@@ -29,13 +29,13 @@ If you work with `scikit-learn`, `keras`, `H2O`, `tidymodels`, `xgboost`, `mlr` 
 
 ## Installation
 
-The easiest way to get the **R** version of DALEX is to install it from [CRAN](https://cran.r-project.org/package=DALEX)
+The easiest way to get the **R** version of DALEX is to install it [from CRAN](https://cran.r-project.org/package=DALEX)
 
 ```r
 install.packages("DALEX")
 ```
 
-The **Python** version of dalex is available on [pip](https://pypi.org/project/dalex/)
+The **Python** version of dalex is available [on PyPi](https://pypi.org/project/dalex/)
 
 ```console
 pip install dalex -U
