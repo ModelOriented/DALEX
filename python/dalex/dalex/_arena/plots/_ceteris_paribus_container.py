@@ -15,7 +15,10 @@ class CeterisParibusContainer(PlotContainer):
     def _fit(self, model, variable, observation):
         if not variable.variable in model.variables:
             raise Exception('Variable is not a column of explainer')
-        row = observation.get_row()
+        row = observation.get_row_for_model(model)
+        if row is None:
+            self.set_message('Observation is not valid for given model.')
+            return
         cp = model.explainer.predict_profile(
             row,
             variables=variable.variable,

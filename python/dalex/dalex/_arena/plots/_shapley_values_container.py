@@ -12,8 +12,12 @@ class ShapleyValuesContainer(PlotContainer):
         'B': { 'default': 10, 'desc': 'Number of random paths' }
     }
     def _fit(self, model, observation):
+        row = observation.get_row_for_model(model)
+        if row is None:
+            self.set_message('Observation is not valid for given model.')
+            return
         shap = model.explainer.predict_parts(
-            observation.get_row(),
+            row,
             type='shap',
             B=self.arena.get_option(self.plot_type, 'B')
         )

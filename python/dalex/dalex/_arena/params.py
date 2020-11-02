@@ -109,6 +109,11 @@ class ObservationParam(Param):
         return 'observation'
     def get_row(self):
         return self.dataset.loc[self.index]
+    def get_row_for_model(self, model_param):
+        try:
+            return self.dataset.loc[[self.index]][model_param.explainer.data.columns]
+        except:
+            return None
     def get_attributes(self):
         return dict(self.get_row())
     @staticmethod

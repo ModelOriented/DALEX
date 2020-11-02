@@ -10,7 +10,11 @@ class BreakDownContainer(PlotContainer):
     options = {
     }
     def _fit(self, model, observation):
-        bd = model.explainer.predict_parts(observation.get_row(), type='break_down').result
+        row = observation.get_row_for_model(model)
+        if row is None:
+            self.set_message('Observation is not valid for given model.')
+            return
+        bd = model.explainer.predict_parts(row, type='break_down').result
         self.data = {
             'variables': bd[1:-1].variable_name.tolist(),
             'variables_value': bd[1:-1].variable_value.tolist(),
