@@ -3,7 +3,7 @@
 from . import datasets
 from ._explainer.object import Explainer
 
-__version__ = '0.3.0'
+__version__ = '0.3.0.9000'
 
 __all__ = [
     "Explainer",

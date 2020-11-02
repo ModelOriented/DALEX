@@ -170,6 +170,8 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
         self.assertIsInstance(self.exp.model_parts(type='difference'), dx.dataset_level.VariableImportance)
         self.assertIsInstance(self.exp.model_parts(type='ratio'), dx.dataset_level.VariableImportance)
         self.assertIsInstance(self.exp.model_parts(type='variable_importance'), dx.dataset_level.VariableImportance)
+        self.assertIsInstance(self.exp.model_parts(type='feature_importance'), dx.dataset_level.VariableImportance)
+        self.assertIsInstance(self.exp.model_parts(type='permutational'), dx.dataset_level.VariableImportance)
 
         with self.assertRaises(ValueError):
             self.exp.model_parts(type='variable_importancee')

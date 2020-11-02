@@ -54,14 +54,19 @@ class AggregatedProfilesTestTitanic(unittest.TestCase):
     def test_partial(self):
         self.helper_test('partial')
 
+        alias = self.exp2.model_profile(type='pdp', center=False, verbose=False)
+        self.assertIsInstance(alias, dx.dataset_level.AggregatedProfiles)
+
     def test_accumulated(self):
         self.helper_test('accumulated')
         caseCenterNum = self.exp2.model_profile(type='accumulated', center=False, verbose=False)
         caseCenterCat = self.exp2.model_profile(type='accumulated', variable_type='categorical',
                                                 center=False, verbose=False)
+        alias = self.exp2.model_profile(type='ale', center=False, verbose=False)
 
         self.assertIsInstance(caseCenterNum, dx.dataset_level.AggregatedProfiles)
         self.assertIsInstance(caseCenterCat, dx.dataset_level.AggregatedProfiles)
+        self.assertIsInstance(alias, dx.dataset_level.AggregatedProfiles)
 
         figCenterNum = caseCenterNum.plot(show=False)
         figCenterCat = caseCenterCat.plot(show=False)

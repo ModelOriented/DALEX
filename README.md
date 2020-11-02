@@ -35,7 +35,7 @@ The easiest way to get the **R** version of DALEX is to install it [from CRAN](h
 install.packages("DALEX")
 ```
 
-The **Python** version of dalex is available [on PyPi](https://pypi.org/project/dalex/)
+The **Python** version of dalex is available [on PyPI](https://pypi.org/project/dalex/)
 
 ```console
 pip install dalex -U

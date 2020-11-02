@@ -266,7 +266,7 @@ def check_model_info(model_info, model_info_, verbose):
     return model_info_
 
 
-def check_method_type(type, types):
+def check_method_type(type, types, aliases=None):
     if isinstance(type, tuple):
         ret = type[0]
     elif isinstance(type, str):
@@ -275,7 +275,14 @@ def check_method_type(type, types):
         raise TypeError("type is not a str")
 
     if ret not in types:
-        raise ValueError("'type' must be one of: {}".format(', '.join(types)))
+        if aliases:
+            if ret not in aliases:
+                raise ValueError("'type' must be one of: {}".format(', '.join(types+tuple(aliases))))
+            else:
+                return aliases[ret]
+        else:
+            if ret not in types:
+                raise ValueError("'type' must be one of: {}".format(', '.join(types)))
     else:
         return ret
 

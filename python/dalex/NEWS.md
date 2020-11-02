@@ -1,18 +1,29 @@
-dalex 0.3.0
+Changelog
+
+development (TBD)
+----------------------------------------------------------------
+
+#### features
+
+* added new aliases to `dx.Explainer` methods ([#350](https://github.com/ModelOriented/DALEX/issues/350))
+ in `model_parts` it is `{'permutational': 'variable_importance', 'feature_importance': 'variable_importance'}`,
+ in `model_profile` it is `{'pdp': 'partial', 'ale': 'accumulated'}`
+
+v0.3.0 (26/11/2020)
 ----------------------------------------------------------------
 
 * added new `fairness` module, which will focus on bias detection, visualization and mitigation [@jakwisn](https://github.com/jakwisn)
 
-### bug fixes
+#### bug fixes
 
 * removed unnecessary warning when `precalculate=False and verbose=False` ([#340](https://github.com/ModelOriented/DALEX/issues/340))
 
-### features
+#### features
 
 * added `model_fairness` method to the `Explainer`, which performs fairness explanation
 * added `GroupFairnessClassification` object, with the `plot` method having two types `fairness_check` and `metric_scores`
 
-### defaults
+#### defaults
 
 * added the `N=50000` argument to `ResidualDiagnostics.plot`, which samples observations from 
  the `result` parameter to omit performance issues when `smooth=True` ([#341](https://github.com/ModelOriented/DALEX/issues/341))
@@ -23,7 +34,7 @@ dalex 0.2.2
 * added support for `tensorflow.python.keras.engine.sequential.Sequential` and `tensorflow.python.keras.engine.training.Model` ([#326](https://github.com/ModelOriented/DALEX/issues/326))
 * updated the `tqdm` dependency to `>=4.48.2`, `pandas` dependency to `>=1.1.2` and `numpy` dependency to `>=1.18.4`
 
-### bug fixes
+#### bug fixes
 
 * fixed the wrong order of `Explainer` verbose messages
 * fixed a bug that caused `model_info` parameter to be overwritten by the default values
@@ -32,12 +43,12 @@ dalex 0.2.2
  the reverse order of bars in `'categorical'` plots + (again) added `variable_splits_type` parameter to `model_profile` to specify how grid points
  shall be calculated ([#266](https://github.com/ModelOriented/DALEX/issues/266)) + allow for both `'quantile'` and `'quantiles'` types (alias)
  
-### features
+#### features
 
 * added informative error messages when importing optional dependencies ([#316](https://github.com/ModelOriented/DALEX/issues/316))
 * allow for `data` and `y` to be `None` - added checks in `Explainer` methods
  
-### defaults
+#### defaults
 
 * wrong parameter name `title_x` changed to `y_title` in `CeterisParibus.plot` and `AggregatedProfiles.plot` ([#317](https://github.com/ModelOriented/DALEX/issues/317))
 * now warning the user in `Explainer` when `predict_function` returns an error or doesn't return `numpy.ndarray (1d)` ([#325](https://github.com/ModelOriented/DALEX/issues/325))
@@ -47,7 +58,7 @@ dalex 0.2.1
 
 * updated the `pandas` dependency to `>=1.1.0`
 
-### bug fixes
+#### bug fixes
 
 * `ModelPerformance.plot` now uses a drwhy color palette
 * use `unique` method instead of `np.unique` in `variable_splits` ([#293](https://github.com/ModelOriented/DALEX/issues/293))
@@ -61,7 +72,7 @@ dalex 0.2.1
  (#[302](https://github.com/ModelOriented/DALEX/issues/302))
 * vertical/horizontal lines in plots now end on the plot edges
 
-### features
+#### features
 
 * added new `type='shap_wrapper'` to `predict_parts` and `model_parts` methods, which returns a new
  `ShapWrapper` object. It contains the main result attribute (`shapley_values`) and the plot method 
@@ -83,7 +94,7 @@ dalex 0.2.1
  ([#303](https://github.com/ModelOriented/DALEX/issues/303))
 * `ModelPerformance.result` now has `label` as index
 
-### defaults
+#### defaults
 
 * removed `_grid_` column in `AggregatedProfiles.result` and `center` only works with `type=accumulated`
 * use `Pipeline._final_estimator` to extract `model_class` of the actual model
@@ -94,7 +105,7 @@ dalex 0.2.0
 * major documentation update ([#270](https://github.com/ModelOriented/DALEX/issues/270))
 * unified the order of function parameters
 
-### bug fixes
+#### bug fixes
 
 * `v0.1.9` had wrong `_original_` column in `predict_profile`
 * `vertical_spacing` acts as intended in `VariableImportance.plot` when `split='variable'`
@@ -103,7 +114,7 @@ dalex 0.2.0
 * `model_profile` now properly passes the `variables` parameter to `CeterisParibus`
 * `variables` parameter in `predict_profile` now can also be a string
 
-### features
+#### features
 
 * use `px.express` instead of core `plotly` to make `model_profile` and `predict_profile` plots;
  thus, enhance performance and scalability
@@ -119,7 +130,7 @@ dalex 0.2.0
  variable values ([#269](https://github.com/ModelOriented/DALEX/issues/269))
 * added `variable_splits` parameter to `model_profile`
 
-### defaults
+#### defaults
 
 * use different `loss_function` for classification and regression ([#248](https://github.com/ModelOriented/DALEX/issues/248))
 * models that use `proba` yhats now get `model_type='classification'` if it's not specified

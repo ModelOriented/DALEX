@@ -484,6 +484,7 @@ class Explainer:
             (default is 'rmse' or `1-auc`, depends on `model_type` attribute).
         type : {'variable_importance', 'ratio', 'difference', 'shap_wrapper'}, optional
             Type of transformation that will be applied to dropout loss.
+            (default is 'variable_importance', which is Permutational Variable Importance).
         N : int, optional
             Number of observations that will be sampled from the `data` attribute before
             the calculation of variable importance. None means all `data` (default is 1000).
@@ -527,7 +528,8 @@ class Explainer:
         check_data_again(self.data)
 
         types = ('variable_importance', 'ratio', 'difference', 'shap_wrapper')
-        type = check_method_type(type, types)
+        aliases = {'permutational': 'variable_importance', 'feature_importance': 'variable_importance'}
+        type = check_method_type(type, types, aliases)
 
         loss_function = check_method_loss_function(self, loss_function)
 
@@ -632,7 +634,8 @@ class Explainer:
         check_data_again(self.data)
 
         types = ('partial', 'accumulated', 'conditional')
-        type = check_method_type(type, types)
+        aliases = {'pdp': 'partial', 'ale': 'accumulated'}
+        type = check_method_type(type, types, aliases)
 
         if N is None:
             N = self.data.shape[0]
