@@ -118,4 +118,12 @@ class ObservationParam(Param):
         return dict(self.get_row())
     @staticmethod
     def list_attributes(arena):
-        return arena.list_params('variable')
+        datasets = []
+        for obs in arena.get_params('observation'):
+            if len([1 for dataset in datasets if dataset is obs.dataset]) == 0:
+                datasets.append(obs.dataset)
+        columns = list(map(lambda x: x.columns.tolist(), datasets))
+        # flatten
+        columns = [col for columns_list in columns for col in columns_list]
+        columns = np.unique(columns).tolist()
+        return columns
