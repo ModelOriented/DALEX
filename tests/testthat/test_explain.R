@@ -34,12 +34,15 @@ test_that("Checks for y",{
   explainer_ranger_5 <- explain(model_classif_ranger, data = titanic_imputed, y = c(1, 1, 1, 1, 1), verbose = FALSE)
   explainer_ranger_6 <- explain(model_classif_ranger, data = titanic_imputed, y = as.factor(titanic_imputed$survived), verbose = FALSE)
   explainer_ranger_7 <- explain(model_classif_ranger, data = titanic_imputed[,-8], y = titanic_imputed$survived, verbose = FALSE)
+  explainer_ranger_8 <- explain(model_classif_ranger, data = titanic_imputed[,-8], y = as.logical(titanic_imputed$survived), verbose = FALSE)
 
   expect_null(explainer_ranger_3$y)
   expect_is(explainer_ranger_4$y, "numeric")
   expect_is(explainer_ranger_5, "explainer")
   expect_is(explainer_ranger_6, "explainer")
   expect_is(explainer_ranger_7, "explainer")
+  expect_is(explainer_ranger_7$y, "numeric")
+  
   expect_output(explain(model_multiclassif_ranger_prob, data = HR, y = as.numeric(HR$status)),
                 "Model info detected multiclass task but 'y' is a numeric")
   expect_output(explain(model_regr_ranger, data = apartments, y = apartments$district),

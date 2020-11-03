@@ -1,7 +1,7 @@
-dalex (development)
+dalex 0.3.0
 ----------------------------------------------------------------
 
-* added new `fairmodels` module, which will focus on bias detection, visualization and mitigation
+* added new `fairness` module, which will focus on bias detection, visualization and mitigation [@jakwisn](https://github.com/jakwisn)
 
 ### bug fixes
 
@@ -10,6 +10,7 @@ dalex (development)
 ### features
 
 * added `model_fairness` method to the `Explainer`, which performs fairness explanation
+* added `GroupFairnessClassification` object, with the `plot` method having two types `fairness_check` and `metric_scores`
 
 ### defaults
 

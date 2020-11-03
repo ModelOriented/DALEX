@@ -8,6 +8,7 @@ Status](https://img.shields.io/codecov/c/github/ModelOriented/DALEX/master.svg)]
 [![DrWhy-eXtrAI](https://img.shields.io/badge/DrWhy-BackBone-373589)](http://drwhy.ai/#BackBone)
 
 [![Python-check](https://github.com/ModelOriented/DALEX/workflows/Python-check/badge.svg)](https://github.com/ModelOriented/DALEX/actions?query=workflow%3APython-check)
+[![Supported Python versions](https://img.shields.io/pypi/pyversions/dalex.svg)](https://pypi.org/project/dalex/)
 [![PyPI version](https://badge.fury.io/py/dalex.svg)](https://badge.fury.io/py/dalex)
 [![Downloads](https://pepy.tech/badge/dalex)](https://pepy.tech/project/dalex)
 
@@ -20,7 +21,7 @@ The `DALEX` package xrays any model and helps to explore and explain its behavio
 
 The philosophy behind `DALEX` explanations is described in the [Explanatory Model Analysis](https://pbiecek.github.io/ema/) e-book. The `DALEX` package is a part of [DrWhy.AI](http://DrWhy.AI) universe.
 
-If you work with `scikitlearn`, `keras`, `H2O`, `tidymodels`, `xgboost`, `mlr` or `mlr3`, you may be interested in the [DALEXtra](https://github.com/ModelOriented/DALEXtra) package. It is an extension pack for `DALEX` with easy to use connectors to models created in these libraries.
+If you work with `scikit-learn`, `keras`, `H2O`, `tidymodels`, `xgboost`, `mlr` or `mlr3`, you may be interested in the [DALEXtra](https://github.com/ModelOriented/DALEXtra) package. It is an extension pack for `DALEX` with easy to use connectors to models created in these libraries.
 
 <p align="center">
 <a href="https://pbiecek.github.io/ema/introduction.html#bookstructure"><img src="https://github.com/ModelOriented/DALEX/raw/master/misc/DALEXpiramide.png" width="800"/></a>
@@ -28,13 +29,13 @@ If you work with `scikitlearn`, `keras`, `H2O`, `tidymodels`, `xgboost`, `mlr` o
 
 ## Installation
 
-The easiest way to get the **R** version of DALEX is to install it from [CRAN](https://cran.r-project.org/package=DALEX)
+The easiest way to get the **R** version of DALEX is to install it [from CRAN](https://cran.r-project.org/package=DALEX)
 
 ```r
 install.packages("DALEX")
 ```
 
-The **Python** version of dalex is available on [pip](https://pypi.org/project/dalex/)
+The **Python** version of dalex is available [on PyPi](https://pypi.org/project/dalex/)
 
 ```console
 pip install dalex -U
@@ -75,7 +76,9 @@ In many applications we need to know, understand or prove how input variables ar
 * Introduction to the `dalex` package: [Titanic: tutorial and examples](http://dalex.drwhy.ai/python-dalex-titanic.html)
 * Important features explained: [FIFA20: explain default vs tuned model with dalex](http://dalex.drwhy.ai/python-dalex-fifa.html)
 * [How to use dalex with xgboost](http://dalex.drwhy.ai/python-dalex-xgboost.html)
-* [New features in v0.2.1](http://dalex.drwhy.ai/python-dalex-new.html)
+* [How to use dalex with tensorflow](http://dalex.drwhy.ai/python-dalex-tensorflow.html)
+* [Interesting features in v0.2.1](http://dalex.drwhy.ai/python-dalex-new.html)
+* [New fairness module](http://dalex.drwhy.ai/python-dalex-fairness.html)
 * Code in the form of [jupyter notebook](https://github.com/pbiecek/DALEX_docs/tree/master/jupyter-notebooks)
 * [YouTube video](https://www.youtube.com/watch?v=PuKF2GS4_3Y) showing how to do [Break Down](https://pbiecek.github.io/ema/breakDown.html) analysis
 * Changelog: [NEWS](https://github.com/ModelOriented/DALEX/blob/master/python/dalex/NEWS.md)
