@@ -62,7 +62,7 @@ yhat.svm <- function(X.model, newdata, ...) {
     pred <- attr(predict(X.model, newdata = newdata, probability = TRUE), "probabilities")
     if (ncol(pred) == 2 & !is.null(attr(X.model, "positive_class"))) { # binary classification
       pred <- pred[,attr(X.model, "positive_class")]
-    } else if (ncol(pred) == 2 & !is.null(attr(X.model, "positive_class"))) {
+    } else if (ncol(pred) == 2 & is.null(attr(X.model, "positive_class"))) {
       pred <- pred[,2]
     }
   } else {
