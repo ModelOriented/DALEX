@@ -19,6 +19,7 @@
 #' This will happen also if \code{verbose} is TRUE. Set both \code{verbose} and \code{precalculate} to FALSE to omit calculations.
 #' @param colorize logical. If TRUE (default) then \code{WARNINGS}, \code{ERRORS} and \code{NOTES} are colorized. Will work only in the R console.
 #' @param model_info a named list (\code{package}, \code{version}, \code{type}) containg information about model. If \code{NULL}, \code{DALEX} will seek for information on it's own.
+#' @param positive_class Character indicating the name of the class that should be considered as positive (ie. the class that is associated with probability 1). If NULL, the second column of the output will be taken (if possible). Does not affect tasks other than binary classification.
 #' @param type type of a model, either \code{classification} or \code{regression}. If not specified then \code{type} will be extracted from \code{model_info}.
 #'
 #' @return An object of the class \code{explainer}.
@@ -120,7 +121,7 @@
 explain.default <- function(model, data = NULL, y = NULL, predict_function = NULL,
                             residual_function = NULL, weights = NULL, ...,
                             label = NULL, verbose = TRUE, precalculate = TRUE,
-                            colorize = TRUE, model_info = NULL, type = NULL) {
+                            colorize = TRUE, model_info = NULL, positive_class = NULL, type = NULL) {
 
   verbose_cat("Preparation of a new explainer is initiated\n", verbose = verbose)
 
@@ -177,6 +178,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     verbose_cat("  -> data              :  colnames to data was added ( from 1 to", ncol(data), ") \n", verbose = verbose)
   }
 
+
   # REPORT: checks for y present while data is NULL
   if (is.null(y)) {
     # y not specified
@@ -202,6 +204,8 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
 #      }
 #    }
   }
+
+
 
   # REPORT: checks for weights
   if (is.null(weights)) {
@@ -244,21 +248,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
   }
   # if data is specified then we may test predict_function
   y_hat <- NULL
-  if (!is.null(data) && !is.null(predict_function) && (verbose | precalculate)) {
-    y_hat <- try(predict_function(model, data), silent = TRUE)
-    if (class(y_hat)[1] == "try-error") {
-      y_hat <- NULL
-      verbose_cat("  -> predicted values  :  the predict_function returns an error when executed (",color_codes$red_start,"WARNING",color_codes$red_end,") \n", verbose = verbose)
-    } else {
-      if ((is.factor(y_hat) | is.character(y_hat))) {
-        verbose_cat("  -> predicted values  :  factor (",color_codes$red_start,"WARNING",color_codes$red_end,") with levels: ", paste(unique(y_hat), collapse = ", "), "\n", verbose = verbose)
-      } else if (!is.null(dim(y_hat))) {
-        verbose_cat("  -> predicted values  :  predict function returns multiple columns: ", ncol(y_hat), " (",color_codes$yellow_start,"default",color_codes$yellow_end,") \n", verbose = verbose)
-      } else {
-        verbose_cat("  -> predicted values  :  numerical, min = ", min(y_hat), ", mean = ", mean(y_hat), ", max = ", max(y_hat), " \n", verbose = verbose)
-      }
-    }
-  }
+
 
   if (is.null(model_info)) {
     # extract defaults
@@ -292,6 +282,34 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     verbose_cat("  -> model_info        :  By deafult classification tasks supports only factor 'y' parameter. \n", verbose = verbose)
     verbose_cat("  -> model_info        :  Consider changing to a factor vector with true class names.\n", verbose = verbose)
     verbose_cat("  -> model_info        :  Otherwise I will not be able to calculate residuals or loss function.\n", verbose = verbose)
+  }
+
+  # issue #250, add attribute denoting the positive class
+
+  if (!is.null(positive_class) & model_info$type == "classification") {
+    attr(model, "positive_class") <- positive_class
+    verbose_cat("  -> predicted values  :  Positive class set to: ", positive_class ,"(",color_codes$green_start,"OK",color_codes$green_end,")\n", verbose = verbose)
+
+  } else if (is.null(positive_class) & model_info$type == "classification") {
+    verbose_cat("  -> predicted values  :  No value for positive class. Second column will be taken whenever it's possbile.", positive_class ,"(",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
+  }
+
+
+
+  if (!is.null(data) && !is.null(predict_function) && (verbose | precalculate)) {
+    y_hat <- try(predict_function(model, data), silent = TRUE)
+    if (class(y_hat)[1] == "try-error") {
+      y_hat <- NULL
+      verbose_cat("  -> predicted values  :  the predict_function returns an error when executed (",color_codes$red_start,"WARNING",color_codes$red_end,") \n", verbose = verbose)
+    } else {
+      if ((is.factor(y_hat) | is.character(y_hat))) {
+        verbose_cat("  -> predicted values  :  factor (",color_codes$red_start,"WARNING",color_codes$red_end,") with levels: ", paste(unique(y_hat), collapse = ", "), "\n", verbose = verbose)
+      } else if (!is.null(dim(y_hat))) {
+        verbose_cat("  -> predicted values  :  predict function returns multiple columns: ", ncol(y_hat), " (",color_codes$yellow_start,"default",color_codes$yellow_end,") \n", verbose = verbose)
+      } else {
+        verbose_cat("  -> predicted values  :  numerical, min = ", min(y_hat), ", mean = ", mean(y_hat), ", max = ", max(y_hat), " \n", verbose = verbose)
+      }
+    }
   }
 
 

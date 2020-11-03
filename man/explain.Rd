@@ -18,6 +18,7 @@ explain.default(
   precalculate = TRUE,
   colorize = TRUE,
   model_info = NULL,
+  positive_class = NULL,
   type = NULL
 )
 
@@ -34,6 +35,7 @@ explain(
   precalculate = TRUE,
   colorize = TRUE,
   model_info = NULL,
+  positive_class = NULL,
   type = NULL
 )
 }
@@ -62,6 +64,8 @@ This will happen also if \code{verbose} is TRUE. Set both \code{verbose} and \co
 \item{colorize}{logical. If TRUE (default) then \code{WARNINGS}, \code{ERRORS} and \code{NOTES} are colorized. Will work only in the R console.}
 
 \item{model_info}{a named list (\code{package}, \code{version}, \code{type}) containg information about model. If \code{NULL}, \code{DALEX} will seek for information on it's own.}
+
+\item{positive_class}{Character indicating the name of the class that should be considered as positive (ie. the class that is associated with probability 1). If NULL, the second column of the output will be taken (if possible). Does not affect tasks other than binary classification.}
 
 \item{type}{type of a model, either \code{classification} or \code{regression}. If not specified then \code{type} will be extracted from \code{model_info}.}
 }
