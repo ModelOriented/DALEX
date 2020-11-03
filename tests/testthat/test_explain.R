@@ -42,7 +42,7 @@ test_that("Checks for y",{
   expect_is(explainer_ranger_6, "explainer")
   expect_is(explainer_ranger_7, "explainer")
   expect_is(explainer_ranger_7$y, "numeric")
-  
+
   expect_output(explain(model_multiclassif_ranger_prob, data = HR, y = as.numeric(HR$status)),
                 "Model info detected multiclass task but 'y' is a numeric")
   expect_output(explain(model_regr_ranger, data = apartments, y = apartments$district),
@@ -89,6 +89,16 @@ test_that("predict and residual functions", {
   expect_is(explainer_ranger_10$residuals, "numeric")
   expect_is(explainer_ranger_11$y_hat, "numeric")
 
+
+})
+
+test_that("Positive class works", {
+  explainer_ranger_20 <- explain(model_classif_ranger, data = titanic_imputed[,-8], y = titanic_imputed$survived, verbose = FALSE)
+  explainer_ranger_21 <- explain(model_classif_ranger, data = titanic_imputed[,-8], y = titanic_imputed$survived, verbose = FALSE, positive_class = 1)
+
+  expect_is(explainer_ranger_20$y_hat, "numeric")
+  expect_is(explainer_ranger_21$y_hat, "numeric")
+  expect_false(all(explainer_ranger_20$y_hat == explainer_ranger_21$y_hat))
 
 })
 
