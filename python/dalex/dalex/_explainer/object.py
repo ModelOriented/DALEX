@@ -1,7 +1,9 @@
-from dalex.dataset_level import ModelPerformance, VariableImportance,\
+from dalex.dataset_level import ModelPerformance, VariableImportance, \
     AggregatedProfiles, ResidualDiagnostics
 from dalex.instance_level import BreakDown, Shap, CeterisParibus
 from dalex.wrappers import ShapWrapper
+from dalex.fairness import GroupFairnessClassification
+
 from .checks import *
 from .utils import unpack_kwargs_lime, create_surrogate_model
 from .. import _global_checks
@@ -178,12 +180,12 @@ class Explainer:
 
         Parameters
         ----------
-        data : pandas.DataFrame, numpy.ndarray 2d
+        data : pd.DataFrame, np.ndarray 2d
             Data which will be used to make a prediction.
 
         Returns
         ----------
-        numpy.ndarray (1d)
+        np.ndarray (1d)
             Model predictions for given `data`.
         """
 
@@ -233,7 +235,7 @@ class Explainer:
         type : {'break_down_interactions', 'break_down', 'shap', 'shap_wrapper}
             Type of variable attributions (default is 'break_down_interactions').
         order : list of int or str, optional
-            Prameter specific for `break_down_interactions` and `break_down`. Use a fixed
+            Parameter specific for `break_down_interactions` and `break_down`. Use a fixed
             order of variables for attribution calculation. Use integer values  or string
             variable names (default is None, which means order by importance).
         interaction_preference : int, optional
@@ -362,7 +364,7 @@ class Explainer:
 
         check_data_again(self.data)
 
-        types = ('ceteris_paribus', )
+        types = ('ceteris_paribus',)
         type = check_method_type(type, types)
 
         if type == 'ceteris_paribus':
@@ -482,6 +484,7 @@ class Explainer:
             (default is 'rmse' or `1-auc`, depends on `model_type` attribute).
         type : {'variable_importance', 'ratio', 'difference', 'shap_wrapper'}, optional
             Type of transformation that will be applied to dropout loss.
+            (default is 'variable_importance', which is Permutational Variable Importance).
         N : int, optional
             Number of observations that will be sampled from the `data` attribute before
             the calculation of variable importance. None means all `data` (default is 1000).
@@ -525,7 +528,8 @@ class Explainer:
         check_data_again(self.data)
 
         types = ('variable_importance', 'ratio', 'difference', 'shap_wrapper')
-        type = check_method_type(type, types)
+        aliases = {'permutational': 'variable_importance', 'feature_importance': 'variable_importance'}
+        type = check_method_type(type, types, aliases)
 
         loss_function = check_method_loss_function(self, loss_function)
 
@@ -630,7 +634,8 @@ class Explainer:
         check_data_again(self.data)
 
         types = ('partial', 'accumulated', 'conditional')
-        type = check_method_type(type, types)
+        aliases = {'pdp': 'partial', 'ale': 'accumulated'}
+        type = check_method_type(type, types, aliases)
 
         if N is None:
             N = self.data.shape[0]
@@ -701,7 +706,7 @@ class Explainer:
                         **kwargs):
         """Create a surrogate interpretable model from the black-box model
 
-        This function uses the scikit-learn package to create a surrogate
+        This method uses the scikit-learn package to create a surrogate
         interpretable model (e.g. decision tree) from the black-box model.
         It aims to use the most important features and add a plot method to
         the model, so that it can be easily interpreted. See Notes section
@@ -755,10 +760,88 @@ class Explainer:
 
         return surrogate_model
 
+    def model_fairness(self, protected, privileged, cutoff=0.5, **kwargs):
+        """Creates a dataset level fairness explanation that enables bias detection
+
+        This method returns a GroupFairnessClassification object that for now
+        supports only classification models. GroupFairnessClassification object
+        works as a wrapper of the protected attribute and the Explainer from which
+        `y` and `y_hat` attributes were extracted. Along with an information about
+        privileged subgroup (value in the `protected` parameter), those 3 vectors
+        create triplet (y, y_hat, protected) which is a base for all further
+        fairness calculations and visualizations.
+
+        Parameters
+        -----------
+        protected : np.ndarray (1d)
+            Vector, preferably 1-dimensional np.ndarray containing strings,
+            which denotes the membership to a subgroup. It doesn't have to be binary.
+            It doesn't need to be in data. It is sometimes suggested not to use
+            sensitive attributes in modelling, but still check model bias for them.
+            NOTE: List and pd.Series are also supported, however if provided
+            they will be transformed into a (1d) np.ndarray with dtype 'U'.
+        privileged : str
+            Subgroup that is suspected to have the most privilege.
+            It needs to be a string present in `protected`.
+        cutoff : float or dict, optional
+            Threshold for probabilistic output of a classifier.
+            It might be:
+                float - same for all subgroups from `protected`
+                dict - individually adjusted for each subgroup
+                       (must have values from `protected` as keys).
+        kwargs :
+            Keyword arguments. It supports `verbose`, which is a boolean
+            value telling if additional output should be printed
+            (True) or not (False, default).
+
+        Returns
+        -----------
+        GroupFairnessClassification class object (a subclass of _FairnessObject)
+            Explanation object containing the main result attribute and the plot method.
+            It has the following main attributes:
+                result : pd.DataFrame
+                    Scaled `metric_scores`. The scaling is performed by
+                    dividing all metric scores by scores of the privileged subgroup.
+                metric_scores : pd.DataFrame
+                    Raw metric scores for each subgroup.
+                parity_loss : pd.Series
+                    It is a summarised `result`. From each metric (column) a logarithm
+                    is calculated, then the absolute value is taken and summarised.
+                    Therefore, for metric M:
+                        `parity_loss` is sum(abs(log(M_i / M_privileged)))
+                         where M_i is the metric score for subgroup i.
+                label : str
+                    `label` attribute from the Explainer object.
+                     Labels must be unique when plotting.
+                cutoff : dict
+                    A float value for each subgroup (key in dict).
+
+        Notes
+        -----------
+        Verma, S. & Rubin, J. (2018) https://fairware.cs.umass.edu/papers/Verma.pdf
+        Zafar, M.B., et al. (2017) https://arxiv.org/pdf/1610.08452.pdf
+        Hardt, M., et al. (2016) https://arxiv.org/pdf/1610.02413.pdf
+        """
+
+        if self.model_type != 'classification':
+            raise ValueError(
+                "model_fairness for now supports only classification models."
+                "Explainer attribute 'model_type' must be 'classification'")
+
+        fobject = GroupFairnessClassification(y=self.y,
+                                              y_hat=self.y_hat,
+                                              protected=protected,
+                                              privileged=privileged,
+                                              cutoff=cutoff,
+                                              label=self.label,
+                                              **kwargs)
+
+        return fobject
+
     def dumps(self, *args, **kwargs):
         """Return the pickled representation (bytes object) of the Explainer
 
-        This function uses the pickle package. See
+        This method uses the pickle package. See
         https://docs.python.org/3/library/pickle.html#pickle.dumps
 
         NOTE: local functions and lambdas cannot be pickled.
@@ -787,7 +870,7 @@ class Explainer:
     def dump(self, file, *args, **kwargs):
         """Write the pickled representation of the Explainer to the file (pickle)
 
-        This function uses the pickle package. See
+        This method uses the pickle package. See
         https://docs.python.org/3/library/pickle.html#pickle.dump
 
         NOTE: local functions and lambdas cannot be pickled.
@@ -815,10 +898,10 @@ class Explainer:
     def loads(data, use_defaults=True, *args, **kwargs):
         """Load the Explainer from the pickled representation (bytes object)
 
-        This function uses the pickle package. See
+        This method uses the pickle package. See
         https://docs.python.org/3/library/pickle.html#pickle.loads
 
-        Note, that local functions and lambdas cannot be pickled.
+        NOTE: local functions and lambdas cannot be pickled.
         If use_defaults is set to True, then dropped functions are set to defaults.
 
         Parameters
@@ -850,10 +933,10 @@ class Explainer:
     def load(file, use_defaults=True, *args, **kwargs):
         """Read the pickled representation of the Explainer from the file (pickle)
 
-        This function uses the pickle package. See
+        This method uses the pickle package. See
         https://docs.python.org/3/library/pickle.html#pickle.load
 
-        Note, that local functions and lambdas cannot be pickled.
+        NOTE: local functions and lambdas cannot be pickled.
         If use_defaults is set to True, then dropped functions are set to defaults.
 
         Parameters

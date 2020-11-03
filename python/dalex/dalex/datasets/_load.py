@@ -168,3 +168,29 @@ def load_hr_test():
     dataset = pd.read_csv(abs_datasets_path, index_col=0, sep=';')
 
     return dataset
+
+
+def load_german():
+    """Load the German Credit data
+
+    Dataset german contains information about people and their credit risk.
+    On the base of age, purpose, credit amount, job, sex, etc. the model should
+    predict the target - Risk. Risk tells if the credit rate will be good (1) or bad (0).
+    This data contains some bias and it can be detected using the fairness module.
+
+    Format: pd.DataFrame with 1000 rows and 10 columns
+
+    Source: https://archive.ics.uci.edu/ml/datasets/Statlog+(German+Credit+Data).
+    Kaggle: https://www.kaggle.com/kabure/german-credit-data-with-risk/
+
+    Returns
+    -----------
+    pd.DataFrame
+    """
+
+    abs_dir_path = os.path.dirname(os.path.abspath(__file__))
+    abs_datasets_path = os.path.join(abs_dir_path, 'data', 'german.csv')
+
+    dataset = pd.read_csv(abs_datasets_path, index_col=False)
+
+    return dataset

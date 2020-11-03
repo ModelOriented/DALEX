@@ -3,7 +3,10 @@ import os
 
 this_directory = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(this_directory, 'README.md'), encoding='utf-8') as f:
-    long_description = f.read()
+    readme = f.read()
+
+with open(os.path.join(this_directory, 'NEWS.md'), encoding='utf-8')as f:
+    news = f.read()
 
 
 # https://packaging.python.org/guides/single-sourcing-package-version/
@@ -48,13 +51,20 @@ def run_setup():
 
     setup(
         name="dalex",
-        author="Wojciech Kretowicz, Hubert Baniecki, Przemyslaw Biecek",
-        author_email="wojtekkretowicz@gmail.com, hbaniecki@gmail.com",
+        maintainer="Hubert Baniecki",
+        maintainer_email="hbaniecki@gmail.com",
+        author="Hubert Baniecki, Wojciech Kretowicz, Przemyslaw Biecek et al.",
+        author_email="hbaniecki@gmail.com, wojtekkretowicz@gmail.com, przemyslaw.biecek@gmail.com",
         version=get_version("dalex/__init__.py"),
-        description="DALEX in Python",
-        long_description=long_description,
+        description="Explore, Explain and Examine Predictive Models",
+        long_description=u"\n\n".join([readme, news]),
         long_description_content_type="text/markdown",
         url="https://github.com/ModelOriented/DALEX",
+        project_urls={
+            "Documentation": "https://github.com/ModelOriented/DALEX/tree/master/python/dalex#resources",
+            "Code": "https://github.com/ModelOriented/DALEX/tree/master/python/dalex",
+            "Issue tracker": "https://github.com/ModelOriented/DALEX/issues",
+        },
         classifiers=[
             "Development Status :: 4 - Beta",
             "Topic :: Scientific/Engineering",
@@ -68,8 +78,8 @@ def run_setup():
             "Operating System :: OS Independent",
         ],
         install_requires=[
-            'pandas>=1.1.0',
-            'numpy>=1.18.1',
+            'pandas>=1.1.2',
+            'numpy>=1.18.4',
             'plotly>=4.9.0',
             'tqdm>=4.48.2'
         ],

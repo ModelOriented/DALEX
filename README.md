@@ -8,6 +8,7 @@ Status](https://img.shields.io/codecov/c/github/ModelOriented/DALEX/master.svg)]
 [![DrWhy-eXtrAI](https://img.shields.io/badge/DrWhy-BackBone-373589)](http://drwhy.ai/#BackBone)
 
 [![Python-check](https://github.com/ModelOriented/DALEX/workflows/Python-check/badge.svg)](https://github.com/ModelOriented/DALEX/actions?query=workflow%3APython-check)
+[![Supported Python versions](https://img.shields.io/pypi/pyversions/dalex.svg)](https://pypi.org/project/dalex/)
 [![PyPI version](https://badge.fury.io/py/dalex.svg)](https://badge.fury.io/py/dalex)
 [![Downloads](https://pepy.tech/badge/dalex)](https://pepy.tech/project/dalex)
 
@@ -20,7 +21,7 @@ The `DALEX` package xrays any model and helps to explore and explain its behavio
 
 The philosophy behind `DALEX` explanations is described in the [Explanatory Model Analysis](https://pbiecek.github.io/ema/) e-book. The `DALEX` package is a part of [DrWhy.AI](http://DrWhy.AI) universe.
 
-If you work with `scikitlearn`, `keras`, `H2O`, `tidymodels`, `xgboost`, `mlr` or `mlr3`, you may be interested in the [DALEXtra](https://github.com/ModelOriented/DALEXtra) package. It is an extension pack for `DALEX` with easy to use connectors to models created in these libraries.
+If you work with `scikit-learn`, `keras`, `H2O`, `tidymodels`, `xgboost`, `mlr` or `mlr3`, you may be interested in the [DALEXtra](https://github.com/ModelOriented/DALEXtra) package. It is an extension pack for `DALEX` with easy to use connectors to models created in these libraries.
 
 <p align="center">
 <a href="https://pbiecek.github.io/ema/introduction.html#bookstructure"><img src="https://github.com/ModelOriented/DALEX/raw/master/misc/DALEXpiramide.png" width="800"/></a>
@@ -28,13 +29,13 @@ If you work with `scikitlearn`, `keras`, `H2O`, `tidymodels`, `xgboost`, `mlr` o
 
 ## Installation
 
-The easiest way to get the **R** version of DALEX is to install it from [CRAN](https://cran.r-project.org/package=DALEX)
+The easiest way to get the **R** version of DALEX is to install it [from CRAN](https://cran.r-project.org/package=DALEX)
 
 ```r
 install.packages("DALEX")
 ```
 
-The **Python** version of dalex is available on [pip](https://pypi.org/project/dalex/)
+The **Python** version of dalex is available [on PyPI](https://pypi.org/project/dalex/)
 
 ```console
 pip install dalex -U
@@ -54,9 +55,9 @@ In many applications we need to know, understand or prove how input variables ar
 
 ### R package
 
+* [Workshop: Explanation and exploration of machine learning models with R and DALEX at eRum 2020](https://github.com/pbiecek/XAIatERUM2020), [cheatsheet](https://github.com/pbiecek/XAIatERUM2020/blob/master/Cheatsheet.pdf)
 * [XAI in the jungle of competing frameworks for machine learning](https://medium.com/@ModelOriented/xai-in-the-jungle-of-competing-frameworks-for-machine-learning-fa6e96a99644)
-* [Gentle introduction to DALEX with examples](https://pbiecek.github.io/DALEX_docs/) showt introduction to the `DALEX` package.
-* [How to use DALEXtra to explain and visualize scikitlearn and keras models](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/How-to-use-DALEXtra-to-explain-and-visualize-scikitlearn-models.html) 
+* [Gentle introduction to DALEX with examples](https://pbiecek.github.io/ema/) short introduction to the `DALEX` package.
 * [How to compare models created in different languages](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/Multilanguages_comparision.html) crosscomparison of gbm and CatBoost in R / gbm in h2o / gbm in python
 * [How to use DALEX for fraud detection](https://rawgit.com/pbiecek/DALEX_docs/master/vignettes/DALEXverse%20and%20fraud%20detection.html)
 * [How to use DALEX with keras](https://rawgit.com/pbiecek/DALEX_docs/master/vignettes/DALEX_and_keras.html)
@@ -65,23 +66,24 @@ In many applications we need to know, understand or prove how input variables ar
 * [How to use DALEX with mlr](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_mlr.html)
 * [How to use DALEX with H2O](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_h2o.html)
 * [How to use DALEX with xgboost package](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_and_xgboost.html)
-* [How to use DALEX for teaching. Part 1](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_teaching.html)
-* [How to use DALEX for teaching. Part 2](https://raw.githack.com/pbiecek/DALEX_docs/master/examples/What%20they%20have%20learned%20-%20part%202.html)
-* [breakDown vs lime vs shapleyR](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/Comparison_between_breakdown%2C_lime%2C_shapley.html)
+* [How to use DALEX for teaching]https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_teaching.html)
 
 ### Python package
 
 * Introduction to the `dalex` package: [Titanic: tutorial and examples](http://dalex.drwhy.ai/python-dalex-titanic.html)
 * Important features explained: [FIFA20: explain default vs tuned model with dalex](http://dalex.drwhy.ai/python-dalex-fifa.html)
 * [How to use dalex with xgboost](http://dalex.drwhy.ai/python-dalex-xgboost.html)
-* [New features in v0.2.1](http://dalex.drwhy.ai/python-dalex-new.html)
+* [How to use dalex with tensorflow](http://dalex.drwhy.ai/python-dalex-tensorflow.html)
+* [Interesting features in v0.2.1](http://dalex.drwhy.ai/python-dalex-new.html)
+* [New fairness module](http://dalex.drwhy.ai/python-dalex-fairness.html)
 * Code in the form of [jupyter notebook](https://github.com/pbiecek/DALEX_docs/tree/master/jupyter-notebooks)
 * [YouTube video](https://www.youtube.com/watch?v=PuKF2GS4_3Y) showing how to do [Break Down](https://pbiecek.github.io/ema/breakDown.html) analysis
 * Changelog: [NEWS](https://github.com/ModelOriented/DALEX/blob/master/python/dalex/NEWS.md)
 
 ### Talks about DALEX
 
-* [Talk about DALEX at Complexity Institute / NTU February 2018](https://github.com/pbiecek/pbiecek.github.io/blob/master/Presentations/DALEX_at_NTU_2018.pdf)
+* [Talk with your model! at USeR 2020](https://www.youtube.com/watch?v=9WWn5ew8D8o)
+* [Talk about DALEX at Complexity Institute / NTU February 2018](https://github.com/pbiecek/Talks/blob/master/2018/DALEX_at_NTU_2018.pdf)
 * [Talk about DALEX at SER / WTU April 2018](https://github.com/pbiecek/Talks/blob/master/2018/SER_DALEX.pdf)
 * [Talk about DALEX at STWUR May 2018 (in Polish)](https://github.com/STWUR/eRementarz-29-05-2018)
 * [Talk about DALEX at BayArea 2018](https://github.com/pbiecek/Talks/blob/master/2018/DALEX_BayArea.pdf)
@@ -107,4 +109,4 @@ The other way is to use approximated explainers – techniques that find only ap
 
 ## Acknowledgments
 
-Work on this package was financially supported by the `NCN Opus grant 2016/21/B/ST6/02176`.
+Work on this package was financially supported by the `NCN Opus grant 2016/21/B/ST6/02176` and `NCN Opus grant 2017/27/B/ST6/0130`.

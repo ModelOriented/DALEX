@@ -1,6 +1,7 @@
 # check functions for Explainer.__init__
 import pandas as pd
 from copy import deepcopy
+from warnings import warn
 
 from .helper import *
 from .yhat import *
@@ -182,17 +183,6 @@ def check_predict_function_and_model_type(predict_function, model_type,
 
     y_hat = None
     if data is not None:
-        if verbose or precalculate:
-            try:
-                y_hat = predict_function(model, data)
-                verbose_cat(str.format("  -> predicted values  : min = {0:.3}, mean = {1:.3}, max = {2:.3}",
-                                       np.min(y_hat), np.mean(y_hat), np.max(y_hat)), verbose=verbose)
-
-            except (Exception, ValueError, TypeError) as error:
-                verbose_cat("  -> predicted values  :  the predict_function returns an error when executed \n",
-                            verbose=verbose)
-                print(error)
-
         # check if predict_function accepts arrays
         try:
             data_values = data.values[[0]]
@@ -204,6 +194,22 @@ def check_predict_function_and_model_type(predict_function, model_type,
             model_info_['arrays_accepted'] = False
             verbose_cat("  -> predict function  : accepts only pandas.DataFrame, numpy.ndarray causes problems",
                         verbose=verbose)
+
+        if verbose or precalculate:
+            try:
+                y_hat = predict_function(model, data)
+                verbose_cat(str.format("  -> predicted values  : min = {0:.3}, mean = {1:.3}, max = {2:.3}",
+                                       np.min(y_hat), np.mean(y_hat), np.max(y_hat)), verbose=verbose)
+
+            except (Exception, ValueError, TypeError) as error:
+                # verbose_cat("  -> predicted values  : the predict_function returns an error when executed \n",
+                #             verbose=verbose)
+
+                warn("\n  -> predicted values  : the predict_function returns an error when executed \n" +
+                     str(error), stacklevel=2)
+
+            if not isinstance(y_hat, np.ndarray) or y_hat.shape != (data.shape[0], ):
+                warn("\n  -> predicted values  : predict_function must return numpy.ndarray (1d)", stacklevel=2)
 
     if model_type is None:
         # model_type not specified
@@ -260,7 +266,7 @@ def check_model_info(model_info, model_info_, verbose):
     return model_info_
 
 
-def check_method_type(type, types):
+def check_method_type(type, types, aliases=None):
     if isinstance(type, tuple):
         ret = type[0]
     elif isinstance(type, str):
@@ -269,7 +275,14 @@ def check_method_type(type, types):
         raise TypeError("type is not a str")
 
     if ret not in types:
-        raise ValueError("'type' must be one of: {}".format(', '.join(types)))
+        if aliases:
+            if ret not in aliases:
+                raise ValueError("'type' must be one of: {}".format(', '.join(types+tuple(aliases))))
+            else:
+                return aliases[ret]
+        else:
+            if ret not in types:
+                raise ValueError("'type' must be one of: {}".format(', '.join(types)))
     else:
         return ret
 

@@ -7,6 +7,9 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 
 import dalex as dx
+import numpy as np
+
+import warnings
 
 
 class ExplainerTest(unittest.TestCase):
@@ -63,5 +66,54 @@ class ExplainerTest(unittest.TestCase):
         self.assertIsInstance(case5, dx.instance_level.BreakDown)
         self.assertIsInstance(case6, dx.instance_level.CeterisParibus)
 
-        case5 = dx.Explainer(self.model, self.X, self.y, predict_function=1, verbose=False)
+        with warnings.catch_warnings(record=True) as w:
+            # Cause all warnings to always be triggered.
+            warnings.simplefilter("always")
+            # Trigger a warning.
+            case5 = dx.Explainer(self.model, self.X, self.y, predict_function=1, verbose=False)
+            assert issubclass(w[-1].category, UserWarning)
+
         self.assertIsInstance(case5, dx.Explainer)
+
+    def test_errors(self):
+
+        from sklearn.ensemble import RandomForestRegressor
+
+        data = dx.datasets.load_fifa()
+        X = data.drop(columns=['nationality', 'value_eur']).iloc[1:100, :]
+        y = data['value_eur'][1:100]
+
+        model = RandomForestRegressor()
+        model.fit(X, y)
+
+        def predict_function_return_2d(m, d):
+            n_rows = d.shape[0]
+            prediction = m.predict(d)
+            return prediction.reshape((n_rows, 1))
+
+        def predict_function_return_3d(m, d):
+            n_rows = d.shape[0]
+            prediction = m.predict(d)
+            return prediction.reshape((n_rows, 1, 1))
+
+        def predict_function_return_one_element_array(m, d):
+            return np.array(0.2)
+
+        warnings.simplefilter("always")
+        with warnings.catch_warnings(record=True) as w:
+            # Trigger a warning.
+            dx.Explainer(model, X, y, verbose=False, model_type='regression',
+                         predict_function=predict_function_return_2d)
+            assert issubclass(w[-1].category, UserWarning)
+
+        with warnings.catch_warnings(record=True) as w:
+            # Trigger a warning.
+            dx.Explainer(model, X, y, verbose=False, model_type='regression',
+                         predict_function=predict_function_return_3d)
+            assert issubclass(w[-1].category, UserWarning)
+
+        with warnings.catch_warnings(record=True) as w:
+            # Trigger a warning.
+            dx.Explainer(model, X, y, verbose=False, model_type='regression',
+                         predict_function=predict_function_return_one_element_array)
+            assert issubclass(w[-1].category, UserWarning)

@@ -12,7 +12,7 @@
 #' @param ... other parameters that will be passed to \code{ingredients::aggregate_profiles}
 #' @param groups a variable name that will be used for grouping.
 #' By default \code{NULL} which means that no groups shall be calculated
-#' @param N number of observations used for calculation of aggregated profiles. By default \code{100}.
+#' @param N number of observations used for calculation of aggregated profiles. By default \code{100}. Use \code{NULL} to use all observations.
 #' @param k number of clusters for the hclust function (for clustered profiles)
 #' @param center shall profiles be centered before clustering
 #' @param variables character - names of variables to be explained
@@ -22,7 +22,7 @@
 #' @return An object of the class \code{model_profile}.
 #' It's a data frame with calculated average model responses.
 #'
-#' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
+#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
 #'
 #' @name model_profile
 #' @examples
@@ -64,7 +64,7 @@ model_profile <- function(explainer, variables = NULL, N = 100, ..., groups = NU
 
   # calculate serveral ceteris profiles and call the aggregate profiles for partial dependency
   data <- explainer$data
-  if (N < nrow(data)) {
+  if (!is.null(N) && N < nrow(data)) {
     # sample N points
     ndata <- data[sample(1:nrow(data), N),]
   } else {
