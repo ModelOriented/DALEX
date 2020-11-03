@@ -3,6 +3,7 @@ from .plot import *
 from .._basics._base_objects import _FairnessObject
 from .._basics.checks import check_other_objects
 from ..._theme import get_default_config
+from .utils import *
 
 
 class GroupFairnessClassification(_FairnessObject):
@@ -157,6 +158,13 @@ class GroupFairnessClassification(_FairnessObject):
                               other_objects=other_objects,
                               title=title,
                               **kwargs)
+
+        if type == 'radar':
+            fig = plot_radar(self,
+                             other_objects = other_objects,
+                             title=title,
+                             **kwargs)
+
 
         if show:
             fig.show(config=get_default_config())

@@ -1,6 +1,8 @@
 import plotly.express as px
-
-from .utils import *
+import plotly.graph_objects as go
+import numpy as np
+import pandas as pd
+from .utils import _metric_ratios_2_df, _unwrap_parity_loss_data, _fairness_theme
 from .._basics.checks import check_other_fairness_objects
 from ..._explainer.helper import verbose_cat
 from ..._theme import get_default_colors
@@ -145,7 +147,7 @@ def plot_fairness_check(fobject,
     if title is None:
         title = 'Fairness Check'
 
-    fig.update_layout(fairness_theme(title))
+    fig.update_layout(_fairness_theme(title))
 
     # delete 'metric=' from facet names
     fig.for_each_annotation(
@@ -175,7 +177,7 @@ def plot_metric_scores(fobject,
             n += 1
 
     # metric choosing and name change
-    data = data.loc[data.metric.isin(fairness_check_metrics())]
+    data = data.loc[data.metric.isin(["TPR", "PPV", "STP", "ACC", "FPR"])]
     data.loc[data.metric == 'TPR', 'metric'] = 'TPR    TP/(TP + FN)'
     data.loc[data.metric == 'ACC', 'metric'] = 'ACC   (TP + TN)/(TP + FP + TN + FN)'
     data.loc[data.metric == 'PPV', 'metric'] = 'PPV    TP/(TP + FP)'
@@ -288,7 +290,7 @@ def plot_metric_scores(fobject,
     if title is None:
         title = 'Metric Scores'
 
-    fig.update_layout(fairness_theme(title))
+    fig.update_layout(_fairness_theme(title))
 
     fig.for_each_annotation(
         lambda a: a.update(text=a.text.replace("metric=", ""), xanchor='left', x=0.05, font={'size': 15}))
@@ -325,30 +327,11 @@ def plot_metric_scores(fobject,
 def plot_stacked(fobject,
                  title=None,
                  other_objects=None,
-                 metrics=["TPR", "ACC", "PPV", "FPR", "STP"],
+                 metrics=["TPR", "PPV", "STP", "ACC", "FPR"],
                  verbose = True,
                  **kwargs):
-    data = pd.DataFrame()
-    data['score'] = deepcopy(fobject.parity_loss)
-    data['label'] = np.repeat(fobject.label, len(fobject.parity_loss))
-    data['metric'] = data.index
-    data = data.reset_index(drop=True)
 
-    if other_objects is not None:
-        for object in other_objects:
-            other_data = pd.DataFrame()
-            other_data['score'] = deepcopy(object.parity_loss)
-            other_data['label'] = np.repeat(object.label, len(object.parity_loss))
-            other_data['metric'] = other_data.index
-            other_data = other_data.reset_index(drop=True)
-            data = data.append(other_data)
-
-    # checking for nans
-    if any(np.isnan(data.score)):
-        models_with_nans = set(data.loc[np.isnan(data.score), :].label)
-        verbose_cat(f"Found NaNs in following models: {models_with_nans}", verbose)
-
-    data = data.loc[data.metric.isin(metrics), :]
+    data = _unwrap_parity_loss_data(fobject, other_objects, metrics, verbose)
 
     fig = px.bar(data,
                  x='score',
@@ -365,7 +348,7 @@ def plot_stacked(fobject,
 
     if title is None:
         title = "Stacked Parity loss metrics"
-    fig.update_layout(fairness_theme(title))
+    fig.update_layout(_fairness_theme(title))
 
     fig.update_traces(
         hovertemplate="<br>".join([
@@ -377,31 +360,51 @@ def plot_stacked(fobject,
 
     return fig
 
+def plot_radar(fobject,
+               other_objects = None,
+               title=None,
+               verbose=True,
+               metrics=["TPR", "ACC", "PPV", "FPR", "STP"],
+               **kwargs):
 
-def fairness_theme(title):
-    return {'title_text': title,
-            'template': 'plotly_white',
-            'title_x': 0.5,
-            'title_y': 0.99,
-            'titlefont': {'size': 25},
-            'font': {'color': "#371ea3"},
-            'margin': {'t': 78, 'b': 71, 'r': 30}}
+    data = _unwrap_parity_loss_data(fobject, other_objects, metrics, verbose)
+    colors = get_default_colors(len(set(data.label)), type='line')
 
+    fig = go.Figure()
+    for i, label in enumerate(set(sorted(data.label))):
+        model_data = data.loc[data.label==label,:]
+        r = list(model_data.score)
+        r.append(r[0])
+        theta = list(model_data.metric)
+        theta.append(theta[0])
+        fig.add_trace(
+            go.Scatterpolar(
+                r=r,
+                theta = theta,
+                name = label,
+                marker=dict(color = [colors[i] for elem in r]),
+                line=dict(color = colors[i]),
+                text=[label for i in r]
+            )
+        )
 
-def _metric_ratios_2_df(fobject):
-    """
-    Converts GroupFairnessClassification
-    to elegant DataFrame with 4 columns (subgroup, metric, score, label)
-    """
+    if title is None:
+        title = "Fairness Radar"
+    fig.update_layout(_fairness_theme(title))
 
-    data = fobject.result
-    data = data.stack()
-    data = data.reset_index()
-    data.columns = ["subgroup", "metric", "score"]
-    data = data.loc[data.metric.isin(fairness_check_metrics())]
-    data = data.loc[data.subgroup != fobject.privileged]
-    data.score -= 1
+    fig.update_layout(
+        polar=dict(
+            radialaxis=dict(
+                range=[0, max(data.score)+0.1]
+            ))
+    )
 
-    data['label'] = np.repeat(fobject.label, data.shape[0])
+    fig.update_traces(
+        hovertemplate="<br>".join([
+            "<b>%{text}</b><br>"
+            "Metric: %{theta}<br>"
+            "Parity loss: %{r:.3f}"
+            "<extra></extra>"
+        ]))
 
-    return data
+    return fig
