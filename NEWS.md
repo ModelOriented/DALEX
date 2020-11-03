@@ -1,3 +1,8 @@
+DALEX 2.1.0
+---------------------------------------------------------------
+* Added new parameter (`positive_class`) to `explain` function that allows specifying positive class in binary classification tasks ([#250](https://github.com/ModelOriented/DALEX/issues/250)).
+
+
 DALEX 2.0.1
 ---------------------------------------------------------------
 * Fixed R package not working with Python Explainer ([#318](https://github.com/ModelOriented/DALEX/issues/318))
