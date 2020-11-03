@@ -138,26 +138,27 @@ class GroupFairnessClassification(_FairnessObject):
             for obj in objects:
                 if isinstance(obj, self.__class__):
                     other_objects.append(obj)
-        if other_objects is not None:
-            check_other_objects(self, other_objects)
-
+            check_other_fairness_objects(self, other_objects)
 
         if type == 'fairness_check':
             fig = plot_fairness_check(self,
                                       other_objects=other_objects,
                                       title=title, **kwargs)
 
-            if show:
-                fig.show(config=get_default_config())
-            else:
-                return fig
-
         if type == "metric_scores":
             fig = plot_metric_scores(self,
                                      other_objects=other_objects,
                                      title=title,
                                      **kwargs)
-            if show:
-                fig.show(config=get_default_config())
-            else:
-                return fig
+
+        # names of plots may be changed
+        if type == 'stacked':
+            fig = plot_stacked(self,
+                              other_objects=other_objects,
+                              title=title,
+                              **kwargs)
+
+        if show:
+            fig.show(config=get_default_config())
+        else:
+            return fig
