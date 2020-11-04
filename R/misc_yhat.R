@@ -46,8 +46,8 @@ yhat.randomForest <- function(X.model, newdata, ...) {
     # if result is a vector then ncol parameter is null
     if (is.null(ncol(pred))) return(pred)
     #  binary classification
-    if (ncol(pred) == 2 & !is.null(attr(X.model, "positive_class"))) return(pred[,attr(X.model, "positive_class")])
-    else if (ncol(pred) == 2 & is.null(attr(X.model, "positive_class"))) return(pred[,2])
+    if (ncol(pred) == 2 & !is.null(attr(X.model, "predict_col"))) return(pred[,attr(X.model, "predict_col")])
+    else if (ncol(pred) == 2 & is.null(attr(X.model, "predict_col"))) return(pred[,2])
 
   } else {
     pred <- predict(X.model, newdata, ...)
@@ -60,9 +60,9 @@ yhat.randomForest <- function(X.model, newdata, ...) {
 yhat.svm <- function(X.model, newdata, ...) {
   if (X.model$type == 0) {
     pred <- attr(predict(X.model, newdata = newdata, probability = TRUE), "probabilities")
-    if (ncol(pred) == 2 & !is.null(attr(X.model, "positive_class"))) { # binary classification
-      pred <- pred[,attr(X.model, "positive_class")]
-    } else if (ncol(pred) == 2 & is.null(attr(X.model, "positive_class"))) {
+    if (ncol(pred) == 2 & !is.null(attr(X.model, "predict_col"))) { # binary classification
+      pred <- pred[,attr(X.model, "predict_col")]
+    } else if (ncol(pred) == 2 & is.null(attr(X.model, "predict_col"))) {
       pred <- pred[,2]
     }
   } else {
@@ -105,9 +105,9 @@ yhat.cv.glmnet <- function(X.model, newdata, ...) {
     if (ncol(pred) == 1) {
       return(as.numeric(pred))
     }
-    if (ncol(pred) == 2 & !is.null(attr(X.model, "positive_class"))) {
-      return(pred[,attr(X.model, "positive_class")])
-    } else if (ncol(pred) == 2 & is.null(attr(X.model, "positive_class"))) {
+    if (ncol(pred) == 2 & !is.null(attr(X.model, "predict_col"))) {
+      return(pred[,attr(X.model, "predict_col")])
+    } else if (ncol(pred) == 2 & is.null(attr(X.model, "predict_col"))) {
       return(pred[,2])
     }
   } else {
@@ -154,10 +154,10 @@ yhat.ranger <- function(X.model, newdata, ...) {
     # if result is a vector then ncol parameter is null
     if (is.null(ncol(pred))) return(pred)
     # binary classification
-    if (ncol(pred) == 2 & !is.null(attr(X.model, "positive_class"))) {
-      pred <- pred[,attr(X.model, "positive_class")]
+    if (ncol(pred) == 2 & !is.null(attr(X.model, "predict_col"))) {
+      pred <- pred[,attr(X.model, "predict_col")]
     }
-    else if (ncol(pred) == 2 & is.null(attr(X.model, "positive_class"))) {
+    else if (ncol(pred) == 2 & is.null(attr(X.model, "predict_col"))) {
       pred <- pred[, 2]
     }
   }
@@ -170,9 +170,9 @@ yhat.model_fit <- function(X.model, newdata, ...) {
   if (X.model$spec$mode == "classification") {
     response <- as.matrix(predict(X.model, newdata, type = "prob"))
     colnames(response) <- X.model$lvl
-    if (ncol(response) == 2  & !is.null(attr(X.model, "positive_class"))) {
-      response <- response[,attr(X.model, "positive_class")]
-    } else if (ncol(response) == 2  & is.null(attr(X.model, "positive_class"))) {
+    if (ncol(response) == 2  & !is.null(attr(X.model, "predict_col"))) {
+      response <- response[,attr(X.model, "predict_col")]
+    } else if (ncol(response) == 2  & is.null(attr(X.model, "predict_col"))) {
       response <- response[,2]
     }
   }
@@ -188,9 +188,9 @@ yhat.model_fit <- function(X.model, newdata, ...) {
 yhat.train <- function(X.model, newdata, ...) {
   if (X.model$modelType == "Classification") {
     response <- predict(X.model, newdata = newdata, type = "prob")
-    if (ncol(response) == 2 & !is.null(attr(X.model, "positive_class"))) {
-      response <- response[,attr(X.model, "positive_class")]
-    } else if (ncol(response) == 2 & is.null(attr(X.model, "positive_class"))) {
+    if (ncol(response) == 2 & !is.null(attr(X.model, "predict_col"))) {
+      response <- response[,attr(X.model, "predict_col")]
+    } else if (ncol(response) == 2 & is.null(attr(X.model, "predict_col"))) {
       response <- response[,2]
     }
   }
@@ -216,9 +216,9 @@ yhat.lrm <- function(X.model, newdata, ...) {
 yhat.rpart <- function(X.model, newdata, ...) {
   response <- predict(X.model, newdata = newdata)
   if (!is.null(dim(response))) {
-    if (ncol(response) == 2 & !is.null(attr(X.model, "positive_class"))) {
-      response <- response[,attr(X.model, "positive_class")]
-    } else if (ncol(response) == 2 & is.null(attr(X.model, "positive_class"))) {
+    if (ncol(response) == 2 & !is.null(attr(X.model, "predict_col"))) {
+      response <- response[,attr(X.model, "predict_col")]
+    } else if (ncol(response) == 2 & is.null(attr(X.model, "predict_col"))) {
       response <- response[, 2]
     }
   }
@@ -239,9 +239,9 @@ yhat.default <- function(X.model, newdata, ...) {
     return(as.numeric(response))
   }
   # result is a matrix of data.frame with a two column (binary classification), returns the second
-  if (ncol(response) == 2 & !is.null(attr(X.model, "positive_class"))) {
-    return(as.numeric(response[,attr(X.model, "positive_class")]))
-  } else if (ncol(response) == 2 & is.null(attr(X.model, "positive_class"))) {
+  if (ncol(response) == 2 & !is.null(attr(X.model, "predict_col"))) {
+    return(as.numeric(response[,attr(X.model, "predict_col")]))
+  } else if (ncol(response) == 2 & is.null(attr(X.model, "predict_col"))) {
     return(as.numeric(response[,2]))
   }
   # result is a matrix of data.frame with more than 2 columns (multi label classification)

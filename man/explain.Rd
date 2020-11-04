@@ -18,7 +18,7 @@ explain.default(
   precalculate = TRUE,
   colorize = TRUE,
   model_info = NULL,
-  positive_class = NULL,
+  predict_col = NULL,
   type = NULL
 )
 
@@ -35,7 +35,7 @@ explain(
   precalculate = TRUE,
   colorize = TRUE,
   model_info = NULL,
-  positive_class = NULL,
+  predict_col = NULL,
   type = NULL
 )
 }
@@ -65,7 +65,7 @@ This will happen also if \code{verbose} is TRUE. Set both \code{verbose} and \co
 
 \item{model_info}{a named list (\code{package}, \code{version}, \code{type}) containg information about model. If \code{NULL}, \code{DALEX} will seek for information on it's own.}
 
-\item{positive_class}{Character or numeric containing either column name or column number in the model prediction object of the class that should be considered as positive (ie. the class that is associated with probability 1) or the . If NULL, the second column of the output will be taken (if possible). Does not affect tasks other than binary classification.}
+\item{predict_col}{Character or numeric containing either column name or column number in the model prediction object of the class that should be considered as positive (ie. the class that is associated with probability 1). If NULL, the second column of the output will be taken (if possible). Does not affect tasks other than binary classification.}
 
 \item{type}{type of a model, either \code{classification} or \code{regression}. If not specified then \code{type} will be extracted from \code{model_info}.}
 }

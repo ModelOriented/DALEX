@@ -1,6 +1,6 @@
 DALEX 2.1.0
 ---------------------------------------------------------------
-* Added new parameter (`positive_class`) to `explain` function that allows specifying positive class in binary classification tasks ([#250](https://github.com/ModelOriented/DALEX/issues/250)).
+* Added new parameter (`predict_col`) to `explain` function that allows specifying positive class in binary classification tasks ([#250](https://github.com/ModelOriented/DALEX/issues/250)).
 
 
 DALEX 2.0.1

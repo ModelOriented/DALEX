@@ -19,7 +19,7 @@
 #' This will happen also if \code{verbose} is TRUE. Set both \code{verbose} and \code{precalculate} to FALSE to omit calculations.
 #' @param colorize logical. If TRUE (default) then \code{WARNINGS}, \code{ERRORS} and \code{NOTES} are colorized. Will work only in the R console.
 #' @param model_info a named list (\code{package}, \code{version}, \code{type}) containg information about model. If \code{NULL}, \code{DALEX} will seek for information on it's own.
-#' @param positive_class Character or numeric containing either column name or column number in the model prediction object of the class that should be considered as positive (ie. the class that is associated with probability 1) or the . If NULL, the second column of the output will be taken (if possible). Does not affect tasks other than binary classification.
+#' @param predict_col Character or numeric containing either column name or column number in the model prediction object of the class that should be considered as positive (ie. the class that is associated with probability 1). If NULL, the second column of the output will be taken (if possible). Does not affect tasks other than binary classification.
 #' @param type type of a model, either \code{classification} or \code{regression}. If not specified then \code{type} will be extracted from \code{model_info}.
 #'
 #' @return An object of the class \code{explainer}.
@@ -121,7 +121,7 @@
 explain.default <- function(model, data = NULL, y = NULL, predict_function = NULL,
                             residual_function = NULL, weights = NULL, ...,
                             label = NULL, verbose = TRUE, precalculate = TRUE,
-                            colorize = TRUE, model_info = NULL, positive_class = NULL, type = NULL) {
+                            colorize = TRUE, model_info = NULL, predict_col = NULL, type = NULL) {
 
   verbose_cat("Preparation of a new explainer is initiated\n", verbose = verbose)
 
@@ -286,12 +286,12 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
 
   # issue #250, add attribute denoting the positive class
 
-  if (!is.null(positive_class) & model_info$type == "classification") {
-    attr(model, "positive_class") <- positive_class
-    verbose_cat("  -> predicted values  :  Positive class set to: ", positive_class ,"(",color_codes$green_start,"OK",color_codes$green_end,")\n", verbose = verbose)
+  if (!is.null(predict_col) & model_info$type == "classification") {
+    attr(model, "predict_col") <- predict_col
+    verbose_cat("  -> predicted values  :  Predict columns set to: ", predict_col ,"(",color_codes$green_start,"OK",color_codes$green_end,")\n", verbose = verbose)
 
-  } else if (is.null(positive_class) & model_info$type == "classification") {
-    verbose_cat("  -> predicted values  :  No value for positive class. Second column will be taken whenever it's possbile.", positive_class ,"(",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
+  } else if (is.null(predict_col) & model_info$type == "classification") {
+    verbose_cat("  -> predicted values  :  No value for predict columns. Second column will be taken whenever it's possbile.", predict_col ,"(",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
   }
 
 

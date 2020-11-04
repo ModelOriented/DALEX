@@ -94,7 +94,7 @@ test_that("predict and residual functions", {
 
 test_that("Positive class works", {
   explainer_ranger_20 <- explain(model_classif_ranger, data = titanic_imputed[,-8], y = titanic_imputed$survived, verbose = FALSE)
-  explainer_ranger_21 <- explain(model_classif_ranger, data = titanic_imputed[,-8], y = titanic_imputed$survived, verbose = FALSE, positive_class = 1)
+  explainer_ranger_21 <- explain(model_classif_ranger, data = titanic_imputed[,-8], y = titanic_imputed$survived, verbose = FALSE, predict_col = 1)
 
   expect_is(explainer_ranger_20$y_hat, "numeric")
   expect_is(explainer_ranger_21$y_hat, "numeric")
