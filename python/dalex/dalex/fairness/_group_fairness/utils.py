@@ -2,7 +2,7 @@ from copy import deepcopy
 import numpy as np
 import pandas as pd
 from dalex._explainer.helper import verbose_cat
-
+from dalex.dataset_level._model_performance.utils import *
 # -------------- Objects needed in creation of object in object.py --------------
 
 class ConfusionMatrix:
@@ -173,12 +173,15 @@ def _unwrap_parity_loss_data(fobject, other_objects, metrics, verbose):
             other_data = other_data.reset_index(drop=True)
             data = data.append(other_data)
 
+    if len(metrics) > 1:
+        data = data.loc[data.metric.isin(metrics), :]
+    else:
+        data = data.loc[data.metric == metrics[0]]
     # checking for nans
     if any(np.isnan(data.score)):
         models_with_nans = set(data.loc[np.isnan(data.score), :].label)
         verbose_cat(f"Found NaNs in following models: {models_with_nans}", verbose)
 
-    data = data.loc[data.metric.isin(metrics), :]
     return data
 
 def _fairness_theme(title):
@@ -201,7 +204,7 @@ def _metric_ratios_2_df(fobject):
     data = data.stack()
     data = data.reset_index()
     data.columns = ["subgroup", "metric", "score"]
-    data = data.loc[data.metric.isin(fairness_check_metrics())]
+    data = data.loc[data.metric.isin(["TPR", "ACC", "PPV", "FPR", "STP"])]
     data = data.loc[data.subgroup != fobject.privileged]
     data.score -= 1
 
@@ -209,3 +212,25 @@ def _metric_ratios_2_df(fobject):
 
     return data
 
+def _classification_performance(fobject, verbose, type='accuracy'):
+
+    tp = tn = fp = fn = 0
+    for key, val in fobject._subgroup_confusion_matrix.sub_dict.items():
+        tp += val.tp
+        tn += val.tn
+        fp += val.fp
+        fn += val.fn
+
+    if type=='accuracy':
+        return accuracy(tp, fp, tn, fn)
+    if type=='auc':
+        verbose_cat("Beware, that auc metric is insensitive to cutoffs", verbose)
+        return auc(fobject.y_hat, fobject.y)
+    if type=='recall':
+        return recall(tp, fp, tn, fn)
+    if type=='precision':
+        return  precision(tp, fp, tn, fn)
+    if type=='f1':
+        return f1(tp, fp, tn, fn)
+    else:
+        raise TypeError(f'type \'{type}\' not supported')

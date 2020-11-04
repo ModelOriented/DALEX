@@ -2,7 +2,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import numpy as np
 import pandas as pd
-from .utils import _metric_ratios_2_df, _unwrap_parity_loss_data, _fairness_theme
+from .utils import _metric_ratios_2_df, _unwrap_parity_loss_data, _fairness_theme, _classification_performance
 from .._basics.checks import check_other_fairness_objects
 from ..._explainer.helper import verbose_cat
 from ..._theme import get_default_colors
@@ -408,3 +408,54 @@ def plot_radar(fobject,
         ]))
 
     return fig
+
+def plot_performance_and_fairness(fobject,
+                                  other_objects=None,
+                                  fairness_metric='TPR',
+                                  performance_metric='accuracy',
+                                  title=None,
+                                  verbose=False,
+                                  **kwargs):
+
+    data = _unwrap_parity_loss_data(fobject, other_objects,[fairness_metric],verbose)
+    assert len(data.label.unique()) == len(data.label)
+
+    performance_data = pd.DataFrame(columns=['label','performance_score'])
+    performance_data.loc[0] = [fobject.label, _classification_performance(fobject, verbose, performance_metric)]
+
+    if other_objects:
+        other_data = pd.DataFrame()
+        for i, obj in enumerate(other_objects):
+            performance_data.loc[i+1] = [obj.label, _classification_performance(obj, verbose, performance_metric)]
+
+    data = data.merge(performance_data, on='label')
+
+    fig = px.scatter(data,
+                     x='performance_score',
+                     y='score',
+                     color = 'label',
+                     custom_data=[data.label],
+                     color_discrete_sequence=get_default_colors(len(data.label), 'line'))
+
+    fig.update_traces(
+                     mode='markers',
+                     marker = dict(size=[15 for i in data.label]))
+
+    if title is None:
+        title = "Performance and Fairness"
+    fig.update_layout(_fairness_theme(title))
+
+    fig.update_yaxes(title = "reversed " + fairness_metric + " parity loss",
+                     autorange='reversed')
+    fig.update_xaxes(title=performance_metric)
+
+    fig.update_traces(
+        hovertemplate="<br>".join([
+            "<b>%{customdata[0]}</b><br>",
+            fairness_metric + " parity loss: %{y:.3f}",
+            performance_metric + " score: %{x:.3f}",
+            "<extra></extra>"
+        ]))
+
+    return fig
+
