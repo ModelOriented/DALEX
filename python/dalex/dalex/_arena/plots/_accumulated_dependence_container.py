@@ -28,8 +28,7 @@ class AccumulatedDependenceContainer(PlotContainer):
             variable_type=variable_type,
             center=False,
             grid_points=self.arena.get_option(self.plot_type, 'grid_points'),
-            # TODO
-            #variable_splits_type=arena.get_option(self.plot_type, 'grid_type'),
+            variable_splits_type=self.arena.get_option(self.plot_type, 'grid_type'),
             N=self.arena.get_option(self.plot_type, 'N'),
             verbose=False
         )

@@ -23,8 +23,7 @@ class PartialDependenceContainer(PlotContainer):
                 variables=variable.variable,
                 variable_type='numerical',
                 grid_points=self.arena.get_option(self.plot_type, 'grid_points'),
-                # TODO
-                #variable_splits_type=self.arena.get_option(self.plot_type, 'grid_type'),
+                variable_splits_type=self.arena.get_option(self.plot_type, 'grid_type'),
                 N=self.arena.get_option(self.plot_type, 'N'),
                 verbose=False
             )
