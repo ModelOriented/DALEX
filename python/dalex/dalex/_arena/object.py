@@ -125,7 +125,7 @@ class Arena:
         Link to Arena
         """
         if self.server_thread:
-            raise Exception('Server is already running')
+            raise Exception('Server is already running. To stop ip use arena.stop_server().')
         global_check_import('flask')
         global_check_import('flask_cors')
         global_check_import('requests')
@@ -192,8 +192,7 @@ class Arena:
 
         _filter = lambda p: p.plot_type == plot_type and params == p.params
         with self.mutex:
-            result = next(filter(_filter, self.cache), None)
-        return result
+            return next(filter(_filter, self.cache), None)
     
     def put_to_cache(self, plot_container):
         """Puts new plot to cache
@@ -224,7 +223,10 @@ class Arena:
             raise Exception('Params argument must be a dict')
         for plot_class in self.get_supported_plots():
             required_params = plot_class.info.get('requiredParams')
-            if [k for k in fixed_params.keys() if not k in required_params]:
+            # Test if all params fixed by user are used in this plot. If not, then skip it.
+            # This list contains fixed params' types, that are not required by plot.
+            # Loop will be skipped if this list is not empty.
+            if len([k for k in fixed_params.keys() if not k in required_params]) > 0:
                 continue
             available_params = self.get_available_params()
             iteration_pools = map(lambda p: available_params.get(p) if fixed_params.get(p) is None else [fixed_params.get(p)], required_params)
@@ -356,11 +358,13 @@ class Arena:
         """
         if param_type == 'observation':
             with self.mutex:
-                result = self.observations
+                return self.observations
         elif param_type == 'variable':
             with self.mutex:
                 if not self.variables_cache:
+                    # Extract column names from every dataset in self.dataset list and flatten it
                     result_datasets = [col for dataset in self.datasets for col in dataset.variables]
+                    # Extract column names from every model in self.models list and flatten it
                     result_explainers = [col for model in self.models for col in model.variables]
                     result_str = np.unique(result_datasets + result_explainers).tolist()
                     self.variables_cache = [VariableParam(x) for x in result_str]
@@ -375,16 +379,15 @@ class Arena:
                                         var.update_attributes(model.explainer.data[var.variable])
                             except:
                                 var.clear_attributes()
-                result = self.variables_cache
+                return self.variables_cache
         elif param_type == 'model':
             with self.mutex:
-                result = self.models
+                return self.models
         elif param_type == 'dataset':
             with self.mutex:
-                result = self.datasets
+                return self.datasets
         else:
             raise Exception('Invalid param type')
-        return result
 
     def list_params(self, param_type):
         """Returns list of available params's labels
@@ -491,8 +494,7 @@ class Arena:
         if not option in options.keys():
             return
         with self.mutex:
-            result = self.options.get(plot_type).get(option)
-        return result
+            return self.options.get(plot_type).get(option)
 
     def set_option(self, plot_type, option, value):
         """Sets value for the plot option
