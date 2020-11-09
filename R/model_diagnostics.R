@@ -46,25 +46,25 @@ model_diagnostics <-  function(explainer, variables = NULL, ...) {
   # if variables = NULL then all variables are added
   # otherwise only selected
   if (is.null(variables)) {
-    results <- explainer$data
+    results <- as.data.frame(explainer$data)
   } else {
-    results <- explainer$data[, intersect(variables, colnames(explainer$data)), drop = FALSE]
+    results <- as.data.frame(explainer$data[, intersect(variables, colnames(explainer$data)), drop = FALSE])
   }
   # is there target
   if (!is.null(explainer$y)) {
-    results <- cbind(results, y = explainer$y)
+    results$y <- explainer$y
   }
   # are there predictions
   if (is.null(explainer$y_hat)) {
     explainer$y_hat <- explainer$predict_function(explainer$model, explainer$data)
   }
   if (is.null(dim(explainer$y_hat))) {
-    results <- cbind(results, y_hat = explainer$y_hat)
+    results$y_hat <- explainer$y_hat
   } else {
     if ("array" %in% class(explainer$y_hat) && length(dim(explainer$y_hat)) == 1) {
-      results <- cbind(results, y_hat = as.vector(explainer$y_hat))
+      results$y_hat <- as.vector(explainer$y_hat)
     } else {
-      results <- cbind(results, y_hat = explainer$y_hat[, 1]) # this will work only for first column
+      results$y_hat <- explainer$y_hat[, 1] # this will work only for first column
     }
   }
 
@@ -73,20 +73,18 @@ model_diagnostics <-  function(explainer, variables = NULL, ...) {
     explainer$residuals <- explainer$residual_function(explainer$model, explainer$data, explainer$y)
   }
   if (is.null(dim(explainer$residuals))) {
-    results <- cbind(results, residuals = explainer$residuals)
+    results$residuals <- explainer$residuals
   } else {
     if ("array" %in% class(explainer$residuals) && length(dim(explainer$residuals)) == 1) {
-      results <- cbind(results, residuals = as.vector(explainer$residuals))
+      results$residuals <- as.vector(explainer$residuals)
     } else {
-      results <- cbind(results, residuals = explainer$residuals[, 1]) # this will work only for first column
+      results$residuals <- explainer$residuals[, 1] # this will work only for first column
     }
   }
-  results <- as.data.frame(
-    cbind(results,
-         abs_residuals = abs(results$residuals),
-         label = explainer$label,
-         ids = seq_along(results$residuals))
-  )
+
+  results$abs_residuals <- abs(results$residuals)
+  results$label <- explainer$label
+  results$ids <- seq_along(results$label)
 
   class(results) <- c("model_diagnostics", "data.frame")
   results
