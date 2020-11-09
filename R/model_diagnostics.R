@@ -81,10 +81,12 @@ model_diagnostics <-  function(explainer, variables = NULL, ...) {
       results <- cbind(results, residuals = explainer$residuals[, 1]) # this will work only for first column
     }
   }
-  results <- cbind(results,
-                   abs_residuals = abs(results$residuals),
-                   label = explainer$label,
-                   ids = seq_along(results$residuals))
+  results <- as.data.frame(
+    cbind(results,
+         abs_residuals = abs(results$residuals),
+         label = explainer$label,
+         ids = seq_along(results$residuals))
+  )
 
   class(results) <- c("model_diagnostics", "data.frame")
   results
