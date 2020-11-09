@@ -14,6 +14,7 @@
 #' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
 #' @export
 #' @examples
+#' library(DALEX)
 #' apartments_lm_model <- lm(m2.price ~ ., data = apartments)
 #' explainer_lm <- explain(apartments_lm_model,
 #'                          data = apartments,
@@ -51,19 +52,19 @@ model_diagnostics <-  function(explainer, variables = NULL, ...) {
   }
   # is there target
   if (!is.null(explainer$y)) {
-    results$y <- explainer$y
+    results <- cbind(results, y = explainer$y)
   }
   # are there predictions
   if (is.null(explainer$y_hat)) {
     explainer$y_hat <- explainer$predict_function(explainer$model, explainer$data)
   }
   if (is.null(dim(explainer$y_hat))) {
-    results$y_hat <- explainer$y_hat
+    results <- cbind(results, y_hat = explainer$y_hat)
   } else {
     if ("array" %in% class(explainer$y_hat) && length(dim(explainer$y_hat)) == 1) {
-      results$y_hat <- as.vector(explainer$y_hat)
+      results <- cbind(results, y_hat = as.vector(explainer$y_hat))
     } else {
-      results$y_hat <- explainer$y_hat[, 1] # this will work only for first column
+      results <- cbind(results, y_hat = explainer$y_hat[, 1]) # this will work only for first column
     }
   }
 
@@ -72,17 +73,18 @@ model_diagnostics <-  function(explainer, variables = NULL, ...) {
     explainer$residuals <- explainer$residual_function(explainer$model, explainer$data, explainer$y)
   }
   if (is.null(dim(explainer$residuals))) {
-    results$residuals <- explainer$residuals
+    results <- cbind(results, residuals = explainer$residuals)
   } else {
     if ("array" %in% class(explainer$residuals) && length(dim(explainer$residuals)) == 1) {
-      results$residuals <- as.vector(explainer$residuals)
+      results <- cbind(results, residuals = as.vector(explainer$residuals))
     } else {
-      results$residuals <- explainer$residuals[, 1] # this will work only for first column
+      results <- cbind(results, residuals = explainer$residuals[, 1]) # this will work only for first column
     }
   }
-  results$abs_residuals <- abs(results$residuals)
-  results$label <- explainer$label
-  results$ids <- seq_along(results$label)
+  results <- cbind(results,
+                   abs_residuals = abs(results$residuals),
+                   label = explainer$label,
+                   ids = seq_along(results$residuals))
 
   class(results) <- c("model_diagnostics", "data.frame")
   results
