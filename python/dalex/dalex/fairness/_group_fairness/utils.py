@@ -234,3 +234,7 @@ def _classification_performance(fobject, verbose, type='accuracy'):
         return f1(tp, fp, tn, fn)
     else:
         raise TypeError(f'type \'{type}\' not supported')
+
+# -------------- Helper functions --------------
+def fairness_check_metrics():
+    return ["TPR", "ACC", "PPV", "FPR", "STP"]

@@ -67,26 +67,34 @@ class GroupFairnessClassification(_FairnessObject):
         subgroups_without_privileged = subgroups[subgroups != self.privileged]
         metric_ratios = metric_ratios.loc[subgroups_without_privileged, fairness_check_metrics()]
 
-        metrics_exceeded = ((metric_ratios > 1 / epsilon) | (epsilon > metric_ratios)).apply(sum, 1)
+        metrics_exceeded = ((metric_ratios > 1 / epsilon) | (epsilon > metric_ratios)).apply(sum, 0)
 
-        print(f'\nRatios of metrics, base: {self.privileged}')
-        for rowname in metrics_exceeded.index:
-            print(f'{rowname}, metrics exceeded: {metrics_exceeded[rowname]}')
-
-        print(f'\nRatio values: \n')
-        print(metric_ratios.to_string())
-
-        if sum(metrics_exceeded) >= 2:
-            conclusion = 'not fair'
+        names_of_exceeded_metrics = list(metrics_exceeded.index[metrics_exceeded != 0])
+        if len(names_of_exceeded_metrics) >= 2:
+            print(f'Bias detected in {len(names_of_exceeded_metrics)} metrics: {", ".join(names_of_exceeded_metrics)}')
+        elif len(names_of_exceeded_metrics) == 1:
+            print(f'Bias detected in {len(names_of_exceeded_metrics)} metric: {names_of_exceeded_metrics[0]}')
         else:
-            conclusion = 'fair'
+            print("No bias was detected!")
 
-        print(f'\nConclusion: your model is {conclusion}')
+        # arbitrary decision
+        if len(names_of_exceeded_metrics) >= 2:
+            conclusion = 'is not fair because 2 or more metric scores exceeded acceptable limits set by epsilon'
+        elif len(names_of_exceeded_metrics) ==1 :
+            conclusion = 'cannot be called fair because 1 metric score exceeded acceptable limits set by epsilon.\n' \
+                'It does not mean that your model is unfair, but based on these metrics it cannot be called fair '
+        else:
+            conclusion = 'is fair in terms of checked fairness metrics'
 
+        print(f'\nConclusion: your model {conclusion}.')
+
+        print(f'\nRatios of metrics, based on {self.privileged}. Metrics should be within ({epsilon}, {round(1/epsilon,3)})')
+        print(metric_ratios.to_string())
         if np.isnan(metric_ratios).sum().sum() > 0:
             verbose_cat(
                 '\nWarning!\nTake into consideration that NaN\'s are present, consider checking \'metric_scores\' '
                 'plot to see the difference', verbose=verbose)
+
 
         return
 
