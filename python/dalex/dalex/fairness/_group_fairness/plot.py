@@ -3,10 +3,12 @@ import plotly.graph_objects as go
 import numpy as np
 import pandas as pd
 from .utils import _metric_ratios_2_df, _unwrap_parity_loss_data, _fairness_theme, _classification_performance
+from .utils import *
 from .._basics.checks import check_other_fairness_objects
 from ..._explainer.helper import verbose_cat
 from ..._theme import get_default_colors
-
+from .._basics.exceptions import ParameterCheckError
+from copy import deepcopy
 
 def plot_fairness_check(fobject,
                         title=None,
@@ -158,6 +160,7 @@ def plot_fairness_check(fobject,
         fig.update_layout({'yaxis' + i + '_title_text': ''})
 
     fig.update_layout({'yaxis3_title_text': 'subgroup'})
+    fig.update_yaxes(showgrid=False, zeroline=False)
 
     return fig
 
@@ -320,6 +323,7 @@ def plot_metric_scores(fobject,
 
     # fixes rare bug where axis are in center and blank fields on left and right
     fig.update_xaxes(range=[min_score - 0.05, max_score + 0.05])
+    fig.update_yaxes(showgrid=False, zeroline=False)
 
     return fig
 
@@ -349,6 +353,7 @@ def plot_stacked(fobject,
     if title is None:
         title = "Stacked Parity loss metrics"
     fig.update_layout(_fairness_theme(title))
+    fig.update_yaxes(showgrid=False, zeroline=False)
 
     fig.update_traces(
         hovertemplate="<br>".join([
@@ -414,7 +419,7 @@ def plot_performance_and_fairness(fobject,
                                   fairness_metric='TPR',
                                   performance_metric='accuracy',
                                   title=None,
-                                  verbose=False,
+                                  verbose=True,
                                   **kwargs):
 
     data = _unwrap_parity_loss_data(fobject, other_objects,[fairness_metric],verbose)
@@ -459,3 +464,104 @@ def plot_performance_and_fairness(fobject,
 
     return fig
 
+def plot_heatmap(fobject,
+                 other_objects=None,
+                 fairness_metrics = 'all',
+                 title=None,
+                 verbose=True,
+                 **kwargs):
+    if fairness_metrics == 'all':
+        fairness_metrics = list(fobject.parity_loss.index)
+    data = _unwrap_parity_loss_data(fobject, other_objects, fairness_metrics, verbose=verbose)
+    score_data = data.score.values.reshape(len(data.label.unique()), len(data.metric.unique()))
+
+    fig = px.imshow(score_data,
+                    labels=dict(x="parity loss metrics", y="model", color="Metric's parity loss"),
+                    x=list(data.metric.unique()),
+                    y=list(data.label.unique()),
+                    color_continuous_scale=["#c7f5bf", "#8bdcbe", "#46bac2", "#4378bf", "#371ea3"])
+
+    if title is None:
+        title = "Fairness Heatmap"
+    fig.update_layout(_fairness_theme(title))
+
+    fig.update_traces(
+        hovertemplate="<br>".join([
+            "<b>%{y}</b><br>",
+            "Parity loss metric: %{x}",
+            "parity loss: %{z:.3f}",
+            "<extra></extra>"
+        ]))
+
+    return fig
+
+def plot_ceteris_paribus_cutoff(fobject,
+                                 title=None,
+                                 verbose=True,
+                                 grid_points=101,
+                                 subgroup = None,
+                                 metrics = ["TPR", "ACC", "PPV", "FPR", "STP"],
+                                 **kwargs):
+
+    if subgroup is None:
+        raise ParameterCheckError("parameter \'subgroup\' is needed")
+
+    cutoff = fobject.cutoff
+    y = fobject.y
+    y_hat = fobject.y_hat
+    protected = fobject.protected
+    if subgroup not in protected:
+        raise ParameterCheckError("parameter subgroup must be in protected parameter")
+    privileged = fobject.privileged
+    label = fobject.label
+    data = pd.DataFrame()
+    for i in range(1, grid_points):
+
+        cutoff[subgroup] = i/grid_points
+
+        sub_confusion_matrix = SubgroupConfusionMatrix(y_true=y,
+                                                       y_pred=y_hat,
+                                                       protected=protected,
+                                                       cutoff=cutoff)
+
+        sub_confusion_matrix_metrics = SubgroupConfusionMatrixMetrics(sub_confusion_matrix)
+        parity_loss = calculate_parity_loss(sub_confusion_matrix_metrics, privileged)
+        parity_loss = parity_loss.loc[parity_loss.index.isin(metrics)]
+        newdata=pd.DataFrame({'score':parity_loss, 'metric':parity_loss.index, 'cutoff':i/(grid_points-1)})
+        newdata = newdata.reset_index(drop=True)
+        data = data.append(newdata)
+    data = data.reset_index(drop=True)
+    min_index = np.where(data.groupby('cutoff').agg('sum').score == min(data.groupby('cutoff').agg('sum').score))[0][0]
+    min_cutoff = data.cutoff.unique()[min_index]
+
+    fig = px.line(data,
+                  x="cutoff",
+                  y="score",
+                  color="metric",
+                  color_discrete_sequence=get_default_colors(len(metrics), 'line'))
+
+    fig.add_shape(type='line',
+                  x0=min_cutoff,
+                  x1=min_cutoff,
+                  y0=0,
+                  y1=max(data.score),
+                  layer='below',
+                  line= dict(color="grey",
+                             dash="dot"))
+
+    fig.add_annotation(
+        x=min_cutoff,
+        y=max(data.score)+0.05,
+        text=f'minimum: {min_cutoff}'
+    )
+
+    if title is None:
+        title = "Ceteris Paribus Cutoff"
+    fig.update_layout(_fairness_theme(title))
+    fig.update_layout(hovermode="x")
+    fig.update_traces(
+        hovertemplate="<br>".join([
+            "parity loss: %{y:.3f}"
+        ]))
+
+    return fig
