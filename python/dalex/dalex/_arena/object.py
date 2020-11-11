@@ -60,6 +60,10 @@ class Arena:
     options : dict
         Options for plots
 
+    Notes
+    --------
+    For tutorial look at https://arena.drwhy.ai/docs/guide/first-datasource
+
     """
     def __init__(self, precalculate=False, enable_attributes=True, enable_custom_params=True):
         self.models = []
@@ -119,6 +123,10 @@ class Arena:
             URl of Arena dhasboard
         disable_logs : str
             if logs should be muted
+
+        Notes
+        --------
+        Read more about data sources https://arena.drwhy.ai/docs/guide/basic-concepts
 
         Returns
         -----------
@@ -352,6 +360,10 @@ class Arena:
             One of ['model', 'variable', 'observation', 'dataset']. Params of this type
             will be returned
 
+        Notes
+        --------
+        Information about params https://arena.drwhy.ai/docs/guide/params
+
         Returns
         --------
         List of Param objects
@@ -398,6 +410,10 @@ class Arena:
             One of ['model', 'variable', 'observation', 'dataset']. Labels of params
             of this type will be returned
 
+        Notes
+        --------
+        Information about params https://arena.drwhy.ai/docs/guide/params
+
         Returns
         --------
         List of str
@@ -409,6 +425,10 @@ class Arena:
 
         This method collect result of `get_params` method for each param type into
         a dict. Keys are param types and values are lists of Param objects.
+
+        Notes
+        --------
+        Information about params https://arena.drwhy.ai/docs/guide/params
 
         Returns
         --------
@@ -424,6 +444,10 @@ class Arena:
 
         This methods collect result of `list_params` for each param type into
         a dict. Keys are param types and values are list of labels.
+
+        Notes
+        --------
+        Information about params https://arena.drwhy.ai/docs/guide/params
 
         Returns
         --------
@@ -444,6 +468,10 @@ class Arena:
         param_label : str
             Label of searched param
 
+        Notes
+        --------
+        Information about params https://arena.drwhy.ai/docs/guide/params
+
         Returns
         --------
         Param or None
@@ -460,6 +488,10 @@ class Arena:
         plot_type : str or None
             When not None, then only options for plots with this plot_type will
             be printed.
+
+        Notes
+        --------
+        List of plots with described options for each one https://arena.drwhy.ai/docs/guide/observation-level
         """
 
         plot = next((x for x in self.plots if x.info.get('plotType') == plot_type), None)
@@ -483,6 +515,10 @@ class Arena:
            Type of plot, the option is corresponding to.
         option : str
             Name of the option
+
+        Notes
+        --------
+        List of plots with described options for each one https://arena.drwhy.ai/docs/guide/observation-level
 
         Returns
         --------
@@ -509,6 +545,10 @@ class Arena:
             Name of the option
         value : *
             Value to be set
+
+        Notes
+        --------
+        List of plots with described options for each one https://arena.drwhy.ai/docs/guide/observation-level
         """
         if plot_type is None:
             for plot in self.plots:
@@ -577,6 +617,10 @@ class Arena:
             One of ['model', 'variable', 'observation', 'dataset'] or None. Specifies
             attributes of which params should be returned.
 
+        Notes
+        --------
+        Attribused are used for dynamicly modifying observations https://arena.drwhy.ai/docs/guide/modifying-observations
+
         Returns
         --------
         dict or list
@@ -611,6 +655,10 @@ class Arena:
         param_label : str
             Label of param
 
+        Notes
+        --------
+        Attribused are used for dynamicly modifying observations https://arena.drwhy.ai/docs/guide/modifying-observations
+
         Returns
         --------
         dict
@@ -634,6 +682,10 @@ class Arena:
         filename : str
             Path or filename to output file
 
+        Notes
+        --------
+        Read more about data sources https://arena.drwhy.ai/docs/guide/basic-concepts
+
         Returns
         --------
         None
@@ -655,6 +707,10 @@ class Arena:
             Address of Arena dashboard instance
         open_browser : bool
             Whether to open Arena after upload.
+
+        Notes
+        --------
+        Read more about data sources https://arena.drwhy.ai/docs/guide/basic-concepts
 
         Returns
         --------
