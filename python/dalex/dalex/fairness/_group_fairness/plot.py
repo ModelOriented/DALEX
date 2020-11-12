@@ -1,14 +1,14 @@
 import plotly.express as px
 import plotly.graph_objects as go
-import numpy as np
-import pandas as pd
-from .utils import _metric_ratios_2_df, _unwrap_parity_loss_data, _fairness_theme, _classification_performance
+from plotly.subplots import make_subplots
+
 from .utils import *
+from .utils import _metric_ratios_2_df, _unwrap_parity_loss_data, _fairness_theme, _classification_performance
 from .._basics.checks import check_other_fairness_objects
+from .._basics.exceptions import ParameterCheckError
 from ..._explainer.helper import verbose_cat
 from ..._theme import get_default_colors
-from .._basics.exceptions import ParameterCheckError
-from copy import deepcopy
+
 
 def plot_fairness_check(fobject,
                         title=None,
@@ -332,9 +332,8 @@ def plot_stacked(fobject,
                  title=None,
                  other_objects=None,
                  metrics=["TPR", "PPV", "STP", "ACC", "FPR"],
-                 verbose = True,
+                 verbose=True,
                  **kwargs):
-
     data = _unwrap_parity_loss_data(fobject, other_objects, metrics, verbose)
 
     fig = px.bar(data,
@@ -365,19 +364,19 @@ def plot_stacked(fobject,
 
     return fig
 
+
 def plot_radar(fobject,
-               other_objects = None,
+               other_objects=None,
                title=None,
                verbose=True,
                metrics=["TPR", "ACC", "PPV", "FPR", "STP"],
                **kwargs):
-
     data = _unwrap_parity_loss_data(fobject, other_objects, metrics, verbose)
     colors = get_default_colors(len(set(data.label)), type='line')
 
     fig = go.Figure()
     for i, label in enumerate(set(sorted(data.label))):
-        model_data = data.loc[data.label==label,:]
+        model_data = data.loc[data.label == label, :]
         r = list(model_data.score)
         r.append(r[0])
         theta = list(model_data.metric)
@@ -385,10 +384,10 @@ def plot_radar(fobject,
         fig.add_trace(
             go.Scatterpolar(
                 r=r,
-                theta = theta,
-                name = label,
-                marker=dict(color = [colors[i] for elem in r]),
-                line=dict(color = colors[i]),
+                theta=theta,
+                name=label,
+                marker=dict(color=[colors[i] for elem in r]),
+                line=dict(color=colors[i]),
                 text=[label for i in r]
             )
         )
@@ -400,7 +399,7 @@ def plot_radar(fobject,
     fig.update_layout(
         polar=dict(
             radialaxis=dict(
-                range=[0, max(data.score)+0.1]
+                range=[0, max(data.score) + 0.1]
             ))
     )
 
@@ -414,6 +413,7 @@ def plot_radar(fobject,
 
     return fig
 
+
 def plot_performance_and_fairness(fobject,
                                   other_objects=None,
                                   fairness_metric='TPR',
@@ -421,36 +421,35 @@ def plot_performance_and_fairness(fobject,
                                   title=None,
                                   verbose=True,
                                   **kwargs):
-
-    data = _unwrap_parity_loss_data(fobject, other_objects,[fairness_metric],verbose)
+    data = _unwrap_parity_loss_data(fobject, other_objects, [fairness_metric], verbose)
     assert len(data.label.unique()) == len(data.label)
 
-    performance_data = pd.DataFrame(columns=['label','performance_score'])
+    performance_data = pd.DataFrame(columns=['label', 'performance_score'])
     performance_data.loc[0] = [fobject.label, _classification_performance(fobject, verbose, performance_metric)]
 
     if other_objects:
         other_data = pd.DataFrame()
         for i, obj in enumerate(other_objects):
-            performance_data.loc[i+1] = [obj.label, _classification_performance(obj, verbose, performance_metric)]
+            performance_data.loc[i + 1] = [obj.label, _classification_performance(obj, verbose, performance_metric)]
 
     data = data.merge(performance_data, on='label')
 
     fig = px.scatter(data,
                      x='performance_score',
                      y='score',
-                     color = 'label',
+                     color='label',
                      custom_data=[data.label],
                      color_discrete_sequence=get_default_colors(len(data.label), 'line'))
 
     fig.update_traces(
-                     mode='markers',
-                     marker = dict(size=[15 for i in data.label]))
+        mode='markers',
+        marker=dict(size=[15 for i in data.label]))
 
     if title is None:
         title = "Performance and Fairness"
     fig.update_layout(_fairness_theme(title))
 
-    fig.update_yaxes(title = "reversed " + fairness_metric + " parity loss",
+    fig.update_yaxes(title="reversed " + fairness_metric + " parity loss",
                      autorange='reversed')
     fig.update_xaxes(title=performance_metric)
 
@@ -464,9 +463,10 @@ def plot_performance_and_fairness(fobject,
 
     return fig
 
+
 def plot_heatmap(fobject,
                  other_objects=None,
-                 fairness_metrics = 'all',
+                 fairness_metrics='all',
                  title=None,
                  verbose=True,
                  **kwargs):
@@ -495,65 +495,90 @@ def plot_heatmap(fobject,
 
     return fig
 
-def plot_ceteris_paribus_cutoff(fobject,
-                                 title=None,
-                                 verbose=True,
-                                 grid_points=101,
-                                 subgroup = None,
-                                 metrics = ["TPR", "ACC", "PPV", "FPR", "STP"],
-                                 **kwargs):
 
+def plot_ceteris_paribus_cutoff(fobject,
+                                other_objects=None,
+                                title=None,
+                                verbose=True,
+                                grid_points=101,
+                                subgroup=None,
+                                metrics=["TPR", "ACC", "PPV", "FPR", "STP"],
+                                **kwargs):
     if subgroup is None:
         raise ParameterCheckError("parameter \'subgroup\' is needed")
 
-    cutoff = fobject.cutoff
-    y = fobject.y
-    y_hat = fobject.y_hat
     protected = fobject.protected
+    privileged = fobject.privileged
     if subgroup not in protected:
         raise ParameterCheckError("parameter subgroup must be in protected parameter")
-    privileged = fobject.privileged
-    label = fobject.label
-    data = pd.DataFrame()
-    for i in range(1, grid_points):
 
-        cutoff[subgroup] = i/grid_points
+    objects = [fobject]
+    if other_objects is not None:
+        check_other_fairness_objects(fobject, other_objects)
+        for obj in other_objects:
+            objects.append(obj)
 
-        sub_confusion_matrix = SubgroupConfusionMatrix(y_true=y,
-                                                       y_pred=y_hat,
-                                                       protected=protected,
-                                                       cutoff=cutoff)
+    colors = get_default_colors(len(metrics), 'line')
 
-        sub_confusion_matrix_metrics = SubgroupConfusionMatrixMetrics(sub_confusion_matrix)
-        parity_loss = calculate_parity_loss(sub_confusion_matrix_metrics, privileged)
-        parity_loss = parity_loss.loc[parity_loss.index.isin(metrics)]
-        newdata=pd.DataFrame({'score':parity_loss, 'metric':parity_loss.index, 'cutoff':i/(grid_points-1)})
-        newdata = newdata.reset_index(drop=True)
-        data = data.append(newdata)
-    data = data.reset_index(drop=True)
-    min_index = np.where(data.groupby('cutoff').agg('sum').score == min(data.groupby('cutoff').agg('sum').score))[0][0]
-    min_cutoff = data.cutoff.unique()[min_index]
+    labels = []
+    for obj in objects:
+        labels.append(obj.label)
 
-    fig = px.line(data,
-                  x="cutoff",
-                  y="score",
-                  color="metric",
-                  color_discrete_sequence=get_default_colors(len(metrics), 'line'))
+    fig = make_subplots(rows=len(objects), cols=1, subplot_titles=labels)
 
-    fig.add_shape(type='line',
-                  x0=min_cutoff,
-                  x1=min_cutoff,
-                  y0=0,
-                  y1=max(data.score),
-                  layer='below',
-                  line= dict(color="grey",
-                             dash="dot"))
+    for k, object in enumerate(objects):
+        cutoff = object.cutoff
+        y = object.y
+        y_hat = object.y_hat
+        data = pd.DataFrame()
 
-    fig.add_annotation(
-        x=min_cutoff,
-        y=max(data.score)+0.05,
-        text=f'minimum: {min_cutoff}'
-    )
+        for i in range(1, grid_points):
+            cutoff[subgroup] = i / grid_points
+            sub_confusion_matrix = SubgroupConfusionMatrix(y_true=y,
+                                                           y_pred=y_hat,
+                                                           protected=protected,
+                                                           cutoff=cutoff)
+
+            sub_confusion_matrix_metrics = SubgroupConfusionMatrixMetrics(sub_confusion_matrix)
+            parity_loss = calculate_parity_loss(sub_confusion_matrix_metrics, privileged)
+            parity_loss = parity_loss.loc[parity_loss.index.isin(metrics)]
+            newdata = pd.DataFrame({'score': parity_loss, 'metric': parity_loss.index, 'cutoff': i / (grid_points - 1)})
+            newdata = newdata.reset_index(drop=True)
+            data = data.append(newdata)
+
+        data = data.reset_index(drop=True)
+        min_index = np.where(
+            data.groupby('cutoff').agg('sum').score == min(data.groupby('cutoff').agg('sum').score))[0][0]
+        min_cutoff = data.cutoff.unique()[min_index]
+
+        for j, metric in enumerate(metrics):
+            metric_data = data.loc[data.metric == metric, :]
+            fig.add_trace(go.Scatter(x=metric_data.cutoff,
+                                     y=metric_data.score,
+                                     mode='lines',
+                                     line=dict(color=colors[j]),
+                                     name=metric,
+                                     showlegend=k == 0),  # show only legend of first subplot
+                          row=k + 1, col=1)
+
+        fig.add_shape(type='line',
+                      x0=min_cutoff,
+                      x1=min_cutoff,
+                      y0=0,
+                      y1=max(data.score),
+                      layer='below',
+                      line=dict(color="grey",
+                                dash="dot"), row=k + 1, col=1)
+
+        fig.add_annotation(
+            x=min_cutoff,
+            y=max(data.score) + 0.05,
+            text=f'minimum: {min_cutoff}',
+            row=k + 1, col=1
+        )
+
+    fig.update_xaxes(title=f"cutoff for {subgroup}, other cutoffs constant")
+    fig.update_yaxes(title="parity loss")
 
     if title is None:
         title = "Ceteris Paribus Cutoff"

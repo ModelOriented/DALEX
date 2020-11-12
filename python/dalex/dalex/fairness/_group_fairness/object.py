@@ -188,8 +188,9 @@ class GroupFairnessClassification(_FairnessObject):
 
         if type == 'ceteris_paribus_cutoff':
             fig = plot_ceteris_paribus_cutoff(self,
-                               title=title,
-                               **kwargs)
+                                              other_objects=other_objects,
+                                              title=title,
+                                              **kwargs)
 
 
         if show:
