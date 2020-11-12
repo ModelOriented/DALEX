@@ -33,5 +33,5 @@ Suggests:
     ranger,
     testthat,
     methods
-URL: https://dalex.drwhy.ai, https://ModelOriented.github.io/DALEX/
+URL: https://dalex.drwhy.ai,  https://github.com/ModelOriented/DALEX
 BugReports: https://github.com/ModelOriented/DALEX/issues
