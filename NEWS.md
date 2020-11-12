@@ -1,3 +1,7 @@
+DALEX 2.1.0
+---------------------------------------------------------------
+* Fixed `model_diagnostics()` returning an error when `data` is `matrix` ([#355](https://github.com/ModelOriented/DALEX/issues/355))
+
 DALEX 2.0.1
 ---------------------------------------------------------------
 * Fixed R package not working with Python Explainer ([#318](https://github.com/ModelOriented/DALEX/issues/318))

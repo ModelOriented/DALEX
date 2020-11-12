@@ -23,6 +23,7 @@ Residuals are calculated and plotted against predictions, true y values or selec
 Find information how to use this function here: \url{https://pbiecek.github.io/ema/residualDiagnostic.html}.
 }
 \examples{
+library(DALEX)
 apartments_lm_model <- lm(m2.price ~ ., data = apartments)
 explainer_lm <- explain(apartments_lm_model,
                          data = apartments,
