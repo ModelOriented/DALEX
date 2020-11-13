@@ -19,7 +19,7 @@
 #' This will happen also if \code{verbose} is TRUE. Set both \code{verbose} and \code{precalculate} to FALSE to omit calculations.
 #' @param colorize logical. If TRUE (default) then \code{WARNINGS}, \code{ERRORS} and \code{NOTES} are colorized. Will work only in the R console.
 #' @param model_info a named list (\code{package}, \code{version}, \code{type}) containg information about model. If \code{NULL}, \code{DALEX} will seek for information on it's own.
-#' @param predict_function_column Character or numeric containing either column name or column number in the model prediction object of the class that should be considered as positive (ie. the class that is associated with probability 1). If NULL, the second column of the output will be taken (if possible). Does not affect tasks other than binary classification.
+#' @param predict_function_column Character or numeric containing either column name or column number in the model prediction object of the class that should be considered as positive (ie. the class that is associated with probability 1). If NULL, the second column of the output will be taken for binary classification. For a multiclass classification setting that parameter cause switch to binary classification mode with 1 vs others probabilities.
 #' @param type type of a model, either \code{classification} or \code{regression}. If not specified then \code{type} will be extracted from \code{model_info}.
 #'
 #' @return An object of the class \code{explainer}.
@@ -246,9 +246,16 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     }
     verbose_cat("  -> predict function  : ", deparse(substitute(predict_function)), "\n", verbose = verbose)
   }
-  # if data is specified then we may test predict_function
-  y_hat <- NULL
 
+  # issue #250, add attribute denoting the positive class
+
+  if (!is.null(predict_function_column)) {
+    attr(model, "predict_function_column") <- predict_function_column
+    verbose_cat("  -> predicted values  :  Predict function column set to: ", predict_function_column ,"(",color_codes$green_start,"OK",color_codes$green_end,")\n", verbose = verbose)
+
+  } else if (is.null(predict_function_column)) {
+    verbose_cat("  -> predicted values  :  No value for predict function column.", predict_function_column ,"(",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
+  }
 
   if (is.null(model_info)) {
     # extract defaults
@@ -284,16 +291,8 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     verbose_cat("  -> model_info        :  Otherwise I will not be able to calculate residuals or loss function.\n", verbose = verbose)
   }
 
-  # issue #250, add attribute denoting the positive class
-
-  if (!is.null(predict_function_column) & model_info$type == "classification") {
-    attr(model, "predict_function_column") <- predict_function_column
-    verbose_cat("  -> predicted values  :  Oredict function column set to: ", predict_function_column ,"(",color_codes$green_start,"OK",color_codes$green_end,")\n", verbose = verbose)
-
-  } else if (is.null(predict_function_column) & model_info$type == "classification") {
-    verbose_cat("  -> predicted values  :  No value for predict function column. Second column will be taken whenever it's possbile.", predict_function_column ,"(",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
-  }
-
+  # if data is specified then we may test predict_function
+  y_hat <- NULL
 
 
   if (!is.null(data) && !is.null(predict_function) && (verbose | precalculate)) {

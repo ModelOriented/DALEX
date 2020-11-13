@@ -171,7 +171,11 @@ model_info.ranger <- function(model, is_multiclass = FALSE, ...) {
 #' @export
 model_info.gbm <- function(model, is_multiclass = FALSE, ...) {
   if (model$distribution == "multinomial") {
-    type <- "multiclass"
+    if (!is.null(attr(model, "predict_function_column"))) {
+      type <- "classification"
+    } else {
+      type <- "multiclass"
+    }
   } else if (model$distribution == "bernoulli") {
     type <- "classification"
   } else {
