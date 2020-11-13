@@ -18,6 +18,7 @@
 #' @param variables character - names of variables to be explained
 #' @param variable deprecated, use variables instead
 #' @param type the type of variable profile. Either \code{partial}, \code{conditional} or \code{accumulated}.
+#' @param derivative logical indicating whether numerical derivative of the profile should be calculated.
 #'
 #' @return An object of the class \code{model_profile}.
 #' It's a data frame with calculated average model responses.
@@ -58,7 +59,7 @@
 #'  }
 #'
 #' @export
-model_profile <- function(explainer, variables = NULL, N = 100, ..., groups = NULL, k = NULL, center = TRUE, type = "partial") {
+model_profile <- function(explainer, variables = NULL, N = 100, ..., groups = NULL, k = NULL, center = TRUE, type = "partial", derivative = FALSE) {
   # run checks against the explainer objects
   test_explainer(explainer, has_data = TRUE, function_name = "model_profile")
 
@@ -90,6 +91,10 @@ model_profile <- function(explainer, variables = NULL, N = 100, ..., groups = NU
                                                   ...)
   }
 
+  if (derivative) {
+    agr_profiles <- calculate_derivative(agr_profiles)
+  }
+
   # color only for groups
   # or for multilabel models where agr_profiles$`_label_` > 1
   color <- if (is.null(k) &
@@ -117,4 +122,14 @@ single_variable <- function(explainer, variable, type = "pdp",  ...) {
   }
 
    model_profile(explainer, variables = variable, ...)
+}
+
+
+calculate_derivative <- function(aggr_profile) {
+  n <- nrow(aggr_profile)
+  numerator <- aggr_profile$`_yhat_`[-n] - aggr_profile$`_yhat_`[-1]
+  denumerator <- aggr_profile$`_x_`[-n] - aggr_profile$`_x_`[-1]
+  aggr_profile <- aggr_profile[-n,]
+  aggr_profile$`_yhat_` <- numerator/denumerator
+  aggr_profile
 }

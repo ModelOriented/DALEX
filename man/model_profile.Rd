@@ -14,7 +14,8 @@ model_profile(
   groups = NULL,
   k = NULL,
   center = TRUE,
-  type = "partial"
+  type = "partial",
+  derivative = FALSE
 )
 
 variable_profile(
@@ -25,7 +26,8 @@ variable_profile(
   groups = NULL,
   k = NULL,
   center = TRUE,
-  type = "partial"
+  type = "partial",
+  derivative = FALSE
 )
 
 single_variable(explainer, variable, type = "pdp", ...)
@@ -47,6 +49,8 @@ By default \code{NULL} which means that no groups shall be calculated}
 \item{center}{shall profiles be centered before clustering}
 
 \item{type}{the type of variable profile. Either \code{partial}, \code{conditional} or \code{accumulated}.}
+
+\item{derivative}{logical indicating whether numerical derivative of the profile should be calculated.}
 
 \item{variable}{deprecated, use variables instead}
 }
