@@ -81,15 +81,16 @@ class GroupFairnessClassification(_FairnessObject):
             conclusion = 'is not fair because 2 or more metric scores exceeded acceptable limits set by epsilon'
         elif len(names_of_exceeded_metrics) == 1:
             conclusion = 'cannot be called fair because 1 metric score exceeded acceptable limits set by epsilon.\n' \
-                         'It does not mean that your model is unfair,' \
-                         ' but based on these metrics it cannot be called fair'
+                         'It does not mean that your model is unfair ' \
+                         'but it cannot be automatically approved based on these metrics'
         else:
             conclusion = 'is fair in terms of checked fairness metrics'
 
         print(f'\nConclusion: your model {conclusion}.')
 
         print(
-            f'\nRatios of metrics, based on {self.privileged}. Metrics should be within ({epsilon}, {round(1 / epsilon, 3)})')
+            f'\nRatios of metrics, based on \'{self.privileged}\'. Parameter \'epsiolon\' was set to {epsilon}'
+            f' and therefore metrics should be within ({epsilon}, {round(1 / epsilon, 3)})')
         print(metric_ratios.to_string())
         if np.isnan(metric_ratios).sum().sum() > 0:
             verbose_cat(
@@ -155,43 +156,45 @@ class GroupFairnessClassification(_FairnessObject):
                                       other_objects=other_objects,
                                       title=title, **kwargs)
 
-        if type == "metric_scores":
+        elif type == "metric_scores":
             fig = plot_metric_scores(self,
                                      other_objects=other_objects,
                                      title=title,
                                      **kwargs)
 
         # names of plots may be changed
-        if type == 'stacked':
+        elif type == 'stacked':
             fig = plot_stacked(self,
                                other_objects=other_objects,
                                title=title,
                                **kwargs)
 
-        if type == 'radar':
+        elif type == 'radar':
             fig = plot_radar(self,
                              other_objects=other_objects,
                              title=title,
                              **kwargs)
 
-        if type == 'performance_and_fairness':
+        elif type == 'performance_and_fairness':
             fig = plot_performance_and_fairness(self,
                                                 other_objects=other_objects,
                                                 title=title,
                                                 **kwargs)
 
-        if type == 'heatmap':
+        elif type == 'heatmap':
             fig = plot_heatmap(self,
                                other_objects=other_objects,
                                title=title,
                                **kwargs)
 
-        if type == 'ceteris_paribus_cutoff':
+        elif type == 'ceteris_paribus_cutoff':
             fig = plot_ceteris_paribus_cutoff(self,
                                               other_objects=other_objects,
                                               title=title,
                                               **kwargs)
 
+        else:
+            raise ParameterCheckError(f"plot type {type} not supported, try other types.")
 
         if show:
             fig.show(config=get_default_config())

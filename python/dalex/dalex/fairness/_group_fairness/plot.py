@@ -350,7 +350,7 @@ def plot_stacked(fobject,
     # hover
 
     if title is None:
-        title = "Stacked Parity loss metrics"
+        title = "Stacked Parity Loss Metrics"
     fig.update_layout(_fairness_theme(title))
     fig.update_yaxes(showgrid=False, zeroline=False)
 
@@ -532,6 +532,7 @@ def plot_ceteris_paribus_cutoff(fobject,
         y_hat = object.y_hat
         data = pd.DataFrame()
 
+        # generate data for hypothetical cutoffs
         for i in range(1, grid_points):
             cutoff[subgroup] = i / grid_points
             sub_confusion_matrix = SubgroupConfusionMatrix(y_true=y,
@@ -547,10 +548,14 @@ def plot_ceteris_paribus_cutoff(fobject,
             data = data.append(newdata)
 
         data = data.reset_index(drop=True)
-        min_index = np.where(
-            data.groupby('cutoff').agg('sum').score == min(data.groupby('cutoff').agg('sum').score))[0][0]
+
+        # Find minimum where NA is not present
+        pivoted_data = data.pivot(index='cutoff', columns='metric', values='score')
+        summed_metrics = pivoted_data.to_numpy().sum(axis=1)
+        min_index = np.where(summed_metrics == min(summed_metrics))[0][0] # get first minimal index
         min_cutoff = data.cutoff.unique()[min_index]
 
+        # make figure from individual parts
         for j, metric in enumerate(metrics):
             metric_data = data.loc[data.metric == metric, :]
             fig.add_trace(go.Scatter(x=metric_data.cutoff,
