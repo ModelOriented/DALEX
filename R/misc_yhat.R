@@ -164,8 +164,7 @@ yhat.ranger <- function(X.model, newdata, ...) {
     # binary classification
     if (!is.null(attr(X.model, "predict_function_column"))) {
       pred <- pred[,attr(X.model, "predict_function_column")]
-    }
-    else if (ncol(pred) == 2 & is.null(attr(X.model, "predict_function_column"))) {
+    } else if (ncol(pred) == 2 & is.null(attr(X.model, "predict_function_column"))) {
       pred <- pred[, 2]
     }
   }
