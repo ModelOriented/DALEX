@@ -123,6 +123,7 @@ class GroupFairnessClassification(_FairnessObject):
                 It accepts following keyword arguments:
                  'epsilon' - which denotes the decision
                              boundary (like in fairness_check method)
+
             metric_scores:
                 metric_scores plot shows real values of metrics.
                 Each model displays values in each metric and each subgroup.
@@ -131,6 +132,70 @@ class GroupFairnessClassification(_FairnessObject):
                 show scores for unprivileged subgroups.
                 This plot is simple and it does
                 not have additional keyword arguments.
+
+            stacked:
+                stacked plot shows cumulated parity loss from chosen
+                metrics. It stacks metrics on top of each other.
+                It accepts following keyword arguments:
+                'metrics' - list of metrics to be plotted. The metrics are taken
+                            from parity_loss attribute of the object.
+                            Default is ["TPR", "ACC", "PPV", "FPR", "STP"].
+
+            radar:
+                radar plot shows parity loss of provided metrics. It does it
+                in form of radar (spider) chart. The smaller the field of
+                figure the better.
+                It accepts following keyword arguments:
+                'metrics' - list of metrics to be plotted. The metrics are taken
+                            from parity_loss attribute of the object.
+                            Default is ["TPR", "ACC", "PPV", "FPR", "STP"].
+
+            performance_and_fairness:
+                performance_and_fairness plot shows relation between chosen
+                performance and fairness metrics. The fairness metric axis is
+                reversed, because the higher the model the less bias it has.
+                Thanks to that it is more intuitive to look at because
+                the best models are in top right corner.
+                It accepts following keyword arguments:
+                'fairness_metric' - single fairness metric to be plotted on Y axis.
+                                   The metric is taken from parity_loss attribute\
+                                   of the object. The default is "TPR"
+                'performance_metric' - single performance metric. One of {'recall',
+                                       'precision','accuracy','auc','f1'}.
+                                       Metrics apart from 'auc' are
+                                       cutoff-sensitive. Default is "accuracy"
+
+
+            heatmap:
+                heatmap shows parity loss of metrics in form of heatmap. The less
+                parity loss model has, the more fair it is.
+                It accepts following keyword arguments:
+                'metrics' - list of metrics to be plotted. The metrics are taken
+                            from parity_loss attribute of the object.
+                            Default is 'all' which stands for all available metrics.
+
+            ceteris_paribus_cutoff:
+                ceteris_paribus_cutoff plot shows what would happen if cutoff
+                for only one subgroup would change with others cutoffs constant.
+                The plot shows also a minimum, where sum of parity loss of metrics
+                is the lowest. Minimum only works if at some interval all metrics
+                have non-nan scores.
+                It accepts following keyword arguments:
+                'subgroup' - necessary argument. It is name of subgroup from
+                             protected attribute. Cutoff for this subgroup will
+                             be changed.
+
+                'metrics' - list of metrics to be plotted. The metrics are taken
+                            from parity_loss attribute of the object.
+                            Default is ["TPR", "ACC", "PPV", "FPR", "STP"].
+
+                'grid_points' - number of grid points (cutoff values) to calculate
+                                metrics for. The points are distributed evenly.
+                                Default is 101.
+
+
+
+
 
         title : str, optional
             Title of the plot (default depends on the `type` attribute).

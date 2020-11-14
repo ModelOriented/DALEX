@@ -466,13 +466,14 @@ def plot_performance_and_fairness(fobject,
 
 def plot_heatmap(fobject,
                  other_objects=None,
-                 fairness_metrics='all',
+                 metrics='all',
                  title=None,
                  verbose=True,
                  **kwargs):
-    if fairness_metrics == 'all':
-        fairness_metrics = list(fobject.parity_loss.index)
-    data = _unwrap_parity_loss_data(fobject, other_objects, fairness_metrics, verbose=verbose)
+    if metrics == 'all':
+        metrics = list(fobject.parity_loss.index)
+
+    data = _unwrap_parity_loss_data(fobject, other_objects, metrics, verbose=verbose)
     score_data = data.score.values.reshape(len(data.label.unique()), len(data.metric.unique()))
 
     fig = px.imshow(score_data,
