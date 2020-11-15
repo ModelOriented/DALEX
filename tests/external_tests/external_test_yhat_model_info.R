@@ -34,8 +34,11 @@ test_that("randomForest", {
   model_regr_rf <- randomForest(m2.price~., data = apartments_cut, num.trees = 50)
 
   explainer_classif_rf <- explain(model_classif_rf, data = titanic_imputed_cut, y = titanic_imputed_cut$survived, verbose = FALSE)
+  explainer_classif_rf_pos <- explain(model_classif_rf, data = titanic_imputed_cut, y = titanic_imputed_cut$survived, verbose = FALSE, predict_function_target_column = 1)
   explainer_regr_rf <- explain(model_regr_rf, data = apartments_cut, y = apartments_cut$m2.price, verbose = FALSE)
   expect_is(explainer_classif_rf$y_hat, "numeric")
+  expect_is(explainer_classif_rf_pos$y_hat, "numeric")
+  expect_false(all(explainer_classif_rf_pos$y_hat == explainer_classif_rf$y_hat))
   expect_is(explainer_classif_rf$model_info, "model_info")
   expect_is(explainer_regr_rf$y_hat, "numeric")
   expect_is(explainer_regr_rf$model_info, "model_info")
@@ -50,8 +53,11 @@ test_that("svm", {
   model_classif_svm <- svm(as.factor(survived)~., data = titanic_imputed_cut, num.trees = 50, probability = TRUE)
   model_regr_svm <- svm(m2.price~., data = apartments_cut, num.trees = 50)
   explainer_classif_svm <- explain(model_classif_svm, data = titanic_imputed_cut, y = titanic_imputed_cut$survived, verbose = FALSE)
+  explainer_classif_svm_pos <- explain(model_classif_svm, data = titanic_imputed_cut, y = titanic_imputed_cut$survived, verbose = FALSE, predict_function_target_column = 1)
   explainer_regr_svm <- explain(model_regr_svm, data = apartments_cut, y = apartments_cut$m2.price, verbose = FALSE)
   expect_is(explainer_classif_svm$y_hat, "numeric")
+  expect_is(explainer_classif_svm_pos$y_hat, "numeric")
+  expect_false(all(explainer_classif_svm_pos$y_hat == explainer_classif_svm$y_hat))
   expect_is(explainer_classif_svm$model_info, "model_info")
   expect_is(explainer_regr_svm$y_hat, "numeric")
   expect_is(explainer_regr_svm$model_info, "model_info")
@@ -64,13 +70,17 @@ test_that("gbm", {
 
   library(gbm)
 
-  model_classif_gbm <- gbm(as.factor(survived)~., data = titanic_imputed_cut, distribution = "bernoulli",
+  model_classif_gbm <- gbm(survived~., data = titanic_imputed_cut, distribution = "bernoulli",
                            n.trees = 50)
   model_regr_gbm <- gbm(m2.price~., data = apartments_cut, n.trees = 50, distribution = "gaussian")
 
   explainer_classif_gbm <- explain(model_classif_gbm, data = titanic_imputed_cut, y = titanic_imputed_cut$survived, verbose = FALSE)
+  explainer_classif_gbm_pos <- explain(model_classif_gbm, data = titanic_imputed_cut, y = titanic_imputed_cut$survived, verbose = FALSE, predict_function_target_column = 0)
   explainer_regr_gbm <- explain(model_regr_gbm, data = apartments_cut, y = apartments_cut$m2.price, verbose = FALSE)
   expect_is(explainer_classif_gbm$y_hat, "numeric")
+  expect_is(explainer_classif_gbm_pos$y_hat, "numeric")
+  # gbm returns only one column for binary so positive class should not affect it
+  expect_true(all(explainer_classif_gbm_pos$y_hat == explainer_classif_gbm$y_hat))
   expect_is(explainer_classif_gbm$model_info, "model_info")
   expect_is(explainer_regr_gbm$y_hat, "numeric")
   expect_is(explainer_regr_gbm$model_info, "model_info")
@@ -135,8 +145,11 @@ test_that("parsnip", {
 
 
   explainer_classif_parsnip <- explain(parsnip_classif, data = titanic_imputed_cut, y = titanic_imputed_cut$survived, verbose = FALSE)
+  explainer_classif_parsnip_pos <- explain(parsnip_classif, data = titanic_imputed_cut, y = titanic_imputed_cut$survived, verbose = FALSE, predict_function_target_column = 1)
   explainer_regr_parsnip <- explain(parsnip_regr, data = titanic_imputed_cut, y = titanic_imputed_cut$fare, verbose = FALSE)
   expect_is(explainer_classif_parsnip$y_hat, "numeric")
+  expect_is(explainer_classif_parsnip_pos$y_hat, "numeric")
+  expect_false(all(explainer_classif_parsnip_pos$y_hat == explainer_classif_parsnip$y_hat))
   expect_is(explainer_classif_parsnip$model_info, "model_info")
   expect_is(explainer_regr_parsnip$y_hat, "numeric")
   expect_is(explainer_regr_parsnip$model_info, "model_info")
@@ -154,9 +167,12 @@ test_that("caret", {
   caret_classif <- train(as.factor(survived)~., data = titanic_imputed_cut, method="rf", ntree = 50)
 
   explainer_classif_caret <- explain(caret_classif, data = titanic_imputed_cut, y = titanic_imputed_cut$survived, verbose = FALSE)
+  explainer_classif_caret_pos <- explain(caret_classif, data = titanic_imputed_cut, y = titanic_imputed_cut$survived, verbose = FALSE, predict_function_target_column = 1)
   explainer_regr_caret <- explain(caret_regr, data = apartments_cut, y = apartments_cut$m2.price, verbose = FALSE)
   explainer_regr_caret_lm <- explain(caret_regr_lm, data = apartments_cut, y = apartments_cut$m2.price, verbose = FALSE)
   expect_is(explainer_classif_caret$y_hat, "numeric")
+  expect_is(explainer_classif_caret_pos$y_hat, "numeric")
+  expect_false(all(explainer_classif_caret_pos$y_hat == explainer_classif_caret$y_hat))
   expect_is(explainer_classif_caret$model_info, "model_info")
   expect_is(explainer_regr_caret$y_hat, "numeric")
   expect_is(explainer_regr_caret$model_info, "model_info")
@@ -187,8 +203,11 @@ test_that("rpart", {
   model_regr_rpart <- rpart(m2.price~., data = apartments_cut)
 
   explainer_classif_rpart <- explain(model_classif_rpart, data = titanic_imputed_cut, y = titanic_imputed_cut$survived, verbose = FALSE)
+  explainer_classif_rpart_pos <- explain(model_classif_rpart, data = titanic_imputed_cut, y = titanic_imputed_cut$survived, verbose = FALSE, predict_function_target_column = 1)
   explainer_regr_rpart <- explain(model_regr_rpart, data = apartments_cut, y = apartments_cut$m2.price, verbose = FALSE)
   expect_is(explainer_classif_rpart$y_hat, "numeric")
+  expect_is(explainer_classif_rpart_pos$y_hat, "numeric")
+  expect_false(all(explainer_classif_rpart_pos$y_hat == explainer_classif_rpart$y_hat))
   expect_is(explainer_classif_rpart$model_info, "model_info")
   expect_is(explainer_regr_rpart$y_hat, "numeric")
   expect_is(explainer_regr_rpart$model_info, "model_info")

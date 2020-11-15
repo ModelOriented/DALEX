@@ -1,6 +1,8 @@
 DALEX 2.1.0
 ---------------------------------------------------------------
+* Added new parameter (`predict_function_target_column`) to `explain` function that allows specifying positive class in binary classification tasks ([#250](https://github.com/ModelOriented/DALEX/issues/250)).
 * Fixed `model_diagnostics()` returning an error when `data` is `matrix` ([#355](https://github.com/ModelOriented/DALEX/issues/355))
+
 
 DALEX 2.0.1
 ---------------------------------------------------------------

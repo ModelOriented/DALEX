@@ -11,6 +11,7 @@
 #' @param y numeric vector with outputs / scores. If provided then it shall have the same size as \code{data}
 #' @param weights numeric vector with sampling weights. By default it's \code{NULL}. If provided then it shall have the same length as \code{data}
 #' @param predict_function function that takes two arguments: model and new data and returns numeric vector with predictions.   By default it is \code{yhat}.
+#' @param predict_function_target_column Character or numeric containing either column name or column number in the model prediction object of the class that should be considered as positive (ie. the class that is associated with probability 1). If NULL, the second column of the output will be taken for binary classification. For a multiclass classification setting that parameter cause switch to binary classification mode with 1 vs others probabilities.
 #' @param residual_function function that takes four arguments: model, data, target vector y and predict function (optionally). It should return a numeric vector with model residuals for given data. If not provided, response residuals (\eqn{y-\hat{y}}) are calculated. By default it is \code{residual_function_default}.
 #' @param ... other parameters
 #' @param label character - the name of the model. By default it's extracted from the 'class' attribute of the model
@@ -118,6 +119,7 @@
 #'
 
 explain.default <- function(model, data = NULL, y = NULL, predict_function = NULL,
+                            predict_function_target_column = NULL,
                             residual_function = NULL, weights = NULL, ...,
                             label = NULL, verbose = TRUE, precalculate = TRUE,
                             colorize = TRUE, model_info = NULL, type = NULL) {
@@ -177,6 +179,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     verbose_cat("  -> data              :  colnames to data was added ( from 1 to", ncol(data), ") \n", verbose = verbose)
   }
 
+
   # REPORT: checks for y present while data is NULL
   if (is.null(y)) {
     # y not specified
@@ -202,6 +205,8 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
 #      }
 #    }
   }
+
+
 
   # REPORT: checks for weights
   if (is.null(weights)) {
@@ -242,22 +247,15 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     }
     verbose_cat("  -> predict function  : ", deparse(substitute(predict_function)), "\n", verbose = verbose)
   }
-  # if data is specified then we may test predict_function
-  y_hat <- NULL
-  if (!is.null(data) && !is.null(predict_function) && (verbose | precalculate)) {
-    y_hat <- try(predict_function(model, data), silent = TRUE)
-    if (class(y_hat)[1] == "try-error") {
-      y_hat <- NULL
-      verbose_cat("  -> predicted values  :  the predict_function returns an error when executed (",color_codes$red_start,"WARNING",color_codes$red_end,") \n", verbose = verbose)
-    } else {
-      if ((is.factor(y_hat) | is.character(y_hat))) {
-        verbose_cat("  -> predicted values  :  factor (",color_codes$red_start,"WARNING",color_codes$red_end,") with levels: ", paste(unique(y_hat), collapse = ", "), "\n", verbose = verbose)
-      } else if (!is.null(dim(y_hat))) {
-        verbose_cat("  -> predicted values  :  predict function returns multiple columns: ", ncol(y_hat), " (",color_codes$yellow_start,"default",color_codes$yellow_end,") \n", verbose = verbose)
-      } else {
-        verbose_cat("  -> predicted values  :  numerical, min = ", min(y_hat), ", mean = ", mean(y_hat), ", max = ", max(y_hat), " \n", verbose = verbose)
-      }
-    }
+
+  # issue #250, add attribute denoting the positive class
+
+  if (!is.null(predict_function_target_column)) {
+    attr(model, "predict_function_target_column") <- predict_function_target_column
+    verbose_cat("  -> predicted values  :  Predict function column set to: ", predict_function_target_column ,"(",color_codes$green_start,"OK",color_codes$green_end,")\n", verbose = verbose)
+
+  } else if (is.null(predict_function_target_column)) {
+    verbose_cat("  -> predicted values  :  No value for predict function target column.", predict_function_target_column ,"(",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
   }
 
   if (is.null(model_info)) {
@@ -292,6 +290,26 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     verbose_cat("  -> model_info        :  By deafult classification tasks supports only factor 'y' parameter. \n", verbose = verbose)
     verbose_cat("  -> model_info        :  Consider changing to a factor vector with true class names.\n", verbose = verbose)
     verbose_cat("  -> model_info        :  Otherwise I will not be able to calculate residuals or loss function.\n", verbose = verbose)
+  }
+
+  # if data is specified then we may test predict_function
+  y_hat <- NULL
+
+
+  if (!is.null(data) && !is.null(predict_function) && (verbose | precalculate)) {
+    y_hat <- try(predict_function(model, data), silent = TRUE)
+    if (class(y_hat)[1] == "try-error") {
+      y_hat <- NULL
+      verbose_cat("  -> predicted values  :  the predict_function returns an error when executed (",color_codes$red_start,"WARNING",color_codes$red_end,") \n", verbose = verbose)
+    } else {
+      if ((is.factor(y_hat) | is.character(y_hat))) {
+        verbose_cat("  -> predicted values  :  factor (",color_codes$red_start,"WARNING",color_codes$red_end,") with levels: ", paste(unique(y_hat), collapse = ", "), "\n", verbose = verbose)
+      } else if (!is.null(dim(y_hat))) {
+        verbose_cat("  -> predicted values  :  predict function returns multiple columns: ", ncol(y_hat), " (",color_codes$yellow_start,"default",color_codes$yellow_end,") \n", verbose = verbose)
+      } else {
+        verbose_cat("  -> predicted values  :  numerical, min = ", min(y_hat), ", mean = ", mean(y_hat), ", max = ", max(y_hat), " \n", verbose = verbose)
+      }
+    }
   }
 
 

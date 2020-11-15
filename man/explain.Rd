@@ -10,6 +10,7 @@ explain.default(
   data = NULL,
   y = NULL,
   predict_function = NULL,
+  predict_function_target_column = NULL,
   residual_function = NULL,
   weights = NULL,
   ...,
@@ -26,6 +27,7 @@ explain(
   data = NULL,
   y = NULL,
   predict_function = NULL,
+  predict_function_target_column = NULL,
   residual_function = NULL,
   weights = NULL,
   ...,
@@ -45,6 +47,8 @@ explain(
 \item{y}{numeric vector with outputs / scores. If provided then it shall have the same size as \code{data}}
 
 \item{predict_function}{function that takes two arguments: model and new data and returns numeric vector with predictions.   By default it is \code{yhat}.}
+
+\item{predict_function_target_column}{Character or numeric containing either column name or column number in the model prediction object of the class that should be considered as positive (ie. the class that is associated with probability 1). If NULL, the second column of the output will be taken for binary classification. For a multiclass classification setting that parameter cause switch to binary classification mode with 1 vs others probabilities.}
 
 \item{residual_function}{function that takes four arguments: model, data, target vector y and predict function (optionally). It should return a numeric vector with model residuals for given data. If not provided, response residuals (\eqn{y-\hat{y}}) are calculated. By default it is \code{residual_function_default}.}
 
