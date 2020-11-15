@@ -71,6 +71,7 @@ Under the supervision of [Przemyslaw Biecek](https://github.com/pbiecek).
 
 Other contributors:
 
+* [Piotr Piatyszek](https://github.com/piotrpiatyszek) maintains the `arena` module
 * [Jakub Wisnewski](https://github.com/jakwisn) maintains the `fairness` module
 
 -------------------------------------------

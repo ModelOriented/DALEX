@@ -3,11 +3,14 @@ Changelog
 development (TBD)
 ----------------------------------------------------------------
 
+* added new `arena` module, which adds the backend for Arena dashboard [@piotrpiatyszek](https://github.com/piotrpiatyszek)
+
 #### features
 
 * added new aliases to `dx.Explainer` methods ([#350](https://github.com/ModelOriented/DALEX/issues/350))
  in `model_parts` it is `{'permutational': 'variable_importance', 'feature_importance': 'variable_importance'}`,
  in `model_profile` it is `{'pdp': 'partial', 'ale': 'accumulated'}`
+* added `Arena` object for dashboard backend. See https://github.com/ModelOriented/Arena
 
 v0.3.0 (26/11/2020)
 ----------------------------------------------------------------
