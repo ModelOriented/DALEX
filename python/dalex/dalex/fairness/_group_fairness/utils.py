@@ -1,8 +1,8 @@
 from copy import deepcopy
 import numpy as np
 import pandas as pd
-
-
+from dalex._explainer.helper import verbose_cat
+from dalex.dataset_level._model_performance.utils import *
 # -------------- Objects needed in creation of object in object.py --------------
 
 class ConfusionMatrix:
@@ -147,6 +147,94 @@ def calculate_ratio(sub_confusion_matrix_metrics, privileged):
     df_out = pd.DataFrame(df_ratio, index=df.index.values, columns=df.columns)
     return df_out
 
-def fairness_check_metrics():
-    return ["TPR", "PPV", "STP", "ACC", "FPR"]
 
+
+
+# -------------- Functions used in plots --------------
+def _unwrap_parity_loss_data(fobject, other_objects, metrics, verbose):
+    """ Unwrap parity loss data
+    Some functions use using same computations, they are put here.
+    Function creates parity loss DataFrame from fobject and stacks it with
+    data from other_objects. This is private, helper function.
+    """
+
+    data = pd.DataFrame()
+    data['score'] = deepcopy(fobject.parity_loss)
+    data['label'] = np.repeat(fobject.label, len(fobject.parity_loss))
+    data['metric'] = data.index
+    data = data.reset_index(drop=True)
+
+    if other_objects is not None:
+        for object in other_objects:
+            other_data = pd.DataFrame()
+            other_data['score'] = deepcopy(object.parity_loss)
+            other_data['label'] = np.repeat(object.label, len(object.parity_loss))
+            other_data['metric'] = other_data.index
+            other_data = other_data.reset_index(drop=True)
+            data = data.append(other_data)
+
+    if len(metrics) > 1:
+        data = data.loc[data.metric.isin(metrics), :]
+    else:
+        data = data.loc[data.metric == metrics[0]]
+    # checking for nans
+    if any(np.isnan(data.score)):
+        models_with_nans = set(data.loc[np.isnan(data.score), :].label)
+        verbose_cat(f"Found NaNs in following models: {models_with_nans}", verbose)
+
+    return data
+
+def _fairness_theme(title):
+    return {'title_text': title,
+            'template': 'plotly_white',
+            'title_x': 0.5,
+            'title_y': 0.99,
+            'titlefont': {'size': 25},
+            'font': {'color': "#371ea3"},
+            'margin': {'t': 78, 'b': 71, 'r': 30}}
+
+
+def _metric_ratios_2_df(fobject):
+    """
+    Converts GroupFairnessClassification
+    to elegant DataFrame with 4 columns (subgroup, metric, score, label)
+    """
+
+    data = fobject.result
+    data = data.stack()
+    data = data.reset_index()
+    data.columns = ["subgroup", "metric", "score"]
+    data = data.loc[data.metric.isin(["TPR", "ACC", "PPV", "FPR", "STP"])]
+    data = data.loc[data.subgroup != fobject.privileged]
+    data.score -= 1
+
+    data['label'] = np.repeat(fobject.label, data.shape[0])
+
+    return data
+
+def _classification_performance(fobject, verbose, type='accuracy'):
+
+    tp = tn = fp = fn = 0
+    for key, val in fobject._subgroup_confusion_matrix.sub_dict.items():
+        tp += val.tp
+        tn += val.tn
+        fp += val.fp
+        fn += val.fn
+
+    if type=='accuracy':
+        return accuracy(tp, fp, tn, fn)
+    if type=='auc':
+        verbose_cat("Beware, that auc metric is insensitive to cutoffs", verbose)
+        return auc(fobject.y_hat, fobject.y)
+    if type=='recall':
+        return recall(tp, fp, tn, fn)
+    if type=='precision':
+        return  precision(tp, fp, tn, fn)
+    if type=='f1':
+        return f1(tp, fp, tn, fn)
+    else:
+        raise TypeError(f'type \'{type}\' not supported')
+
+# -------------- Helper functions --------------
+def fairness_check_metrics():
+    return ["TPR", "ACC", "PPV", "FPR", "STP"]

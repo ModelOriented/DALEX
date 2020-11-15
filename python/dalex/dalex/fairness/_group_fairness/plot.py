@@ -1,7 +1,11 @@
 import plotly.express as px
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 from .utils import *
+from .utils import _metric_ratios_2_df, _unwrap_parity_loss_data, _fairness_theme, _classification_performance
 from .._basics.checks import check_other_fairness_objects
+from .._basics.exceptions import ParameterCheckError
 from ..._explainer.helper import verbose_cat
 from ..._theme import get_default_colors
 
@@ -145,13 +149,7 @@ def plot_fairness_check(fobject,
     if title is None:
         title = 'Fairness Check'
 
-    fig.update_layout(template='plotly_white',
-                      title_text=title,
-                      title_x=0.5,
-                      title_y=0.99,
-                      titlefont={'size': 25},
-                      font={'color': "#371ea3"},
-                      margin={'t': 78, 'b': 71, 'r': 30})
+    fig.update_layout(_fairness_theme(title))
 
     # delete 'metric=' from facet names
     fig.for_each_annotation(
@@ -162,6 +160,7 @@ def plot_fairness_check(fobject,
         fig.update_layout({'yaxis' + i + '_title_text': ''})
 
     fig.update_layout({'yaxis3_title_text': 'subgroup'})
+    fig.update_yaxes(showgrid=False, zeroline=False)
 
     return fig
 
@@ -181,7 +180,7 @@ def plot_metric_scores(fobject,
             n += 1
 
     # metric choosing and name change
-    data = data.loc[data.metric.isin(fairness_check_metrics())]
+    data = data.loc[data.metric.isin(["TPR", "PPV", "STP", "ACC", "FPR"])]
     data.loc[data.metric == 'TPR', 'metric'] = 'TPR    TP/(TP + FN)'
     data.loc[data.metric == 'ACC', 'metric'] = 'ACC   (TP + TN)/(TP + FP + TN + FN)'
     data.loc[data.metric == 'PPV', 'metric'] = 'PPV    TP/(TP + FP)'
@@ -224,7 +223,7 @@ def plot_metric_scores(fobject,
                      color_discrete_sequence=colors,
                      facet_col='metric',
                      facet_col_wrap=1,
-                     custom_data=['subgroup','label'])
+                     custom_data=['subgroup', 'label'])
 
     fig.update_traces(
         hovertemplate="<br>".join([
@@ -294,13 +293,7 @@ def plot_metric_scores(fobject,
     if title is None:
         title = 'Metric Scores'
 
-    fig.update_layout(title_text=title,
-                      template='plotly_white',
-                      title_x=0.5,
-                      title_y=0.99,
-                      titlefont={'size': 25},
-                      font={'color': "#371ea3"},
-                      margin={'t': 78, 'b': 71, 'r': 30})
+    fig.update_layout(_fairness_theme(title))
 
     fig.for_each_annotation(
         lambda a: a.update(text=a.text.replace("metric=", ""), xanchor='left', x=0.05, font={'size': 15}))
@@ -330,25 +323,276 @@ def plot_metric_scores(fobject,
 
     # fixes rare bug where axis are in center and blank fields on left and right
     fig.update_xaxes(range=[min_score - 0.05, max_score + 0.05])
+    fig.update_yaxes(showgrid=False, zeroline=False)
 
     return fig
 
 
-def _metric_ratios_2_df(fobject):
-    """
-    Converts GroupFairnessClassification
-    to elegant DataFrame with 4 columns (subgroup, metric, score, label)
-    """
+def plot_stacked(fobject,
+                 title=None,
+                 other_objects=None,
+                 metrics=["TPR", "PPV", "STP", "ACC", "FPR"],
+                 verbose=True,
+                 **kwargs):
+    data = _unwrap_parity_loss_data(fobject, other_objects, metrics, verbose)
 
-    data = fobject.result
-    data = data.stack()
-    data = data.reset_index()
-    data.columns = ["subgroup", "metric", "score"]
-    data = data.loc[data.metric.isin(fairness_check_metrics())]
-    data = data.loc[data.subgroup != fobject.privileged]
-    data.score -= 1
+    fig = px.bar(data,
+                 x='score',
+                 y='label',
+                 custom_data=[np.round(data.score, 3), data.metric],
+                 labels={'score': 'cumulated parity loss'},
+                 orientation='h',
+                 color='metric',
+                 color_discrete_sequence=get_default_colors(len(metrics), type='line'))
+    # no outline
+    fig.update_traces(marker_line_width=0)
 
-    data['label'] = np.repeat(fobject.label, data.shape[0])
+    # hover
 
-    return data
+    if title is None:
+        title = "Stacked Parity Loss Metrics"
+    fig.update_layout(_fairness_theme(title))
+    fig.update_yaxes(showgrid=False, zeroline=False)
 
+    fig.update_traces(
+        hovertemplate="<br>".join([
+            "<b>%{label}</b><br>"
+            "Metric: %{customdata[1]}<br>"
+            "Parity loss: %{customdata[0]}",
+            "<extra></extra>"
+        ]))
+
+    return fig
+
+
+def plot_radar(fobject,
+               other_objects=None,
+               title=None,
+               verbose=True,
+               metrics=["TPR", "ACC", "PPV", "FPR", "STP"],
+               **kwargs):
+    data = _unwrap_parity_loss_data(fobject, other_objects, metrics, verbose)
+    colors = get_default_colors(len(set(data.label)), type='line')
+
+    fig = go.Figure()
+    for i, label in enumerate(set(sorted(data.label))):
+        model_data = data.loc[data.label == label, :]
+        r = list(model_data.score)
+        r.append(r[0])
+        theta = list(model_data.metric)
+        theta.append(theta[0])
+        fig.add_trace(
+            go.Scatterpolar(
+                r=r,
+                theta=theta,
+                name=label,
+                marker=dict(color=[colors[i] for elem in r]),
+                line=dict(color=colors[i]),
+                text=[label for i in r]
+            )
+        )
+
+    if title is None:
+        title = "Fairness Radar"
+    fig.update_layout(_fairness_theme(title))
+
+    fig.update_layout(
+        polar=dict(
+            radialaxis=dict(
+                range=[0, max(data.score) + 0.1]
+            ))
+    )
+
+    fig.update_traces(
+        hovertemplate="<br>".join([
+            "<b>%{text}</b><br>"
+            "Metric: %{theta}<br>"
+            "Parity loss: %{r:.3f}"
+            "<extra></extra>"
+        ]))
+
+    return fig
+
+
+def plot_performance_and_fairness(fobject,
+                                  other_objects=None,
+                                  fairness_metric='TPR',
+                                  performance_metric='accuracy',
+                                  title=None,
+                                  verbose=True,
+                                  **kwargs):
+    data = _unwrap_parity_loss_data(fobject, other_objects, [fairness_metric], verbose)
+    assert len(data.label.unique()) == len(data.label)
+
+    performance_data = pd.DataFrame(columns=['label', 'performance_score'])
+    performance_data.loc[0] = [fobject.label, _classification_performance(fobject, verbose, performance_metric)]
+
+    if other_objects:
+        other_data = pd.DataFrame()
+        for i, obj in enumerate(other_objects):
+            performance_data.loc[i + 1] = [obj.label, _classification_performance(obj, verbose, performance_metric)]
+
+    data = data.merge(performance_data, on='label')
+
+    fig = px.scatter(data,
+                     x='performance_score',
+                     y='score',
+                     color='label',
+                     custom_data=[data.label],
+                     color_discrete_sequence=get_default_colors(len(data.label), 'line'))
+
+    fig.update_traces(
+        mode='markers',
+        marker=dict(size=[15 for i in data.label]))
+
+    if title is None:
+        title = "Performance and Fairness"
+    fig.update_layout(_fairness_theme(title))
+
+    fig.update_yaxes(title="reversed " + fairness_metric + " parity loss",
+                     autorange='reversed')
+    fig.update_xaxes(title=performance_metric)
+
+    fig.update_traces(
+        hovertemplate="<br>".join([
+            "<b>%{customdata[0]}</b><br>",
+            fairness_metric + " parity loss: %{y:.3f}",
+            performance_metric + " score: %{x:.3f}",
+            "<extra></extra>"
+        ]))
+
+    return fig
+
+
+def plot_heatmap(fobject,
+                 other_objects=None,
+                 metrics='all',
+                 title=None,
+                 verbose=True,
+                 **kwargs):
+    if metrics == 'all':
+        metrics = list(fobject.parity_loss.index)
+
+    data = _unwrap_parity_loss_data(fobject, other_objects, metrics, verbose=verbose)
+    score_data = data.score.values.reshape(len(data.label.unique()), len(data.metric.unique()))
+
+    fig = px.imshow(score_data,
+                    labels=dict(x="parity loss metrics", y="model", color="Metric's parity loss"),
+                    x=list(data.metric.unique()),
+                    y=list(data.label.unique()),
+                    color_continuous_scale=["#c7f5bf", "#8bdcbe", "#46bac2", "#4378bf", "#371ea3"])
+
+    if title is None:
+        title = "Fairness Heatmap"
+    fig.update_layout(_fairness_theme(title))
+
+    fig.update_traces(
+        hovertemplate="<br>".join([
+            "<b>%{y}</b><br>",
+            "Parity loss metric: %{x}",
+            "parity loss: %{z:.3f}",
+            "<extra></extra>"
+        ]))
+
+    return fig
+
+
+def plot_ceteris_paribus_cutoff(fobject,
+                                other_objects=None,
+                                title=None,
+                                verbose=True,
+                                grid_points=101,
+                                subgroup=None,
+                                metrics=["TPR", "ACC", "PPV", "FPR", "STP"],
+                                **kwargs):
+    if subgroup is None:
+        raise ParameterCheckError("parameter \'subgroup\' is needed")
+
+    protected = fobject.protected
+    privileged = fobject.privileged
+    if subgroup not in protected:
+        raise ParameterCheckError("parameter subgroup must be in protected parameter")
+
+    objects = [fobject]
+    if other_objects is not None:
+        check_other_fairness_objects(fobject, other_objects)
+        for obj in other_objects:
+            objects.append(obj)
+
+    colors = get_default_colors(len(metrics), 'line')
+
+    labels = []
+    for obj in objects:
+        labels.append(obj.label)
+
+    fig = make_subplots(rows=len(objects), cols=1, subplot_titles=labels)
+
+    for k, object in enumerate(objects):
+        cutoff = object.cutoff
+        y = object.y
+        y_hat = object.y_hat
+        data = pd.DataFrame()
+
+        # generate data for hypothetical cutoffs
+        for i in range(1, grid_points):
+            cutoff[subgroup] = i / grid_points
+            sub_confusion_matrix = SubgroupConfusionMatrix(y_true=y,
+                                                           y_pred=y_hat,
+                                                           protected=protected,
+                                                           cutoff=cutoff)
+
+            sub_confusion_matrix_metrics = SubgroupConfusionMatrixMetrics(sub_confusion_matrix)
+            parity_loss = calculate_parity_loss(sub_confusion_matrix_metrics, privileged)
+            parity_loss = parity_loss.loc[parity_loss.index.isin(metrics)]
+            newdata = pd.DataFrame({'score': parity_loss, 'metric': parity_loss.index, 'cutoff': i / (grid_points - 1)})
+            newdata = newdata.reset_index(drop=True)
+            data = data.append(newdata)
+
+        data = data.reset_index(drop=True)
+
+        # Find minimum where NA is not present
+        pivoted_data = data.pivot(index='cutoff', columns='metric', values='score')
+        summed_metrics = pivoted_data.to_numpy().sum(axis=1)
+        min_index = np.where(summed_metrics == min(summed_metrics))[0][0] # get first minimal index
+        min_cutoff = data.cutoff.unique()[min_index]
+
+        # make figure from individual parts
+        for j, metric in enumerate(metrics):
+            metric_data = data.loc[data.metric == metric, :]
+            fig.add_trace(go.Scatter(x=metric_data.cutoff,
+                                     y=metric_data.score,
+                                     mode='lines',
+                                     line=dict(color=colors[j]),
+                                     name=metric,
+                                     showlegend=k == 0),  # show only legend of first subplot
+                          row=k + 1, col=1)
+
+        fig.add_shape(type='line',
+                      x0=min_cutoff,
+                      x1=min_cutoff,
+                      y0=0,
+                      y1=max(data.score),
+                      layer='below',
+                      line=dict(color="grey",
+                                dash="dot"), row=k + 1, col=1)
+
+        fig.add_annotation(
+            x=min_cutoff,
+            y=max(data.score) + 0.05,
+            text=f'minimum: {min_cutoff}',
+            row=k + 1, col=1
+        )
+
+    fig.update_xaxes(title=f"cutoff for {subgroup}, other cutoffs constant")
+    fig.update_yaxes(title="parity loss")
+
+    if title is None:
+        title = "Ceteris Paribus Cutoff"
+    fig.update_layout(_fairness_theme(title))
+    fig.update_layout(hovermode="x")
+    fig.update_traces(
+        hovertemplate="<br>".join([
+            "parity loss: %{y:.3f}"
+        ]))
+
+    return fig

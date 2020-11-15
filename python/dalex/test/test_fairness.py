@@ -1,14 +1,14 @@
 import unittest
-
 from copy import deepcopy
+
 import numpy as np
+from plotly.graph_objs import Figure
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.tree import DecisionTreeClassifier
 
 import dalex as dx
-from plotly.graph_objs import Figure
 
 
 class FairnessTest(unittest.TestCase):
@@ -38,6 +38,13 @@ class FairnessTest(unittest.TestCase):
 
         self.exp = dx.Explainer(clf, X, y, verbose=False)
         self.german_protected = data.sex + '_' + np.where(data.age < 25, 'young', 'old')
+
+        self.mgf = self.exp.model_fairness(protected=self.german_protected,
+                                             privileged='male_old',
+                                             verbose=False)
+        self.mgf2 = deepcopy(self.mgf)
+        self.mgf.label = 'first'
+        self.mgf2.label = 'second'
 
     def test_ConfusionMatrix(self):
         y_true = np.array([0, 0, 0, 0, 1, 1, 1, 1])
@@ -242,80 +249,100 @@ class FairnessTest(unittest.TestCase):
 
         self.assertIsInstance(mgf, dx.fairness.GroupFairnessClassification)
 
+    def test_plot_error_handling(self):
+        # handling same for all plots, here fairness check plot
+        with self.assertRaises(dx.fairness._basics.exceptions.FairnessObjectsDifferenceError):
+            mgf_wrong = self.exp.model_fairness(protected=self.german_protected,
+                                           privileged='male_young', # wrong privileged
+                                           verbose=False
+                                           )
+            self.mgf.plot([mgf_wrong])
+
+        with self.assertRaises(dx.fairness._basics.exceptions.FairnessObjectsDifferenceError):
+            exp_wrong = deepcopy(self.exp)
+            exp_wrong.y = exp_wrong.y[:-1]
+            exp_wrong.y_hat = exp_wrong.y_hat[:-1]
+
+            mgf_wrong = exp_wrong.model_fairness(protected=self.german_protected[:-1], # shorter protected
+                                                 privileged='male_old',
+                                                 verbose=False)
+            self.mgf.plot([mgf_wrong])
+
+        with self.assertRaises(dx.fairness._basics.exceptions.ParameterCheckError):
+            self.mgf.plot(type='not_existing')
+
     def test_plot_fairness_check(self):
-        exp = self.exp
-        protected = self.german_protected
-        mgf = exp.model_fairness(protected=protected,
-                                 privileged='male_old',
-                                 verbose=False)
-        fig1 = mgf.plot(show=False)
+        fig1 = self.mgf.plot(show=False)
         self.assertEqual(fig1.layout.title.text, "Fairness Check")
         self.assertIsInstance(fig1, Figure)
 
-        mgf2 = deepcopy(mgf)
-        mgf.label = 'first'
-        mgf2.label = 'second'
 
-        fig2 = mgf.plot(objects=[mgf2], show=False)
+        fig2 = self.mgf.plot(objects=[self.mgf2], show=False)
         self.assertIsInstance(fig2, Figure)
 
         self.assertEqual(fig2['data'][0]['legendgroup'], "first")
         self.assertEqual(fig2['data'][5]['legendgroup'], "second")
 
         # test errors in plots
-        with self.assertRaises(dx.fairness._basics.exceptions.FairnessObjectsDifferenceError):
-            mgf_wrong = exp.model_fairness(protected=protected,
-                                           privileged='male_young',
-                                           verbose=False
-                                           )
-            mgf.plot([mgf_wrong])
 
-        with self.assertRaises(dx.fairness._basics.exceptions.FairnessObjectsDifferenceError):
-            exp_wrong = deepcopy(exp)
-            exp_wrong.y = exp_wrong.y[:-1]
-            exp_wrong.y_hat = exp_wrong.y_hat[:-1]
-
-            mgf_wrong = exp_wrong.model_fairness(protected=protected[:-1],
-                                                 privileged='male_old',
-                                                 verbose=False)
-            mgf.plot([mgf_wrong])
 
     def test_plot_metric_scores(self):
-        exp = self.exp
-        protected = self.german_protected
-        mgf = exp.model_fairness(protected=protected,
-                                 privileged='male_old',
-                                 verbose=False)
-        fig1 = mgf.plot(show=False, type='metric_scores')
+
+        fig1 = self.mgf.plot(show=False, type='metric_scores')
         self.assertEqual(fig1.layout.title.text, "Metric Scores")
         self.assertIsInstance(fig1, Figure)
 
-        mgf2 = deepcopy(mgf)
-        mgf.label = 'first'
-        mgf2.label = 'second'
-
-        fig2 = mgf.plot(objects=[mgf2], show=False, type='metric_scores')
+        fig2 = self.mgf.plot(objects=[self.mgf2], show=False, type='metric_scores')
         self.assertIsInstance(fig2, Figure)
 
         self.assertEqual(fig2['data'][0]['legendgroup'], "first")
         self.assertEqual(fig2['data'][5]['legendgroup'], "second")
 
-        # test errors in plots
-        with self.assertRaises(dx.fairness._basics.exceptions.FairnessObjectsDifferenceError):
-            mgf_wrong = exp.model_fairness(protected=protected,
-                                           privileged='male_young',
-                                           verbose=False)
-            mgf.plot([mgf_wrong], type='metric_scores')
 
-        with self.assertRaises(dx.fairness._basics.exceptions.FairnessObjectsDifferenceError):
-            exp_wrong = deepcopy(exp)
-            exp_wrong.y = exp_wrong.y[:-1]
-            exp_wrong.y_hat = exp_wrong.y_hat[:-1]
+    def test_plot_radar(self):
 
-            mgf_wrong = exp_wrong.model_fairness(protected=protected[:-1],
-                                                 privileged='male_old',
-                                                 verbose=False)
-            mgf.plot([mgf_wrong], type='metric_scores')
+        fig1 = self.mgf.plot(show=False, type='radar')
+        self.assertEqual(fig1.layout.title.text, "Fairness Radar")
+        self.assertIsInstance(fig1, Figure)
+
+        fig2 = self.mgf.plot(objects=[self.mgf2], show=False, type='radar')
+        self.assertIsInstance(fig2, Figure)
+
+    def test_plot_heatmap(self):
+
+        fig1 = self.mgf.plot(show=False, type='heatmap')
+        self.assertEqual(fig1.layout.title.text, "Fairness Heatmap")
+        self.assertIsInstance(fig1, Figure)
+
+        fig2 = self.mgf.plot(objects=[self.mgf2], show=False, type='heatmap')
+        self.assertIsInstance(fig2, Figure)
+
+    def test_plot_stacked(self):
+
+        fig1 = self.mgf.plot(show=False, type='stacked')
+        self.assertEqual(fig1.layout.title.text, "Stacked Parity Loss Metrics")
+        self.assertIsInstance(fig1, Figure)
+
+        fig2 = self.mgf.plot(objects=[self.mgf2], show=False, type='stacked')
+        self.assertIsInstance(fig2, Figure)
+
+    def test_plot_performance_and_fairness(self):
+
+        fig1 = self.mgf.plot(show=False, type='performance_and_fairness')
+        self.assertEqual(fig1.layout.title.text, "Performance and Fairness")
+        self.assertIsInstance(fig1, Figure)
+
+        fig2 = self.mgf.plot(objects=[self.mgf2], show=False, type='performance_and_fairness')
+        self.assertIsInstance(fig2, Figure)
+
+    def test_plot_ceteris_paribus_cutoff(self):
+
+        fig1 = self.mgf.plot(show=False, type='ceteris_paribus_cutoff', subgroup='male_old')
+        self.assertEqual(fig1.layout.title.text, "Ceteris Paribus Cutoff")
+        self.assertIsInstance(fig1, Figure)
+
+        fig2 = self.mgf.plot(objects=[self.mgf2], show=False, type='ceteris_paribus_cutoff', subgroup='male_old')
+        self.assertIsInstance(fig2, Figure)
 
 
 if __name__ == '__main__':

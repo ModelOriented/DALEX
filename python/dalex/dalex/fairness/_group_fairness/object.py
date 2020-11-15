@@ -1,7 +1,7 @@
 from .checks import *
 from .plot import *
+from .utils import *
 from .._basics._base_objects import _FairnessObject
-from .._basics.checks import check_other_objects
 from ..._theme import get_default_config
 
 
@@ -23,6 +23,7 @@ class GroupFairnessClassification(_FairnessObject):
         df_ratios = calculate_ratio(sub_confusion_matrix_metrics, self.privileged)
         parity_loss = calculate_parity_loss(sub_confusion_matrix_metrics, self.privileged)
 
+        self._subgroup_confusion_matrix = sub_confusion_matrix
         self._subgroup_confusion_matrix_metrics_object = sub_confusion_matrix_metrics
         self.metric_scores = sub_confusion_matrix_metrics.to_horizontal_DataFrame()
         self.parity_loss = parity_loss
@@ -65,22 +66,32 @@ class GroupFairnessClassification(_FairnessObject):
         subgroups_without_privileged = subgroups[subgroups != self.privileged]
         metric_ratios = metric_ratios.loc[subgroups_without_privileged, fairness_check_metrics()]
 
-        metrics_exceeded = ((metric_ratios > 1 / epsilon) | (epsilon > metric_ratios)).apply(sum, 1)
+        metrics_exceeded = ((metric_ratios > 1 / epsilon) | (epsilon > metric_ratios)).apply(sum, 0)
 
-        print(f'\nRatios of metrics, base: {self.privileged}')
-        for rowname in metrics_exceeded.index:
-            print(f'{rowname}, metrics exceeded: {metrics_exceeded[rowname]}')
-
-        print(f'\nRatio values: \n')
-        print(metric_ratios.to_string())
-
-        if sum(metrics_exceeded) >= 2:
-            conclusion = 'not fair'
+        names_of_exceeded_metrics = list(metrics_exceeded.index[metrics_exceeded != 0])
+        if len(names_of_exceeded_metrics) >= 2:
+            print(f'Bias detected in {len(names_of_exceeded_metrics)} metrics: {", ".join(names_of_exceeded_metrics)}')
+        elif len(names_of_exceeded_metrics) == 1:
+            print(f'Bias detected in {len(names_of_exceeded_metrics)} metric: {names_of_exceeded_metrics[0]}')
         else:
-            conclusion = 'fair'
+            print("No bias was detected!")
 
-        print(f'\nConclusion: your model is {conclusion}')
+        # arbitrary decision
+        if len(names_of_exceeded_metrics) >= 2:
+            conclusion = 'is not fair because 2 or more metric scores exceeded acceptable limits set by epsilon'
+        elif len(names_of_exceeded_metrics) == 1:
+            conclusion = 'cannot be called fair because 1 metric score exceeded acceptable limits set by epsilon.\n' \
+                         'It does not mean that your model is unfair ' \
+                         'but it cannot be automatically approved based on these metrics'
+        else:
+            conclusion = 'is fair in terms of checked fairness metrics'
 
+        print(f'\nConclusion: your model {conclusion}.')
+
+        print(
+            f'\nRatios of metrics, based on \'{self.privileged}\'. Parameter \'epsiolon\' was set to {epsilon}'
+            f' and therefore metrics should be within ({epsilon}, {round(1 / epsilon, 3)})')
+        print(metric_ratios.to_string())
         if np.isnan(metric_ratios).sum().sum() > 0:
             verbose_cat(
                 '\nWarning!\nTake into consideration that NaN\'s are present, consider checking \'metric_scores\' '
@@ -112,6 +123,7 @@ class GroupFairnessClassification(_FairnessObject):
                 It accepts following keyword arguments:
                  'epsilon' - which denotes the decision
                              boundary (like in fairness_check method)
+
             metric_scores:
                 metric_scores plot shows real values of metrics.
                 Each model displays values in each metric and each subgroup.
@@ -120,6 +132,70 @@ class GroupFairnessClassification(_FairnessObject):
                 show scores for unprivileged subgroups.
                 This plot is simple and it does
                 not have additional keyword arguments.
+
+            stacked:
+                stacked plot shows cumulated parity loss from chosen
+                metrics. It stacks metrics on top of each other.
+                It accepts following keyword arguments:
+                'metrics' - list of metrics to be plotted. The metrics are taken
+                            from parity_loss attribute of the object.
+                            Default is ["TPR", "ACC", "PPV", "FPR", "STP"].
+
+            radar:
+                radar plot shows parity loss of provided metrics. It does it
+                in form of radar (spider) chart. The smaller the field of
+                figure the better.
+                It accepts following keyword arguments:
+                'metrics' - list of metrics to be plotted. The metrics are taken
+                            from parity_loss attribute of the object.
+                            Default is ["TPR", "ACC", "PPV", "FPR", "STP"].
+
+            performance_and_fairness:
+                performance_and_fairness plot shows relation between chosen
+                performance and fairness metrics. The fairness metric axis is
+                reversed, because the higher the model the less bias it has.
+                Thanks to that it is more intuitive to look at because
+                the best models are in top right corner.
+                It accepts following keyword arguments:
+                'fairness_metric' - single fairness metric to be plotted on Y axis.
+                                   The metric is taken from parity_loss attribute\
+                                   of the object. The default is "TPR"
+                'performance_metric' - single performance metric. One of {'recall',
+                                       'precision','accuracy','auc','f1'}.
+                                       Metrics apart from 'auc' are
+                                       cutoff-sensitive. Default is "accuracy"
+
+
+            heatmap:
+                heatmap shows parity loss of metrics in form of heatmap. The less
+                parity loss model has, the more fair it is.
+                It accepts following keyword arguments:
+                'metrics' - list of metrics to be plotted. The metrics are taken
+                            from parity_loss attribute of the object.
+                            Default is 'all' which stands for all available metrics.
+
+            ceteris_paribus_cutoff:
+                ceteris_paribus_cutoff plot shows what would happen if cutoff
+                for only one subgroup would change with others cutoffs constant.
+                The plot shows also a minimum, where sum of parity loss of metrics
+                is the lowest. Minimum only works if at some interval all metrics
+                have non-nan scores.
+                It accepts following keyword arguments:
+                'subgroup' - necessary argument. It is name of subgroup from
+                             protected attribute. Cutoff for this subgroup will
+                             be changed.
+
+                'metrics' - list of metrics to be plotted. The metrics are taken
+                            from parity_loss attribute of the object.
+                            Default is ["TPR", "ACC", "PPV", "FPR", "STP"].
+
+                'grid_points' - number of grid points (cutoff values) to calculate
+                                metrics for. The points are distributed evenly.
+                                Default is 101.
+
+
+
+
 
         title : str, optional
             Title of the plot (default depends on the `type` attribute).
@@ -138,26 +214,54 @@ class GroupFairnessClassification(_FairnessObject):
             for obj in objects:
                 if isinstance(obj, self.__class__):
                     other_objects.append(obj)
-        if other_objects is not None:
-            check_other_objects(self, other_objects)
-
+            check_other_fairness_objects(self, other_objects)
 
         if type == 'fairness_check':
             fig = plot_fairness_check(self,
                                       other_objects=other_objects,
                                       title=title, **kwargs)
 
-            if show:
-                fig.show(config=get_default_config())
-            else:
-                return fig
-
-        if type == "metric_scores":
+        elif type == "metric_scores":
             fig = plot_metric_scores(self,
                                      other_objects=other_objects,
                                      title=title,
                                      **kwargs)
-            if show:
-                fig.show(config=get_default_config())
-            else:
-                return fig
+
+        # names of plots may be changed
+        elif type == 'stacked':
+            fig = plot_stacked(self,
+                               other_objects=other_objects,
+                               title=title,
+                               **kwargs)
+
+        elif type == 'radar':
+            fig = plot_radar(self,
+                             other_objects=other_objects,
+                             title=title,
+                             **kwargs)
+
+        elif type == 'performance_and_fairness':
+            fig = plot_performance_and_fairness(self,
+                                                other_objects=other_objects,
+                                                title=title,
+                                                **kwargs)
+
+        elif type == 'heatmap':
+            fig = plot_heatmap(self,
+                               other_objects=other_objects,
+                               title=title,
+                               **kwargs)
+
+        elif type == 'ceteris_paribus_cutoff':
+            fig = plot_ceteris_paribus_cutoff(self,
+                                              other_objects=other_objects,
+                                              title=title,
+                                              **kwargs)
+
+        else:
+            raise ParameterCheckError(f"plot type {type} not supported, try other types.")
+
+        if show:
+            fig.show(config=get_default_config())
+        else:
+            return fig
