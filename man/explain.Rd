@@ -10,6 +10,7 @@ explain.default(
   data = NULL,
   y = NULL,
   predict_function = NULL,
+  predict_function_target_column = NULL,
   residual_function = NULL,
   weights = NULL,
   ...,
@@ -18,7 +19,6 @@ explain.default(
   precalculate = TRUE,
   colorize = TRUE,
   model_info = NULL,
-  predict_function_column = NULL,
   type = NULL
 )
 
@@ -27,6 +27,7 @@ explain(
   data = NULL,
   y = NULL,
   predict_function = NULL,
+  predict_function_target_column = NULL,
   residual_function = NULL,
   weights = NULL,
   ...,
@@ -35,7 +36,6 @@ explain(
   precalculate = TRUE,
   colorize = TRUE,
   model_info = NULL,
-  predict_function_column = NULL,
   type = NULL
 )
 }
@@ -47,6 +47,8 @@ explain(
 \item{y}{numeric vector with outputs / scores. If provided then it shall have the same size as \code{data}}
 
 \item{predict_function}{function that takes two arguments: model and new data and returns numeric vector with predictions.   By default it is \code{yhat}.}
+
+\item{predict_function_target_column}{Character or numeric containing either column name or column number in the model prediction object of the class that should be considered as positive (ie. the class that is associated with probability 1). If NULL, the second column of the output will be taken for binary classification. For a multiclass classification setting that parameter cause switch to binary classification mode with 1 vs others probabilities.}
 
 \item{residual_function}{function that takes four arguments: model, data, target vector y and predict function (optionally). It should return a numeric vector with model residuals for given data. If not provided, response residuals (\eqn{y-\hat{y}}) are calculated. By default it is \code{residual_function_default}.}
 
@@ -64,8 +66,6 @@ This will happen also if \code{verbose} is TRUE. Set both \code{verbose} and \co
 \item{colorize}{logical. If TRUE (default) then \code{WARNINGS}, \code{ERRORS} and \code{NOTES} are colorized. Will work only in the R console.}
 
 \item{model_info}{a named list (\code{package}, \code{version}, \code{type}) containg information about model. If \code{NULL}, \code{DALEX} will seek for information on it's own.}
-
-\item{predict_function_column}{Character or numeric containing either column name or column number in the model prediction object of the class that should be considered as positive (ie. the class that is associated with probability 1). If NULL, the second column of the output will be taken for binary classification. For a multiclass classification setting that parameter cause switch to binary classification mode with 1 vs others probabilities.}
 
 \item{type}{type of a model, either \code{classification} or \code{regression}. If not specified then \code{type} will be extracted from \code{model_info}.}
 }
