@@ -201,12 +201,13 @@
 #&gt;   -&gt; data              :  7847  rows  6  cols 
 #&gt;   -&gt; target variable   :  not specified! ( </span><span style='color: #BB0000;'> WARNING </span><span> )
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.00861694 , mean =  0.3638333 , max =  0.7822214  
+#&gt;   -&gt; predicted values  :  No value for predict function target column. ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; model_info        :  package stats , ver. 4.0.3 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; model_info        :  Model info detected classification task but 'y' is a NULL .  ( </span><span style='color: #BB0000;'> WARNING </span><span> )
 #&gt;   -&gt; model_info        :  By deafult classification tasks supports only numercical 'y' parameter. 
 #&gt;   -&gt; model_info        :  Consider changing to numerical vector with 0 and 1 values.
 #&gt;   -&gt; model_info        :  Otherwise I will not be able to calculate residuals or loss function.
+#&gt;   -&gt; predicted values  :  numerical, min =  0.00861694 , mean =  0.3638333 , max =  0.7822214  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>explainer_glm</span>, <span class='va'>HR</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>,<span class='op'>]</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;         1         2         3 
@@ -220,12 +221,13 @@
 #&gt;   -&gt; data              :  7847  rows  6  cols 
 #&gt;   -&gt; target variable   :  not specified! ( </span><span style='color: #BB0000;'> WARNING </span><span> )
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; predicted values  :  No value for predict function target column. ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task multiclass ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; model_info        :  Model info detected multiclass task but 'y' is a NULL .  ( </span><span style='color: #BB0000;'> WARNING </span><span> )
 #&gt;   -&gt; model_info        :  By deafult classification tasks supports only factor 'y' parameter. 
 #&gt;   -&gt; model_info        :  Consider changing to a factor vector with true class names.
 #&gt;   -&gt; model_info        :  Otherwise I will not be able to calculate residuals or loss function.
+#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between 1 and probability of true class ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>explainer_ranger</span>, <span class='va'>HR</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>,<span class='op'>]</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;          fired         ok    promoted
