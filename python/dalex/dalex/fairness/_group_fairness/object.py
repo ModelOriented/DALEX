@@ -89,7 +89,7 @@ class GroupFairnessClassification(_FairnessObject):
         print(f'\nConclusion: your model {conclusion}.')
 
         print(
-            f'\nRatios of metrics, based on \'{self.privileged}\'. Parameter \'epsiolon\' was set to {epsilon}'
+            f'\nRatios of metrics, based on \'{self.privileged}\'. Parameter \'epsilon\' was set to {epsilon}'
             f' and therefore metrics should be within ({epsilon}, {round(1 / epsilon, 3)})')
         print(metric_ratios.to_string())
         if np.isnan(metric_ratios).sum().sum() > 0:

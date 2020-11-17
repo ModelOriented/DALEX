@@ -11,6 +11,8 @@ v0.4.0 (17/11/2020)
  in `model_parts` it is `{'permutational': 'variable_importance', 'feature_importance': 'variable_importance'}`,
  in `model_profile` it is `{'pdp': 'partial', 'ale': 'accumulated'}`
 * added `Arena` object for dashboard backend. See https://github.com/ModelOriented/Arena
+* new `fairness` plot types: `stacked`, `radar`, `performance_and_fairness`, `heatmap`, `ceteris_paribus_cutoff`
+* upgraded `fairness_check()`
 
 v0.3.0 (26/10/2020)
 ----------------------------------------------------------------
