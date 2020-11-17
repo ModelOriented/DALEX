@@ -54,7 +54,7 @@ class Explainer:
         Calculate y_hat (predicted values) and residuals during the Explainer
         initialization (default is True).
     model_type : {'regression', 'classification', None}
-        Model task type that is used e.g. in `model_performance` and `model_parts`
+        Model task type that is used e.g. in `model_performance()` and `model_parts()`
         (default is try to extract the information from the model, else None).
     model_info: dict, optional
         Dict {'model_package', 'model_package_version', ...} containing additional
@@ -88,7 +88,7 @@ class Explainer:
     model_type : {'regression', 'classification', None}
         Model task type.
     model_info: dict
-        Dict {'model_package', 'model_package_version', ...} containing additional
+        Dict `{'model_package', 'model_package_version', ...}` containing additional
         information.
 
     Notes
@@ -256,7 +256,7 @@ class Explainer:
             Iterated over `B` (default is 1, which means no parallel computation).
         random_state : int, optional
             Set seed for random number generator (default is random seed).
-        kwargs :
+        kwargs : ...
             Used only for 'shap_wrapper'. Pass `shap_explainer_type` to specify, which
             Explainer shall be used: {'TreeExplainer', 'DeepExplainer', 'GradientExplainer',
             'LinearExplainer', 'KernelExplainer'} (default is None, which automatically
@@ -394,7 +394,7 @@ class Explainer:
         type : {'lime'}
             Type of explanation method
             (default is 'lime', which uses the lime package to create an explanation).
-        kwargs :
+        kwargs : ...
             Keyword arguments passed to the lime.lime_tabular.LimeTabularExplainer object
             and the LimeTabularExplainer.explain_instance method. Exceptions are:
             `training_data`, `mode`, `data_row` and `predict_fn`. Other parameters:
@@ -504,7 +504,7 @@ class Explainer:
             (default is 1, which means no parallel computation).
         random_state : int, optional
             Set seed for random number generator (default is random seed).
-        kwargs :
+        kwargs : ...
             Used only for 'shap_wrapper'. Pass `shap_explainer_type` to specify, which
             Explainer shall be used: {'TreeExplainer', 'DeepExplainer', 'GradientExplainer',
             'LinearExplainer', 'KernelExplainer'}.
@@ -724,7 +724,7 @@ class Explainer:
             The maximum depth of the tree. If None, then nodes are expanded until all
             leaves are pure or until all leaves contain less than min_samples_split
             samples (default is 3 for interpretable plot).
-        kwargs :
+        kwargs : ...
             Keyword arguments passed to one of the: sklearn.tree.DecisionTreeClassifier,
             sklearn.tree.DecisionTreeRegressor, sklearn.linear_model.LogisticRegression,
             sklearn.linear_model.LinearRegression
@@ -789,7 +789,7 @@ class Explainer:
                 float - same for all subgroups from `protected`
                 dict - individually adjusted for each subgroup
                        (must have values from `protected` as keys).
-        kwargs :
+        kwargs : ...
             Keyword arguments. It supports `verbose`, which is a boolean
             value telling if additional output should be printed
             (True) or not (False, default).
@@ -818,9 +818,9 @@ class Explainer:
 
         Notes
         -----------
-        Verma, S. & Rubin, J. (2018) https://fairware.cs.umass.edu/papers/Verma.pdf
-        Zafar, M.B., et al. (2017) https://arxiv.org/pdf/1610.08452.pdf
-        Hardt, M., et al. (2016) https://arxiv.org/pdf/1610.02413.pdf
+        - Verma, S. & Rubin, J. (2018) https://fairware.cs.umass.edu/papers/Verma.pdf
+        - Zafar, M.B., et al. (2017) https://arxiv.org/pdf/1610.08452.pdf
+        - Hardt, M., et al. (2016) https://arxiv.org/pdf/1610.02413.pdf
         """
 
         if self.model_type != 'classification':
@@ -850,10 +850,10 @@ class Explainer:
 
         Parameters
         -----------
-        args :
-            Positional arguments passed to the pickle.dumps function
-        kwargs :
-            Keyword arguments passed to the pickle.dumps function
+        args : ...
+            Positional arguments passed to the pickle.dumps function.
+        kwargs : ...
+            Keyword arguments passed to the pickle.dumps function.
 
         Returns
         -----------
@@ -879,12 +879,12 @@ class Explainer:
 
         Parameters
         -----------
-        file :
+        file : ...
             A file object opened for binary writing, or an io.BytesIO instance.
-        args :
-            Positional arguments passed to the pickle.dump function
-        kwargs :
-            Keyword arguments passed to the pickle.dump function
+        args : ...
+            Positional arguments passed to the pickle.dump function.
+        kwargs : ...
+            Keyword arguments passed to the pickle.dump function.
         """
 
         from copy import deepcopy
@@ -902,7 +902,7 @@ class Explainer:
         https://docs.python.org/3/library/pickle.html#pickle.loads
 
         NOTE: local functions and lambdas cannot be pickled.
-        If use_defaults is set to True, then dropped functions are set to defaults.
+        If `use_defaults` is set to `True`, then dropped functions are set to defaults.
 
         Parameters
         -----------
@@ -910,11 +910,11 @@ class Explainer:
             Binary representation of the Explainer.
         use_defaults : bool
             Replace empty `predict_function` and `residual_function` with default
-            values like in Explainer initialization (default is True).
-        args :
-            Positional arguments passed to the pickle.loads function
-        kwargs :
-            Keyword arguments passed to the pickle.loads function
+            values like in Explainer initialization (default is `True`).
+        args : ...
+            Positional arguments passed to the pickle.loads function.
+        kwargs : ...
+            Keyword arguments passed to the pickle.loads function.
 
         Returns
         -----------
@@ -937,19 +937,19 @@ class Explainer:
         https://docs.python.org/3/library/pickle.html#pickle.load
 
         NOTE: local functions and lambdas cannot be pickled.
-        If use_defaults is set to True, then dropped functions are set to defaults.
+        If `use_defaults` is set to `True`, then dropped functions are set to defaults.
 
         Parameters
         -----------
-        file :
+        file : ...
             A binary file object opened for reading, or an io.BytesIO object.
         use_defaults : bool
             Replace empty `predict_function` and `residual_function` with default
-            values like in Explainer initialization (default is True).
-        args :
-            Positional arguments passed to the pickle.load function
-        kwargs :
-            Keyword arguments passed to the pickle.load function
+            values like in Explainer initialization (default is `True`).
+        args : ...
+            Positional arguments passed to the pickle.load function.
+        kwargs : ...
+            Keyword arguments passed to the pickle.load function.
 
         Returns
         -----------

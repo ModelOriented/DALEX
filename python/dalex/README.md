@@ -1,6 +1,6 @@
 # dalex
 
-[moDel Agnostic Language for Exploration and eXplanation](http://dalex.drwhy.ai/)
+http://dalex.drwhy.ai/
 
 [![Python-check](https://github.com/ModelOriented/DALEX/workflows/Python-check/badge.svg)](https://github.com/ModelOriented/DALEX/actions?query=workflow%3APython-check)
 [![Supported Python
@@ -37,7 +37,7 @@ pip install dalex -U
 * [How to use dalex with xgboost](http://dalex.drwhy.ai/python-dalex-xgboost.html)
 * [How to use dalex with tensorflow](http://dalex.drwhy.ai/python-dalex-tensorflow.html)
 * [Interesting features in v0.2.1](http://dalex.drwhy.ai/python-dalex-new.html)
-* [New fairness module](http://dalex.drwhy.ai/python-dalex-fairness.html)
+* [Fairness module](http://dalex.drwhy.ai/python-dalex-fairness.html)
 * Code in the form of [jupyter notebook](https://github.com/pbiecek/DALEX_docs/tree/master/jupyter-notebooks)
 * [YouTube video](https://www.youtube.com/watch?v=PuKF2GS4_3Y) showing how to do [Break Down](https://pbiecek.github.io/ema/breakDown.html) analysis
 * Changelog: [NEWS](https://github.com/ModelOriented/DALEX/blob/master/python/dalex/NEWS.md)

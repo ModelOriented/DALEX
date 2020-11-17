@@ -9,8 +9,8 @@ from re import search
 # - scikit-learn:   Explainer.model_surrogate
 # - statsmodels     LOWESS trendlines in ResidualDiagnostics.plot
 # - shap            ShapWrapper
-# - Flask:          Arena.run_server
-# - Flask-Cors:     Arena.run_server
+# - flask:          Arena.run_server
+# - flask_cors:     Arena.run_server
 # - requests:       Arena.stop_server
 OPTIONAL_DEPENDENCIES = {
     'dalex': '99.0',

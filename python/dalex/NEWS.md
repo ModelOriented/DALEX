@@ -1,6 +1,6 @@
 Changelog
 
-development (TBD)
+v0.4.0 (17/11/2020)
 ----------------------------------------------------------------
 
 * added new `arena` module, which adds the backend for Arena dashboard [@piotrpiatyszek](https://github.com/piotrpiatyszek)
@@ -12,7 +12,7 @@ development (TBD)
  in `model_profile` it is `{'pdp': 'partial', 'ale': 'accumulated'}`
 * added `Arena` object for dashboard backend. See https://github.com/ModelOriented/Arena
 
-v0.3.0 (26/11/2020)
+v0.3.0 (26/10/2020)
 ----------------------------------------------------------------
 
 * added new `fairness` module, which will focus on bias detection, visualization and mitigation [@jakwisn](https://github.com/jakwisn)
