@@ -75,7 +75,7 @@ def check_y(y, data, verbose):
             verbose_cat("  -> target variable   : 'y' should be a numeric or boolean array.",
                         verbose=verbose)
             verbose_cat(
-                "  -> target variable   : Otherwise error may occur in calculating residuals or loss.",
+                "  -> target variable   : Otherwise an Error may occur in calculating residuals or loss.",
                 verbose=verbose)
 
         if data is not None:
@@ -115,7 +115,7 @@ def check_weights(weights, data, verbose):
         if isinstance(weights, pd.Series):
             weights = np.array(weights)
             verbose_cat(
-                "  -> sampling weights  :  Parameter 'weights' was a pandas.Series. Converted to a numpy.ndarrayr.",
+                "  -> sampling weights  :  Parameter 'weights' was a pandas.Series. Converted to a numpy.ndarray.",
                 verbose=verbose)
         elif isinstance(weights, np.ndarray) and len(weights.shape) != 1:
             raise TypeError("'weights' must have only one dimension")

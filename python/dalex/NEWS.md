@@ -1,4 +1,4 @@
-Changelog
+## Changelog
 
 development
 ----------------------------------------------------------------
@@ -19,7 +19,7 @@ development
 
 #### defaults
 
-* unify verbouse output of `Explainer`
+* unify verbose output of `Explainer`
 
 v0.4.0 (17/11/2020)
 ----------------------------------------------------------------
