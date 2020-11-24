@@ -35,14 +35,48 @@ def yhat_tf_regression(m, d):
 def yhat_tf_classification(m, d):
     return m.predict(np.array(d))[:, 1]
 
+def get_h2o_yhat(model):
+    if not str(type(model)).startswith("<class 'h2o.estimators"):
+        return None
+    
+    if model.type == 'classifier':
+        return yhat_h2o_classification, "classification"
+    if model.type == 'regressor':
+        return yhat_h2o_regression, "regression"
+    
+def yhat_h2o_regression(m, d):
+    from h2o import H2OFrame
+    return m.predict(H2OFrame(d, column_types=m._column_types)).as_data_frame().to_numpy().flatten()
+
+def yhat_h2o_classification(m, d):
+    from h2o import H2OFrame
+    return m.predict(H2OFrame(d, column_types=m._column_types)).as_data_frame().to_numpy()[:, 2]
+
 
 def get_predict_function_and_model_type(model, model_class):
+    
+    prep_tf = get_tf_yhat(model)
+    prep_h2o = get_h2o_yhat(model)
+    
     # check for exceptions
     yhat_exception_dict = {
         "xgboost.core.Booster": (yhat_xgboost, None),  # there is no way of checking for regr/classif
-        "tensorflow.python.keras.engine.sequential.Sequential": get_tf_yhat(model),
-        "tensorflow.python.keras.engine.training.Model": get_tf_yhat(model)
+        "tensorflow.python.keras.engine.sequential.Sequential": prep_tf,
+        "tensorflow.python.keras.engine.training.Model": prep_tf,
+        "h2o.estimators.coxph.H2OCoxProportionalHazardsEstimator": prep_h2o,
+        "h2o.estimators.deeplearning.H2ODeepLearningEstimator": prep_h2o,
+        "h2o.estimators.gam.H2OGeneralizedAdditiveEstimator": prep_h2o,
+        "h2o.estimators.gbm.H2OGradientBoostingEstimator": prep_h2o,
+        "h2o.estimators.glm.H2OGeneralizedLinearEstimator": prep_h2o,
+        "h2o.estimators.naive_bayes.H2ONaiveBayesEstimator": prep_h2o,
+        "h2o.estimators.psvm.H2OSupportVectorMachineEstimator": prep_h2o,
+        "h2o.estimators.random_forest.H2ORandomForestEstimator": prep_h2o,
+        "h2o.estimators.rulefit.H2ORuleFitEstimator": prep_h2o,
+        "h2o.estimators.stackedensemble.H2OStackedEnsembleEstimator": prep_h2o,
+        "h2o.estimators.targetencoder.H2OTargetEncoderEstimator": prep_h2o,
+        "h2o.estimators.xgboost.H2OXGBoostEstimator": prep_h2o
     }
+    
     if yhat_exception_dict.get(model_class, None) is not None:
         return yhat_exception_dict.get(model_class)
 

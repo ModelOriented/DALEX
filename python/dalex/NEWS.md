@@ -1,5 +1,26 @@
 Changelog
 
+development
+----------------------------------------------------------------
+
+* added support for `h2o.estimators.*` ([#332](https://github.com/ModelOriented/DALEX/issues/332))
+* updated the `plotly` dependency to `>=4.12.0`
+* code maintenance: `yhat`, `check_data`
+
+#### bug fixes
+
+* fixed `check_if_empty_fields()` used in loading the `Explainer` from a pickle file, since several checks were changed
+
+#### features
+
+* allow for `y` to be a `pandas.DataFrame` (converted) 
+* allow for `data`, `y` to be a `H2OFrame` (converted)  
+* added `label` parameter to all the relevant `dx.Explainer` methods, which overrides the default label in explanation's `result`
+
+#### defaults
+
+* unify verbouse output of `Explainer`
+
 v0.4.0 (17/11/2020)
 ----------------------------------------------------------------
 

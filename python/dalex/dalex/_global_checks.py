@@ -1,6 +1,8 @@
 import pkg_resources
 from importlib import import_module
 from re import search
+import numpy as np
+import pandas as pd 
 
 # WARNING: below code is parsed by setup.py
 # WARNING: each dependency should be in new line
@@ -22,6 +24,7 @@ OPTIONAL_DEPENDENCIES = {
     'flask_cors': '3.0.8',
     'requests': '2.24.0'
 }
+# WARNING
 # WARNING
 
 

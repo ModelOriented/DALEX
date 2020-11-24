@@ -122,7 +122,7 @@ class AggregatedProfiles:
             all_profiles = None
             all_observations = None
             for cp in ceteris_paribus:
-                _global_checks.global_check_class(cp, CeterisParibus)
+                _global_checks.global_check_object_class(cp, CeterisParibus)
                 all_profiles = pd.concat([all_profiles, cp.result.copy()])
                 all_observations = pd.concat([all_observations, cp.new_observation.copy()])
         else:
