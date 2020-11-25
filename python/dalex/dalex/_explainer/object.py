@@ -82,7 +82,7 @@ class Explainer:
     weights : np.ndarray (1d)
         Sampling weights for observations in `data`.
     label : str
-        Model name to appear in result and plots.
+        Name to appear in result and plots.
     model_class : str
         Class of the model.
     model_type : {'regression', 'classification', None}
@@ -254,7 +254,7 @@ class Explainer:
         keep_distributions :  bool, optional
             Save the distribution of partial predictions (default is False).
         label : str, optional
-            Model name to appear in result and plots. Overrides default.
+            Name to appear in result and plots. Overrides default.
         processes : int, optional
             Parameter specific for `shap`. Number of parallel processes to use in calculations.
             Iterated over `B` (default is 1, which means no parallel computation).
@@ -355,7 +355,7 @@ class Explainer:
             Add variable values of `new_observation` data to the `variable_splits`
             (default is True).
         label : str, optional
-            Model name to appear in result and plots. Overrides default.
+            Name to appear in result and plots. Overrides default.
         processes : int, optional
             Number of parallel processes to use in calculations. Iterated over `variables`
             (default is 1, which means no parallel computation).
@@ -454,7 +454,7 @@ class Explainer:
             Cutoff for predictions in classification models. Needed for measures like
             recall, precision, acc, f1 (default is 0.5).
         label : str, optional
-            Model name to appear in result and plots. Overrides default.
+            Name to appear in result and plots. Overrides default.
 
         Returns
         -----------
@@ -523,7 +523,7 @@ class Explainer:
         keep_raw_permutations: bool, optional
             Save results for all permutation rounds (default is True).
         label : str, optional
-            Model name to appear in result and plots. Overrides default.
+            Name to appear in result and plots. Overrides default.
         processes : int, optional
             Number of parallel processes to use in calculations. Iterated over `B`
             (default is 1, which means no parallel computation).
@@ -643,7 +643,7 @@ class Explainer:
             them with Partial Dependence Profiles (default is True, which means center
             around the average y_hat calculated on the data sample).
         label : str, optional
-            Model name to appear in result and plots. Overrides default.
+            Name to appear in result and plots. Overrides default.
         processes : int, optional
             Number of parallel processes to use in calculations. Iterated over `variables`
             (default is 1, which means no parallel computation).
@@ -715,7 +715,7 @@ class Explainer:
             Variables for which the data will be calculated
             (default is None, which means all of the variables).
         label : str, optional
-            Model name to appear in result and plots. Overrides default.
+            Name to appear in result and plots. Overrides default.
 
         Returns
         -----------
@@ -836,7 +836,7 @@ class Explainer:
                 dict - individually adjusted for each subgroup
                        (must have values from `protected` as keys).
         label : str, optional
-            Model name to appear in result and plots. Overrides default.
+            Name to appear in result and plots. Overrides default.
         kwargs : ...
             Keyword arguments. It supports `verbose`, which is a boolean
             value telling if additional output should be printed
