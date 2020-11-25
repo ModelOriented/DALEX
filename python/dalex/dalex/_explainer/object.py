@@ -29,7 +29,7 @@ class Explainer:
         the target column (See `y`).
         NOTE: If target variable is present in the data, some of the functionalities may
         not work properly.
-    y : pd.Series or np.ndarray (1d)
+    y : pd.Series or pd.DataFrame or np.ndarray (1d)
         Target variable with outputs / scores. It shall have the same length as `data`.
     predict_function : function, optional
         Function that takes two parameters (model, data) and returns a np.ndarray (1d)
@@ -82,7 +82,7 @@ class Explainer:
     weights : np.ndarray (1d)
         Sampling weights for observations in `data`.
     label : str
-        Model name to appear in result and plots.
+        Name to appear in result and plots.
     model_class : str
         Class of the model.
     model_type : {'regression', 'classification', None}
@@ -122,10 +122,11 @@ class Explainer:
                 'red_start': "",
                 'red_end': "",
                 'green_start': "",
-                'green_end': ""}
+                'green_end': ""
+            }
 
         # REPORT: checks for data
-        data = check_data(data, verbose)
+        data, model = check_data(data, model, verbose)
 
         # REPORT: checks for y
         y = check_y(y, data, verbose)
@@ -223,6 +224,7 @@ class Explainer:
                       path="average",
                       B=25,
                       keep_distributions=False,
+                      label=None,
                       processes=1,
                       random_state=None,
                       **kwargs):
@@ -251,6 +253,8 @@ class Explainer:
             variable attributions (default is 25).
         keep_distributions :  bool, optional
             Save the distribution of partial predictions (default is False).
+        label : str, optional
+            Name to appear in result and plots. Overrides default.
         processes : int, optional
             Parameter specific for `shap`. Number of parallel processes to use in calculations.
             Iterated over `B` (default is 1, which means no parallel computation).
@@ -305,6 +309,9 @@ class Explainer:
             predict_parts_ = ShapWrapper('predict_parts')
 
         predict_parts_.fit(self, new_observation, **kwargs)
+        
+        if label:
+            predict_parts_.result['label'] = label
 
         return predict_parts_
 
@@ -318,6 +325,7 @@ class Explainer:
                         variable_splits_type='uniform',
                         variable_splits_with_obs=True,
                         processes=1,
+                        label=None,
                         verbose=True):
         """Calculate instance level variable profiles as Ceteris Paribus
 
@@ -346,6 +354,8 @@ class Explainer:
         variable_splits_with_obs: bool, optional
             Add variable values of `new_observation` data to the `variable_splits`
             (default is True).
+        label : str, optional
+            Name to appear in result and plots. Overrides default.
         processes : int, optional
             Number of parallel processes to use in calculations. Iterated over `variables`
             (default is 1, which means no parallel computation).
@@ -379,9 +389,15 @@ class Explainer:
 
         predict_profile_.fit(self, new_observation, y, verbose)
 
+        if label:
+            predict_profile_.result['_label_'] = label
+            
         return predict_profile_
 
-    def predict_surrogate(self, new_observation, type='lime', **kwargs):
+    def predict_surrogate(self,
+                          new_observation,
+                          type='lime',
+                          **kwargs):
         """Wrapper for surrogate model explanations
 
         This function uses the lime package to create the model explanation.
@@ -425,7 +441,8 @@ class Explainer:
 
     def model_performance(self,
                           model_type=None,
-                          cutoff=0.5):
+                          cutoff=0.5,
+                          label=None):
         """Calculate dataset level model performance measures
 
         Parameters
@@ -436,6 +453,8 @@ class Explainer:
         cutoff : float, optional
             Cutoff for predictions in classification models. Needed for measures like
             recall, precision, acc, f1 (default is 0.5).
+        label : str, optional
+            Name to appear in result and plots. Overrides default.
 
         Returns
         -----------
@@ -460,6 +479,9 @@ class Explainer:
             cutoff=cutoff
         )
         model_performance_.fit(self)
+        
+        if label:
+            model_performance_.result['label'] = label
 
         return model_performance_
 
@@ -471,6 +493,7 @@ class Explainer:
                     variables=None,
                     variable_groups=None,
                     keep_raw_permutations=True,
+                    label=None,
                     processes=1,
                     random_state=None,
                     **kwargs):
@@ -499,6 +522,8 @@ class Explainer:
             e.g. {'X': ['x1', 'x2'], 'Y': ['y1', 'y2']} (default is None).
         keep_raw_permutations: bool, optional
             Save results for all permutation rounds (default is True).
+        label : str, optional
+            Name to appear in result and plots. Overrides default.
         processes : int, optional
             Number of parallel processes to use in calculations. Iterated over `B`
             (default is 1, which means no parallel computation).
@@ -548,6 +573,10 @@ class Explainer:
                 keep_raw_permutations=keep_raw_permutations,
             )
             model_parts_.fit(self)
+            
+            if label:
+                model_parts_.result['label'] = label
+            
         elif type == 'shap_wrapper':
             _global_checks.global_check_import('shap', 'SHAP explanations')
             model_parts_ = ShapWrapper('model_parts')
@@ -574,6 +603,7 @@ class Explainer:
                       variable_splits=None,
                       variable_splits_type='uniform',
                       center=True,
+                      label=None,
                       processes=1,
                       random_state=None,
                       verbose=True):
@@ -612,6 +642,8 @@ class Explainer:
             Theoretically Accumulated Profiles start at 0, but are centered to compare
             them with Partial Dependence Profiles (default is True, which means center
             around the average y_hat calculated on the data sample).
+        label : str, optional
+            Name to appear in result and plots. Overrides default.
         processes : int, optional
             Number of parallel processes to use in calculations. Iterated over `variables`
             (default is 1, which means no parallel computation).
@@ -667,10 +699,14 @@ class Explainer:
 
         model_profile_.fit(ceteris_paribus, verbose)
 
+        if label:
+            model_profile_.result['_label_'] = label
+                
         return model_profile_
 
     def model_diagnostics(self,
-                          variables=None):
+                          variables=None,
+                          label=None):
         """Calculate dataset level residuals diagnostics
 
         Parameters
@@ -678,6 +714,8 @@ class Explainer:
         variables : str or array_like of str, optional
             Variables for which the data will be calculated
             (default is None, which means all of the variables).
+        label : str, optional
+            Name to appear in result and plots. Overrides default.
 
         Returns
         -----------
@@ -697,6 +735,9 @@ class Explainer:
         )
         residual_diagnostics_.fit(self)
 
+        if label:
+            residual_diagnostics_.result['label'] = label
+            
         return residual_diagnostics_
 
     def model_surrogate(self,
@@ -760,7 +801,12 @@ class Explainer:
 
         return surrogate_model
 
-    def model_fairness(self, protected, privileged, cutoff=0.5, **kwargs):
+    def model_fairness(self,
+                       protected,
+                       privileged,
+                       cutoff=0.5,
+                       label=None,
+                       **kwargs):
         """Creates a dataset level fairness explanation that enables bias detection
 
         This method returns a GroupFairnessClassification object that for now
@@ -789,6 +835,8 @@ class Explainer:
                 float - same for all subgroups from `protected`
                 dict - individually adjusted for each subgroup
                        (must have values from `protected` as keys).
+        label : str, optional
+            Name to appear in result and plots. Overrides default.
         kwargs : ...
             Keyword arguments. It supports `verbose`, which is a boolean
             value telling if additional output should be printed
@@ -835,6 +883,9 @@ class Explainer:
                                               cutoff=cutoff,
                                               label=self.label,
                                               **kwargs)
+        
+        if label:
+             fobject.label = label
 
         return fobject
 

@@ -80,7 +80,7 @@ def run_setup():
         install_requires=[
             'pandas>=1.1.2',
             'numpy>=1.18.4',
-            'plotly>=4.9.0',
+            'plotly>=4.12.0',
             'tqdm>=4.48.2'
         ],
         test_requirements=test_requirements,

@@ -24,7 +24,7 @@ def check_shap_explainer_type(shap_explainer_type, model):
         shap_explainer_type = "DeepExplainer"
     # elif model_type.endswith("keras.engine.sequential.Sequential'>"):
     #     explainer_type = "GradientExplainer"
-    elif re.search(".*sklearn\.linear_model.*", model_type):
+    elif re.search(".*sklearn\\.linear_model.*", model_type):
         shap_explainer_type = "LinearExplainer"
     # else:
     #     raise Exception("Could not determine the proper '_shap' 'explainer_type',"

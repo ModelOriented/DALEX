@@ -3,6 +3,7 @@
 .RData
 
 python/misc/*
+python/dalex/.vscode/*
 
 .ipynb_checkpoints
 */.ipynb_checkpoints/*

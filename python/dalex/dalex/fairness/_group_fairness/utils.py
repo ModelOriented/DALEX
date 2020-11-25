@@ -201,7 +201,7 @@ def _metric_ratios_2_df(fobject):
     """
 
     data = fobject.result
-    data = data.stack()
+    data = data.stack(dropna = False)
     data = data.reset_index()
     data.columns = ["subgroup", "metric", "score"]
     data = data.loc[data.metric.isin(["TPR", "ACC", "PPV", "FPR", "STP"])]
