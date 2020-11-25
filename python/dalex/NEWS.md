@@ -10,6 +10,7 @@ development
 #### bug fixes
 
 * fixed `check_if_empty_fields()` used in loading the `Explainer` from a pickle file, since several checks were changed
+* fixed `plot()` method in `GroupFairnessClassification` as it omitted plotting a metric when `NaN` was present in metric ratios (result)
 
 #### features
 
