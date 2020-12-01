@@ -2,7 +2,7 @@ import re
 import numpy as np
 from copy import deepcopy
 import pandas as pd
-
+import warnings
 
 def check_shap_explainer_type(shap_explainer_type, model):
     if shap_explainer_type is not None and not isinstance(shap_explainer_type, str):
@@ -22,16 +22,19 @@ def check_shap_explainer_type(shap_explainer_type, model):
     elif model_type.endswith("'keras.engine.training.Model'>") or\
             model_type.endswith("nn.Module'>"):
         shap_explainer_type = "DeepExplainer"
-    # elif model_type.endswith("keras.engine.sequential.Sequential'>"):
-    #     explainer_type = "GradientExplainer"
+    elif model_type.endswith("keras.engine.sequential.Sequential'>"):
+        shap_explainer_type = "GradientExplainer"
     elif re.search(".*sklearn\\.linear_model.*", model_type):
         shap_explainer_type = "LinearExplainer"
     # else:
-    #     raise Exception("Could not determine the proper '_shap' 'explainer_type',"
-    #                     " please use parameter 'explainer_type'")
+    #     raise Exception("Could not determine the proper 'shap_explainer_type',"
+    #                     " please use parameter 'shap_explainer_type'")
     else:
         shap_explainer_type = "KernelExplainer"
 
+    warnings.warn("`shap_explainer_type` parameter is None. Trying to determine the proper type: \n" +
+                  "using " + shap_explainer_type + " for " + model_type)
+    
     return shap_explainer_type
 
 

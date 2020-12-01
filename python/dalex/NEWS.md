@@ -13,12 +13,14 @@ development
 * fixed `check_if_empty_fields()` used in loading the `Explainer` from a pickle file, since several checks were changed
 * fixed `plot()` method in `GroupFairnessClassification` as it omitted plotting a metric when `NaN` was present in metric ratios (result)
 * fixed `dragons` and `HR` datasets having `,` delimeter instead of `.`, which transformed numerical columns into categorical.
+* fixed representation of the `ShapWrapper` class (removed `_repr_html_` method)
 
 #### features
 
 * allow for `y` to be a `pandas.DataFrame` (converted) 
 * allow for `data`, `y` to be a `H2OFrame` (converted)  
 * added `label` parameter to all the relevant `dx.Explainer` methods, which overrides the default label in explanation's `result`
+* now using `GradientExplainer` for `tf.keras.engine.sequential.Sequential`, added proper warning when `shap_explainer_type` is `None` ([#366](https://github.com/ModelOriented/DALEX/issues/366))
 
 #### defaults
 

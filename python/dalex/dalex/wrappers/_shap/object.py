@@ -40,9 +40,6 @@ class ShapWrapper:
         self.new_observation = None
         self.shap_explainer_type = None
 
-    def _repr_html_(self):
-        return self.result._repr_html_()
-
     def fit(self,
             explainer,
             new_observation,
