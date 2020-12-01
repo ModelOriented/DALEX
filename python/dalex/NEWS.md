@@ -4,6 +4,7 @@ development
 ----------------------------------------------------------------
 
 * added support for `h2o.estimators.*` ([#332](https://github.com/ModelOriented/DALEX/issues/332))
+* added `tensorflow.python.keras.engine.functional.Functional` to the `tensorflow` list
 * updated the `plotly` dependency to `>=4.12.0`
 * code maintenance: `yhat`, `check_data`
 
@@ -11,6 +12,7 @@ development
 
 * fixed `check_if_empty_fields()` used in loading the `Explainer` from a pickle file, since several checks were changed
 * fixed `plot()` method in `GroupFairnessClassification` as it omitted plotting a metric when `NaN` was present in metric ratios (result)
+* fixed `dragons` and `HR` datasets having `,` delimeter instead of `.`, which transformed numerical columns into categorical.
 
 #### features
 

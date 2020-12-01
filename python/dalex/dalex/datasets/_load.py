@@ -49,12 +49,12 @@ def load_fifa():
 
 
 def load_apartments():
-    """Loads the apartments data set
+    """Loads the artificial 'apartments' dataset
 
-    Datasets apartments and apartments_test are artificial,
-    generated from the same model. Structure of the dataset is copied
-    from real dataset from PBImisc package, but they were generated
-    in a way to mimic effect of Anscombe quartet for complex black box models.
+    Datasets 'apartments' and 'apartments_test' are artificial, generated
+    from the same model. Structure of the dataset is copied from the real
+    dataset from the PBImisc R package, but they were generated in a way
+    to mimic the effect of Anscombe quartet for complex black-box models.
 
     Returns
     -----------
@@ -64,18 +64,18 @@ def load_apartments():
     abs_dir_path = os.path.dirname(os.path.abspath(__file__))
     abs_datasets_path = os.path.join(abs_dir_path, 'data', 'apartments.csv')
 
-    dataset = pd.read_csv(abs_datasets_path, index_col=0, sep=';')
+    dataset = pd.read_csv(abs_datasets_path, index_col=0)  # use 1:1000 as index
 
     return dataset
 
 
 def load_apartments_test():
-    """Loads the apartments test data set
+    """Loads the artificial 'apartments_test' dataset
 
-    Datasets apartments and apartments_test are artificial,
-    generated from the same model. Structure of the dataset is copied
-    from real dataset from PBImisc package, but they were generated
-    in a way to mimic effect of Anscombe quartet for complex black box models.
+    Datasets 'apartments' and 'apartments_test' are artificial, generated
+    from the same model. Structure of the dataset is copied from the real
+    dataset from the PBImisc R package, but they were generated in a way
+    to mimic the effect of Anscombe quartet for complex black-box models.
 
     Returns
     -----------
@@ -85,15 +85,15 @@ def load_apartments_test():
     abs_dir_path = os.path.dirname(os.path.abspath(__file__))
     abs_datasets_path = os.path.join(abs_dir_path, 'data', 'apartments_test.csv')
 
-    dataset = pd.read_csv(abs_datasets_path, index_col=0, sep=';')
+    dataset = pd.read_csv(abs_datasets_path, index_col=0)  # use 1001:9000 as index
 
     return dataset
 
 
 def load_dragons():
-    """Load the dragons data set
+    """Load the artificial 'dragons' dataset
 
-    Data sets dragons and dragons_test are artificial,
+    Datasets 'dragons' and 'dragons_test' are artificial,
     generated from the same ground truth model,
     but with sometimes different data distridution.
 
@@ -105,15 +105,15 @@ def load_dragons():
     abs_dir_path = os.path.dirname(os.path.abspath(__file__))
     abs_datasets_path = os.path.join(abs_dir_path, 'data', 'dragons.csv')
 
-    dataset = pd.read_csv(abs_datasets_path, index_col=0, sep=';')
+    dataset = pd.read_csv(abs_datasets_path, index_col=0)  # use 1:n as index
 
     return dataset
 
 
 def load_dragons_test():
-    """Load the dragons test data set
+    """Load the artificial 'dragons_test' dataset
 
-    Data sets dragons and dragons_test are artificial,
+    Datasets 'dragons' and 'dragons_test' are artificial,
     generated from the same ground truth model,
     but with sometimes different data distridution.
 
@@ -125,17 +125,17 @@ def load_dragons_test():
     abs_dir_path = os.path.dirname(os.path.abspath(__file__))
     abs_datasets_path = os.path.join(abs_dir_path, 'data', 'dragons_test.csv')
 
-    dataset = pd.read_csv(abs_datasets_path, index_col=0, sep=';')
+    dataset = pd.read_csv(abs_datasets_path, index_col=0)  # use 1:n as index
 
     return dataset
 
 
 def load_hr():
-    """Load the HR data set
+    """Load the artificial 'HR' dataset
 
-    Datasets HR and HR_test are artificial, generated from the same model.
-    Structure of the dataset is based on a real data, from Human Resources department
-    with information which employees were promoted, which were fired.
+    Datasets 'HR' and 'HR_test' are artificial, generated from the same model.
+    Structure of the dataset is based on the real data from the Human Resources
+    department containing information about which employees were promoted or fired.
 
     Returns
     -----------
@@ -145,17 +145,17 @@ def load_hr():
     abs_dir_path = os.path.dirname(os.path.abspath(__file__))
     abs_datasets_path = os.path.join(abs_dir_path, 'data', 'hr.csv')
 
-    dataset = pd.read_csv(abs_datasets_path, index_col=0, sep=';')
+    dataset = pd.read_csv(abs_datasets_path, index_col=0)  # use 7847 numbers from 1:n as index
 
     return dataset
 
 
 def load_hr_test():
-    """Load the HR test data set
+    """Load the artificial 'HR_test' dataset
 
-    Datasets HR and HR_test are artificial, generated from the same model.
-    Structure of the dataset is based on a real data, from Human Resources department
-    with information which employees were promoted, which were fired.
+    Datasets 'HR' and 'HR_test' are artificial, generated from the same model.
+    Structure of the dataset is based on the real data from the Human Resources
+    department containing information about which employees were promoted or fired.
 
     Returns
     -----------
@@ -165,18 +165,18 @@ def load_hr_test():
     abs_dir_path = os.path.dirname(os.path.abspath(__file__))
     abs_datasets_path = os.path.join(abs_dir_path, 'data', 'hr_test.csv')
 
-    dataset = pd.read_csv(abs_datasets_path, index_col=0, sep=';')
+    dataset = pd.read_csv(abs_datasets_path, index_col=0)  # use 7847 numbers from 1:n as index
 
     return dataset
 
 
 def load_german():
-    """Load the German Credit data
+    """Load the preprocessed 'German Credit' dataset
 
-    Dataset german contains information about people and their credit risk.
+    Dataset 'german' contains information about people and their credit risk.
     On the base of age, purpose, credit amount, job, sex, etc. the model should
-    predict the target - Risk. Risk tells if the credit rate will be good (1) or bad (0).
-    This data contains some bias and it can be detected using the fairness module.
+    predict the target - risk. risk tells if the credit rate will be good (1) or bad (0).
+    This data contains some bias and it can be detected using the dalex.fairness module.
 
     Format: pd.DataFrame with 1000 rows and 10 columns
 

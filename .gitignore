@@ -18,3 +18,5 @@ python/dalex/.vscode/*
 **/dalex.egg-info/*
 **venv/**
 *.ipynb
+
+*.zip

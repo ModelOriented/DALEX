@@ -63,6 +63,7 @@ def get_predict_function_and_model_type(model, model_class):
         "xgboost.core.Booster": (yhat_xgboost, None),  # there is no way of checking for regr/classif
         "tensorflow.python.keras.engine.sequential.Sequential": prep_tf,
         "tensorflow.python.keras.engine.training.Model": prep_tf,
+        "tensorflow.python.keras.engine.functional.Functional": prep_tf,
         "h2o.estimators.coxph.H2OCoxProportionalHazardsEstimator": prep_h2o,
         "h2o.estimators.deeplearning.H2ODeepLearningEstimator": prep_h2o,
         "h2o.estimators.gam.H2OGeneralizedAdditiveEstimator": prep_h2o,
