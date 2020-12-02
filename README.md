@@ -53,31 +53,26 @@ In many applications we need to know, understand or prove how input variables ar
 
 ## Resources
 
+* [Gentle introduction to DALEX with examples in R and Python](https://pbiecek.github.io/ema/)
+
 ### R package
 
-* [Workshop: Explanation and exploration of machine learning models with R and DALEX at eRum 2020](https://github.com/pbiecek/XAIatERUM2020), [cheatsheet](https://github.com/pbiecek/XAIatERUM2020/blob/master/Cheatsheet.pdf)
+* [Materials from Explanatory Model Analysis Workshop @ eRum 2020](https://github.com/pbiecek/XAIatERUM2020), [cheatsheet](https://github.com/pbiecek/XAIatERUM2020/blob/master/Cheatsheet.pdf)
+* How to use DALEX with: [keras](https://rawgit.com/pbiecek/DALEX_docs/master/vignettes/DALEX_and_keras.html), [parsnip](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_parsnip.html), [caret](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_caret.html), [mlr](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_mlr.html), [H2O](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_h2o.html), [xgboost](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_and_xgboost.html)
+* [Compare GBM models created in different languages](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/Multilanguages_comparision.html): gbm and CatBoost in R / gbm in h2o / gbm in Python
+* [DALEX for fraud detection](https://rawgit.com/pbiecek/DALEX_docs/master/vignettes/DALEXverse%20and%20fraud%20detection.html)
+* [DALEX for teaching](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_teaching.html)
 * [XAI in the jungle of competing frameworks for machine learning](https://medium.com/@ModelOriented/xai-in-the-jungle-of-competing-frameworks-for-machine-learning-fa6e96a99644)
-* [Gentle introduction to DALEX with examples](https://pbiecek.github.io/ema/) short introduction to the `DALEX` package.
-* [How to compare models created in different languages](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/Multilanguages_comparision.html) crosscomparison of gbm and CatBoost in R / gbm in h2o / gbm in python
-* [How to use DALEX for fraud detection](https://rawgit.com/pbiecek/DALEX_docs/master/vignettes/DALEXverse%20and%20fraud%20detection.html)
-* [How to use DALEX with keras](https://rawgit.com/pbiecek/DALEX_docs/master/vignettes/DALEX_and_keras.html)
-* [How to use DALEX with parsnip](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_parsnip.html)
-* [How to use DALEX with caret](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_caret.html)
-* [How to use DALEX with mlr](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_mlr.html)
-* [How to use DALEX with H2O](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_h2o.html)
-* [How to use DALEX with xgboost package](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_and_xgboost.html)
-* [How to use DALEX for teaching]https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_teaching.html)
 
 ### Python package
 
-* Introduction to the `dalex` package: [Titanic: tutorial and examples](http://dalex.drwhy.ai/python-dalex-titanic.html)
-* Important features explained: [FIFA20: explain default vs tuned model with dalex](http://dalex.drwhy.ai/python-dalex-fifa.html)
-* [How to use dalex with xgboost](http://dalex.drwhy.ai/python-dalex-xgboost.html)
-* [How to use dalex with tensorflow](http://dalex.drwhy.ai/python-dalex-tensorflow.html)
-* [Interesting features in v0.2.1](http://dalex.drwhy.ai/python-dalex-new.html)
-* [New fairness module](http://dalex.drwhy.ai/python-dalex-fairness.html)
-* Code in the form of [jupyter notebook](https://github.com/pbiecek/DALEX_docs/tree/master/jupyter-notebooks)
-* [YouTube video](https://www.youtube.com/watch?v=PuKF2GS4_3Y) showing how to do [Break Down](https://pbiecek.github.io/ema/breakDown.html) analysis
+* Introduction to the `dalex` package: [Titanic: tutorial and examples](https://dalex.drwhy.ai/python-dalex-titanic.html)
+* Key features explained: [FIFA20: explain default vs tuned model with dalex](https://dalex.drwhy.ai/python-dalex-fifa.html)
+* How to use dalex with: [xgboost](https://dalex.drwhy.ai/python-dalex-xgboost.html), [tensorflow](https://dalex.drwhy.ai/python-dalex-tensorflow.html)
+* More explanations: [residuals, shap, lime](https://dalex.drwhy.ai/python-dalex-new.html)
+* Introduction to the [Fairness module in dalex](https://dalex.drwhy.ai/python-dalex-fairness.html)
+* Introduction to the [Arena: interactive dashboard for model exploration](https://dalex.drwhy.ai/python-dalex-arena.html)
+* Code in the form of [jupyter notebook](https://github.com/ModelOriented/DALEX-docs/tree/master/jupyter-notebooks)
 * Changelog: [NEWS](https://github.com/ModelOriented/DALEX/blob/master/python/dalex/NEWS.md)
 
 ### Talks about DALEX
