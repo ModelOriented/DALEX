@@ -56,6 +56,8 @@ def check_compatibility(explainer):
 
 def check_new_observation_predict_parts(new_observation, explainer):
     new_observation_ = deepcopy(new_observation)
+    error_dim_val = "Wrong new_observation dimension"
+    
     if isinstance(new_observation_, pd.Series):
         new_observation_ = new_observation_.to_frame().T
         new_observation_.columns = explainer.data.columns
@@ -64,10 +66,10 @@ def check_new_observation_predict_parts(new_observation, explainer):
             # make 1D array 2D
             new_observation_ = new_observation_.reshape((1, -1))
         elif new_observation_.ndim > 2:
-            raise ValueError("Wrong new_observation dimension")
+            raise ValueError(error_dim_val)
 
         elif new_observation.shape[0] != 1:
-            raise ValueError("Wrong new_observation dimension")
+            raise ValueError(error_dim_val)
 
         new_observation_ = pd.DataFrame(new_observation_)
         new_observation_.columns = explainer.data.columns
@@ -78,7 +80,7 @@ def check_new_observation_predict_parts(new_observation, explainer):
 
     elif isinstance(new_observation_, pd.DataFrame):
         if new_observation.shape[0] != 1:
-            raise ValueError("Wrong new_observation dimension")
+            raise ValueError(error_dim_val)
 
         new_observation_.columns = explainer.data.columns
     else:

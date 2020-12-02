@@ -4,6 +4,7 @@
 
 python/misc/*
 python/dalex/.vscode/*
+python/dalex/pdoc_template/*
 
 .ipynb_checkpoints
 */.ipynb_checkpoints/*

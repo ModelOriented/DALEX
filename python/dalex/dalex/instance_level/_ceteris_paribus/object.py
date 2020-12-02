@@ -326,6 +326,8 @@ class CeterisParibus:
             if len(_result_df['_ids_'].unique()) > 1 and len(_result_df['_label_'].unique()) == 1:
                 color = '_ids_'
                 m = len(_result_df[color].dropna().unique())
+            elif len(_result_df['_ids_'].unique()) == len(_result_df['_label_'].unique()):
+                m = len(_result_df[color].dropna().unique())
             elif len(_result_df['_ids_'].unique()) > 1:  # https://github.com/plotly/plotly.py/issues/2657
                 raise TypeError("Please pick one observation per label.")
 

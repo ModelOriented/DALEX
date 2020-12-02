@@ -1,6 +1,6 @@
 ## Changelog
 
-development
+v0.4.1 (02/12/2020)
 ----------------------------------------------------------------
 
 * added support for `h2o.estimators.*` ([#332](https://github.com/ModelOriented/DALEX/issues/332))

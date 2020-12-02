@@ -56,12 +56,12 @@ def run_setup():
         author="Hubert Baniecki, Wojciech Kretowicz, Przemyslaw Biecek et al.",
         author_email="hbaniecki@gmail.com, wojtekkretowicz@gmail.com, przemyslaw.biecek@gmail.com",
         version=get_version("dalex/__init__.py"),
-        description="Explore, Explain and Examine Predictive Models",
+        description="Responsible Machine Learning in Python",
         long_description=u"\n\n".join([readme, news]),
         long_description_content_type="text/markdown",
-        url="https://github.com/ModelOriented/DALEX",
+        url="https://dalex.drwhy.ai/",
         project_urls={
-            "Documentation": "https://github.com/ModelOriented/DALEX/tree/master/python/dalex#resources",
+            "Documentation": "https://dalex.drwhy.ai/python/",
             "Code": "https://github.com/ModelOriented/DALEX/tree/master/python/dalex",
             "Issue tracker": "https://github.com/ModelOriented/DALEX/issues",
         },
@@ -92,3 +92,4 @@ def run_setup():
 
 if __name__ == "__main__":
     run_setup()
+    # pdoc command: pdoc --html dalex --force --template-dir dalex\pdoc_template

@@ -59,26 +59,26 @@ class AggregatedProfilesTestTitanic(unittest.TestCase):
 
     def test_accumulated(self):
         self.helper_test('accumulated')
-        caseCenterNum = self.exp2.model_profile(type='accumulated', center=False, verbose=False)
-        caseCenterCat = self.exp2.model_profile(type='accumulated', variable_type='categorical',
+        case1 = self.exp2.model_profile(type='accumulated', center=False, verbose=False)
+        case2 = self.exp2.model_profile(type='accumulated', variable_type='categorical',
                                                 center=False, verbose=False)
         alias = self.exp2.model_profile(type='ale', center=False, verbose=False)
 
-        self.assertIsInstance(caseCenterNum, dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(caseCenterCat, dx.dataset_level.AggregatedProfiles)
+        self.assertIsInstance(case1, dx.dataset_level.AggregatedProfiles)
+        self.assertIsInstance(case2, dx.dataset_level.AggregatedProfiles)
         self.assertIsInstance(alias, dx.dataset_level.AggregatedProfiles)
 
-        figCenterNum = caseCenterNum.plot(show=False)
-        figCenterCat = caseCenterCat.plot(show=False)
+        fig1 = case1.plot(show=False)
+        fig2 = case2.plot(show=False)
 
-        self.assertIsInstance(figCenterNum, Figure)
-        self.assertIsInstance(figCenterCat, Figure)
+        self.assertIsInstance(fig1, Figure)
+        self.assertIsInstance(fig2, Figure)
 
-        testZerosNum = caseCenterNum.result.groupby('_vname_').apply(lambda x: x['_yhat_'].abs().min()).tolist()
-        testZerosCat = caseCenterCat.result.groupby('_vname_').apply(lambda x: x['_yhat_'].abs().min()).tolist()
+        test1 = case1.result.groupby('_vname_').apply(lambda x: x['_yhat_'].abs().min()).tolist()
+        test2 = case2.result.groupby('_vname_').apply(lambda x: x['_yhat_'].abs().min()).tolist()
 
-        self.assertListEqual(testZerosNum, np.zeros(len(testZerosNum)).tolist())
-        self.assertListEqual(testZerosCat, np.zeros(len(testZerosCat)).tolist())
+        self.assertListEqual(test1, np.zeros(len(test1)).tolist())
+        self.assertListEqual(test2, np.zeros(len(test2)).tolist())
 
     def test_conditional(self):
         self.helper_test('conditional')

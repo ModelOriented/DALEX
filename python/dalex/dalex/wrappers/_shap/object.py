@@ -1,4 +1,5 @@
-from .checks import *
+import numpy as np
+from . import checks
 
 
 class ShapWrapper:
@@ -66,11 +67,11 @@ class ShapWrapper:
         """
         from shap import TreeExplainer, DeepExplainer, GradientExplainer, LinearExplainer, KernelExplainer
 
-        check_compatibility(explainer)
-        shap_explainer_type = check_shap_explainer_type(shap_explainer_type, explainer.model)
+        checks.check_compatibility(explainer)
+        shap_explainer_type = checks.check_shap_explainer_type(shap_explainer_type, explainer.model)
 
         if self.type == 'predict_parts':
-            new_observation = check_new_observation_predict_parts(new_observation, explainer)
+            new_observation = checks.check_new_observation_predict_parts(new_observation, explainer)
 
         if shap_explainer_type == "TreeExplainer":
             self.shap_explainer = TreeExplainer(explainer.model, explainer.data.values)

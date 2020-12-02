@@ -7,7 +7,7 @@ def get_default_colors(n, type):
 
     if n > len(default_colors):
         ret = []
-        for i in range(np.ceil(n / len(default_colors)).astype(int)):
+        for _ in range(np.ceil(n / len(default_colors)).astype(int)):
             ret += default_colors
         return ret
 
