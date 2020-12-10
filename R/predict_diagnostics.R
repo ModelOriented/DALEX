@@ -53,6 +53,12 @@
 predict_diagnostics <-  function(explainer, new_observation, variables = NULL, ..., nbins = 20, neighbors = 50, distance = gower::gower_dist) {
   test_explainer(explainer, has_data = TRUE, function_name = "predict_diagnostics")
 
+
+  if (nrow(explainer$data) <= neighbors) {
+    warning("Value of neighbors has to be lower than number of rows in explainer$data. Setting neighbors to nrow(explainer$data)")
+    neighbors <- nrow(explainer$data) - 1
+  }
+
   neighbors_id <- select_neighbors_id(new_observation, explainer$data, n = neighbors, distance = distance)
 
 
