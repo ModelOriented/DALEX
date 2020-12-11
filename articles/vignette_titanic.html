@@ -51,7 +51,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">2.1.0</span>
+          <span class="version version-default">2.1.1</span>
         </div>
       </div>
     </div>
@@ -107,7 +107,7 @@
       <h1 data-toc-skip>Survival on the RMS Titanic</h1>
                         <h4 class="author">Przemyslaw Biecek</h4>
             
-            <h4 class="date">2020-12-02</h4>
+            <h4 class="date">2020-12-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/DALEX/blob/master/vignettes/vignette_titanic.Rmd"><code>vignettes/vignette_titanic.Rmd</code></a></small>
       <div class="hidden name"><code>vignette_titanic.Rmd</code></div>
@@ -155,7 +155,7 @@
 #&gt; Target node size:                 1 
 #&gt; Variable importance mode:         none 
 #&gt; Splitrule:                        gini 
-#&gt; OOB prediction error:             19.57 %</code></pre>
+#&gt; OOB prediction error:             19.48 %</code></pre>
 </div>
 <div id="explainer-for-titanic-survival" class="section level1">
 <h1 class="hasAnchor">
@@ -175,9 +175,9 @@
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )
 #&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification (  default  ) 
-#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.2066153 , max =  1  
+#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.2129588 , max =  1  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -1 , mean =  0.1155415 , max =  1  
+#&gt;   -&gt; residuals         :  numerical, min =  -1 , mean =  0.1073856 , max =  1  
 #&gt;   A new explainer has been created!</code></pre>
 </div>
 <div id="variable-importance-plots" class="section level1">
@@ -188,12 +188,12 @@
 <span class="va">vi_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_parts.html">model_parts</a></span><span class="op">(</span><span class="va">explain_titanic_rf</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">vi_rf</span><span class="op">)</span></pre></div>
 <pre><code>#&gt;       variable mean_dropout_loss            label
-#&gt; 1 _full_model_         0.2194136 Random Forest v7
-#&gt; 2     survived         0.2197461 Random Forest v7
-#&gt; 3        sibsp         0.2331090 Random Forest v7
-#&gt; 4     embarked         0.2364430 Random Forest v7
-#&gt; 5        parch         0.2374751 Random Forest v7
-#&gt; 6         fare         0.2670699 Random Forest v7</code></pre>
+#&gt; 1 _full_model_         0.2074567 Random Forest v7
+#&gt; 2     survived         0.2072947 Random Forest v7
+#&gt; 3        parch         0.2231160 Random Forest v7
+#&gt; 4        sibsp         0.2234403 Random Forest v7
+#&gt; 5     embarked         0.2266565 Random Forest v7
+#&gt; 6         fare         0.2541607 Random Forest v7</code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">vi_rf</span><span class="op">)</span></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
@@ -212,47 +212,47 @@
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">vr_age</span><span class="op">)</span></pre></div>
 <pre><code>#&gt; $cp_profiles
 #&gt; Top profiles    : 
-#&gt;       gender        age class  embarked    fare sibsp parch survived _yhat_
-#&gt; 257     male  0.1666667   1st Cherbourg 83.0302     1     1        0      1
-#&gt; 257.1   male  2.0000000   1st Cherbourg 83.0302     1     1        0      1
-#&gt; 257.2   male  4.0000000   1st Cherbourg 83.0302     1     1        0      1
-#&gt; 257.3   male  7.0000000   1st Cherbourg 83.0302     1     1        0      1
-#&gt; 257.4   male  9.0000000   1st Cherbourg 83.0302     1     1        0      1
-#&gt; 257.5   male 13.0000000   1st Cherbourg 83.0302     1     1        0      1
+#&gt;       gender        age class    embarked fare sibsp parch survived _yhat_
+#&gt; 116     male  0.1666667   2nd Southampton   13     0     0        0      0
+#&gt; 116.1   male  2.0000000   2nd Southampton   13     0     0        0      1
+#&gt; 116.2   male  4.0000000   2nd Southampton   13     0     0        0      1
+#&gt; 116.3   male  7.0000000   2nd Southampton   13     0     0        0      1
+#&gt; 116.4   male  9.0000000   2nd Southampton   13     0     0        0      0
+#&gt; 116.5   male 13.0000000   2nd Southampton   13     0     0        0      0
 #&gt;       _vname_ _ids_          _label_
-#&gt; 257       age   257 Random Forest v7
-#&gt; 257.1     age   257 Random Forest v7
-#&gt; 257.2     age   257 Random Forest v7
-#&gt; 257.3     age   257 Random Forest v7
-#&gt; 257.4     age   257 Random Forest v7
-#&gt; 257.5     age   257 Random Forest v7
+#&gt; 116       age   116 Random Forest v7
+#&gt; 116.1     age   116 Random Forest v7
+#&gt; 116.2     age   116 Random Forest v7
+#&gt; 116.3     age   116 Random Forest v7
+#&gt; 116.4     age   116 Random Forest v7
+#&gt; 116.5     age   116 Random Forest v7
 #&gt; 
 #&gt; 
 #&gt; Top observations:
 #&gt;      gender age            class    embarked    fare sibsp parch survived
-#&gt; 257    male  37              1st   Cherbourg 83.0302     1     1        0
-#&gt; 331  female  19              3rd  Queenstown  7.1707     0     0        1
-#&gt; 720  female  25              3rd Southampton  7.1506     0     0        0
-#&gt; 536  female  28              3rd Southampton  7.1506     0     0        0
-#&gt; 1365   male  36 victualling crew Southampton  0.0000     0     0        0
-#&gt; 1526   male  29 victualling crew     Belfast  0.0000     0     0        0
+#&gt; 116    male  23              2nd Southampton 13.0000     0     0        0
+#&gt; 1982   male  22 restaurant staff Southampton  0.0000     0     0        0
+#&gt; 433    male  23              3rd Southampton 14.1000     0     0        0
+#&gt; 429    male  36              2nd Southampton 26.0000     0     0        0
+#&gt; 1171 female   2              3rd Southampton 10.0903     0     1        0
+#&gt; 1651   male  17 victualling crew Southampton  0.0000     0     0        0
 #&gt;      _yhat_          _label_ _ids_
-#&gt; 257       0 Random Forest v7     1
-#&gt; 331       1 Random Forest v7     2
-#&gt; 720       1 Random Forest v7     3
-#&gt; 536       0 Random Forest v7     4
-#&gt; 1365      0 Random Forest v7     5
-#&gt; 1526      0 Random Forest v7     6
+#&gt; 116       0 Random Forest v7     1
+#&gt; 1982      0 Random Forest v7     2
+#&gt; 433       0 Random Forest v7     3
+#&gt; 429       0 Random Forest v7     4
+#&gt; 1171      0 Random Forest v7     5
+#&gt; 1651      0 Random Forest v7     6
 #&gt; 
 #&gt; $agr_profiles
 #&gt; Top profiles    : 
 #&gt;   _vname_          _label_        _x_ _yhat_ _ids_
-#&gt; 1     age Random Forest v7  0.1666667   0.42     0
-#&gt; 2     age Random Forest v7  2.0000000   0.56     0
-#&gt; 3     age Random Forest v7  4.0000000   0.56     0
-#&gt; 4     age Random Forest v7  7.0000000   0.39     0
+#&gt; 1     age Random Forest v7  0.1666667   0.44     0
+#&gt; 2     age Random Forest v7  2.0000000   0.55     0
+#&gt; 3     age Random Forest v7  4.0000000   0.57     0
+#&gt; 4     age Random Forest v7  7.0000000   0.44     0
 #&gt; 5     age Random Forest v7  9.0000000   0.33     0
-#&gt; 6     age Random Forest v7 13.0000000   0.27     0
+#&gt; 6     age Random Forest v7 13.0000000   0.25     0
 #&gt; 
 #&gt; $color
 #&gt; [1] "#4378bf"</code></pre>
@@ -359,9 +359,9 @@
 #&gt;   -&gt; predict function  :  function(m, x) predict(m, x, n.trees = 15000, type = "response") 
 #&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )
 #&gt;   -&gt; model_info        :  package gbm , ver. 2.1.8 , task classification (  default  ) 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.0003524359 , mean =  0.3243181 , max =  0.9986506  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.0004977726 , mean =  0.3228466 , max =  0.9989459  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.9698167 , mean =  -0.002161376 , max =  0.9889282  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9521423 , mean =  -0.0006898329 , max =  0.9904384  
 #&gt;   A new explainer has been created!</code></pre>
 </div>
 <div id="support-vector-machines-svm" class="section level2">
@@ -383,14 +383,14 @@
 #&gt;   -&gt; predict function  :  yhat.svm  will be used (  default  )
 #&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )
 #&gt;   -&gt; model_info        :  package e1071 , ver. 1.7.4 , task classification (  default  ) 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.08702214 , mean =  0.3238765 , max =  0.9635614  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.08776332 , mean =  0.3226061 , max =  0.9616243  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8680024 , mean =  -0.001719713 , max =  0.9129779  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8635641 , mean =  -0.000449298 , max =  0.9122367  
 #&gt;   A new explainer has been created!</code></pre>
 </div>
-<div id="k-nearest-neighbours-knn" class="section level2">
+<div id="k-nearest-neighbors-knn" class="section level2">
 <h2 class="hasAnchor">
-<a href="#k-nearest-neighbours-knn" class="anchor"></a>k-Nearest Neighbours (kNN)</h2>
+<a href="#k-nearest-neighbors-knn" class="anchor"></a>k-Nearest Neighbors (kNN)</h2>
 <div class="sourceCode" id="cb25"><pre class="downlit">
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/topepo/caret/">"caret"</a></span><span class="op">)</span>
 <span class="va">model_titanic_knn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/caret/man/knn3.html">knn3</a></span><span class="op">(</span><span class="va">survived</span> <span class="op">~</span> <span class="va">class</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="va">sibsp</span> <span class="op">+</span>
@@ -398,10 +398,10 @@
 <span class="va">explain_titanic_knn</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.default.html">explain</a></span><span class="op">(</span><span class="va">model_titanic_knn</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, 
                        y <span class="op">=</span> <span class="va">titanic_imputed</span><span class="op">$</span><span class="va">survived</span>, 
                        predict_function <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">m</span>,<span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">m</span>, <span class="va">x</span><span class="op">)</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>,
-                       label <span class="op">=</span> <span class="st">"k-Nearest Neighbours"</span>,
+                       label <span class="op">=</span> <span class="st">"k-Nearest Neighbors"</span>,
                        colorize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></pre></div>
 <pre><code>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  k-Nearest Neighbours 
+#&gt;   -&gt; model label       :  k-Nearest Neighbors 
 #&gt;   -&gt; data              :  2207  rows  8  cols 
 #&gt;   -&gt; target variable   :  2207  values 
 #&gt;   -&gt; predict function  :  function(m, x) predict(m, x)[, 2] 
@@ -488,7 +488,7 @@
 #&gt; other attached packages:
 #&gt;  [1] caret_6.0-86    e1071_1.7-4     gbm_2.1.8       rms_6.1-0      
 #&gt;  [5] SparseM_1.78    Hmisc_4.4-1     ggplot2_3.3.2   Formula_1.2-4  
-#&gt;  [9] survival_3.2-7  lattice_0.20-41 ranger_0.12.1   DALEX_2.1.0    
+#&gt;  [9] survival_3.2-7  lattice_0.20-41 ranger_0.12.1   DALEX_2.1.1    
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
 #&gt;  [1] nlme_3.1-149         matrixStats_0.57.0   fs_1.5.0            
