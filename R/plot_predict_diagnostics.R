@@ -34,7 +34,7 @@
 plot.predict_diagnostics <- function(x, ...) {
   # if variables are not specified then gow with histogram
   if (is.null(x$variables)) {
-    df <- rbind(x$histogram_neighbours, x$histogram_all)
+    df <- rbind(x$histogram_neighbors, x$histogram_all)
     p.value <- x$test$p.value
     statistic <- x$test$statistic
     cut_points <- x$cut_points

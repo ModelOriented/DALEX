@@ -53,32 +53,38 @@
 predict_diagnostics <-  function(explainer, new_observation, variables = NULL, ..., nbins = 20, neighbors = 50, distance = gower::gower_dist) {
   test_explainer(explainer, has_data = TRUE, function_name = "predict_diagnostics")
 
-  neighbours_id <- select_neighbours_id(new_observation, explainer$data, n = neighbors, distance = distance)
+
+  if (nrow(explainer$data) <= neighbors) {
+    warning("Value of neighbors has to be lower than number of rows in explainer$data. Setting neighbors to nrow(explainer$data)")
+    neighbors <- nrow(explainer$data) - 1
+  }
+
+  neighbors_id <- select_neighbors_id(new_observation, explainer$data, n = neighbors, distance = distance)
 
 
   # if variables = NULL then histograms with distribution of residuals are compared against each other
   if (is.null(variables)) {
     residuals_all <- explainer$residual_function(explainer$model, explainer$data, explainer$y, explainer$predict_function)
-    residuals_sel <- residuals_all[neighbours_id]
-    residuals_other <- residuals_all[-neighbours_id]
+    residuals_sel <- residuals_all[neighbors_id]
+    residuals_other <- residuals_all[-neighbors_id]
 
     cut_points <- signif(pretty(residuals_other, nbins), 3)
     test.res <- ks.test(residuals_other, residuals_sel)
 
-    df1 <- data.frame(as.data.frame(table(cut(residuals_sel, cut_points))/length(residuals_sel)), direction = "neighbours")
+    df1 <- data.frame(as.data.frame(table(cut(residuals_sel, cut_points))/length(residuals_sel)), direction = "neighbors")
     df2 <- data.frame(as.data.frame(-table(cut(residuals_other, cut_points))/length(residuals_other)), direction = "all")
 
     res <- list(variables = variables,
-                histogram_neighbours = df1,
+                histogram_neighbors = df1,
                 histogram_all = df2,
                 test = test.res,
                 cut_points = cut_points,
-                neighbours_id = neighbours_id)
+                neighbors_id = neighbors_id)
   } else {
     # if variables is not null then we need to plot either categorical or continouse fidelity plot
     cp_neighbors <- ingredients::ceteris_paribus(explainer,
-                                                 new_observation = explainer$data[neighbours_id, ],
-                                                 y = explainer$y[neighbours_id],
+                                                 new_observation = explainer$data[neighbors_id, ],
+                                                 y = explainer$y[neighbors_id],
                                                  variables = variables,
                                                  ...)
     cp_new_instance <- ingredients::ceteris_paribus(explainer,
@@ -88,7 +94,7 @@ predict_diagnostics <-  function(explainer, new_observation, variables = NULL, .
     res <- list(variables = variables,
                 cp_neighbors = cp_neighbors,
                 cp_new_instance = cp_new_instance,
-                neighbours_id = neighbours_id)
+                neighbors_id = neighbors_id)
   }
   class(res) <- "predict_diagnostics"
   res
@@ -99,7 +105,7 @@ predict_diagnostics <-  function(explainer, new_observation, variables = NULL, .
 individual_diagnostics <- predict_diagnostics
 
 
-select_neighbours_id <- function(observation, data, variables = NULL, distance = gower::gower_dist, n = 50, frac = NULL) {
+select_neighbors_id <- function(observation, data, variables = NULL, distance = gower::gower_dist, n = 50, frac = NULL) {
   if (is.null(variables)) {
     variables <- intersect(colnames(observation),
                            colnames(data))

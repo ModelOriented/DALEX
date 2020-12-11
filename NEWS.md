@@ -1,3 +1,8 @@
+DALEX 2.1.1
+---------------------------------------------------------------
+* All encouters of `nieghbour(s)` (EN-spelling) were replaced with `neighbor(s)` (US-spelling) for the consistency and backword compatibility.
+* Fixed bug when `predict_diagnostics` raised error if  `neighbor` value was higer than `nrow(explainer$data)`.
+
 DALEX 2.1.0
 ---------------------------------------------------------------
 * Added new parameter (`predict_function_target_column`) to `explain` function that allows specifying positive class in binary classification tasks ([#250](https://github.com/ModelOriented/DALEX/issues/250)).

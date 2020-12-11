@@ -174,7 +174,7 @@ explain_titanic_svm <- explain(model_titanic_svm, data = titanic_imputed,
                        colorize = FALSE)
 ```
  
-## k-Nearest Neighbours (kNN)
+## k-Nearest Neighbors (kNN)
 
 ```{r}
 library("caret")
@@ -183,7 +183,7 @@ model_titanic_knn <- knn3(survived ~ class + gender + age + sibsp +
 explain_titanic_knn <- explain(model_titanic_knn, data = titanic_imputed, 
                        y = titanic_imputed$survived, 
                        predict_function = function(m,x) predict(m, x)[,2],
-                       label = "k-Nearest Neighbours",
+                       label = "k-Nearest Neighbors",
                        colorize = FALSE)
 ```
 
