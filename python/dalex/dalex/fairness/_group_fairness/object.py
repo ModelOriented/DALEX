@@ -56,7 +56,7 @@ class GroupFairnessClassification(_FairnessObject):
 
         Returns
         -----------
-        Console output
+        None (prints console output)
 
         """
         epsilon = check_epsilon(epsilon)
@@ -96,8 +96,6 @@ class GroupFairnessClassification(_FairnessObject):
             verbose_cat(
                 '\nWarning!\nTake into consideration that NaN\'s are present, consider checking \'metric_scores\' '
                 'plot to see the difference', verbose=verbose)
-
-        return
 
     def plot(self,
              objects=None,
@@ -192,10 +190,6 @@ class GroupFairnessClassification(_FairnessObject):
                 'grid_points' - number of grid points (cutoff values) to calculate
                                 metrics for. The points are distributed evenly.
                                 Default is 101.
-
-
-
-
 
         title : str, optional
             Title of the plot (default depends on the `type` attribute).

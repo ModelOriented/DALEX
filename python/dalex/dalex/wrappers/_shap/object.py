@@ -94,7 +94,7 @@ class ShapWrapper:
 
         Parameters
         ----------
-        kwargs :
+        kwargs : dict
             Keyword arguments passed to one of the:
                 - shap.force_plot when type is 'predict_parts'
                 - shap.summary_plot when type is 'model_parts'

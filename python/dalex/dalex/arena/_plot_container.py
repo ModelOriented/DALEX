@@ -2,7 +2,7 @@ from .params import ModelParam, DatasetParam, VariableParam, ObservationParam
 
 class PlotContainer:
     def __init__(self, arena):
-        if type(arena).__name__ != 'Arena' or type(arena).__module__ != 'dalex._arena.object':
+        if type(arena).__name__ != 'Arena' or type(arena).__module__ != 'dalex.arena.object':
             raise Exception('Invalid Arena argument')
         info = self.__class__.info
         self.name = info.get('name')

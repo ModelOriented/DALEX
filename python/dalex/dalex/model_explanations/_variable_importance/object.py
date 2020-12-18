@@ -1,8 +1,8 @@
+import numpy as np
+import pandas as pd
 from plotly.subplots import make_subplots
 
-from .plot import *
-from .checks import *
-from .utils import calculate_variable_importance
+from . import checks, plot, utils
 from ... import _theme, _global_checks
 
 
@@ -64,7 +64,7 @@ class VariableImportance:
 
     Notes
     --------
-    https://pbiecek.github.io/ema/featureImportance.html
+    - https://pbiecek.github.io/ema/featureImportance.html
     """
 
     def __init__(self,
@@ -78,25 +78,24 @@ class VariableImportance:
                  processes=1,
                  random_state=None):
 
-        loss_function = check_loss_function(loss_function)
-        B = check_B(B)
-        type = check_type(type)
-        random_state = check_random_state(random_state)
-        keep_raw_permutations = check_keep_raw_permutations(keep_raw_permutations, B)
+        _loss_function = checks.check_loss_function(loss_function)
+        _B = checks.check_B(B)
+        _type = checks.check_type(type)
+        _random_state = checks.check_random_state(random_state)
+        _keep_raw_permutations = checks.check_keep_raw_permutations(keep_raw_permutations, B)
+        _processes = checks.check_processes(processes)
 
-        processes_ = check_processes(processes)
-
-        self.loss_function = loss_function
-        self.type = type
+        self.loss_function = _loss_function
+        self.type = _type
         self.N = N
-        self.B = B
+        self.B = _B
         self.variables = variables
         self.variable_groups = variable_groups
-        self.random_state = random_state
-        self.keep_raw_permutations = keep_raw_permutations
+        self.random_state = _random_state
+        self.keep_raw_permutations = _keep_raw_permutations
         self.result = None
         self.permutation = None
-        self.processes = processes_
+        self.processes = _processes
 
     def _repr_html_(self):
         return self.result._repr_html_()
@@ -117,17 +116,17 @@ class VariableImportance:
         """
 
         # if `variable_groups` are not specified, then extract from `variables`
-        self.variable_groups = check_variable_groups(self.variable_groups, explainer)
-        self.variables = check_variables(self.variables, self.variable_groups, explainer)
-        self.result, self.permutation = calculate_variable_importance(explainer,
-                                                                      self.type,
-                                                                      self.loss_function,
-                                                                      self.variables,
-                                                                      self.N,
-                                                                      self.B,
-                                                                      explainer.label,
-                                                                      self.processes,
-                                                                      self.keep_raw_permutations)
+        self.variable_groups = checks.check_variable_groups(self.variable_groups, explainer)
+        self.variables = checks.check_variables(self.variables, self.variable_groups, explainer)
+        self.result, self.permutation = utils.calculate_variable_importance(explainer,
+                                                                            self.type,
+                                                                            self.loss_function,
+                                                                            self.variables,
+                                                                            self.N,
+                                                                            self.B,
+                                                                            explainer.label,
+                                                                            self.processes,
+                                                                            self.keep_raw_permutations)
 
     def plot(self,
              objects=None,
@@ -253,7 +252,7 @@ class VariableImportance:
                 lt = df.difference.apply(lambda val:
                                          "+"+str(rounding_function(np.abs(val), digits)) if val > 0
                                          else str(rounding_function(np.abs(val), digits)))
-                tt = df.apply(lambda row: tooltip_text(row, rounding_function, digits), axis=1)
+                tt = df.apply(lambda row: plot.tooltip_text(row, rounding_function, digits), axis=1)
                 df = df.assign(label_text=lt,
                                tooltip_text=tt)
 
@@ -315,7 +314,7 @@ class VariableImportance:
                 lt = df.difference.apply(lambda val:
                                          "+"+str(rounding_function(np.abs(val), digits)) if val > 0
                                          else str(rounding_function(np.abs(val), digits)))
-                tt = df.apply(lambda row: tooltip_text(row, rounding_function, digits), axis=1)
+                tt = df.apply(lambda row: plot.tooltip_text(row, rounding_function, digits), axis=1)
                 df = df.assign(label_text=lt,
                                tooltip_text=tt)
 

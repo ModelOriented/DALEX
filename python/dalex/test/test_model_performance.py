@@ -46,13 +46,13 @@ class ModelPerformanceTestTitanic(unittest.TestCase):
 
     def test_constructor(self):
         case1 = self.exp.model_performance('classification')
-        self.assertIsInstance(case1, (dx.dataset_level.ModelPerformance,))
+        self.assertIsInstance(case1, (dx.model_explanations.ModelPerformance,))
         self.assertIsInstance(case1.result, (pd.DataFrame,))
         self.assertEqual(case1.result.shape[0], 1)
         self.assertTrue(np.isin(['recall', 'precision', 'f1', 'accuracy', 'auc'], case1.result.columns).all())
 
         case2 = self.exp.model_performance('regression')
-        self.assertIsInstance(case2, (dx.dataset_level.ModelPerformance,))
+        self.assertIsInstance(case2, (dx.model_explanations.ModelPerformance,))
         self.assertIsInstance(case2.result, (pd.DataFrame,))
         self.assertEqual(case2.result.shape[0], 1)
         self.assertTrue(np.isin(['mse', 'rmse', 'r2', 'mae', 'mad'], case2.result.columns).all())
@@ -62,8 +62,8 @@ class ModelPerformanceTestTitanic(unittest.TestCase):
         case1 = self.exp.model_performance('classification')
         case2 = self.exp2.model_performance('classification')
 
-        self.assertIsInstance(case1, dx.dataset_level.ModelPerformance)
-        self.assertIsInstance(case2, dx.dataset_level.ModelPerformance)
+        self.assertIsInstance(case1, dx.model_explanations.ModelPerformance)
+        self.assertIsInstance(case2, dx.model_explanations.ModelPerformance)
 
         fig1 = case1.plot(title="test1", show=False)
         fig2 = case2.plot(case1, show=False)

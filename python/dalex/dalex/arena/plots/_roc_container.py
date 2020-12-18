@@ -37,6 +37,6 @@ class ROCContainer(PlotContainer):
             'sensivity': df['TPR'].tolist()
         }
     def test_arena(arena):
-        if type(arena).__name__ != 'Arena' or type(arena).__module__ != 'dalex._arena.object':
+        if type(arena).__name__ != 'Arena' or type(arena).__module__ != 'dalex.arena.object':
             raise Exception('Invalid Arena argument')
         return next((True for model in arena.get_params('model') if model.explainer.model_type == 'classification'), False)

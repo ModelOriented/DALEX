@@ -1,5 +1,18 @@
 ## Changelog
 
+v1.0.0 (draft)
+----------------------------------------------------------------
+
+#### breaking changes
+
+These are summed up in ([#368](https://github.com/ModelOriented/DALEX/issues/368)):
+
+* rename modules: `dataset_level` into `model_expanations`, `instance_level` into `predict_explanations`, `_arena` module into `arena` 
+
+#### other
+
+* updated the documentation, refactored code (imports, variable names, funcitons in files)
+
 v0.4.1 (02/12/2020)
 ----------------------------------------------------------------
 

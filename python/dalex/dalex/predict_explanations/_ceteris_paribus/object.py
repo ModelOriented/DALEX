@@ -1,10 +1,10 @@
-from warnings import warn
-
+import numpy as np
+import pandas as pd
 import plotly.express as px
+import warnings
+from copy import deepcopy
 
-from .checks import *
-from .utils import calculate_ceteris_paribus
-from .plot import tooltip_text
+from . import checks, plot, utils
 from ... import _theme, _global_checks, _global_utils
 
 
@@ -55,7 +55,7 @@ class CeterisParibus:
 
     Notes
     --------
-    https://pbiecek.github.io/ema/ceterisParibus.html
+    - https://pbiecek.github.io/ema/ceterisParibus.html
     """
 
     def __init__(self,
@@ -66,17 +66,17 @@ class CeterisParibus:
                  variable_splits_with_obs=False,
                  processes=1):
 
-        processes_ = check_processes(processes)
-        variable_splits_type_ = check_variable_splits_type(variable_splits_type)
+        _processes_ = checks.check_processes(processes)
+        _variable_splits_type = checks.check_variable_splits_type(variable_splits_type)
 
         self.variables = variables
         self.grid_points = grid_points
         self.variable_splits = variable_splits
-        self.variable_splits_type = variable_splits_type_
+        self.variable_splits_type = _variable_splits_type
         self.variable_splits_with_obs = variable_splits_with_obs
         self.result = None
         self.new_observation = None
-        self.processes = processes_
+        self.processes = _processes_
 
     def _repr_html_(self):
         return self.result._repr_html_()
@@ -106,13 +106,13 @@ class CeterisParibus:
         None
         """
 
-        self.variables = check_variables(self.variables, explainer, self.variable_splits)
+        self.variables = checks.check_variables(self.variables, explainer, self.variable_splits)
 
-        check_data(explainer.data, self.variables)
+        checks.check_data(explainer.data, self.variables)
 
-        self.new_observation = check_new_observation(new_observation, explainer)
+        self.new_observation = checks.check_new_observation(new_observation, explainer)
 
-        self.variable_splits = check_variable_splits(self.variable_splits,
+        self.variable_splits = checks.check_variable_splits(self.variable_splits,
                                                      self.variables,
                                                      self.grid_points,
                                                      explainer.data,
@@ -120,14 +120,16 @@ class CeterisParibus:
                                                      self.variable_splits_with_obs,
                                                      self.new_observation)
 
-        y = check_y(y)
+        y = checks.check_y(y)
 
-        self.result, self.new_observation = calculate_ceteris_paribus(explainer,
-                                                                      self.new_observation,
-                                                                      self.variable_splits,
-                                                                      y,
-                                                                      self.processes,
-                                                                      verbose)
+        self.result, self.new_observation = utils.calculate_ceteris_paribus(
+            explainer,
+            self.new_observation,
+            self.variable_splits,
+            y,
+            self.processes,
+            verbose
+        )
 
     def plot(self,
              objects=None,
@@ -234,7 +236,7 @@ class CeterisParibus:
                 # change to categorical
                 variable_type = "categorical"
                 # send message
-                warn("'variable_type' changed to 'categorical' due to lack of numerical variables.")
+                warnings.warn("'variable_type' changed to 'categorical' due to lack of numerical variables.")
                 # take all
                 variable_names = all_variables
             elif variables is not None and len(variable_names) != len(variables):
@@ -280,7 +282,7 @@ class CeterisParibus:
         m = len(_result_df[color].dropna().unique())
 
         _result_df[color] = _result_df[color].astype(object)  # prevent error when using pd.StringDtype
-        _result_df = _result_df.assign(_text_=_result_df.apply(lambda obs: tooltip_text(obs), axis=1))
+        _result_df = _result_df.assign(_text_=_result_df.apply(lambda obs: plot.tooltip_text(obs), axis=1))
 
         if variable_type == "numerical":
 

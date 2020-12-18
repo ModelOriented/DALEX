@@ -17,7 +17,7 @@ import pandas as pd
 OPTIONAL_DEPENDENCIES = {
     'dalex': '99.0',
     'lime': '0.2.0.1',
-    'scikit-learn': '0.21.0',
+    'scikit-learn': '0.22.0',
     'statsmodels': '0.11.1',
     'shap': '0.35.0',
     'flask': '1.1.2',

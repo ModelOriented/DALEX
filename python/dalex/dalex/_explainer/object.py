@@ -1,8 +1,8 @@
 import numpy as np
 
-from dalex.dataset_level import ModelPerformance, VariableImportance, \
+from dalex.model_explanations import ModelPerformance, VariableImportance, \
     AggregatedProfiles, ResidualDiagnostics
-from dalex.instance_level import BreakDown, Shap, CeterisParibus
+from dalex.predict_explanations import BreakDown, Shap, CeterisParibus
 from dalex.wrappers import ShapWrapper
 from dalex.fairness import GroupFairnessClassification
 
@@ -96,7 +96,7 @@ class Explainer:
 
     Notes
     --------
-    https://pbiecek.github.io/ema/dataSetsIntro.html#ExplainersTitanicPythonCode
+    - https://pbiecek.github.io/ema/dataSetsIntro.html#ExplainersTitanicPythonCode
 
     """
 
@@ -231,7 +231,7 @@ class Explainer:
                       processes=1,
                       random_state=None,
                       **kwargs):
-        """Calculate instance level variable attributions as Break Down, Shapley Values or Shap Values
+        """Calculate instance-level variable attributions as Break Down, Shapley Values or Shap Values
 
         Parameters
         -----------
@@ -263,7 +263,7 @@ class Explainer:
             Iterated over `B` (default is 1, which means no parallel computation).
         random_state : int, optional
             Set seed for random number generator (default is random seed).
-        kwargs : ...
+        kwargs : dict
             Used only for 'shap_wrapper'. Pass `shap_explainer_type` to specify, which
             Explainer shall be used: `{'TreeExplainer', 'DeepExplainer', 'GradientExplainer',
             'LinearExplainer', 'KernelExplainer'}` (default is `None`, which automatically
@@ -281,10 +281,10 @@ class Explainer:
 
         Notes
         --------
-        https://pbiecek.github.io/ema/breakDown.html
-        https://pbiecek.github.io/ema/iBreakDown.html
-        https://pbiecek.github.io/ema/shapley.html
-        https://github.com/slundberg/shap
+        - https://pbiecek.github.io/ema/breakDown.html
+        - https://pbiecek.github.io/ema/iBreakDown.html
+        - https://pbiecek.github.io/ema/shapley.html
+        - https://github.com/slundberg/shap
         """
 
         checks.check_data_again(self.data)
@@ -293,14 +293,14 @@ class Explainer:
         _type = checks.check_method_type(type, types)
 
         if _type == 'break_down_interactions' or _type == 'break_down':
-            predict_parts_ = BreakDown(
+            _predict_parts = BreakDown(
                 type=_type,
                 keep_distributions=keep_distributions,
                 order=order,
                 interaction_preference=interaction_preference
             )
         elif _type == 'shap':
-            predict_parts_ = Shap(
+            _predict_parts = Shap(
                 keep_distributions=keep_distributions,
                 path=path,
                 B=B,
@@ -309,14 +309,16 @@ class Explainer:
             )
         elif _type == 'shap_wrapper':
             _global_checks.global_check_import('shap', 'SHAP explanations')
-            predict_parts_ = ShapWrapper('predict_parts')
+            _predict_parts = ShapWrapper('predict_parts')
+        else:
+            raise TypeError("Wrong type parameter.")
 
-        predict_parts_.fit(self, new_observation, **kwargs)
+        _predict_parts.fit(self, new_observation, **kwargs)
         
         if label:
-            predict_parts_.result['label'] = label
+            _predict_parts.result['label'] = label
 
-        return predict_parts_
+        return _predict_parts
 
     def predict_profile(self,
                         new_observation,
@@ -330,7 +332,7 @@ class Explainer:
                         processes=1,
                         label=None,
                         verbose=True):
-        """Calculate instance level variable profiles as Ceteris Paribus
+        """Calculate instance-level variable profiles as Ceteris Paribus
 
         Parameters
         -----------
@@ -372,7 +374,7 @@ class Explainer:
 
         Notes
         --------
-        https://pbiecek.github.io/ema/ceterisParibus.html
+        - https://pbiecek.github.io/ema/ceterisParibus.html
         """
 
         checks.check_data_again(self.data)
@@ -381,7 +383,7 @@ class Explainer:
         _type = checks.check_method_type(type, types)
 
         if _type == 'ceteris_paribus':
-            predict_profile_ = CeterisParibus(
+            _predict_profile = CeterisParibus(
                 variables=variables,
                 grid_points=grid_points,
                 variable_splits=variable_splits,
@@ -389,13 +391,15 @@ class Explainer:
                 variable_splits_with_obs=variable_splits_with_obs,
                 processes=processes
             )
+        else:
+            raise TypeError("Wrong type parameter.")
 
-        predict_profile_.fit(self, new_observation, y, verbose)
+        _predict_profile.fit(self, new_observation, y, verbose)
 
         if label:
-            predict_profile_.result['_label_'] = label
+            _predict_profile.result['_label_'] = label
             
-        return predict_profile_
+        return _predict_profile
 
     def predict_surrogate(self,
                           new_observation,
@@ -413,7 +417,7 @@ class Explainer:
         type : {'lime'}
             Type of explanation method
             (default is 'lime', which uses the lime package to create an explanation).
-        kwargs : ...
+        kwargs : dict
             Keyword arguments passed to the lime.lime_tabular.LimeTabularExplainer object
             and the LimeTabularExplainer.explain_instance method. Exceptions are:
             `training_data`, `mode`, `data_row` and `predict_fn`. Other parameters:
@@ -426,7 +430,7 @@ class Explainer:
 
         Notes
         -----------
-        https://github.com/marcotcr/lime
+        - https://github.com/marcotcr/lime
         """
 
         checks.check_data_again(self.data)
@@ -446,7 +450,7 @@ class Explainer:
                           model_type=None,
                           cutoff=0.5,
                           label=None):
-        """Calculate dataset level model performance measures
+        """Calculate dataset-level model performance measures
 
         Parameters
         -----------
@@ -466,7 +470,7 @@ class Explainer:
 
         Notes
         --------
-        https://pbiecek.github.io/ema/modelPerformance.html
+        - https://pbiecek.github.io/ema/modelPerformance.html
         """
 
         checks.check_data_again(self.data)
@@ -477,16 +481,16 @@ class Explainer:
         elif model_type is None:
             model_type = self.model_type
 
-        model_performance_ = ModelPerformance(
+        _model_performance = ModelPerformance(
             model_type=model_type,
             cutoff=cutoff
         )
-        model_performance_.fit(self)
+        _model_performance.fit(self)
         
         if label:
-            model_performance_.result['label'] = label
+            _model_performance.result['label'] = label
 
-        return model_performance_
+        return _model_performance
 
     def model_parts(self,
                     loss_function=None,
@@ -501,7 +505,7 @@ class Explainer:
                     random_state=None,
                     **kwargs):
 
-        """Calculate dataset level variable importance
+        """Calculate dataset-level variable importance
 
         Parameters
         -----------
@@ -532,7 +536,7 @@ class Explainer:
             (default is 1, which means no parallel computation).
         random_state : int, optional
             Set seed for random number generator (default is random seed).
-        kwargs : ...
+        kwargs : dict
             Used only for 'shap_wrapper'. Pass `shap_explainer_type` to specify, which
             Explainer shall be used: `{'TreeExplainer', 'DeepExplainer', 'GradientExplainer',
             'LinearExplainer', 'KernelExplainer'}`.
@@ -549,8 +553,8 @@ class Explainer:
 
         Notes
         --------
-        https://pbiecek.github.io/ema/featureImportance.html
-        https://github.com/slundberg/shap
+        - https://pbiecek.github.io/ema/featureImportance.html
+        - https://github.com/slundberg/shap
         """
 
         checks.check_data_again(self.data)
@@ -564,7 +568,7 @@ class Explainer:
         if _type != 'shap_wrapper':
             checks.check_y_again(self.y)
 
-            model_parts_ = VariableImportance(
+            _model_parts = VariableImportance(
                 loss_function=loss_function,
                 type=_type,
                 N=N,
@@ -575,14 +579,14 @@ class Explainer:
                 random_state=random_state,
                 keep_raw_permutations=keep_raw_permutations,
             )
-            model_parts_.fit(self)
+            _model_parts.fit(self)
             
             if label:
-                model_parts_.result['label'] = label
-            
+                _model_parts.result['label'] = label
+                 
         elif _type == 'shap_wrapper':
             _global_checks.global_check_import('shap', 'SHAP explanations')
-            model_parts_ = ShapWrapper('model_parts')
+            _model_parts = ShapWrapper('model_parts')
             if N is None:
                 N = self.data.shape[0]
             else:
@@ -591,9 +595,11 @@ class Explainer:
             sampled_rows = np.random.choice(np.arange(N), N, replace=False)
             sampled_data = self.data.iloc[sampled_rows, :]
 
-            model_parts_.fit(self, sampled_data, **kwargs)
+            _model_parts.fit(self, sampled_data, **kwargs)
+        else:
+            raise TypeError("Wrong type parameter");
 
-        return model_parts_
+        return _model_parts
 
     def model_profile(self,
                       type=('partial', 'accumulated', 'conditional'),
@@ -611,7 +617,7 @@ class Explainer:
                       random_state=None,
                       verbose=True):
 
-        """Calculate dataset level variable profiles as Partial or Accumulated Dependence
+        """Calculate dataset-level variable profiles as Partial or Accumulated Dependence
 
         Parameters
         -----------
@@ -662,8 +668,8 @@ class Explainer:
 
         Notes
         --------
-        https://pbiecek.github.io/ema/partialDependenceProfiles.html
-        https://pbiecek.github.io/ema/accumulatedLocalProfiles.html
+        - https://pbiecek.github.io/ema/partialDependenceProfiles.html
+        - https://pbiecek.github.io/ema/accumulatedLocalProfiles.html
         """
 
         checks.check_data_again(self.data)
@@ -682,15 +688,15 @@ class Explainer:
 
         I = np.random.choice(np.arange(N), N, replace=False)
 
-        ceteris_paribus = CeterisParibus(grid_points=grid_points,
+        _ceteris_paribus = CeterisParibus(grid_points=grid_points,
                                          variables=variables,
                                          variable_splits=variable_splits,
                                          variable_splits_type=variable_splits_type,
                                          processes=processes)
         _y = self.y[I] if self.y is not None else self.y
-        ceteris_paribus.fit(self, self.data.iloc[I, :], y=_y, verbose=verbose)
+        _ceteris_paribus.fit(self, self.data.iloc[I, :], y=_y, verbose=verbose)
 
-        model_profile_ = AggregatedProfiles(
+        _model_profile = AggregatedProfiles(
             type=_type,
             variables=variables,
             variable_type=variable_type,
@@ -700,17 +706,17 @@ class Explainer:
             random_state=random_state
         )
 
-        model_profile_.fit(ceteris_paribus, verbose)
+        _model_profile.fit(_ceteris_paribus, verbose)
 
         if label:
-            model_profile_.result['_label_'] = label
+            _model_profile.result['_label_'] = label
                 
-        return model_profile_
+        return _model_profile
 
     def model_diagnostics(self,
                           variables=None,
                           label=None):
-        """Calculate dataset level residuals diagnostics
+        """Calculate dataset-level residuals diagnostics
 
         Parameters
         -----------
@@ -727,21 +733,21 @@ class Explainer:
 
         Notes
         --------
-        https://pbiecek.github.io/ema/residualDiagnostic.html
+        - https://pbiecek.github.io/ema/residualDiagnostic.html
         """
 
         checks.check_data_again(self.data)
         checks.check_y_again(self.y)
 
-        residual_diagnostics_ = ResidualDiagnostics(
+        _residual_diagnostics = ResidualDiagnostics(
             variables=variables
         )
-        residual_diagnostics_.fit(self)
+        _residual_diagnostics.fit(self)
 
         if label:
-            residual_diagnostics_.result['label'] = label
+            _residual_diagnostics.result['label'] = label
             
-        return residual_diagnostics_
+        return _residual_diagnostics
 
     def model_surrogate(self,
                         type=('tree', 'linear'),
@@ -768,7 +774,7 @@ class Explainer:
             The maximum depth of the tree. If `None`, then nodes are expanded until all
             leaves are pure or until all leaves contain less than min_samples_split
             samples (default is 3 for interpretable plot).
-        kwargs : ...
+        kwargs : dict
             Keyword arguments passed to one of the: sklearn.tree.DecisionTreeClassifier,
             sklearn.tree.DecisionTreeRegressor, sklearn.linear_model.LogisticRegression,
             sklearn.linear_model.LinearRegression
@@ -810,7 +816,7 @@ class Explainer:
                        cutoff=0.5,
                        label=None,
                        **kwargs):
-        """Creates a dataset level fairness explanation that enables bias detection
+        """Creates a dataset-level fairness explanation that enables bias detection
 
         This method returns a GroupFairnessClassification object that for now
         supports only classification models. GroupFairnessClassification object
@@ -840,7 +846,7 @@ class Explainer:
                        (must have values from `protected` as keys).
         label : str, optional
             Name to appear in result and plots. Overrides default.
-        kwargs : ...
+        kwargs : dict
             Keyword arguments. It supports `verbose`, which is a boolean
             value telling if additional output should be printed
             (True) or not (False, default).
@@ -876,7 +882,7 @@ class Explainer:
 
         if self.model_type != 'classification':
             raise ValueError(
-                "model_fairness for now supports only classification models."
+                "fairness module for now supports only classification models."
                 "Explainer attribute 'model_type' must be 'classification'")
 
         fobject = GroupFairnessClassification(y=self.y,
@@ -906,7 +912,7 @@ class Explainer:
         -----------
         args : ...
             Positional arguments passed to the pickle.dumps function.
-        kwargs : ...
+        kwargs : dict
             Keyword arguments passed to the pickle.dumps function.
 
         Returns
@@ -937,7 +943,7 @@ class Explainer:
             A file object opened for binary writing, or an io.BytesIO instance.
         args : ...
             Positional arguments passed to the pickle.dump function.
-        kwargs : ...
+        kwargs : dict
             Keyword arguments passed to the pickle.dump function.
         """
 
@@ -967,7 +973,7 @@ class Explainer:
             values like in Explainer initialization (default is `True`).
         args : ...
             Positional arguments passed to the pickle.loads function.
-        kwargs : ...
+        kwargs : dict
             Keyword arguments passed to the pickle.loads function.
 
         Returns
@@ -1002,7 +1008,7 @@ class Explainer:
             values like in Explainer initialization (default is `True`).
         args : ...
             Positional arguments passed to the pickle.load function.
-        kwargs : ...
+        kwargs : dict
             Keyword arguments passed to the pickle.load function.
 
         Returns

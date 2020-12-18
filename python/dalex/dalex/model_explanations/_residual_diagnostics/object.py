@@ -1,6 +1,8 @@
+import numpy as np
+import pandas as pd
 import plotly.express as px
 
-from .checks import *
+from . import checks
 from ... import _theme, _global_checks, _global_utils
 
 
@@ -22,15 +24,15 @@ class ResidualDiagnostics:
 
     Notes
     --------
-    https://pbiecek.github.io/ema/residualDiagnostic.html
+    - https://pbiecek.github.io/ema/residualDiagnostic.html
     """
     def __init__(self,
                  variables=None):
 
-        variables_ = check_variables(variables)
+        _variables = checks.check_variables(variables)
 
         self.result = None
-        self.variables = variables_
+        self.variables = _variables
 
     def _repr_html_(self):
         return self.result._repr_html_()

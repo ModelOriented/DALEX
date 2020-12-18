@@ -1,8 +1,9 @@
+import numpy as np
+import pandas as pd
 import plotly.express as px
 from copy import deepcopy
 
-from .checks import *
-from .utils import aggregate_profiles
+from . import checks, utils
 from ... import _theme, _global_checks, _global_utils
 
 
@@ -63,8 +64,8 @@ class AggregatedProfiles:
 
     Notes
     --------
-    https://pbiecek.github.io/ema/partialDependenceProfiles.html
-    https://pbiecek.github.io/ema/accumulatedLocalProfiles.html
+    - https://pbiecek.github.io/ema/partialDependenceProfiles.html
+    - https://pbiecek.github.io/ema/accumulatedLocalProfiles.html
     """
 
     def __init__(self,
@@ -76,9 +77,9 @@ class AggregatedProfiles:
                  center=True,
                  random_state=None):
 
-        check_variable_type(variable_type)
-        variables_ = check_variables(variables)
-        groups_ = check_groups(groups)
+        checks.check_variable_type(variable_type)
+        variables_ = checks.check_variables(variables)
+        groups_ = checks.check_groups(groups)
 
         self.variable_type = variable_type
         self.groups = groups_
@@ -113,7 +114,7 @@ class AggregatedProfiles:
         None
         """
         # are there any other cp?
-        from dalex.instance_level import CeterisParibus
+        from dalex.predict_explanations import CeterisParibus
         if isinstance(ceteris_paribus, CeterisParibus):  # allow for ceteris_paribus to be a single element
             all_profiles = ceteris_paribus.result.copy()
             all_observations = ceteris_paribus.new_observation.copy()
@@ -128,17 +129,22 @@ class AggregatedProfiles:
         else:
             _global_checks.global_raise_objects_class(ceteris_paribus, CeterisParibus)
 
-        all_profiles, vnames = prepare_numerical_categorical(all_profiles, self.variables, self.variable_type)
+        all_profiles, vnames = utils.prepare_numerical_categorical(all_profiles, self.variables, self.variable_type)
 
         # select only suitable variables
         all_profiles = all_profiles.loc[all_profiles['_vname_'].isin(vnames), :]
 
-        all_profiles = create_x(all_profiles, self.variable_type)
+        all_profiles = utils.prepare_x(all_profiles, self.variable_type)
 
         self.mean_prediction = all_observations['_yhat_'].mean()
 
-        self.result = aggregate_profiles(all_profiles, self.mean_prediction, self.type, self.groups, self.center,
-                                         self.span, verbose)
+        self.result = utils.aggregate_profiles(all_profiles,
+                                               self.mean_prediction,
+                                               self.type,
+                                               self.groups,
+                                               self.center,
+                                               self.span,
+                                               verbose)
 
     def plot(self,
              objects=None,

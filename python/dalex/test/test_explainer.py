@@ -63,8 +63,8 @@ class ExplainerTest(unittest.TestCase):
         case5 = case2.predict_parts(self.X.iloc[[0]])
         case6 = case2.predict_profile(self.X.iloc[[0]])
 
-        self.assertIsInstance(case5, dx.instance_level.BreakDown)
-        self.assertIsInstance(case6, dx.instance_level.CeterisParibus)
+        self.assertIsInstance(case5, dx.predict_explanations.BreakDown)
+        self.assertIsInstance(case6, dx.predict_explanations.CeterisParibus)
 
         with warnings.catch_warnings(record=True) as w:
             # Cause all warnings to always be triggered.

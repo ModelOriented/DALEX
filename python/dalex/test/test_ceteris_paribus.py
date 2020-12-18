@@ -10,7 +10,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 
 import dalex as dx
-from dalex.instance_level._ceteris_paribus import utils
+from dalex.predict_explanations._ceteris_paribus import utils
 
 
 class CeterisParibusTestTitanic(unittest.TestCase):
@@ -143,7 +143,7 @@ class CeterisParibusTestTitanic(unittest.TestCase):
 
     def test_constructor(self):
         cp = self.exp.predict_profile(self.X.iloc[[0], :], verbose=False)
-        self.assertIsInstance(cp, (dx.instance_level.CeterisParibus,))
+        self.assertIsInstance(cp, (dx.predict_explanations.CeterisParibus,))
         self.assertIsInstance(cp.result, (pd.DataFrame,))
         self.assertIsInstance(cp.new_observation, (pd.DataFrame,))
 
@@ -155,20 +155,20 @@ class CeterisParibusTestTitanic(unittest.TestCase):
 
         # with self.assertRaises(TypeError):
         #     self.assertIsInstance(self.exp.predict_profile(self.X.iloc[[0], :], variables='age'),
-        #                           dx.instance_level.CeterisParibus)
+        #                           dx.predict_explanations.CeterisParibus)
 
         self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0, :], verbose=False),
-                              dx.instance_level.CeterisParibus)
+                              dx.predict_explanations.CeterisParibus)
         self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0:10, :], verbose=False),
-                              dx.instance_level.CeterisParibus)
+                              dx.predict_explanations.CeterisParibus)
         self.assertIsInstance(self.exp.predict_profile(self.X.iloc[[0], :], variables=['age'], verbose=False),
-                              dx.instance_level.CeterisParibus)
+                              dx.predict_explanations.CeterisParibus)
         self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0, :].values.reshape(-1, ), verbose=False),
-                              dx.instance_level.CeterisParibus)
+                              dx.predict_explanations.CeterisParibus)
         self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0:10, :].values, verbose=False),
-                              dx.instance_level.CeterisParibus)
+                              dx.predict_explanations.CeterisParibus)
         self.assertIsInstance(self.exp.predict_profile(self.X.iloc[0:10, :].values, processes=2, verbose=False),
-                              dx.instance_level.CeterisParibus)
+                              dx.predict_explanations.CeterisParibus)
 
     def test_plot(self):
 
@@ -176,8 +176,8 @@ class CeterisParibusTestTitanic(unittest.TestCase):
         case2 = self.exp.predict_profile(self.X.iloc[0, :], verbose=False)
         case3 = self.exp.predict_profile(self.X.iloc[1, :], verbose=False)
 
-        self.assertIsInstance(case1, dx.instance_level.CeterisParibus)
-        self.assertIsInstance(case2, dx.instance_level.CeterisParibus)
+        self.assertIsInstance(case1, dx.predict_explanations.CeterisParibus)
+        self.assertIsInstance(case2, dx.predict_explanations.CeterisParibus)
 
         fig1 = case1.plot((case2, case3), show=False)
         fig2 = case2.plot(variable_type="categorical", show=False)

@@ -2,7 +2,7 @@ from copy import deepcopy
 import numpy as np
 import pandas as pd
 from dalex._explainer.helper import verbose_cat
-from dalex.dataset_level._model_performance.utils import *
+from dalex.model_explanations._model_performance.utils import *
 # -------------- Objects needed in creation of object in object.py --------------
 
 class ConfusionMatrix:

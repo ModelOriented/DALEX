@@ -1,64 +1,74 @@
-from warnings import warn
-
+import numpy as np
 from plotly.subplots import make_subplots
 
-from .plot import *
-from .checks import *
-from .utils import local_interactions
+from . import checks, plot, utils
 from ... import _theme, _global_checks
 
 
-class BreakDown:
-    """Calculate instance level variable attributions as Break Down
+class Shap:
+    """Calculate instance level variable attributions as Shapley Values
 
     Parameters
     -----------
-    type : {'break_down_interactions', 'break_down'}
-        Type of variable attributions (default is 'break_down_interactions').
-    order : list of int or str, optional
-        Use a fixed order of variables for attribution calculation. Use integer values
-        or string variable names (default is None which means order by importance).
-    interaction_preference : int, optional
-        Specify which interactions will be present in an explanation. The larger the
-        integer, the more frequently interactions will be presented (default is 1).
+    path : list of int, optional
+        If specified, then attributions for this path will be plotted
+        (default is 'average', which plots attribution means for `B` random paths).
+    B : int, optional
+        Number of random paths to calculate variable attributions (default is 25).
     keep_distributions : bool, optional
         Save the distribution of partial predictions (default is False).
+    processes : int, optional
+        Number of parallel processes to use in calculations. Iterated over `B`
+        (default is 1, which means no parallel computation).
+    random_state : int, optional
+        Set seed for random number generator (default is random seed).
 
     Attributes
     -----------
     result : pd.DataFrame
         Main result attribute of an explanation.
-    type : {'break_down_interactions', 'break_down'}
-        Type of variable attributions.
-    order : list of int or str or None
-        Order of variables used in attribution calculation.
-    interaction_preference : int
-        Frequency of interaction use.
+    prediction : float
+        Prediction for `new_observation`.
+    intercept : float
+        Average prediction for `data`.
+    path : list of int or 'average'
+        Path for which the attributions will be plotted.
+    B : int
+        Number of random paths to calculate variable attributions.
     keep_distributions : bool
         Save the distribution of partial predictions.
     yhats_distributions : pd.DataFrame or None
         The distribution of partial predictions.
+    processes : int
+        Number of parallel processes to use in calculations. Iterated over `B`.
+    random_state : int or None
+        Seed that was set for random number generator.
 
     Notes
     --------
-    https://pbiecek.github.io/ema/breakDown.html
-    https://pbiecek.github.io/ema/iBreakDown.html
+    - https://pbiecek.github.io/ema/shapley.html
     """
 
     def __init__(self,
-                 type='break_down',
-                 order=None,
-                 interaction_preference=1,
-                 keep_distributions=False):
+                 path="average",
+                 B=25,
+                 keep_distributions=False,
+                 processes=1,
+                 random_state=None):
 
-        order = check_order(order)
+        _path = checks.check_path(path)
+        _processess = checks.check_processes(processes)
+        _random_state = checks.check_random_state(random_state)
 
-        self.type = type
+        self.path = _path
         self.keep_distributions = keep_distributions
-        self.order = order
-        self.interaction_preference = interaction_preference
+        self.B = B
         self.result = None
         self.yhats_distributions = None
+        self.prediction = None
+        self.intercept = None
+        self.processes = _processess
+        self.random_state = _random_state
 
     def _repr_html_(self):
         return self.result._repr_html_()
@@ -82,30 +92,16 @@ class BreakDown:
         None
         """
 
-        new_observation = check_new_observation(new_observation, explainer)
-        if new_observation.shape[0] != 1:
-            warn("You should pass only one new_observation, taken only first")
-            new_observation = new_observation.iloc[0, :]
-
-        if self.type == 'break_down_interactions':
-            result, yhats_distributions = local_interactions(explainer,
-                                                             new_observation,
-                                                             self.interaction_preference,
-                                                             '2d',
-                                                             self.order,
-                                                             self.keep_distributions)
-        elif self.type == 'break_down':
-            result, yhats_distributions = local_interactions(explainer,
-                                                             new_observation,
-                                                             self.interaction_preference,
-                                                             '1d',
-                                                             self.order,
-                                                             self.keep_distributions)
-        else:
-            raise ValueError("'type' must be one of 'break_down_interactions', 'break_down'")
-
-        self.result = result
-        self.yhats_distributions = yhats_distributions
+        _new_observation = checks.check_new_observation(new_observation, explainer)
+        checks.check_columns_in_new_observation(_new_observation, explainer)
+        self.result, self.prediction, self.intercept, self.yhats_distributions = utils.shap(
+            explainer,
+            _new_observation,
+            self.path,
+            self.keep_distributions,
+            self.B,
+            self.processes
+        )
 
     def plot(self,
              objects=None,
@@ -116,14 +112,14 @@ class BreakDown:
              bar_width=16,
              min_max=None,
              vcolors=None,
-             title="Break Down",
+             title="Shapley Values",
              vertical_spacing=None,
              show=True):
-        """Plot the Break Down explanation
+        """Plot the Shapley Values explanation
 
         Parameters
         -----------
-        objects : BreakDown object or array_like of BreakDown objects
+        objects : Shap object or array_like of Shap objects
             Additional objects to plot in subplots (default is None).
         baseline: float, optional
             Starting x point for bars (default is average prediction).
@@ -140,9 +136,9 @@ class BreakDown:
         min_max : 2-tuple of float, optional
             Range of x-axis (default is [min - 0.15*(max-min), max + 0.15*(max-min)]).
         vcolors : 3-tuple of str, optional
-            Color of bars (default is ["#371ea3", "#8bdcbe", "#f05a71"]).
+            Color of bars (default is ["#8bdcbe", "#f05a71"]).
         title : str, optional
-            Title of the plot (default is "Break Down").
+            Title of the plot (default is "Shapley Values").
         vertical_spacing : float <0, 1>, optional
             Ratio of vertical space between the plots (default is 0.2/number of rows).
         show : bool, optional
@@ -158,29 +154,40 @@ class BreakDown:
         # are there any other objects to plot?
         if objects is None:
             n = 1
-            _result_list = [self.result.copy()]
+            _result_list = [self.result.loc[self.result['B'] == 0,].copy()]
+            _intercept_list = [self.intercept]
+            _prediction_list = [self.prediction]
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             n = 2
-            _result_list = [self.result.copy(), objects.result.copy()]
+            _result_list = [self.result.loc[self.result['B'] == 0,].copy(),
+                            objects.result.loc[objects.result['B'] == 0,].copy()]
+            _intercept_list = [self.intercept, objects.intercept]
+            _prediction_list = [self.prediction, objects.prediction]
         elif isinstance(objects, (list, tuple)):  # objects as tuple or array
             n = len(objects) + 1
-            _result_list = [self.result.copy()]
+            _result_list = [self.result.loc[self.result['B'] == 0,].copy()]
+            _intercept_list = [self.intercept]
+            _prediction_list = [self.prediction]
             for ob in objects:
                 _global_checks.global_check_object_class(ob, self.__class__)
-                _result_list += [ob.result.copy()]
+                _result_list += [ob.result.loc[ob.result['B'] == 0,].copy()]
+                _intercept_list += [ob.intercept]
+                _prediction_list += [ob.prediction]
         else:
             _global_checks.global_raise_objects_class(objects, self.__class__)
 
-        deleted_indexes = []
-        for i, _result in enumerate(_result_list):
-            if len(_result['label'].unique()) > 1:
-                n += len(_result['label'].unique()) - 1
-                # add new data frames to list
-                _result_list += [v for k, v in _result.groupby('label', sort=False)]
-
-                deleted_indexes += [i]
-
-        _result_list = [val for i, val in enumerate(_result_list) if i not in deleted_indexes]
+        # TODO: add intercept and prediction list update for multi-class
+        # deleted_indexes = []
+        # for i in range(n):
+        #     result = _result_list[i]
+        #
+        #     if len(result['label'].unique()) > 1:
+        #         n += len(result['label'].unique()) - 1
+        #         # add new data frames to list
+        #         _result_list += [v for k, v in result.groupby('label', sort=False)]
+        #         deleted_indexes += [i]
+        #
+        # _result_list = [j for i, j in enumerate(_result_list) if i not in deleted_indexes]
         model_names = [result.iloc[0, result.columns.get_loc("label")] for result in _result_list]
 
         if vertical_spacing is None:
@@ -200,18 +207,16 @@ class BreakDown:
             temp_min_max = min_max
 
         for i, _result in enumerate(_result_list):
-            if _result.shape[0] - 2 <= max_vars:
+            if _result.shape[0] <= max_vars:
                 m = _result.shape[0]
             else:
-                m = max_vars + 3
+                m = max_vars + 1
 
             if baseline is None:
-                baseline = _result.iloc[0, _result.columns.get_loc("cumulative")]
+                baseline = _intercept_list[i]
+            prediction = _prediction_list[i]
 
-            df = prepare_data_for_break_down_plot(_result, baseline, max_vars, rounding_function, digits)
-
-            measure = ["relative"] * m
-            measure[m - 1] = "total"
+            df = plot.prepare_data_for_shap_plot(_result, baseline, prediction, max_vars, rounding_function, digits)
 
             fig.add_shape(
                 type='line',
@@ -225,40 +230,36 @@ class BreakDown:
                 row=i + 1, col=1
             )
 
-            fig.add_waterfall(
+            fig.add_bar(
                 orientation="h",
-                measure=measure,
                 y=df['variable'].tolist(),
                 x=df['contribution'].tolist(),
                 textposition="outside",
                 text=df['label_text'].tolist(),
-                connector={"mode": "spanning", "line": {"width": 1, "color": "#371ea3", "dash": "solid"}},
-                decreasing={"marker": {"color": vcolors[-1]}},
-                increasing={"marker": {"color": vcolors[1]}},
-                totals={"marker": {"color": vcolors[0]}},
+                marker_color=[vcolors[int(c)] for c in df['sign'].tolist()],
                 base=baseline,
                 hovertext=df['tooltip_text'].tolist(),
-                hoverinfo='text+delta',
+                hoverinfo='text',
                 hoverlabel={'bgcolor': 'rgba(0,0,0,0.8)'},
                 showlegend=False,
                 row=i + 1, col=1
             )
 
             fig.update_yaxes({'type': 'category', 'autorange': 'reversed', 'gridwidth': 2, 'automargin': True,
-                              'ticks': "outside", 'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True},
+                              'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True},
                              row=i + 1, col=1)
-
-            if min_max is None:
-                cum = df.cumulative.values
-                min_max_margin = cum.ptp() * 0.15
-                temp_min_max[0] = np.min([temp_min_max[0], cum.min() - min_max_margin])
-                temp_min_max[1] = np.max([temp_min_max[1], cum.max() + min_max_margin])
 
             fig.update_xaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                               'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True},
                              row=i + 1, col=1)
 
             plot_height += m * bar_width + (m + 1) * bar_width / 4
+
+            if min_max is None:
+                cum = df.contribution.values + baseline
+                min_max_margin = cum.ptp() * 0.15
+                temp_min_max[0] = np.min([temp_min_max[0], cum.min() - min_max_margin])
+                temp_min_max[1] = np.max([temp_min_max[1], cum.max() + min_max_margin])
 
         plot_height += (n - 1) * 70
 

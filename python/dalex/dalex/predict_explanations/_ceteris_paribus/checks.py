@@ -4,7 +4,7 @@ from copy import deepcopy
 import numpy as np
 import pandas as pd
 
-from .utils import calculate_variable_split
+from . import utils
 
 
 def check_variables(variables, explainer, variable_splits):
@@ -85,12 +85,14 @@ def check_variable_splits(variable_splits,
     Validate variable splits
     """
     if variable_splits is None:
-        variable_splits_ = calculate_variable_split(data,
-                                                    variables,
-                                                    grid_points,
-                                                    variable_splits_type,
-                                                    variable_splits_with_obs,
-                                                    new_observation)
+        variable_splits_ = utils.calculate_variable_split(
+            data,
+            variables,
+            grid_points,
+            variable_splits_type,
+            variable_splits_with_obs,
+            new_observation
+        )
     else:
         if not isinstance(variable_splits, dict):
             raise TypeError("variable_splits has to be a dict")
