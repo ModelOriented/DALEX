@@ -437,14 +437,12 @@ class Explainer:
 
         if type == 'lime':
             _global_checks.global_check_import('lime', 'LIME explanations')
-            from lime.lime_tabular import LimeTabularExplainer
-            new_observation = checks.check_new_observation_lime(new_observation)
+            _new_observation = checks.check_new_observation_lime(new_observation)
+            _explanation = utils.create_lime_explanation(self, _new_observation, **kwargs)
+        else:
+            raise TypeError("Wrong 'type' parameter.")
 
-            explainer_dict, explanation_dict = utils.unpack_kwargs_lime(self, new_observation, **kwargs)
-            lime_tabular_explainer = LimeTabularExplainer(**explainer_dict)
-            explanation = lime_tabular_explainer.explain_instance(**explanation_dict)
-
-            return explanation
+        return _explanation
 
     def model_performance(self,
                           model_type=None,

@@ -213,7 +213,8 @@ def check_predict_function_and_model_type(predict_function, model_type,
             try:
                 y_hat = predict_function(model, data)
                 verbose_cat(str.format("  -> predicted values  : min = {0:.3}, mean = {1:.3}, max = {2:.3}",
-                                       np.min(y_hat), np.mean(y_hat), np.max(y_hat)), verbose=verbose)
+                                       np.min(y_hat).astype(np.float), np.mean(y_hat).astype(np.float),
+                                       np.max(y_hat).astype(np.float)), verbose=verbose)
 
             except (Exception, ValueError, TypeError) as error:
                 # verbose_cat("  -> predicted values  : the predict_function returns an error when executed \n",
@@ -261,7 +262,8 @@ def check_residual_function(residual_function, predict_function, model, data, y,
         try:
             residuals = residual_function(model, data, y)
             verbose_cat(str.format("  -> residuals         : min = {0:.3}, mean = {1:.3}, max = {2:.3}",
-                                   np.min(residuals), np.mean(residuals), np.max(residuals)), verbose=verbose)
+                                   np.min(residuals).astype(np.float), np.mean(residuals).astype(np.float),
+                                   np.max(residuals).astype(np.float)), verbose=verbose)
         except (Exception, ValueError, TypeError) as error:
             verbose_cat("  -> residuals         :  'residual_function' returns an Error when executed:",
                         verbose=verbose)

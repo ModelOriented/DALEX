@@ -21,3 +21,5 @@ python/dalex/pdoc_template/*
 *.ipynb
 
 *.zip
+
+**/catboost_info/*

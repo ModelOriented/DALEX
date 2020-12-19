@@ -8,6 +8,12 @@ v1.0.0 (draft)
 These are summed up in ([#368](https://github.com/ModelOriented/DALEX/issues/368)):
 
 * rename modules: `dataset_level` into `model_expanations`, `instance_level` into `predict_explanations`, `_arena` module into `arena` 
+* use `__dir__` method to define autocompletion in IPython environment - show only `['Explainer', 'Arena', 'fairness', 'datasets']`
+* add `plot` method and `result` attribute to `LimeExplanation` (use `lime.explanation.Explanation.as_pyplot_figure()` and `lime.explanation.Explanation.as_list()`)
+
+#### fixes
+
+* fixed wrong verbose output when any value in `y_hat/residuals` was an `int` not `float`
 
 #### other
 
