@@ -52,17 +52,16 @@ class Explainer:
         (default is the class attribute extracted from the model).
         NOTE: Use if your model is wrapped with Pipeline.
     verbose : bool
-        Print diagnostic messages during the Explainer initialization (default is True).
+        Print diagnostic messages during the Explainer initialization (default is `True`).
     precalculate : bool
         Calculate y_hat (predicted values) and residuals during the Explainer
-        initialization (default is True).
+        initialization (default is `True`).
     model_type : {'regression', 'classification', None}
         Model task type that is used e.g. in `model_performance()` and `model_parts()`
         (default is try to extract the information from the model, else `None`).
     model_info: dict, optional
         Dict `{'model_package', 'model_package_version', ...}` containing additional
         information to be stored.
-    colorize : TODO
 
     Attributes
     --------
@@ -112,21 +111,11 @@ class Explainer:
                  verbose=True,
                  precalculate=True,
                  model_type=None,
-                 model_info=None,
-                 colorize=True):
+                 model_info=None):
 
+        # TODO: colorize
+        
         helper.verbose_cat("Preparation of a new explainer is initiated\n", verbose=verbose)
-
-        # if requested, remove colors
-        if not colorize:
-            color_codes = {
-                'yellow_start': "",
-                'yellow_end': "",
-                'red_start': "",
-                'red_end': "",
-                'green_start': "",
-                'green_end': ""
-            }
 
         # REPORT: checks for data
         data, model = checks.check_data(data, model, verbose)
@@ -138,40 +127,40 @@ class Explainer:
         weights = checks.check_weights(weights, data, verbose)
 
         # REPORT: checks for model_class
-        model_class, model_info_ = checks.check_model_class(model_class, model, verbose)
+        model_class, _model_info = checks.check_model_class(model_class, model, verbose)
 
         # REPORT: checks for label
-        label, model_info_ = checks.check_label(label, model_class, model_info_, verbose)
+        label, _model_info = checks.check_label(label, model_class, _model_info, verbose)
 
         # REPORT: checks for predict_function and model_type
         # these two are together only because of `yhat_exception_dict`
-        predict_function, model_type, y_hat_, model_info_ = \
+        predict_function, model_type, y_hat, _model_info = \
             checks.check_predict_function_and_model_type(predict_function, model_type,
-                                                         model, data, model_class, model_info_,
+                                                         model, data, model_class, _model_info,
                                                          precalculate, verbose)
 
         # if data is specified then we may test predict_function
         # at this moment we have predict function
 
         # REPORT: checks for residual_function
-        residual_function, residuals, model_info_ = checks.check_residual_function(
-            residual_function, predict_function, model, data, y, model_info_, precalculate, verbose
-            )
+        residual_function, residuals, _model_info = checks.check_residual_function(
+            residual_function, predict_function, model, data, y, _model_info, precalculate, verbose
+        )
 
         # REPORT: checks for model_info
-        model_info = checks.check_model_info(model_info, model_info_, verbose)
+        _model_info = checks.check_model_info(model_info, _model_info, verbose)
 
         # READY to create an explainer
         self.model = model
         self.data = data
         self.y = y
         self.predict_function = predict_function
-        self.y_hat = y_hat_
+        self.y_hat = y_hat
         self.residual_function = residual_function
         self.residuals = residuals
         self.model_class = model_class
         self.label = label
-        self.model_info = model_info
+        self.model_info = _model_info
         self.weights = weights
         self.model_type = model_type
 
@@ -184,7 +173,7 @@ class Explainer:
 
         Parameters
         ----------
-        data : pd.DataFrame, np.ndarray 2d
+        data : pd.DataFrame, np.ndarray (2d)
             Data which will be used to make a prediction.
 
         Returns
@@ -255,7 +244,7 @@ class Explainer:
             Parameter specific for `shap`. Number of random paths to calculate
             variable attributions (default is 25).
         keep_distributions :  bool, optional
-            Save the distribution of partial predictions (default is False).
+            Save the distribution of partial predictions (default is `False`).
         label : str, optional
             Name to appear in result and plots. Overrides default.
         processes : int, optional
@@ -358,14 +347,14 @@ class Explainer:
             (default is 'uniform', which means uniform grid of points).
         variable_splits_with_obs: bool, optional
             Add variable values of `new_observation` data to the `variable_splits`
-            (default is True).
+            (default is `True`).
         label : str, optional
             Name to appear in result and plots. Overrides default.
         processes : int, optional
             Number of parallel processes to use in calculations. Iterated over `variables`
             (default is 1, which means no parallel computation).
         verbose : bool, optional
-            Print tqdm progress bar (default is True).
+            Print tqdm progress bar (default is `True`).
 
         Returns
         -----------
@@ -526,7 +515,7 @@ class Explainer:
             Group the variables to calculate their joint variable importance
             e.g. `{'X': ['x1', 'x2'], 'Y': ['y1', 'y2']}` (default is `None`).
         keep_raw_permutations: bool, optional
-            Save results for all permutation rounds (default is True).
+            Save results for all permutation rounds (default is `True`).
         label : str, optional
             Name to appear in result and plots. Overrides default.
         processes : int, optional
@@ -647,7 +636,7 @@ class Explainer:
             (default is 'uniform', which means uniform grid of points).
         center : bool, optional
             Theoretically Accumulated Profiles start at 0, but are centered to compare
-            them with Partial Dependence Profiles (default is True, which means center
+            them with Partial Dependence Profiles (default is `True`, which means center
             around the average y_hat calculated on the data sample).
         label : str, optional
             Name to appear in result and plots. Overrides default.
@@ -657,7 +646,7 @@ class Explainer:
         random_state : int, optional
             Set seed for random number generator (default is random seed).
         verbose : bool, optional
-            Print tqdm progress bar (default is True).
+            Print tqdm progress bar (default is `True`).
 
         Returns
         -----------
@@ -847,7 +836,7 @@ class Explainer:
         kwargs : dict
             Keyword arguments. It supports `verbose`, which is a boolean
             value telling if additional output should be printed
-            (True) or not (False, default).
+            (`True`) or not (`False`, default).
 
         Returns
         -----------

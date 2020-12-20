@@ -66,7 +66,7 @@ class CeterisParibus:
                  variable_splits_with_obs=False,
                  processes=1):
 
-        _processes_ = checks.check_processes(processes)
+        _processes = checks.check_processes(processes)
         _variable_splits_type = checks.check_variable_splits_type(variable_splits_type)
 
         self.variables = variables
@@ -76,7 +76,7 @@ class CeterisParibus:
         self.variable_splits_with_obs = variable_splits_with_obs
         self.result = None
         self.new_observation = None
-        self.processes = _processes_
+        self.processes = _processes
 
     def _repr_html_(self):
         return self.result._repr_html_()

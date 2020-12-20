@@ -78,13 +78,13 @@ class AggregatedProfiles:
                  random_state=None):
 
         checks.check_variable_type(variable_type)
-        variables_ = checks.check_variables(variables)
-        groups_ = checks.check_groups(groups)
+        _variables = checks.check_variables(variables)
+        _groups = checks.check_groups(groups)
 
         self.variable_type = variable_type
-        self.groups = groups_
+        self.groups = _groups
         self.type = type
-        self.variables = variables_
+        self.variables = _variables
         self.span = span
         self.center = center
         self.result = None

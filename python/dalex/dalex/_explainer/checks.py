@@ -386,7 +386,7 @@ def check_new_observation_lime(new_observation):
         new_observation_ = new_observation_.to_numpy()
     elif isinstance(new_observation_, np.ndarray):
         if new_observation_.ndim == 2:
-            if new_observation.shape[0] != 1:
+            if new_observation_.shape[0] != 1:
                 raise ValueError("'new_observation' should be a single row")
             # make 2D array 1D
             new_observation_ = new_observation_.flatten()
@@ -395,10 +395,10 @@ def check_new_observation_lime(new_observation):
     elif isinstance(new_observation_, list):
         new_observation_ = np.array(new_observation_)
     elif isinstance(new_observation_, pd.DataFrame):
-        if new_observation.shape[0] != 1:
+        if new_observation_.shape[0] != 1:
             raise ValueError("'new_observation' should be a single row")
         else:
-            new_observation_ = new_observation.to_numpy().flatten()
+            new_observation_ = new_observation_.to_numpy().flatten()
     else:
         raise TypeError("'new_observation' must be a list or numpy.ndarray (1d) or pandas.Series or pandas.DataFrame")
 
