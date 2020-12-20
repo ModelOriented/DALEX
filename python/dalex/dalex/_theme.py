@@ -61,7 +61,7 @@ def fig_update_line_plot(fig, title, y_title, plot_height, hovermode):
         elif type(fig.layout[axis]) == go.layout.XAxis:  # remove redundant axis labels
             fig.layout[axis].title.text = ''
         elif axis == 'annotations':
-            for index, annotation in enumerate(fig.layout[axis]):  # fix annotation text
+            for _, annotation in enumerate(fig.layout[axis]):  # fix annotation text
                 annotation.update(text=annotation.text.split("=")[-1],
                                   font=dict(size=13))  # , x=0, xref='x' + str(index+1))  # title on the left bug
 
@@ -83,6 +83,51 @@ def fig_update_line_plot(fig, title, y_title, plot_height, hovermode):
         margin=dict(t=78, b=71, r=30),
         hovermode=hovermode,
         title=dict(text=title, x=0.15, font=dict(size=16)),  # y=1 - 50/plot_height,
+        legend=dict(
+            title=dict(font=dict(size=12)),
+            orientation="h",
+            yanchor="bottom",
+            y=1 + 30 / plot_height,
+            xanchor="right",
+            x=1,
+            itemsizing='constant',
+            font=dict(size=11)
+        ),
+        height=plot_height
+    )
+
+    return fig
+
+def fig_update_bar_plot(fig, title, x_title, plot_height, hovermode):
+    
+    for axis in fig.layout:
+        if type(fig.layout[axis]) == go.layout.YAxis:  # remove redundant axis labels
+            fig.layout[axis].title.text = ''
+        elif type(fig.layout[axis]) == go.layout.XAxis:  # remove redundant axis labels
+            fig.layout[axis].title.text = ''
+        elif axis == 'annotations':
+            for _, annotation in enumerate(fig.layout[axis]):  # fix annotation text
+                annotation.update(text=annotation.text.split("=")[-1],
+                                  font=dict(size=13))  
+
+    fig.update_layout(
+        # keep the original annotations and add axis title
+        annotations=list(fig.layout.annotations) + [
+            go.layout.Annotation(
+                x=0.5,
+                y=-60/plot_height,
+                font=dict(size=13),
+                showarrow=False,
+                text=x_title,
+                textangle=0,
+                xref="paper",
+                yref="paper"
+            )
+        ],
+        font=dict(color="#371ea3"),
+        margin=dict(t=78, b=71, r=30),
+        hovermode=hovermode,
+        title=dict(text=title, x=0.15, font=dict(size=16)),
         legend=dict(
             title=dict(font=dict(size=12)),
             orientation="h",

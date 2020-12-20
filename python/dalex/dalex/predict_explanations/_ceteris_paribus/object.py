@@ -142,7 +142,7 @@ class CeterisParibus:
              show_observations=True,
              title="Ceteris Paribus Profiles",
              y_title='prediction',
-             horizontal_spacing=0.05,
+             horizontal_spacing=None,
              vertical_spacing=None,
              show=True):
         """Plot the Ceteris Paribus explanation
@@ -169,9 +169,9 @@ class CeterisParibus:
         title : str, optional
             Title of the plot (default is "Ceteris Paribus Profiles").
         y_title : str, optional
-            Title of the x axis (default is "prediction").
+            Title of the y/x axis (default is "prediction").
         horizontal_spacing : float <0, 1>, optional
-            Ratio of horizontal space between the plots (default is 0.05).
+            Ratio of horizontal space between the plots (default depends on `variable_type`).
         vertical_spacing : float <0, 1>, optional
             Ratio of vertical space between the plots (default is 0.3/number of rows).
         show : bool, optional
@@ -183,8 +183,6 @@ class CeterisParibus:
         None or plotly.graph_objects.Figure
             Return figure that can be edited or saved. See `show` parameter.
         """
-
-        # TODO: numerical+categorical in one plot https://github.com/plotly/plotly.py/issues/2647
 
         if variable_type not in ("numerical", "categorical"):
             raise TypeError("variable_type should be 'numerical' or 'categorical'")
@@ -213,8 +211,8 @@ class CeterisParibus:
             _global_checks.global_raise_objects_class(objects, self.__class__)
 
         if _include is False and show_observations:
-                warnings.warn("show_observations will be set to False,"
-                              "because the variable_splits_with_obs attribute is False"
+                warnings.warn("'show_observations' parameter changed to False,"
+                              "because the 'variable_splits_with_obs' attribute is False"
                               "See `variable_splits_with_obs` parameter in `predict_profile`.")
                 show_observations = False
 
@@ -236,7 +234,7 @@ class CeterisParibus:
                 # change to categorical
                 variable_type = "categorical"
                 # send message
-                warnings.warn("'variable_type' changed to 'categorical' due to lack of numerical variables.")
+                warnings.warn("'variable_type' parameter changed to 'categorical' due to lack of numerical variables.")
                 # take all
                 variable_names = all_variables
             elif variables is not None and len(variable_names) != len(variables):
@@ -275,17 +273,18 @@ class CeterisParibus:
         n = len(variable_names)
         facet_nrow = int(np.ceil(n / facet_ncol))
         if vertical_spacing is None:
-            vertical_spacing = 0.3 / facet_nrow
+            vertical_spacing = 0.3 / facet_nrow if variable_type == 'numerical' else 0.05
+        if horizontal_spacing is None:
+            horizontal_spacing = 0.05 if variable_type == 'numerical' else 0.1
 
         plot_height = 78 + 71 + facet_nrow * (280 + 60)
 
-        m = len(_result_df[color].dropna().unique())
-
-        _result_df[color] = _result_df[color].astype(object)  # prevent error when using pd.StringDtype
         _result_df = _result_df.assign(_text_=_result_df.apply(lambda obs: plot.tooltip_text(obs), axis=1))
 
-        if variable_type == "numerical":
-
+        if variable_type == "numerical":    
+            m = len(_result_df[color].dropna().unique())
+            _result_df[color] = _result_df[color].astype(object)  # prevent error when using pd.StringDtype
+        
             fig = px.line(_result_df,
                           x="_x_", y="_yhat_", color=color, facet_col="_vname_", line_group='_ids_',
                           category_orders={"_vname_": list(variable_names)},
@@ -323,19 +322,23 @@ class CeterisParibus:
 
                 for _, value in enumerate(fig_points.data):
                     fig.add_trace(value)
+                    
+                fig = _theme.fig_update_line_plot(fig, title, y_title, plot_height, 'closest')
 
         else:
-            if len(_result_df['_ids_'].unique()) > 1 and len(_result_df['_label_'].unique()) == 1:
+            if color=="_label_" and len(_result_df['_ids_'].unique()) > 1 and len(_result_df['_label_'].unique()) == 1:
+                warnings.warn("'color' parameter changed to '_ids_' because there are multiple observations for one model.")
                 color = '_ids_'
-                m = len(_result_df[color].dropna().unique())
-            elif len(_result_df['_ids_'].unique()) == len(_result_df['_label_'].unique()):
-                m = len(_result_df[color].dropna().unique())
-            elif len(_result_df['_ids_'].unique()) > 1:  # https://github.com/plotly/plotly.py/issues/2657
-                raise TypeError("Please pick one observation per label.")
+            elif color=="_label_" and len(_result_df['_ids_'].unique()) != len(_result_df['_label_'].unique()): 
+                # https://github.com/plotly/plotly.py/issues/2657
+                raise TypeError("Please pick one observation per label or change the `color` parameter.")
 
+            m = len(_result_df[color].dropna().unique())
+            _result_df[color] = _result_df[color].astype(object)  # prevent error when using pd.StringDtype
+            
             _result_df = _result_df.assign(_diff_=lambda x: x['_yhat_'] - x['_original_yhat_'])
             fig = px.bar(_result_df,
-                         x="_x_", y="_diff_", color=color, facet_col="_vname_",
+                         x="_diff_", y="_x_", color=color, facet_col="_vname_",
                          category_orders={"_vname_": list(variable_names)},
                          labels={'_yhat_': 'prediction', '_label_': 'label', '_ids_': 'id'},  # , color: 'group'},
                          # hover_data={'_yhat_': ':.3f', '_ids_': True, '_vname_': False, color: False},
@@ -345,26 +348,26 @@ class CeterisParibus:
                          facet_row_spacing=vertical_spacing,
                          facet_col_spacing=horizontal_spacing,
                          template="none",
-                         color_discrete_sequence=_theme.get_default_colors(m, 'line'),  # bar was forgotten
-                         barmode='group')  \
+                         color_discrete_sequence=_theme.get_default_colors(m, 'line'),
+                         barmode='group',
+                         orientation='h')  \
                     .update_traces(dict(opacity=alpha),
                                    hovertemplate="%{customdata[0]}<extra></extra>") \
-                    .update_xaxes({'matches': None, 'showticklabels': True,
-                                   'type': 'category', 'gridwidth': 2, 'automargin': True,  # autorange="reversed"
+                    .update_yaxes({'matches': None, 'showticklabels': True,
+                                   'type': 'category', 'gridwidth': 2, 'automargin': True, 
                                    'ticks': "outside", 'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True}) \
-                    .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
+                    .update_xaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                    'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True,
                                    'range': min_max})
 
             # add hline https://github.com/plotly/plotly.py/issues/2141
-            for i, bar in enumerate(fig.data):
-                fig.add_shape(type='line', y0=bar.base[0], y1=bar.base[0], x0=-1, x1=len(bar.x),
-                              xref=bar.xaxis, yref=bar.yaxis, layer='below',
+            for _, bar in enumerate(fig.data):
+                fig.add_vline(x=bar.base[0], layer='below',
                               line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'})
 
-        fig = _theme.fig_update_line_plot(fig, title, y_title, plot_height, 'closest')
+            fig = _theme.fig_update_bar_plot(fig, title, y_title, plot_height, 'closest')
+            
         fig.update_layout(hoverlabel=dict(bgcolor='rgba(0,0,0,0.8)'))
-
         if show:
             fig.show(config=_theme.get_default_config())
         else:
