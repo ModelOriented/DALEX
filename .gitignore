@@ -3,6 +3,7 @@
 .RData
 
 python/misc/*
+python/html/*
 python/dalex/.vscode/*
 python/dalex/pdoc_template/*
 

@@ -220,14 +220,14 @@ class Explainer:
                       processes=1,
                       random_state=None,
                       **kwargs):
-        """Calculate instance-level variable attributions as Break Down, Shapley Values or Shap Values
+        """Calculate predict-level variable attributions as Break Down, Shapley Values or Shap Values
 
         Parameters
         -----------
         new_observation : pd.Series or np.ndarray (1d) or pd.DataFrame (1,p)
             An observation for which a prediction needs to be explained.
-        type : {'break_down_interactions', 'break_down', 'shap', 'shap_wrapper}
-            Type of variable attributions (default is 'break_down_interactions').
+        type : {'break_down_interactions', 'break_down', 'shap', 'shap_wrapper'}
+            Type of variable attributions (default is `'break_down_interactions'`).
         order : list of int or str, optional
             Parameter specific for `break_down_interactions` and `break_down`. Use a fixed
             order of variables for attribution calculation. Use integer values  or string
@@ -235,31 +235,31 @@ class Explainer:
         interaction_preference : int, optional
             Parameter specific for `break_down_interactions` type. Specify which interactions
             will be present in an explanation. The larger the integer, the more frequently
-            interactions will be presented (default is 1).
+            interactions will be presented (default is `1`).
         path : list of int, optional
             Parameter specific for `shap`. If specified, then attributions for this path
-            will be plotted (default is 'average', which plots attribution means for
+            will be plotted (default is `'average'`, which plots attribution means for
             `B` random paths).
         B : int, optional
             Parameter specific for `shap`. Number of random paths to calculate
-            variable attributions (default is 25).
+            variable attributions (default is `25`).
         keep_distributions :  bool, optional
             Save the distribution of partial predictions (default is `False`).
         label : str, optional
             Name to appear in result and plots. Overrides default.
         processes : int, optional
             Parameter specific for `shap`. Number of parallel processes to use in calculations.
-            Iterated over `B` (default is 1, which means no parallel computation).
+            Iterated over `B` (default is `1`, which means no parallel computation).
         random_state : int, optional
             Set seed for random number generator (default is random seed).
         kwargs : dict
-            Used only for 'shap_wrapper'. Pass `shap_explainer_type` to specify, which
+            Used only for `'shap_wrapper'`. Pass `shap_explainer_type` to specify, which
             Explainer shall be used: `{'TreeExplainer', 'DeepExplainer', 'GradientExplainer',
             'LinearExplainer', 'KernelExplainer'}` (default is `None`, which automatically
             chooses an Explainer to use).
-            Also keyword arguments passed to one of the: shap.TreeExplainer.shap_values,
+            Also keyword arguments passed to one of the: `shap.TreeExplainer.shap_values,
             shap.DeepExplainer.shap_values, shap.GradientExplainer.shap_values,
-            shap.LinearExplainer.shap_values, shap.KernelExplainer.shap_values.
+            shap.LinearExplainer.shap_values, shap.KernelExplainer.shap_values`.
             See https://github.com/slundberg/shap
 
         Returns
@@ -321,21 +321,21 @@ class Explainer:
                         processes=1,
                         label=None,
                         verbose=True):
-        """Calculate instance-level variable profiles as Ceteris Paribus
+        """Calculate predict-level variable profiles as Ceteris Paribus
 
         Parameters
         -----------
         new_observation : pd.DataFrame or np.ndarray or pd.Series
             Observations for which predictions need to be explained.
         type : {'ceteris_paribus', TODO: 'oscilations'}
-            Type of variable profiles (default is 'ceteris_paribus').
+            Type of variable profiles (default is `'ceteris_paribus'`).
         y : pd.Series or np.ndarray (1d), optional
             Target variable with the same length as `new_observation`.
         variables : str or array_like of str, optional
             Variables for which the profiles will be calculated
             (default is `None`, which means all of the variables).
         grid_points : int, optional
-            Maximum number of points for profile calculations (default is 101).
+            Maximum number of points for profile calculations (default is `101`).
             NOTE: The final number of points may be lower than `grid_points`,
             eg. if there is not enough unique values for a given variable.
         variable_splits : dict of lists, optional
@@ -343,8 +343,8 @@ class Explainer:
             (default is `None`, which means that they will be calculated using one of
             `variable_splits_type` and the `data` attribute).
         variable_splits_type : {'uniform', 'quantiles'}, optional
-            Way of calculating `variable_splits`. Set 'quantiles' for percentiles.
-            (default is 'uniform', which means uniform grid of points).
+            Way of calculating `variable_splits`. Set `'quantiles'` for percentiles.
+            (default is `'uniform'`, which means uniform grid of points).
         variable_splits_with_obs: bool, optional
             Add variable values of `new_observation` data to the `variable_splits`
             (default is `True`).
@@ -352,7 +352,7 @@ class Explainer:
             Name to appear in result and plots. Overrides default.
         processes : int, optional
             Number of parallel processes to use in calculations. Iterated over `variables`
-            (default is 1, which means no parallel computation).
+            (default is `1`, which means no parallel computation).
         verbose : bool, optional
             Print tqdm progress bar (default is `True`).
 
@@ -405,7 +405,7 @@ class Explainer:
             An observation for which a prediction needs to be explained.
         type : {'lime'}
             Type of explanation method
-            (default is 'lime', which uses the lime package to create an explanation).
+            (default is `'lime'`, which uses the lime package to create an explanation).
         kwargs : dict
             Keyword arguments passed to the lime.lime_tabular.LimeTabularExplainer object
             and the LimeTabularExplainer.explain_instance method. Exceptions are:
@@ -437,7 +437,7 @@ class Explainer:
                           model_type=None,
                           cutoff=0.5,
                           label=None):
-        """Calculate dataset-level model performance measures
+        """Calculate model-level model performance measures
 
         Parameters
         -----------
@@ -446,7 +446,7 @@ class Explainer:
             (default is `None`, which means try to extract from the `model_type` attribute).
         cutoff : float, optional
             Cutoff for predictions in classification models. Needed for measures like
-            recall, precision, acc, f1 (default is 0.5).
+            recall, precision, acc, f1 (default is `0.5`).
         label : str, optional
             Name to appear in result and plots. Overrides default.
 
@@ -492,21 +492,21 @@ class Explainer:
                     random_state=None,
                     **kwargs):
 
-        """Calculate dataset-level variable importance
+        """Calculate model-level variable importance
 
         Parameters
         -----------
         loss_function : {'rmse', '1-auc', 'mse', 'mae', 'mad'} or function, optional
             If string, then such loss function will be used to assess variable importance
-            (default is 'rmse' or `1-auc`, depends on `model_type` attribute).
-        type : {'variable_importance', 'ratio', 'difference', 'shap_wrapper'}, optional
+            (default is `'rmse'` or `'1-auc'`, depends on `model_type` attribute).
+        type : {'variable_importance', 'ratio', 'difference', 'shap_wrapper'}
             Type of transformation that will be applied to dropout loss.
-            (default is 'variable_importance', which is Permutational Variable Importance).
+            (default is `'variable_importance'`, which is Permutational Variable Importance).
         N : int, optional
             Number of observations that will be sampled from the `data` attribute before
-            the calculation of variable importance. `None` means all `data` (default is 1000).
+            the calculation of variable importance. `None` means all `data` (default is `1000`).
         B : int, optional
-            Number of permutation rounds to perform on each variable (default is 10).
+            Number of permutation rounds to perform on each variable (default is `10`).
         variables : array_like of str, optional
             Variables for which the importance will be calculated
             (default is `None`, which means all of the variables).
@@ -520,16 +520,16 @@ class Explainer:
             Name to appear in result and plots. Overrides default.
         processes : int, optional
             Number of parallel processes to use in calculations. Iterated over `B`
-            (default is 1, which means no parallel computation).
+            (default is `1`, which means no parallel computation).
         random_state : int, optional
             Set seed for random number generator (default is random seed).
         kwargs : dict
             Used only for 'shap_wrapper'. Pass `shap_explainer_type` to specify, which
             Explainer shall be used: `{'TreeExplainer', 'DeepExplainer', 'GradientExplainer',
             'LinearExplainer', 'KernelExplainer'}`.
-            Also keyword arguments passed to one of the: shap.TreeExplainer.shap_values,
+            Also keyword arguments passed to one of the: `shap.TreeExplainer.shap_values,
             shap.DeepExplainer.shap_values, shap.GradientExplainer.shap_values,
-            shap.LinearExplainer.shap_values, shap.KernelExplainer.shap_values.
+            shap.LinearExplainer.shap_values, shap.KernelExplainer.shap_values`.
             See https://github.com/slundberg/shap
 
         Returns
@@ -604,45 +604,46 @@ class Explainer:
                       random_state=None,
                       verbose=True):
 
-        """Calculate dataset-level variable profiles as Partial or Accumulated Dependence
+        """Calculate model-level variable profiles as Partial or Accumulated Dependence
 
         Parameters
         -----------
         type : {'partial', 'accumulated', 'conditional'}
-            Type of model profiles (default is 'partial' for Partial Dependence Profiles).
+            Type of model profiles
+            (default is `'partial'` for Partial Dependence Profiles).
         N : int, optional
             Number of observations that will be sampled from the `data` attribute before
-            the calculation of variable profiles. `None` means all `data` (default is 300).
+            the calculation of variable profiles. `None` means all `data` (default is `300`).
         variables : str or array_like of str, optional
             Variables for which the profiles will be calculated
             (default is `None`, which means all of the variables).
         variable_type : {'numerical', 'categorical'}
             Calculate the profiles for numerical or categorical variables
-            (default is 'numerical').
+            (default is `'numerical'`).
         groups : str or array_like of str, optional
             Names of categorical variables that will be used for profile grouping
             (default is `None`, which means no grouping).
         span : float, optional
-            Smoothing coefficient used as sd for gaussian kernel (default is 0.25).
+            Smoothing coefficient used as sd for gaussian kernel (default is `0.25`).
         grid_points : int, optional
-            Maximum number of points for profile calculations (default is 101).
+            Maximum number of points for profile calculations (default is `101`).
             NOTE: The final number of points may be lower than `grid_points`,
-            eg. if there is not enough unique values for a given variable.
+            e.g. if there is not enough unique values for a given variable.
         variable_splits : dict of lists, optional
             Split points for variables e.g. `{'x': [0, 0.2, 0.5, 0.8, 1], 'y': ['a', 'b']}`
             (default is `None`, which means that they will be distributed uniformly).
         variable_splits_type : {'uniform', 'quantiles'}, optional
             Way of calculating `variable_splits`. Set 'quantiles' for percentiles.
-            (default is 'uniform', which means uniform grid of points).
+            (default is `'uniform'`, which means uniform grid of points).
         center : bool, optional
-            Theoretically Accumulated Profiles start at 0, but are centered to compare
+            Theoretically Accumulated Profiles start at `0`, but are centered to compare
             them with Partial Dependence Profiles (default is `True`, which means center
-            around the average y_hat calculated on the data sample).
+            around the average `y_hat` calculated on the data sample).
         label : str, optional
             Name to appear in result and plots. Overrides default.
         processes : int, optional
             Number of parallel processes to use in calculations. Iterated over `variables`
-            (default is 1, which means no parallel computation).
+            (default is `1`, which means no parallel computation).
         random_state : int, optional
             Set seed for random number generator (default is random seed).
         verbose : bool, optional
@@ -703,7 +704,7 @@ class Explainer:
     def model_diagnostics(self,
                           variables=None,
                           label=None):
-        """Calculate dataset-level residuals diagnostics
+        """Calculate model-level residuals diagnostics
 
         Parameters
         -----------
@@ -753,29 +754,28 @@ class Explainer:
         -----------
         type : {'tree', 'linear'}
             Type of a surrogate model. This can be a decision tree or a linear model
-            (default is 'tree').
+            (default is `'tree'`).
         max_vars : int, optional
             Maximum number of variables that will be used in surrogate model training.
-            These are the most important variables to the black-box model (default is 5).
+            These are the most important variables to the black-box model (default is `5`).
         max_depth : int, optional
             The maximum depth of the tree. If `None`, then nodes are expanded until all
             leaves are pure or until all leaves contain less than min_samples_split
-            samples (default is 3 for interpretable plot).
+            samples (default is `3` for interpretable plot).
         kwargs : dict
-            Keyword arguments passed to one of the: sklearn.tree.DecisionTreeClassifier,
+            Keyword arguments passed to one of the: `sklearn.tree.DecisionTreeClassifier,
             sklearn.tree.DecisionTreeRegressor, sklearn.linear_model.LogisticRegression,
-            sklearn.linear_model.LinearRegression
+            sklearn.linear_model.LinearRegression`
 
 
         Returns
         -----------
-        sklearn.tree.DecisionTreeClassifier, sklearn.tree.DecisionTreeRegressor,
-        sklearn.linear_model.LogisticRegression, sklearn.linear_model.LinearRegression
-            A surrogate model with additional:
-                - `plot` method
-                - `performance` attribute
-                - `feature_names` attribute
-                - `class_names` attribute
+        One of: sklearn.tree.DecisionTreeClassifier, sklearn.tree.DecisionTreeRegressor, sklearn.linear_model.LogisticRegression, sklearn.linear_model.LinearRegression
+        A surrogate model with additional:
+            - `plot` method
+            - `performance` attribute
+            - `feature_names` attribute
+            - `class_names` attribute
 
         Notes
         -----------
@@ -803,14 +803,14 @@ class Explainer:
                        cutoff=0.5,
                        label=None,
                        **kwargs):
-        """Creates a dataset-level fairness explanation that enables bias detection
+        """Creates a model-level fairness explanation that enables bias detection
 
         This method returns a GroupFairnessClassification object that for now
         supports only classification models. GroupFairnessClassification object
         works as a wrapper of the protected attribute and the Explainer from which
         `y` and `y_hat` attributes were extracted. Along with an information about
         privileged subgroup (value in the `protected` parameter), those 3 vectors
-        create triplet (y, y_hat, protected) which is a base for all further
+        create triplet `(y, y_hat, protected)` which is a base for all further
         fairness calculations and visualizations.
 
         Parameters
@@ -827,10 +827,9 @@ class Explainer:
             It needs to be a string present in `protected`.
         cutoff : float or dict, optional
             Threshold for probabilistic output of a classifier.
-            It might be:
-                float - same for all subgroups from `protected`
-                dict - individually adjusted for each subgroup
-                       (must have values from `protected` as keys).
+            It might be: a `float` - same for all subgroups from `protected`,
+            or a `dict` - individually adjusted for each subgroup
+            (must have values from `protected` as keys).
         label : str, optional
             Name to appear in result and plots. Overrides default.
         kwargs : dict
@@ -842,23 +841,24 @@ class Explainer:
         -----------
         GroupFairnessClassification class object (a subclass of _FairnessObject)
             Explanation object containing the main result attribute and the plot method.
-            It has the following main attributes:
-                result : pd.DataFrame
-                    Scaled `metric_scores`. The scaling is performed by
-                    dividing all metric scores by scores of the privileged subgroup.
-                metric_scores : pd.DataFrame
-                    Raw metric scores for each subgroup.
-                parity_loss : pd.Series
-                    It is a summarised `result`. From each metric (column) a logarithm
-                    is calculated, then the absolute value is taken and summarised.
-                    Therefore, for metric M:
-                        `parity_loss` is sum(abs(log(M_i / M_privileged)))
-                         where M_i is the metric score for subgroup i.
-                label : str
-                    `label` attribute from the Explainer object.
-                     Labels must be unique when plotting.
-                cutoff : dict
-                    A float value for each subgroup (key in dict).
+            
+        It has the following main attributes:
+            - result : `pd.DataFrame`
+                Scaled `metric_scores`. The scaling is performed by
+                dividing all metric scores by scores of the privileged subgroup.
+            - metric_scores : `pd.DataFrame`
+                Raw metric scores for each subgroup.
+            - parity_loss : `pd.Series`
+                It is a summarised `result`. From each metric (column) a logarithm
+                is calculated, then the absolute value is taken and summarised.
+                Therefore, for metric M:
+                    `parity_loss` is a `sum(abs(log(M_i / M_privileged)))`
+                        where `M_i` is the metric score for subgroup `i`.
+            - label : `str`
+                `label` attribute from the Explainer object.
+                    Labels must be unique when plotting.
+            - cutoff : `dict`
+                A float value for each subgroup (key in dict).
 
         Notes
         -----------
@@ -897,7 +897,7 @@ class Explainer:
 
         Parameters
         -----------
-        args : ...
+        args : dict
             Positional arguments passed to the pickle.dumps function.
         kwargs : dict
             Keyword arguments passed to the pickle.dumps function.
@@ -928,7 +928,7 @@ class Explainer:
         -----------
         file : ...
             A file object opened for binary writing, or an io.BytesIO instance.
-        args : ...
+        args : dict
             Positional arguments passed to the pickle.dump function.
         kwargs : dict
             Keyword arguments passed to the pickle.dump function.
@@ -958,7 +958,7 @@ class Explainer:
         use_defaults : bool
             Replace empty `predict_function` and `residual_function` with default
             values like in Explainer initialization (default is `True`).
-        args : ...
+        args : dict
             Positional arguments passed to the pickle.loads function.
         kwargs : dict
             Keyword arguments passed to the pickle.loads function.
@@ -993,7 +993,7 @@ class Explainer:
         use_defaults : bool
             Replace empty `predict_function` and `residual_function` with default
             values like in Explainer initialization (default is `True`).
-        args : ...
+        args : dict
             Positional arguments passed to the pickle.load function.
         kwargs : dict
             Keyword arguments passed to the pickle.load function.

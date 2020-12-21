@@ -6,20 +6,20 @@ from ... import _theme, _global_checks
 
 
 class Shap:
-    """Calculate instance level variable attributions as Shapley Values
+    """Calculate predict-level variable attributions as Shapley Values
 
     Parameters
     -----------
     path : list of int, optional
         If specified, then attributions for this path will be plotted
-        (default is 'average', which plots attribution means for `B` random paths).
+        (default is `'average'`, which plots attribution means for `B` random paths).
     B : int, optional
-        Number of random paths to calculate variable attributions (default is 25).
+        Number of random paths to calculate variable attributions (default is `25`).
     keep_distributions : bool, optional
-        Save the distribution of partial predictions (default is False).
+        Save the distribution of partial predictions (default is `False`).
     processes : int, optional
         Number of parallel processes to use in calculations. Iterated over `B`
-        (default is 1, which means no parallel computation).
+        (default is `1`, which means no parallel computation).
     random_state : int, optional
         Set seed for random number generator (default is random seed).
 
@@ -120,30 +120,30 @@ class Shap:
         Parameters
         -----------
         objects : Shap object or array_like of Shap objects
-            Additional objects to plot in subplots (default is None).
+            Additional objects to plot in subplots (default is `None`).
         baseline: float, optional
             Starting x point for bars (default is average prediction).
         max_vars : int, optional
             Maximum number of variables that will be presented for for each subplot
-            (default is 10).
+            (default is `10`).
         digits : int, optional
-            Number of decimal places (np.around) to round contributions.
-            See `rounding_function` parameter (default is 3).
+            Number of decimal places (`np.around`) to round contributions.
+            See `rounding_function` parameter (default is `3`).
         rounding_function : function, optional
-            A funciton that will be used for rounding numbers (default is np.around).
+            A function that will be used for rounding numbers (default is `np.around`).
         bar_width : float, optional
-            Width of bars in px (default is 16).
+            Width of bars in px (default is `16`).
         min_max : 2-tuple of float, optional
-            Range of x-axis (default is [min - 0.15*(max-min), max + 0.15*(max-min)]).
+            Range of OX axis (default is `[min-0.15*(max-min), max+0.15*(max-min)]`).
         vcolors : 3-tuple of str, optional
-            Color of bars (default is ["#8bdcbe", "#f05a71"]).
+            Color of bars (default is `["#8bdcbe", "#f05a71"]`).
         title : str, optional
-            Title of the plot (default is "Shapley Values").
+            Title of the plot (default is `"Shapley Values"`).
         vertical_spacing : float <0, 1>, optional
-            Ratio of vertical space between the plots (default is 0.2/number of rows).
+            Ratio of vertical space between the plots (default is `0.2/number of rows`).
         show : bool, optional
-            True shows the plot; False returns the plotly Figure object that can be
-            edited or saved using the `write_image()` method (default is True).
+            `True` shows the plot; `False` returns the plotly Figure object that can 
+            be edited or saved using the `write_image()` method (default is `True`).
 
         Returns
         -----------

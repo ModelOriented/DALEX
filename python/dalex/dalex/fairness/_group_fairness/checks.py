@@ -1,5 +1,5 @@
 import numpy as np
-from ..._explainer.helper import verbose_cat
+from ..._explainer import helper
 from .._basics.exceptions import ParameterCheckError
 
 
@@ -23,14 +23,14 @@ def check_cutoff(protected, cutoff, verbose):
 
         # if some keys are in protected but not in cutoff, add them to cutoff with default value
         if protected_set - cutoff_set != set():
-            verbose_cat("Adding default (0.5) cutoffs for subgroups not provided in cutoff keys", verbose)
+            helper.verbose_cat("Adding default (0.5) cutoffs for subgroups not provided in cutoff keys", verbose)
             for subgroup in protected_set - cutoff_set:
                 cutoff[subgroup] = 0.5
 
     elif isinstance(cutoff, float):
         if not 0 < cutoff < 1:
             raise ParameterCheckError("if cutoff is a float it should be in [0, 1] range")
-        verbose_cat("Converting cutoff to dict", verbose)
+        helper.verbose_cat("Converting cutoff to dict", verbose)
         subgroups = np.unique(protected)
         value = cutoff
         cutoff = {}

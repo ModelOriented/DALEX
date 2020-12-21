@@ -29,7 +29,7 @@ OPTIONAL_DEPENDENCIES = {
 
 
 def global_check_import(name=None, functionality=None):
-    # check if the optional dependency is available
+    """check if the optional dependency is available"""
     if name:
         try:
             if name == "scikit-learn":
@@ -50,14 +50,14 @@ def global_check_import(name=None, functionality=None):
 
 
 def global_check_object_class(ob, class_object):
-    # check if one of 'objects' is of the desired class - raise error if not
+    """check if one of 'objects' is of the desired class - raise error if not"""
     if not isinstance(ob, class_object):
         class_name = search("(?<=<class ').*(?='>)", str(class_object))[0]
         raise TypeError("One of 'objects' isn't of the " + class_name + " class: " + str(type(ob)))
 
 
 def global_raise_objects_class(ob, class_object):
-    # raise error if 'objects' isn't of the desired class
+    """raise error if 'objects' isn't of the desired class"""
     class_name = search("(?<=<class ').*(?='>)", str(class_object))[0]
     raise TypeError(
         "'objects' should be either " + class_name +

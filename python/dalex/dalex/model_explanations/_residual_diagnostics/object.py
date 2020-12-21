@@ -7,20 +7,20 @@ from ... import _theme, _global_checks, _global_utils
 
 
 class ResidualDiagnostics:
-    """Calculate dataset level residuals diagnostics
+    """Calculate model-level residuals diagnostics
 
     Parameters
     -----------
     variables : str or array_like of str, optional
         Variables for which the profiles will be calculated
-        (default is None, which means all of the variables).
+        (default is `None`, which means all of the variables).
 
     Attributes
     -----------
     result : pd.DataFrame
         Main result attribute of an explanation.
     variables : array_like of str or None
-        Variables for which the profiles will be calculated
+        Variables for which the profiles will be calculated.
 
     Notes
     --------
@@ -90,28 +90,28 @@ class ResidualDiagnostics:
         Parameters
         ----------
         objects : ResidualDiagnostics object or array_like of ResidualDiagnostics objects
-            Additional objects to plot (default is None).
+            Additional objects to plot (default is `None`).
         variable : str, optional
             Name of the variable from the `result` attribute to appear on the OX axis
-            (default is 'y_hat').
+            (default is `'y_hat'`).
         yvariable : str, optional
             Name of the variable from the `result` attribute to appear on the OY axis
-            (default is 'residuals').
+            (default is `'residuals'`).
         smooth : bool, optional
-            Add the smooth line (default is True).
+            Add the smooth line (default is `True`).
         line_width : float, optional
-            Width of lines in px (default is 2).
+            Width of lines in px (default is `2`).
         marker_size : float, optional
-            Size of points (default is 3).
+            Size of points (default is `3`).
         title : str, optional
             Title of the plot (default depends on the `type` attribute).
         N : int, optional
             Number of observations that will be sampled from the `result` attribute before
             calculating the smooth line. This is for performance issues with large data.
-            None means all `result` (default is 50 000).
+            `None` means take all `result` (default is `50_000`).
         show : bool, optional
-            True shows the plot; False returns the plotly Figure object that can be
-            edited or saved using the `write_image()` method (default is True).
+            `True` shows the plot; `False` returns the plotly Figure object that can 
+            be edited or saved using the `write_image()` method (default is `True`).
 
         Returns
         -----------

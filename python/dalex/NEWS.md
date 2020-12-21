@@ -19,7 +19,7 @@ These are summed up in ([#368](https://github.com/ModelOriented/DALEX/issues/368
 #### other
 
 * remove `colorize` from `Explainer`
-* updated the documentation, refactored code (import modules not functions, unify variable names in `object.py`, move utils funcitons from `checks.py` to `utils.py`)
+* updated the documentation, refactored code (import modules not functions, unify variable names in `object.py`, move utils funcitons from `checks.py` to `utils.py`, etc.)
 
 v0.4.1 (02/12/2020)
 ----------------------------------------------------------------

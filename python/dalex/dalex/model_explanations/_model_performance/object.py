@@ -7,7 +7,7 @@ from ... import _theme, _global_checks
 
 
 class ModelPerformance:
-    """Calculate dataset level model performance measures
+    """Calculate model-level model performance measures
 
     Parameters
     -----------
@@ -15,7 +15,7 @@ class ModelPerformance:
         Model task type that is used to choose the proper performance measures.
     cutoff : float, optional
         Cutoff for predictions in classification models. Needed for measures like
-        recall, precision, acc, f1 (default is 0.5).
+        recall, precision, acc, f1 (default is `0.5`).
 
     Attributes
     -----------
@@ -126,12 +126,12 @@ class ModelPerformance:
         Parameters
         -----------
         objects : ModelPerformance object or array_like of ModelPerformance objects
-            Additional objects to plot (default is None).
+            Additional objects to plot (default is `None`).
         title : str, optional
             Title of the plot (default depends on the `type` attribute).
         show : bool, optional
-            True shows the plot; False returns the plotly Figure object that can be
-            edited or saved using the `write_image()` method (default is True).
+            `True` shows the plot; `False` returns the plotly Figure object that can 
+            be edited or saved using the `write_image()` method (default is `True`).
 
         Returns
         -----------

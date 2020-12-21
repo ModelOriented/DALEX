@@ -3,6 +3,7 @@ import plotly.graph_objects as go
 
 
 def get_default_colors(n, type):
+    """return default dalex colors"""
     default_colors = ["#8bdcbe", "#f05a71", "#371ea3", "#46bac2", "#ae2c87", "#ffa58c", "#4378bf"]
 
     if n > len(default_colors):
@@ -40,10 +41,12 @@ def get_default_colors(n, type):
 
 
 def get_break_down_colors():
+    """return default dalex colors"""
     return ["#371ea3", "#8bdcbe", "#f05a71"]
 
 
 def get_default_config():
+    """return default dalex plotly config"""
     return {
                 'displaylogo': False, 'staticPlot': False,
                 'toImageButtonOptions': {'height': None, 'width': None, },
@@ -54,7 +57,7 @@ def get_default_config():
 
 
 def fig_update_line_plot(fig, title, y_title, plot_height, hovermode):
-
+    """update layout for CP/AP line plots"""
     for axis in fig.layout:
         if type(fig.layout[axis]) == go.layout.YAxis:  # remove redundant axis labels
             fig.layout[axis].title.text = ''
@@ -99,7 +102,7 @@ def fig_update_line_plot(fig, title, y_title, plot_height, hovermode):
     return fig
 
 def fig_update_bar_plot(fig, title, x_title, plot_height, hovermode):
-    
+    """update layour for CP barplot"""
     for axis in fig.layout:
         if type(fig.layout[axis]) == go.layout.YAxis:  # remove redundant axis labels
             fig.layout[axis].title.text = ''
