@@ -1,8 +1,9 @@
 from copy import deepcopy
 import numpy as np
 import pandas as pd
-from dalex._explainer.helper import verbose_cat
-from dalex.dataset_level._model_performance.utils import *
+
+from ..._explainer import helper
+from ...model_explanations._model_performance import utils
 # -------------- Objects needed in creation of object in object.py --------------
 
 class ConfusionMatrix:
@@ -59,7 +60,7 @@ class SubgroupConfusionMatrixMetrics:
         for sub, cm in matrix_dict.items():
             tp, tn, fp, fn = cm.tp, cm.tn, cm.fp, cm.fn
 
-            TNR = PPV = NPV = FNR = FPR = FDR = FOR = ACC = STP = np.nan
+            TPR = TNR = PPV = NPV = FNR = FPR = FDR = FOR = ACC = STP = np.nan
 
             if tp + fn > 0:
                 TPR = tp / (tp + fn)
@@ -180,7 +181,7 @@ def _unwrap_parity_loss_data(fobject, other_objects, metrics, verbose):
     # checking for nans
     if any(np.isnan(data.score)):
         models_with_nans = set(data.loc[np.isnan(data.score), :].label)
-        verbose_cat(f"Found NaNs in following models: {models_with_nans}", verbose)
+        helper.verbose_cat(f"Found NaNs in following models: {models_with_nans}", verbose)
 
     return data
 
@@ -222,16 +223,16 @@ def _classification_performance(fobject, verbose, type='accuracy'):
         fn += val.fn
 
     if type=='accuracy':
-        return accuracy(tp, fp, tn, fn)
+        return utils.accuracy(tp, fp, tn, fn)
     if type=='auc':
-        verbose_cat("Beware, that auc metric is insensitive to cutoffs", verbose)
-        return auc(fobject.y_hat, fobject.y)
+        helper.verbose_cat("Beware, that auc metric is insensitive to cutoffs", verbose)
+        return utils.auc(fobject.y_hat, fobject.y)
     if type=='recall':
-        return recall(tp, fp, tn, fn)
+        return utils.recall(tp, fp, tn, fn)
     if type=='precision':
-        return  precision(tp, fp, tn, fn)
+        return  utils.precision(tp, fp, tn, fn)
     if type=='f1':
-        return f1(tp, fp, tn, fn)
+        return utils.f1(tp, fp, tn, fn)
     else:
         raise TypeError(f'type \'{type}\' not supported')
 

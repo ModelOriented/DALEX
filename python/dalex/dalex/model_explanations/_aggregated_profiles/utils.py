@@ -100,3 +100,51 @@ def split_over_variables_and_labels(split_profile, type, groups, span):
 
 def norm(x, loc, scale):
     return np.exp(-((x - loc) / scale) ** 2 / 2) / np.pi / np.sqrt(2) / scale
+
+
+def prepare_numerical_categorical(all_profiles, variables, variable_type):
+    # variables to use
+    all_variables = all_profiles['_vname_'].dropna().unique()  # variables do not need to be string
+
+    if variables is not None:
+        all_variables_intersect = set(all_variables).intersection(set(variables))
+        if len(all_variables_intersect) == 0:
+            raise ValueError("variables do not overlap with " + all_variables)
+        all_variables = np.array(list(all_variables_intersect))
+
+    # only numerical or only factors?
+    is_numeric = np.empty_like(all_variables, bool)
+    for i, var in enumerate(all_variables):
+        is_numeric[i] = pd.api.types.is_numeric_dtype(all_profiles[var])
+
+    if variable_type == 'numerical':
+        vnames = all_variables[is_numeric]
+        if vnames.shape[0] == 0:
+            raise ValueError("There are no numerical variables")
+
+        all_profiles['_x_'] = 0
+
+    else:
+        vnames = all_variables[~is_numeric]
+        if variables is not None:
+            # take all if the user wants to convert numerical into categorical
+            vnames = all_variables
+        elif vnames.shape[0] == 0:
+            raise ValueError("There are no non-numerical variables")
+
+        all_profiles['_x_'] = ""
+
+    return all_profiles, vnames
+
+
+def prepare_x(all_profiles, variable_type):
+    # create _x_
+    for variable in all_profiles['_vname_'].unique():
+        where_variable = all_profiles['_vname_'] == variable
+        all_profiles.loc[where_variable, '_x_'] = all_profiles.loc[where_variable, variable]
+
+    # change x column to proper character values
+    if variable_type == 'categorical':
+        all_profiles.loc[:, '_x_'] = all_profiles.apply(lambda row: str(row[row['_vname_']]), axis=1)
+
+    return all_profiles

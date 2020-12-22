@@ -1,13 +1,14 @@
+import numpy as np
+import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-from .utils import *
-from .utils import _metric_ratios_2_df, _unwrap_parity_loss_data, _fairness_theme, _classification_performance
-from .._basics.checks import check_other_fairness_objects
+from . import utils 
+from .._basics import checks as basic_checks
 from .._basics.exceptions import ParameterCheckError
-from ..._explainer.helper import verbose_cat
-from ..._theme import get_default_colors
+from ..._explainer import helper
+from ... import _theme
 
 
 def plot_fairness_check(fobject,
@@ -15,18 +16,18 @@ def plot_fairness_check(fobject,
                         other_objects=None,
                         epsilon=0.8,
                         verbose=True):
-    data = _metric_ratios_2_df(fobject)
+    data = utils._metric_ratios_2_df(fobject)
     n = 1
     if other_objects is not None:
-        check_other_fairness_objects(fobject, other_objects)
+        basic_checks.check_other_fairness_objects(fobject, other_objects)
         for other_obj in other_objects:
-            other_data = _metric_ratios_2_df(other_obj)
+            other_data = utils._metric_ratios_2_df(other_obj)
             data = data.append(other_data)
             n += 1
 
     if any(data.score == 0):
         nan_models = set(data.label[data.score == 0])
-        verbose_cat(f'\nFound NaN\'s or 0\'s for models: {nan_models}\n'
+        helper.verbose_cat(f'\nFound NaN\'s or 0\'s for models: {nan_models}\n'
                     f'It is advisable to check \'metric_ratios\'', verbose=verbose)
 
     upper_bound = max([max(data.score[np.invert(np.isnan(data.score.to_numpy()))]), 1 / epsilon - 1]) + 0.1
@@ -38,7 +39,7 @@ def plot_fairness_check(fobject,
     ticks = np.arange(lower_bound, upper_bound + 0.001, step=0.1).round(1)
 
     # drwhy colors
-    colors = get_default_colors(n, 'line')
+    colors = _theme.get_default_colors(n, 'line')
 
     # change name of metrics
     data.loc[data.metric == 'TPR', 'metric'] = 'Equal opportunity ratio     TP/(TP + FN)'
@@ -149,7 +150,7 @@ def plot_fairness_check(fobject,
     if title is None:
         title = 'Fairness Check'
 
-    fig.update_layout(_fairness_theme(title))
+    fig.update_layout(utils._fairness_theme(title))
 
     # delete 'metric=' from facet names
     fig.for_each_annotation(
@@ -172,7 +173,7 @@ def plot_metric_scores(fobject,
     data['label'] = np.repeat(fobject.label, data.shape[0]).astype('U')
     n = 1
     if other_objects is not None:
-        check_other_fairness_objects(fobject, other_objects)
+        basic_checks.check_other_fairness_objects(fobject, other_objects)
         for other_obj in other_objects:
             other_data = other_obj._subgroup_confusion_matrix_metrics_object.to_vertical_DataFrame()
             other_data['label'] = np.repeat(other_obj.label, other_data.shape[0]).astype('U')
@@ -213,7 +214,7 @@ def plot_metric_scores(fobject,
     data.subgroup_numeric = data.subgroup_numeric + pd.Series([label_tick_dict.get(lab) for lab in data.label])
 
     # drwhy colors
-    colors = get_default_colors(len(data.label.unique()), 'line')
+    colors = _theme.get_default_colors(len(data.label.unique()), 'line')
 
     # fig creation
     fig = px.scatter(data,
@@ -293,7 +294,7 @@ def plot_metric_scores(fobject,
     if title is None:
         title = 'Metric Scores'
 
-    fig.update_layout(_fairness_theme(title))
+    fig.update_layout(utils._fairness_theme(title))
 
     fig.for_each_annotation(
         lambda a: a.update(text=a.text.replace("metric=", ""), xanchor='left', x=0.05, font={'size': 15}))
@@ -334,7 +335,7 @@ def plot_stacked(fobject,
                  metrics=["TPR", "PPV", "STP", "ACC", "FPR"],
                  verbose=True,
                  **kwargs):
-    data = _unwrap_parity_loss_data(fobject, other_objects, metrics, verbose)
+    data = utils._unwrap_parity_loss_data(fobject, other_objects, metrics, verbose)
 
     fig = px.bar(data,
                  x='score',
@@ -343,7 +344,7 @@ def plot_stacked(fobject,
                  labels={'score': 'cumulated parity loss'},
                  orientation='h',
                  color='metric',
-                 color_discrete_sequence=get_default_colors(len(metrics), type='line'))
+                 color_discrete_sequence=_theme.get_default_colors(len(metrics), type='line'))
     # no outline
     fig.update_traces(marker_line_width=0)
 
@@ -351,7 +352,7 @@ def plot_stacked(fobject,
 
     if title is None:
         title = "Stacked Parity Loss Metrics"
-    fig.update_layout(_fairness_theme(title))
+    fig.update_layout(utils._fairness_theme(title))
     fig.update_yaxes(showgrid=False, zeroline=False)
 
     fig.update_traces(
@@ -371,8 +372,8 @@ def plot_radar(fobject,
                verbose=True,
                metrics=["TPR", "ACC", "PPV", "FPR", "STP"],
                **kwargs):
-    data = _unwrap_parity_loss_data(fobject, other_objects, metrics, verbose)
-    colors = get_default_colors(len(set(data.label)), type='line')
+    data = utils._unwrap_parity_loss_data(fobject, other_objects, metrics, verbose)
+    colors = _theme.get_default_colors(len(set(data.label)), type='line')
 
     fig = go.Figure()
     for i, label in enumerate(set(sorted(data.label))):
@@ -388,13 +389,13 @@ def plot_radar(fobject,
                 name=label,
                 marker=dict(color=[colors[i] for elem in r]),
                 line=dict(color=colors[i]),
-                text=[label for i in r]
+                text=[label for _ in r]
             )
         )
 
     if title is None:
         title = "Fairness Radar"
-    fig.update_layout(_fairness_theme(title))
+    fig.update_layout(utils._fairness_theme(title))
 
     fig.update_layout(
         polar=dict(
@@ -421,16 +422,15 @@ def plot_performance_and_fairness(fobject,
                                   title=None,
                                   verbose=True,
                                   **kwargs):
-    data = _unwrap_parity_loss_data(fobject, other_objects, [fairness_metric], verbose)
+    data = utils._unwrap_parity_loss_data(fobject, other_objects, [fairness_metric], verbose)
     assert len(data.label.unique()) == len(data.label)
 
     performance_data = pd.DataFrame(columns=['label', 'performance_score'])
-    performance_data.loc[0] = [fobject.label, _classification_performance(fobject, verbose, performance_metric)]
+    performance_data.loc[0] = [fobject.label, utils._classification_performance(fobject, verbose, performance_metric)]
 
     if other_objects:
-        other_data = pd.DataFrame()
         for i, obj in enumerate(other_objects):
-            performance_data.loc[i + 1] = [obj.label, _classification_performance(obj, verbose, performance_metric)]
+            performance_data.loc[i + 1] = [obj.label, utils._classification_performance(obj, verbose, performance_metric)]
 
     data = data.merge(performance_data, on='label')
 
@@ -439,15 +439,15 @@ def plot_performance_and_fairness(fobject,
                      y='score',
                      color='label',
                      custom_data=[data.label],
-                     color_discrete_sequence=get_default_colors(len(data.label), 'line'))
+                     color_discrete_sequence=_theme.get_default_colors(len(data.label), 'line'))
 
     fig.update_traces(
         mode='markers',
-        marker=dict(size=[15 for i in data.label]))
+        marker=dict(size=[15 for _ in data.label]))
 
     if title is None:
         title = "Performance and Fairness"
-    fig.update_layout(_fairness_theme(title))
+    fig.update_layout(utils._fairness_theme(title))
 
     fig.update_yaxes(title="reversed " + fairness_metric + " parity loss",
                      autorange='reversed')
@@ -473,7 +473,7 @@ def plot_heatmap(fobject,
     if metrics == 'all':
         metrics = list(fobject.parity_loss.index)
 
-    data = _unwrap_parity_loss_data(fobject, other_objects, metrics, verbose=verbose)
+    data = utils._unwrap_parity_loss_data(fobject, other_objects, metrics, verbose=verbose)
     score_data = data.score.values.reshape(len(data.label.unique()), len(data.metric.unique()))
 
     fig = px.imshow(score_data,
@@ -484,7 +484,7 @@ def plot_heatmap(fobject,
 
     if title is None:
         title = "Fairness Heatmap"
-    fig.update_layout(_fairness_theme(title))
+    fig.update_layout(utils._fairness_theme(title))
 
     fig.update_traces(
         hovertemplate="<br>".join([
@@ -515,11 +515,11 @@ def plot_ceteris_paribus_cutoff(fobject,
 
     objects = [fobject]
     if other_objects is not None:
-        check_other_fairness_objects(fobject, other_objects)
+        basic_checks.check_other_fairness_objects(fobject, other_objects)
         for obj in other_objects:
             objects.append(obj)
 
-    colors = get_default_colors(len(metrics), 'line')
+    colors = _theme.get_default_colors(len(metrics), 'line')
 
     labels = []
     for obj in objects:
@@ -536,13 +536,13 @@ def plot_ceteris_paribus_cutoff(fobject,
         # generate data for hypothetical cutoffs
         for i in range(1, grid_points):
             cutoff[subgroup] = i / grid_points
-            sub_confusion_matrix = SubgroupConfusionMatrix(y_true=y,
+            sub_confusion_matrix = utils.SubgroupConfusionMatrix(y_true=y,
                                                            y_pred=y_hat,
                                                            protected=protected,
                                                            cutoff=cutoff)
 
-            sub_confusion_matrix_metrics = SubgroupConfusionMatrixMetrics(sub_confusion_matrix)
-            parity_loss = calculate_parity_loss(sub_confusion_matrix_metrics, privileged)
+            sub_confusion_matrix_metrics = utils.SubgroupConfusionMatrixMetrics(sub_confusion_matrix)
+            parity_loss = utils.calculate_parity_loss(sub_confusion_matrix_metrics, privileged)
             parity_loss = parity_loss.loc[parity_loss.index.isin(metrics)]
             newdata = pd.DataFrame({'score': parity_loss, 'metric': parity_loss.index, 'cutoff': i / (grid_points - 1)})
             newdata = newdata.reset_index(drop=True)
@@ -588,7 +588,7 @@ def plot_ceteris_paribus_cutoff(fobject,
 
     if title is None:
         title = "Ceteris Paribus Cutoff"
-    fig.update_layout(_fairness_theme(title))
+    fig.update_layout(utils._fairness_theme(title))
     fig.update_layout(hovermode="x")
     fig.update_traces(
         hovertemplate="<br>".join([

@@ -1,36 +1,38 @@
+import numpy as np
+import pandas as pd
 import plotly.express as px
 from copy import deepcopy
 
-from .checks import *
-from .utils import aggregate_profiles
+from . import checks, utils
 from ... import _theme, _global_checks, _global_utils
 
 
 class AggregatedProfiles:
-    """Calculate dataset level variable profiles as Partial or Accumulated Dependence
+    """Calculate model-level variable profiles as Partial or Accumulated Dependence
 
-    Partial Dependence Profile (average across CP Profiles),
-    Individual Conditional Expectation (local weighted average across CP Profiles),
-    Accumulated Local Effects (cummulated average local changes in CP Profiles).
+    - Partial Dependence Profile (average across Ceteris Paribus Profiles),
+    - Individual Conditional Expectation (local weighted average across CP Profiles),
+    - Accumulated Local Effects (cummulated average local changes in CP Profiles).
 
     Parameters
     -----------
     type : {'partial', 'accumulated', 'conditional'}
-        Type of model profiles (default is 'partial' for Partial Dependence Profiles).
+        Type of model profiles
+        (default is `'partial'` for Partial Dependence Profiles).
     variables : str or array_like of str, optional
         Variables for which the profiles will be calculated
-        (default is None, which means all of the variables).
+        (default is `None`, which means all of the variables).
     variable_type : {'numerical', 'categorical'}
         Calculate the profiles for numerical or categorical variables
-        (default is 'numerical').
+        (default is `'numerical'`).
     groups : str or array_like of str, optional
         Names of categorical variables that will be used for profile grouping
-        (default is None, which means no grouping).
+        (default is `None`, which means no grouping).
     span : float, optional
-        Smoothing coefficient used as sd for gaussian kernel (default is 0.25).
+        Smoothing coefficient used as sd for gaussian kernel (default is `0.25`).
     center : bool, optional
-        Theoretically Accumulated Profiles start at 0, but are centered to compare
-        them with Partial Dependence Profiles (default is True, which means center
+        Theoretically Accumulated Profiles start at `0`, but are centered to compare
+        them with Partial Dependence Profiles (default is `True`, which means center
         around the average y_hat calculated on the data sample).
     random_state : int, optional
         Set seed for random number generator (default is random seed).
@@ -43,7 +45,7 @@ class AggregatedProfiles:
         Average prediction for sampled `data` (using `N`).
     raw_profiles : pd.DataFrame or None
         Saved CeterisParibus object.
-        NOTE: None if more objects were passed to the `fit` method.
+        NOTE: `None` if more objects were passed to the `fit` method.
     type : {'partial', 'accumulated', 'conditional'}
         Type of model profiles.
     variables : array_like of str or None
@@ -55,16 +57,16 @@ class AggregatedProfiles:
     span : float
         Smoothing coefficient used as sd for gaussian kernel.
     center : bool
-        Theoretically Accumulated Profiles start at 0, but are centered to compare
-        them with Partial Dependence Profiles (default is True, which means center
+        Theoretically Accumulated Profiles start at `0`, but are centered to compare
+        them with Partial Dependence Profiles (default is `True`, which means center
         around the average y_hat calculated on the data sample).
     random_state : int or None
         Set seed for random number generator.
 
     Notes
     --------
-    https://pbiecek.github.io/ema/partialDependenceProfiles.html
-    https://pbiecek.github.io/ema/accumulatedLocalProfiles.html
+    - https://pbiecek.github.io/ema/partialDependenceProfiles.html
+    - https://pbiecek.github.io/ema/accumulatedLocalProfiles.html
     """
 
     def __init__(self,
@@ -76,14 +78,14 @@ class AggregatedProfiles:
                  center=True,
                  random_state=None):
 
-        check_variable_type(variable_type)
-        variables_ = check_variables(variables)
-        groups_ = check_groups(groups)
+        checks.check_variable_type(variable_type)
+        _variables = checks.check_variables(variables)
+        _groups = checks.check_groups(groups)
 
         self.variable_type = variable_type
-        self.groups = groups_
+        self.groups = _groups
         self.type = type
-        self.variables = variables_
+        self.variables = _variables
         self.span = span
         self.center = center
         self.result = None
@@ -106,14 +108,14 @@ class AggregatedProfiles:
         ceteris_paribus : CeterisParibus object or array_like of CeterisParibus objects
             Profile objects to aggregate.
         verbose : bool, optional
-            Print tqdm progress bar (default is True).
+            Print tqdm progress bar (default is `True`).
 
         Returns
         -----------
         None
         """
         # are there any other cp?
-        from dalex.instance_level import CeterisParibus
+        from dalex.predict_explanations import CeterisParibus
         if isinstance(ceteris_paribus, CeterisParibus):  # allow for ceteris_paribus to be a single element
             all_profiles = ceteris_paribus.result.copy()
             all_observations = ceteris_paribus.new_observation.copy()
@@ -128,17 +130,22 @@ class AggregatedProfiles:
         else:
             _global_checks.global_raise_objects_class(ceteris_paribus, CeterisParibus)
 
-        all_profiles, vnames = prepare_numerical_categorical(all_profiles, self.variables, self.variable_type)
+        all_profiles, vnames = utils.prepare_numerical_categorical(all_profiles, self.variables, self.variable_type)
 
         # select only suitable variables
         all_profiles = all_profiles.loc[all_profiles['_vname_'].isin(vnames), :]
 
-        all_profiles = create_x(all_profiles, self.variable_type)
+        all_profiles = utils.prepare_x(all_profiles, self.variable_type)
 
         self.mean_prediction = all_observations['_yhat_'].mean()
 
-        self.result = aggregate_profiles(all_profiles, self.mean_prediction, self.type, self.groups, self.center,
-                                         self.span, verbose)
+        self.result = utils.aggregate_profiles(all_profiles,
+                                               self.mean_prediction,
+                                               self.type,
+                                               self.groups,
+                                               self.center,
+                                               self.span,
+                                               verbose)
 
     def plot(self,
              objects=None,
@@ -147,6 +154,7 @@ class AggregatedProfiles:
              center=True,
              size=2,
              alpha=1,
+             color='_label_',
              facet_ncol=2,
              title="Aggregated Profiles",
              y_title='prediction',
@@ -158,45 +166,45 @@ class AggregatedProfiles:
         Parameters
         -----------
         objects : AggregatedProfiles object or array_like of AggregatedProfiles objects
-            Additional objects to plot in subplots (default is None).
+            Additional objects to plot in subplots (default is `None`).
         geom : {'aggregates', 'profiles'}
-            If 'profiles' then raw profiles will be plotted in the background
-            (default is 'aggregates', which means plot only aggregated profiles).
+            If `'profiles'` then raw profiles will be plotted in the background
+            (default is `'aggregates'`, which means plot only aggregated profiles).
             NOTE: It is useful to use small values of the `N` parameter in object creation
-            before using `profiles`, because of plot performance and clarity (e.g. 100).
+            before using `'profiles'`, because of plot performance and clarity (e.g. `100`).
         variables : str or array_like of str, optional
             Variables for which the profiles will be calculated
-            (default is None, which means all of the variables).
+            (default is `None`, which means all of the variables).
         center : bool, optional
-            Theoretically Accumulated Profiles start at 0, but are centered to compare
-            them with Partial Dependence Profiles (default is True, which means center
+            Theoretically Accumulated Profiles start at `0`, but are centered to compare
+            them with Partial Dependence Profiles (default is `True`, which means center
             around the average y_hat calculated on the data sample).
         size : float, optional
-            Width of lines in px (default is 2).
+            Width of lines in px (default is `2`).
         alpha : float <0, 1>, optional
-            Opacity of lines (default is 1).
+            Opacity of lines (default is `1`).
         color : str, optional
-            Variable name used for grouping (default is '_label_', which groups by models).
+            Variable name used for grouping
+            (default is `'_label_'`, which groups by models).
         facet_ncol : int, optional
-            Number of columns on the plot grid (default is 2).
+            Number of columns on the plot grid (default is `2`).
         title : str, optional
-            Title of the plot (default is "Aggregated Profiles").
+            Title of the plot (default is `"Aggregated Profiles"`).
         y_title : str, optional
-            Title of the x axis (default is "prediction").
+            Title of the y axis (default is `"prediction"`).
         horizontal_spacing : float <0, 1>, optional
-            Ratio of horizontal space between the plots (default is 0.05).
+            Ratio of horizontal space between the plots (default is `0.05`).
         vertical_spacing : float <0, 1>, optional
-            Ratio of vertical space between the plots (default is 0.3/number of rows).
+            Ratio of vertical space between the plots (default is `0.3/number of rows`).
         show : bool, optional
-            True shows the plot; False returns the plotly Figure object that can be
-            edited or saved using the `write_image()` method (default is True).
+            `True` shows the plot; `False` returns the plotly Figure object that can 
+            be edited or saved using the `write_image()` method (default is `True`).
 
         Returns
         -----------
         None or plotly.graph_objects.Figure
             Return figure that can be edited or saved. See `show` parameter.
         """
-        # TODO: numerical+categorical in one plot https://github.com/plotly/plotly.py/issues/2647
 
         if geom not in ("aggregates", "profiles"):
             raise TypeError("geom should be 'aggregates' or 'profiles'")
@@ -241,7 +249,7 @@ class AggregatedProfiles:
         plot_height = 78 + 71 + facet_nrow * (280 + 60)
         hovermode, render_mode = 'x unified', 'svg'
 
-        color = '_label_'  # _groups_ doesnt make much sense for multiple AP objects
+        # color = '_groups_' doesnt make much sense for multiple AP objects
         m = len(_result_df[color].dropna().unique())
 
         if is_x_numeric:
@@ -251,7 +259,7 @@ class AggregatedProfiles:
             fig = px.line(_result_df,
                           x="_x_", y="_yhat_", color=color, facet_col="_vname_",
                           category_orders={"_vname_": list(all_variables)},
-                          labels={'_yhat_': 'prediction', '_mp_': 'mean_prediction'},  # , color: 'group'},
+                          labels={'_yhat_': 'prediction', '_label_': 'label', '_mp_': 'mean_prediction'},  # , color: 'group'},
                           hover_name=color,
                           hover_data={'_yhat_': ':.3f', '_mp_': ':.3f',
                                       color: False, '_vname_': False, '_x_': False},

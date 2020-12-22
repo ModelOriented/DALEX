@@ -213,7 +213,8 @@ def check_predict_function_and_model_type(predict_function, model_type,
             try:
                 y_hat = predict_function(model, data)
                 verbose_cat(str.format("  -> predicted values  : min = {0:.3}, mean = {1:.3}, max = {2:.3}",
-                                       np.min(y_hat), np.mean(y_hat), np.max(y_hat)), verbose=verbose)
+                                       np.min(y_hat).astype(np.float), np.mean(y_hat).astype(np.float),
+                                       np.max(y_hat).astype(np.float)), verbose=verbose)
 
             except (Exception, ValueError, TypeError) as error:
                 # verbose_cat("  -> predicted values  : the predict_function returns an error when executed \n",
@@ -261,7 +262,8 @@ def check_residual_function(residual_function, predict_function, model, data, y,
         try:
             residuals = residual_function(model, data, y)
             verbose_cat(str.format("  -> residuals         : min = {0:.3}, mean = {1:.3}, max = {2:.3}",
-                                   np.min(residuals), np.mean(residuals), np.max(residuals)), verbose=verbose)
+                                   np.min(residuals).astype(np.float), np.mean(residuals).astype(np.float),
+                                   np.max(residuals).astype(np.float)), verbose=verbose)
         except (Exception, ValueError, TypeError) as error:
             verbose_cat("  -> residuals         :  'residual_function' returns an Error when executed:",
                         verbose=verbose)
@@ -384,7 +386,7 @@ def check_new_observation_lime(new_observation):
         new_observation_ = new_observation_.to_numpy()
     elif isinstance(new_observation_, np.ndarray):
         if new_observation_.ndim == 2:
-            if new_observation.shape[0] != 1:
+            if new_observation_.shape[0] != 1:
                 raise ValueError("'new_observation' should be a single row")
             # make 2D array 1D
             new_observation_ = new_observation_.flatten()
@@ -393,10 +395,10 @@ def check_new_observation_lime(new_observation):
     elif isinstance(new_observation_, list):
         new_observation_ = np.array(new_observation_)
     elif isinstance(new_observation_, pd.DataFrame):
-        if new_observation.shape[0] != 1:
+        if new_observation_.shape[0] != 1:
             raise ValueError("'new_observation' should be a single row")
         else:
-            new_observation_ = new_observation.to_numpy().flatten()
+            new_observation_ = new_observation_.to_numpy().flatten()
     else:
         raise TypeError("'new_observation' must be a list or numpy.ndarray (1d) or pandas.Series or pandas.DataFrame")
 

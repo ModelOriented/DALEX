@@ -35,6 +35,7 @@ def yhat_tf_regression(m, d):
 def yhat_tf_classification(m, d):
     return m.predict(np.array(d))[:, 1]
 
+
 def get_h2o_yhat(model):
     if not str(type(model)).startswith("<class 'h2o.estimators"):
         return None
@@ -44,15 +45,26 @@ def get_h2o_yhat(model):
     if model.type == 'regressor':
         return yhat_h2o_regression, "regression"
     
+    
 def yhat_h2o_regression(m, d):
     from h2o import H2OFrame
     return m.predict(H2OFrame(d, column_types=m._column_types)).as_data_frame().to_numpy().flatten()
+
 
 def yhat_h2o_classification(m, d):
     from h2o import H2OFrame
     return m.predict(H2OFrame(d, column_types=m._column_types)).as_data_frame().to_numpy()[:, 2]
 
 
+# not used currently
+def yhat_pycaret_regression(m, d):
+    from pycaret.regression import predict_model
+    return predict_model(m, d, verbose=False)['Score'].values
+def yhat_pycaret_classification(m, d):
+    from pycaret.classification import predict_model
+    return predict_model(m, d, verbose=False)['Score'].values
+
+    
 def get_predict_function_and_model_type(model, model_class):
     
     prep_tf = get_tf_yhat(model)

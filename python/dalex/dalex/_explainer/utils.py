@@ -1,12 +1,24 @@
 # utility functions for Explainer methods
 import numpy as np
+import pandas as pd
 
-
+import types, inspect, warnings
+    
+def create_lime_explanation(explainer, new_observation, **kwargs):
+    # utility function for predict_surrogate(type='lime')    
+    from lime.lime_tabular import LimeTabularExplainer
+    explainer_dict, explanation_dict = unpack_kwargs_lime(explainer, new_observation, **kwargs)
+    lime_tabular_explainer = LimeTabularExplainer(**explainer_dict)
+    explanation = lime_tabular_explainer.explain_instance(**explanation_dict)
+    
+    explanation.plot = types.MethodType(plot_lime_custom, explanation)
+    explanation.result = pd.DataFrame(explanation.as_list(), columns=['variable', 'effect'])
+    return explanation
+    
 def unpack_kwargs_lime(explainer, new_observation, **kwargs):
     # utility function for predict_surrogate(type='lime')
     # use https://stackoverflow.com/a/58543357 to unpack the **kwargs into multiple functions
     from lime.lime_tabular import LimeTabularExplainer
-    import inspect
 
     explainer_args = [k for k, v in inspect.signature(LimeTabularExplainer).parameters.items()]
     explainer_dict = {k: kwargs.pop(k) for k in dict(kwargs) if k in explainer_args}
@@ -23,16 +35,30 @@ def unpack_kwargs_lime(explainer, new_observation, **kwargs):
     if 'data_row' not in explanation_dict:
         explanation_dict['data_row'] = new_observation
     if 'predict_fn' not in explanation_dict:
-        if hasattr(explainer.model, 'predict_proba'):
-            explanation_dict['predict_fn'] = explainer.model.predict_proba
-        elif hasattr(explainer.model, 'predict'):
-            explanation_dict['predict_fn'] = explainer.model.predict
+        if explainer_dict['mode'] == 'regression':
+            explanation_dict['predict_fn'] = lambda x: explainer.predict(pd.DataFrame(x, columns=explainer.data.columns))
+        elif explainer_dict['mode'] == 'classification':
+            explanation_dict['predict_fn'] = \
+                lambda x: np.concatenate([1 - explainer.predict(pd.DataFrame(x, columns=explainer.data.columns)).reshape(-1, 1),
+                                          explainer.predict(pd.DataFrame(x, columns=explainer.data.columns)).reshape(-1, 1)],
+                                         axis=1)
         else:
-            raise ValueError("Pass a `predict_fn` parameter to the `predict_surrogate` method. "
+            raise ValueError("Pass a 'mode' parameter to the `predict_surrogate` method. "
+                             "See https://lime-ml.readthedocs.io/en/latest/lime.html#lime.lime_tabular.LimeTabularExplainer")
+        try:
+            explanation_dict['predict_fn'](explainer_dict['training_data'])
+        except:
+            raise ValueError("Pass a proper `predict_fn` parameter to the `predict_surrogate` method. "
                              "See https://lime-ml.readthedocs.io/en/latest/lime.html#lime.lime_tabular.LimeTabularExplainer.explain_instance")
-
     return explainer_dict, explanation_dict
 
+
+def plot_lime_custom(explanation, label=1, return_figure=False, **kwargs):
+    # return_figure=True makes two plots in IPython
+    if return_figure:
+        return explanation.as_pyplot_figure(label=label, **kwargs)
+    else:
+        _ = explanation.as_pyplot_figure(label=label, **kwargs)
 
 def create_surrogate_model(explainer, type, max_vars, max_depth, **kwargs):
     # utility function for model_surrogate(type=('tree', 'linear'))
@@ -47,6 +73,8 @@ def create_surrogate_model(explainer, type, max_vars, max_depth, **kwargs):
         elif type == 'linear':
             from sklearn.linear_model import LinearRegression
             surrogate_model = LinearRegression(**kwargs)
+        else:
+            raise TypeError("'type' parameter must be one of {'tree', 'linear'}")
     elif explainer.model_type == 'classification':
         y_hat = y_hat.round().astype(int)  # modify prob to classes
         if type == 'tree':
@@ -55,6 +83,8 @@ def create_surrogate_model(explainer, type, max_vars, max_depth, **kwargs):
         elif type == 'linear':
             from sklearn.linear_model import LogisticRegression
             surrogate_model = LogisticRegression(**kwargs)
+        else:
+            raise TypeError("'type' parameter must be one of {'tree', 'linear'}")
     else:
         raise ValueError("'explainer.model_type' must be 'regression' or 'classification'")
 
@@ -91,7 +121,6 @@ def create_surrogate_model(explainer, type, max_vars, max_depth, **kwargs):
     # add the plot method to the surrogate model object
     if type == 'tree':
         # it uses feature_names and class_names if needed
-        import types
         surrogate_model.plot = types.MethodType(plot_tree_custom, surrogate_model)
 
     # TODO: add plot method for the linear model
@@ -99,17 +128,29 @@ def create_surrogate_model(explainer, type, max_vars, max_depth, **kwargs):
     return surrogate_model
 
 
-def plot_tree_custom(model, figsize=(16, 10), fontsize=10, filled=True, proportion=True, **kwargs):
+def plot_tree_custom(model, figsize=(16, 10), fontsize=10, filled=True, proportion=True, return_figure=False, **kwargs):
     # wrapper for the plot_tree function, that makes the plot look useful
     # it does not return the plot (because plot_tree works so)
     import matplotlib.pyplot as plt
     from sklearn.tree import plot_tree
     fig, ax = plt.subplots(figsize=figsize)
-    _ = plot_tree(model,
-                  filled=filled,
-                  fontsize=fontsize,
-                  ax=ax,
-                  feature_names=model.feature_names,
-                  class_names=model.class_names,
-                  proportion=proportion,
-                  **kwargs)
+    
+    # return_figure=True makes two plots in IPython
+    if return_figure:
+        return plot_tree(model,
+                    filled=filled,
+                    fontsize=fontsize,
+                    ax=ax,
+                    feature_names=model.feature_names,
+                    class_names=model.class_names,
+                    proportion=proportion,
+                    **kwargs)  
+    else:
+        _ = plot_tree(model,
+                    filled=filled,
+                    fontsize=fontsize,
+                    ax=ax,
+                    feature_names=model.feature_names,
+                    class_names=model.class_names,
+                    proportion=proportion,
+                    **kwargs)     

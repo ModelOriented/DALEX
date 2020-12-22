@@ -1,7 +1,7 @@
 import re
 import numpy as np
-from copy import deepcopy
 import pandas as pd
+from copy import deepcopy
 import warnings
 
 def check_shap_explainer_type(shap_explainer_type, model):

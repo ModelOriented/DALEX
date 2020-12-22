@@ -1,38 +1,38 @@
-from warnings import warn
-
+import numpy as np
+import pandas as pd
 import plotly.express as px
+import warnings
+from copy import deepcopy
 
-from .checks import *
-from .utils import calculate_ceteris_paribus
-from .plot import tooltip_text
+from . import checks, plot, utils
 from ... import _theme, _global_checks, _global_utils
 
 
 class CeterisParibus:
-    """Calculate instance level variable profiles as Ceteris Paribus
+    """Calculate predict-level variable profiles as Ceteris Paribus
 
     Parameters
     -----------
     variables : array_like of str, optional
         Variables for which the profiles will be calculated
-        (default is None, which means all of the variables).
+        (default is `None`, which means all of the variables).
     grid_points : int, optional
-        Maximum number of points for profile calculations (default is 101).
+        Maximum number of points for profile calculations (default is `101`).
         NOTE: The final number of points may be lower than `grid_points`,
         eg. if there is not enough unique values for a given variable.
     variable_splits : dict of lists, optional
-        Split points for variables e.g. {'x': [0, 0.2, 0.5, 0.8, 1], 'y': ['a', 'b']}
-        (default is None, which means that they will be calculated using one of
+        Split points for variables e.g. `{'x': [0, 0.2, 0.5, 0.8, 1], 'y': ['a', 'b']}`
+        (default is `None`, which means that they will be calculated using one of
         `variable_splits_type` and the `data` attribute).
     variable_splits_type : {'uniform', 'quantiles'}, optional
-        Way of calculating `variable_splits`. Set 'quantiles' for percentiles.
-        (default is 'uniform', which means uniform grid of points).
+        Way of calculating `variable_splits`. Set `'quantiles'` for percentiles.
+        (default is `'uniform'`, which means uniform grid of points).
     variable_splits_with_obs: bool, optional
         Add variable values of `new_observation` data to the `variable_splits`
-        (default is True).
+        (default is `True`).
     processes : int, optional
         Number of parallel processes to use in calculations. Iterated over `variables`
-        (default is 1, which means no parallel computation).
+        (default is `1`, which means no parallel computation).
 
     Attributes
     -----------
@@ -55,7 +55,7 @@ class CeterisParibus:
 
     Notes
     --------
-    https://pbiecek.github.io/ema/ceterisParibus.html
+    - https://pbiecek.github.io/ema/ceterisParibus.html
     """
 
     def __init__(self,
@@ -66,17 +66,17 @@ class CeterisParibus:
                  variable_splits_with_obs=False,
                  processes=1):
 
-        processes_ = check_processes(processes)
-        variable_splits_type_ = check_variable_splits_type(variable_splits_type)
+        _processes = checks.check_processes(processes)
+        _variable_splits_type = checks.check_variable_splits_type(variable_splits_type)
 
         self.variables = variables
         self.grid_points = grid_points
         self.variable_splits = variable_splits
-        self.variable_splits_type = variable_splits_type_
+        self.variable_splits_type = _variable_splits_type
         self.variable_splits_with_obs = variable_splits_with_obs
         self.result = None
         self.new_observation = None
-        self.processes = processes_
+        self.processes = _processes
 
     def _repr_html_(self):
         return self.result._repr_html_()
@@ -99,20 +99,20 @@ class CeterisParibus:
         y : pd.Series or np.ndarray (1d), optional
             Target variable with the same length as `new_observation`.
         verbose : bool, optional
-            Print tqdm progress bar (default is True).
+            Print tqdm progress bar (default is `True`).
 
         Returns
         -----------
         None
         """
 
-        self.variables = check_variables(self.variables, explainer, self.variable_splits)
+        self.variables = checks.check_variables(self.variables, explainer, self.variable_splits)
 
-        check_data(explainer.data, self.variables)
+        checks.check_data(explainer.data, self.variables)
 
-        self.new_observation = check_new_observation(new_observation, explainer)
+        self.new_observation = checks.check_new_observation(new_observation, explainer)
 
-        self.variable_splits = check_variable_splits(self.variable_splits,
+        self.variable_splits = checks.check_variable_splits(self.variable_splits,
                                                      self.variables,
                                                      self.grid_points,
                                                      explainer.data,
@@ -120,14 +120,16 @@ class CeterisParibus:
                                                      self.variable_splits_with_obs,
                                                      self.new_observation)
 
-        y = check_y(y)
+        y = checks.check_y(y)
 
-        self.result, self.new_observation = calculate_ceteris_paribus(explainer,
-                                                                      self.new_observation,
-                                                                      self.variable_splits,
-                                                                      y,
-                                                                      self.processes,
-                                                                      verbose)
+        self.result, self.new_observation = utils.calculate_ceteris_paribus(
+            explainer,
+            self.new_observation,
+            self.variable_splits,
+            y,
+            self.processes,
+            verbose
+        )
 
     def plot(self,
              objects=None,
@@ -140,7 +142,7 @@ class CeterisParibus:
              show_observations=True,
              title="Ceteris Paribus Profiles",
              y_title='prediction',
-             horizontal_spacing=0.05,
+             horizontal_spacing=None,
              vertical_spacing=None,
              show=True):
         """Plot the Ceteris Paribus explanation
@@ -148,41 +150,42 @@ class CeterisParibus:
         Parameters
         -----------
         objects : CeterisParibus object or array_like of CeterisParibus objects
-            Additional objects to plot in subplots (default is None).
+            Additional objects to plot in subplots (default is `None`).
         variable_type : {'numerical', 'categorical'}
-            Plot the profiles for numerical or categorical variables (default is 'numerical').
+            Plot the profiles for numerical or categorical variables 
+            (default is `'numerical'`).
         variables : str or array_like of str, optional
             Variables for which the profiles will be calculated
-            (default is None, which means all of the variables).
+            (default is `None`, which means all of the variables).
         size : float, optional
-            Width of lines in px (default is 2).
+            Width of lines in px (default is `2`).
         alpha : float <0, 1>, optional
-            Opacity of lines (default is 1).
+            Opacity of lines (default is `1`).
         color : str, optional
-            Variable name used for grouping (default is '_label_', which groups by models).
+            Variable name used for grouping
+            (default is `'_label_'`, which groups by models).
         facet_ncol : int, optional
-            Number of columns on the plot grid (default is 2).
+            Number of columns on the plot grid (default is `2`).
         show_observations : bool, optional
-            Show observation points (default is True).
+            Show observation points (default is `True`).
         title : str, optional
-            Title of the plot (default is "Ceteris Paribus Profiles").
+            Title of the plot (default is `"Ceteris Paribus Profiles"`).
         y_title : str, optional
-            Title of the x axis (default is "prediction").
+            Title of the y/x axis (default is `"prediction"`).
         horizontal_spacing : float <0, 1>, optional
-            Ratio of horizontal space between the plots (default is 0.05).
+            Ratio of horizontal space between the plots
+            (default depends on `variable_type`).
         vertical_spacing : float <0, 1>, optional
-            Ratio of vertical space between the plots (default is 0.3/number of rows).
+            Ratio of vertical space between the plots (default is `0.3/number of rows`).
         show : bool, optional
-            True shows the plot; False returns the plotly Figure object that can be
-            edited or saved using the `write_image()` method (default is True).
+            `True` shows the plot; `False` returns the plotly Figure object that can 
+            be edited or saved using the `write_image()` method (default is `True`).
 
         Returns
         -----------
         None or plotly.graph_objects.Figure
             Return figure that can be edited or saved. See `show` parameter.
         """
-
-        # TODO: numerical+categorical in one plot https://github.com/plotly/plotly.py/issues/2647
 
         if variable_type not in ("numerical", "categorical"):
             raise TypeError("variable_type should be 'numerical' or 'categorical'")
@@ -211,8 +214,8 @@ class CeterisParibus:
             _global_checks.global_raise_objects_class(objects, self.__class__)
 
         if _include is False and show_observations:
-                warnings.warn("show_observations will be set to False,"
-                              "because the variable_splits_with_obs attribute is False"
+                warnings.warn("'show_observations' parameter changed to False,"
+                              "because the 'variable_splits_with_obs' attribute is False"
                               "See `variable_splits_with_obs` parameter in `predict_profile`.")
                 show_observations = False
 
@@ -234,7 +237,7 @@ class CeterisParibus:
                 # change to categorical
                 variable_type = "categorical"
                 # send message
-                warn("'variable_type' changed to 'categorical' due to lack of numerical variables.")
+                warnings.warn("'variable_type' parameter changed to 'categorical' due to lack of numerical variables.")
                 # take all
                 variable_names = all_variables
             elif variables is not None and len(variable_names) != len(variables):
@@ -273,17 +276,18 @@ class CeterisParibus:
         n = len(variable_names)
         facet_nrow = int(np.ceil(n / facet_ncol))
         if vertical_spacing is None:
-            vertical_spacing = 0.3 / facet_nrow
+            vertical_spacing = 0.3 / facet_nrow if variable_type == 'numerical' else 0.05
+        if horizontal_spacing is None:
+            horizontal_spacing = 0.05 if variable_type == 'numerical' else 0.1
 
         plot_height = 78 + 71 + facet_nrow * (280 + 60)
 
-        m = len(_result_df[color].dropna().unique())
+        _result_df = _result_df.assign(_text_=_result_df.apply(lambda obs: plot.tooltip_text(obs), axis=1))
 
-        _result_df[color] = _result_df[color].astype(object)  # prevent error when using pd.StringDtype
-        _result_df = _result_df.assign(_text_=_result_df.apply(lambda obs: tooltip_text(obs), axis=1))
-
-        if variable_type == "numerical":
-
+        if variable_type == "numerical":    
+            m = len(_result_df[color].dropna().unique())
+            _result_df[color] = _result_df[color].astype(object)  # prevent error when using pd.StringDtype
+        
             fig = px.line(_result_df,
                           x="_x_", y="_yhat_", color=color, facet_col="_vname_", line_group='_ids_',
                           category_orders={"_vname_": list(variable_names)},
@@ -321,19 +325,23 @@ class CeterisParibus:
 
                 for _, value in enumerate(fig_points.data):
                     fig.add_trace(value)
+                    
+                fig = _theme.fig_update_line_plot(fig, title, y_title, plot_height, 'closest')
 
         else:
-            if len(_result_df['_ids_'].unique()) > 1 and len(_result_df['_label_'].unique()) == 1:
+            if color=="_label_" and len(_result_df['_ids_'].unique()) > 1 and len(_result_df['_label_'].unique()) == 1:
+                warnings.warn("'color' parameter changed to '_ids_' because there are multiple observations for one model.")
                 color = '_ids_'
-                m = len(_result_df[color].dropna().unique())
-            elif len(_result_df['_ids_'].unique()) == len(_result_df['_label_'].unique()):
-                m = len(_result_df[color].dropna().unique())
-            elif len(_result_df['_ids_'].unique()) > 1:  # https://github.com/plotly/plotly.py/issues/2657
-                raise TypeError("Please pick one observation per label.")
+            elif color=="_label_" and len(_result_df['_ids_'].unique()) != len(_result_df['_label_'].unique()): 
+                # https://github.com/plotly/plotly.py/issues/2657
+                raise TypeError("Please pick one observation per label or change the `color` parameter.")
 
+            m = len(_result_df[color].dropna().unique())
+            _result_df[color] = _result_df[color].astype(object)  # prevent error when using pd.StringDtype
+            
             _result_df = _result_df.assign(_diff_=lambda x: x['_yhat_'] - x['_original_yhat_'])
             fig = px.bar(_result_df,
-                         x="_x_", y="_diff_", color=color, facet_col="_vname_",
+                         x="_diff_", y="_x_", color=color, facet_col="_vname_",
                          category_orders={"_vname_": list(variable_names)},
                          labels={'_yhat_': 'prediction', '_label_': 'label', '_ids_': 'id'},  # , color: 'group'},
                          # hover_data={'_yhat_': ':.3f', '_ids_': True, '_vname_': False, color: False},
@@ -343,26 +351,26 @@ class CeterisParibus:
                          facet_row_spacing=vertical_spacing,
                          facet_col_spacing=horizontal_spacing,
                          template="none",
-                         color_discrete_sequence=_theme.get_default_colors(m, 'line'),  # bar was forgotten
-                         barmode='group')  \
+                         color_discrete_sequence=_theme.get_default_colors(m, 'line'),
+                         barmode='group',
+                         orientation='h')  \
                     .update_traces(dict(opacity=alpha),
                                    hovertemplate="%{customdata[0]}<extra></extra>") \
-                    .update_xaxes({'matches': None, 'showticklabels': True,
-                                   'type': 'category', 'gridwidth': 2, 'automargin': True,  # autorange="reversed"
+                    .update_yaxes({'matches': None, 'showticklabels': True,
+                                   'type': 'category', 'gridwidth': 2, 'automargin': True, 
                                    'ticks': "outside", 'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True}) \
-                    .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
+                    .update_xaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                    'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True,
                                    'range': min_max})
 
             # add hline https://github.com/plotly/plotly.py/issues/2141
-            for i, bar in enumerate(fig.data):
-                fig.add_shape(type='line', y0=bar.base[0], y1=bar.base[0], x0=-1, x1=len(bar.x),
-                              xref=bar.xaxis, yref=bar.yaxis, layer='below',
+            for _, bar in enumerate(fig.data):
+                fig.add_vline(x=bar.base[0], layer='below',
                               line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'})
 
-        fig = _theme.fig_update_line_plot(fig, title, y_title, plot_height, 'closest')
+            fig = _theme.fig_update_bar_plot(fig, title, y_title, plot_height, 'closest')
+            
         fig.update_layout(hoverlabel=dict(bgcolor='rgba(0,0,0,0.8)'))
-
         if show:
             fig.show(config=_theme.get_default_config())
         else:

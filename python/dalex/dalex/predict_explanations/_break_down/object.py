@@ -1,28 +1,26 @@
-from warnings import warn
-
+import numpy as np
 from plotly.subplots import make_subplots
+import warnings
 
-from .plot import *
-from .checks import *
-from .utils import local_interactions
+from . import checks, plot, utils
 from ... import _theme, _global_checks
 
 
 class BreakDown:
-    """Calculate instance level variable attributions as Break Down
+    """Calculate predict-level variable attributions as Break Down
 
     Parameters
     -----------
     type : {'break_down_interactions', 'break_down'}
-        Type of variable attributions (default is 'break_down_interactions').
+        Type of variable attributions (default is `'break_down_interactions'`).
     order : list of int or str, optional
         Use a fixed order of variables for attribution calculation. Use integer values
-        or string variable names (default is None which means order by importance).
+        or string variable names (default is `None` which means order by importance).
     interaction_preference : int, optional
         Specify which interactions will be present in an explanation. The larger the
-        integer, the more frequently interactions will be presented (default is 1).
+        integer, the more frequently interactions will be presented (default is `1`).
     keep_distributions : bool, optional
-        Save the distribution of partial predictions (default is False).
+        Save the distribution of partial predictions (default is `False`).
 
     Attributes
     -----------
@@ -41,8 +39,8 @@ class BreakDown:
 
     Notes
     --------
-    https://pbiecek.github.io/ema/breakDown.html
-    https://pbiecek.github.io/ema/iBreakDown.html
+    - https://pbiecek.github.io/ema/breakDown.html
+    - https://pbiecek.github.io/ema/iBreakDown.html
     """
 
     def __init__(self,
@@ -51,11 +49,11 @@ class BreakDown:
                  interaction_preference=1,
                  keep_distributions=False):
 
-        order = check_order(order)
+        _order = checks.check_order(order)
 
         self.type = type
         self.keep_distributions = keep_distributions
-        self.order = order
+        self.order = _order
         self.interaction_preference = interaction_preference
         self.result = None
         self.yhats_distributions = None
@@ -82,27 +80,31 @@ class BreakDown:
         None
         """
 
-        new_observation = check_new_observation(new_observation, explainer)
-        if new_observation.shape[0] != 1:
-            warn("You should pass only one new_observation, taken only first")
-            new_observation = new_observation.iloc[0, :]
+        _new_observation = checks.check_new_observation(new_observation, explainer)
+        if _new_observation.shape[0] != 1:
+            warnings.warn("You should pass only one new_observation, taken only first")
+            _new_observation = _new_observation.iloc[0, :]
 
         if self.type == 'break_down_interactions':
-            result, yhats_distributions = local_interactions(explainer,
-                                                             new_observation,
-                                                             self.interaction_preference,
-                                                             '2d',
-                                                             self.order,
-                                                             self.keep_distributions)
+            result, yhats_distributions = utils.local_interactions(
+                explainer,
+                _new_observation,
+                self.interaction_preference,
+                '2d',
+                self.order,
+                self.keep_distributions
+            )
         elif self.type == 'break_down':
-            result, yhats_distributions = local_interactions(explainer,
-                                                             new_observation,
-                                                             self.interaction_preference,
-                                                             '1d',
-                                                             self.order,
-                                                             self.keep_distributions)
+            result, yhats_distributions = utils.local_interactions(
+                explainer,
+                _new_observation,
+                self.interaction_preference,
+                '1d',
+                self.order,
+                self.keep_distributions
+            )
         else:
-            raise ValueError("'type' must be one of 'break_down_interactions', 'break_down'")
+            raise ValueError("'type' must be one of {'break_down_interactions', 'break_down'}")
 
         self.result = result
         self.yhats_distributions = yhats_distributions
@@ -124,30 +126,30 @@ class BreakDown:
         Parameters
         -----------
         objects : BreakDown object or array_like of BreakDown objects
-            Additional objects to plot in subplots (default is None).
+            Additional objects to plot in subplots (default is `None`).
         baseline: float, optional
             Starting x point for bars (default is average prediction).
         max_vars : int, optional
             Maximum number of variables that will be presented for for each subplot
-            (default is 10).
+            (default is `10`).
         digits : int, optional
-            Number of decimal places (np.around) to round contributions.
-            See `rounding_function` parameter (default is 3).
+            Number of decimal places (`np.around`) to round contributions.
+            See `rounding_function` parameter (default is `3`).
         rounding_function : function, optional
-            A funciton that will be used for rounding numbers (default is np.around).
+            A function that will be used for rounding numbers (default is `np.around`).
         bar_width : float, optional
-            Width of bars in px (default is 16).
+            Width of bars in px (default is `16`).
         min_max : 2-tuple of float, optional
-            Range of x-axis (default is [min - 0.15*(max-min), max + 0.15*(max-min)]).
+            Range of OX axis (default is `[min-0.15*(max-min), max+0.15*(max-min)]`).
         vcolors : 3-tuple of str, optional
-            Color of bars (default is ["#371ea3", "#8bdcbe", "#f05a71"]).
+            Color of bars (default is `["#371ea3", "#8bdcbe", "#f05a71"]`).
         title : str, optional
-            Title of the plot (default is "Break Down").
+            Title of the plot (default is `"Break Down"`).
         vertical_spacing : float <0, 1>, optional
-            Ratio of vertical space between the plots (default is 0.2/number of rows).
+            Ratio of vertical space between the plots (default is `0.2/number of rows`).
         show : bool, optional
-            True shows the plot; False returns the plotly Figure object that can be
-            edited or saved using the `write_image()` method (default is True).
+            `True` shows the plot; `False` returns the plotly Figure object that can
+            be edited or saved using the `write_image()` method (default is `True`).
 
         Returns
         -----------
@@ -208,7 +210,7 @@ class BreakDown:
             if baseline is None:
                 baseline = _result.iloc[0, _result.columns.get_loc("cumulative")]
 
-            df = prepare_data_for_break_down_plot(_result, baseline, max_vars, rounding_function, digits)
+            df = plot.prepare_data_for_break_down_plot(_result, baseline, max_vars, rounding_function, digits)
 
             measure = ["relative"] * m
             measure[m - 1] = "total"

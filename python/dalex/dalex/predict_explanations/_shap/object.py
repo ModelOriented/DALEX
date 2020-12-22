@@ -1,26 +1,25 @@
+import numpy as np
 from plotly.subplots import make_subplots
 
-from .plot import *
-from .checks import *
-from .utils import shap
+from . import checks, plot, utils
 from ... import _theme, _global_checks
 
 
 class Shap:
-    """Calculate instance level variable attributions as Shapley Values
+    """Calculate predict-level variable attributions as Shapley Values
 
     Parameters
     -----------
     path : list of int, optional
         If specified, then attributions for this path will be plotted
-        (default is 'average', which plots attribution means for `B` random paths).
+        (default is `'average'`, which plots attribution means for `B` random paths).
     B : int, optional
-        Number of random paths to calculate variable attributions (default is 25).
+        Number of random paths to calculate variable attributions (default is `25`).
     keep_distributions : bool, optional
-        Save the distribution of partial predictions (default is False).
+        Save the distribution of partial predictions (default is `False`).
     processes : int, optional
         Number of parallel processes to use in calculations. Iterated over `B`
-        (default is 1, which means no parallel computation).
+        (default is `1`, which means no parallel computation).
     random_state : int, optional
         Set seed for random number generator (default is random seed).
 
@@ -47,7 +46,7 @@ class Shap:
 
     Notes
     --------
-    https://pbiecek.github.io/ema/shapley.html
+    - https://pbiecek.github.io/ema/shapley.html
     """
 
     def __init__(self,
@@ -57,19 +56,19 @@ class Shap:
                  processes=1,
                  random_state=None):
 
-        path_ = check_path(path)
-        processes_ = check_processes(processes)
-        random_state_ = check_random_state(random_state)
+        _path = checks.check_path(path)
+        _processess = checks.check_processes(processes)
+        _random_state = checks.check_random_state(random_state)
 
-        self.path = path_
+        self.path = _path
         self.keep_distributions = keep_distributions
         self.B = B
         self.result = None
         self.yhats_distributions = None
         self.prediction = None
         self.intercept = None
-        self.processes = processes_
-        self.random_state = random_state_
+        self.processes = _processess
+        self.random_state = _random_state
 
     def _repr_html_(self):
         return self.result._repr_html_()
@@ -93,14 +92,16 @@ class Shap:
         None
         """
 
-        new_observation = check_new_observation(new_observation, explainer)
-        check_columns_in_new_observation(new_observation, explainer)
-        self.result, self.prediction, self.intercept, self.yhats_distributions = shap(explainer,
-                                                                                      new_observation,
-                                                                                      self.path,
-                                                                                      self.keep_distributions,
-                                                                                      self.B,
-                                                                                      self.processes)
+        _new_observation = checks.check_new_observation(new_observation, explainer)
+        checks.check_columns_in_new_observation(_new_observation, explainer)
+        self.result, self.prediction, self.intercept, self.yhats_distributions = utils.shap(
+            explainer,
+            _new_observation,
+            self.path,
+            self.keep_distributions,
+            self.B,
+            self.processes
+        )
 
     def plot(self,
              objects=None,
@@ -119,30 +120,30 @@ class Shap:
         Parameters
         -----------
         objects : Shap object or array_like of Shap objects
-            Additional objects to plot in subplots (default is None).
+            Additional objects to plot in subplots (default is `None`).
         baseline: float, optional
             Starting x point for bars (default is average prediction).
         max_vars : int, optional
             Maximum number of variables that will be presented for for each subplot
-            (default is 10).
+            (default is `10`).
         digits : int, optional
-            Number of decimal places (np.around) to round contributions.
-            See `rounding_function` parameter (default is 3).
+            Number of decimal places (`np.around`) to round contributions.
+            See `rounding_function` parameter (default is `3`).
         rounding_function : function, optional
-            A funciton that will be used for rounding numbers (default is np.around).
+            A function that will be used for rounding numbers (default is `np.around`).
         bar_width : float, optional
-            Width of bars in px (default is 16).
+            Width of bars in px (default is `16`).
         min_max : 2-tuple of float, optional
-            Range of x-axis (default is [min - 0.15*(max-min), max + 0.15*(max-min)]).
+            Range of OX axis (default is `[min-0.15*(max-min), max+0.15*(max-min)]`).
         vcolors : 3-tuple of str, optional
-            Color of bars (default is ["#8bdcbe", "#f05a71"]).
+            Color of bars (default is `["#8bdcbe", "#f05a71"]`).
         title : str, optional
-            Title of the plot (default is "Shapley Values").
+            Title of the plot (default is `"Shapley Values"`).
         vertical_spacing : float <0, 1>, optional
-            Ratio of vertical space between the plots (default is 0.2/number of rows).
+            Ratio of vertical space between the plots (default is `0.2/number of rows`).
         show : bool, optional
-            True shows the plot; False returns the plotly Figure object that can be
-            edited or saved using the `write_image()` method (default is True).
+            `True` shows the plot; `False` returns the plotly Figure object that can 
+            be edited or saved using the `write_image()` method (default is `True`).
 
         Returns
         -----------
@@ -215,7 +216,7 @@ class Shap:
                 baseline = _intercept_list[i]
             prediction = _prediction_list[i]
 
-            df = prepare_data_for_shap_plot(_result, baseline, prediction, max_vars, rounding_function, digits)
+            df = plot.prepare_data_for_shap_plot(_result, baseline, prediction, max_vars, rounding_function, digits)
 
             fig.add_shape(
                 type='line',

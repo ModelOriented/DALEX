@@ -3,7 +3,7 @@ from . import checks
 
 
 class ShapWrapper:
-    """Explanation wrapper for the 'shap' package
+    """Explanation wrapper for the `shap` package
 
     This object uses the shap package to create the model explanation.
     See ttps://github.com/slundberg/shap
@@ -11,15 +11,14 @@ class ShapWrapper:
     Parameters
     ----------
     type : {'predict_parts', 'model_parts'}
-
+        Method type for calculations.
 
     Attributes
     ----------
     result : list or numpy.ndarray
         Calculated shap values for `new_observation` data.
-    shap_explainer : {shap.TreeExplainer, shap.DeepExplainer,
-        shap.GradientExplainer, shap.LinearExplainer, shap.KernelExplainer}
-        Explainer object from the 'shap' package.
+    shap_explainer : {shap.TreeExplainer, shap.DeepExplainer, shap.GradientExplainer, shap.LinearExplainer, shap.KernelExplainer}
+        Explainer object from the `shap` package.
     shap_explainer_type : {'TreeExplainer', 'DeepExplainer',
         'GradientExplainer', 'LinearExplainer', 'KernelExplainer'}
         String name of the Explainer class.
@@ -27,11 +26,11 @@ class ShapWrapper:
         Observations for which the shap values will be calculated
         (later stored in `result`).
     type : {'predict_parts', 'model_parts'}
-
+        Method type for calculations.
 
     Notes
     ----------
-    https://github.com/slundberg/shap
+    - https://github.com/slundberg/shap
     """
 
     def __init__(self, type):
@@ -56,9 +55,8 @@ class ShapWrapper:
             Model wrapper created using the Explainer class.
         new_observation : pd.Series or np.ndarray
             An observation for which a prediction needs to be explained.
-        shap_explainer_type : {'TreeExplainer', 'DeepExplainer',
-            'GradientExplainer', 'LinearExplainer', 'KernelExplainer'}
-            String name of the Explainer class (default is None, which automatically
+        shap_explainer_type : {'TreeExplainer', 'DeepExplainer', 'GradientExplainer', 'LinearExplainer', 'KernelExplainer'}
+            String name of the Explainer class (default is `None`, which automatically
             chooses an Explainer to use).
 
         Returns
@@ -94,13 +92,12 @@ class ShapWrapper:
 
         Parameters
         ----------
-        kwargs :
+        kwargs : dict
             Keyword arguments passed to one of the:
-                - shap.force_plot when type is 'predict_parts'
-                - shap.summary_plot when type is 'model_parts'
+                - shap.force_plot when type is `'predict_parts'`
+                - shap.summary_plot when type is `'model_parts'`
             Exceptions are: `base_value`, `shap_values`,
             `features` and `feature_names`.
-            Other parameters: https://github.com/slundberg/shap
 
         Returns
         -----------
@@ -108,7 +105,7 @@ class ShapWrapper:
 
         Notes
         --------
-        https://github.com/slundberg/shap
+        - https://github.com/slundberg/shap
         """
         from shap import force_plot, summary_plot
         

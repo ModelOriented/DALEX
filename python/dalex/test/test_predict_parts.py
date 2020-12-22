@@ -45,12 +45,12 @@ class PredictPartsTestTitanic(unittest.TestCase):
         self.exp2 = dx.Explainer(clf, self.X, self.y, label="model2", verbose=False)
 
     def test_bd(self):
-        self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='break_down'), dx.instance_level.BreakDown)
-        self.assertIsInstance(self.exp.predict_parts(self.X.iloc[0], type='break_down'), dx.instance_level.BreakDown)
+        self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='break_down'), dx.predict_explanations.BreakDown)
+        self.assertIsInstance(self.exp.predict_parts(self.X.iloc[0], type='break_down'), dx.predict_explanations.BreakDown)
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[0].values, type='break_down'),
-                              dx.instance_level.BreakDown)
+                              dx.predict_explanations.BreakDown)
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]].values, type='break_down'),
-                              dx.instance_level.BreakDown)
+                              dx.predict_explanations.BreakDown)
 
         with self.assertRaises(ValueError):
             self.exp.predict_parts(self.X.iloc[:2], type='break_down')
@@ -82,10 +82,10 @@ class PredictPartsTestTitanic(unittest.TestCase):
                              'intercept', 'embarked', 'gender', 'age', 'class', 'fare', 'sibsp', 'parch', '']).all())
 
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='break_down', path=[3, 0, 1, 2, 4, 5, 6]),
-                              dx.instance_level.BreakDown)
+                              dx.predict_explanations.BreakDown)
 
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='break_down', B=1),
-                              dx.instance_level.BreakDown)
+                              dx.predict_explanations.BreakDown)
 
         self.assertTrue(hasattr(self.exp.predict_parts(self.X.iloc[[0]], type='break_down', keep_distributions=True),
                                 'yhats_distributions'))
@@ -96,21 +96,21 @@ class PredictPartsTestTitanic(unittest.TestCase):
 
         # notify?
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='break_down', interaction_preference=2),
-            dx.instance_level.BreakDown)
+            dx.predict_explanations.BreakDown)
 
         # notify?
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='break_down', interaction_preference=0.5),
-            dx.instance_level.BreakDown)
+            dx.predict_explanations.BreakDown)
 
     def test_ibd(self):
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='break_down_interactions'),
-                              dx.instance_level.BreakDown)
+                              dx.predict_explanations.BreakDown)
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[0], type='break_down_interactions'),
-                              dx.instance_level.BreakDown)
+                              dx.predict_explanations.BreakDown)
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[0].values, type='break_down_interactions'),
-                              dx.instance_level.BreakDown)
+                              dx.predict_explanations.BreakDown)
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]].values, type='break_down_interactions'),
-                              dx.instance_level.BreakDown)
+                              dx.predict_explanations.BreakDown)
 
         with self.assertRaises(ValueError):
             self.exp.predict_parts(self.X.iloc[:2], type='break_down_interactions')
@@ -143,10 +143,10 @@ class PredictPartsTestTitanic(unittest.TestCase):
 
         self.assertIsInstance(
             self.exp.predict_parts(self.X.iloc[[0]], type='break_down_interactions', path=[3, 0, 1, 2, 4, 5, 6]),
-            dx.instance_level.BreakDown)
+            dx.predict_explanations.BreakDown)
 
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='break_down_interactions', B=1),
-                              dx.instance_level.BreakDown)
+                              dx.predict_explanations.BreakDown)
 
         self.assertTrue(
             hasattr(self.exp.predict_parts(self.X.iloc[[0]], type='break_down_interactions', keep_distributions=True),
@@ -159,19 +159,19 @@ class PredictPartsTestTitanic(unittest.TestCase):
 
         self.assertIsInstance(
             self.exp.predict_parts(self.X.iloc[[0]], type='break_down_interactions', interaction_preference=2),
-            dx.instance_level.BreakDown)
+            dx.predict_explanations.BreakDown)
 
         self.assertIsInstance(
             self.exp.predict_parts(self.X.iloc[[0]], type='break_down_interactions', interaction_preference=0.5),
-            dx.instance_level.BreakDown)
+            dx.predict_explanations.BreakDown)
 
     def test_shap(self):
-        self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='shap'), dx.instance_level.Shap)
-        self.assertIsInstance(self.exp.predict_parts(self.X.iloc[0], type='shap'), dx.instance_level.Shap)
-        self.assertIsInstance(self.exp.predict_parts(self.X.iloc[0].values, type='shap'), dx.instance_level.Shap)
-        self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]].values, type='shap'), dx.instance_level.Shap)
+        self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='shap'), dx.predict_explanations.Shap)
+        self.assertIsInstance(self.exp.predict_parts(self.X.iloc[0], type='shap'), dx.predict_explanations.Shap)
+        self.assertIsInstance(self.exp.predict_parts(self.X.iloc[0].values, type='shap'), dx.predict_explanations.Shap)
+        self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]].values, type='shap'), dx.predict_explanations.Shap)
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]].values, type='shap', processes=2),
-                              dx.instance_level.Shap)
+                              dx.predict_explanations.Shap)
 
         with self.assertRaises(ValueError):
             self.exp.predict_parts(self.X.iloc[:2], type='shap')
@@ -181,10 +181,10 @@ class PredictPartsTestTitanic(unittest.TestCase):
 
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]].values, type='shap',
                                                      order=['age', 'gender', 'sibsp', 'fare', 'parch', 'class',
-                                                            'embarked']), dx.instance_level.Shap)
+                                                            'embarked']), dx.predict_explanations.Shap)
 
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='shap', path=[3, 0, 1, 2, 4, 5, 6]),
-                              dx.instance_level.Shap)
+                              dx.predict_explanations.Shap)
 
         with self.assertRaises(TypeError):
             self.exp.predict_parts(self.X.iloc[[0]], type='shap',
@@ -195,7 +195,7 @@ class PredictPartsTestTitanic(unittest.TestCase):
         self.assertTrue((tmp.loc[tmp.B == 0, 'variable_name'].values == [
             'embarked', 'gender', 'age', 'class', 'fare', 'sibsp', 'parch']).all())
 
-        self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='shap', B=1), dx.instance_level.Shap)
+        self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='shap', B=1), dx.predict_explanations.Shap)
 
         self.assertTrue(hasattr(self.exp.predict_parts(self.X.iloc[[0]], type='shap', keep_distributions=True),
                                 'yhats_distributions'))
@@ -206,20 +206,20 @@ class PredictPartsTestTitanic(unittest.TestCase):
 
         # notify
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='shap', interaction_preference=2),
-            dx.instance_level.Shap)
+            dx.predict_explanations.Shap)
 
         # notify?
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='shap', interaction_preference=0.5),
-            dx.instance_level.Shap)
+            dx.predict_explanations.Shap)
 
     def test_plot(self):
         case1 = self.exp.predict_parts(self.X.iloc[0, :])
         case2 = self.exp2.predict_parts(self.X.iloc[1, :])
         case3 = self.exp.predict_parts(self.X.iloc[2, :], type="shap")
 
-        self.assertIsInstance(case1, dx.instance_level.BreakDown)
-        self.assertIsInstance(case2, dx.instance_level.BreakDown)
-        self.assertIsInstance(case3, dx.instance_level.Shap)
+        self.assertIsInstance(case1, dx.predict_explanations.BreakDown)
+        self.assertIsInstance(case2, dx.predict_explanations.BreakDown)
+        self.assertIsInstance(case3, dx.predict_explanations.Shap)
 
         fig1 = case1.plot(case2, min_max=[0, 1], show=False)
         fig2 = case2.plot((case2, ), max_vars=3, baseline=0.5, show=False)

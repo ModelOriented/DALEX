@@ -38,7 +38,6 @@ pip install dalex -U
 * More explanations: [residuals, shap, lime](https://dalex.drwhy.ai/python-dalex-new.html)
 * Introduction to the [Fairness module in dalex](https://dalex.drwhy.ai/python-dalex-fairness.html)
 * Introduction to the [Arena: interactive dashboard for model exploration](https://dalex.drwhy.ai/python-dalex-arena.html)
-
 * Code in the form of [jupyter notebook](https://github.com/ModelOriented/DALEX-docs/tree/master/jupyter-notebooks)
 * [YouTube video](https://www.youtube.com/watch?v=PuKF2GS4_3Y) showing how to do [Break Down](https://pbiecek.github.io/ema/breakDown.html) analysis
 * Changelog: [NEWS](https://github.com/ModelOriented/DALEX/blob/master/python/dalex/NEWS.md)

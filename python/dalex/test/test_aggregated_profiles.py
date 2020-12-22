@@ -55,7 +55,7 @@ class AggregatedProfilesTestTitanic(unittest.TestCase):
         self.helper_test('partial')
 
         alias = self.exp2.model_profile(type='pdp', center=False, verbose=False)
-        self.assertIsInstance(alias, dx.dataset_level.AggregatedProfiles)
+        self.assertIsInstance(alias, dx.model_explanations.AggregatedProfiles)
 
     def test_accumulated(self):
         self.helper_test('accumulated')
@@ -64,9 +64,9 @@ class AggregatedProfilesTestTitanic(unittest.TestCase):
                                                 center=False, verbose=False)
         alias = self.exp2.model_profile(type='ale', center=False, verbose=False)
 
-        self.assertIsInstance(case1, dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(case2, dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(alias, dx.dataset_level.AggregatedProfiles)
+        self.assertIsInstance(case1, dx.model_explanations.AggregatedProfiles)
+        self.assertIsInstance(case2, dx.model_explanations.AggregatedProfiles)
+        self.assertIsInstance(alias, dx.model_explanations.AggregatedProfiles)
 
         fig1 = case1.plot(show=False)
         fig2 = case2.plot(show=False)
@@ -103,19 +103,19 @@ class AggregatedProfilesTestTitanic(unittest.TestCase):
         case13 = self.exp2.model_profile(test_type, 100, center=False, span=0.5, grid_points=30,
                                          processes=2, verbose=False)
 
-        self.assertIsInstance(case1, dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(case2, dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(case3, dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(case4, dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(case5, dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(case6, dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(case7, dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(case8, dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(case9, dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(case10, dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(case11, dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(case12, dx.dataset_level.AggregatedProfiles)
-        self.assertIsInstance(case13, dx.dataset_level.AggregatedProfiles)
+        self.assertIsInstance(case1, dx.model_explanations.AggregatedProfiles)
+        self.assertIsInstance(case2, dx.model_explanations.AggregatedProfiles)
+        self.assertIsInstance(case3, dx.model_explanations.AggregatedProfiles)
+        self.assertIsInstance(case4, dx.model_explanations.AggregatedProfiles)
+        self.assertIsInstance(case5, dx.model_explanations.AggregatedProfiles)
+        self.assertIsInstance(case6, dx.model_explanations.AggregatedProfiles)
+        self.assertIsInstance(case7, dx.model_explanations.AggregatedProfiles)
+        self.assertIsInstance(case8, dx.model_explanations.AggregatedProfiles)
+        self.assertIsInstance(case9, dx.model_explanations.AggregatedProfiles)
+        self.assertIsInstance(case10, dx.model_explanations.AggregatedProfiles)
+        self.assertIsInstance(case11, dx.model_explanations.AggregatedProfiles)
+        self.assertIsInstance(case12, dx.model_explanations.AggregatedProfiles)
+        self.assertIsInstance(case13, dx.model_explanations.AggregatedProfiles)
 
         case_3_models = self.exp3.model_profile(test_type, 100, verbose=False)
 

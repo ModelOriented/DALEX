@@ -1,12 +1,13 @@
+import numpy as np
+import pandas as pd
 import plotly.graph_objects as go
 
-from dalex.dataset_level._model_performance.plot import ecdf
-from .utils import *
+from . import plot, utils
 from ... import _theme, _global_checks
 
 
 class ModelPerformance:
-    """Calculate dataset level model performance measures
+    """Calculate model-level model performance measures
 
     Parameters
     -----------
@@ -14,7 +15,7 @@ class ModelPerformance:
         Model task type that is used to choose the proper performance measures.
     cutoff : float, optional
         Cutoff for predictions in classification models. Needed for measures like
-        recall, precision, acc, f1 (default is 0.5).
+        recall, precision, acc, f1 (default is `0.5`).
 
     Attributes
     -----------
@@ -29,7 +30,7 @@ class ModelPerformance:
 
     Notes
     --------
-    https://pbiecek.github.io/ema/modelPerformance.html
+    - https://pbiecek.github.io/ema/modelPerformance.html
     """
     def __init__(self,
                  model_type,
@@ -71,19 +72,19 @@ class ModelPerformance:
         y_true = explainer.y
 
         if self.model_type == 'regression':
-            mse_ = mse(y_pred, y_true)
-            rmse_ = rmse(y_pred, y_true)
-            r2_ = r2(y_pred, y_true)
-            mae_ = mae(y_pred, y_true)
-            mad_ = mad(y_pred, y_true)
+            _mse = utils.mse(y_pred, y_true)
+            _rmse = utils.rmse(y_pred, y_true)
+            _r2 = utils.r2(y_pred, y_true)
+            _mae = utils.mae(y_pred, y_true)
+            _mad = utils.mad(y_pred, y_true)
 
             self.result = pd.DataFrame(
                 {
-                    'mse': [mse_],
-                    'rmse': [rmse_],
-                    'r2': [r2_],
-                    'mae': [mae_],
-                    'mad': [mad_]
+                    'mse': [_mse],
+                    'rmse': [_rmse],
+                    'r2': [_r2],
+                    'mae': [_mae],
+                    'mad': [_mad]
                 }, index=[explainer.label])
         elif self.model_type == 'classification':
             tp = ((y_true == 1) * (y_pred >= self.cutoff)).sum()
@@ -91,18 +92,18 @@ class ModelPerformance:
             tn = ((y_true == 0) * (y_pred < self.cutoff)).sum()
             fn = ((y_true == 1) * (y_pred < self.cutoff)).sum()
 
-            recall_ = recall(tp, fp, tn, fn)
-            precision_ = precision(tp, fp, tn, fn)
-            f1_ = f1(tp, fp, tn, fn)
-            accuracy_ = accuracy(tp, fp, tn, fn)
-            auc_ = auc(y_pred, y_true)
+            _recall = utils.recall(tp, fp, tn, fn)
+            _precision = utils.precision(tp, fp, tn, fn)
+            _f1 = utils.f1(tp, fp, tn, fn)
+            _accuracy = utils.accuracy(tp, fp, tn, fn)
+            _auc = utils.auc(y_pred, y_true)
 
             self.result = pd.DataFrame({
-                'recall': [recall_],
-                'precision': [precision_],
-                'f1': [f1_],
-                'accuracy': [accuracy_],
-                'auc': [auc_]
+                'recall': [_recall],
+                'precision': [_precision],
+                'f1': [_f1],
+                'accuracy': [_accuracy],
+                'auc': [_auc]
             }, index=[explainer.label])
         else:
             raise ValueError("'model_type' must be 'regression' or 'classification'")
@@ -125,12 +126,12 @@ class ModelPerformance:
         Parameters
         -----------
         objects : ModelPerformance object or array_like of ModelPerformance objects
-            Additional objects to plot (default is None).
+            Additional objects to plot (default is `None`).
         title : str, optional
             Title of the plot (default depends on the `type` attribute).
         show : bool, optional
-            True shows the plot; False returns the plotly Figure object that can be
-            edited or saved using the `write_image()` method (default is True).
+            `True` shows the plot; `False` returns the plotly Figure object that can 
+            be edited or saved using the `write_image()` method (default is `True`).
 
         Returns
         -----------
@@ -160,7 +161,7 @@ class ModelPerformance:
 
             fig.add_scatter(
                 x=_unique_abs_residuals,
-                y=1 - ecdf(_abs_residuals)(_unique_abs_residuals),
+                y=1 - plot.ecdf(_abs_residuals)(_unique_abs_residuals),
                 line_shape='hv',
                 name=_df.iloc[0, _df.columns.get_loc('label')],
                 marker=dict(color=colors[i])

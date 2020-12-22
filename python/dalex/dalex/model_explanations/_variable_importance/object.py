@@ -1,38 +1,39 @@
+import numpy as np
+import pandas as pd
 from plotly.subplots import make_subplots
 
-from .plot import *
-from .checks import *
-from .utils import calculate_variable_importance
+from . import checks, plot, utils
 from ... import _theme, _global_checks
 
 
 class VariableImportance:
-    """Calculate dataset level variable importance
+    """Calculate model-level variable importance
 
     Parameters
     -----------
     loss_function : {'rmse', '1-auc', 'mse', 'mae', 'mad'} or function, optional
         If string, then such loss function will be used to assess variable importance
-        (default is 'rmse' or `1-auc`, depends on `model_type` attribute).
+        (default is `'rmse'` or `'1-auc', depends on `model_type` attribute).
     type : {'variable_importance', 'ratio', 'difference'}, optional
         Type of transformation that will be applied to dropout loss.
     N : int, optional
         Number of observations that will be sampled from the `data` attribute before
-        the calculation of variable importance. None means all `data` (default is 1000).
+        the calculation of variable importance. 
+        `None` means all `data` (default is `1000`).
     B : int, optional
-        Number of permutation rounds to perform on each variable (default is 10).
+        Number of permutation rounds to perform on each variable (default is `10`).
     variables : array_like of str, optional
         Variables for which the importance will be calculated
-        (default is None, which means all of the variables).
+        (default is `None`, which means all of the variables).
         NOTE: Ignored if `variable_groups` is not None.
     variable_groups : dict of lists, optional
         Group the variables to calculate their joint variable importance
-        e.g. {'X': ['x1', 'x2'], 'Y': ['y1', 'y2']} (default is None).
+        e.g. `{'X': ['x1', 'x2'], 'Y': ['y1', 'y2']}` (default is `None`).
     keep_raw_permutations: bool, optional
-        Save results for all permutation rounds (default is True).
+        Save results for all permutation rounds (default is `True`).
     processes : int, optional
         Number of parallel processes to use in calculations. Iterated over `B`
-        (default is 1, which means no parallel computation).
+        (default is `1`, which means no parallel computation).
     random_state : int, optional
         Set seed for random number generator (default is random seed).
 
@@ -45,8 +46,8 @@ class VariableImportance:
     type : {'variable_importance', 'ratio', 'difference'}
         Type of transformation that will be applied to dropout loss.
     N : int
-        Number of observations that will be sampled from the `data` attribute before
-        the calculation of variable importance.
+        Number of observations that will be sampled from the `data` attribute 
+        before the calculation of variable importance.
     B : int
         Number of permutation rounds to perform on each variable.
     variables : array_like of str or None
@@ -64,7 +65,7 @@ class VariableImportance:
 
     Notes
     --------
-    https://pbiecek.github.io/ema/featureImportance.html
+    - https://pbiecek.github.io/ema/featureImportance.html
     """
 
     def __init__(self,
@@ -78,25 +79,24 @@ class VariableImportance:
                  processes=1,
                  random_state=None):
 
-        loss_function = check_loss_function(loss_function)
-        B = check_B(B)
-        type = check_type(type)
-        random_state = check_random_state(random_state)
-        keep_raw_permutations = check_keep_raw_permutations(keep_raw_permutations, B)
+        _loss_function = checks.check_loss_function(loss_function)
+        _B = checks.check_B(B)
+        _type = checks.check_type(type)
+        _random_state = checks.check_random_state(random_state)
+        _keep_raw_permutations = checks.check_keep_raw_permutations(keep_raw_permutations, B)
+        _processes = checks.check_processes(processes)
 
-        processes_ = check_processes(processes)
-
-        self.loss_function = loss_function
-        self.type = type
+        self.loss_function = _loss_function
+        self.type = _type
         self.N = N
-        self.B = B
+        self.B = _B
         self.variables = variables
         self.variable_groups = variable_groups
-        self.random_state = random_state
-        self.keep_raw_permutations = keep_raw_permutations
+        self.random_state = _random_state
+        self.keep_raw_permutations = _keep_raw_permutations
         self.result = None
         self.permutation = None
-        self.processes = processes_
+        self.processes = _processes
 
     def _repr_html_(self):
         return self.result._repr_html_()
@@ -117,17 +117,17 @@ class VariableImportance:
         """
 
         # if `variable_groups` are not specified, then extract from `variables`
-        self.variable_groups = check_variable_groups(self.variable_groups, explainer)
-        self.variables = check_variables(self.variables, self.variable_groups, explainer)
-        self.result, self.permutation = calculate_variable_importance(explainer,
-                                                                      self.type,
-                                                                      self.loss_function,
-                                                                      self.variables,
-                                                                      self.N,
-                                                                      self.B,
-                                                                      explainer.label,
-                                                                      self.processes,
-                                                                      self.keep_raw_permutations)
+        self.variable_groups = checks.check_variable_groups(self.variable_groups, explainer)
+        self.variables = checks.check_variables(self.variables, self.variable_groups, explainer)
+        self.result, self.permutation = utils.calculate_variable_importance(explainer,
+                                                                            self.type,
+                                                                            self.loss_function,
+                                                                            self.variables,
+                                                                            self.N,
+                                                                            self.B,
+                                                                            explainer.label,
+                                                                            self.processes,
+                                                                            self.keep_raw_permutations)
 
     def plot(self,
              objects=None,
@@ -144,26 +144,26 @@ class VariableImportance:
         Parameters
         -----------
         objects : VariableImportance object or array_like of VariableImportance objects
-            Additional objects to plot in subplots (default is None).
+            Additional objects to plot in subplots (default is `None`).
         max_vars : int, optional
             Maximum number of variables that will be presented for for each subplot
-            (default is 10).
+            (default is `10`).
         digits : int, optional
-            Number of decimal places (np.around) to round contributions.
-            See `rounding_function` parameter (default is 3).
+            Number of decimal places (`np.around`) to round contributions.
+            See `rounding_function` parameter (default is `3`).
         rounding_function : function, optional
-            A funciton that will be used for rounding numbers (default is np.around).
+            A function that will be used for rounding numbers (default is `np.around`).
         bar_width : float, optional
-            Width of bars in px (default is 16).
+            Width of bars in px (default is `16`).
         split : {'model', 'variable'}, optional
-            Split the subplots by model or variable (default is 'model').
+            Split the subplots by model or variable (default is `'model'`).
         title : str, optional
-            Title of the plot (default is "Variable Importance").
+            Title of the plot (default is `"Variable Importance"`).
         vertical_spacing : float <0, 1>, optional
-            Ratio of vertical space between the plots (default is 0.2/number of rows).
+            Ratio of vertical space between the plots (default is `0.2/number of rows`).
         show : bool, optional
-            True shows the plot; False returns the plotly Figure object that can be
-            edited or saved using the `write_image()` method (default is True).
+            `True` shows the plot; `False` returns the plotly Figure object that can 
+            be edited or saved using the `write_image()` method (default is `True`).
 
         Returns
         -----------
@@ -253,7 +253,7 @@ class VariableImportance:
                 lt = df.difference.apply(lambda val:
                                          "+"+str(rounding_function(np.abs(val), digits)) if val > 0
                                          else str(rounding_function(np.abs(val), digits)))
-                tt = df.apply(lambda row: tooltip_text(row, rounding_function, digits), axis=1)
+                tt = df.apply(lambda row: plot.tooltip_text(row, rounding_function, digits), axis=1)
                 df = df.assign(label_text=lt,
                                tooltip_text=tt)
 
@@ -315,7 +315,7 @@ class VariableImportance:
                 lt = df.difference.apply(lambda val:
                                          "+"+str(rounding_function(np.abs(val), digits)) if val > 0
                                          else str(rounding_function(np.abs(val), digits)))
-                tt = df.apply(lambda row: tooltip_text(row, rounding_function, digits), axis=1)
+                tt = df.apply(lambda row: plot.tooltip_text(row, rounding_function, digits), axis=1)
                 df = df.assign(label_text=lt,
                                tooltip_text=tt)
 

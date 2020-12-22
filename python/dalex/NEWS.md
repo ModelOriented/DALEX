@@ -1,5 +1,27 @@
 ## Changelog
 
+v1.0.0 (23/12/2020)
+----------------------------------------------------------------
+
+#### breaking changes
+
+These are summed up in ([#368](https://github.com/ModelOriented/DALEX/issues/368)):
+
+* rename modules: `dataset_level` into `model_exlpanations`, `instance_level` into `predict_explanations`, `_arena` module into `arena` 
+* use `__dir__` method to define autocompletion in IPython environment - show only `['Explainer', 'Arena', 'fairness', 'datasets']`
+* add `plot` method and `result` attribute to `LimeExplanation` (use `lime.explanation.Explanation.as_pyplot_figure()` and `lime.explanation.Explanation.as_list()`)
+* `CeterisParibus.plot(variable_type='categorical')` now has horizontal barplots - `horizontal_spacing=None` by default (varies on `variable_type`)
+* `predict_fn` in `predict_surrogate` now uses `predict_function` (trying to make it work for more frameworks)
+
+#### fixes
+
+* fixed wrong verbose output when any value in `y_hat/residuals` was an `int` not `float`
+
+#### other
+
+* remove `colorize` from `Explainer`
+* updated the documentation, refactored code (import modules not functions, unify variable names in `object.py`, move utils funcitons from `checks.py` to `utils.py`, etc.)
+
 v0.4.1 (02/12/2020)
 ----------------------------------------------------------------
 

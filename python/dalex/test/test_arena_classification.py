@@ -12,8 +12,8 @@ import dalex as dx
 import time
 import numpy as np
 import pandas as pd
-from dalex._arena.static import get_free_port, try_port
-from dalex._arena.plots import *
+from dalex.arena.static import get_free_port, try_port
+from dalex.arena.plots import *
 
 class ArenaTestTitanic(unittest.TestCase):
     def setUp(self):
