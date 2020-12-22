@@ -96,7 +96,7 @@ class GroupFairnessClassification(_FairnessObject):
         print(
             f'\nRatios of metrics, based on \'{self.privileged}\'. Parameter \'epsilon\' was set to {epsilon}'
             f' and therefore metrics should be within ({epsilon}, {round(1 / epsilon, 3)})')
-        print(utils.metric_ratios.to_string())
+        print(metric_ratios.to_string())
         if np.isnan(metric_ratios).sum().sum() > 0:
             helper.verbose_cat(
                 '\nWarning!\nTake into consideration that NaN\'s are present, consider checking \'metric_scores\' '

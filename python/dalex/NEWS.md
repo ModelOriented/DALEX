@@ -11,6 +11,7 @@ These are summed up in ([#368](https://github.com/ModelOriented/DALEX/issues/368
 * use `__dir__` method to define autocompletion in IPython environment - show only `['Explainer', 'Arena', 'fairness', 'datasets']`
 * add `plot` method and `result` attribute to `LimeExplanation` (use `lime.explanation.Explanation.as_pyplot_figure()` and `lime.explanation.Explanation.as_list()`)
 * `CeterisParibus.plot(variable_type='categorical')` now has horizontal barplots - `horizontal_spacing=None` by default (varies on `variable_type`)
+* `predict_fn` in `predict_surrogate` now uses `predict_function` (trying to make it work for more frameworks)
 
 #### fixes
 
