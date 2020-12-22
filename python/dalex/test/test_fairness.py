@@ -46,6 +46,10 @@ class FairnessTest(unittest.TestCase):
         self.mgf.label = 'first'
         self.mgf2.label = 'second'
 
+    def test_fairness_check(self):
+        self.mgf.fairness_check()
+        self.mgf2.fairness_check()
+        
     def test_ConfusionMatrix(self):
         y_true = np.array([0, 0, 0, 0, 1, 1, 1, 1])
         y_pred = np.array([0.32, 0.54, 0.56, 0.67, 0.34, 0.67, 0.98, 1])
