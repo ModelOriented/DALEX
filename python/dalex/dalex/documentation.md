@@ -1,6 +1,5 @@
-# dalex
 
-http://dalex.drwhy.ai/
+[dalex: Responsible Machine Learning in Python](http://dalex.drwhy.ai/)
 
 [![Python-check](https://github.com/ModelOriented/DALEX/workflows/Python-check/badge.svg)](https://github.com/ModelOriented/DALEX/actions?query=workflow%3APython-check)
 [![Supported Python
@@ -17,6 +16,10 @@ The main `Explainer` object creates a wrapper around a predictive model. Wrapped
 
 The philosophy behind `dalex` explanations is described in the [Explanatory Model Analysis](https://pbiecek.github.io/ema/) e-book.
 
+![](https://raw.githubusercontent.com/ModelOriented/DALEX/master/misc/DALEXpiramide.png)
+
+The `dalex` package is a part of [DrWhy.AI](http://DrWhy.AI) universe.
+
 ## Installation
 
 The `dalex` package is available [on PyPI](https://pypi.org/project/dalex/)
@@ -25,18 +28,16 @@ The `dalex` package is available [on PyPI](https://pypi.org/project/dalex/)
 pip install dalex -U
 ```
 
-## Resources
+## Examples
 
 * Introduction to the `dalex` package: [Titanic: tutorial and examples](https://dalex.drwhy.ai/python-dalex-titanic.html)
 * Key features explained: [FIFA20: explain default vs tuned model with dalex](https://dalex.drwhy.ai/python-dalex-fifa.html)
 * How to use dalex with: [xgboost](https://dalex.drwhy.ai/python-dalex-xgboost.html), [tensorflow](https://dalex.drwhy.ai/python-dalex-tensorflow.html), [h2o (feat. autokeras, catboost, lightgbm)](https://dalex.drwhy.ai/python-dalex-h2o.html)
 * More explanations: [residuals, shap, lime](https://dalex.drwhy.ai/python-dalex-new.html)
 * Introduction to the [Fairness module in dalex](https://dalex.drwhy.ai/python-dalex-fairness.html)
-* Introduction to the [Arena: interactive dashboard for model exploration](https://dalex.drwhy.ai/python-dalex-arena.html)
+* Introduction to the [Arena module in dalex](https://dalex.drwhy.ai/python-dalex-arena.html)
+* Arena documentation: [Getting Started & Demos](https://arena.drwhy.ai/docs/guide/basic-concepts/)
 * Code in the form of [jupyter notebook](https://github.com/ModelOriented/DALEX-docs/tree/master/jupyter-notebooks)
-* [YouTube video](https://www.youtube.com/watch?v=PuKF2GS4_3Y) showing how to do [Break Down](https://pbiecek.github.io/ema/breakDown.html) analysis
-* Changelog: [NEWS](https://github.com/ModelOriented/DALEX/blob/master/python/dalex/NEWS.md)
-* Theoretical introduction to the plots: [Explanatory Model Analysis: Explore, Explain, and Examine Predictive Models](https://pbiecek.github.io/ema)
 
 ## Plots
 
@@ -45,32 +46,6 @@ This package uses [plotly](https://plotly.com/python/) to render the plots:
 * Install extensions to use `plotly` in **JupyterLab**:&emsp;[Getting Started](https://plot.ly/python/getting-started/#jupyterlab-support-python-35)&emsp;[Troubleshooting](https://plot.ly/python/troubleshooting/#jupyterlab-problems)
 * Use `show=False` parameter in `plot` method to return `plotly Figure` object
 * It is possible to [edit the figures](https://plotly.com/python/#fundamentals) and [save them](https://plotly.com/python/static-image-export/)
-
-## Learn more
-
-Machine Learning models are widely used and have various applications in classification or regression tasks. Due to increasing computational power, availability of new data sources and new methods, ML models are more and more complex. Models created with techniques like boosting, bagging of neural networks are true black boxes. It is hard to trace the link between input variables and model outcomes. They are use because of high performance, but lack of interpretability is one of their weakest sides.
-
-In many applications we need to know, understand or prove how input variables are used in the model and what impact do they have on final model prediction.
-`dalex` is a set of tools that help to understand how complex models are working.
-
-- Materials from the [Explanatory Model Analysis Workshop @ eRum 2020](https://medium.com/@ModelOriented/materials-from-explanatory-model-analysis-workshop-erum-2020-278d6295f595)
-- Poster on fairness: [Hey, ML engineer! Is your model fair? @ MLinPL 2020](https://github.com/ModelOriented/DALEX-docs/blob/master/workshops/poster-fairness.pdf)
-- Talk about [Tools for Explainable AI @ X-Europe Webinars 2020](https://www.youtube.com/watch?v=EcDfSjR2lIw)
-- [Talk with your model! at USeR 2020](https://www.youtube.com/watch?v=9WWn5ew8D8o)
-
-## Authors
-
-Main authors of the `dalex` package are:
-
-* [Hubert Baniecki](https://github.com/hbaniecki)
-* [Wojciech Kretowicz](https://github.com/wojciechkretowicz)
-
-Under the supervision of [Przemyslaw Biecek](https://github.com/pbiecek).
-
-Other contributors:
-
-* [Piotr Piatyszek](https://github.com/piotrpiatyszek) maintains the `arena` module
-* [Jakub Wisnewski](https://github.com/jakwisn) maintains the `fairness` module
 
 -------------------------------------------
 

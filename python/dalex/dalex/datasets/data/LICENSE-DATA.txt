@@ -1,0 +1,15 @@
+This software is licensed under the GNU GENERAL PUBLIC LICENSE Version 3
+See file LICENSE. As for some preprocessed data:
+
+**** german.csv **************************************
+sources: https://www.kaggle.com/uciml/german-credit,
+ https://archive.ics.uci.edu/ml/datasets/Statlog+%28German+Credit+Data%29
+This data is licensed under the Database Contents License (DbCL) v1.0
+https://opendatacommons.org/licenses/dbcl/1-0/
+
+**** fifa.csv ****************************************
+source: https://www.kaggle.com/stefanoleone992/fifa-20-complete-player-dataset
+This data is licensed under the CC0 1.0 Universal (CC0 1.0)
+https://creativecommons.org/publicdomain/zero/1.0/
+
+******************************************************

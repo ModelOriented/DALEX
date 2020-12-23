@@ -5,6 +5,8 @@ import pandas as pd
 
 def load_titanic():
     """Load the preprocessed 'titanic' dataset
+    
+    Details: https://modeloriented.github.io/DALEX/reference/titanic.html
 
     Returns
     -----------
@@ -33,7 +35,10 @@ def load_fifa():
     It is advised to leave only one target variable for modeling.
 
     Format: pd.DataFrame with 5000 rows, 42 columns and index
+    
     Source: https://www.kaggle.com/stefanoleone992/fifa-20-complete-player-dataset#players_20.csv January 1, 2020
+    
+    License: see file ./data/LICENSE-DATA.txt
 
     Returns
     -----------
@@ -180,9 +185,12 @@ def load_german():
 
     Format: pd.DataFrame with 1000 rows and 10 columns
 
-    Source: https://archive.ics.uci.edu/ml/datasets/Statlog+(German+Credit+Data).
+    Source: https://archive.ics.uci.edu/ml/datasets/Statlog+(German+Credit+Data)
+    
     Kaggle: https://www.kaggle.com/kabure/german-credit-data-with-risk/
-
+    
+    License: see file ./data/LICENSE-DATA.txt
+    
     Returns
     -----------
     pd.DataFrame

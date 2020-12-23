@@ -1,2 +1,3 @@
 include NEWS.md
 include dalex/datasets/data/*
+include dalex/documentation.md

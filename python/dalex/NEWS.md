@@ -1,6 +1,6 @@
 ## Changelog
 
-v1.0.0 (23/12/2020)
+v1.0.0 (development)
 ----------------------------------------------------------------
 
 #### breaking changes
@@ -16,11 +16,13 @@ These are summed up in ([#368](https://github.com/ModelOriented/DALEX/issues/368
 #### fixes
 
 * fixed wrong verbose output when any value in `y_hat/residuals` was an `int` not `float`
+* added proper `"-"` sign to negative dropout losses in `VariableImportance.plot`
 
 #### other
 
 * remove `colorize` from `Explainer`
 * updated the documentation, refactored code (import modules not functions, unify variable names in `object.py`, move utils funcitons from `checks.py` to `utils.py`, etc.)
+* added license notice next to data
 
 v0.4.1 (02/12/2020)
 ----------------------------------------------------------------

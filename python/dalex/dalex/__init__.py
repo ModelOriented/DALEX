@@ -1,3 +1,8 @@
+"""
+.. include:: ./documentation.md
+"""
+
+
 from . import datasets
 from ._explainer.object import Explainer
 from .arena.object import Arena
