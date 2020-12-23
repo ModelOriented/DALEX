@@ -17,7 +17,9 @@ def check_shap_explainer_type(shap_explainer_type, model):
     if model_type.endswith("sklearn.ensemble._forest.RandomForestRegressor'>") or\
         model_type.endswith("sklearn.ensemble._forest.RandomForestClassifier'>") or\
         model_type.endswith("xgboost.core.Booster'>") or\
-        model_type.endswith("lightgbm.basic.Booster'>"):
+        model_type.endswith("lightgbm.basic.Booster'>") or\
+        model_type.endswith("catboost.core.CatBoostRegressor'>") or\
+        model_type.endswith("catboost.core.CatBoostClassifier'>"):
         shap_explainer_type = "TreeExplainer"
     elif model_type.endswith("'keras.engine.training.Model'>") or\
             model_type.endswith("nn.Module'>"):

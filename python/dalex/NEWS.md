@@ -10,13 +10,18 @@ These are summed up in ([#368](https://github.com/ModelOriented/DALEX/issues/368
 * rename modules: `dataset_level` into `model_exlpanations`, `instance_level` into `predict_explanations`, `_arena` module into `arena` 
 * use `__dir__` method to define autocompletion in IPython environment - show only `['Explainer', 'Arena', 'fairness', 'datasets']`
 * add `plot` method and `result` attribute to `LimeExplanation` (use `lime.explanation.Explanation.as_pyplot_figure()` and `lime.explanation.Explanation.as_list()`)
-* `CeterisParibus.plot(variable_type='categorical')` now has horizontal barplots - `horizontal_spacing=None` by default (varies on `variable_type`)
+* `CeterisParibus.plot(variable_type='categorical')` now has horizontal barplots - `horizontal_spacing=None` by default (varies on `variable_type`). Also, once again added the "dot" for observation value.
 * `predict_fn` in `predict_surrogate` now uses `predict_function` (trying to make it work for more frameworks)
 
 #### fixes
 
 * fixed wrong verbose output when any value in `y_hat/residuals` was an `int` not `float`
 * added proper `"-"` sign to negative dropout losses in `VariableImportance.plot`
+
+#### features
+
+* added `geom='bars'` to `AggregateProfiles.plot` to force the categorical plot 
+* added `geom='roc'` and `geom='lift'` to `ModelPerformance.plot`
 
 #### other
 

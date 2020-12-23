@@ -58,6 +58,8 @@ class ShapWrapper:
         shap_explainer_type : {'TreeExplainer', 'DeepExplainer', 'GradientExplainer', 'LinearExplainer', 'KernelExplainer'}
             String name of the Explainer class (default is `None`, which automatically
             chooses an Explainer to use).
+        kwargs: dict
+            Keyword parameters passed to the `shapley_values` method.
 
         Returns
         -----------
@@ -72,7 +74,10 @@ class ShapWrapper:
             new_observation = checks.check_new_observation_predict_parts(new_observation, explainer)
 
         if shap_explainer_type == "TreeExplainer":
-            self.shap_explainer = TreeExplainer(explainer.model, explainer.data.values)
+            try:
+                self.shap_explainer = TreeExplainer(explainer.model, explainer.data.values)
+            except: # https://github.com/ModelOriented/DALEX/issues/371
+                self.shap_explainer = TreeExplainer(explainer.model)
         elif shap_explainer_type == "DeepExplainer":
             self.shap_explainer = DeepExplainer(explainer.model, explainer.data.values)
         elif shap_explainer_type == "GradientExplainer":
@@ -81,7 +86,8 @@ class ShapWrapper:
             self.shap_explainer = LinearExplainer(explainer.model, explainer.data.values)
         elif shap_explainer_type == "KernelExplainer":
             self.shap_explainer = KernelExplainer(
-                lambda x: explainer.predict(x), explainer.data.values)
+                lambda x: explainer.predict(x), explainer.data.values
+            )
 
         self.result = self.shap_explainer.shap_values(new_observation.values, **kwargs)
         self.new_observation = new_observation

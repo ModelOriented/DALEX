@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import plotly.graph_objects as go
 
 from . import plot, utils
 from ... import _theme, _global_checks
@@ -119,7 +118,8 @@ class ModelPerformance:
 
     def plot(self,
              objects=None,
-             title="Reverse cumulative distribution of |residual|",
+             geom="ecdf",
+             title=None,
              show=False):
         """Plot the Model Performance explanation
 
@@ -127,6 +127,8 @@ class ModelPerformance:
         -----------
         objects : ModelPerformance object or array_like of ModelPerformance objects
             Additional objects to plot (default is `None`).
+        geom: {'ecdf', 'roc', 'lift'}
+            Type of plot determines how residuals shall be summarized.
         title : str, optional
             Title of the plot (default depends on the `type` attribute).
         show : bool, optional
@@ -139,6 +141,9 @@ class ModelPerformance:
             Return figure that can be edited or saved. See `show` parameter.
         """
 
+        if geom not in ("ecdf", "roc", "lift"):
+            raise TypeError("geom should be one of {'ecdf', 'roc', 'lift'}")
+        
         # are there any other objects to plot?
         if objects is None:
             _df_list = [self.residuals.copy()]
@@ -153,28 +158,15 @@ class ModelPerformance:
             _global_checks.global_raise_objects_class(objects, self.__class__)
 
         colors = _theme.get_default_colors(len(_df_list), 'line')
-        fig = go.Figure()
-
-        for i, _df in enumerate(_df_list):
-            _abs_residuals = np.abs(_df['residuals'])
-            _unique_abs_residuals = np.unique(_abs_residuals)
-
-            fig.add_scatter(
-                x=_unique_abs_residuals,
-                y=1 - plot.ecdf(_abs_residuals)(_unique_abs_residuals),
-                line_shape='hv',
-                name=_df.iloc[0, _df.columns.get_loc('label')],
-                marker=dict(color=colors[i])
-            )
-
-        fig.update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True, 'ticks': 'outside',
-                          'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True, 'tickformat': ',.0%'})
-
-        fig.update_xaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True, 'ticks': "outside",
-                          'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True, 'title_text': '|residual|'})
-
-        fig.update_layout(title_text=title, title_x=0.15, font={'color': "#371ea3"}, template="none",
-                          margin={'t': 78, 'b': 71, 'r': 30})
+        
+        if geom == 'ecdf':
+            fig = plot.plot_ecdf(_df_list, colors, title)
+        elif geom == 'roc':
+            fig = plot.plot_roc(_df_list, colors, title)
+        elif geom == 'lift':
+            fig = plot.plot_lift(_df_list, colors, title)
+        else:
+            raise TypeError("geom should be one of {'ecdf', 'roc', 'lift'}")
 
         if show:
             fig.show(config=_theme.get_default_config())

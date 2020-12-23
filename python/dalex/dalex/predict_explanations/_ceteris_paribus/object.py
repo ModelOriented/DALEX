@@ -326,13 +326,13 @@ class CeterisParibus:
                 for _, value in enumerate(fig_points.data):
                     fig.add_trace(value)
                     
-                fig = _theme.fig_update_line_plot(fig, title, y_title, plot_height, 'closest')
+            fig = _theme.fig_update_line_plot(fig, title, y_title, plot_height, 'closest')
 
         else:
             if color=="_label_" and len(_result_df['_ids_'].unique()) > 1 and len(_result_df['_label_'].unique()) == 1:
                 warnings.warn("'color' parameter changed to '_ids_' because there are multiple observations for one model.")
                 color = '_ids_'
-            elif color=="_label_" and len(_result_df['_ids_'].unique()) != len(_result_df['_label_'].unique()): 
+            elif color=="_label_" and len(_result_df['_ids_'].unique()) > len(_result_df['_label_'].unique()): 
                 # https://github.com/plotly/plotly.py/issues/2657
                 raise TypeError("Please pick one observation per label or change the `color` parameter.")
 
@@ -362,11 +362,28 @@ class CeterisParibus:
                     .update_xaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                    'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True,
                                    'range': min_max})
-
-            # add hline https://github.com/plotly/plotly.py/issues/2141
+                    
             for _, bar in enumerate(fig.data):
                 fig.add_vline(x=bar.base[0], layer='below',
                               line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'})
+                
+            if show_observations:
+                _points_df = _result_df.loc[_result_df['_original_'] == _result_df['_x_'], :].copy()
+
+                fig_points = px.scatter(_points_df,
+                                        x='_yhat_', y='_x_', facet_col='_vname_',
+                                        category_orders={"_vname_": list(variable_names)},
+                                        labels={'_yhat_': 'prediction', '_label_': 'label', '_ids_': 'id'},
+                                        custom_data=['_text_'],
+                                        facet_col_wrap=facet_ncol,
+                                        facet_row_spacing=vertical_spacing,
+                                        facet_col_spacing=horizontal_spacing,
+                                        color_discrete_sequence=["#371ea3"]) \
+                               .update_traces(dict(marker_size=5*size, opacity=alpha),
+                                              hovertemplate="%{customdata[0]}<extra></extra>")
+
+                for _, value in enumerate(fig_points.data):
+                    fig.add_trace(value)
 
             fig = _theme.fig_update_bar_plot(fig, title, y_title, plot_height, 'closest')
             

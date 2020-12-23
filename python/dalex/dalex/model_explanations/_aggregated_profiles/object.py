@@ -167,8 +167,9 @@ class AggregatedProfiles:
         -----------
         objects : AggregatedProfiles object or array_like of AggregatedProfiles objects
             Additional objects to plot in subplots (default is `None`).
-        geom : {'aggregates', 'profiles'}
-            If `'profiles'` then raw profiles will be plotted in the background
+        geom : {'aggregates', 'profiles', 'bars'}
+            If `'profiles'` then raw profiles will be plotted in the background,
+            'bars' overrides the `_x_` column type and uses barplots for categorical data
             (default is `'aggregates'`, which means plot only aggregated profiles).
             NOTE: It is useful to use small values of the `N` parameter in object creation
             before using `'profiles'`, because of plot performance and clarity (e.g. `100`).
@@ -206,8 +207,8 @@ class AggregatedProfiles:
             Return figure that can be edited or saved. See `show` parameter.
         """
 
-        if geom not in ("aggregates", "profiles"):
-            raise TypeError("geom should be 'aggregates' or 'profiles'")
+        if geom not in ("aggregates", "profiles", "bars"):
+            raise TypeError("geom should be one of {'aggregates', 'profiles', 'bars'}")
         if isinstance(variables, str):
             variables = (variables,)
 
@@ -240,7 +241,7 @@ class AggregatedProfiles:
         min_max_margin = dl.ptp() * 0.10
         min_max = [dl.min() - min_max_margin, dl.max() + min_max_margin]
 
-        is_x_numeric = pd.api.types.is_numeric_dtype(_result_df['_x_'])
+        is_x_numeric = False if geom == 'bars' else pd.api.types.is_numeric_dtype(_result_df['_x_'])
         n = len(all_variables)
 
         facet_nrow = int(np.ceil(n / facet_ncol))
@@ -298,7 +299,7 @@ class AggregatedProfiles:
             fig = px.bar(_result_df,
                          x="_x_", y="_diff_", color="_label_", facet_col="_vname_",
                          category_orders={"_vname_": list(all_variables)},
-                         labels={'_yhat_': 'prediction', '_mp_': 'mean_prediction'},  # , color: 'group'},
+                         labels={'_yhat_': 'prediction', '_label_': 'label', '_mp_': 'mean_prediction'},  # , color: 'group'},
                          hover_name=color,
                          base="_mp_",
                          hover_data={'_yhat_': ':.3f', '_mp_': mp_format, '_diff_': False,
@@ -316,10 +317,8 @@ class AggregatedProfiles:
                                    'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True,
                                    'range': min_max})
 
-            # add hline https://github.com/plotly/plotly.py/issues/2141
-            for i, bar in enumerate(fig.data):
-                fig.add_shape(type='line', y0=bar.base[0], y1=bar.base[0], x0=-1, x1=len(bar.x),
-                              xref=bar.xaxis, yref=bar.yaxis, layer='below',
+            for _, bar in enumerate(fig.data):
+                fig.add_hline(y=bar.base[0], layer='below',
                               line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'})
 
         fig = _theme.fig_update_line_plot(fig, title, y_title, plot_height, hovermode)
