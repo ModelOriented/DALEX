@@ -65,7 +65,7 @@ def start_server(arena, host, port, disable_logs):
     @app.route("/<string:plot_type>", methods=['GET'])
     def get_plot(plot_type):
         if plot_type == 'timestamp':
-            return {'timestamp': arena.timestamp * 1000}
+            return Response(json.dumps({'timestamp': arena.timestamp * 1000}, default=convert), content_type='application/json')
         elif plot_type == 'shutdown':
             if request.args.get('token') != shutdown_token:
                 abort(403)

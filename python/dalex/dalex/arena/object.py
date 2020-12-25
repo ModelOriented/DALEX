@@ -85,7 +85,8 @@ class Arena:
             CeterisParibusContainer,
             BreakDownContainer,
             MetricsContainer,
-            ROCContainer
+            ROCContainer,
+            FairnessCheckContainer
         ]
         self.options = {}
         for plot in self.plots:
