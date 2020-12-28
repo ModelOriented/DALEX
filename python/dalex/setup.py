@@ -1,6 +1,7 @@
 import codecs
 import os
 
+
 this_directory = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(this_directory, 'README.md'), encoding='utf-8') as f:
     readme = f.read()
@@ -78,6 +79,7 @@ def run_setup():
             "Operating System :: OS Independent",
         ],
         install_requires=[
+            'setuptools',
             'pandas>=1.1.2',
             'numpy>=1.18.4',
             'plotly>=4.12.0',
