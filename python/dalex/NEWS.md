@@ -22,6 +22,7 @@ These are summed up in ([#368](https://github.com/ModelOriented/DALEX/issues/368
 
 * added `geom='bars'` to `AggregateProfiles.plot` to force the categorical plot 
 * added `geom='roc'` and `geom='lift'` to `ModelPerformance.plot`
+* added Fairness plot to Arena
 
 #### other
 
