@@ -4,9 +4,10 @@ import warnings
 
 from . import checks, plot, utils
 from ... import _theme, _global_checks
+from ..._explanation import Explanation
 
 
-class BreakDown:
+class BreakDown(Explanation):
     """Calculate predict-level variable attributions as Break Down
 
     Parameters

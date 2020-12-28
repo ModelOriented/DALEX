@@ -5,9 +5,10 @@ from copy import deepcopy
 
 from . import checks, utils
 from ... import _theme, _global_checks, _global_utils
+from ..._explanation import Explanation
 
 
-class AggregatedProfiles:
+class AggregatedProfiles(Explanation):
     """Calculate model-level variable profiles as Partial or Accumulated Dependence
 
     - Partial Dependence Profile (average across Ceteris Paribus Profiles),

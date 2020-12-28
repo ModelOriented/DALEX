@@ -3,9 +3,10 @@ from plotly.subplots import make_subplots
 
 from . import checks, plot, utils
 from ... import _theme, _global_checks
+from ..._explanation import Explanation
 
 
-class Shap:
+class Shap(Explanation):
     """Calculate predict-level variable attributions as Shapley Values
 
     Parameters

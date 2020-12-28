@@ -4,9 +4,10 @@ import plotly.express as px
 
 from . import checks
 from ... import _theme, _global_checks, _global_utils
+from ..._explanation import Explanation
 
 
-class ResidualDiagnostics:
+class ResidualDiagnostics(Explanation):
     """Calculate model-level residuals diagnostics
 
     Parameters

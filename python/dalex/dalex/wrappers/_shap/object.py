@@ -1,8 +1,9 @@
 import numpy as np
 from . import checks
+from ..._explanation import Explanation
 
 
-class ShapWrapper:
+class ShapWrapper(Explanation):
     """Explanation wrapper for the `shap` package
 
     This object uses the shap package to create the model explanation.
