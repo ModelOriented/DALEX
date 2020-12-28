@@ -6,9 +6,10 @@ from copy import deepcopy
 
 from . import checks, plot, utils
 from ... import _theme, _global_checks, _global_utils
+from ..._explanation import Explanation
 
 
-class CeterisParibus:
+class CeterisParibus(Explanation):
     """Calculate predict-level variable profiles as Ceteris Paribus
 
     Parameters

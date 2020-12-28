@@ -4,9 +4,10 @@ from plotly.subplots import make_subplots
 
 from . import checks, plot, utils
 from ... import _theme, _global_checks
+from ..._explanation import Explanation
 
 
-class VariableImportance:
+class VariableImportance(Explanation):
     """Calculate model-level variable importance
 
     Parameters

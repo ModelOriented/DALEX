@@ -3,9 +3,10 @@ import pandas as pd
 
 from . import plot, utils
 from ... import _theme, _global_checks
+from ..._explanation import Explanation
 
 
-class ModelPerformance:
+class ModelPerformance(Explanation):
     """Calculate model-level model performance measures
 
     Parameters
