@@ -73,7 +73,11 @@ def calculate_variable_profile(predict_function,
 
     profiles = pd.concat(profile)
     # convert the variable types
-    profiles.loc[:, list(variable_splits)] = profiles.loc[:, list(variable_splits)].convert_dtypes()
+    if pd.__version__ >= '1.2.0':
+        # convert_floating=False since pandas v1.2 seem to have issues
+        profiles.loc[:, list(variable_splits)] = profiles.loc[:, list(variable_splits)].convert_dtypes(convert_floating=False)
+    else:
+        profiles.loc[:, list(variable_splits)] = profiles.loc[:, list(variable_splits)].convert_dtypes()
 
     return profiles
 

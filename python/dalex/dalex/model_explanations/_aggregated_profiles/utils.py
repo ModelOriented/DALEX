@@ -99,7 +99,7 @@ def split_over_variables_and_labels(split_profile, type, groups, span):
 
 
 def norm(x, loc, scale):
-    return np.exp(-((x - loc) / scale) ** 2 / 2) / np.pi / np.sqrt(2) / scale
+    return np.exp(-1 * ((x - loc) / scale) ** 2 / 2) / np.pi / np.sqrt(2) / scale
 
 
 def prepare_numerical_categorical(all_profiles, variables, variable_type):
