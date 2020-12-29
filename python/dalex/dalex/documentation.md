@@ -47,6 +47,21 @@ This package uses [plotly](https://plotly.com/python/) to render the plots:
 * Use `show=False` parameter in `plot` method to return `plotly Figure` object
 * It is possible to [edit the figures](https://plotly.com/python/#fundamentals) and [save them](https://plotly.com/python/static-image-export/)
 
+## Citation
+
+If you use `dalex`, please cite our paper:
+
+```html
+@article{dalex,
+  title={dalex: Responsible Machine Learning with Interactive Explainability and Fairness in Python}, 
+  author={Hubert Baniecki and Wojciech Kretowicz and Piotr Piatyszek and Jakub Wisniewski and Przemyslaw Biecek},
+  year={2020},
+  eprint={2012.14406},
+  archivePrefix={arXiv},
+  url={https://arxiv.org/abs/2012.14406}
+}
+```
+
 ## Developer
 
 ### Class diagram

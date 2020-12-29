@@ -41,6 +41,21 @@ Other contributors:
 * [Piotr Piatyszek](https://github.com/piotrpiatyszek) maintains the `arena` module
 * [Jakub Wisnewski](https://github.com/jakwisn) maintains the `fairness` module
 
+## Citation
+
+If you use `dalex`, please cite our paper:
+
+```
+@article{dalex,
+  title={dalex: Responsible Machine Learning with Interactive Explainability and Fairness in Python}, 
+  author={Hubert Baniecki and Wojciech Kretowicz and Piotr Piatyszek and Jakub Wisniewski and Przemyslaw Biecek},
+  year={2020},
+  eprint={2012.14406},
+  archivePrefix={arXiv},
+  url={https://arxiv.org/abs/2012.14406}
+}
+```
+
 -------------------------------------------
 
 

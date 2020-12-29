@@ -26,3 +26,5 @@ python/dalex/pdoc_template/*
 **/catboost_info/*
 **/mlruns/*
 *.log
+
+*.gz
