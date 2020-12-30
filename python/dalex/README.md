@@ -25,7 +25,13 @@ The `dalex` package is available [on PyPI](https://pypi.org/project/dalex/)
 pip install dalex -U
 ```
 
-## Resources: https://dalex.drwhy.ai/python
+### Resources: https://dalex.drwhy.ai/python
+
+![](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-diagram.png)
+
+### API reference: https://dalex.drwhy.ai/python/api
+
+![](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-class.png)
 
 ## Authors
 
@@ -47,7 +53,7 @@ If you use `dalex`, please cite our paper:
 
 ```
 @article{dalex,
-  title={dalex: Responsible Machine Learning with Interactive Explainability and Fairness in Python}, 
+  title={dalex: Responsible Machine Learning with Interactive Explainability and Fairness in Python},
   author={Hubert Baniecki and Wojciech Kretowicz and Piotr Piatyszek and Jakub Wisniewski and Przemyslaw Biecek},
   year={2020},
   eprint={2012.14406},
@@ -57,5 +63,3 @@ If you use `dalex`, please cite our paper:
 ```
 
 -------------------------------------------
-
-
