@@ -87,13 +87,16 @@ def plot_fairness_check(fobject,
 
         ]))
 
-    fig.update_yaxes(tickvals=list(subgroup_tick_dict.values()),
-                     ticktext=list(subgroup_tick_dict.keys()))
-
     # change axes range and labs
     fig.update_xaxes(tickvals=ticks,
                      ticktext=(ticks + 1).round(1),
                      range=[lower_bound, upper_bound])
+
+    fig.update_yaxes(tickvals=list(subgroup_tick_dict.values()),
+                     ticktext=list(subgroup_tick_dict.keys()),
+                     range=[0,1])
+
+
 
     # refs are dependent on fixed numbers of metrics
     refs = ['y', 'y2', 'y3', 'y4', 'y5']

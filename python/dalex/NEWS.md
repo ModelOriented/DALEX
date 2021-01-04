@@ -1,5 +1,11 @@
 ## Changelog
 
+development
+----------------------------------------------------------------
+
+#### bug fixes
+* fixed broken range on `yaxis` in `fairness_check` plot ([#376](https://github.com/ModelOriented/DALEX/issues/376))
+
 v1.0.0 (29/12/2020)
 ----------------------------------------------------------------
 
