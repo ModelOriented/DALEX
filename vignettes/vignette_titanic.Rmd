@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 # Data for Titanic survival
 
 Let's see an example for `DALEX` package for classification models for the survival problem for Titanic dataset.
-Here we are using a dataset `titanic` avaliable in teh `DALEX` package. Note that this data was copied from the `stablelearner` package.
+Here we are using a dataset `titanic` available in the `DALEX` package. Note that this data was copied from the `stablelearner` package.
 
 ```{r}
 library("DALEX")
@@ -43,7 +43,7 @@ model_titanic_rf
 
 # Explainer for Titanic survival
 
-The third step (it's optional but useful) is to create a `DALEX` explainer for random forest model.
+The third step (it's optional but useful) is to create a `DALEX` explainer for the random forest model.
 
 ```{r}
 library("DALEX")
@@ -56,7 +56,7 @@ explain_titanic_rf <- explain(model_titanic_rf,
 
 # Variable importance plots
 
-Use the `variable_importance()` explainer to present importance of particular features. Note that `type = "difference"` normalizes dropouts, and now they all start in 0.
+Use the `variable_importance()` explainer to present the importance of particular features. Note that `type = "difference"` normalizes dropouts, and now they all start in 0.
 
 ```{r}
 vi_rf <- model_parts(explain_titanic_rf)
@@ -66,13 +66,13 @@ plot(vi_rf)
 
 # Variable effects
 
-As we see the most important feature is `Sex`. Next three importnat features are `Pclass`, `Age` and `Fare`. Let's see the link between model response and these features.
+As we see the most important feature is `Sex`. Next three important features are `Pclass`, `Age` and `Fare`. Let's see the link between model response and these features.
 
 Such univariate relation can be calculated with `variable_effect()`.
 
 ## Age
 
-Kids 5 years old and younger have much higher survival probability.
+Kids 5 years old and younger have a much higher survival probability.
 
 ```{r}
 vr_age  <- model_profile(explain_titanic_rf, variables =  "age")
@@ -80,9 +80,9 @@ head(vr_age)
 plot(vr_age)
 ```
 
-## Passanger class
+## Passenger class
 
-Passangers in the first class have much higher survival probability.
+Passengers in the first-class have much higher survival probability.
 
 ```{r}
 vr_class  <- model_profile(explain_titanic_rf, variables =  "class")
@@ -100,7 +100,7 @@ plot(vr_fare)
 
 ## Embarked
 
-Passangers that embarked from C have highest survival.
+Passengers that embarked from C have the highest survival.
 
 ```{r}
 vr_embarked  <- model_profile(explain_titanic_rf, variables =  "embarked")
@@ -110,7 +110,7 @@ plot(vr_embarked)
 
 # Instance level explanations
 
-Let's see break down explanation for model predictions for 8 years old male from 1st class that embarked from port C.
+Let's see break-down explanation for model predictions for 8 years old male from 1st class that embarked from port C.
 
 ```{r}
 new_passanger <- data.frame(
@@ -127,7 +127,7 @@ sp_rf <- predict_parts(explain_titanic_rf, new_passanger)
 plot(sp_rf)
 ```
 
-It looks like the most important feature for this passenger is `age` and `sex`. After all his odds for survival are higher than for the average passenger. Mainly because of the young age and despite of being a male.
+It looks like the most important feature for this passenger is `age` and `sex`. After all his odds for survival are higher than for the average passenger. Mainly because of the young age and despite being a male.
 
 # More models
 
