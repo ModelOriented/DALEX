@@ -96,8 +96,6 @@ def plot_fairness_check(fobject,
                      ticktext=list(subgroup_tick_dict.keys()),
                      range=[0,1])
 
-
-
     # refs are dependent on fixed numbers of metrics
     refs = ['y', 'y2', 'y3', 'y4', 'y5']
     left_red = [{'type': "rect",
@@ -599,3 +597,34 @@ def plot_ceteris_paribus_cutoff(fobject,
         ]))
 
     return fig
+
+
+def plot_boxplot(fobject,
+                 other_objects,
+                 title,
+                 show):
+
+        data = pd.DataFrame(columns= ['y', 'y_hat','subgroup','model'])
+        objects = [fobject]
+        if other_objects is not None:
+            for other_obj in other_objects:
+                objects.append(other_obj)
+        for obj in objects:
+            print("dasa")
+            for subgroup in obj.regression_dict.regression_dict.keys():
+                y, y_hat = obj.regression_dict.regression_dict[subgroup].values()
+                data_to_append = pd.DataFrame({'y': y,
+                                               'y_hat': y_hat,
+                                               'subgroup': np.repeat(subgroup, len(y)),
+                                               'model': np.repeat(obj.label, len(y))})
+                data = data.append(data_to_append)
+
+        fig = px.box(data,
+                     x = 'y_hat',
+                     y = 'model',
+                     color='subgroup')
+
+        return fig
+
+
+

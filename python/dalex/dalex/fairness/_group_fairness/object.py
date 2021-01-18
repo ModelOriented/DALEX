@@ -209,45 +209,85 @@ class GroupFairnessClassification(_FairnessObject):
 
         if type == 'fairness_check':
             fig = plot.plot_fairness_check(self,
-                                      other_objects=other_objects,
-                                      title=title, **kwargs)
+                                           other_objects=other_objects,
+                                           title=title, **kwargs)
 
         elif type == "metric_scores":
             fig = plot.plot_metric_scores(self,
-                                     other_objects=other_objects,
-                                     title=title,
-                                     **kwargs)
+                                          other_objects=other_objects,
+                                          title=title,
+                                          **kwargs)
 
         # names of plots may be changed
         elif type == 'stacked':
             fig = plot.plot_stacked(self,
-                               other_objects=other_objects,
-                               title=title,
-                               **kwargs)
+                                    other_objects=other_objects,
+                                    title=title,
+                                    **kwargs)
 
         elif type == 'radar':
             fig = plot.plot_radar(self,
-                             other_objects=other_objects,
-                             title=title,
-                             **kwargs)
+                                  other_objects=other_objects,
+                                  title=title,
+                                  **kwargs)
 
         elif type == 'performance_and_fairness':
             fig = plot.plot_performance_and_fairness(self,
-                                                other_objects=other_objects,
-                                                title=title,
-                                                **kwargs)
+                                                     other_objects=other_objects,
+                                                     title=title,
+                                                     **kwargs)
 
         elif type == 'heatmap':
             fig = plot.plot_heatmap(self,
-                               other_objects=other_objects,
-                               title=title,
-                               **kwargs)
+                                    other_objects=other_objects,
+                                    title=title,
+                                    **kwargs)
 
         elif type == 'ceteris_paribus_cutoff':
             fig = plot.plot_ceteris_paribus_cutoff(self,
-                                              other_objects=other_objects,
-                                              title=title,
-                                              **kwargs)
+                                                   other_objects=other_objects,
+                                                   title=title,
+                                                   **kwargs)
+
+        else:
+            raise ParameterCheckError(f"plot type {type} not supported, try other types.")
+
+        if show:
+            fig.show(config=get_default_config())
+        else:
+            return fig
+
+
+class GroupFairnessRegression:
+
+    def __init__(self, y, y_hat, protected, privileged, label, verbose=False ):
+
+        super().__init__()
+
+        rd = utils.RegressionDict(y, y_hat, protected, privileged)
+
+        self.regression_dict = rd
+        self.label = label
+
+    def fairness_check(self):
+        pass
+
+
+    def plot(self, objects=None, type='boxplot', show=True, **kwargs):
+
+        other_objects = []
+        if objects is not None:
+            for obj in objects:
+                if isinstance(obj, self.__class__):
+                    other_objects.append(obj)
+            basic_checks.check_other_fairness_objects(self, other_objects)
+
+        if type == 'boxplot':
+            fig = plot.plot_boxplot(self,
+                                    other_objects,
+                                    title=None,
+                                    show=True,
+                                    **kwargs)
 
         else:
             raise ParameterCheckError(f"plot type {type} not supported, try other types.")

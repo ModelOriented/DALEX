@@ -1,9 +1,12 @@
 from copy import deepcopy
+
 import numpy as np
 import pandas as pd
 
 from ..._explainer import helper
 from ...model_explanations._model_performance import utils
+
+
 # -------------- Objects needed in creation of object in object.py --------------
 
 class ConfusionMatrix:
@@ -134,7 +137,7 @@ def calculate_parity_loss(sub_confusion_matrix_metrics, privileged):
 
 def calculate_ratio(sub_confusion_matrix_metrics, privileged):
     """
-    Calculates ratio of metrix - divides all by privileged
+    Calculates ratio of metrics - divides all by privileged
     Does not allow for zeros in ratios, instead puts NaN
     """
     assert isinstance(sub_confusion_matrix_metrics, SubgroupConfusionMatrixMetrics)
@@ -147,8 +150,6 @@ def calculate_ratio(sub_confusion_matrix_metrics, privileged):
     df_ratio[np.isinf(df_ratio)] = np.nan
     df_out = pd.DataFrame(df_ratio, index=df.index.values, columns=df.columns)
     return df_out
-
-
 
 
 # -------------- Functions used in plots --------------
@@ -185,6 +186,7 @@ def _unwrap_parity_loss_data(fobject, other_objects, metrics, verbose):
 
     return data
 
+
 def _fairness_theme(title):
     return {'title_text': title,
             'template': 'plotly_white',
@@ -202,7 +204,7 @@ def _metric_ratios_2_df(fobject):
     """
 
     data = fobject.result
-    data = data.stack(dropna = False)
+    data = data.stack(dropna=False)
     data = data.reset_index()
     data.columns = ["subgroup", "metric", "score"]
     data = data.loc[data.metric.isin(["TPR", "ACC", "PPV", "FPR", "STP"])]
@@ -213,8 +215,8 @@ def _metric_ratios_2_df(fobject):
 
     return data
 
-def _classification_performance(fobject, verbose, type='accuracy'):
 
+def _classification_performance(fobject, verbose, type='accuracy'):
     tp = tn = fp = fn = 0
     for key, val in fobject._subgroup_confusion_matrix.sub_dict.items():
         tp += val.tp
@@ -222,19 +224,69 @@ def _classification_performance(fobject, verbose, type='accuracy'):
         fp += val.fp
         fn += val.fn
 
-    if type=='accuracy':
+    if type == 'accuracy':
         return utils.accuracy(tp, fp, tn, fn)
-    if type=='auc':
+    if type == 'auc':
         helper.verbose_cat("Beware, that auc metric is insensitive to cutoffs", verbose)
         return utils.auc(fobject.y_hat, fobject.y)
-    if type=='recall':
+    if type == 'recall':
         return utils.recall(tp, fp, tn, fn)
-    if type=='precision':
-        return  utils.precision(tp, fp, tn, fn)
-    if type=='f1':
+    if type == 'precision':
+        return utils.precision(tp, fp, tn, fn)
+    if type == 'f1':
         return utils.f1(tp, fp, tn, fn)
     else:
         raise TypeError(f'type \'{type}\' not supported')
+
+
+# -------------- Functions needed in creation and methods of object in object.py --------------
+
+class RegressionDict:
+
+    def __init__(self, y, y_hat, protected, privileged, verbose=False):
+        self.y = y
+        self.y_hat = y_hat
+        self.protected = protected
+        self.privileged = privileged
+        self.regression_dict = {}
+        self.subgroup_metrics = {}
+        self.subgroup_metric_comparison = {}
+
+
+        subgroups = set(protected)
+
+        for subgroup in subgroups:
+            sub_y = y[np.where(protected == subgroup)]
+            sub_y_hat = y_hat[np.where(protected == subgroup)]
+            self.regression_dict[subgroup] = {'y': sub_y, 'y_hat': sub_y_hat}
+
+        from scipy.stats import wasserstein_distance  # earth mover distance
+
+        for subgroup in self.regression_dict.keys():
+            y, y_hat = self.regression_dict[subgroup].values()
+
+            self.subgroup_metrics[subgroup] = {
+                'mae': utils.mae(y_hat, y),
+                'rmse': utils.rmse(y_hat, y),
+                'mean_prediction': np.mean(y_hat),
+                'earth_movers_distance': wasserstein_distance(y, y_hat)
+            }
+
+        y_hat = self.y_hat
+        protected = self.protected
+        prot_y_hat = y_hat[np.where(protected == privileged)]
+
+        for subgroup in self.regression_dict.keys():
+            sub_y_hat = y_hat[np.where(protected == subgroup)]
+
+            self.subgroup_metric_comparison[subgroup] = {
+                'mae_ratio': self.subgroup_metrics[subgroup].get("mae") / self.subgroup_metrics[privileged].get("mae"),
+                'rmse_ratio': self.subgroup_metrics[subgroup].get("rmse") / self.subgroup_metrics[privileged].get("rmse"),
+                'mean_prediction_ratio': self.subgroup_metrics[subgroup].get("mean_prediction") / self.subgroup_metrics[
+                    privileged].get("mean_prediction"),
+                'earth_movers_distance_between_y_hats': wasserstein_distance(prot_y_hat, sub_y_hat)
+            }
+
 
 # -------------- Helper functions --------------
 def fairness_check_metrics():

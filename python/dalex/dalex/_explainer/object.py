@@ -4,7 +4,7 @@ from dalex.model_explanations import ModelPerformance, VariableImportance, \
     AggregatedProfiles, ResidualDiagnostics
 from dalex.predict_explanations import BreakDown, Shap, CeterisParibus
 from dalex.wrappers import ShapWrapper
-from dalex.fairness import GroupFairnessClassification
+from dalex.fairness import GroupFairnessClassification, GroupFairnessRegression
 
 from . import checks
 from . import utils
@@ -867,19 +867,26 @@ class Explainer:
         - Hardt, M., et al. (2016) https://arxiv.org/pdf/1610.02413.pdf
         """
 
-        if self.model_type != 'classification':
-            raise ValueError(
-                "fairness module for now supports only classification models."
-                "Explainer attribute 'model_type' must be 'classification'")
+        if self.model_type == 'classification':
+            fobject = GroupFairnessClassification(y=self.y,
+                                                  y_hat=self.y_hat,
+                                                  protected=protected,
+                                                  privileged=privileged,
+                                                  cutoff=cutoff,
+                                                  label=self.label,
+                                                  **kwargs)
 
-        fobject = GroupFairnessClassification(y=self.y,
+        elif self.model_type == 'regression':
+            fobject = GroupFairnessRegression(y=self.y,
                                               y_hat=self.y_hat,
                                               protected=protected,
                                               privileged=privileged,
-                                              cutoff=cutoff,
                                               label=self.label,
                                               **kwargs)
-        
+
+        else :
+            raise ValueError("model_type must be either 'classification' or 'regression'")
+
         if label:
              fobject.label = label
 
