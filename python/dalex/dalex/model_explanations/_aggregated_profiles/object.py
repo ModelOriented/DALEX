@@ -13,7 +13,7 @@ class AggregatedProfiles(Explanation):
 
     - Partial Dependence Profile (average across Ceteris Paribus Profiles),
     - Individual Conditional Expectation (local weighted average across CP Profiles),
-    - Accumulated Local Effects (cummulated average local changes in CP Profiles).
+    - Accumulated Local Effects (cumulated average local changes in CP Profiles).
 
     Parameters
     -----------
