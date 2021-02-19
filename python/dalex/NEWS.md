@@ -1,10 +1,11 @@
 ## Changelog
 
-development
+v1.0.1 (19/02/2021)
 ----------------------------------------------------------------
 
-#### bug fixes
+#### fixes
 * fixed broken range on `yaxis` in `fairness_check` plot ([#376](https://github.com/ModelOriented/DALEX/issues/376))
+* warnings because `np.float` is depracated since `numpy` v1.20 ([#384](https://github.com/ModelOriented/DALEX/issues/384))
 
 v1.0.0 (29/12/2020)
 ----------------------------------------------------------------
@@ -44,7 +45,7 @@ v0.4.1 (02/12/2020)
 * updated the `plotly` dependency to `>=4.12.0`
 * code maintenance: `yhat`, `check_data`
 
-#### bug fixes
+#### fixes
 
 * fixed `check_if_empty_fields()` used in loading the `Explainer` from a pickle file, since several checks were changed
 * fixed `plot()` method in `GroupFairnessClassification` as it omitted plotting a metric when `NaN` was present in metric ratios (result)
@@ -81,7 +82,7 @@ v0.3.0 (26/10/2020)
 
 * added new `fairness` module, which will focus on bias detection, visualization and mitigation [@jakwisn](https://github.com/jakwisn)
 
-#### bug fixes
+#### fixes
 
 * removed unnecessary warning when `precalculate=False and verbose=False` ([#340](https://github.com/ModelOriented/DALEX/issues/340))
 
@@ -101,7 +102,7 @@ dalex 0.2.2
 * added support for `tensorflow.python.keras.engine.sequential.Sequential` and `tensorflow.python.keras.engine.training.Model` ([#326](https://github.com/ModelOriented/DALEX/issues/326))
 * updated the `tqdm` dependency to `>=4.48.2`, `pandas` dependency to `>=1.1.2` and `numpy` dependency to `>=1.18.4`
 
-#### bug fixes
+#### fixes
 
 * fixed the wrong order of `Explainer` verbose messages
 * fixed a bug that caused `model_info` parameter to be overwritten by the default values
@@ -125,7 +126,7 @@ dalex 0.2.1
 
 * updated the `pandas` dependency to `>=1.1.0`
 
-#### bug fixes
+#### fixes
 
 * `ModelPerformance.plot` now uses a drwhy color palette
 * use `unique` method instead of `np.unique` in `variable_splits` ([#293](https://github.com/ModelOriented/DALEX/issues/293))
@@ -172,7 +173,7 @@ dalex 0.2.0
 * major documentation update ([#270](https://github.com/ModelOriented/DALEX/issues/270))
 * unified the order of function parameters
 
-#### bug fixes
+#### fixes
 
 * `v0.1.9` had wrong `_original_` column in `predict_profile`
 * `vertical_spacing` acts as intended in `VariableImportance.plot` when `split='variable'`
