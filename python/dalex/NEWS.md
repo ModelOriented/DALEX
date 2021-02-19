@@ -4,8 +4,13 @@ v1.0.1 (19/02/2021)
 ----------------------------------------------------------------
 
 #### fixes
+
 * fixed broken range on `yaxis` in `fairness_check` plot ([#376](https://github.com/ModelOriented/DALEX/issues/376))
 * warnings because `np.float` is depracated since `numpy` v1.20 ([#384](https://github.com/ModelOriented/DALEX/issues/384))
+
+#### other 
+
+* added `ipython` to test dependencies
 
 v1.0.0 (29/12/2020)
 ----------------------------------------------------------------
