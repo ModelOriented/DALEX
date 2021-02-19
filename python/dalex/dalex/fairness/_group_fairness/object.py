@@ -7,13 +7,12 @@ from .._basics.exceptions import ParameterCheckError
 from ..._theme import get_default_config
 from ..._explainer import helper
 
-
 class GroupFairnessClassification(_FairnessObject):
 
     def __init__(self, y, y_hat, protected, privileged, label, verbose=False, cutoff=0.5):
 
         super().__init__(y, y_hat, protected, privileged, verbose)
-
+        checks.check_classification_parameters(y, y_hat, protected, privileged, verbose)
         cutoff = checks.check_cutoff(self.protected, cutoff, verbose)
         self.cutoff = cutoff
 
@@ -258,11 +257,11 @@ class GroupFairnessClassification(_FairnessObject):
             return fig
 
 
-class GroupFairnessRegression:
+class GroupFairnessRegression(_FairnessObject):
 
     def __init__(self, y, y_hat, protected, privileged, label, verbose=False ):
 
-        super().__init__()
+        super().__init__(y, y_hat, protected, privileged, verbose)
 
         rd = utils.RegressionDict(y, y_hat, protected, privileged)
 

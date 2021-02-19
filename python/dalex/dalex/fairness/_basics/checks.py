@@ -12,12 +12,6 @@ def check_parameters(y, y_hat, protected, privileged, verbose):
     if not isinstance(verbose, bool):
         raise ParameterCheckError("verbose must be boolean, either False or True")
 
-    if list(np.unique(y)) != [0, 1]:
-        raise ParameterCheckError("explainer must predict binary target")
-
-    if not 0 <= y_hat.all() <= 1:
-        raise ParameterCheckError("y_hat must have probabilistic output between 0 and 1")
-
     if not isinstance(protected, np.ndarray):
         # if is not numpy array check what type it is and change to np array
         if isinstance(protected, list):

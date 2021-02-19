@@ -4,7 +4,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-from . import utils 
+from . import utils
 from .._basics import checks as basic_checks
 from .._basics.exceptions import ParameterCheckError
 from ..._explainer import helper
@@ -28,7 +28,7 @@ def plot_fairness_check(fobject,
     if any(data.score == 0):
         nan_models = set(data.label[data.score == 0])
         helper.verbose_cat(f'\nFound NaN\'s or 0\'s for models: {nan_models}\n'
-                    f'It is advisable to check \'metric_ratios\'', verbose=verbose)
+                           f'It is advisable to check \'metric_ratios\'', verbose=verbose)
 
     upper_bound = max([max(data.score[np.invert(np.isnan(data.score.to_numpy()))]), 1 / epsilon - 1]) + 0.1
     lower_bound = min([min(data.score[np.invert(np.isnan(data.score.to_numpy()))]), epsilon - 1]) - 0.1
@@ -94,7 +94,7 @@ def plot_fairness_check(fobject,
 
     fig.update_yaxes(tickvals=list(subgroup_tick_dict.values()),
                      ticktext=list(subgroup_tick_dict.keys()),
-                     range=[0,1])
+                     range=[0, 1])
 
     # refs are dependent on fixed numbers of metrics
     refs = ['y', 'y2', 'y3', 'y4', 'y5']
@@ -431,7 +431,8 @@ def plot_performance_and_fairness(fobject,
 
     if other_objects:
         for i, obj in enumerate(other_objects):
-            performance_data.loc[i + 1] = [obj.label, utils._classification_performance(obj, verbose, performance_metric)]
+            performance_data.loc[i + 1] = [obj.label,
+                                           utils._classification_performance(obj, verbose, performance_metric)]
 
     data = data.merge(performance_data, on='label')
 
@@ -538,9 +539,9 @@ def plot_ceteris_paribus_cutoff(fobject,
         for i in range(1, grid_points):
             cutoff[subgroup] = i / grid_points
             sub_confusion_matrix = utils.SubgroupConfusionMatrix(y_true=y,
-                                                           y_pred=y_hat,
-                                                           protected=protected,
-                                                           cutoff=cutoff)
+                                                                 y_pred=y_hat,
+                                                                 protected=protected,
+                                                                 cutoff=cutoff)
 
             sub_confusion_matrix_metrics = utils.SubgroupConfusionMatrixMetrics(sub_confusion_matrix)
             parity_loss = utils.calculate_parity_loss(sub_confusion_matrix_metrics, privileged)
@@ -554,7 +555,7 @@ def plot_ceteris_paribus_cutoff(fobject,
         # Find minimum where NA is not present
         pivoted_data = data.pivot(index='cutoff', columns='metric', values='score')
         summed_metrics = pivoted_data.to_numpy().sum(axis=1)
-        min_index = np.where(summed_metrics == min(summed_metrics))[0][0] # get first minimal index
+        min_index = np.where(summed_metrics == min(summed_metrics))[0][0]  # get first minimal index
         min_cutoff = data.cutoff.unique()[min_index]
 
         # make figure from individual parts
@@ -603,28 +604,57 @@ def plot_boxplot(fobject,
                  other_objects,
                  title,
                  show):
+    data = pd.DataFrame(columns=['y', 'y_hat', 'subgroup', 'model'])
+    objects = [fobject]
+    if other_objects is not None:
+        for other_obj in other_objects:
+            objects.append(other_obj)
+    for obj in objects:
+        for subgroup in obj.regression_dict.regression_dict.keys():
+            y, y_hat = obj.regression_dict.regression_dict[subgroup].values()
+            data_to_append = pd.DataFrame({'y': y,
+                                           'y_hat': y_hat,
+                                           'subgroup': np.repeat(subgroup, len(y)),
+                                           'model': np.repeat(obj.label, len(y))})
+            data = data.append(data_to_append)
 
-        data = pd.DataFrame(columns= ['y', 'y_hat','subgroup','model'])
-        objects = [fobject]
-        if other_objects is not None:
-            for other_obj in other_objects:
-                objects.append(other_obj)
-        for obj in objects:
-            print("dasa")
-            for subgroup in obj.regression_dict.regression_dict.keys():
-                y, y_hat = obj.regression_dict.regression_dict[subgroup].values()
-                data_to_append = pd.DataFrame({'y': y,
-                                               'y_hat': y_hat,
-                                               'subgroup': np.repeat(subgroup, len(y)),
-                                               'model': np.repeat(obj.label, len(y))})
-                data = data.append(data_to_append)
+    fig = go.Figure()
 
-        fig = px.box(data,
-                     x = 'y_hat',
-                     y = 'model',
-                     color='subgroup')
+    counter = 0
+    for model in data.model.unique():
+        for i, sub in enumerate(data.subgroup.unique()):
+            counter += 1
+            fig.add_trace(
+                go.Violin(
+                    box_visible = True,
+                    x = data.loc[(data.subgroup == sub) & (data.model == model)].y_hat,
+                    y0 = sub + model,
+                    name = sub,
+                    fillcolor = _theme.get_default_colors(len(data.subgroup.unique()), type='line')[i],
+                    opacity=0.9,
+                    line_color = 'black'
+                )
+            )
 
-        return fig
+    violins_in_model =  int(counter/len(data.model.unique()))
+    starter_violins = np.arange(0, counter, violins_in_model)
 
+    fig.update_xaxes(title='prediction')
+    fig.update_yaxes(title='model', tickvals= list((starter_violins + (violins_in_model-1)/2)), ticktext=list(data.model.unique()))
 
+    # hide doubling entries in legend
+    legend_entries = set()
+    for trace in fig['data']:
+        legend_entries.add(trace['name'])
 
+    for trace in fig['data']:
+        if trace['name'] in legend_entries:
+            legend_entries.remove(trace['name'])
+        else:
+            trace['showlegend'] = False
+
+    if title is None:
+        title = "Density plot"
+    fig.update_layout(utils._fairness_theme(title))
+
+    return fig
