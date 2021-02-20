@@ -241,6 +241,11 @@ class GroupFairnessClassification(_FairnessObject):
                                     other_objects=other_objects,
                                     title=title,
                                     **kwargs)
+        elif type == 'density':
+            fig = plot.plot_density(self,
+                                    other_objects=other_objects,
+                                    title=title,
+                                    **kwargs)
 
         elif type == 'ceteris_paribus_cutoff':
             fig = plot.plot_ceteris_paribus_cutoff(self,
@@ -272,7 +277,7 @@ class GroupFairnessRegression(_FairnessObject):
         pass
 
 
-    def plot(self, objects=None, type='boxplot', show=True, **kwargs):
+    def plot(self, objects=None, type='density', show=True, **kwargs):
 
         other_objects = []
         if objects is not None:
@@ -281,11 +286,10 @@ class GroupFairnessRegression(_FairnessObject):
                     other_objects.append(obj)
             basic_checks.check_other_fairness_objects(self, other_objects)
 
-        if type == 'boxplot':
-            fig = plot.plot_boxplot(self,
+        if type == 'density':
+            fig = plot.plot_density(self,
                                     other_objects,
                                     title=None,
-                                    show=True,
                                     **kwargs)
 
         else:

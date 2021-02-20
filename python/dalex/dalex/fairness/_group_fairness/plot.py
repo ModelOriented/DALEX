@@ -600,18 +600,17 @@ def plot_ceteris_paribus_cutoff(fobject,
     return fig
 
 
-def plot_boxplot(fobject,
+def plot_density(fobject,
                  other_objects,
-                 title,
-                 show):
+                 title):
     data = pd.DataFrame(columns=['y', 'y_hat', 'subgroup', 'model'])
     objects = [fobject]
     if other_objects is not None:
         for other_obj in other_objects:
             objects.append(other_obj)
     for obj in objects:
-        for subgroup in obj.regression_dict.regression_dict.keys():
-            y, y_hat = obj.regression_dict.regression_dict[subgroup].values()
+        for subgroup in np.unique(obj.protected):
+            y, y_hat = obj.y[obj.protected == subgroup], obj.y_hat[obj.protected == subgroup]
             data_to_append = pd.DataFrame({'y': y,
                                            'y_hat': y_hat,
                                            'subgroup': np.repeat(subgroup, len(y)),
@@ -626,21 +625,22 @@ def plot_boxplot(fobject,
             counter += 1
             fig.add_trace(
                 go.Violin(
-                    box_visible = True,
-                    x = data.loc[(data.subgroup == sub) & (data.model == model)].y_hat,
-                    y0 = sub + model,
-                    name = sub,
-                    fillcolor = _theme.get_default_colors(len(data.subgroup.unique()), type='line')[i],
+                    box_visible=True,
+                    x=data.loc[(data.subgroup == sub) & (data.model == model)].y_hat,
+                    y0=sub + model,
+                    name=sub,
+                    fillcolor=_theme.get_default_colors(len(data.subgroup.unique()), type='line')[i],
                     opacity=0.9,
-                    line_color = 'black'
+                    line_color='black'
                 )
             )
 
-    violins_in_model =  int(counter/len(data.model.unique()))
+    violins_in_model = int(counter / len(data.model.unique()))
     starter_violins = np.arange(0, counter, violins_in_model)
 
     fig.update_xaxes(title='prediction')
-    fig.update_yaxes(title='model', tickvals= list((starter_violins + (violins_in_model-1)/2)), ticktext=list(data.model.unique()))
+    fig.update_yaxes(title='model', tickvals=list((starter_violins + (violins_in_model - 1) / 2)),
+                     ticktext=list(data.model.unique()))
 
     # hide doubling entries in legend
     legend_entries = set()
