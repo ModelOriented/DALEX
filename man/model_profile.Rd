@@ -57,7 +57,7 @@ It's a data frame with calculated average model responses.
 \description{
 This function calculates explanations on a dataset level set that explore model response as a function of selected variables.
 The explanations can be calulated as Partial Dependence Profile or  Accumulated Local Dependence Profile.
-Find information how to use this function here: \url{https://pbiecek.github.io/ema/partialDependenceProfiles.html}.
+Find information how to use this function here: \url{http://ema.drwhy.ai/partialDependenceProfiles.html}.
 The \code{variable_profile} function is a copy of \code{model_profile}.
 }
 \details{
@@ -98,5 +98,5 @@ plot(model_profile_ranger_fare, model_profile_glm_fare)
 
 }
 \references{
-Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
+Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{http://ema.drwhy.ai/}
 }

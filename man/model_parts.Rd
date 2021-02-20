@@ -34,7 +34,7 @@ It's a data frame with calculated average response.
 }
 \description{
 From DALEX version 1.0 this function calls the \code{\link[ingredients]{feature_importance}}
-Find information how to use this function here: \url{https://pbiecek.github.io/ema/featureImportance.html}.
+Find information how to use this function here: \url{http://ema.drwhy.ai/featureImportance.html}.
 }
 \examples{
 \donttest{
@@ -77,5 +77,5 @@ plot(model_parts_ranger_HR)
 
 }
 \references{
-Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
+Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{http://ema.drwhy.ai/}
 }

@@ -38,11 +38,11 @@
 #' @keywords titanic
 #' @name titanic
 #' @aliases titanic_imputed
-#' @references   \url{https://www.encyclopedia-titanica.org}, \url{http://biostat.mc.vanderbilt.edu/DataSets} and \url{https://CRAN.R-project.org/package=stablelearner}
+#' @references   \url{https://www.encyclopedia-titanica.org} and \url{https://CRAN.R-project.org/package=stablelearner}
 #' @source This dataset was copied from the \code{stablelearner} package and went through few variable
 #' transformations. The complete list of persons on the RMS titanic was downloaded from
 #' \url{https://www.encyclopedia-titanica.org} on April 5, 2016. The  information given
-#' in \code{sibsp} and \code{parch} was adopoted from a data set obtained from \url{http://biostat.mc.vanderbilt.edu/DataSets}.
+#' in \code{sibsp} and \code{parch} was adopoted from a data set obtained from \url{https://biostat.app.vumc.org/wiki/Main/DataSets}.
 #' @usage
 #' data(titanic)
 #' data(titanic_imputed)

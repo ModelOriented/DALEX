@@ -1,7 +1,7 @@
 #' Dataset Level Variable Importance as Change in Loss Function after Variable Permutations
 #'
 #' From DALEX version 1.0 this function calls the \code{\link[ingredients]{feature_importance}}
-#' Find information how to use this function here: \url{https://pbiecek.github.io/ema/featureImportance.html}.
+#' Find information how to use this function here: \url{http://ema.drwhy.ai/featureImportance.html}.
 #'
 #' @param explainer a model to be explained, preprocessed by the \code{explain} function
 #' @param loss_function a function that will be used to assess variable importance. By default it is 1-AUC for classification, cross entropy for multilabel classification and RMSE for regression. Custom, user-made loss function should accept two obligatory parameters (observed, predicted), where \code{observed} states for actual values of the target, while \code{predicted} for predicted values. If attribute "loss_accuracy" is associated with function object, then it will be plotted as name of the loss function.
@@ -10,7 +10,7 @@
 #' @param N number of observations that should be sampled for calculation of variable importance. If \code{NULL} then variable importance will be calculated on whole dataset (no sampling).
 #' @param n_sample alias for \code{N} held for backwards compatibility. number of observations that should be sampled for calculation of variable importance.
 #'
-#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
+#' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{http://ema.drwhy.ai/}
 #' @return An object of the class \code{feature_importance}.
 #' It's a data frame with calculated average response.
 #'

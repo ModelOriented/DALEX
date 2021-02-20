@@ -48,7 +48,7 @@ It's a data frame with calculated distribution of residuals.
 This function performs local diagnostic of residuals.
 For a single instance its neighbors are identified in the validation data.
 Residuals are calculated for neighbors and plotted against residuals for all data.
-Find information how to use this function here: \url{https://pbiecek.github.io/ema/localDiagnostics.html}.
+Find information how to use this function here: \url{http://ema.drwhy.ai/localDiagnostics.html}.
 }
 \examples{
 library("ranger")
@@ -80,5 +80,5 @@ plot(id_johny)
 
 }
 \references{
-Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
+Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{http://ema.drwhy.ai/}
 }
