@@ -43,7 +43,7 @@ It's a data frame with calculated average response.
 \description{
 This function calculated individual profiles aka Ceteris Paribus Profiles.
 From DALEX version 1.0 this function calls the \code{\link[ingredients]{ceteris_paribus}} from the \code{ingredients} package.
-Find information how to use this function here: \url{https://pbiecek.github.io/ema/ceterisParibus.html}.
+Find information how to use this function here: \url{http://ema.drwhy.ai/ceterisParibus.html}.
 }
 \examples{
 new_dragon <- data.frame(year_of_birth = 200,
@@ -81,5 +81,5 @@ plot(dragon_ranger_predict4,
 
 }
 \references{
-Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
+Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{http://ema.drwhy.ai/}
 }

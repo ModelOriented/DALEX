@@ -5,9 +5,9 @@
 #' From DALEX version 1.0 this function calls the \code{\link[iBreakDown]{break_down}} or
 #' \code{\link[iBreakDown:break_down_uncertainty]{shap}} functions from the \code{iBreakDown} package or
 #' \code{\link[ingredients:ceteris_paribus]{ceteris_paribus}} from the \code{ingredients} package.
-#' Find information how to use the \code{break_down} method here: \url{https://pbiecek.github.io/ema/breakDown.html}.
-#' Find information how to use the \code{shap} method here: \url{https://pbiecek.github.io/ema/shapley.html}.
-#' Find information how to use the \code{oscillations} method here: \url{https://pbiecek.github.io/ema/ceterisParibusOscillations.html}.
+#' Find information how to use the \code{break_down} method here: \url{http://ema.drwhy.ai/breakDown.html}.
+#' Find information how to use the \code{shap} method here: \url{http://ema.drwhy.ai/shapley.html}.
+#' Find information how to use the \code{oscillations} method here: \url{http://ema.drwhy.ai/ceterisParibusOscillations.html}.
 #'
 #' @param explainer a model to be explained, preprocessed by the \code{explain} function
 #' @param new_observation a new observation for which predictions need to be explained
@@ -25,7 +25,7 @@
 #'
 #'
 #' @aliases predict_parts_break_down predict_parts predict_parts_ibreak_down predict_parts_shap
-#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
+#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{http://ema.drwhy.ai/}
 #'
 #' @examples
 #' library(DALEX)

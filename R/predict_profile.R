@@ -2,7 +2,7 @@
 #'
 #' This function calculated individual profiles aka Ceteris Paribus Profiles.
 #' From DALEX version 1.0 this function calls the \code{\link[ingredients]{ceteris_paribus}} from the \code{ingredients} package.
-#' Find information how to use this function here: \url{https://pbiecek.github.io/ema/ceterisParibus.html}.
+#' Find information how to use this function here: \url{http://ema.drwhy.ai/ceterisParibus.html}.
 #'
 #' @param explainer a model to be explained, preprocessed by the \code{explain} function
 #' @param new_observation a new observation for which predictions need to be explained
@@ -14,7 +14,7 @@
 #' @return An object of the class \code{ceteris_paribus_explainer}.
 #' It's a data frame with calculated average response.
 #'
-#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
+#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{http://ema.drwhy.ai/}
 #' @export
 #'
 #' @examples

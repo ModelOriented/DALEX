@@ -20,7 +20,7 @@ It's a data frame with residuals and selected variables.
 \description{
 This function performs model diagnostic of residuals.
 Residuals are calculated and plotted against predictions, true y values or selected variables.
-Find information how to use this function here: \url{https://pbiecek.github.io/ema/residualDiagnostic.html}.
+Find information how to use this function here: \url{http://ema.drwhy.ai/residualDiagnostic.html}.
 }
 \examples{
 library(DALEX)
@@ -49,5 +49,5 @@ plot(diag_ranger, variable = "ids")
 }
 }
 \references{
-Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://pbiecek.github.io/ema/}
+Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{http://ema.drwhy.ai/}
 }

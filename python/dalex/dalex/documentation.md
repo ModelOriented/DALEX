@@ -49,15 +49,16 @@ This package uses [plotly](https://plotly.com/python/) to render the plots:
 
 ## Citation
 
-If you use `dalex`, please cite our paper:
+If you use `dalex`, please cite [our paper](https://arxiv.org/abs/2012.14406):
 
 ```html
 @article{dalex,
-  title={dalex: Responsible Machine Learning with Interactive Explainability and Fairness in Python}, 
-  author={Hubert Baniecki and Wojciech Kretowicz and Piotr Piatyszek and Jakub Wisniewski and Przemyslaw Biecek},
+  title={{dalex: Responsible Machine Learning with Interactive
+          Explainability and Fairness in Python}},
+  author={Hubert Baniecki and Wojciech Kretowicz and Piotr Piatyszek
+          and Jakub Wisniewski and Przemyslaw Biecek},
   year={2020},
-  eprint={2012.14406},
-  archivePrefix={arXiv},
+  journal={arXiv:2012.14406},
   url={https://arxiv.org/abs/2012.14406}
 }
 ```
