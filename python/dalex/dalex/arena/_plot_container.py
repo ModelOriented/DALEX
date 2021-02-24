@@ -12,6 +12,8 @@ class PlotContainer:
         self.params = {}
         self.data = {}
         self.arena = arena
+        self.is_done = None
+        self.progress = -1
     def fit(self, params):
         required_params = {}
         for p in self.__class__.info.get('requiredParams'):
@@ -28,7 +30,9 @@ class PlotContainer:
             'plotComponent': self.plot_component,
             'plotCategory': self.plot_category,
             'params': self.params,
-            'data': self.data
+            'data': self.data,
+            'progress': self.progress,
+            'isDone': True if self.is_done is None else self.is_done
         }
     def set_message(self, msg, msg_type='info'):
         if msg_type != 'info' and msg_type != 'error':

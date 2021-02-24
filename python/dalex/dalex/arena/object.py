@@ -11,6 +11,7 @@ from .params import ModelParam, DatasetParam, VariableParam, ObservationParam, P
 from .plots import *
 from .._global_checks import global_check_import
 from .static import get_json, upload_arena, generate_token
+from ._resource_manager import ResourceManager
 
 class Arena:
     """ Creates Arena object
@@ -59,6 +60,8 @@ class Arena:
         List of enabled plots
     options : dict
         Options for plots
+    resource_manager: ResourceManager
+        Object responsible for managing resources
 
     Notes
     --------
@@ -70,6 +73,7 @@ class Arena:
         self.observations = []
         self.datasets = []
         self.variables_cache = []
+        self.resource_manager = ResourceManager(self)
         self.server_thread = None
         self.precalculate = bool(precalculate)
         self.enable_attributes = bool(enable_attributes)
@@ -94,6 +98,11 @@ class Arena:
             for o in plot.options.keys():
                 options[o] = plot.options.get(o).get('default')
             self.options[plot.info.get('plotType')] = options
+        for res in self.resource_manager.resources:
+            options = {}
+            for o in res.options.keys():
+                options[o] = res.options.get(o).get('default')
+            self.options[res.resource_type] = options
 
     def get_supported_plots(self):
         """Returns plots classes that can produce at least one valid chart for this Arena.
@@ -487,8 +496,8 @@ class Arena:
         Parameters
         -----------
         plot_type : str or None
-            When not None, then only options for plots with this plot_type will
-            be printed.
+            When not None, then only options for plots or resources with this
+            plot_type/resource_type will be printed.
 
         Notes
         --------
@@ -496,11 +505,15 @@ class Arena:
         """
 
         plot = next((x for x in self.plots if x.info.get('plotType') == plot_type), None)
+        if plot is None:
+            plot = next((x for x in self.resource_manager.resources if x.resource_type == plot_type), None)
         if plot_type is None or plot is None:
             for plot in self.plots:
                 self.print_options(plot.info.get('plotType'))
+            for res in self.resource_manager.resources:
+                self.print_options(res.resource_type)
             return
-        print('\n\033[1m' + plot.info.get('plotType') + '\033[0m')
+        print('\n\033[1m' + plot_type + '\033[0m')
         print('---------------------------------')
         for o in plot.options.keys():
             option = plot.options.get(o)
@@ -513,7 +526,7 @@ class Arena:
         Parameters
         -----------
         plot_type : str
-           Type of plot, the option is corresponding to.
+           Type of plot or resource, the option is corresponding to.
         option : str
             Name of the option
 
@@ -539,9 +552,9 @@ class Arena:
         Parameters
         -----------
         plot_type : str
-            When None, then value will be set for each plot with
-            option of name from `option` argument. Otherwise only
-            for plots with specified type.
+            When None, then value will be set for each plot and resource
+            with option of name from `option` argument. Otherwise only
+            for plots and resources with specified type.
         option : str
             Name of the option
         value : *
@@ -554,11 +567,13 @@ class Arena:
         if plot_type is None:
             for plot in self.plots:
                 self.set_option(plot.info.get('plotType'), option, value)
+            for res in self.resource_manager.resources:
+                self.set_option(res.resource_type, option, value)
             return
         options = self.options.get(plot_type)
         if options is None:
             raise Exception('Invalid plot_type')
-        if not option in options.keys():
+        if option not in options.keys():
             return
         with self.mutex:
             self.options.get(plot_type)[option] = value
@@ -599,7 +614,7 @@ class Arena:
         result = self.find_in_cache(plot_type, required_params_labels) if cache else None
         if result is None:
             result = plot_class(self).fit(required_params_values)
-            if cache:
+            if cache and result.is_done:
                 self.put_to_cache(result)
         return result
 
