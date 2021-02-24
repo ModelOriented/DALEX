@@ -7,6 +7,7 @@ class FeatureImportanceContainer(PlotContainer):
         'plotCategory': "Dataset Level",
         'requiredParams': ["model"]
     }
+    options_category = 'VariableImportance'
     options = {
         'N': { 'default': None, 'desc': 'Number of observations to use. None for all.' },
         'B': { 'default': 10, 'desc': 'Number of permutation rounds to perform each variable' }

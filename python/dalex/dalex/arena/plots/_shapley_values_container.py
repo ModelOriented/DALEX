@@ -8,6 +8,7 @@ class ShapleyValuesContainer(PlotContainer):
         'plotCategory': "Observation Level",
         'requiredParams': ["model", "observation"]
     }
+    options_category = 'ShapleyValues'
     options = {}
     def _fit(self, model, observation):
         resource = self.arena.resource_manager.get_resource('ShapleyValues', {'model': model, 'observation': observation})

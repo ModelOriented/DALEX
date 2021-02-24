@@ -10,6 +10,7 @@ class ROCContainer(PlotContainer):
         'plotCategory': 'Model Performance',
         'requiredParams': ['model']
     }
+    options_category = 'ROC'
     options = {
         'grid_points': { 'default': 101, 'desc': 'Maximum number of points for ROC curve' },
     }

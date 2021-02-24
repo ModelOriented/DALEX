@@ -8,6 +8,7 @@ class CeterisParibusContainer(PlotContainer):
         'plotCategory': 'Observation Level',
         'requiredParams': ['model', 'variable', 'observation']
     }
+    options_category = 'CeterisParibus'
     options = {
         'grid_points': { 'default': 101, 'desc': 'Maximum number of points for profile' },
         'grid_type': { 'default': 'quantile', 'desc': 'grid type "quantile" or "uniform"'}

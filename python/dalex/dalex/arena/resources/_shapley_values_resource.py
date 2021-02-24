@@ -13,6 +13,7 @@ def q3(x):
 class ShapleyValuesResource(Resource):
     resource_type = 'ShapleyValues'
     required_params = ["model", "observation"]
+    options_category = 'ShapleyValues'
     options = {
         'B': {'default': 20, 'desc': 'Number of random paths'},
         'cpus': {'default': 4, 'desc': 'Number of parallel processes'}

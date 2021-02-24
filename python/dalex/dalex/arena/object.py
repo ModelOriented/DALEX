@@ -69,6 +69,7 @@ class Arena:
 
     """
     def __init__(self, precalculate=False, enable_attributes=True, enable_custom_params=True):
+        self.mutex = threading.Lock()
         self.models = []
         self.observations = []
         self.datasets = []
@@ -80,7 +81,6 @@ class Arena:
         self.enable_custom_params = bool(enable_custom_params)
         self.timestamp = datetime.timestamp(datetime.now())
         self.cache = []
-        self.mutex = threading.Lock()
         self.plots = [
             ShapleyValuesContainer,
             FeatureImportanceContainer,
@@ -93,16 +93,11 @@ class Arena:
             FairnessCheckContainer
         ]
         self.options = {}
-        for plot in self.plots:
-            options = {}
-            for o in plot.options.keys():
-                options[o] = plot.options.get(o).get('default')
-            self.options[plot.info.get('plotType')] = options
-        for res in self.resource_manager.resources:
-            options = {}
-            for o in res.options.keys():
-                options[o] = res.options.get(o).get('default')
-            self.options[res.resource_type] = options
+        for x in (self.plots + self.resource_manager.resources):
+            options = self.options.get(x.options_category) or {}
+            for o in x.options.keys():
+                options[o] = {'value': x.options.get(o).get('default'), 'desc': x.options.get(o).get('desc')}
+            self.options[x.options_category] = options
 
     def get_supported_plots(self):
         """Returns plots classes that can produce at least one valid chart for this Arena.
@@ -490,43 +485,41 @@ class Arena:
             return None
         return next((x for x in self.get_params(param_type) if x.get_label() == param_label), None)
 
-    def print_options(self, plot_type=None):
+    def print_options(self, options_category=None):
         """Prints available options for plots
 
         Parameters
         -----------
-        plot_type : str or None
+        options_category : str or None
             When not None, then only options for plots or resources with this
-            plot_type/resource_type will be printed.
+            category will be printed.
 
         Notes
         --------
         List of plots with described options for each one https://arena.drwhy.ai/docs/guide/observation-level
         """
 
-        plot = next((x for x in self.plots if x.info.get('plotType') == plot_type), None)
-        if plot is None:
-            plot = next((x for x in self.resource_manager.resources if x.resource_type == plot_type), None)
-        if plot_type is None or plot is None:
-            for plot in self.plots:
-                self.print_options(plot.info.get('plotType'))
-            for res in self.resource_manager.resources:
-                self.print_options(res.resource_type)
+        options = self.options.get(options_category)
+        if options is None:
+            for category in self.options.keys():
+                self.print_options(category)
             return
-        print('\n\033[1m' + plot_type + '\033[0m')
+        if len(options.keys()) == 0:
+            return
+        print('\n\033[1m' + options_category + '\033[0m')
         print('---------------------------------')
-        for o in plot.options.keys():
-            option = plot.options.get(o)
-            value = self.options.get(plot_type).get(o)
-            print(o + ': ' + str(value) + '   #' + option.get('desc'))
+        for option_name in options.keys():
+            value = options.get(option_name).get('value')
+            print(option_name + ': ' + str(value) + '   #' + options.get(option_name).get('desc'))
 
-    def get_option(self, plot_type, option):
+    def get_option(self, options_category, option):
         """Returns value of specified option
 
         Parameters
         -----------
-        plot_type : str
-           Type of plot or resource, the option is corresponding to.
+        options_category : str
+           Category of option. In most cases category is coresponds to one plot_type.
+           Categories are underlined in the output of arena.print_options()
         option : str
             Name of the option
 
@@ -538,23 +531,25 @@ class Arena:
         --------
         None or value of option
         """
-        options = self.options.get(plot_type)
+        options = self.options.get(options_category)
         if options is None:
-            raise Exception('Invalid plot_type')
-        if not option in options.keys():
+            raise Exception('Invalid options category')
+        if option not in options.keys():
             return
         with self.mutex:
-            return self.options.get(plot_type).get(option)
+            return self.options.get(options_category).get(option).get('value')
 
-    def set_option(self, plot_type, option, value):
+    def set_option(self, options_category, option, value):
         """Sets value for the plot option
 
         Parameters
         -----------
-        plot_type : str
+        options_category : str or None
             When None, then value will be set for each plot and resource
-            with option of name from `option` argument. Otherwise only
-            for plots and resources with specified type.
+            having option with name equal to `option` argument. Otherwise only
+            for plots and resources with specified options_category.
+            In most cases category is coresponds to one plot_type.
+            Categories are underlined in the output of arena.print_options()
         option : str
             Name of the option
         value : *
@@ -564,20 +559,21 @@ class Arena:
         --------
         List of plots with described options for each one https://arena.drwhy.ai/docs/guide/observation-level
         """
-        if plot_type is None:
-            for plot in self.plots:
-                self.set_option(plot.info.get('plotType'), option, value)
-            for res in self.resource_manager.resources:
-                self.set_option(res.resource_type, option, value)
+        if options_category is None:
+            for category in self.options.keys():
+                self.set_option(category, option, value)
             return
-        options = self.options.get(plot_type)
+        options = self.options.get(options_category)
         if options is None:
-            raise Exception('Invalid plot_type')
+            raise Exception('Invalid options category')
         if option not in options.keys():
             return
         with self.mutex:
-            self.options.get(plot_type)[option] = value
-            self.clear_cache(plot_type)
+            self.options[options_category][option]['value'] = value
+            for plot in [x for x in self.plots if x.options_category == options_category]:
+                self.clear_cache(plot.info.get('plotType'))
+            for resource in [x for x in self.resource_manager.resources if x.options_category == options_category]:
+                self.resource_manager.clear_cache(resource.resource_type)
         if self.precalculate:
             self.fill_cache()
 

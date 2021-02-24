@@ -1,4 +1,3 @@
-import threading
 from ._resource import Resource
 from . import resources
 
@@ -12,7 +11,7 @@ class ResourceManager:
         self.arena = arena
         self.cache = []
         self.tasks = []
-        self.mutex = threading.Lock()
+        self.mutex = arena.mutex
         self.resources = [vars(resources)[res] for res in getattr(resources, '__all__')]
 
     def find_in_cache(self, resource_type, params):
@@ -48,6 +47,25 @@ class ResourceManager:
             raise Exception('Invalid resource')
         with self.mutex:
             self.cache.append(resource)
+
+    def clear_cache(self, resource_type=None):
+        """Clears cache
+        
+        Parameters
+        -----------
+        resource_type : str or None
+            If None all cache is cleared. Otherwise only resources with
+            provided resource_type are removed.
+
+        Notes
+        -------
+        This function must be called from mutex context
+        """
+        if resource_type is None:
+            self.cache = []
+        else:
+            self.cache = list(filter(lambda r: r.resource_type != resource_type, self.cache))
+        self.arena.update_timestamp()
 
     def get_resource(self, resource_type, params_values, cache=True):
         """Returns resource for specified type and params

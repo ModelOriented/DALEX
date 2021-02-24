@@ -1,15 +1,14 @@
 import threading
 from .params import Param
+from ._option_base import OptionBase
 
 
-class Resource:
+class Resource(OptionBase):
     """
     """
     def __init__(self, arena):
-        if type(arena).__name__ != 'Arena' or type(arena).__module__ != 'dalex.arena.object':
-            raise Exception('Invalid Arena argument')
+        super().__init__(arena)
         self.params = {}
-        self.arena = arena
         self.mutex = threading.Lock()
         self.update_event = threading.Event()
         # Protected by mutex:

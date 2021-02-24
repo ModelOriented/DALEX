@@ -14,6 +14,7 @@ class FairnessCheckContainer(PlotContainer):
         'plotCategory': 'Dataset Level',
         'requiredParams': ['model', 'variable']
     }
+    options_category = 'Fairness'
     options = {
         'cutoffs': { 'default': [x / 100 for x in range(5, 100, 5)], 'desc': 'List of tested cutoff levels' },
     }

@@ -1,9 +1,10 @@
+from ._option_base import OptionBase
 from .params import ModelParam, DatasetParam, VariableParam, ObservationParam
 
-class PlotContainer:
+
+class PlotContainer(OptionBase):
     def __init__(self, arena):
-        if type(arena).__name__ != 'Arena' or type(arena).__module__ != 'dalex.arena.object':
-            raise Exception('Invalid Arena argument')
+        super().__init__(arena)
         info = self.__class__.info
         self.name = info.get('name')
         self.plot_type = info.get('plotType')
@@ -11,7 +12,6 @@ class PlotContainer:
         self.plot_category = info.get('plotCategory')
         self.params = {}
         self.data = {}
-        self.arena = arena
         self.is_done = None
         self.progress = -1
     def fit(self, params):
