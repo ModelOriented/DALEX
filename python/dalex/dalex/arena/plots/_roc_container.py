@@ -27,7 +27,7 @@ class ROCContainer(PlotContainer):
         if P_n == 0 or N_n == 0:
             self.set_message('Provided dataset contains only positive or only negative cases.', 'error')
             return
-        grid_points = self.arena.get_option(self.plot_type, 'grid_points')
+        grid_points = self.get_option('grid_points')
         df['TPR'] = np.cumsum(df.y) / P_n
         df['TNR'] = 1 - (np.cumsum(1 - df.y) / N_n)
         if df.shape[0] > grid_points:

@@ -32,7 +32,7 @@ class FairnessCheckContainer(PlotContainer):
             return
 
         output_df = None
-        for cutoff in self.arena.get_option(self.plot_type, 'cutoffs'):
+        for cutoff in self.get_option('cutoffs'):
             cutoff_dict = checks.check_cutoff(protected, cutoff, False)
             sub_confusion_matrix = utils.SubgroupConfusionMatrix(exp.y, y_hat, protected, cutoff_dict)
             sub_confusion_matrix_metrics = utils.SubgroupConfusionMatrixMetrics(sub_confusion_matrix)

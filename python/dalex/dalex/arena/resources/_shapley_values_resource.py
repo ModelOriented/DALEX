@@ -37,8 +37,8 @@ class ShapleyValuesResource(Resource):
         row = observation.get_row_for_model(model)
         if row is None:
             raise Exception('Observation is not valid for given model.')
-        B = self.arena.get_option(self.resource_type, 'B')
-        cpus = self.arena.get_option(self.resource_type, 'cpus')
+        B = self.get_option('B')
+        cpus = self.get_option('cpus')
         with self.mutex:
             self.progress = 0
         for i in range(B // cpus):

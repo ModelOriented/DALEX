@@ -14,8 +14,8 @@ class FeatureImportanceContainer(PlotContainer):
     }
     def _fit(self, model):
         fi = model.explainer.model_parts(
-            N=self.arena.get_option(self.plot_type, 'N'),
-            B=self.arena.get_option(self.plot_type, 'B')
+            N=self.get_option('N'),
+            B=self.get_option('B')
         ).permutation
         def q1(x):
             return x.quantile(0.25)
