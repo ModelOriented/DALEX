@@ -10,7 +10,6 @@ class ResourceManager:
             raise Exception('Invalid Arena argument')
         self.arena = arena
         self.cache = []
-        self.tasks = []
         self.mutex = arena.mutex
         self.resources = [vars(resources)[res] for res in getattr(resources, '__all__')]
 

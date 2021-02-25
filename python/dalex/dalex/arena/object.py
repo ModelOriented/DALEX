@@ -8,10 +8,10 @@ from pandas.core.frame import DataFrame
 from .server import start_server
 from ._plot_container import PlotContainer
 from .params import ModelParam, DatasetParam, VariableParam, ObservationParam, Param
-from .plots import *
 from .._global_checks import global_check_import
 from .static import get_json, upload_arena, generate_token
 from ._resource_manager import ResourceManager
+from ._plots_manager import PlotsManager
 
 class Arena:
     """ Creates Arena object
@@ -52,16 +52,14 @@ class Arena:
         if modifying observations is enabled
     timestamp : float
         timestamp of last modification
-    cache : list of PlotContainer objects
-        List of already calculated plots
     mutex : _thread.lock
-        Mutex for params and cache
-    plots : list of classes extending PlotContainer
-        List of enabled plots
+        Mutex for params, plots and resources cache. Common to Arena, PlotsManager and ResourcesManager class.
     options : dict
         Options for plots
     resource_manager: ResourceManager
         Object responsible for managing resources
+    plots_manager: PlotsManager
+        Object responsible for managing plots
 
     Notes
     --------
@@ -75,25 +73,14 @@ class Arena:
         self.datasets = []
         self.variables_cache = []
         self.resource_manager = ResourceManager(self)
+        self.plots_manager = PlotsManager(self)
         self.server_thread = None
         self.precalculate = bool(precalculate)
         self.enable_attributes = bool(enable_attributes)
         self.enable_custom_params = bool(enable_custom_params)
         self.timestamp = datetime.timestamp(datetime.now())
-        self.cache = []
-        self.plots = [
-            ShapleyValuesContainer,
-            FeatureImportanceContainer,
-            PartialDependenceContainer,
-            AccumulatedDependenceContainer,
-            CeterisParibusContainer,
-            BreakDownContainer,
-            MetricsContainer,
-            ROCContainer,
-            FairnessCheckContainer
-        ]
         self.options = {}
-        for x in (self.plots + self.resource_manager.resources):
+        for x in (self.plots_manager.plots + self.resource_manager.resources):
             options = self.options.get(x.options_category) or {}
             for o in x.options.keys():
                 options[o] = {'value': x.options.get(o).get('default'), 'desc': x.options.get(o).get('desc')}
@@ -106,7 +93,7 @@ class Arena:
         -----------
         List of classes extending PlotContainer
         """
-        return [plot for plot in self.plots if plot.test_arena(self)]
+        return self.plots_manager.get_supported_plots()
 
     def run_server(self,
                    host='127.0.0.1',
@@ -167,89 +154,6 @@ class Arena:
         now = datetime.now()
         self.timestamp = datetime.timestamp(now)
 
-    def clear_cache(self, plot_type=None):
-        """Clears cache
-        
-        Parameters
-        -----------
-        plot_type : str or None
-            If None all cache is cleared. Otherwise only plots with
-            provided plot_type are removed.
-
-        Notes
-        -------
-        This function must be called from mutex context
-        """
-        if plot_type is None:
-            self.cache = []
-        else:
-            self.cache = list(filter(lambda p: p.plot_type != plot_type, self.cache))
-        self.update_timestamp()
-
-    def find_in_cache(self, plot_type, params):
-        """Function searches for cached plot
-
-        Parameters
-        -----------
-        plot_type : str
-            Value of plot_type field, that requested plot must have
-        params : dict
-            Keys of this dict are params types (model, observation, variable, dataset)
-            and values are corresponding params labels. Requested plot must have equal
-            params field.
-
-        Returns
-        --------
-        PlotContainer or None
-        """
-
-        _filter = lambda p: p.plot_type == plot_type and params == p.params
-        with self.mutex:
-            return next(filter(_filter, self.cache), None)
-    
-    def put_to_cache(self, plot_container):
-        """Puts new plot to cache
-
-        Parameters
-        -----------
-        plot_container : PlotContainer
-        """
-        if not isinstance(plot_container, PlotContainer):
-            raise Exception('Invalid plot container')
-        with self.mutex:
-            self.cache.append(plot_container)
-
-    def fill_cache(self, fixed_params={}):
-        """Generates all available plots and cache them
-
-        This function tries to generate all plots that are not cached already and
-        put them to cache. Range of generated plots can be narrow using `fixed_params`
-
-        Parameters
-        -----------
-        fixed_params : dict
-            This dict specifies which plots should be generated. Only those with
-            all keys from `fixed_params` present and having the same value will be
-            calculated.
-        """
-        if not isinstance(fixed_params, dict):
-            raise Exception('Params argument must be a dict')
-        for plot_class in self.get_supported_plots():
-            required_params = plot_class.info.get('requiredParams')
-            # Test if all params fixed by user are used in this plot. If not, then skip it.
-            # This list contains fixed params' types, that are not required by plot.
-            # Loop will be skipped if this list is not empty.
-            if len([k for k in fixed_params.keys() if not k in required_params]) > 0:
-                continue
-            available_params = self.get_available_params()
-            iteration_pools = map(lambda p: available_params.get(p) if fixed_params.get(p) is None else [fixed_params.get(p)], required_params)
-            combinations = [[]]
-            for pool in iteration_pools:
-                combinations = [x + [y] for x in combinations for y in pool]
-            for params_values in combinations:
-                params = dict(zip(required_params, params_values))
-                self.get_plot(plot_type=plot_class.info.get('plotType'), params_values=params)
-
     def push_model(self, explainer, precalculate=None):
         """Adds model to Arena
 
@@ -276,7 +180,7 @@ class Arena:
             self.models.append(param)
             self.variables_cache = []
         if precalculate:
-            self.fill_cache({'model': param})
+            self.plots_manager.fill_cache({'model': param})
 
     def push_observations(self, observations, precalculate=None):
         """Adds observations to Arena
@@ -314,7 +218,7 @@ class Arena:
             self.observations.extend(params_objects)
         if precalculate:
             for obs in params_objects:
-                self.fill_cache({'observation': obs})
+                self.plots_manager.fill_cache({'observation': obs})
 
     def push_dataset(self, dataset, target, label, precalculate=None):
         """Adds dataset to Arena
@@ -354,7 +258,7 @@ class Arena:
             self.datasets.append(param)
             self.variables_cache = []
         if precalculate:
-            self.fill_cache({'dataset': param})
+            self.plots_manager.fill_cache({'dataset': param})
 
     def get_params(self, param_type):
         """Returns list of available params
@@ -570,49 +474,12 @@ class Arena:
             return
         with self.mutex:
             self.options[options_category][option]['value'] = value
-            for plot in [x for x in self.plots if x.options_category == options_category]:
-                self.clear_cache(plot.info.get('plotType'))
+            for plot in [x for x in self.plots_manager.plots if x.options_category == options_category]:
+                self.plots_manager.clear_cache(plot.info.get('plotType'))
             for resource in [x for x in self.resource_manager.resources if x.options_category == options_category]:
                 self.resource_manager.clear_cache(resource.resource_type)
         if self.precalculate:
-            self.fill_cache()
-
-    def get_plot(self, plot_type, params_values, cache=True):
-        """Returns plot for specified type and params
-
-        Function serches for plot in cache, when not present creates
-        requested plot and put it to cache.
-
-        Parameters
-        -----------
-        plot_type : str
-            Type of plot to be generated
-        params_values : dict
-            Dict for param types as keys and Param objects as values
-        cache : bool
-            If serach for plot in cache and put calculated plot into cache.
-
-        Returns
-        --------
-        PlotContainer
-        """
-        plot_class = next((c for c in self.plots if c.info.get('plotType') == plot_type), None)
-        if plot_class is None:
-            raise Exception('Not supported plot type')
-        plot_type = plot_class.info.get('plotType')
-        required_params_values = {}
-        required_params_labels = {}
-        for p in plot_class.info.get('requiredParams'):
-            if params_values.get(p) is None:
-                raise Exception('Required param is missing')
-            required_params_values[p] = params_values.get(p)
-            required_params_labels[p] = params_values.get(p).get_label()
-        result = self.find_in_cache(plot_type, required_params_labels) if cache else None
-        if result is None:
-            result = plot_class(self).fit(required_params_values)
-            if cache and result.is_done:
-                self.put_to_cache(result)
-        return result
+            self.plots_manager.fill_cache()
 
     def get_params_attributes(self, param_type=None):
         """Returns attributes for all params
