@@ -128,7 +128,8 @@ class VariableImportance(Explanation):
                                                                             self.B,
                                                                             explainer.label,
                                                                             self.processes,
-                                                                            self.keep_raw_permutations)
+                                                                            self.keep_raw_permutations,
+                                                                            self.random_state)
 
     def plot(self,
              objects=None,
