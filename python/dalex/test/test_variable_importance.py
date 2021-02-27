@@ -1,5 +1,6 @@
 import unittest
 
+import numpy as np
 from plotly.graph_objs import Figure
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
@@ -101,7 +102,8 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
                                                  2,
                                                  'aaa',
                                                  1,
-                                                 True)
+                                                 True,
+                                                 np.random)
 
         self.assertIsInstance(vi, tuple)
         self.assertIsInstance(vi[0], pd.DataFrame)
@@ -118,7 +120,8 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
                                                  5,
                                                  'aaa',
                                                  2,
-                                                 False)
+                                                 False,
+                                                 np.random)
 
         self.assertIsInstance(vi, tuple)
         self.assertIsInstance(vi[0], pd.DataFrame)
