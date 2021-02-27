@@ -244,10 +244,6 @@ def _classification_performance(fobject, verbose, type='accuracy'):
 class RegressionDict:
 
     def __init__(self, y, y_hat, protected, privileged, verbose=False):
-        self.y = y
-        self.y_hat = y_hat
-        self.protected = protected
-        self.privileged = privileged
         self.regression_dict = {}
         self.subgroup_metrics = {}
         self.subgroup_metric_comparison = {}
@@ -260,32 +256,28 @@ class RegressionDict:
             sub_y_hat = y_hat[np.where(protected == subgroup)]
             self.regression_dict[subgroup] = {'y': sub_y, 'y_hat': sub_y_hat}
 
-        from scipy.stats import wasserstein_distance  # earth mover distance
-
         for subgroup in self.regression_dict.keys():
             y, y_hat = self.regression_dict[subgroup].values()
 
             self.subgroup_metrics[subgroup] = {
+                'mean_error': (sum(y_hat-y))/(len(y)),
                 'mae': utils.mae(y_hat, y),
                 'rmse': utils.rmse(y_hat, y),
-                'mean_prediction': np.mean(y_hat),
-                'earth_movers_distance': wasserstein_distance(y, y_hat)
+                'mean_prediction': np.mean(y_hat)
             }
 
-        y_hat = self.y_hat
-        protected = self.protected
-        prot_y_hat = y_hat[np.where(protected == privileged)]
-
         for subgroup in self.regression_dict.keys():
-            sub_y_hat = y_hat[np.where(protected == subgroup)]
 
             self.subgroup_metric_comparison[subgroup] = {
                 'mae_ratio': self.subgroup_metrics[subgroup].get("mae") / self.subgroup_metrics[privileged].get("mae"),
                 'rmse_ratio': self.subgroup_metrics[subgroup].get("rmse") / self.subgroup_metrics[privileged].get("rmse"),
                 'mean_prediction_ratio': self.subgroup_metrics[subgroup].get("mean_prediction") / self.subgroup_metrics[
                     privileged].get("mean_prediction"),
-                'earth_movers_distance_between_y_hats': wasserstein_distance(prot_y_hat, sub_y_hat)
             }
+
+    def __str__(self):
+        return f"Fairness in Regression Dictionary\nSubgroup Metrics: {self.subgroup_metrics.values()}\n" \
+               f"Subgroup Metric Comparison: {self.subgroup_metric_comparison.values()}"
 
 
 # -------------- Helper functions --------------

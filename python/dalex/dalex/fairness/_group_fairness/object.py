@@ -7,6 +7,7 @@ from .._basics.exceptions import ParameterCheckError
 from ..._theme import get_default_config
 from ..._explainer import helper
 
+
 class GroupFairnessClassification(_FairnessObject):
 
     def __init__(self, y, y_hat, protected, privileged, label, verbose=False, cutoff=0.5):
@@ -264,7 +265,7 @@ class GroupFairnessClassification(_FairnessObject):
 
 class GroupFairnessRegression(_FairnessObject):
 
-    def __init__(self, y, y_hat, protected, privileged, label, verbose=False ):
+    def __init__(self, y, y_hat, protected, privileged, label, verbose=False):
 
         super().__init__(y, y_hat, protected, privileged, verbose)
 
@@ -275,7 +276,6 @@ class GroupFairnessRegression(_FairnessObject):
 
     def fairness_check(self):
         pass
-
 
     def plot(self, objects=None, type='density', show=True, **kwargs):
 
