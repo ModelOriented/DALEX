@@ -1,5 +1,13 @@
 ## Changelog
 
+development
+----------------------------------------------------------------
+
+#### breaking changes
+
+* fixed concurrent random seeds when `processes>1` ([#392](https://github.com/ModelOriented/DALEX/issues/392)), which means that the results of parallel computation will vary between this and previous versions
+
+
 v1.0.1 (19/02/2021)
 ----------------------------------------------------------------
 
