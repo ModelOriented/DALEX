@@ -101,7 +101,8 @@ class Shap(Explanation):
             self.path,
             self.keep_distributions,
             self.B,
-            self.processes
+            self.processes,
+            self.random_state
         )
 
     def plot(self,

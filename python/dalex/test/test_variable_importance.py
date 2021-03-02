@@ -1,5 +1,6 @@
 import unittest
 
+import numpy as np
 from plotly.graph_objs import Figure
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
@@ -55,28 +56,28 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
         for col in self.X.columns:
             variables[col] = col
         lap = utils.loss_after_permutation(self.X, self.y, self.exp.model, self.exp.predict_function, rmse,
-                                           variables, 100)
+                                           variables, 100, np.random)
         self.assertIsInstance(lap, pd.DataFrame)
         self.assertTrue(np.isin(np.array(['_full_model_', '_baseline_']),
-                                lap.columns).all())
+                                lap.columns).all(), np.random)
 
         variables = {'age': 'age', 'embarked': 'embarked'}
         lap = utils.loss_after_permutation(self.X, self.y, self.exp.model, self.exp.predict_function, mad,
-                                           variables, 10)
+                                           variables, 10, np.random)
         self.assertIsInstance(lap, pd.DataFrame)
         self.assertTrue(np.isin(np.array(['_full_model_', '_baseline_']),
                                 lap.columns).all())
 
         variables = {'embarked': 'embarked'}
         lap = utils.loss_after_permutation(self.X, self.y, self.exp.model, self.exp.predict_function, mae,
-                                           variables, None)
+                                           variables, None, np.random)
         self.assertIsInstance(lap, pd.DataFrame)
         self.assertTrue(np.isin(np.array(['_full_model_', '_baseline_']),
                                 lap.columns).all())
 
         variables = {'age': 'age'}
         lap = utils.loss_after_permutation(self.X, self.y, self.exp.model, self.exp.predict_function, rmse,
-                                           variables, None)
+                                           variables, None, np.random)
         self.assertIsInstance(lap, pd.DataFrame)
         self.assertTrue(np.isin(np.array(['_full_model_', '_baseline_']),
                                 lap.columns).all())
@@ -84,7 +85,7 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
         variables = {'personal': ['gender', 'age', 'sibsp', 'parch'],
                      'wealth': ['class', 'fare']}
         lap = utils.loss_after_permutation(self.X, self.y, self.exp.model, self.exp.predict_function, mae,
-                                           variables, None)
+                                           variables, None, np.random)
         self.assertIsInstance(lap, pd.DataFrame)
         self.assertTrue(np.isin(np.array(['_full_model_', '_baseline_']),
                                 lap.columns).all())
@@ -101,7 +102,8 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
                                                  2,
                                                  'aaa',
                                                  1,
-                                                 True)
+                                                 True,
+                                                 None)
 
         self.assertIsInstance(vi, tuple)
         self.assertIsInstance(vi[0], pd.DataFrame)
@@ -118,7 +120,8 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
                                                  5,
                                                  'aaa',
                                                  2,
-                                                 False)
+                                                 False,
+                                                 None)
 
         self.assertIsInstance(vi, tuple)
         self.assertIsInstance(vi[0], pd.DataFrame)
