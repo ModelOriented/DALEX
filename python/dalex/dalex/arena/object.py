@@ -474,10 +474,10 @@ class Arena:
             return
         with self.mutex:
             self.options[options_category][option]['value'] = value
-            for plot in [x for x in self.plots_manager.plots if x.options_category == options_category]:
-                self.plots_manager.clear_cache(plot.info.get('plotType'))
-            for resource in [x for x in self.resource_manager.resources if x.options_category == options_category]:
-                self.resource_manager.clear_cache(resource.resource_type)
+            for plot_type in np.unique([x.info.get('plotType') for x in self.plots_manager.plots if x.options_category == options_category]):
+                self.plots_manager.clear_cache(plot_type)
+            for resource_type in np.unique([x.resource_type for x in self.resource_manager.resources if x.options_category == options_category]):
+                self.resource_manager.clear_cache(resource_type)
         if self.precalculate:
             self.plots_manager.fill_cache()
 
