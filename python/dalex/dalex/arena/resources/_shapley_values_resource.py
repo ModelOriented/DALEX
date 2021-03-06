@@ -42,6 +42,9 @@ class ShapleyValuesResource(Resource):
         with self.mutex:
             self.progress = 0
         for i in range(B // cpus):
+            with self.mutex:
+                if self.cancel_signal:
+                    return
             shap = model.explainer.predict_parts(
                 row,
                 type='shap',
@@ -53,6 +56,9 @@ class ShapleyValuesResource(Resource):
                 self.progress = (i + 1) * cpus / B
             self._emit_update()
         if B % cpus > 0:
+            with self.mutex:
+                if self.cancel_signal:
+                    return
             shap = model.explainer.predict_parts(
                 row,
                 type='shap',

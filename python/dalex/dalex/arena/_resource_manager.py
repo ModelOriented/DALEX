@@ -61,8 +61,13 @@ class ResourceManager:
         This function must be called from mutex context
         """
         if resource_type is None:
+            for r in self.cache:
+                r.cancel()
             self.cache = []
         else:
+            for r in self.cache:
+                if r.resource_type == resource_type:
+                    r.cancel()
             self.cache = list(filter(lambda r: r.resource_type != resource_type, self.cache))
         self.arena.update_timestamp()
 

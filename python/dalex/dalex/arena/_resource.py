@@ -12,6 +12,7 @@ class Resource(OptionBase):
         self.mutex = threading.Lock()
         self.update_event = threading.Event()
         # Protected by mutex:
+        self.cancel_signal = False
         self.exception = None
         self.is_done = False  # to prevent deadlock it is important that thread cannot use mutex after setting this to true
         self.progress = -1
@@ -28,6 +29,10 @@ class Resource(OptionBase):
             self.thread = threading.Thread(target=self._fit, kwargs=required_params)
             self.thread.start()
         return self
+    def cancel(self):
+        with self.mutex:
+            self.cancel_signal = True
+            self.exception = Exception('Task aborted')
     def _init_thread(self, kwargs):
         try:
             self._fit(**kwargs)
