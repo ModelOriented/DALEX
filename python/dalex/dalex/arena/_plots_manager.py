@@ -1,3 +1,4 @@
+import time
 from . import plots
 from ._plot_container import PlotContainer
 
@@ -122,9 +123,9 @@ class PlotsManager:
                 combinations = [x + [y] for x in combinations for y in pool]
             for params_values in combinations:
                 params = dict(zip(required_params, params_values))
-                self.get_plot(plot_type=plot_class.info.get('plotType'), params_values=params)
+                self.get_plot(plot_type=plot_class.info.get('plotType'), params_values=params, wait=True)
 
-    def get_plot(self, plot_type, params_values, cache=True):
+    def get_plot(self, plot_type, params_values, cache=True, wait=False):
         """Returns plot for specified type and params
 
         Function serches for plot in cache, when not present creates
@@ -157,6 +158,9 @@ class PlotsManager:
         result = self.find_in_cache(plot_type, required_params_labels) if cache else None
         if result is None:
             result = plot_class(self.arena).fit(required_params_values)
-            if cache and result.is_done:
+            while wait and result.is_done == False:
+                time.sleep(0.5)
+                result = plot_class(self.arena).fit(required_params_values)
+            if cache and result.is_done != False:
                 self.put_to_cache(result)
         return result
