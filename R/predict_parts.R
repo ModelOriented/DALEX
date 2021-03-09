@@ -14,7 +14,7 @@
 #' @param ... other parameters that will be passed to \code{iBreakDown::break_down}
 #' @param variable_splits named list of splits for variables. It is used by oscillations based measures. Will be passed to \code{\link[ingredients]{ceteris_paribus}}.
 #' @param variables names of variables for which splits shall be calculated. Will be passed to \code{\link[ingredients]{ceteris_paribus}}.
-#' @param N number of observations used for calculation of oscillations. By default 500.
+#' @param N number of observations used for calculations. By default all observations are taken.
 #' @param variable_splits_type how variable grids shall be calculated? Will be passed to \code{\link[ingredients]{ceteris_paribus}}.
 #' @param type the type of variable attributions. Either \code{shap}, \code{oscillations}, \code{oscillations_uni},
 #' \code{oscillations_emp}, \code{break_down} or \code{break_down_interactions}.
@@ -69,23 +69,29 @@
 #'
 #' @name predict_parts
 #' @export
-predict_parts <- function(explainer, new_observation, ..., type = "break_down") {
+predict_parts <- function(explainer, new_observation, N = NULL, ..., type = "break_down") {
+
+  # Sample the data according to N
+
   switch (type,
-          "break_down"              = predict_parts_break_down(explainer, new_observation, ...),
-          "break_down_interactions" = predict_parts_break_down_interactions(explainer, new_observation, ...),
-          "shap"                    = predict_parts_shap(explainer, new_observation, ...),
-          "oscillations"            = predict_parts_oscillations(explainer, new_observation, ...),
-          "oscillations_uni"        = predict_parts_oscillations_uni(explainer, new_observation, ...),
-          "oscillations_emp"        = predict_parts_oscillations_emp(explainer, new_observation, ...),
+          "break_down"              = predict_parts_break_down(explainer, new_observation, N = N, ...),
+          "break_down_interactions" = predict_parts_break_down_interactions(explainer, new_observation, N = N, ...),
+          "shap"                    = predict_parts_shap(explainer, new_observation, N = N, ...),
+          "oscillations"            = predict_parts_oscillations(explainer, new_observation, N = N, ...),
+          "oscillations_uni"        = predict_parts_oscillations_uni(explainer, new_observation, N = N, ...),
+          "oscillations_emp"        = predict_parts_oscillations_emp(explainer, new_observation, N = N, ...),
           stop("The type argument shall be either 'shap' or 'break_down' or 'break_down_interactions' or 'oscillations' or 'oscillations_uni' or 'oscillations_emp'")
   )
 }
 
 #' @name predict_parts
 #' @export
-predict_parts_oscillations <- function(explainer, new_observation, ...) {
+predict_parts_oscillations <- function(explainer, new_observation, N = NULL, ...) {
   # run checks against the explainer objects
   test_explainer(explainer, has_data = TRUE, function_name = "predict_parts_oscillations")
+
+  # Cut data according to N
+  explainer$data <- cut_data_to_n(explainer$data, N)
 
   # call the ceteris_paribus
   cp <- ingredients::ceteris_paribus(explainer,
@@ -98,9 +104,12 @@ predict_parts_oscillations <- function(explainer, new_observation, ...) {
 
 #' @name predict_parts
 #' @export
-predict_parts_oscillations_uni <- function(explainer, new_observation, variable_splits_type = "uniform", ...) {
+predict_parts_oscillations_uni <- function(explainer, new_observation, variable_splits_type = "uniform", N = NULL, ...) {
   # run checks against the explainer objects
   test_explainer(explainer, has_data = TRUE, function_name = "predict_parts_oscillations_uni")
+
+  # Cut data according to N
+  explainer$data <- cut_data_to_n(explainer$data, N)
 
   # call the ceteris_paribus
   cp <- ingredients::ceteris_paribus(explainer,
@@ -114,15 +123,16 @@ predict_parts_oscillations_uni <- function(explainer, new_observation, variable_
 
 #' @name predict_parts
 #' @export
-predict_parts_oscillations_emp <- function(explainer, new_observation, variable_splits = NULL, variables = colnames(explainer$data), N = 500, ...) {
+predict_parts_oscillations_emp <- function(explainer, new_observation, variable_splits = NULL, variables = colnames(explainer$data), N = NULL, ...) {
   # run checks against the explainer objects
   test_explainer(explainer, has_data = TRUE, function_name = "predict_parts_oscillations_emp")
   variables <- intersect(variables, colnames(new_observation))
-  N <- min(N, nrow(explainer$data))
-  data_sample <- explainer$data[sample(1:nrow(explainer$data), N),]
+
+  # Cut data according to N
+  explainer$data <- cut_data_to_n(explainer$data, N)
 
   variable_splits <- lapply(variables, function(var) {
-    data_sample[,var]
+    explainer$data[,var]
   })
   names(variable_splits) <- variables
 
@@ -139,9 +149,12 @@ predict_parts_oscillations_emp <- function(explainer, new_observation, variable_
 
 #' @name predict_parts
 #' @export
-predict_parts_break_down <- function(explainer, new_observation, ...) {
+predict_parts_break_down <- function(explainer, new_observation, N = NULL, ...) {
   # run checks against the explainer objects
   test_explainer(explainer, has_data = TRUE, function_name = "predict_parts_break_down")
+
+  # Cut data according to N
+  explainer$data <- cut_data_to_n(explainer$data, N)
 
   # call the break_down
   res <- iBreakDown::break_down(explainer,
@@ -153,9 +166,12 @@ predict_parts_break_down <- function(explainer, new_observation, ...) {
 
 #' @name predict_parts
 #' @export
-predict_parts_break_down_interactions <- function(explainer, new_observation, ...) {
+predict_parts_break_down_interactions <- function(explainer, new_observation, N = NULL, ...) {
   # run checks against the explainer objects
   test_explainer(explainer, has_data = TRUE, function_name = "predict_parts_break_down_interactions")
+
+  # Cut data according to N
+  explainer$data <- cut_data_to_n(explainer$data, N)
 
   # call the break_down
   res <- iBreakDown::break_down(explainer,
@@ -168,9 +184,12 @@ predict_parts_break_down_interactions <- function(explainer, new_observation, ..
 
 #' @name predict_parts
 #' @export
-predict_parts_shap <- function(explainer, new_observation, ...) {
+predict_parts_shap <- function(explainer, new_observation, N = NULL, ...) {
   # run checks against the explainer objects
   test_explainer(explainer, has_data = TRUE, function_name = "predict_parts_shap")
+
+  # Cut data according to N
+  explainer$data <- cut_data_to_n(explainer$data, N)
 
   # call the shap from iBreakDown
   res <- iBreakDown::shap(explainer,

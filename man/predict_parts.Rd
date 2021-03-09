@@ -12,14 +12,15 @@
 \alias{variable_attribution}
 \title{Instance Level Parts of the Model Predictions}
 \usage{
-predict_parts(explainer, new_observation, ..., type = "break_down")
+predict_parts(explainer, new_observation, N = NULL, ..., type = "break_down")
 
-predict_parts_oscillations(explainer, new_observation, ...)
+predict_parts_oscillations(explainer, new_observation, N = NULL, ...)
 
 predict_parts_oscillations_uni(
   explainer,
   new_observation,
   variable_splits_type = "uniform",
+  N = NULL,
   ...
 )
 
@@ -28,22 +29,35 @@ predict_parts_oscillations_emp(
   new_observation,
   variable_splits = NULL,
   variables = colnames(explainer$data),
-  N = 500,
+  N = NULL,
   ...
 )
 
-predict_parts_break_down(explainer, new_observation, ...)
+predict_parts_break_down(explainer, new_observation, N = NULL, ...)
 
-predict_parts_break_down_interactions(explainer, new_observation, ...)
+predict_parts_break_down_interactions(
+  explainer,
+  new_observation,
+  N = NULL,
+  ...
+)
 
-predict_parts_shap(explainer, new_observation, ...)
+predict_parts_shap(explainer, new_observation, N = NULL, ...)
 
-variable_attribution(explainer, new_observation, ..., type = "break_down")
+variable_attribution(
+  explainer,
+  new_observation,
+  N = NULL,
+  ...,
+  type = "break_down"
+)
 }
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the \code{explain} function}
 
 \item{new_observation}{a new observation for which predictions need to be explained}
+
+\item{N}{number of observations used for calculations. By default all observations are taken.}
 
 \item{...}{other parameters that will be passed to \code{iBreakDown::break_down}}
 
@@ -55,8 +69,6 @@ variable_attribution(explainer, new_observation, ..., type = "break_down")
 \item{variable_splits}{named list of splits for variables. It is used by oscillations based measures. Will be passed to \code{\link[ingredients]{ceteris_paribus}}.}
 
 \item{variables}{names of variables for which splits shall be calculated. Will be passed to \code{\link[ingredients]{ceteris_paribus}}.}
-
-\item{N}{number of observations used for calculation of oscillations. By default 500.}
 }
 \value{
 Depending on the \code{type} there are different classes of the resulting object.

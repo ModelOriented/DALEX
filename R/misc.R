@@ -47,3 +47,12 @@ test_explainer <- function(explainer,
 
   TRUE
 }
+
+
+cut_data_to_n <- function(data, N) {
+  if (!is.null(N) && N < nrow(data)) {
+    ndata <- data[sample(1:nrow(data), N),]
+  } else {
+    ndata <- data
+  }
+}

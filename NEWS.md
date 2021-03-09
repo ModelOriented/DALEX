@@ -1,3 +1,7 @@
+DALEX 2.2.0
+---------------------------------------------------------------
+* Added `N` parameter to `predict_parts` (and functions called by `predict_parts`) that allows to subset that data used for computation.
+
 DALEX 2.1.1
 ---------------------------------------------------------------
 * All encouters of `nieghbour(s)` (EN-spelling) were replaced with `neighbor(s)` (US-spelling) for the consistency and backword compatibility.
