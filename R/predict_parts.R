@@ -14,7 +14,7 @@
 #' @param ... other parameters that will be passed to \code{iBreakDown::break_down}
 #' @param variable_splits named list of splits for variables. It is used by oscillations based measures. Will be passed to \code{\link[ingredients]{ceteris_paribus}}.
 #' @param variables names of variables for which splits shall be calculated. Will be passed to \code{\link[ingredients]{ceteris_paribus}}.
-#' @param N number of observations used for calculations. By default all observations are taken.
+#' @param N number of observations used for calculations. By default all observations are taken with an exception of \code{oscillations_emp} type when 500 is taken as default.
 #' @param variable_splits_type how variable grids shall be calculated? Will be passed to \code{\link[ingredients]{ceteris_paribus}}.
 #' @param type the type of variable attributions. Either \code{shap}, \code{oscillations}, \code{oscillations_uni},
 #' \code{oscillations_emp}, \code{break_down} or \code{break_down_interactions}.
@@ -123,10 +123,16 @@ predict_parts_oscillations_uni <- function(explainer, new_observation, variable_
 
 #' @name predict_parts
 #' @export
-predict_parts_oscillations_emp <- function(explainer, new_observation, variable_splits = NULL, variables = colnames(explainer$data), N = NULL, ...) {
+predict_parts_oscillations_emp <- function(explainer, new_observation, variable_splits = NULL, variables = colnames(explainer$data), N = 500, ...) {
   # run checks against the explainer objects
   test_explainer(explainer, has_data = TRUE, function_name = "predict_parts_oscillations_emp")
   variables <- intersect(variables, colnames(new_observation))
+
+
+  if (is.null(N)) {
+    # Default value, set 500
+    N <- 500
+  }
 
   # Cut data according to N
   explainer$data <- cut_data_to_n(explainer$data, N)
