@@ -105,7 +105,7 @@ Find information how to use the oscillations method here: http://ema.drwhy.ai/ce
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">2.1.1</span>
+          <span class="version version-default">2.2.0</span>
         </div>
       </div>
     </div>
@@ -173,7 +173,13 @@ Find information how to use the <code>shap</code> method here: <a href='http://e
 Find information how to use the <code>oscillations</code> method here: <a href='http://ema.drwhy.ai/ceterisParibusOscillations.html'>http://ema.drwhy.ai/ceterisParibusOscillations.html</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>predict_parts</span><span class='op'>(</span><span class='va'>explainer</span>, <span class='va'>new_observation</span>, <span class='va'>...</span>, type <span class='op'>=</span> <span class='st'>"break_down"</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>predict_parts</span><span class='op'>(</span>
+  <span class='va'>explainer</span>,
+  <span class='va'>new_observation</span>,
+  <span class='va'>...</span>,
+  N <span class='op'>=</span> <span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span><span class='op'>(</span><span class='va'>type</span>, <span class='fl'>1</span>, <span class='fl'>4</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"osci"</span><span class='op'>)</span> <span class='fl'>500</span> <span class='kw'>else</span> <span class='cn'>NULL</span>,
+  type <span class='op'>=</span> <span class='st'>"break_down"</span>
+<span class='op'>)</span>
 
 <span class='fu'>predict_parts_oscillations</span><span class='op'>(</span><span class='va'>explainer</span>, <span class='va'>new_observation</span>, <span class='va'>...</span><span class='op'>)</span>
 
@@ -189,7 +195,6 @@ Find information how to use the <code>oscillations</code> method here: <a href='
   <span class='va'>new_observation</span>,
   variable_splits <span class='op'>=</span> <span class='cn'>NULL</span>,
   variables <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>explainer</span><span class='op'>$</span><span class='va'>data</span><span class='op'>)</span>,
-  N <span class='op'>=</span> <span class='fl'>500</span>,
   <span class='va'>...</span>
 <span class='op'>)</span>
 
@@ -199,7 +204,13 @@ Find information how to use the <code>oscillations</code> method here: <a href='
 
 <span class='fu'>predict_parts_shap</span><span class='op'>(</span><span class='va'>explainer</span>, <span class='va'>new_observation</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>variable_attribution</span><span class='op'>(</span><span class='va'>explainer</span>, <span class='va'>new_observation</span>, <span class='va'>...</span>, type <span class='op'>=</span> <span class='st'>"break_down"</span><span class='op'>)</span></pre>
+<span class='fu'>variable_attribution</span><span class='op'>(</span>
+  <span class='va'>explainer</span>,
+  <span class='va'>new_observation</span>,
+  <span class='va'>...</span>,
+  N <span class='op'>=</span> <span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span><span class='op'>(</span><span class='va'>type</span>, <span class='fl'>1</span>, <span class='fl'>4</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"osci"</span><span class='op'>)</span> <span class='fl'>500</span> <span class='kw'>else</span> <span class='cn'>NULL</span>,
+  type <span class='op'>=</span> <span class='st'>"break_down"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -217,6 +228,10 @@ Find information how to use the <code>oscillations</code> method here: <a href='
       <td><p>other parameters that will be passed to <code><a href='https://ModelOriented.github.io/iBreakDown/reference/break_down.html'>iBreakDown::break_down</a></code></p></td>
     </tr>
     <tr>
+      <th>N</th>
+      <td><p>the maximum number of observations used for calculation of attributions. By default NULL (use all) or 500 (for oscillations).</p></td>
+    </tr>
+    <tr>
       <th>type</th>
       <td><p>the type of variable attributions. Either <code>shap</code>, <code>oscillations</code>, <code>oscillations_uni</code>,
 <code>oscillations_emp</code>, <code>break_down</code> or <code>break_down_interactions</code>.</p></td>
@@ -232,10 +247,6 @@ Find information how to use the <code>oscillations</code> method here: <a href='
     <tr>
       <th>variables</th>
       <td><p>names of variables for which splits shall be calculated. Will be passed to <code><a href='https://ModelOriented.github.io/ingredients/reference/ceteris_paribus.html'>ceteris_paribus</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>N</th>
-      <td><p>number of observations used for calculation of oscillations. By default 500.</p></td>
     </tr>
     </table>
 

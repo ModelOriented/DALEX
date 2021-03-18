@@ -99,7 +99,7 @@ This function creates a unified representation of a model, which can be further 
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">2.1.1</span>
+          <span class="version version-default">2.2.0</span>
         </div>
       </div>
     </div>
@@ -442,6 +442,31 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='co'># \donttest{</span>
+<span class='co'># simple function</span>
+<span class='va'>aps_fun</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fl'>58</span><span class='op'>*</span><span class='va'>x</span><span class='op'>$</span><span class='va'>surface</span>
+<span class='va'>aps_fun_explainer</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span><span class='op'>(</span><span class='va'>aps_fun</span>, data <span class='op'>=</span> <span class='va'>apartments</span>, y <span class='op'>=</span> <span class='va'>apartments</span><span class='op'>$</span><span class='va'>m2.price</span>, label<span class='op'>=</span><span class='st'>"sfun"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label       :  sfun 
+#&gt;   -&gt; data              :  1000  rows  6  cols 
+#&gt;   -&gt; target variable   :  1000  values 
+#&gt;   -&gt; predict function  :  yhat.function  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; predicted values  :  No value for predict function target column. ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; model_info        :  package Model of class: function package unrecognized , ver. Unknown , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; predicted values  :  numerical, min =  1160 , mean =  4964.22 , max =  8700  
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; residuals         :  numerical, min =  -7035 , mean =  -1477.201 , max =  4855  
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='fu'><a href='model_performance.html'>model_performance</a></span><span class='op'>(</span><span class='va'>aps_fun_explainer</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Measures for:  regression
+#&gt; mse        : 9836605 
+#&gt; rmse       : 3136.336 
+#&gt; r2         : -10.97734 
+#&gt; mad        : 2336.5
+#&gt; 
+#&gt; Residuals:
+#&gt;      0%     10%     20%     30%     40%     50%     60%     70%     80%     90% 
+#&gt; -7035.0 -5258.6 -4232.4 -3362.9 -2474.8 -1479.5  -507.6   294.2  1283.2  2156.5 
+#&gt;    100% 
+#&gt;  4855.0 </div><div class='input'>
 <span class='co'># set model_info</span>
 <span class='va'>model_info</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"stats"</span>, ver <span class='op'>=</span> <span class='st'>"3.6.2"</span>, type <span class='op'>=</span> <span class='st'>"regression"</span><span class='op'>)</span>
 <span class='va'>aps_lm_model4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>m2.price</span> <span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>apartments</span><span class='op'>)</span>
