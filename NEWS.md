@@ -1,3 +1,9 @@
+DALEX 2.2
+---------------------------------------------------------------
+* Now explainer handles R functions ([#396](https://github.com/ModelOriented/DALEX/issues/396))
+* `predict_parts` function handles the `N` argument natively ([#394](https://github.com/ModelOriented/DALEX/issues/394))
+
+
 DALEX 2.1.1
 ---------------------------------------------------------------
 * All encouters of `nieghbour(s)` (EN-spelling) were replaced with `neighbor(s)` (US-spelling) for the consistency and backword compatibility.

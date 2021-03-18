@@ -14,7 +14,7 @@
 #' @param ... other parameters that will be passed to \code{iBreakDown::break_down}
 #' @param variable_splits named list of splits for variables. It is used by oscillations based measures. Will be passed to \code{\link[ingredients]{ceteris_paribus}}.
 #' @param variables names of variables for which splits shall be calculated. Will be passed to \code{\link[ingredients]{ceteris_paribus}}.
-#' @param N number of observations used for calculation of oscillations. By default 500.
+#' @param N the maximum number of observations used for calculation of attributions. By default NULL (use all) or 500 (for oscillations).
 #' @param variable_splits_type how variable grids shall be calculated? Will be passed to \code{\link[ingredients]{ceteris_paribus}}.
 #' @param type the type of variable attributions. Either \code{shap}, \code{oscillations}, \code{oscillations_uni},
 #' \code{oscillations_emp}, \code{break_down} or \code{break_down_interactions}.
@@ -69,7 +69,12 @@
 #'
 #' @name predict_parts
 #' @export
-predict_parts <- function(explainer, new_observation, ..., type = "break_down") {
+predict_parts <- function(explainer, new_observation, ..., N = if(substr(type, 1, 4) == "osci") 500 else NULL, type = "break_down") {
+  # https://github.com/ModelOriented/DALEX/issues/394  keep only N rows
+  if (!is.null(N) && N < nrow(explainer$data)) {
+    explainer$data <- explainer$data[sample(1:nrow(explainer$data), N),, drop = FALSE]
+  }
+
   switch (type,
           "break_down"              = predict_parts_break_down(explainer, new_observation, ...),
           "break_down_interactions" = predict_parts_break_down_interactions(explainer, new_observation, ...),
@@ -114,12 +119,11 @@ predict_parts_oscillations_uni <- function(explainer, new_observation, variable_
 
 #' @name predict_parts
 #' @export
-predict_parts_oscillations_emp <- function(explainer, new_observation, variable_splits = NULL, variables = colnames(explainer$data), N = 500, ...) {
+predict_parts_oscillations_emp <- function(explainer, new_observation, variable_splits = NULL, variables = colnames(explainer$data), ...) {
   # run checks against the explainer objects
   test_explainer(explainer, has_data = TRUE, function_name = "predict_parts_oscillations_emp")
   variables <- intersect(variables, colnames(new_observation))
-  N <- min(N, nrow(explainer$data))
-  data_sample <- explainer$data[sample(1:nrow(explainer$data), N),]
+  data_sample <- explainer$data
 
   variable_splits <- lapply(variables, function(var) {
     data_sample[,var]
