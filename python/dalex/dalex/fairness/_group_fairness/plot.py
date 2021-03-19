@@ -11,24 +11,9 @@ from ..._explainer import helper
 from ... import _theme
 
 
-def plot_fairness_check(fobject,
-                        title=None,
-                        other_objects=None,
-                        epsilon=0.8,
-                        verbose=True):
-    data = utils._metric_ratios_2_df(fobject)
-    n = 1
-    if other_objects is not None:
-        basic_checks.check_other_fairness_objects(fobject, other_objects)
-        for other_obj in other_objects:
-            other_data = utils._metric_ratios_2_df(other_obj)
-            data = data.append(other_data)
-            n += 1
+def plot_fairness_check(data, n_models, epsilon, title):
 
-    if any(data.score == 0):
-        nan_models = set(data.label[data.score == 0])
-        helper.verbose_cat(f'\nFound NaN\'s or 0\'s for models: {nan_models}\n'
-                           f'It is advisable to check \'metric_ratios\'', verbose=verbose)
+    n = n_models
 
     upper_bound = max([max(data.score[np.invert(np.isnan(data.score.to_numpy()))]), 1 / epsilon - 1]) + 0.1
     lower_bound = min([min(data.score[np.invert(np.isnan(data.score.to_numpy()))]), epsilon - 1]) - 0.1
@@ -40,16 +25,6 @@ def plot_fairness_check(fobject,
 
     # drwhy colors
     colors = _theme.get_default_colors(n, 'line')
-
-    # change name of metrics
-    data.loc[data.metric == 'TPR', 'metric'] = 'Equal opportunity ratio     TP/(TP + FN)'
-    data.loc[data.metric == 'ACC', 'metric'] = 'Accuracy equality ratio    (TP + TN)/(TP + FP + TN + FN)'
-    data.loc[data.metric == 'PPV', 'metric'] = 'Predictive parity ratio     TP/(TP + FP)'
-    data.loc[data.metric == 'FPR', 'metric'] = 'Predictive equality ratio   FP/(FP + TN)'
-    data.loc[data.metric == 'STP', 'metric'] = 'Statistical parity ratio   (TP + FP)/(TP + FP + TN + FN)'
-
-    # without privileged
-    data = data.loc[data.subgroup != fobject.privileged]
 
     # subgroup y-axis value creation
     n_ticks = len(data.subgroup.unique())
@@ -97,7 +72,11 @@ def plot_fairness_check(fobject,
                      range=[0, 1])
 
     # refs are dependent on fixed numbers of metrics
-    refs = ['y', 'y2', 'y3', 'y4', 'y5']
+
+    n_metrics = len(np.unique(data.metric))
+    refs = ['y'+str(i) for i in range(2, n_metrics+1)]
+    refs.insert(0, 'y')
+
     left_red = [{'type': "rect",
                  'x0': lower_bound,
                  'y0': 0,
@@ -158,13 +137,76 @@ def plot_fairness_check(fobject,
         lambda a: a.update(text=a.text.replace("metric=", ""), xanchor='left', x=0.05, font={'size': 15}))
 
     # delete y axis names [fixed] number of refs
-    for i in ['', '2', '4', '5']:
+    for i in [ref[1:] for ref in refs]:
         fig.update_layout({'yaxis' + i + '_title_text': ''})
 
-    fig.update_layout({'yaxis3_title_text': 'subgroup'})
+    middle_ref_num = refs[len(refs)//2][1:]
+    fig.update_layout({'yaxis' + str(middle_ref_num) + '_title_text': 'subgroup'})
     fig.update_yaxes(showgrid=False, zeroline=False)
 
     return fig
+
+def plot_fairness_check_clf(fobject,
+                        title=None,
+                        other_objects=None,
+                        epsilon=0.8,
+                        verbose=True):
+    data = utils._metric_ratios_2_df(fobject)
+    n = 1
+    if other_objects is not None:
+        basic_checks.check_other_fairness_objects(fobject, other_objects)
+        for other_obj in other_objects:
+            other_data = utils._metric_ratios_2_df(other_obj)
+            data = data.append(other_data)
+            n += 1
+
+    if any(data.score == 0):
+        nan_models = set(data.label[data.score == 0])
+        helper.verbose_cat(f'\nFound NaN\'s or 0\'s for models: {nan_models}\n'
+                           f'It is advisable to check \'metric_ratios\'', verbose=verbose)
+
+
+    # change name of metrics
+    data.loc[data.metric == 'TPR', 'metric'] = 'Equal opportunity ratio     TP/(TP + FN)'
+    data.loc[data.metric == 'ACC', 'metric'] = 'Accuracy equality ratio    (TP + TN)/(TP + FP + TN + FN)'
+    data.loc[data.metric == 'PPV', 'metric'] = 'Predictive parity ratio     TP/(TP + FP)'
+    data.loc[data.metric == 'FPR', 'metric'] = 'Predictive equality ratio   FP/(FP + TN)'
+    data.loc[data.metric == 'STP', 'metric'] = 'Statistical parity ratio   (TP + FP)/(TP + FP + TN + FN)'
+
+    # without privileged
+    data = data.loc[data.subgroup != fobject.privileged]
+
+    fig = plot_fairness_check(data, n, epsilon, title)
+
+    return fig
+
+def plot_fairness_check_reg(fobject,
+                            title=None,
+                            other_objects = None,
+                            epsilon=0.8,
+                            verbose=True):
+
+
+    data = fobject.metric_ratios.unstack().reset_index()
+    data.columns = ['metric', 'subgroup', 'score']
+
+    data['label'] = fobject.label
+    n = 1
+
+    if other_objects is not None:
+        basic_checks.check_other_fairness_objects(fobject, other_objects)
+        for other_obj in other_objects:
+            other_data = other_obj.metric_ratios.unstack().reset_index()
+            other_data.columns = ['metric', 'subgroup', 'score']
+            other_data['label'] = other_obj.label
+            data = data.append(other_data)
+            n += 1
+
+    data.score = data.score - 1
+
+    fig = plot_fairness_check(data, n, epsilon, title)
+    return fig
+
 
 
 def plot_metric_scores(fobject,
@@ -328,6 +370,7 @@ def plot_metric_scores(fobject,
     fig.update_yaxes(showgrid=False, zeroline=False)
 
     return fig
+
 
 
 def plot_stacked(fobject,

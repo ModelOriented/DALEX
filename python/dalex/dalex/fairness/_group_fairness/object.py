@@ -208,9 +208,9 @@ class GroupFairnessClassification(_FairnessObject):
             basic_checks.check_other_fairness_objects(self, other_objects)
 
         if type == 'fairness_check':
-            fig = plot.plot_fairness_check(self,
-                                           other_objects=other_objects,
-                                           title=title, **kwargs)
+            fig = plot.plot_fairness_check_clf(self,
+                                               other_objects=other_objects,
+                                               title=title, **kwargs)
 
         elif type == "metric_scores":
             fig = plot.plot_metric_scores(self,
@@ -271,6 +271,7 @@ class GroupFairnessRegression(_FairnessObject):
 
         rd = utils.RegressionDict(y, y_hat, protected, privileged)
 
+        self.metric_ratios = utils.calculate_regression_measures(y, y_hat, protected, privileged)
         self.regression_dict = rd
         self.label = label
 
@@ -291,6 +292,12 @@ class GroupFairnessRegression(_FairnessObject):
                                     other_objects,
                                     title=None,
                                     **kwargs)
+
+        elif type == 'fairness_check':
+            fig = plot.plot_fairness_check_reg(self,
+                                               other_objects=other_objects,
+                                               title=None,
+                                               **kwargs)
 
         else:
             raise ParameterCheckError(f"plot type {type} not supported, try other types.")

@@ -16,8 +16,8 @@ def check_parameters(y, y_hat, protected, privileged, verbose):
         # if is not numpy array check what type it is and change to np array
         if isinstance(protected, list):
             try:
-                 helper.verbose_cat("protected list will be converted to np.ndarray", verbose)
-                 protected = np.array(protected, dtype='U')
+                helper.verbose_cat("protected list will be converted to np.ndarray", verbose)
+                protected = np.array(protected, dtype='U')
             except:
                 ParameterCheckError("failed to convert list to np.ndarray, try converting it manually", verbose)
 
@@ -65,6 +65,9 @@ def check_other_fairness_objects(fobject, other):
     Checking compatibility of GroupFairnessClassification objects
     """
     for other_obj in other:
+        if type(other_obj) != type(fobject):
+            raise FairnessObjectsDifferenceError('The objects have different classes')
+
         if fobject.protected.shape != other_obj.protected.shape:
             raise FairnessObjectsDifferenceError('protected attributes have different shapes')
 
@@ -89,4 +92,3 @@ def check_other_fairness_objects(fobject, other):
         raise FairnessObjectsDifferenceError(
             'Fairness labels are not unique and therefore objects cannot be plotted together'
         )
-

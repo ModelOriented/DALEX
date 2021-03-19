@@ -5,7 +5,7 @@ import pandas as pd
 
 from ..._explainer import helper
 from ...model_explanations._model_performance import utils
-
+from sklearn.linear_model import LogisticRegression
 
 # -------------- Objects needed in creation of object in object.py --------------
 
@@ -283,3 +283,47 @@ class RegressionDict:
 # -------------- Helper functions --------------
 def fairness_check_metrics():
     return ["TPR", "ACC", "PPV", "FPR", "STP"]
+
+def calculate_regression_measures(y, y_hat, protected, privileged):
+
+    unique_protected = np.unique(protected)
+    unique_unprivileged = unique_protected[unique_protected != privileged]
+
+    data = pd.DataFrame(columns=['subgroup', 'independence', 'separation', 'sufficiency'])
+
+    for unprivileged in unique_unprivileged:
+        # filter elements
+        array_elements = np.isin(protected, [privileged, unprivileged])
+
+        y_u = y[array_elements]
+        n = len(array_elements)
+        s_u = y_hat[array_elements]
+
+        a = np.where(protected[array_elements] == privileged, 1, 0)
+
+        p_s = LogisticRegression()
+        p_ys = LogisticRegression()
+        p_y = LogisticRegression()
+
+        p_s.fit(s_u.reshape(-1, 1), a)
+        p_y.fit(y_u.reshape(-1, 1), a)
+        p_ys.fit(np.c_[y_u, s_u], a)
+
+        pred_p_s = p_s.predict_proba(s_u.reshape(-1, 1))[:, 1]
+        pred_p_y = p_y.predict_proba(y_u.reshape(-1, 1))[:, 1]
+        pred_p_ys = p_ys.predict_proba(np.c_[y_u, s_u])[:, 1]
+
+        r_ind = a.sum() / ((n - a.sum()) * n) * (pred_p_s / (1 - pred_p_s)).sum()
+        r_sep = 1 / n * (pred_p_ys / (1 - pred_p_ys) * (1 - pred_p_y) / pred_p_y).sum()
+        r_suf = 1 / n * (pred_p_ys / (1 - pred_p_ys) * (1 - pred_p_s) / pred_p_s).sum()
+
+        to_append = pd.DataFrame({'subgroup': [unprivileged],
+                                  'independence': [r_ind],
+                                  'separation': [r_sep],
+                                  'sufficiency': [r_suf]})
+
+        data = data.append(to_append)
+
+    data.index = data.subgroup
+    data = data.iloc[:,1:]
+    return data
