@@ -8,7 +8,7 @@ development
 * fixed concurrent random seeds when `processes>1` ([#392](https://github.com/ModelOriented/DALEX/issues/392)), which means that the results of parallel computation will vary between this and previous versions
 
 #### other 
-* `epsilon` is now an GroupFairnessClassification object ([#397](https://github.com/ModelOriented/DALEX/issues/397))
+* `epsilon` is now an argument of GroupFairnessClassification object ([#397](https://github.com/ModelOriented/DALEX/issues/397))
 
 v1.0.1 (19/02/2021)
 ----------------------------------------------------------------
