@@ -49,7 +49,13 @@ class FairnessTest(unittest.TestCase):
     def test_fairness_check(self):
         self.mgf.fairness_check()
         self.mgf2.fairness_check()
-        
+
+        self.mgf.fairness_check(epsilon = 0.1)
+
+        with self.assertRaises(dx.fairness._basics.exceptions.ParameterCheckError):
+            self.mgf.fairness_check(epsilon=-1)
+
+
     def test_ConfusionMatrix(self):
         y_true = np.array([0, 0, 0, 0, 1, 1, 1, 1])
         y_pred = np.array([0.32, 0.54, 0.56, 0.67, 0.34, 0.67, 0.98, 1])
@@ -187,6 +193,13 @@ class FairnessTest(unittest.TestCase):
             gfco = exp.model_fairness(protected=protected,
                                       privileged='not_existing',
                                       verbose=False)
+
+        with self.assertRaises(dx.fairness._basics.exceptions.ParameterCheckError):
+            gfco = exp.model_fairness(protected=protected,
+                                      privileged='male_old',
+                                      epsilon=1.1, # wrong epsilon
+                                      verbose=False)
+
         with self.assertRaises(dx.fairness._basics.exceptions.ParameterCheckError):
             gfco = dx.fairness.GroupFairnessClassification(y=exp.y[:-1, ],
                                                            y_hat=exp.y_hat,
@@ -261,6 +274,20 @@ class FairnessTest(unittest.TestCase):
                                            verbose=False
                                            )
             self.mgf.plot([mgf_wrong])
+
+        with self.assertRaises(dx.fairness._basics.exceptions.FairnessObjectsDifferenceError):
+            mgf_wrong = self.exp.model_fairness(protected=self.german_protected,
+                                                    privileged='male_old',
+                                                    epsilon=0.6, # different epsilon
+                                                    verbose=False)
+            self.mgf.plot([mgf_wrong])
+
+        with self.assertRaises(dx.fairness._basics.exceptions.ParameterCheckError):
+            mgf_wrong = self.exp.model_fairness(protected=self.german_protected,
+                                                privileged='male_old',
+                                                epsilon=0.8,  # here ok epsilon
+                                                verbose=False)
+            self.mgf.plot([mgf_wrong], epsilon = 1.2)  # here wrong epsilon
 
         with self.assertRaises(dx.fairness._basics.exceptions.FairnessObjectsDifferenceError):
             exp_wrong = deepcopy(self.exp)
