@@ -10,12 +10,14 @@ from ..._explainer import helper
 
 class GroupFairnessClassification(_FairnessObject):
 
-    def __init__(self, y, y_hat, protected, privileged, label, verbose=False, cutoff=0.5):
+    def __init__(self, y, y_hat, protected, privileged, label, verbose=False, cutoff=0.5, epsilon=0.8):
 
         super().__init__(y, y_hat, protected, privileged, verbose)
 
         cutoff = checks.check_cutoff(self.protected, cutoff, verbose)
         self.cutoff = cutoff
+        epsilon = checks.check_epsilon(epsilon)
+        self.epsilon = epsilon
 
         sub_confusion_matrix = utils.SubgroupConfusionMatrix(
             y_true=self.y,
@@ -35,7 +37,7 @@ class GroupFairnessClassification(_FairnessObject):
         self.result = df_ratios
         self.label = label
 
-    def fairness_check(self, epsilon=0.8, verbose=True):
+    def fairness_check(self, epsilon=None, verbose=True):
         """Check if classifier passes various fairness metrics
 
         Fairness check is an easy way to check if the model is fair.
@@ -64,7 +66,11 @@ class GroupFairnessClassification(_FairnessObject):
         None (prints console output)
 
         """
-        epsilon = checks.check_epsilon(epsilon)
+        if epsilon is None:
+            epsilon = self.epsilon
+        else:
+            epsilon = checks.check_epsilon(epsilon)
+
         metric_ratios = self.result
 
         subgroups = np.unique(self.protected)
@@ -209,45 +215,46 @@ class GroupFairnessClassification(_FairnessObject):
 
         if type == 'fairness_check':
             fig = plot.plot_fairness_check(self,
-                                      other_objects=other_objects,
-                                      title=title, **kwargs)
+                                           other_objects=other_objects,
+                                           title=title,
+                                           **kwargs)
 
         elif type == "metric_scores":
             fig = plot.plot_metric_scores(self,
-                                     other_objects=other_objects,
-                                     title=title,
-                                     **kwargs)
+                                          other_objects=other_objects,
+                                          title=title,
+                                          **kwargs)
 
         # names of plots may be changed
         elif type == 'stacked':
             fig = plot.plot_stacked(self,
-                               other_objects=other_objects,
-                               title=title,
-                               **kwargs)
+                                    other_objects=other_objects,
+                                    title=title,
+                                    **kwargs)
 
         elif type == 'radar':
             fig = plot.plot_radar(self,
-                             other_objects=other_objects,
-                             title=title,
-                             **kwargs)
+                                  other_objects=other_objects,
+                                  title=title,
+                                  **kwargs)
 
         elif type == 'performance_and_fairness':
             fig = plot.plot_performance_and_fairness(self,
-                                                other_objects=other_objects,
-                                                title=title,
-                                                **kwargs)
+                                                     other_objects=other_objects,
+                                                     title=title,
+                                                     **kwargs)
 
         elif type == 'heatmap':
             fig = plot.plot_heatmap(self,
-                               other_objects=other_objects,
-                               title=title,
-                               **kwargs)
+                                    other_objects=other_objects,
+                                    title=title,
+                                    **kwargs)
 
         elif type == 'ceteris_paribus_cutoff':
             fig = plot.plot_ceteris_paribus_cutoff(self,
-                                              other_objects=other_objects,
-                                              title=title,
-                                              **kwargs)
+                                                   other_objects=other_objects,
+                                                   title=title,
+                                                   **kwargs)
 
         else:
             raise ParameterCheckError(f"plot type {type} not supported, try other types.")

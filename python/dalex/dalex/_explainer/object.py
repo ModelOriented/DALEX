@@ -801,6 +801,7 @@ class Explainer:
                        protected,
                        privileged,
                        cutoff=0.5,
+                       epsilon=0.8,
                        label=None,
                        **kwargs):
         """Creates a model-level fairness explanation that enables bias detection
@@ -830,6 +831,12 @@ class Explainer:
             It might be: a `float` - same for all subgroups from `protected`,
             or a `dict` - individually adjusted for each subgroup
             (must have values from `protected` as keys).
+        epsilon : float
+            Parameter defines acceptable fairness scores. The closer to `1` the
+            more strict the verdict is. If the ratio of certain unprivileged
+            and privileged subgroup is within the `(epsilon, 1/epsilon)` range,
+            then there is no discrimination in this metric and for this subgroups
+            (default is `0.8`).
         label : str, optional
             Name to appear in result and plots. Overrides default.
         kwargs : dict
@@ -877,6 +884,7 @@ class Explainer:
                                               protected=protected,
                                               privileged=privileged,
                                               cutoff=cutoff,
+                                              epsilon=epsilon,
                                               label=self.label,
                                               **kwargs)
         

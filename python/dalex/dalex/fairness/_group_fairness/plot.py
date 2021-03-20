@@ -4,18 +4,24 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-from . import utils 
+from . import utils
+from . import checks
 from .._basics import checks as basic_checks
 from .._basics.exceptions import ParameterCheckError
 from ..._explainer import helper
 from ... import _theme
 
-
 def plot_fairness_check(fobject,
                         title=None,
                         other_objects=None,
-                        epsilon=0.8,
+                        epsilon=None,
                         verbose=True):
+
+    if epsilon is None:
+        epsilon = fobject.epsilon
+    else:
+        epsilon = checks.check_epsilon(epsilon)
+
     data = utils._metric_ratios_2_df(fobject)
     n = 1
     if other_objects is not None:
