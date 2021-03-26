@@ -118,7 +118,8 @@ plot.model_performance_boxplot <- function(df, show_outliers, loss_function, nla
     stat_summary(fun = loss_function, geom = "point", shape = 20, size=10, color="red", fill="red") +
     theme_drwhy_vertical() +
     scale_fill_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
-    ylab("") + xlab("") +
+    ylab("") +
+    scale_x_discrete("", limits = rev(levels(df$label))) + # added to fix https://github.com/ModelOriented/DALEX/issues/400
     ggtitle(
       expression(paste("Boxplots of ", group("|", residual, "|"))),
       "Red dot stands for root mean square of residuals"
@@ -138,8 +139,9 @@ plot.model_performance_boxplot <- function(df, show_outliers, loss_function, nla
 
 plot.model_performance_histogram <- function(df, nlabels) {
   diff <- label <- NULL
-  # if factor, then levels shall be reversed
-  if (length(levels(df$label)) > 1) levels(df$label) <- rev(levels(df$label))
+  # commented to keep it consistent with other plots
+  # see: https://github.com/ModelOriented/DALEX/issues/400
+  # if (length(levels(df$label)) > 1) levels(df$label) <- rev(levels(df$label))
 
   ggplot(df, aes(diff, fill = label)) +
     geom_histogram(bins = 100) +
