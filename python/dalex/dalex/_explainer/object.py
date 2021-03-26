@@ -214,6 +214,7 @@ class Explainer:
                       order=None,
                       interaction_preference=1,
                       path="average",
+                      N=None,
                       B=25,
                       keep_distributions=False,
                       label=None,
@@ -240,6 +241,9 @@ class Explainer:
             Parameter specific for `shap`. If specified, then attributions for this path
             will be plotted (default is `'average'`, which plots attribution means for
             `B` random paths).
+        N : int, optional
+            Number of observations that will be sampled from the `data` attribute before
+            the calculation of variable attributions. Default is `None` which means all `data`.
         B : int, optional
             Parameter specific for `shap`. Number of random paths to calculate
             variable attributions (default is `25`).
@@ -281,6 +285,17 @@ class Explainer:
         types = ('break_down_interactions', 'break_down', 'shap', 'shap_wrapper')
         _type = checks.check_method_type(type, types)
 
+        if isinstance(N, int):
+            # temporarly overwrite data in the Explainer (fastest way)
+            # at the end of predict_parts fix the Explainer (add original data)
+            if isinstance(random_state, int):
+                np.random.seed(random_state)
+            N = min(N, self.data.shape[0])
+            I = np.random.choice(np.arange(N), N, replace=False)
+            from copy import deepcopy
+            _data = deepcopy(self.data)
+            self.data = self.data.iloc[I, :]
+
         if _type == 'break_down_interactions' or _type == 'break_down':
             _predict_parts = BreakDown(
                 type=_type,
@@ -306,6 +321,9 @@ class Explainer:
         
         if label:
             _predict_parts.result['label'] = label
+
+        if isinstance(N, int):
+            self.data = _data
 
         return _predict_parts
 
@@ -574,15 +592,16 @@ class Explainer:
         elif _type == 'shap_wrapper':
             _global_checks.global_check_import('shap', 'SHAP explanations')
             _model_parts = ShapWrapper('model_parts')
-            if N is None:
-                N = self.data.shape[0]
-            else:
+            if isinstance(N, int):
+                if isinstance(random_state, int):
+                    np.random.seed(random_state)
                 N = min(N, self.data.shape[0])
+                I = np.random.choice(np.arange(N), N, replace=False)
+                _new_observation = self.data.iloc[I, :]
+            else:
+                _new_observation = self.data
 
-            sampled_rows = np.random.choice(np.arange(N), N, replace=False)
-            sampled_data = self.data.iloc[sampled_rows, :]
-
-            _model_parts.fit(self, sampled_data, **kwargs)
+            _model_parts.fit(self, _new_observation, **kwargs)
         else:
             raise TypeError("Wrong type parameter");
 
@@ -666,23 +685,26 @@ class Explainer:
         aliases = {'pdp': 'partial', 'ale': 'accumulated'}
         _type = checks.check_method_type(type, types, aliases)
 
-        if N is None:
-            N = self.data.shape[0]
-        else:
+        _ceteris_paribus = CeterisParibus(
+            grid_points=grid_points,
+            variables=variables,
+            variable_splits=variable_splits,
+            variable_splits_type=variable_splits_type,
+            processes=processes
+        )
+
+        if isinstance(N, int):
+            if isinstance(random_state, int):
+                np.random.seed(random_state)
             N = min(N, self.data.shape[0])
+            I = np.random.choice(np.arange(N), N, replace=False)
+            _y = self.y[I] if self.y is not None else self.y
+            _new_observation = self.data.iloc[I, :]
+        else:
+            _y = self.y
+            _new_observation = self.data
 
-        if random_state is not None:
-            np.random.seed(random_state)
-
-        I = np.random.choice(np.arange(N), N, replace=False)
-
-        _ceteris_paribus = CeterisParibus(grid_points=grid_points,
-                                         variables=variables,
-                                         variable_splits=variable_splits,
-                                         variable_splits_type=variable_splits_type,
-                                         processes=processes)
-        _y = self.y[I] if self.y is not None else self.y
-        _ceteris_paribus.fit(self, self.data.iloc[I, :], y=_y, verbose=verbose)
+        _ceteris_paribus.fit(self, _new_observation, _y, verbose=verbose)
 
         _model_profile = AggregatedProfiles(
             type=_type,
