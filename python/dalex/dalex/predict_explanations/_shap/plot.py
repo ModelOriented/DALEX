@@ -11,7 +11,7 @@ def prepare_data_for_shap_plot(x, baseline, prediction, max_vars, rounding_funct
         last_row = max_vars - 1
         new_x = x.iloc[0:(last_row + 1), :].copy()
         new_x.iloc[last_row, new_x.columns.get_loc('variable')] = "+ all other factors"
-        contribution_sum = np.sum(x.iloc[last_row:(variable_count - 1), x.columns.get_loc('contribution')])
+        contribution_sum = np.sum(x.iloc[last_row::, x.columns.get_loc('contribution')])
         new_x.iloc[last_row, new_x.columns.get_loc('contribution')] = contribution_sum
         new_x.iloc[last_row, new_x.columns.get_loc('sign')] = np.sign(contribution_sum)
 

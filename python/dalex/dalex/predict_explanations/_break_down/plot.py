@@ -15,10 +15,9 @@ def prepare_data_for_break_down_plot(x, baseline, max_vars, rounding_function, d
         new_x = x.iloc[0:(max_vars + 1), :].copy()
         new_x.iloc[max_vars, new_x.columns.get_loc('variable')] = "+ all other factors"
         new_x.iloc[max_vars, new_x.columns.get_loc('contribution')] = \
-            np.sum(x.iloc[max_vars:(variable_count - 1), x.columns.get_loc('contribution')])
+            np.sum(x.iloc[max_vars::, x.columns.get_loc('contribution')])
         new_x.iloc[max_vars, new_x.columns.get_loc('cumulative')] = \
             x.iloc[variable_count - 1, x.columns.get_loc('cumulative')]
-
         x = new_x
 
     x = pd.concat((temp.iloc[[0]], x, temp.iloc[[1]]))
