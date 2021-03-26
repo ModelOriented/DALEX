@@ -51,7 +51,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">2.2.0</span>
+          <span class="version version-default">2.2.1</span>
         </div>
       </div>
     </div>
@@ -106,7 +106,7 @@
       <h1 data-toc-skip>How to use multilabel classification and DALEX?</h1>
                         <h4 class="author">Szymon Maksymiuk</h4>
             
-            <h4 class="date">2021-03-18</h4>
+            <h4 class="date">2021-03-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/DALEX/blob/master/vignettes/multilabel_classification.Rmd"><code>vignettes/multilabel_classification.Rmd</code></a></small>
       <div class="hidden name"><code>multilabel_classification.Rmd</code></div>
@@ -152,7 +152,7 @@
 #&gt; Target node size:                 10 
 #&gt; Variable importance mode:         none 
 #&gt; Splitrule:                        gini 
-#&gt; OOB prediction error (Brier s.):  0.217033</code></pre>
+#&gt; OOB prediction error (Brier s.):  0.2174502</code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://dalex.drwhy.ai">"DALEX"</a></span><span class="op">)</span>
 <span class="va">explain_HR_ranger</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.default.html">explain</a></span><span class="op">(</span><span class="va">model_HR_ranger</span>,
@@ -169,7 +169,7 @@
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task multiclass (  default  ) 
 #&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) 
 #&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.276821 , max =  0.8874219  
+#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.2784662 , max =  0.8663058  
 #&gt;   A new explainer has been created!</code></pre>
 <p>The sixth column, that we have omitted during the creation of the explainer, stands for the target column (<code>status</code>). It is good practice not to put it in <code>data</code>. Keep in mind that the default <code>yhat</code> function for <code>ranger</code>, and for any other package that is supported by <code>DALEX</code>, enforces probability output. Therefore residuals cannot be standard <span class="math inline">\(y - \hat{y}\)</span>. Since <code>DALEX 1.2.2</code> in the case of multiclass classification one minus probability of the TRUE class is a standard residual function.</p>
 </div>
@@ -194,7 +194,7 @@
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task multiclass (  default  ) 
 #&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) 
 #&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.276821 , max =  0.8874219  
+#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.2784662 , max =  0.8663058  
 #&gt;   A new explainer has been created!</code></pre>
 <p>And now we can use <code><a href="../reference/model_parts.html">model_parts()</a></code></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -257,17 +257,17 @@
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">(</span><span class="va">mp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_performance.html">model_performance</a></span><span class="op">(</span><span class="va">explain_HR_ranger</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt; Measures for:  multiclass
-#&gt; micro_F1   : 0.8701415 
-#&gt; macro_F1   : 0.8683149 
-#&gt; w_macro_F1 : 0.8690434 
-#&gt; accuracy   : 0.8701415 
-#&gt; w_macro_auc: 0.9771537
+#&gt; micro_F1   : 0.8725628 
+#&gt; macro_F1   : 0.8706794 
+#&gt; w_macro_F1 : 0.8714573 
+#&gt; accuracy   : 0.8725628 
+#&gt; w_macro_auc: 0.9772882
 #&gt; 
 #&gt; Residuals:
 #&gt;         0%        10%        20%        30%        40%        50%        60% 
-#&gt; 0.00000000 0.02357989 0.05999115 0.11512648 0.17645464 0.24259168 0.31331362 
+#&gt; 0.00000000 0.02899292 0.06470356 0.11917899 0.17758510 0.23895207 0.31498028 
 #&gt;        70%        80%        90%       100% 
-#&gt; 0.39300051 0.48557529 0.58960499 0.88742191</code></pre>
+#&gt; 0.39402427 0.48116233 0.59507678 0.86630582</code></pre>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mp</span><span class="op">)</span></code></pre></div>
 <p><img src="multilabel_classification_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
@@ -305,7 +305,7 @@
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt; [1] ranger_0.12.1 DALEX_2.2.0  
+#&gt; [1] ranger_0.12.1 DALEX_2.2.1  
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
 #&gt;  [1] Rcpp_1.0.6        gower_0.2.2       highr_0.8         compiler_4.0.4   
