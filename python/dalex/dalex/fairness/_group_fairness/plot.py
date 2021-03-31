@@ -190,12 +190,17 @@ def plot_fairness_check_clf(fobject,
 def plot_fairness_check_reg(fobject,
                             title=None,
                             other_objects = None,
-                            epsilon=0.8,
+                            epsilon=None,
                             verbose=True):
 
 
-    data = fobject.metric_ratios.unstack().reset_index()
+    data = fobject.result.unstack().reset_index()
     data.columns = ['metric', 'subgroup', 'score']
+
+    if epsilon is None:
+        epsilon = fobject.epsilon
+    else:
+        checks.check_epsilon(epsilon)
 
     data['label'] = fobject.label
     n = 1
@@ -203,7 +208,7 @@ def plot_fairness_check_reg(fobject,
     if other_objects is not None:
         basic_checks.check_other_fairness_objects(fobject, other_objects)
         for other_obj in other_objects:
-            other_data = other_obj.metric_ratios.unstack().reset_index()
+            other_data = other_obj.result.unstack().reset_index()
             other_data.columns = ['metric', 'subgroup', 'score']
             other_data['label'] = other_obj.label
             data = data.append(other_data)

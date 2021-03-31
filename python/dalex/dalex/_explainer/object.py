@@ -911,6 +911,7 @@ class Explainer:
                                               y_hat=self.y_hat,
                                               protected=protected,
                                               privileged=privileged,
+                                              epsilon=epsilon,
                                               label=self.label,
                                               **kwargs)
 

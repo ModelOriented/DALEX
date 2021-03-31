@@ -5,10 +5,11 @@ import pandas as pd
 
 from ..._explainer import helper
 from ...model_explanations._model_performance import utils
+from . import checks
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 
-# -------------- Objects needed in creation of object in object.py --------------
+# -------------- Objects needed in creation of GroupFairnessClassification object in object.py --------------
 
 class ConfusionMatrix:
 
@@ -116,7 +117,7 @@ class SubgroupConfusionMatrixMetrics:
                f'{self.to_vertical_DataFrame().head().to_string()}'
 
 
-# -------------- Functions needed in creation and methods of object in object.py --------------
+# -------------- Functions needed in creation and methods of GroupFairnessClassification object in object.py --------------
 
 def calculate_parity_loss(sub_confusion_matrix_metrics, privileged):
     """
@@ -240,7 +241,7 @@ def _classification_performance(fobject, verbose, type='accuracy'):
         raise TypeError(f'type \'{type}\' not supported')
 
 
-# -------------- Functions needed in creation and methods of object in object.py --------------
+# -------------- Functions needed in creation and methods of GroupFairnessRegression object in object.py --------------
 
 class RegressionDict:
 
@@ -280,10 +281,7 @@ class RegressionDict:
         return f"Fairness in Regression Dictionary\nSubgroup Metrics: {self.subgroup_metrics.values()}\n" \
                f"Subgroup Metric Comparison: {self.subgroup_metric_comparison.values()}"
 
-
-# -------------- Helper functions --------------
-def fairness_check_metrics():
-    return ["TPR", "ACC", "PPV", "FPR", "STP"]
+# -------------- Functions needed in creation and methods of GroupFairnessRegression object in object.py --------------
 
 def calculate_regression_measures(y, y_hat, protected, privileged):
 
@@ -329,6 +327,62 @@ def calculate_regression_measures(y, y_hat, protected, privileged):
 
         data = data.append(to_append)
 
+    # append the scale
+    to_append = pd.DataFrame({'subgroup': [privileged],
+                              'independence': [1],
+                              'separation': [1],
+                              'sufficiency': [1]})
+
     data.index = data.subgroup
     data = data.iloc[:,1:]
     return data
+
+
+# -------------- Helper functions --------------
+def fairness_check_metrics():
+    return ["TPR", "ACC", "PPV", "FPR", "STP"]
+
+
+def universal_fairness_check(self, epsilon, verbose, num_for_not_fair, num_for_no_decision, metrics):
+
+    if epsilon is None:
+        epsilon = self.epsilon
+    else:
+        epsilon = checks.check_epsilon(epsilon)
+
+    metric_ratios = self.result
+
+    subgroups = np.unique(self.protected)
+    subgroups_without_privileged = subgroups[subgroups != self.privileged]
+    metric_ratios = metric_ratios.loc[subgroups_without_privileged, metrics]
+
+    metrics_exceeded = ((metric_ratios > 1 / epsilon) | (epsilon > metric_ratios)).apply(sum, 0)
+
+    names_of_exceeded_metrics = list(metrics_exceeded.index[metrics_exceeded != 0])
+    if len(names_of_exceeded_metrics) >= num_for_not_fair:
+        print(f'Bias detected in {len(names_of_exceeded_metrics)} metrics: {", ".join(names_of_exceeded_metrics)}')
+    elif len(names_of_exceeded_metrics) == num_for_no_decision:
+        print(f'Bias detected in {len(names_of_exceeded_metrics)} metric: {names_of_exceeded_metrics[0]}')
+    else:
+        print("No bias was detected!")
+
+    # arbitrary decision
+    if len(names_of_exceeded_metrics) >= num_for_not_fair:
+        conclusion = 'is not fair because 2 or more criteria exceeded acceptable limits set by epsilon'
+    elif len(names_of_exceeded_metrics) == num_for_no_decision:
+        conclusion = 'cannot be called fair because 1 criterion exceeded acceptable limits set by epsilon.\n' \
+                     'It does not mean that your model is unfair ' \
+                     'but it cannot be automatically approved based on these metrics'
+    else:
+        conclusion = 'is fair in terms of checked fairness criteria'
+
+    print(f'\nConclusion: your model {conclusion}.')
+
+    print(
+        f'\nRatios of metrics, based on \'{self.privileged}\'. Parameter \'epsilon\' was set to {epsilon}'
+        f' and therefore metrics should be within ({epsilon}, {round(1 / epsilon, 3)})')
+    print(metric_ratios.to_string())
+    if np.isnan(metric_ratios).sum().sum() > 0:
+        helper.verbose_cat(
+            '\nWarning!\nTake into consideration that NaN\'s are present, consider checking \'metric_scores\' '
+            'plot to see the difference', verbose=verbose)
