@@ -214,6 +214,7 @@ class Explainer:
                       order=None,
                       interaction_preference=1,
                       path="average",
+                      N=None,
                       B=25,
                       keep_distributions=False,
                       label=None,
