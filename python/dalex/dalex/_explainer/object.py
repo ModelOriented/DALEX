@@ -4,7 +4,7 @@ from dalex.model_explanations import ModelPerformance, VariableImportance, \
     AggregatedProfiles, ResidualDiagnostics
 from dalex.predict_explanations import BreakDown, Shap, CeterisParibus
 from dalex.wrappers import ShapWrapper
-from dalex.fairness import GroupFairnessClassification
+from dalex.fairness import GroupFairnessClassification, GroupFairnessRegression
 
 from . import checks
 from . import utils

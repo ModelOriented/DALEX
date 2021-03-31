@@ -6,6 +6,7 @@ import pandas as pd
 from ..._explainer import helper
 from ...model_explanations._model_performance import utils
 from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler
 
 # -------------- Objects needed in creation of object in object.py --------------
 
@@ -295,9 +296,11 @@ def calculate_regression_measures(y, y_hat, protected, privileged):
         # filter elements
         array_elements = np.isin(protected, [privileged, unprivileged])
 
-        y_u = y[array_elements]
-        n = len(array_elements)
-        s_u = y_hat[array_elements]
+        y_scaler = StandardScaler()
+        y_hat_scaler = StandardScaler()
+
+        y_u = y_scaler.fit_transform(y[array_elements].reshape(-1, 1))
+        s_u = y_hat_scaler.fit_transform(y_hat[array_elements].reshape(-1, 1))
 
         a = np.where(protected[array_elements] == privileged, 1, 0)
 
@@ -305,17 +308,19 @@ def calculate_regression_measures(y, y_hat, protected, privileged):
         p_ys = LogisticRegression()
         p_y = LogisticRegression()
 
-        p_s.fit(s_u.reshape(-1, 1), a)
-        p_y.fit(y_u.reshape(-1, 1), a)
+        p_s.fit(s_u, a)
+        p_y.fit(y_u, a)
         p_ys.fit(np.c_[y_u, s_u], a)
 
         pred_p_s = p_s.predict_proba(s_u.reshape(-1, 1))[:, 1]
         pred_p_y = p_y.predict_proba(y_u.reshape(-1, 1))[:, 1]
         pred_p_ys = p_ys.predict_proba(np.c_[y_u, s_u])[:, 1]
 
-        r_ind = a.sum() / ((n - a.sum()) * n) * (pred_p_s / (1 - pred_p_s)).sum()
-        r_sep = 1 / n * (pred_p_ys / (1 - pred_p_ys) * (1 - pred_p_y) / pred_p_y).sum()
-        r_suf = 1 / n * (pred_p_ys / (1 - pred_p_ys) * (1 - pred_p_s) / pred_p_s).sum()
+        n = len(a)
+
+        r_ind = ((n - a.sum()) / a.sum()) * (pred_p_s / (1 - pred_p_s)).mean()
+        r_sep = ((pred_p_ys / (1 - pred_p_ys) * (1 - pred_p_y) / pred_p_y)).mean()
+        r_suf = ((pred_p_ys / (1 - pred_p_ys)) * ((1 - pred_p_s) / pred_p_s)).mean()
 
         to_append = pd.DataFrame({'subgroup': [unprivileged],
                                   'independence': [r_ind],

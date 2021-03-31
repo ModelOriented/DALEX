@@ -284,7 +284,7 @@ class GroupFairnessRegression(_FairnessObject):
     def fairness_check(self):
         pass
 
-    def plot(self, objects=None, type='density', show=True, **kwargs):
+    def plot(self, objects=None, type='fairness_check', show=True, **kwargs):
 
         other_objects = []
         if objects is not None:
