@@ -137,7 +137,7 @@ class ResidualDiagnostics(Explanation):
 
         _df = pd.concat(_df_list)
 
-        if N and smooth:
+        if isinstance(N, int) and smooth:
             if N < _df.shape[0]:
                 _df = _df.sample(N, random_state=0, replace=False)
 

@@ -5,6 +5,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 from . import utils
+from . import checks
 from .._basics import checks as basic_checks
 from .._basics.exceptions import ParameterCheckError
 from ..._explainer import helper
@@ -149,7 +150,7 @@ def plot_fairness_check(data, n_models, epsilon, title):
 def plot_fairness_check_clf(fobject,
                         title=None,
                         other_objects=None,
-                        epsilon=0.8,
+                        epsilon = None,
                         verbose=True):
     data = utils._metric_ratios_2_df(fobject)
     n = 1
@@ -159,6 +160,12 @@ def plot_fairness_check_clf(fobject,
             other_data = utils._metric_ratios_2_df(other_obj)
             data = data.append(other_data)
             n += 1
+
+    if epsilon is None:
+        epsilon = fobject.epsilon
+    else:
+        checks.check_epsilon(epsilon)
+
 
     if any(data.score == 0):
         nan_models = set(data.label[data.score == 0])
@@ -176,7 +183,7 @@ def plot_fairness_check_clf(fobject,
     # without privileged
     data = data.loc[data.subgroup != fobject.privileged]
 
-    fig = plot_fairness_check(data, n, epsilon, title)
+    fig = plot_fairness_check(data, n, fobject.epsilon, title)
 
     return fig
 
@@ -211,7 +218,8 @@ def plot_fairness_check_reg(fobject,
 
 def plot_metric_scores(fobject,
                        other_objects,
-                       title=None):
+                       title=None,
+                       verbose=True):
     data = fobject._subgroup_confusion_matrix_metrics_object.to_vertical_DataFrame()
     data['label'] = np.repeat(fobject.label, data.shape[0]).astype('U')
     n = 1
@@ -299,22 +307,34 @@ def plot_metric_scores(fobject,
         refs_dict[metric] = refs[len(refs) - j]
         j += 1
     # add lines
+    lines_nan = False
+
     for metric in data.metric.unique():
         for label in data.label.unique():
             x = float(privileged_data.loc[(privileged_data.metric == metric) &
                                           (privileged_data.label == label), :].score)
+            if np.isnan(x):
+                lines_nan = True
+                continue
             # lines
             for subgroup in data.subgroup.unique():
                 y = float(data.loc[(data.metric == metric) &
                                    (data.label == label) &
                                    (data.subgroup == subgroup)].subgroup_numeric)
                 # horizontal
+
+                x0 = float(data.loc[(data.metric == metric) &
+                                    (data.label == label) &
+                                    (data.subgroup == subgroup)].score)
+
+                if np.isnan(x0):
+                    lines_nan = True
+                    continue
+
                 fig.add_shape(type='line',
                               xref='x',
                               yref=refs_dict.get(metric),
-                              x0=float(data.loc[(data.metric == metric) &
-                                                (data.label == label) &
-                                                (data.subgroup == subgroup)].score),
+                              x0=x0,
                               x1=x,
                               y0=y,
                               y1=y,
@@ -357,7 +377,8 @@ def plot_metric_scores(fobject,
 
     # centers axis values
     fig.update_yaxes(tickvals=list(subgroup_tick_dict_updated.values()),
-                     ticktext=list(subgroup_tick_dict_updated.keys()))
+                     ticktext=list(subgroup_tick_dict_updated.keys()),
+                     range=[0, 1])
 
     # delete y axis names [fixed] number of refs
     for i in ['', '2', '4', '5']:
@@ -369,8 +390,16 @@ def plot_metric_scores(fobject,
     fig.update_xaxes(range=[min_score - 0.05, max_score + 0.05])
     fig.update_yaxes(showgrid=False, zeroline=False)
 
-    return fig
+    # inform about nan's
+    if lines_nan:
+        data_joined = pd.concat([privileged_data, data])
+        nan_labels = set(data_joined.label[np.isnan(data_joined.score)])
 
+        helper.verbose_cat(f'\nFound NaN\'s while plotting metric_scores in models : {nan_labels}\n'
+                           f'It is advisable to check \'metric_scores\' attribute of the GroupFairnessClassification',
+                           verbose=verbose)
+
+    return fig
 
 
 def plot_stacked(fobject,

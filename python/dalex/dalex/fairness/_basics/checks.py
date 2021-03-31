@@ -83,6 +83,9 @@ def check_other_fairness_objects(fobject, other):
         if any(fobject.y != other_obj.y):
             raise FairnessObjectsDifferenceError('target variable (y) is not the same among Fairness objects')
 
+        if fobject.epsilon != other_obj.epsilon:
+            raise FairnessObjectsDifferenceError('epsilon value is not the same among Fairness objects')
+
     # check uniqueness of label
     labels = [fobject.label]
     for other_obj in other:

@@ -1,12 +1,13 @@
 import multiprocessing as mp
 from copy import deepcopy
+from numpy.random import SeedSequence, default_rng
 
 import numpy as np
 import pandas as pd
 
 
-def iterate_paths(predict_function, model, data, label, new_observation, p, b):
-    random_path = np.random.choice(np.arange(p), p, replace=False)
+def iterate_paths(predict_function, model, data, label, new_observation, p, b, rng):
+    random_path = rng.choice(np.arange(p), p, replace=False)
     return get_single_random_path(predict_function, model, data, label, new_observation, random_path, b)
 
 
@@ -15,7 +16,8 @@ def shap(explainer,
          path,
          keep_distributions,
          B,
-         processes):
+         processes,
+         random_state):
     # Now we know the path, so we can calculate contributions
     # set variable indicators
     # start random path
@@ -24,13 +26,16 @@ def shap(explainer,
     if processes == 1:
         result_list = [
             iterate_paths(explainer.predict_function, explainer.model, explainer.data,
-                          explainer.label, new_observation, p, b + 1)
+                          explainer.label, new_observation, p, b + 1, np.random)
             for b in range(B)]
     else:
+        # Create number generator for each iteration
+        ss = SeedSequence(random_state)
+        generators = [default_rng(s) for s in ss.spawn(B)]
         pool = mp.Pool(processes)
         result_list = pool.starmap_async(iterate_paths,
                                          [(explainer.predict_function, explainer.model, explainer.data,
-                                           explainer.label, new_observation, p, b + 1) for b in range(B)]).get()
+                                           explainer.label, new_observation, p, b + 1, generators[b]) for b in range(B)]).get()
         pool.close()
 
     result = pd.concat(result_list)

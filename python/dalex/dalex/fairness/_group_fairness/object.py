@@ -10,12 +10,14 @@ from ..._explainer import helper
 
 class GroupFairnessClassification(_FairnessObject):
 
-    def __init__(self, y, y_hat, protected, privileged, label, verbose=False, cutoff=0.5):
+    def __init__(self, y, y_hat, protected, privileged, label, verbose=False, cutoff=0.5, epsilon=0.8):
 
         super().__init__(y, y_hat, protected, privileged, verbose)
         checks.check_classification_parameters(y, y_hat, protected, privileged, verbose)
         cutoff = checks.check_cutoff(self.protected, cutoff, verbose)
         self.cutoff = cutoff
+        epsilon = checks.check_epsilon(epsilon)
+        self.epsilon = epsilon
 
         sub_confusion_matrix = utils.SubgroupConfusionMatrix(
             y_true=self.y,
@@ -35,7 +37,7 @@ class GroupFairnessClassification(_FairnessObject):
         self.result = df_ratios
         self.label = label
 
-    def fairness_check(self, epsilon=0.8, verbose=True):
+    def fairness_check(self, epsilon=None, verbose=True):
         """Check if classifier passes various fairness metrics
 
         Fairness check is an easy way to check if the model is fair.
@@ -54,7 +56,7 @@ class GroupFairnessClassification(_FairnessObject):
             more strict the verdict is. If the ratio of certain unprivileged
             and privileged subgroup is within the `(epsilon, 1/epsilon)` range,
             then there is no discrimination in this metric and for this subgroups
-            (default is `0.8`).
+            (default is `0.8` which is set during object initialization).
         verbose : bool
             Shows verbose text about potential problems 
             (e.g. `NaN` in model metrics that can cause misinterpretation).
@@ -64,7 +66,11 @@ class GroupFairnessClassification(_FairnessObject):
         None (prints console output)
 
         """
-        epsilon = checks.check_epsilon(epsilon)
+        if epsilon is None:
+            epsilon = self.epsilon
+        else:
+            epsilon = checks.check_epsilon(epsilon)
+
         metric_ratios = self.result
 
         subgroups = np.unique(self.protected)

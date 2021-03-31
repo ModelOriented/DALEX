@@ -111,3 +111,19 @@ test_that("Output format - plot",{
   expect_is(plot(va_ranger_shap), "gg")
   expect_is(plot(va_ranger_shap, va_lm_shap), "gg")
 })
+
+test_that("Output format - plot with subset",{
+  va_lm_break_down <- variable_attribution(explainer_regr_lm, new_observation = new_apartments, type = "break_down", N = 200)
+  va_ranger_break_down <- variable_attribution(explainer_regr_ranger, new_observation = new_apartments, type = "break_down", N = 200)
+  va_lm_ibreak_down <- variable_attribution(explainer_regr_lm, new_observation = new_apartments, type = "break_down_interactions", N = 200)
+  va_ranger_ibreak_down <- variable_attribution(explainer_regr_ranger, new_observation = new_apartments, type = "break_down_interactions", N = 200)
+  va_lm_shap <- variable_attribution(explainer_regr_lm, new_observation = new_apartments, type = "shap", N = 200)
+  va_ranger_shap <- variable_attribution(explainer_regr_ranger, new_observation = new_apartments, type = "shap", N = 200)
+
+  expect_is(plot(va_ranger_break_down), "gg")
+  expect_is(plot(va_ranger_break_down, va_lm_break_down), "gg")
+  expect_is(plot(va_ranger_ibreak_down), "gg")
+  expect_is(plot(va_ranger_ibreak_down, va_lm_ibreak_down), "gg")
+  expect_is(plot(va_ranger_shap), "gg")
+  expect_is(plot(va_ranger_shap, va_lm_shap), "gg")
+})

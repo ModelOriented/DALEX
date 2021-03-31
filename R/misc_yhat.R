@@ -232,6 +232,20 @@ yhat.rpart <- function(X.model, newdata, ...) {
   response
 }
 
+#' @rdname yhat
+#' @export
+yhat.function <- function(X.model, newdata, ...) {
+  response <- X.model(newdata, ...)
+  if (!is.null(dim(response))) {
+    if (!is.null(attr(X.model, "predict_function_target_column"))) {
+      response <- response[,attr(X.model, "predict_function_target_column")]
+    } else if (ncol(response) == 2 & is.null(attr(X.model, "predict_function_target_column"))) {
+      response <- response[, 2]
+    }
+  }
+  response
+}
+
 
 #' @rdname yhat
 #' @export

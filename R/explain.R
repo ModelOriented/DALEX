@@ -101,6 +101,11 @@
 #'                              model_info = model_info)
 #'
 #' \donttest{
+#' # simple function
+#' aps_fun <- function(x) 58*x$surface
+#' aps_fun_explainer <- explain(aps_fun, data = apartments, y = apartments$m2.price, label="sfun")
+#' model_performance(aps_fun_explainer)
+#'
 #' # set model_info
 #' model_info <- list(package = "stats", ver = "3.6.2", type = "regression")
 #' aps_lm_model4 <- lm(m2.price ~., data = apartments)

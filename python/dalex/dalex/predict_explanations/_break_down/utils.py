@@ -85,7 +85,7 @@ def local_interactions(explainer,
             'variable_name': "all data",
             'variable': "all data",
             'id': np.arange(0, explainer.data.shape[0]),
-            'prediction': explainer.predict_function(explainer.model, explainer.data),
+            'prediction': explainer.predict(explainer.data),
             'label': explainer.label
         })
 
@@ -102,7 +102,7 @@ def calculate_1d_changes(explainer,
     for i, col in enumerate(explainer.data.columns):
         current_data = deepcopy(explainer.data)
         current_data.loc[:, col] = new_observation.loc[:, col].iloc[0]
-        yhats[i] = explainer.predict_function(explainer.model, current_data).mean()
+        yhats[i] = explainer.predict(current_data).mean()
 
     return pd.Series(yhats, index=explainer.data.columns)
 
@@ -119,7 +119,7 @@ def calculate_2d_changes(explainer,
         current_data.iloc[:, inds.iloc[i, 0]] = new_observation.iloc[0, inds.iloc[i, 0]]
         current_data.iloc[:, inds.iloc[i, 1]] = new_observation.iloc[0, inds.iloc[i, 1]]
 
-        yhats = explainer.predict_function(explainer.model, current_data)
+        yhats = explainer.predict(current_data)
         average_yhats[i] = yhats.mean()
         average_yhats_norm[i] = average_yhats[i] - diffs_1d[inds.iloc[i, 0]] - diffs_1d.iloc[inds.iloc[i, 1]]
 
