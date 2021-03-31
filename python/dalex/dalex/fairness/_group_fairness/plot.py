@@ -220,7 +220,7 @@ def plot_metric_scores(fobject,
     data['subgroup_numeric'] = [subgroup_tick_dict.get(sub) for sub in data.subgroup]
     data = data.reset_index(drop=True)
     data.subgroup_numeric = data.subgroup_numeric + pd.Series([label_tick_dict.get(lab) for lab in data.label])
-    data.iloc[:, 1:]
+
     # drwhy colors
     colors = _theme.get_default_colors(len(data.label.unique()), 'line')
 
