@@ -10,6 +10,7 @@ development
 #### fixes
 
 * `BreakDown.plot()` wrongly displayed the "+all factors" bar when `max_vars < p` ([#401](https://github.com/ModelOriented/DALEX/issues/401))
+* `metric_scores` type plot in GroupFairnessClassification did not handle `NaN`'s ([#399](https://github.com/ModelOriented/DALEX/issues/399))
 
 #### features 
 

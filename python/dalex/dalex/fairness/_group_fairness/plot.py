@@ -11,12 +11,12 @@ from .._basics.exceptions import ParameterCheckError
 from ..._explainer import helper
 from ... import _theme
 
+
 def plot_fairness_check(fobject,
                         title=None,
                         other_objects=None,
                         epsilon=None,
                         verbose=True):
-
     if epsilon is None:
         epsilon = fobject.epsilon
     else:
@@ -34,7 +34,7 @@ def plot_fairness_check(fobject,
     if any(data.score == 0):
         nan_models = set(data.label[data.score == 0])
         helper.verbose_cat(f'\nFound NaN\'s or 0\'s for models: {nan_models}\n'
-                    f'It is advisable to check \'metric_ratios\'', verbose=verbose)
+                           f'It is advisable to check \'metric_ratios\'', verbose=verbose)
 
     upper_bound = max([max(data.score[np.invert(np.isnan(data.score.to_numpy()))]), 1 / epsilon - 1]) + 0.1
     lower_bound = min([min(data.score[np.invert(np.isnan(data.score.to_numpy()))]), epsilon - 1]) - 0.1
@@ -100,9 +100,7 @@ def plot_fairness_check(fobject,
 
     fig.update_yaxes(tickvals=list(subgroup_tick_dict.values()),
                      ticktext=list(subgroup_tick_dict.keys()),
-                     range=[0,1])
-
-
+                     range=[0, 1])
 
     # refs are dependent on fixed numbers of metrics
     refs = ['y', 'y2', 'y3', 'y4', 'y5']
@@ -177,7 +175,8 @@ def plot_fairness_check(fobject,
 
 def plot_metric_scores(fobject,
                        other_objects,
-                       title=None):
+                       title=None,
+                       verbose=True):
     data = fobject._subgroup_confusion_matrix_metrics_object.to_vertical_DataFrame()
     data['label'] = np.repeat(fobject.label, data.shape[0]).astype('U')
     n = 1
@@ -265,22 +264,34 @@ def plot_metric_scores(fobject,
         refs_dict[metric] = refs[len(refs) - j]
         j += 1
     # add lines
+    lines_nan = False
+
     for metric in data.metric.unique():
         for label in data.label.unique():
             x = float(privileged_data.loc[(privileged_data.metric == metric) &
                                           (privileged_data.label == label), :].score)
+            if np.isnan(x):
+                lines_nan = True
+                continue
             # lines
             for subgroup in data.subgroup.unique():
                 y = float(data.loc[(data.metric == metric) &
                                    (data.label == label) &
                                    (data.subgroup == subgroup)].subgroup_numeric)
                 # horizontal
+
+                x0 = float(data.loc[(data.metric == metric) &
+                                    (data.label == label) &
+                                    (data.subgroup == subgroup)].score)
+
+                if np.isnan(x0):
+                    lines_nan = True
+                    continue
+
                 fig.add_shape(type='line',
                               xref='x',
                               yref=refs_dict.get(metric),
-                              x0=float(data.loc[(data.metric == metric) &
-                                                (data.label == label) &
-                                                (data.subgroup == subgroup)].score),
+                              x0=x0,
                               x1=x,
                               y0=y,
                               y1=y,
@@ -323,7 +334,8 @@ def plot_metric_scores(fobject,
 
     # centers axis values
     fig.update_yaxes(tickvals=list(subgroup_tick_dict_updated.values()),
-                     ticktext=list(subgroup_tick_dict_updated.keys()))
+                     ticktext=list(subgroup_tick_dict_updated.keys()),
+                     range=[0, 1])
 
     # delete y axis names [fixed] number of refs
     for i in ['', '2', '4', '5']:
@@ -334,6 +346,15 @@ def plot_metric_scores(fobject,
     # fixes rare bug where axis are in center and blank fields on left and right
     fig.update_xaxes(range=[min_score - 0.05, max_score + 0.05])
     fig.update_yaxes(showgrid=False, zeroline=False)
+
+    # inform about nan's
+    if lines_nan:
+        data_joined = pd.concat([privileged_data, data])
+        nan_labels = set(data_joined.label[np.isnan(data_joined.score)])
+
+        helper.verbose_cat(f'\nFound NaN\'s while plotting metric_scores in models : {nan_labels}\n'
+                           f'It is advisable to check \'metric_scores\' attribute of the GroupFairnessClassification',
+                           verbose=verbose)
 
     return fig
 
@@ -439,7 +460,8 @@ def plot_performance_and_fairness(fobject,
 
     if other_objects:
         for i, obj in enumerate(other_objects):
-            performance_data.loc[i + 1] = [obj.label, utils._classification_performance(obj, verbose, performance_metric)]
+            performance_data.loc[i + 1] = [obj.label,
+                                           utils._classification_performance(obj, verbose, performance_metric)]
 
     data = data.merge(performance_data, on='label')
 
@@ -546,9 +568,9 @@ def plot_ceteris_paribus_cutoff(fobject,
         for i in range(1, grid_points):
             cutoff[subgroup] = i / grid_points
             sub_confusion_matrix = utils.SubgroupConfusionMatrix(y_true=y,
-                                                           y_pred=y_hat,
-                                                           protected=protected,
-                                                           cutoff=cutoff)
+                                                                 y_pred=y_hat,
+                                                                 protected=protected,
+                                                                 cutoff=cutoff)
 
             sub_confusion_matrix_metrics = utils.SubgroupConfusionMatrixMetrics(sub_confusion_matrix)
             parity_loss = utils.calculate_parity_loss(sub_confusion_matrix_metrics, privileged)
@@ -562,7 +584,7 @@ def plot_ceteris_paribus_cutoff(fobject,
         # Find minimum where NA is not present
         pivoted_data = data.pivot(index='cutoff', columns='metric', values='score')
         summed_metrics = pivoted_data.to_numpy().sum(axis=1)
-        min_index = np.where(summed_metrics == min(summed_metrics))[0][0] # get first minimal index
+        min_index = np.where(summed_metrics == min(summed_metrics))[0][0]  # get first minimal index
         min_cutoff = data.cutoff.unique()[min_index]
 
         # make figure from individual parts
