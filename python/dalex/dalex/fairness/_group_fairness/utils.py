@@ -244,7 +244,7 @@ def _classification_performance(fobject, verbose, type='accuracy'):
 # -------------- Functions needed in creation and methods of GroupFairnessRegression object in object.py --------------
 
 class RegressionDict:
-
+    # @TODO - implement metrics based on performance measure
     def __init__(self, y, y_hat, protected, privileged, verbose=False):
         self.regression_dict = {}
         self.subgroup_metrics = {}

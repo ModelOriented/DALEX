@@ -242,12 +242,9 @@ class GroupFairnessRegression(_FairnessObject):
         super().__init__(y, y_hat, protected, privileged, verbose)
         checks.check_epsilon(epsilon)
 
-        rd = utils.RegressionDict(y, y_hat, protected, privileged)
-
         df_ratios = utils.calculate_regression_measures(y, y_hat, protected, privileged)
 
         self.result = df_ratios
-        self.regression_dict = rd
         self.label = label
         self.epsilon = epsilon
 
