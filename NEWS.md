@@ -1,6 +1,7 @@
 DALEX 2.2.1
 ---------------------------------------------------------------
-* Order of explainer labels in different plots is the same. To get to this point oerde in model_performance() geom = "histogram" and "boxplot" are reversed  ([#400](https://github.com/ModelOriented/DALEX/issues/400))
+* Order of explainer labels in different plots is the same. To get to this point, orders in `plot.model_performance(..., geom = "histogram" & "boxplot")` are reversed  ([#400](https://github.com/ModelOriented/DALEX/issues/400))
+* Fixed multiclass explainer when data has one column ([#405](https://github.com/ModelOriented/DALEX/issues/405))
 
 DALEX 2.2
 ---------------------------------------------------------------

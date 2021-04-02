@@ -265,7 +265,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
 
   if (is.null(model_info)) {
     # extract defaults
-    task_subtype <- check_if_multilabel(model, predict_function, data[1:2,])
+    task_subtype <- check_if_multiclass(model, predict_function, data[1:2, , drop = FALSE])
     model_info <- model_info(model, is_multiclass = task_subtype)
     verbose_cat("  -> model_info        :  package", model_info$package[1], ", ver.", model_info$ver[1], ", task", model_info$type, "(", color_codes$yellow_start,"default",color_codes$yellow_end, ")", "\n", verbose = verbose)
   } else {
@@ -292,7 +292,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     verbose_cat("  -> model_info        :  Otherwise I will not be able to calculate residuals or loss function.\n", verbose = verbose)
   } else if (!is.factor(y) & model_info$type == "multiclass") {
     verbose_cat("  -> model_info        :  Model info detected multiclass task but 'y' is a", class(y)[1], ".  (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
-    verbose_cat("  -> model_info        :  By deafult classification tasks supports only factor 'y' parameter. \n", verbose = verbose)
+    verbose_cat("  -> model_info        :  By deafult multiclass tasks supports only factor 'y' parameter. \n", verbose = verbose)
     verbose_cat("  -> model_info        :  Consider changing to a factor vector with true class names.\n", verbose = verbose)
     verbose_cat("  -> model_info        :  Otherwise I will not be able to calculate residuals or loss function.\n", verbose = verbose)
   }
@@ -385,8 +385,8 @@ is_y_in_data <- function(data, y) {
   }))
 }
 
-# check if model whether model is multilabel classification task
-check_if_multilabel <- function(model, predict_function, sample_data) {
+# check whether model is multilabel classification task
+check_if_multiclass <- function(model, predict_function, sample_data) {
   response_sample <- try(predict_function(model, sample_data), silent = TRUE)
   !is.null(dim(response_sample))
 }
