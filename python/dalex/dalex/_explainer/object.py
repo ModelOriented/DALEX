@@ -828,13 +828,17 @@ class Explainer:
                        **kwargs):
         """Creates a model-level fairness explanation that enables bias detection
 
-        This method returns a GroupFairnessClassification object that for now
-        supports only classification models. GroupFairnessClassification object
-        works as a wrapper of the protected attribute and the Explainer from which
-        `y` and `y_hat` attributes were extracted. Along with an information about
+        This method returns a GroupFairnessClassification or a GroupFairnessRegression
+        object depending of the type of predictor. They work as a wrapper of the
+        protected attribute and the Explainer from which `y` and `y_hat`
+        attributes were extracted. Along with an information about
         privileged subgroup (value in the `protected` parameter), those 3 vectors
         create triplet `(y, y_hat, protected)` which is a base for all further
         fairness calculations and visualizations.
+
+        The GroupFairnessRegression should be treated as experimental tool.
+        It was implemented according to Fairness Measures for Regression via
+        Probabilistic Classification - Steinberg et al. (2020).
 
         Parameters
         -----------
@@ -848,7 +852,7 @@ class Explainer:
         privileged : str
             Subgroup that is suspected to have the most privilege.
             It needs to be a string present in `protected`.
-        cutoff : float or dict, optional
+        cutoff (only classification) : float or dict, optional
             Threshold for probabilistic output of a classifier.
             It might be: a `float` - same for all subgroups from `protected`,
             or a `dict` - individually adjusted for each subgroup
@@ -894,6 +898,7 @@ class Explainer:
         - Verma, S. & Rubin, J. (2018) https://fairware.cs.umass.edu/papers/Verma.pdf
         - Zafar, M.B., et al. (2017) https://arxiv.org/pdf/1610.08452.pdf
         - Hardt, M., et al. (2016) https://arxiv.org/pdf/1610.02413.pdf
+        - Steinberg, D., et al. (2020) https://arxiv.org/pdf/2001.06089.pdf
         """
 
         if self.model_type == 'classification':

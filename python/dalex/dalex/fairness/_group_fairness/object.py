@@ -288,6 +288,30 @@ class GroupFairnessRegression(_FairnessObject):
 
 
     def plot(self, objects=None, type='fairness_check', show=True, **kwargs):
+        """
+        Parameters
+        -----------
+        objects : GroupFairnessRegression object
+            Additional objects to plot (default is `None`).
+        type : str, optional
+            Type of the plot. Default is `'fairness_check'`.
+            When the type of plot is specified, user may provide additional
+            keyword arguments (`**kwargs`) which will be used in creating
+            plot of certain type. Below there is list of types:
+
+            - fairness_check:
+                fairness_check plot visualizes the fairness_check method
+                for one or more GroupFairnessClassification objects.
+                It accepts following keyword arguments:
+                 'epsilon' - which denotes the decision
+                             boundary (like in `fairness_check` method)
+
+            - density:
+                density plot visualizes the output of the model for each
+                subgroup in form of violin plots with boxplots on top of them.
+                It does not accept additional keyword arguments.
+
+        """
 
         other_objects = []
         if objects is not None:
