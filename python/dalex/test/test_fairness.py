@@ -2,11 +2,13 @@ import unittest
 from copy import deepcopy
 
 import numpy as np
+import pandas as pd
 from plotly.graph_objs import Figure
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeRegressor
 
 import dalex as dx
 
@@ -19,6 +21,7 @@ class FairnessTest(unittest.TestCase):
         self.y_pred = np.array([0.32, 0.43, 0.56, 0.67, 0.9, 0.67, 0.98, 0.1, 0.44, 1, 0.65, 0.55, 1])
         self.cutoff = {'a': 0.5, 'b': 0.4, 'c': 0.6}
 
+        # classifier
         data = dx.datasets.load_german()
 
         X = data.drop(columns='risk')
@@ -40,21 +43,38 @@ class FairnessTest(unittest.TestCase):
         self.german_protected = data.sex + '_' + np.where(data.age < 25, 'young', 'old')
 
         self.mgf = self.exp.model_fairness(protected=self.german_protected,
-                                             privileged='male_old',
-                                             verbose=False)
+                                           privileged='male_old',
+                                           verbose=False)
         self.mgf2 = deepcopy(self.mgf)
         self.mgf.label = 'first'
         self.mgf2.label = 'second'
 
+        # regressor
+        self.protected_reg = np.array([np.tile('A', 1000), np.tile('B', 1000)]).flatten()
+        first = np.array([np.random.normal(100, 20, 1000), np.random.normal(50, 10, 1000)]).flatten()
+        second = np.array([np.random.normal(60, 20, 1000), np.random.normal(60, 10, 1000)]).flatten()
+        target = np.array([np.random.normal(10000, 2000, 1000), np.random.normal(8000, 1000, 1000)]).flatten()
+        data2 = pd.DataFrame({'first': first, 'second': second})
+
+        reg = DecisionTreeRegressor()
+        reg.fit(data2, target)
+
+        self.exp_reg = dx.Explainer(reg, data2, target)
+        self.mgf_reg = self.exp_reg.model_fairness(self.protected_reg, 'A')
+
     def test_fairness_check(self):
         self.mgf.fairness_check()
         self.mgf2.fairness_check()
+        self.mgf_reg.fairness_check()
 
-        self.mgf.fairness_check(epsilon = 0.1)
+        self.mgf.fairness_check(epsilon=0.1)
+        self.mgf_reg.fairness_check(epsilon=0.1)
 
         with self.assertRaises(dx.fairness._basics.exceptions.ParameterCheckError):
             self.mgf.fairness_check(epsilon=-1)
 
+        with self.assertRaises(dx.fairness._basics.exceptions.ParameterCheckError):
+            self.mgf_reg.fairness_check(epsilon=-1)
 
     def test_ConfusionMatrix(self):
         y_true = np.array([0, 0, 0, 0, 1, 1, 1, 1])
@@ -79,7 +99,6 @@ class FairnessTest(unittest.TestCase):
             cm_ = dx.fairness._group_fairness.utils.ConfusionMatrix(y_true, y_pred, cutoff)
 
     def test_SubConfusionMatrix(self):
-
         y_true = self.y_true.copy()
         y_pred = self.y_pred
         protected = self.protected
@@ -178,6 +197,18 @@ class FairnessTest(unittest.TestCase):
                                                        label=exp.label)
         self.assertIsInstance(gfco, dx.fairness.GroupFairnessClassification)
 
+    def test_GroupFairnessRegression(self):
+        exp = self.exp_reg
+        protected = self.protected_reg
+
+        gfco = dx.fairness.GroupFairnessRegression(y=exp.y,
+                                                   y_hat=exp.y_hat,
+                                                   protected=protected,
+                                                   privileged='A',
+                                                   verbose=False,
+                                                   label=exp.label)
+        self.assertIsInstance(gfco, dx.fairness.GroupFairnessRegression)
+
     def test_parameter_checks(self):
         exp = self.exp
         protected = self.german_protected
@@ -197,7 +228,7 @@ class FairnessTest(unittest.TestCase):
         with self.assertRaises(dx.fairness._basics.exceptions.ParameterCheckError):
             gfco = exp.model_fairness(protected=protected,
                                       privileged='male_old',
-                                      epsilon=1.1, # wrong epsilon
+                                      epsilon=1.1,  # wrong epsilon
                                       verbose=False)
 
         with self.assertRaises(dx.fairness._basics.exceptions.ParameterCheckError):
@@ -264,22 +295,29 @@ class FairnessTest(unittest.TestCase):
                                  privileged='male_old',
                                  verbose=False)
 
+        exp2 = self.exp_reg
+        protected2 = self.protected_reg
+        mgf2 = exp2.model_fairness(protected=protected2,
+                                 privileged='A',
+                                 verbose=False)
+
         self.assertIsInstance(mgf, dx.fairness.GroupFairnessClassification)
+        self.assertIsInstance(mgf2, dx.fairness.GroupFairnessRegression)
 
     def test_plot_error_handling(self):
         # handling same for all plots, here fairness check plot
         with self.assertRaises(dx.fairness._basics.exceptions.FairnessObjectsDifferenceError):
             mgf_wrong = self.exp.model_fairness(protected=self.german_protected,
-                                           privileged='male_young', # wrong privileged
-                                           verbose=False
-                                           )
+                                                privileged='male_young',  # wrong privileged
+                                                verbose=False
+                                                )
             self.mgf.plot([mgf_wrong])
 
         with self.assertRaises(dx.fairness._basics.exceptions.FairnessObjectsDifferenceError):
             mgf_wrong = self.exp.model_fairness(protected=self.german_protected,
-                                                    privileged='male_old',
-                                                    epsilon=0.6, # different epsilon
-                                                    verbose=False)
+                                                privileged='male_old',
+                                                epsilon=0.6,  # different epsilon
+                                                verbose=False)
             self.mgf.plot([mgf_wrong])
 
         with self.assertRaises(dx.fairness._basics.exceptions.ParameterCheckError):
@@ -287,14 +325,14 @@ class FairnessTest(unittest.TestCase):
                                                 privileged='male_old',
                                                 epsilon=0.8,  # here ok epsilon
                                                 verbose=False)
-            self.mgf.plot([mgf_wrong], epsilon = 1.2)  # here wrong epsilon
+            self.mgf.plot([mgf_wrong], epsilon=1.2)  # here wrong epsilon
 
         with self.assertRaises(dx.fairness._basics.exceptions.FairnessObjectsDifferenceError):
             exp_wrong = deepcopy(self.exp)
             exp_wrong.y = exp_wrong.y[:-1]
             exp_wrong.y_hat = exp_wrong.y_hat[:-1]
 
-            mgf_wrong = exp_wrong.model_fairness(protected=self.german_protected[:-1], # shorter protected
+            mgf_wrong = exp_wrong.model_fairness(protected=self.german_protected[:-1],  # shorter protected
                                                  privileged='male_old',
                                                  verbose=False)
             self.mgf.plot([mgf_wrong])
@@ -307,18 +345,19 @@ class FairnessTest(unittest.TestCase):
         self.assertEqual(fig1.layout.title.text, "Fairness Check")
         self.assertIsInstance(fig1, Figure)
 
-
         fig2 = self.mgf.plot(objects=[self.mgf2], show=False)
         self.assertIsInstance(fig2, Figure)
 
         self.assertEqual(fig2['data'][0]['legendgroup'], "first")
         self.assertEqual(fig2['data'][5]['legendgroup'], "second")
 
-        # test errors in plots
+        fig3 = self.mgf_reg.plot(show=False)
+        self.assertEqual(fig3.layout.title.text, "Fairness Check")
+        self.assertIsInstance(fig3, Figure)
+
 
 
     def test_plot_metric_scores(self):
-
         fig1 = self.mgf.plot(show=False, type='metric_scores')
         self.assertEqual(fig1.layout.title.text, "Metric Scores")
         self.assertIsInstance(fig1, Figure)
@@ -329,9 +368,7 @@ class FairnessTest(unittest.TestCase):
         self.assertEqual(fig2['data'][0]['legendgroup'], "first")
         self.assertEqual(fig2['data'][5]['legendgroup'], "second")
 
-
     def test_plot_radar(self):
-
         fig1 = self.mgf.plot(show=False, type='radar')
         self.assertEqual(fig1.layout.title.text, "Fairness Radar")
         self.assertIsInstance(fig1, Figure)
@@ -340,7 +377,6 @@ class FairnessTest(unittest.TestCase):
         self.assertIsInstance(fig2, Figure)
 
     def test_plot_heatmap(self):
-
         fig1 = self.mgf.plot(show=False, type='heatmap')
         self.assertEqual(fig1.layout.title.text, "Fairness Heatmap")
         self.assertIsInstance(fig1, Figure)
@@ -349,7 +385,6 @@ class FairnessTest(unittest.TestCase):
         self.assertIsInstance(fig2, Figure)
 
     def test_plot_stacked(self):
-
         fig1 = self.mgf.plot(show=False, type='stacked')
         self.assertEqual(fig1.layout.title.text, "Stacked Parity Loss Metrics")
         self.assertIsInstance(fig1, Figure)
@@ -358,7 +393,6 @@ class FairnessTest(unittest.TestCase):
         self.assertIsInstance(fig2, Figure)
 
     def test_plot_performance_and_fairness(self):
-
         fig1 = self.mgf.plot(show=False, type='performance_and_fairness')
         self.assertEqual(fig1.layout.title.text, "Performance and Fairness")
         self.assertIsInstance(fig1, Figure)
@@ -367,7 +401,6 @@ class FairnessTest(unittest.TestCase):
         self.assertIsInstance(fig2, Figure)
 
     def test_plot_ceteris_paribus_cutoff(self):
-
         fig1 = self.mgf.plot(show=False, type='ceteris_paribus_cutoff', subgroup='male_old')
         self.assertEqual(fig1.layout.title.text, "Ceteris Paribus Cutoff")
         self.assertIsInstance(fig1, Figure)
@@ -375,6 +408,11 @@ class FairnessTest(unittest.TestCase):
         fig2 = self.mgf.plot(objects=[self.mgf2], show=False, type='ceteris_paribus_cutoff', subgroup='male_old')
         self.assertIsInstance(fig2, Figure)
 
+    def test_plot_density(self):
+        fig = self.mgf_reg.plot(show=False, type='density')
+        self.assertEqual(fig.layout.title.text, "Density plot")
+
+        self.assertIsInstance(fig, Figure)
 
 if __name__ == '__main__':
     unittest.main()
