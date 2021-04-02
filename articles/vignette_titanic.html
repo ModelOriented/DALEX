@@ -106,7 +106,7 @@
       <h1 data-toc-skip>Survival on the RMS Titanic</h1>
                         <h4 class="author">Przemyslaw Biecek</h4>
             
-            <h4 class="date">2021-03-26</h4>
+            <h4 class="date">2021-04-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/DALEX/blob/master/vignettes/vignette_titanic.Rmd"><code>vignettes/vignette_titanic.Rmd</code></a></small>
       <div class="hidden name"><code>vignette_titanic.Rmd</code></div>
@@ -154,7 +154,7 @@
 #&gt; Target node size:                 1 
 #&gt; Variable importance mode:         none 
 #&gt; Splitrule:                        gini 
-#&gt; OOB prediction error:             19.35 %</code></pre>
+#&gt; OOB prediction error:             19.48 %</code></pre>
 </div>
 <div id="explainer-for-titanic-survival" class="section level1">
 <h1 class="hasAnchor">
@@ -174,9 +174,9 @@
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )
 #&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification (  default  ) 
-#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.2129588 , max =  1  
+#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.2102401 , max =  1  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -1 , mean =  0.109198 , max =  1  
+#&gt;   -&gt; residuals         :  numerical, min =  -1 , mean =  0.1119166 , max =  1  
 #&gt;   A new explainer has been created!</code></pre>
 </div>
 <div id="variable-importance-plots" class="section level1">
@@ -187,12 +187,12 @@
 <code class="sourceCode R"><span class="va">vi_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_parts.html">model_parts</a></span><span class="op">(</span><span class="va">explain_titanic_rf</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">vi_rf</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt;       variable mean_dropout_loss            label
-#&gt; 1 _full_model_         0.2132029 Random Forest v7
-#&gt; 2     survived         0.2132029 Random Forest v7
-#&gt; 3        parch         0.2298861 Random Forest v7
-#&gt; 4        sibsp         0.2316996 Random Forest v7
-#&gt; 5     embarked         0.2388775 Random Forest v7
-#&gt; 6         fare         0.2597273 Random Forest v7</code></pre>
+#&gt; 1 _full_model_         0.2123744 Random Forest v7
+#&gt; 2     survived         0.2125764 Random Forest v7
+#&gt; 3        parch         0.2282435 Random Forest v7
+#&gt; 4     embarked         0.2293430 Random Forest v7
+#&gt; 5        sibsp         0.2297796 Random Forest v7
+#&gt; 6         fare         0.2534147 Random Forest v7</code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">vi_rf</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
@@ -211,47 +211,47 @@
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">vr_age</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt; $cp_profiles
 #&gt; Top profiles    : 
-#&gt;        gender        age class   embarked    fare sibsp parch survived _yhat_
-#&gt; 1007     male  0.1666667   3rd Queenstown 29.0206     4     1        0      0
-#&gt; 1007.1   male  2.0000000   3rd Queenstown 29.0206     4     1        0      0
-#&gt; 1007.2   male  4.0000000   3rd Queenstown 29.0206     4     1        0      0
-#&gt; 1007.3   male  7.0000000   3rd Queenstown 29.0206     4     1        0      0
-#&gt; 1007.4   male  9.0000000   3rd Queenstown 29.0206     4     1        0      0
-#&gt; 1007.5   male 13.0000000   3rd Queenstown 29.0206     4     1        0      0
-#&gt;        _vname_ _ids_          _label_
-#&gt; 1007       age  1007 Random Forest v7
-#&gt; 1007.1     age  1007 Random Forest v7
-#&gt; 1007.2     age  1007 Random Forest v7
-#&gt; 1007.3     age  1007 Random Forest v7
-#&gt; 1007.4     age  1007 Random Forest v7
-#&gt; 1007.5     age  1007 Random Forest v7
+#&gt;        gender        age            class    embarked fare sibsp parch survived
+#&gt; 2038     male  0.1666667 engineering crew Southampton    0     0     0        0
+#&gt; 2038.1   male  2.0000000 engineering crew Southampton    0     0     0        0
+#&gt; 2038.2   male  4.0000000 engineering crew Southampton    0     0     0        0
+#&gt; 2038.3   male  7.0000000 engineering crew Southampton    0     0     0        0
+#&gt; 2038.4   male  9.0000000 engineering crew Southampton    0     0     0        0
+#&gt; 2038.5   male 13.0000000 engineering crew Southampton    0     0     0        0
+#&gt;        _yhat_ _vname_ _ids_          _label_
+#&gt; 2038        0     age  2038 Random Forest v7
+#&gt; 2038.1      0     age  2038 Random Forest v7
+#&gt; 2038.2      0     age  2038 Random Forest v7
+#&gt; 2038.3      0     age  2038 Random Forest v7
+#&gt; 2038.4      0     age  2038 Random Forest v7
+#&gt; 2038.5      0     age  2038 Random Forest v7
 #&gt; 
 #&gt; 
 #&gt; Top observations:
-#&gt;      gender age            class    embarked    fare sibsp parch survived
-#&gt; 1007   male  10              3rd  Queenstown 29.0206     4     1        0
-#&gt; 979    male  43              2nd Southampton 21.0000     0     1        0
-#&gt; 16     male  35              2nd Southampton 13.0000     0     0        0
-#&gt; 2098   male  24 engineering crew Southampton  0.0000     0     0        1
-#&gt; 389    male  18              2nd Southampton 10.1000     0     0        0
-#&gt; 1587   male  29 engineering crew     Belfast  0.0000     0     0        0
-#&gt;      _yhat_          _label_ _ids_
-#&gt; 1007      0 Random Forest v7     1
-#&gt; 979       0 Random Forest v7     2
-#&gt; 16        0 Random Forest v7     3
-#&gt; 2098      0 Random Forest v7     4
-#&gt; 389       0 Random Forest v7     5
-#&gt; 1587      0 Random Forest v7     6
+#&gt;      gender age            class    embarked  fare sibsp parch survived _yhat_
+#&gt; 2038   male  32 engineering crew Southampton  0.00     0     0        0      0
+#&gt; 283    male  70              1st Southampton 71.00     1     1        0      0
+#&gt; 1126 female  30              2nd  Queenstown 12.07     0     0        1      1
+#&gt; 395    male  28              3rd  Queenstown  7.15     0     0        0      0
+#&gt; 1324   male  31 victualling crew Southampton  0.00     0     0        0      0
+#&gt; 2001   male  36 victualling crew Southampton  0.00     0     0        1      0
+#&gt;               _label_ _ids_
+#&gt; 2038 Random Forest v7     1
+#&gt; 283  Random Forest v7     2
+#&gt; 1126 Random Forest v7     3
+#&gt; 395  Random Forest v7     4
+#&gt; 1324 Random Forest v7     5
+#&gt; 2001 Random Forest v7     6
 #&gt; 
 #&gt; $agr_profiles
 #&gt; Top profiles    : 
 #&gt;   _vname_          _label_        _x_ _yhat_ _ids_
-#&gt; 1     age Random Forest v7  0.1666667   0.38     0
-#&gt; 2     age Random Forest v7  2.0000000   0.49     0
-#&gt; 3     age Random Forest v7  4.0000000   0.49     0
-#&gt; 4     age Random Forest v7  7.0000000   0.38     0
-#&gt; 5     age Random Forest v7  9.0000000   0.28     0
-#&gt; 6     age Random Forest v7 13.0000000   0.16     0
+#&gt; 1     age Random Forest v7  0.1666667   0.49     0
+#&gt; 2     age Random Forest v7  2.0000000   0.58     0
+#&gt; 3     age Random Forest v7  4.0000000   0.60     0
+#&gt; 4     age Random Forest v7  7.0000000   0.46     0
+#&gt; 5     age Random Forest v7  9.0000000   0.37     0
+#&gt; 6     age Random Forest v7 13.0000000   0.29     0
 #&gt; 
 #&gt; $color
 #&gt; [1] "#4378bf"</code></pre>
@@ -358,9 +358,9 @@
 #&gt;   -&gt; predict function  :  function(m, x) predict(m, x, n.trees = 15000, type = "response") 
 #&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )
 #&gt;   -&gt; model_info        :  package gbm , ver. 2.1.8 , task classification (  default  ) 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.0004781397 , mean =  0.3220984 , max =  0.9987823  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.0003439064 , mean =  0.3230542 , max =  0.9986572  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.9665269 , mean =  5.834718e-05 , max =  0.9907932  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.980106 , mean =  -0.0008974009 , max =  0.9916576  
 #&gt;   A new explainer has been created!</code></pre>
 </div>
 <div id="support-vector-machines-svm" class="section level2">
@@ -382,9 +382,9 @@
 #&gt;   -&gt; predict function  :  yhat.svm  will be used (  default  )
 #&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )
 #&gt;   -&gt; model_info        :  package e1071 , ver. 1.7.6 , task classification (  default  ) 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.08758742 , mean =  0.3239331 , max =  0.9629655  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.08803806 , mean =  0.3238531 , max =  0.96238  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8667464 , mean =  -0.001776333 , max =  0.9124126  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8654857 , mean =  -0.001696376 , max =  0.9119619  
 #&gt;   A new explainer has been created!</code></pre>
 </div>
 <div id="k-nearest-neighbors-knn" class="section level2">
@@ -470,7 +470,7 @@
 <a href="#session-info" class="anchor"></a>Session info</h1>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt; R version 4.0.4 (2021-02-15)
+<pre><code>#&gt; R version 4.0.5 (2021-03-31)
 #&gt; Platform: x86_64-apple-darwin17.0 (64-bit)
 #&gt; Running under: macOS Catalina 10.15.7
 #&gt; 
@@ -487,15 +487,15 @@
 #&gt; other attached packages:
 #&gt;  [1] caret_6.0-86    e1071_1.7-6     gbm_2.1.8       rms_6.2-0      
 #&gt;  [5] SparseM_1.81    Hmisc_4.5-0     ggplot2_3.3.3   Formula_1.2-4  
-#&gt;  [9] survival_3.2-7  lattice_0.20-41 ranger_0.12.1   DALEX_2.2.1    
+#&gt;  [9] survival_3.2-10 lattice_0.20-41 ranger_0.12.1   DALEX_2.2.1    
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
 #&gt;  [1] nlme_3.1-152         matrixStats_0.58.0   fs_1.5.0            
 #&gt;  [4] lubridate_1.7.10     RColorBrewer_1.1-2   rprojroot_2.0.2     
-#&gt;  [7] tools_4.0.4          backports_1.2.1      utf8_1.2.1          
+#&gt;  [7] tools_4.0.5          backports_1.2.1      utf8_1.2.1          
 #&gt; [10] R6_2.5.0             rpart_4.1-15         colorspace_2.0-0    
 #&gt; [13] nnet_7.3-15          withr_2.4.1          tidyselect_1.1.0    
-#&gt; [16] gridExtra_2.3        compiler_4.0.4       textshaping_0.3.3   
+#&gt; [16] gridExtra_2.3        compiler_4.0.5       textshaping_0.3.3   
 #&gt; [19] quantreg_5.85        htmlTable_2.1.0      desc_1.3.0          
 #&gt; [22] sandwich_3.0-0       labeling_0.4.2       scales_1.1.1        
 #&gt; [25] checkmate_2.0.0      polspline_1.1.19     mvtnorm_1.1-1       
@@ -510,18 +510,18 @@
 #&gt; [52] Matrix_1.3-2         Rcpp_1.0.6           munsell_0.5.0       
 #&gt; [55] fansi_0.4.2          lifecycle_1.0.0      pROC_1.17.0.1       
 #&gt; [58] stringi_1.5.3        multcomp_1.4-16      yaml_2.2.1          
-#&gt; [61] MASS_7.3-53          recipes_0.1.15       plyr_1.8.6          
-#&gt; [64] grid_4.0.4           crayon_1.4.1         splines_4.0.4       
-#&gt; [67] knitr_1.31           pillar_1.5.1         stats4_4.0.4        
+#&gt; [61] MASS_7.3-53.1        recipes_0.1.15       plyr_1.8.6          
+#&gt; [64] grid_4.0.5           crayon_1.4.1         splines_4.0.5       
+#&gt; [67] knitr_1.31           pillar_1.5.1         stats4_4.0.5        
 #&gt; [70] reshape2_1.4.4       codetools_0.2-18     glue_1.4.2          
 #&gt; [73] evaluate_0.14        latticeExtra_0.6-29  data.table_1.14.0   
-#&gt; [76] png_0.1-7            vctrs_0.3.6          foreach_1.5.1       
+#&gt; [76] png_0.1-7            vctrs_0.3.7          foreach_1.5.1       
 #&gt; [79] MatrixModels_0.5-0   gtable_0.3.0         purrr_0.3.4         
 #&gt; [82] cachem_1.0.4         gower_0.2.2          xfun_0.22           
 #&gt; [85] prodlim_2019.11.13   ragg_1.1.2           class_7.3-18        
 #&gt; [88] timeDate_3043.102    tibble_3.1.0         conquer_1.0.2       
 #&gt; [91] iterators_1.0.13     memoise_2.0.0        lava_1.6.9          
-#&gt; [94] cluster_2.1.0        TH.data_1.0-10       ellipsis_0.3.1      
+#&gt; [94] cluster_2.1.1        TH.data_1.0-10       ellipsis_0.3.1      
 #&gt; [97] ipred_0.9-11</code></pre>
 </div>
   </div>
