@@ -88,9 +88,9 @@
 #' # keep in mind that for binary classification y parameter has to be numeric  with 0 and 1 values
 #' titanic_ranger_exp <- explain(titanic_ranger, data = titanic_imputed, y = titanic_imputed$survived)
 #'
-#' # multilabel classification
+#' # multiclass task
 #' hr_ranger <- ranger::ranger(status~., data = HR, num.trees = 50, probability = TRUE)
-#' # keep in mind that for multilabel classification y parameter has to be a factor,
+#' # keep in mind that for multiclass y parameter has to be a factor,
 #' # with same levels as in training data
 #' hr_ranger_exp <- explain(hr_ranger, data = HR, y = HR$status)
 #'
@@ -264,8 +264,14 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
   }
 
   if (is.null(model_info)) {
-    # extract defaults
-    task_subtype <- check_if_multiclass(model, predict_function, data[1:2, , drop = FALSE])
+    # let's try to extract defaults
+    # need to rows otherwise the predict function may convert matrix to vector
+    if (!is.null(data) && nrow(data) > 1) {
+      task_subtype <- check_if_multiclass(model, predict_function, data[1:2, , drop = FALSE])
+    } else {
+      # no way to guess
+      task_subtype <- FALSE
+    }
     model_info <- model_info(model, is_multiclass = task_subtype)
     verbose_cat("  -> model_info        :  package", model_info$package[1], ", ver.", model_info$ver[1], ", task", model_info$type, "(", color_codes$yellow_start,"default",color_codes$yellow_end, ")", "\n", verbose = verbose)
   } else {
@@ -385,7 +391,7 @@ is_y_in_data <- function(data, y) {
   }))
 }
 
-# check whether model is multilabel classification task
+# check whether model is multiclass task
 check_if_multiclass <- function(model, predict_function, sample_data) {
   response_sample <- try(predict_function(model, sample_data), silent = TRUE)
   !is.null(dim(response_sample))
@@ -396,7 +402,7 @@ residual_function_default <- function(model, data, y, predict_function = yhat) {
   y - predict_function(model, data)
 }
 
-# default residual function for multiclass problems
+# default residual function for multiclass tasks
 residual_function_multiclass <- function(model, data, y, predict_function = yhat) {
   y_char <- as.character(y)
   pred <- predict_function(model, data)

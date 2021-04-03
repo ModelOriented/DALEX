@@ -138,9 +138,9 @@ titanic_ranger <- ranger::ranger(as.factor(survived)~., data = titanic_imputed, 
 # keep in mind that for binary classification y parameter has to be numeric  with 0 and 1 values
 titanic_ranger_exp <- explain(titanic_ranger, data = titanic_imputed, y = titanic_imputed$survived)
 
-# multilabel classification
+# multiclass task
 hr_ranger <- ranger::ranger(status~., data = HR, num.trees = 50, probability = TRUE)
-# keep in mind that for multilabel classification y parameter has to be a factor,
+# keep in mind that for multiclass y parameter has to be a factor,
 # with same levels as in training data
 hr_ranger_exp <- explain(hr_ranger, data = HR, y = HR$status)
 
