@@ -406,9 +406,9 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.8182788 , mean =  -9.911504e-05 , max =  0.8845082  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='co'># multilabel classification</span>
+<span class='co'># multiclass task</span>
 <span class='va'>hr_ranger</span> <span class='op'>&lt;-</span> <span class='fu'>ranger</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>status</span><span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>HR</span>, num.trees <span class='op'>=</span> <span class='fl'>50</span>, probability <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='co'># keep in mind that for multilabel classification y parameter has to be a factor,</span>
+<span class='co'># keep in mind that for multiclass y parameter has to be a factor,</span>
 <span class='co'># with same levels as in training data</span>
 <span class='va'>hr_ranger_exp</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span><span class='op'>(</span><span class='va'>hr_ranger</span>, data <span class='op'>=</span> <span class='va'>HR</span>, y <span class='op'>=</span> <span class='va'>HR</span><span class='op'>$</span><span class='va'>status</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
