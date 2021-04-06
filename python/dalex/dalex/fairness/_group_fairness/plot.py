@@ -4,16 +4,15 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-from . import utils
 from . import checks
+from . import utils
 from .._basics import checks as basic_checks
 from .._basics.exceptions import ParameterCheckError
-from ..._explainer import helper
 from ... import _theme
+from ..._explainer import helper
 
 
 def plot_fairness_check(data, n_models, epsilon, title):
-
     upper_bound = max([max(data.score[np.invert(np.isnan(data.score.to_numpy()))]), 1 / epsilon - 1]) + 0.1
     lower_bound = min([min(data.score[np.invert(np.isnan(data.score.to_numpy()))]), epsilon - 1]) - 0.1
     lower_bound = round(lower_bound, 1)
@@ -73,7 +72,7 @@ def plot_fairness_check(data, n_models, epsilon, title):
     # refs are dependent on fixed numbers of metrics
 
     n_metrics = len(np.unique(data.metric))
-    refs = ['y'+str(i) for i in range(2, n_metrics+1)]
+    refs = ['y' + str(i) for i in range(2, n_metrics + 1)]
     refs.insert(0, 'y')
 
     left_red = [{'type': "rect",
@@ -139,17 +138,18 @@ def plot_fairness_check(data, n_models, epsilon, title):
     for i in [ref[1:] for ref in refs]:
         fig.update_layout({'yaxis' + i + '_title_text': ''})
 
-    middle_ref_num = refs[len(refs)//2][1:]
+    middle_ref_num = refs[len(refs) // 2][1:]
     fig.update_layout({'yaxis' + str(middle_ref_num) + '_title_text': 'subgroup'})
     fig.update_yaxes(showgrid=False, zeroline=False)
 
     return fig
 
+
 def plot_fairness_check_clf(fobject,
-                        title=None,
-                        other_objects=None,
-                        epsilon = None,
-                        verbose=True):
+                            title=None,
+                            other_objects=None,
+                            epsilon=None,
+                            verbose=True):
     data = utils._metric_ratios_2_df(fobject)
     n = 1
     if other_objects is not None:
@@ -164,12 +164,10 @@ def plot_fairness_check_clf(fobject,
     else:
         checks.check_epsilon(epsilon)
 
-
     if any(data.score == 0):
         nan_models = set(data.label[data.score == 0])
         helper.verbose_cat(f'\nFound NaN\'s or 0\'s for models: {nan_models}\n'
                            f'It is advisable to check \'metric_ratios\'', verbose=verbose)
-
 
     # change name of metrics
     data.loc[data.metric == 'TPR', 'metric'] = 'Equal opportunity ratio     TP/(TP + FN)'
@@ -185,13 +183,12 @@ def plot_fairness_check_clf(fobject,
 
     return fig
 
+
 def plot_fairness_check_reg(fobject,
                             title=None,
-                            other_objects = None,
+                            other_objects=None,
                             epsilon=None,
                             verbose=True):
-
-
     data = fobject.result.unstack().reset_index()
     data.columns = ['metric', 'subgroup', 'score']
 
@@ -216,7 +213,6 @@ def plot_fairness_check_reg(fobject,
 
     fig = plot_fairness_check(data, n, epsilon, title)
     return fig
-
 
 
 def plot_metric_scores(fobject,

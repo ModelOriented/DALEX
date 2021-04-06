@@ -1,11 +1,9 @@
-import numpy as np
-import pandas as pd
 from . import checks, plot, utils
 from .._basics import checks as basic_checks
 from .._basics._base_objects import _FairnessObject
 from .._basics.exceptions import ParameterCheckError
-from ..._theme import get_default_config
 from ..._global_checks import global_check_object_class
+from ..._theme import get_default_config
 
 
 class GroupFairnessClassification(_FairnessObject):
@@ -72,7 +70,7 @@ class GroupFairnessClassification(_FairnessObject):
                                        verbose,
                                        num_for_not_fair=2,
                                        num_for_no_decision=1,
-                                       metrics = utils.fairness_check_metrics())
+                                       metrics=utils.fairness_check_metrics())
 
     def plot(self,
              objects=None,
@@ -287,7 +285,6 @@ class GroupFairnessRegression(_FairnessObject):
                                        num_for_not_fair=1,
                                        num_for_no_decision=None,
                                        metrics=['independence', 'separation', 'sufficiency'])
-
 
     def plot(self, objects=None, type='fairness_check', title=None, show=True, **kwargs):
         """

@@ -2,12 +2,13 @@ from copy import deepcopy
 
 import numpy as np
 import pandas as pd
-
-from ..._explainer import helper
-from ...model_explanations._model_performance import utils
-from . import checks
-from ..._global_checks import global_check_import
 from sklearn.linear_model import LogisticRegression
+
+from . import checks
+from ..._explainer import helper
+from ..._global_checks import global_check_import
+from ...model_explanations._model_performance import utils
+
 
 # -------------- Objects needed in creation of GroupFairnessClassification object in object.py --------------
 
@@ -250,7 +251,6 @@ class RegressionDict:
         self.subgroup_metrics = {}
         self.subgroup_metric_comparison = {}
 
-
         subgroups = set(protected)
 
         for subgroup in subgroups:
@@ -259,7 +259,7 @@ class RegressionDict:
             self.regression_dict[subgroup] = {'y': sub_y, 'y_hat': sub_y_hat}
 
             self.subgroup_metrics[subgroup] = {
-                'mean_error': (sum(sub_y_hat-sub_y))/(len(y)),
+                'mean_error': (sum(sub_y_hat - sub_y)) / (len(y)),
                 'mae': utils.mae(sub_y_hat, sub_y),
                 'rmse': utils.rmse(sub_y_hat, sub_y),
                 'mean_prediction': np.mean(sub_y_hat)
@@ -267,7 +267,8 @@ class RegressionDict:
 
             self.subgroup_metric_comparison[subgroup] = {
                 'mae_ratio': self.subgroup_metrics[subgroup].get("mae") / self.subgroup_metrics[privileged].get("mae"),
-                'rmse_ratio': self.subgroup_metrics[subgroup].get("rmse") / self.subgroup_metrics[privileged].get("rmse"),
+                'rmse_ratio': self.subgroup_metrics[subgroup].get("rmse") / self.subgroup_metrics[privileged].get(
+                    "rmse"),
                 'mean_prediction_ratio': self.subgroup_metrics[subgroup].get("mean_prediction") / self.subgroup_metrics[
                     privileged].get("mean_prediction"),
             }
@@ -276,10 +277,10 @@ class RegressionDict:
         return f"Fairness in Regression Dictionary\nSubgroup Metrics: {self.subgroup_metrics.values()}\n" \
                f"Subgroup Metric Comparison: {self.subgroup_metric_comparison.values()}"
 
+
 # -------------- Functions needed in creation and methods of GroupFairnessRegression object in object.py --------------
 
 def calculate_regression_measures(y, y_hat, protected, privileged):
-
     global_check_import('scikit-learn')
 
     unique_protected = np.unique(protected)
@@ -291,7 +292,7 @@ def calculate_regression_measures(y, y_hat, protected, privileged):
         # filter elements
         array_elements = np.isin(protected, [privileged, unprivileged])
 
-        y_u = ((y[array_elements] - y[array_elements].mean()) / y[array_elements].std()).reshape(-1,1)
+        y_u = ((y[array_elements] - y[array_elements].mean()) / y[array_elements].std()).reshape(-1, 1)
         s_u = ((y_hat[array_elements] - y_hat[array_elements].mean()) / y_hat[array_elements].std()).reshape(-1, 1)
 
         a = np.where(protected[array_elements] == privileged, 1, 0)
@@ -328,7 +329,7 @@ def calculate_regression_measures(y, y_hat, protected, privileged):
                               'sufficiency': [1]})
 
     data.index = data.subgroup
-    data = data.iloc[:,1:]
+    data = data.iloc[:, 1:]
     return data
 
 
@@ -338,7 +339,6 @@ def fairness_check_metrics():
 
 
 def universal_fairness_check(self, epsilon, verbose, num_for_not_fair, num_for_no_decision, metrics):
-
     if epsilon is None:
         epsilon = self.epsilon
     else:
