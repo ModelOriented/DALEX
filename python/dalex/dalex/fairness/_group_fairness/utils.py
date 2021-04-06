@@ -6,8 +6,8 @@ import pandas as pd
 from ..._explainer import helper
 from ...model_explanations._model_performance import utils
 from . import checks
+from ..._global_checks import global_check_import
 from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import StandardScaler
 
 # -------------- Objects needed in creation of GroupFairnessClassification object in object.py --------------
 
@@ -258,17 +258,12 @@ class RegressionDict:
             sub_y_hat = y_hat[np.where(protected == subgroup)]
             self.regression_dict[subgroup] = {'y': sub_y, 'y_hat': sub_y_hat}
 
-        for subgroup in self.regression_dict.keys():
-            y, y_hat = self.regression_dict[subgroup].values()
-
             self.subgroup_metrics[subgroup] = {
-                'mean_error': (sum(y_hat-y))/(len(y)),
-                'mae': utils.mae(y_hat, y),
-                'rmse': utils.rmse(y_hat, y),
-                'mean_prediction': np.mean(y_hat)
+                'mean_error': (sum(sub_y_hat-sub_y))/(len(y)),
+                'mae': utils.mae(sub_y_hat, sub_y),
+                'rmse': utils.rmse(sub_y_hat, sub_y),
+                'mean_prediction': np.mean(sub_y_hat)
             }
-
-        for subgroup in self.regression_dict.keys():
 
             self.subgroup_metric_comparison[subgroup] = {
                 'mae_ratio': self.subgroup_metrics[subgroup].get("mae") / self.subgroup_metrics[privileged].get("mae"),
@@ -285,6 +280,8 @@ class RegressionDict:
 
 def calculate_regression_measures(y, y_hat, protected, privileged):
 
+    global_check_import('scikit-learn', 'linear_model')
+
     unique_protected = np.unique(protected)
     unique_unprivileged = unique_protected[unique_protected != privileged]
 
@@ -294,11 +291,8 @@ def calculate_regression_measures(y, y_hat, protected, privileged):
         # filter elements
         array_elements = np.isin(protected, [privileged, unprivileged])
 
-        y_scaler = StandardScaler()
-        y_hat_scaler = StandardScaler()
-
-        y_u = y_scaler.fit_transform(y[array_elements].reshape(-1, 1))
-        s_u = y_hat_scaler.fit_transform(y_hat[array_elements].reshape(-1, 1))
+        y_u = ((y[array_elements] - y[array_elements].mean()) / y[array_elements].std()).reshape(-1,1)
+        s_u = ((y_hat[array_elements] - y_hat[array_elements].mean()) / y_hat[array_elements].std()).reshape(-1, 1)
 
         a = np.where(protected[array_elements] == privileged, 1, 0)
 

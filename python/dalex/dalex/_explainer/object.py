@@ -852,7 +852,8 @@ class Explainer:
         privileged : str
             Subgroup that is suspected to have the most privilege.
             It needs to be a string present in `protected`.
-        cutoff (only classification) : float or dict, optional
+        cutoff : float or dict, optional
+            Only for classification models.
             Threshold for probabilistic output of a classifier.
             It might be: a `float` - same for all subgroups from `protected`,
             or a `dict` - individually adjusted for each subgroup

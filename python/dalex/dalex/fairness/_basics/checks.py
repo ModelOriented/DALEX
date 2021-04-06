@@ -3,6 +3,7 @@ import pandas as pd
 
 from .exceptions import *
 from ..._explainer import helper
+from ..._global_checks import global_check_object_class
 
 
 def check_parameters(y, y_hat, protected, privileged, verbose):
@@ -65,8 +66,6 @@ def check_other_fairness_objects(fobject, other):
     Checking compatibility of GroupFairnessClassification objects
     """
     for other_obj in other:
-        if type(other_obj) != type(fobject):
-            raise FairnessObjectsDifferenceError('The objects have different classes')
 
         if fobject.protected.shape != other_obj.protected.shape:
             raise FairnessObjectsDifferenceError('protected attributes have different shapes')

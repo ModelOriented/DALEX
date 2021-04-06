@@ -313,6 +313,12 @@ class FairnessTest(unittest.TestCase):
                                                 )
             self.mgf.plot([mgf_wrong])
 
+        with self.assertRaises(TypeError):
+            self.mgf.plot(objects= [self.mgf_reg])
+
+        with self.assertRaises(TypeError):
+            self.mgf_reg.plot(objects=[self.mgf])
+
         with self.assertRaises(dx.fairness._basics.exceptions.FairnessObjectsDifferenceError):
             mgf_wrong = self.exp.model_fairness(protected=self.german_protected,
                                                 privileged='male_old',
@@ -354,6 +360,12 @@ class FairnessTest(unittest.TestCase):
         fig3 = self.mgf_reg.plot(show=False)
         self.assertEqual(fig3.layout.title.text, "Fairness Check")
         self.assertIsInstance(fig3, Figure)
+
+        fig4 = self.mgf.plot(objects=self.mgf2, show=False)
+        self.assertIsInstance(fig4, Figure)
+
+        fig5 = self.mgf.plot(objects=self.mgf2, show=False, title='Test title')
+        self.assertEqual(fig5.layout.title.text, 'Test title')
 
 
 

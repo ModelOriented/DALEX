@@ -14,8 +14,6 @@ from ... import _theme
 
 def plot_fairness_check(data, n_models, epsilon, title):
 
-    n = n_models
-
     upper_bound = max([max(data.score[np.invert(np.isnan(data.score.to_numpy()))]), 1 / epsilon - 1]) + 0.1
     lower_bound = min([min(data.score[np.invert(np.isnan(data.score.to_numpy()))]), epsilon - 1]) - 0.1
     lower_bound = round(lower_bound, 1)
@@ -25,7 +23,7 @@ def plot_fairness_check(data, n_models, epsilon, title):
     ticks = np.arange(lower_bound, upper_bound + 0.001, step=0.1).round(1)
 
     # drwhy colors
-    colors = _theme.get_default_colors(n, 'line')
+    colors = _theme.get_default_colors(n_models, 'line')
 
     # subgroup y-axis value creation
     n_ticks = len(data.subgroup.unique())

@@ -5,7 +5,7 @@ from .._basics import checks as basic_checks
 from .._basics._base_objects import _FairnessObject
 from .._basics.exceptions import ParameterCheckError
 from ..._theme import get_default_config
-from ..._explainer import helper
+from ..._global_checks import global_check_object_class
 
 
 class GroupFairnessClassification(_FairnessObject):
@@ -56,7 +56,7 @@ class GroupFairnessClassification(_FairnessObject):
             more strict the verdict is. If the ratio of certain unprivileged
             and privileged subgroup is within the `(epsilon, 1/epsilon)` range,
             then there is no discrimination in this metric and for this subgroups
-            (default is `0.8` which is set during object initialization).
+            (default is `0.8`, which is set during object initialization).
         verbose : bool
             Shows verbose text about potential problems 
             (e.g. `NaN` in model metrics that can cause misinterpretation).
@@ -83,7 +83,7 @@ class GroupFairnessClassification(_FairnessObject):
         """
         Parameters
         -----------
-        objects : GroupFairnessClassification object
+        objects : Array of GroupFairnessClassification objects
             Additional objects to plot (default is `None`).
         type : str, optional
             Type of the plot. Default is `'fairness_check'`.
@@ -174,9 +174,11 @@ class GroupFairnessClassification(_FairnessObject):
         other_objects = None
         if objects is not None:
             other_objects = []
+            if not isinstance(objects, (list, tuple)):
+                objects = [objects]
             for obj in objects:
-                if isinstance(obj, self.__class__):
-                    other_objects.append(obj)
+                global_check_object_class(obj, self.__class__)
+                other_objects.append(obj)
             basic_checks.check_other_fairness_objects(self, other_objects)
 
         if type == 'fairness_check':
@@ -268,7 +270,7 @@ class GroupFairnessRegression(_FairnessObject):
             more strict the verdict is. If the ratio of certain unprivileged
             and privileged subgroup is within the `(epsilon, 1/epsilon)` range,
             then there is no discrimination in this metric and for this subgroups
-            (default is `0.8` which is set during object initialization).
+            (default is `0.8`, which is set during object initialization).
         verbose : bool
             Shows verbose text about potential problems
             (e.g. `NaN` in model metrics that can cause misinterpretation).
@@ -287,11 +289,11 @@ class GroupFairnessRegression(_FairnessObject):
                                        metrics=['independence', 'separation', 'sufficiency'])
 
 
-    def plot(self, objects=None, type='fairness_check', show=True, **kwargs):
+    def plot(self, objects=None, type='fairness_check', title=None, show=True, **kwargs):
         """
         Parameters
         -----------
-        objects : GroupFairnessRegression object
+        objects : Array of GroupFairnessRegression objects
             Additional objects to plot (default is `None`).
         type : str, optional
             Type of the plot. Default is `'fairness_check'`.
@@ -310,26 +312,31 @@ class GroupFairnessRegression(_FairnessObject):
                 density plot visualizes the output of the model for each
                 subgroup in form of violin plots with boxplots on top of them.
                 It does not accept additional keyword arguments.
+        title : str, optional
+            Title of the plot (default depends on the `type` attribute).
 
         """
 
-        other_objects = []
+        other_objects = None
         if objects is not None:
+            other_objects = []
+            if not isinstance(objects, (list, tuple)):
+                objects = [objects]
             for obj in objects:
-                if isinstance(obj, self.__class__):
-                    other_objects.append(obj)
+                global_check_object_class(obj, self.__class__)
+                other_objects.append(obj)
             basic_checks.check_other_fairness_objects(self, other_objects)
 
         if type == 'density':
             fig = plot.plot_density(self,
                                     other_objects,
-                                    title=None,
+                                    title=title,
                                     **kwargs)
 
         elif type == 'fairness_check':
             fig = plot.plot_fairness_check_reg(self,
                                                other_objects=other_objects,
-                                               title=None,
+                                               title=title,
                                                **kwargs)
 
         else:
