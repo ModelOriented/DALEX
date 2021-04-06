@@ -10,12 +10,13 @@ development
 #### fixes
 
 * `BreakDown.plot()` wrongly displayed the "+all factors" bar when `max_vars < p` ([#401](https://github.com/ModelOriented/DALEX/issues/401))
-* `metric_scores` type plot in GroupFairnessClassification did not handle `NaN`'s ([#399](https://github.com/ModelOriented/DALEX/issues/399))
+* `metric_scores` type plot in `GroupFairnessClassification` did not handle `NaN`'s ([#399](https://github.com/ModelOriented/DALEX/issues/399))
 
 #### features 
 
+* Support for regression models in the `fairness` module. Added `GroupFairnessRegression` object, with the `plot` method having two types: `fairness_check` and `density`. `Explainer.model_fairness` method now depends on the `model_type` attribute. ([#391](https://github.com/ModelOriented/DALEX/issues/391))
 * added `N` parameter to the `predict_parts` method which is `None` by default ([#402](https://github.com/ModelOriented/DALEX/issues/402))
-* `epsilon` is now an argument of GroupFairnessClassification object ([#397](https://github.com/ModelOriented/DALEX/issues/397))
+* `epsilon` is now an argument of `GroupFairnessClassification` object ([#397](https://github.com/ModelOriented/DALEX/issues/397))
 
 
 v1.0.1 (19/02/2021)
@@ -112,7 +113,7 @@ v0.3.0 (26/10/2020)
 #### features
 
 * added `model_fairness` method to the `Explainer`, which performs fairness explanation
-* added `GroupFairnessClassification` object, with the `plot` method having two types `fairness_check` and `metric_scores`
+* added `GroupFairnessClassification` object, with the `plot` method having two types: `fairness_check` and `metric_scores`
 
 #### defaults
 
