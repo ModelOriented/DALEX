@@ -847,8 +847,8 @@ class Explainer:
             which denotes the membership to a subgroup. It doesn't have to be binary.
             It doesn't need to be in data. It is sometimes suggested not to use
             sensitive attributes in modelling, but still check model bias for them.
-            NOTE: List and pd.Series are also supported, however if provided
-            they will be transformed into a (1d) np.ndarray with dtype 'U'.
+            NOTE: List and pd.Series are also supported; however, if provided,
+            they will be transformed into a np.ndarray (1d) with dtype 'U'.
         privileged : str
             Subgroup that is suspected to have the most privilege.
             It needs to be a string present in `protected`.
@@ -856,8 +856,8 @@ class Explainer:
             Only for classification models.
             Threshold for probabilistic output of a classifier.
             It might be: a `float` - same for all subgroups from `protected`,
-            or a `dict` - individually adjusted for each subgroup
-            (must have values from `protected` as keys).
+            or a `dict` - individually adjusted for each subgroup;
+            must have values from `protected` as keys.
         epsilon : float
             Parameter defines acceptable fairness scores. The closer to `1` the
             more strict the verdict is. If the ratio of certain unprivileged
@@ -922,7 +922,7 @@ class Explainer:
                                               **kwargs)
 
         else :
-            raise ValueError("model_type must be either 'classification' or 'regression'")
+            raise ValueError("'model_type' must be either 'classification' or 'regression'")
 
         if label:
              fobject.label = label

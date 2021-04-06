@@ -2,11 +2,10 @@ from copy import deepcopy
 
 import numpy as np
 import pandas as pd
-from sklearn.linear_model import LogisticRegression
 
 from . import checks
 from ..._explainer import helper
-from ..._global_checks import global_check_import
+from ... import _global_checks
 from ...model_explanations._model_performance import utils
 
 
@@ -281,7 +280,8 @@ class RegressionDict:
 # -------------- Functions needed in creation and methods of GroupFairnessRegression object in object.py --------------
 
 def calculate_regression_measures(y, y_hat, protected, privileged):
-    global_check_import('scikit-learn')
+    _global_checks.global_check_import('scikit-learn', 'fairness in regression')
+    from sklearn.linear_model import LogisticRegression
 
     unique_protected = np.unique(protected)
     unique_unprivileged = unique_protected[unique_protected != privileged]

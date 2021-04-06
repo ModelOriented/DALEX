@@ -3,7 +3,6 @@ import pandas as pd
 
 from .exceptions import *
 from ..._explainer import helper
-from ..._global_checks import global_check_object_class
 
 
 def check_parameters(y, y_hat, protected, privileged, verbose):

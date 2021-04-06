@@ -2,8 +2,7 @@ from . import checks, plot, utils
 from .._basics import checks as basic_checks
 from .._basics._base_objects import _FairnessObject
 from .._basics.exceptions import ParameterCheckError
-from ..._global_checks import global_check_object_class
-from ..._theme import get_default_config
+from ... import _global_checks, _theme
 
 
 class GroupFairnessClassification(_FairnessObject):
@@ -81,7 +80,7 @@ class GroupFairnessClassification(_FairnessObject):
         """
         Parameters
         -----------
-        objects : Array of GroupFairnessClassification objects
+        objects : array_like of GroupFairnessClassification objects
             Additional objects to plot (default is `None`).
         type : str, optional
             Type of the plot. Default is `'fairness_check'`.
@@ -175,7 +174,7 @@ class GroupFairnessClassification(_FairnessObject):
             if not isinstance(objects, (list, tuple)):
                 objects = [objects]
             for obj in objects:
-                global_check_object_class(obj, self.__class__)
+                _global_checks.global_check_object_class(obj, self.__class__)
                 other_objects.append(obj)
             basic_checks.check_other_fairness_objects(self, other_objects)
 
@@ -230,7 +229,7 @@ class GroupFairnessClassification(_FairnessObject):
             raise ParameterCheckError(f"plot type {type} not supported, try other types.")
 
         if show:
-            fig.show(config=get_default_config())
+            fig.show(config=_theme.get_default_config())
         else:
             return fig
 
@@ -290,7 +289,7 @@ class GroupFairnessRegression(_FairnessObject):
         """
         Parameters
         -----------
-        objects : Array of GroupFairnessRegression objects
+        objects : array_like of GroupFairnessRegression objects
             Additional objects to plot (default is `None`).
         type : str, optional
             Type of the plot. Default is `'fairness_check'`.
@@ -320,7 +319,7 @@ class GroupFairnessRegression(_FairnessObject):
             if not isinstance(objects, (list, tuple)):
                 objects = [objects]
             for obj in objects:
-                global_check_object_class(obj, self.__class__)
+                _global_checks.global_check_object_class(obj, self.__class__)
                 other_objects.append(obj)
             basic_checks.check_other_fairness_objects(self, other_objects)
 
@@ -340,6 +339,6 @@ class GroupFairnessRegression(_FairnessObject):
             raise ParameterCheckError(f"plot type {type} not supported, try other types.")
 
         if show:
-            fig.show(config=get_default_config())
+            fig.show(config=_theme.get_default_config())
         else:
             return fig
