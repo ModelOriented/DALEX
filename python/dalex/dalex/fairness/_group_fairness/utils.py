@@ -280,7 +280,7 @@ class RegressionDict:
 
 def calculate_regression_measures(y, y_hat, protected, privileged):
 
-    global_check_import('scikit-learn', 'linear_model')
+    global_check_import('scikit-learn')
 
     unique_protected = np.unique(protected)
     unique_unprivileged = unique_protected[unique_protected != privileged]
