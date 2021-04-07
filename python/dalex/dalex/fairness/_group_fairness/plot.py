@@ -4,38 +4,15 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-from . import utils
 from . import checks
+from . import utils
 from .._basics import checks as basic_checks
 from .._basics.exceptions import ParameterCheckError
-from ..._explainer import helper
 from ... import _theme
+from ..._explainer import helper
 
 
-def plot_fairness_check(fobject,
-                        title=None,
-                        other_objects=None,
-                        epsilon=None,
-                        verbose=True):
-    if epsilon is None:
-        epsilon = fobject.epsilon
-    else:
-        epsilon = checks.check_epsilon(epsilon)
-
-    data = utils._metric_ratios_2_df(fobject)
-    n = 1
-    if other_objects is not None:
-        basic_checks.check_other_fairness_objects(fobject, other_objects)
-        for other_obj in other_objects:
-            other_data = utils._metric_ratios_2_df(other_obj)
-            data = data.append(other_data)
-            n += 1
-
-    if any(data.score == 0):
-        nan_models = set(data.label[data.score == 0])
-        helper.verbose_cat(f'\nFound NaN\'s or 0\'s for models: {nan_models}\n'
-                           f'It is advisable to check \'metric_ratios\'', verbose=verbose)
-
+def plot_fairness_check(data, n_models, epsilon, title):
     upper_bound = max([max(data.score[np.invert(np.isnan(data.score.to_numpy()))]), 1 / epsilon - 1]) + 0.1
     lower_bound = min([min(data.score[np.invert(np.isnan(data.score.to_numpy()))]), epsilon - 1]) - 0.1
     lower_bound = round(lower_bound, 1)
@@ -45,17 +22,7 @@ def plot_fairness_check(fobject,
     ticks = np.arange(lower_bound, upper_bound + 0.001, step=0.1).round(1)
 
     # drwhy colors
-    colors = _theme.get_default_colors(n, 'line')
-
-    # change name of metrics
-    data.loc[data.metric == 'TPR', 'metric'] = 'Equal opportunity ratio     TP/(TP + FN)'
-    data.loc[data.metric == 'ACC', 'metric'] = 'Accuracy equality ratio    (TP + TN)/(TP + FP + TN + FN)'
-    data.loc[data.metric == 'PPV', 'metric'] = 'Predictive parity ratio     TP/(TP + FP)'
-    data.loc[data.metric == 'FPR', 'metric'] = 'Predictive equality ratio   FP/(FP + TN)'
-    data.loc[data.metric == 'STP', 'metric'] = 'Statistical parity ratio   (TP + FP)/(TP + FP + TN + FN)'
-
-    # without privileged
-    data = data.loc[data.subgroup != fobject.privileged]
+    colors = _theme.get_default_colors(n_models, 'line')
 
     # subgroup y-axis value creation
     n_ticks = len(data.subgroup.unique())
@@ -103,7 +70,11 @@ def plot_fairness_check(fobject,
                      range=[0, 1])
 
     # refs are dependent on fixed numbers of metrics
-    refs = ['y', 'y2', 'y3', 'y4', 'y5']
+
+    n_metrics = len(np.unique(data.metric))
+    refs = ['y' + str(i) for i in range(2, n_metrics + 1)]
+    refs.insert(0, 'y')
+
     left_red = [{'type': "rect",
                  'x0': lower_bound,
                  'y0': 0,
@@ -164,12 +135,83 @@ def plot_fairness_check(fobject,
         lambda a: a.update(text=a.text.replace("metric=", ""), xanchor='left', x=0.05, font={'size': 15}))
 
     # delete y axis names [fixed] number of refs
-    for i in ['', '2', '4', '5']:
+    for i in [ref[1:] for ref in refs]:
         fig.update_layout({'yaxis' + i + '_title_text': ''})
 
-    fig.update_layout({'yaxis3_title_text': 'subgroup'})
+    middle_ref_num = refs[len(refs) // 2][1:]
+    fig.update_layout({'yaxis' + str(middle_ref_num) + '_title_text': 'subgroup'})
     fig.update_yaxes(showgrid=False, zeroline=False)
 
+    return fig
+
+
+def plot_fairness_check_clf(fobject,
+                            title=None,
+                            other_objects=None,
+                            epsilon=None,
+                            verbose=True):
+    data = utils._metric_ratios_2_df(fobject)
+    n = 1
+    if other_objects is not None:
+        basic_checks.check_other_fairness_objects(fobject, other_objects)
+        for other_obj in other_objects:
+            other_data = utils._metric_ratios_2_df(other_obj)
+            data = data.append(other_data)
+            n += 1
+
+    if epsilon is None:
+        epsilon = fobject.epsilon
+    else:
+        checks.check_epsilon(epsilon)
+
+    if any(data.score == 0):
+        nan_models = set(data.label[data.score == 0])
+        helper.verbose_cat(f'\nFound NaN\'s or 0\'s for models: {nan_models}\n'
+                           f'It is advisable to check \'metric_ratios\'', verbose=verbose)
+
+    # change name of metrics
+    data.loc[data.metric == 'TPR', 'metric'] = 'Equal opportunity ratio     TP/(TP + FN)'
+    data.loc[data.metric == 'ACC', 'metric'] = 'Accuracy equality ratio    (TP + TN)/(TP + FP + TN + FN)'
+    data.loc[data.metric == 'PPV', 'metric'] = 'Predictive parity ratio     TP/(TP + FP)'
+    data.loc[data.metric == 'FPR', 'metric'] = 'Predictive equality ratio   FP/(FP + TN)'
+    data.loc[data.metric == 'STP', 'metric'] = 'Statistical parity ratio   (TP + FP)/(TP + FP + TN + FN)'
+
+    # without privileged
+    data = data.loc[data.subgroup != fobject.privileged]
+
+    fig = plot_fairness_check(data, n, fobject.epsilon, title)
+
+    return fig
+
+
+def plot_fairness_check_reg(fobject,
+                            title=None,
+                            other_objects=None,
+                            epsilon=None,
+                            verbose=True):
+    data = fobject.result.unstack().reset_index()
+    data.columns = ['metric', 'subgroup', 'score']
+
+    if epsilon is None:
+        epsilon = fobject.epsilon
+    else:
+        checks.check_epsilon(epsilon)
+
+    data['label'] = fobject.label
+    n = 1
+
+    if other_objects is not None:
+        basic_checks.check_other_fairness_objects(fobject, other_objects)
+        for other_obj in other_objects:
+            other_data = other_obj.result.unstack().reset_index()
+            other_data.columns = ['metric', 'subgroup', 'score']
+            other_data['label'] = other_obj.label
+            data = data.append(other_data)
+            n += 1
+
+    data.score = data.score - 1
+
+    fig = plot_fairness_check(data, n, epsilon, title)
     return fig
 
 
@@ -625,5 +667,65 @@ def plot_ceteris_paribus_cutoff(fobject,
         hovertemplate="<br>".join([
             "parity loss: %{y:.3f}"
         ]))
+
+    return fig
+
+
+def plot_density(fobject,
+                 other_objects,
+                 title):
+    data = pd.DataFrame(columns=['y', 'y_hat', 'subgroup', 'model'])
+    objects = [fobject]
+    if other_objects is not None:
+        for other_obj in other_objects:
+            objects.append(other_obj)
+    for obj in objects:
+        for subgroup in np.unique(obj.protected):
+            y, y_hat = obj.y[obj.protected == subgroup], obj.y_hat[obj.protected == subgroup]
+            data_to_append = pd.DataFrame({'y': y,
+                                           'y_hat': y_hat,
+                                           'subgroup': np.repeat(subgroup, len(y)),
+                                           'model': np.repeat(obj.label, len(y))})
+            data = data.append(data_to_append)
+
+    fig = go.Figure()
+
+    counter = 0
+    for model in data.model.unique():
+        for i, sub in enumerate(data.subgroup.unique()):
+            counter += 1
+            fig.add_trace(
+                go.Violin(
+                    box_visible=True,
+                    x=data.loc[(data.subgroup == sub) & (data.model == model)].y_hat,
+                    y0=sub + model,
+                    name=sub,
+                    fillcolor=_theme.get_default_colors(len(data.subgroup.unique()), type='line')[i],
+                    opacity=0.9,
+                    line_color='black'
+                )
+            )
+
+    violins_in_model = int(counter / len(data.model.unique()))
+    starter_violins = np.arange(0, counter, violins_in_model)
+
+    fig.update_xaxes(title='prediction')
+    fig.update_yaxes(title='model', tickvals=list((starter_violins + (violins_in_model - 1) / 2)),
+                     ticktext=list(data.model.unique()))
+
+    # hide doubling entries in legend
+    legend_entries = set()
+    for trace in fig['data']:
+        legend_entries.add(trace['name'])
+
+    for trace in fig['data']:
+        if trace['name'] in legend_entries:
+            legend_entries.remove(trace['name'])
+        else:
+            trace['showlegend'] = False
+
+    if title is None:
+        title = "Density plot"
+    fig.update_layout(utils._fairness_theme(title))
 
     return fig

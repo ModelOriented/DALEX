@@ -1,11 +1,8 @@
-import numpy as np
-
 from . import checks, plot, utils
 from .._basics import checks as basic_checks
 from .._basics._base_objects import _FairnessObject
 from .._basics.exceptions import ParameterCheckError
-from ..._theme import get_default_config
-from ..._explainer import helper
+from ... import _global_checks, _theme
 
 
 class GroupFairnessClassification(_FairnessObject):
@@ -13,7 +10,7 @@ class GroupFairnessClassification(_FairnessObject):
     def __init__(self, y, y_hat, protected, privileged, label, verbose=False, cutoff=0.5, epsilon=0.8):
 
         super().__init__(y, y_hat, protected, privileged, verbose)
-
+        checks.check_classification_parameters(y, y_hat, protected, privileged, verbose)
         cutoff = checks.check_cutoff(self.protected, cutoff, verbose)
         self.cutoff = cutoff
         epsilon = checks.check_epsilon(epsilon)
@@ -56,7 +53,7 @@ class GroupFairnessClassification(_FairnessObject):
             more strict the verdict is. If the ratio of certain unprivileged
             and privileged subgroup is within the `(epsilon, 1/epsilon)` range,
             then there is no discrimination in this metric and for this subgroups
-            (default is `0.8`).
+            (default is `0.8`, which is set during object initialization).
         verbose : bool
             Shows verbose text about potential problems 
             (e.g. `NaN` in model metrics that can cause misinterpretation).
@@ -66,47 +63,13 @@ class GroupFairnessClassification(_FairnessObject):
         None (prints console output)
 
         """
-        if epsilon is None:
-            epsilon = self.epsilon
-        else:
-            epsilon = checks.check_epsilon(epsilon)
 
-        metric_ratios = self.result
-
-        subgroups = np.unique(self.protected)
-        subgroups_without_privileged = subgroups[subgroups != self.privileged]
-        metric_ratios = metric_ratios.loc[subgroups_without_privileged, utils.fairness_check_metrics()]
-
-        metrics_exceeded = ((metric_ratios > 1 / epsilon) | (epsilon > metric_ratios)).apply(sum, 0)
-
-        names_of_exceeded_metrics = list(metrics_exceeded.index[metrics_exceeded != 0])
-        if len(names_of_exceeded_metrics) >= 2:
-            print(f'Bias detected in {len(names_of_exceeded_metrics)} metrics: {", ".join(names_of_exceeded_metrics)}')
-        elif len(names_of_exceeded_metrics) == 1:
-            print(f'Bias detected in {len(names_of_exceeded_metrics)} metric: {names_of_exceeded_metrics[0]}')
-        else:
-            print("No bias was detected!")
-
-        # arbitrary decision
-        if len(names_of_exceeded_metrics) >= 2:
-            conclusion = 'is not fair because 2 or more metric scores exceeded acceptable limits set by epsilon'
-        elif len(names_of_exceeded_metrics) == 1:
-            conclusion = 'cannot be called fair because 1 metric score exceeded acceptable limits set by epsilon.\n' \
-                         'It does not mean that your model is unfair ' \
-                         'but it cannot be automatically approved based on these metrics'
-        else:
-            conclusion = 'is fair in terms of checked fairness metrics'
-
-        print(f'\nConclusion: your model {conclusion}.')
-
-        print(
-            f'\nRatios of metrics, based on \'{self.privileged}\'. Parameter \'epsilon\' was set to {epsilon}'
-            f' and therefore metrics should be within ({epsilon}, {round(1 / epsilon, 3)})')
-        print(metric_ratios.to_string())
-        if np.isnan(metric_ratios).sum().sum() > 0:
-            helper.verbose_cat(
-                '\nWarning!\nTake into consideration that NaN\'s are present, consider checking \'metric_scores\' '
-                'plot to see the difference', verbose=verbose)
+        utils.universal_fairness_check(self,
+                                       epsilon,
+                                       verbose,
+                                       num_for_not_fair=2,
+                                       num_for_no_decision=1,
+                                       metrics=utils.fairness_check_metrics())
 
     def plot(self,
              objects=None,
@@ -117,7 +80,7 @@ class GroupFairnessClassification(_FairnessObject):
         """
         Parameters
         -----------
-        objects : GroupFairnessClassification object
+        objects : array_like of GroupFairnessClassification objects
             Additional objects to plot (default is `None`).
         type : str, optional
             Type of the plot. Default is `'fairness_check'`.
@@ -208,16 +171,17 @@ class GroupFairnessClassification(_FairnessObject):
         other_objects = None
         if objects is not None:
             other_objects = []
+            if not isinstance(objects, (list, tuple)):
+                objects = [objects]
             for obj in objects:
-                if isinstance(obj, self.__class__):
-                    other_objects.append(obj)
+                _global_checks.global_check_object_class(obj, self.__class__)
+                other_objects.append(obj)
             basic_checks.check_other_fairness_objects(self, other_objects)
 
         if type == 'fairness_check':
-            fig = plot.plot_fairness_check(self,
-                                           other_objects=other_objects,
-                                           title=title,
-                                           **kwargs)
+            fig = plot.plot_fairness_check_clf(self,
+                                               other_objects=other_objects,
+                                               title=title, **kwargs)
 
         elif type == "metric_scores":
             fig = plot.plot_metric_scores(self,
@@ -249,6 +213,11 @@ class GroupFairnessClassification(_FairnessObject):
                                     other_objects=other_objects,
                                     title=title,
                                     **kwargs)
+        elif type == 'density':
+            fig = plot.plot_density(self,
+                                    other_objects=other_objects,
+                                    title=title,
+                                    **kwargs)
 
         elif type == 'ceteris_paribus_cutoff':
             fig = plot.plot_ceteris_paribus_cutoff(self,
@@ -260,6 +229,116 @@ class GroupFairnessClassification(_FairnessObject):
             raise ParameterCheckError(f"plot type {type} not supported, try other types.")
 
         if show:
-            fig.show(config=get_default_config())
+            fig.show(config=_theme.get_default_config())
+        else:
+            return fig
+
+
+class GroupFairnessRegression(_FairnessObject):
+
+    def __init__(self, y, y_hat, protected, privileged, label, epsilon=0.8, verbose=False):
+
+        super().__init__(y, y_hat, protected, privileged, verbose)
+        checks.check_epsilon(epsilon)
+
+        df_ratios = utils.calculate_regression_measures(y, y_hat, protected, privileged)
+
+        self.result = df_ratios
+        self.label = label
+        self.epsilon = epsilon
+
+    def fairness_check(self, epsilon=None, verbose=True):
+        """Check if classifier passes various fairness criteria
+
+        Fairness check is an easy way to check if the model is fair.
+        For that, this method uses 3 non-discrimination criteria.
+        The approximations are made to check the conditional independence expressed
+        in form of independence, separation and sufficiency.
+        Model is considered to be fair if all criteria are met.
+        This arbitrary decision is based on epsilon,
+        which defaults to `0.8` (it matches the four-fifths 80% rule).
+
+        Methods in use: Independence, Separation, Sufficiency.
+
+        Parameters
+        -----------
+        epsilon : float, optional
+            Parameter defines acceptable fairness scores. The closer to `1` the
+            more strict the verdict is. If the ratio of certain unprivileged
+            and privileged subgroup is within the `(epsilon, 1/epsilon)` range,
+            then there is no discrimination in this metric and for this subgroups
+            (default is `0.8`, which is set during object initialization).
+        verbose : bool
+            Shows verbose text about potential problems
+            (e.g. `NaN` in model metrics that can cause misinterpretation).
+
+        Returns
+        -----------
+        None (prints console output)
+
+        """
+
+        utils.universal_fairness_check(self,
+                                       epsilon,
+                                       verbose,
+                                       num_for_not_fair=1,
+                                       num_for_no_decision=None,
+                                       metrics=['independence', 'separation', 'sufficiency'])
+
+    def plot(self, objects=None, type='fairness_check', title=None, show=True, **kwargs):
+        """
+        Parameters
+        -----------
+        objects : array_like of GroupFairnessRegression objects
+            Additional objects to plot (default is `None`).
+        type : str, optional
+            Type of the plot. Default is `'fairness_check'`.
+            When the type of plot is specified, user may provide additional
+            keyword arguments (`**kwargs`) which will be used in creating
+            plot of certain type. Below there is list of types:
+
+            - fairness_check:
+                fairness_check plot visualizes the fairness_check method
+                for one or more GroupFairnessClassification objects.
+                It accepts following keyword arguments:
+                 'epsilon' - which denotes the decision
+                             boundary (like in `fairness_check` method)
+
+            - density:
+                density plot visualizes the output of the model for each
+                subgroup in form of violin plots with boxplots on top of them.
+                It does not accept additional keyword arguments.
+        title : str, optional
+            Title of the plot (default depends on the `type` attribute).
+
+        """
+
+        other_objects = None
+        if objects is not None:
+            other_objects = []
+            if not isinstance(objects, (list, tuple)):
+                objects = [objects]
+            for obj in objects:
+                _global_checks.global_check_object_class(obj, self.__class__)
+                other_objects.append(obj)
+            basic_checks.check_other_fairness_objects(self, other_objects)
+
+        if type == 'density':
+            fig = plot.plot_density(self,
+                                    other_objects,
+                                    title=title,
+                                    **kwargs)
+
+        elif type == 'fairness_check':
+            fig = plot.plot_fairness_check_reg(self,
+                                               other_objects=other_objects,
+                                               title=title,
+                                               **kwargs)
+
+        else:
+            raise ParameterCheckError(f"plot type {type} not supported, try other types.")
+
+        if show:
+            fig.show(config=_theme.get_default_config())
         else:
             return fig

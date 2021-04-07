@@ -4,7 +4,7 @@ from dalex.model_explanations import ModelPerformance, VariableImportance, \
     AggregatedProfiles, ResidualDiagnostics
 from dalex.predict_explanations import BreakDown, Shap, CeterisParibus
 from dalex.wrappers import ShapWrapper
-from dalex.fairness import GroupFairnessClassification
+from dalex.fairness import GroupFairnessClassification, GroupFairnessRegression
 
 from . import checks
 from . import utils
@@ -828,13 +828,17 @@ class Explainer:
                        **kwargs):
         """Creates a model-level fairness explanation that enables bias detection
 
-        This method returns a GroupFairnessClassification object that for now
-        supports only classification models. GroupFairnessClassification object
-        works as a wrapper of the protected attribute and the Explainer from which
-        `y` and `y_hat` attributes were extracted. Along with an information about
+        This method returns a GroupFairnessClassification or a GroupFairnessRegression
+        object depending of the type of predictor. They work as a wrapper of the
+        protected attribute and the Explainer from which `y` and `y_hat`
+        attributes were extracted. Along with an information about
         privileged subgroup (value in the `protected` parameter), those 3 vectors
         create triplet `(y, y_hat, protected)` which is a base for all further
         fairness calculations and visualizations.
+
+        The GroupFairnessRegression should be treated as experimental tool.
+        It was implemented according to Fairness Measures for Regression via
+        Probabilistic Classification - Steinberg et al. (2020).
 
         Parameters
         -----------
@@ -843,16 +847,17 @@ class Explainer:
             which denotes the membership to a subgroup. It doesn't have to be binary.
             It doesn't need to be in data. It is sometimes suggested not to use
             sensitive attributes in modelling, but still check model bias for them.
-            NOTE: List and pd.Series are also supported, however if provided
-            they will be transformed into a (1d) np.ndarray with dtype 'U'.
+            NOTE: List and pd.Series are also supported; however, if provided,
+            they will be transformed into a np.ndarray (1d) with dtype 'U'.
         privileged : str
             Subgroup that is suspected to have the most privilege.
             It needs to be a string present in `protected`.
         cutoff : float or dict, optional
+            Only for classification models.
             Threshold for probabilistic output of a classifier.
             It might be: a `float` - same for all subgroups from `protected`,
-            or a `dict` - individually adjusted for each subgroup
-            (must have values from `protected` as keys).
+            or a `dict` - individually adjusted for each subgroup;
+            must have values from `protected` as keys.
         epsilon : float
             Parameter defines acceptable fairness scores. The closer to `1` the
             more strict the verdict is. If the ratio of certain unprivileged
@@ -894,22 +899,31 @@ class Explainer:
         - Verma, S. & Rubin, J. (2018) https://fairware.cs.umass.edu/papers/Verma.pdf
         - Zafar, M.B., et al. (2017) https://arxiv.org/pdf/1610.08452.pdf
         - Hardt, M., et al. (2016) https://arxiv.org/pdf/1610.02413.pdf
+        - Steinberg, D., et al. (2020) https://arxiv.org/pdf/2001.06089.pdf
         """
 
-        if self.model_type != 'classification':
-            raise ValueError(
-                "fairness module for now supports only classification models."
-                "Explainer attribute 'model_type' must be 'classification'")
+        if self.model_type == 'classification':
+            fobject = GroupFairnessClassification(y=self.y,
+                                                  y_hat=self.y_hat,
+                                                  protected=protected,
+                                                  privileged=privileged,
+                                                  cutoff=cutoff,
+                                                  epsilon=epsilon,
+                                                  label=self.label,
+                                                  **kwargs)
 
-        fobject = GroupFairnessClassification(y=self.y,
+        elif self.model_type == 'regression':
+            fobject = GroupFairnessRegression(y=self.y,
                                               y_hat=self.y_hat,
                                               protected=protected,
                                               privileged=privileged,
-                                              cutoff=cutoff,
                                               epsilon=epsilon,
                                               label=self.label,
                                               **kwargs)
-        
+
+        else :
+            raise ValueError("'model_type' must be either 'classification' or 'regression'")
+
         if label:
              fobject.label = label
 
