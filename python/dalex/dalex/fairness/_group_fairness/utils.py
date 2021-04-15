@@ -380,3 +380,39 @@ def universal_fairness_check(self, epsilon, verbose, num_for_not_fair, num_for_n
         helper.verbose_cat(
             '\nWarning!\nTake into consideration that NaN\'s are present, consider checking \'metric_scores\' '
             'plot to see the difference', verbose=verbose)
+
+def get_nice_ticks(minv,maxv, max_ticks=9):
+
+    tick_range = niceNum(maxv - minv, False)
+    tickSpacing = niceNum(tick_range / (max_ticks - 1), True)
+    niceMin = np.floor(minv / tickSpacing) * tickSpacing
+    niceMax = np.ceil(maxv / tickSpacing) * tickSpacing
+    return niceMin, niceMax, tickSpacing
+
+def niceNum(tick_range, rround):
+
+    exponent = np.floor(np.log10(tick_range));
+    fraction = tick_range / np.power(10, exponent);
+
+    if (rround):
+        if (fraction < 1.5):
+            niceFraction = 1
+        elif (fraction < 3):
+            niceFraction = 2
+        elif (fraction < 7):
+            niceFraction = 5;
+        else:
+            niceFraction = 10;
+    else :
+        if (fraction <= 1):
+            niceFraction = 1
+        elif (fraction <= 2):
+            niceFraction = 2
+        elif (fraction <= 5):
+            niceFraction = 5
+        else:
+            niceFraction = 10
+
+    return niceFraction * np.power(10, exponent)
+
+
