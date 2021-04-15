@@ -720,7 +720,8 @@ def plot_density(fobject,
                     fillcolor=_theme.get_default_colors(len(data.subgroup.unique()), type='line')[i],
                     opacity=0.9,
                     line_color='black',
-                    hovertemplate ='<i>prediction</i>: $%{y:.2f}'
+                    hoveron='points'
+
                 )
             )
 
@@ -745,6 +746,6 @@ def plot_density(fobject,
     if title is None:
         title = "Density plot"
     fig.update_layout(utils._fairness_theme(title))
-    fig.update_layout(hovermode='x unified')
+    fig.update_traces(hovertemplate="outlier prediction: %{x:.3f}")
 
     return fig
