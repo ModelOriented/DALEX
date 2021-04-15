@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 
 from . import checks
-from ..._explainer import helper
 from ... import _global_checks
+from ..._explainer import helper
 from ...model_explanations._model_performance import utils
 
 
@@ -381,38 +381,36 @@ def universal_fairness_check(self, epsilon, verbose, num_for_not_fair, num_for_n
             '\nWarning!\nTake into consideration that NaN\'s are present, consider checking \'metric_scores\' '
             'plot to see the difference', verbose=verbose)
 
-def get_nice_ticks(minv,maxv, max_ticks=9):
 
-    tick_range = niceNum(maxv - minv, False)
-    tickSpacing = niceNum(tick_range / (max_ticks - 1), True)
-    niceMin = np.floor(minv / tickSpacing) * tickSpacing
-    niceMax = np.ceil(maxv / tickSpacing) * tickSpacing
-    return niceMin, niceMax, tickSpacing
+def get_nice_ticks(min_value, max_value, max_ticks=9):
+    tick_range = readable_number(max_value - min_value, False)
+    tick_spacing = readable_number(tick_range / (max_ticks - 1), True)
+    readable_minimum = np.floor(min_value / tick_spacing) * tick_spacing
+    readable_maximum = np.ceil(max_value / tick_spacing) * tick_spacing
+    return readable_minimum, readable_maximum, tick_spacing
 
-def niceNum(tick_range, rround):
 
-    exponent = np.floor(np.log10(tick_range));
-    fraction = tick_range / np.power(10, exponent);
+def readable_number(tick_range, round_number):
+    exponent = np.floor(np.log10(tick_range))
+    fraction = tick_range / np.power(10, exponent)
 
-    if (rround):
-        if (fraction < 1.5):
-            niceFraction = 1
-        elif (fraction < 3):
-            niceFraction = 2
-        elif (fraction < 7):
-            niceFraction = 5;
+    if round_number:
+        if fraction < 1.5:
+            readable_tick = 1
+        elif fraction < 3:
+            readable_tick = 2
+        elif fraction < 7:
+            readable_tick = 5
         else:
-            niceFraction = 10;
-    else :
-        if (fraction <= 1):
-            niceFraction = 1
-        elif (fraction <= 2):
-            niceFraction = 2
-        elif (fraction <= 5):
-            niceFraction = 5
+            readable_tick = 10
+    else:
+        if fraction <= 1:
+            readable_tick = 1
+        elif fraction <= 2:
+            readable_tick = 2
+        elif fraction <= 5:
+            readable_tick = 5
         else:
-            niceFraction = 10
+            readable_tick = 10
 
-    return niceFraction * np.power(10, exponent)
-
-
+    return readable_tick * np.power(10, exponent)
