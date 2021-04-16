@@ -9,6 +9,8 @@ development
 
 #### fixes
 
+* `fairness_check` type plot generates ticks according to the x-axis range ([#409](https://github.com/ModelOriented/DALEX/issues/409))
+* `density` type plot in fairness in regression has different, more readable hoover - only for outliers ([#409](https://github.com/ModelOriented/DALEX/issues/409))
 * `BreakDown.plot()` wrongly displayed the "+all factors" bar when `max_vars < p` ([#401](https://github.com/ModelOriented/DALEX/issues/401))
 * `metric_scores` type plot in `GroupFairnessClassification` did not handle `NaN`'s ([#399](https://github.com/ModelOriented/DALEX/issues/399))
 

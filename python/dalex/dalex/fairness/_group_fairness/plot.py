@@ -13,13 +13,11 @@ from ..._explainer import helper
 
 
 def plot_fairness_check(data, n_models, epsilon, title):
-    upper_bound = max([max(data.score[np.invert(np.isnan(data.score.to_numpy()))]), 1 / epsilon - 1]) + 0.1
-    lower_bound = min([min(data.score[np.invert(np.isnan(data.score.to_numpy()))]), epsilon - 1]) - 0.1
-    lower_bound = round(lower_bound, 1)
+    upper_bound = max([max(data.score[np.invert(np.isnan(data.score.to_numpy()))]), 1 / epsilon - 1])
+    upper_bound = upper_bound * 1.05
+    lower_bound = min([min(data.score[np.invert(np.isnan(data.score.to_numpy()))]), epsilon - 1])
+    lower_bound = lower_bound * 1.1
     upper_bound = round(upper_bound, 1)
-
-    # including upper bound
-    ticks = np.arange(lower_bound, upper_bound + 0.001, step=0.1).round(1)
 
     # drwhy colors
     colors = _theme.get_default_colors(n_models, 'line')
@@ -61,8 +59,27 @@ def plot_fairness_check(data, n_models, epsilon, title):
         ]))
 
     # change axes range and labs
-    fig.update_xaxes(tickvals=ticks,
-                     ticktext=(ticks + 1).round(1),
+    # including upper bound
+    # if upper_bound < 1:
+    #     # tick are calculated by backend data
+    #     if upper_bound < 0.4 and lower_bound > -0.4:
+    #         ticks = np.arange(lower_bound, upper_bound + 0.001, step=0.1).round(1)
+    #     else:
+    #         ticks = np.arange(lower_bound, upper_bound + 0.001, step=0.2).round(1)
+    #
+    #     ticks = np.append(ticks, 0)
+    #     fig.update_xaxes(tickvals=ticks,
+    #                      ticktext=(ticks + 1).round(1),
+    #                      range=[lower_bound, upper_bound])
+    #
+    # else:
+    # ticks are calculated by appearance
+    min_value, max_value, spacing = utils.get_nice_ticks(lower_bound+1, upper_bound+1)
+
+    ticks = np.arange(min_value, max_value, step=spacing).round(1)
+    ticks = np.append(ticks, 1)
+    fig.update_xaxes(tickvals=ticks-1,
+                     ticktext=ticks,
                      range=[lower_bound, upper_bound])
 
     fig.update_yaxes(tickvals=list(subgroup_tick_dict.values()),
@@ -702,7 +719,9 @@ def plot_density(fobject,
                     name=sub,
                     fillcolor=_theme.get_default_colors(len(data.subgroup.unique()), type='line')[i],
                     opacity=0.9,
-                    line_color='black'
+                    line_color='black',
+                    hoveron='points'
+
                 )
             )
 
@@ -727,5 +746,6 @@ def plot_density(fobject,
     if title is None:
         title = "Density plot"
     fig.update_layout(utils._fairness_theme(title))
+    fig.update_traces(hovertemplate="outlier prediction: %{x:.3f}")
 
     return fig
