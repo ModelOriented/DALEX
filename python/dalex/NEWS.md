@@ -1,5 +1,12 @@
 ## Changelog
 
+development
+----------------------------------------------------------------
+
+#### fixes
+
+* fixed wrong error value when no `predict_function` is found in `Explainer` ([77ca90d](https://github.com/ModelOriented/DALEX/commit/77ca90d))
+
 v1.1.0 (18/04/2021)
 ----------------------------------------------------------------
 
