@@ -186,8 +186,7 @@ def check_predict_function_and_model_type(predict_function, model_type,
         model_info_['predict_function_default'] = True
 
         if not predict_function:
-            raise ValueError("  -> predict function  : 'predict_function' not provided and cannot be extracted.",
-                             verbose=verbose)
+            raise ValueError("  -> predict function  : 'predict_function' not provided and cannot be extracted.")
 
         verbose_cat("  -> predict function  : " + str(predict_function) + " will be used (default)", verbose=verbose)
     else:
