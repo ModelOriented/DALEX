@@ -65,7 +65,7 @@ def calculate_variable_profile(predict_function,
             split_points = variable_splits[variable]
             profile.append(single_variable_profile(predict_function, model, data, variable, split_points))
     else:
-        pool = mp.Pool(processes)
+        pool = mp.get_context('spawn').Pool(processes)
 
         profile = pool.starmap_async(single_variable_profile, [(predict_function, model, data, variable, split_points)
                                                                for variable, split_points in
