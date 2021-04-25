@@ -32,7 +32,7 @@ def shap(explainer,
         # Create number generator for each iteration
         ss = SeedSequence(random_state)
         generators = [default_rng(s) for s in ss.spawn(B)]
-        pool = mp.Pool(processes)
+        pool = mp.get_context('spawn').Pool(processes)
         result_list = pool.starmap_async(iterate_paths,
                                          [(explainer.predict_function, explainer.model, explainer.data,
                                            explainer.label, new_observation, p, b + 1, generators[b]) for b in range(B)]).get()
