@@ -1,5 +1,34 @@
 ## Changelog
 
+development
+----------------------------------------------------------------
+
+#### fixes
+
+* fixed wrong error value when no `predict_function` is found in `Explainer` ([77ca90d](https://github.com/ModelOriented/DALEX/commit/77ca90d))
+* set multiprocessing context to 'spawn'
+
+v1.1.0 (18/04/2021)
+----------------------------------------------------------------
+
+#### breaking changes
+
+* fixed concurrent random seeds when `processes > 1` ([#392](https://github.com/ModelOriented/DALEX/issues/392)), which means that the results of parallel computation will vary between `v1.1.0` and previous versions
+
+#### fixes
+
+* `GroupFairnessX.plot(type='fairness_check')` generates ticks according to the x-axis range ([#409](https://github.com/ModelOriented/DALEX/issues/409))
+* `GroupFainressRegression.plot(type='density')` has a more readable hover - only for outliers ([#409](https://github.com/ModelOriented/DALEX/issues/409))
+* `BreakDown.plot()` wrongly displayed the "+all factors" bar when `max_vars < p` ([#401](https://github.com/ModelOriented/DALEX/issues/401))
+* `GroupFairnessClassification.plot(type='metric_scores')` did not handle `NaN`'s ([#399](https://github.com/ModelOriented/DALEX/issues/399))
+
+#### features 
+
+* Experimental support for regression models in the `fairness` module. Added `GroupFairnessRegression` object, with the `plot` method having two types: `fairness_check` and `density`. `Explainer.model_fairness` method now depends on the `model_type` attribute. ([#391](https://github.com/ModelOriented/DALEX/issues/391))
+* added `N` parameter to the `predict_parts` method which is `None` by default ([#402](https://github.com/ModelOriented/DALEX/issues/402))
+* `epsilon` is now an argument of the `GroupFairnessClassification` object ([#397](https://github.com/ModelOriented/DALEX/issues/397))
+
+
 v1.0.1 (19/02/2021)
 ----------------------------------------------------------------
 
@@ -19,7 +48,7 @@ v1.0.0 (29/12/2020)
 
 These are summed up in ([#368](https://github.com/ModelOriented/DALEX/issues/368)):
 
-* rename modules: `dataset_level` into `model_exlpanations`, `instance_level` into `predict_explanations`, `_arena` module into `arena` 
+* rename modules: `dataset_level` into `model_explanations`, `instance_level` into `predict_explanations`, `_arena` module into `arena` 
 * use `__dir__` method to define autocompletion in IPython environment - show only `['Explainer', 'Arena', 'fairness', 'datasets']`
 * add `plot` method and `result` attribute to `LimeExplanation` (use `lime.explanation.Explanation.as_pyplot_figure()` and `lime.explanation.Explanation.as_list()`)
 * `CeterisParibus.plot(variable_type='categorical')` now has horizontal barplots - `horizontal_spacing=None` by default (varies on `variable_type`). Also, once again added the "dot" for observation value.
@@ -94,7 +123,7 @@ v0.3.0 (26/10/2020)
 #### features
 
 * added `model_fairness` method to the `Explainer`, which performs fairness explanation
-* added `GroupFairnessClassification` object, with the `plot` method having two types `fairness_check` and `metric_scores`
+* added `GroupFairnessClassification` object, with the `plot` method having two types: `fairness_check` and `metric_scores`
 
 #### defaults
 

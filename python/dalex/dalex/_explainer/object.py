@@ -4,7 +4,7 @@ from dalex.model_explanations import ModelPerformance, VariableImportance, \
     AggregatedProfiles, ResidualDiagnostics
 from dalex.predict_explanations import BreakDown, Shap, CeterisParibus
 from dalex.wrappers import ShapWrapper
-from dalex.fairness import GroupFairnessClassification
+from dalex.fairness import GroupFairnessClassification, GroupFairnessRegression
 
 from . import checks
 from . import utils
@@ -214,6 +214,7 @@ class Explainer:
                       order=None,
                       interaction_preference=1,
                       path="average",
+                      N=None,
                       B=25,
                       keep_distributions=False,
                       label=None,
@@ -240,6 +241,9 @@ class Explainer:
             Parameter specific for `shap`. If specified, then attributions for this path
             will be plotted (default is `'average'`, which plots attribution means for
             `B` random paths).
+        N : int, optional
+            Number of observations that will be sampled from the `data` attribute before
+            the calculation of variable attributions. Default is `None` which means all `data`.
         B : int, optional
             Parameter specific for `shap`. Number of random paths to calculate
             variable attributions (default is `25`).
@@ -281,6 +285,17 @@ class Explainer:
         types = ('break_down_interactions', 'break_down', 'shap', 'shap_wrapper')
         _type = checks.check_method_type(type, types)
 
+        if isinstance(N, int):
+            # temporarly overwrite data in the Explainer (fastest way)
+            # at the end of predict_parts fix the Explainer (add original data)
+            if isinstance(random_state, int):
+                np.random.seed(random_state)
+            N = min(N, self.data.shape[0])
+            I = np.random.choice(np.arange(N), N, replace=False)
+            from copy import deepcopy
+            _data = deepcopy(self.data)
+            self.data = self.data.iloc[I, :]
+
         if _type == 'break_down_interactions' or _type == 'break_down':
             _predict_parts = BreakDown(
                 type=_type,
@@ -306,6 +321,9 @@ class Explainer:
         
         if label:
             _predict_parts.result['label'] = label
+
+        if isinstance(N, int):
+            self.data = _data
 
         return _predict_parts
 
@@ -574,15 +592,16 @@ class Explainer:
         elif _type == 'shap_wrapper':
             _global_checks.global_check_import('shap', 'SHAP explanations')
             _model_parts = ShapWrapper('model_parts')
-            if N is None:
-                N = self.data.shape[0]
-            else:
+            if isinstance(N, int):
+                if isinstance(random_state, int):
+                    np.random.seed(random_state)
                 N = min(N, self.data.shape[0])
+                I = np.random.choice(np.arange(N), N, replace=False)
+                _new_observation = self.data.iloc[I, :]
+            else:
+                _new_observation = self.data
 
-            sampled_rows = np.random.choice(np.arange(N), N, replace=False)
-            sampled_data = self.data.iloc[sampled_rows, :]
-
-            _model_parts.fit(self, sampled_data, **kwargs)
+            _model_parts.fit(self, _new_observation, **kwargs)
         else:
             raise TypeError("Wrong type parameter");
 
@@ -666,23 +685,26 @@ class Explainer:
         aliases = {'pdp': 'partial', 'ale': 'accumulated'}
         _type = checks.check_method_type(type, types, aliases)
 
-        if N is None:
-            N = self.data.shape[0]
-        else:
+        _ceteris_paribus = CeterisParibus(
+            grid_points=grid_points,
+            variables=variables,
+            variable_splits=variable_splits,
+            variable_splits_type=variable_splits_type,
+            processes=processes
+        )
+
+        if isinstance(N, int):
+            if isinstance(random_state, int):
+                np.random.seed(random_state)
             N = min(N, self.data.shape[0])
+            I = np.random.choice(np.arange(N), N, replace=False)
+            _y = self.y[I] if self.y is not None else self.y
+            _new_observation = self.data.iloc[I, :]
+        else:
+            _y = self.y
+            _new_observation = self.data
 
-        if random_state is not None:
-            np.random.seed(random_state)
-
-        I = np.random.choice(np.arange(N), N, replace=False)
-
-        _ceteris_paribus = CeterisParibus(grid_points=grid_points,
-                                         variables=variables,
-                                         variable_splits=variable_splits,
-                                         variable_splits_type=variable_splits_type,
-                                         processes=processes)
-        _y = self.y[I] if self.y is not None else self.y
-        _ceteris_paribus.fit(self, self.data.iloc[I, :], y=_y, verbose=verbose)
+        _ceteris_paribus.fit(self, _new_observation, _y, verbose=verbose)
 
         _model_profile = AggregatedProfiles(
             type=_type,
@@ -801,17 +823,22 @@ class Explainer:
                        protected,
                        privileged,
                        cutoff=0.5,
+                       epsilon=0.8,
                        label=None,
                        **kwargs):
         """Creates a model-level fairness explanation that enables bias detection
 
-        This method returns a GroupFairnessClassification object that for now
-        supports only classification models. GroupFairnessClassification object
-        works as a wrapper of the protected attribute and the Explainer from which
-        `y` and `y_hat` attributes were extracted. Along with an information about
+        This method returns a GroupFairnessClassification or a GroupFairnessRegression
+        object depending of the type of predictor. They work as a wrapper of the
+        protected attribute and the Explainer from which `y` and `y_hat`
+        attributes were extracted. Along with an information about
         privileged subgroup (value in the `protected` parameter), those 3 vectors
         create triplet `(y, y_hat, protected)` which is a base for all further
         fairness calculations and visualizations.
+
+        The GroupFairnessRegression should be treated as experimental tool.
+        It was implemented according to Fairness Measures for Regression via
+        Probabilistic Classification - Steinberg et al. (2020).
 
         Parameters
         -----------
@@ -820,16 +847,23 @@ class Explainer:
             which denotes the membership to a subgroup. It doesn't have to be binary.
             It doesn't need to be in data. It is sometimes suggested not to use
             sensitive attributes in modelling, but still check model bias for them.
-            NOTE: List and pd.Series are also supported, however if provided
-            they will be transformed into a (1d) np.ndarray with dtype 'U'.
+            NOTE: List and pd.Series are also supported; however, if provided,
+            they will be transformed into a np.ndarray (1d) with dtype 'U'.
         privileged : str
             Subgroup that is suspected to have the most privilege.
             It needs to be a string present in `protected`.
         cutoff : float or dict, optional
+            Only for classification models.
             Threshold for probabilistic output of a classifier.
             It might be: a `float` - same for all subgroups from `protected`,
-            or a `dict` - individually adjusted for each subgroup
-            (must have values from `protected` as keys).
+            or a `dict` - individually adjusted for each subgroup;
+            must have values from `protected` as keys.
+        epsilon : float
+            Parameter defines acceptable fairness scores. The closer to `1` the
+            more strict the verdict is. If the ratio of certain unprivileged
+            and privileged subgroup is within the `(epsilon, 1/epsilon)` range,
+            then there is no discrimination in this metric and for this subgroups
+            (default is `0.8`).
         label : str, optional
             Name to appear in result and plots. Overrides default.
         kwargs : dict
@@ -865,21 +899,31 @@ class Explainer:
         - Verma, S. & Rubin, J. (2018) https://fairware.cs.umass.edu/papers/Verma.pdf
         - Zafar, M.B., et al. (2017) https://arxiv.org/pdf/1610.08452.pdf
         - Hardt, M., et al. (2016) https://arxiv.org/pdf/1610.02413.pdf
+        - Steinberg, D., et al. (2020) https://arxiv.org/pdf/2001.06089.pdf
         """
 
-        if self.model_type != 'classification':
-            raise ValueError(
-                "fairness module for now supports only classification models."
-                "Explainer attribute 'model_type' must be 'classification'")
+        if self.model_type == 'classification':
+            fobject = GroupFairnessClassification(y=self.y,
+                                                  y_hat=self.y_hat,
+                                                  protected=protected,
+                                                  privileged=privileged,
+                                                  cutoff=cutoff,
+                                                  epsilon=epsilon,
+                                                  label=self.label,
+                                                  **kwargs)
 
-        fobject = GroupFairnessClassification(y=self.y,
+        elif self.model_type == 'regression':
+            fobject = GroupFairnessRegression(y=self.y,
                                               y_hat=self.y_hat,
                                               protected=protected,
                                               privileged=privileged,
-                                              cutoff=cutoff,
+                                              epsilon=epsilon,
                                               label=self.label,
                                               **kwargs)
-        
+
+        else :
+            raise ValueError("'model_type' must be either 'classification' or 'regression'")
+
         if label:
              fobject.label = label
 

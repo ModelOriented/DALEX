@@ -83,9 +83,15 @@ class PredictPartsTestTitanic(unittest.TestCase):
 
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='break_down', path=[3, 0, 1, 2, 4, 5, 6]),
                               dx.predict_explanations.BreakDown)
-
+        
+        _row_count = self.exp.data.shape[0]
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='break_down', B=1),
                               dx.predict_explanations.BreakDown)
+        self.assertEqual(_row_count, self.exp.data.shape[0])
+        _row_count = self.exp.data.shape[0]
+        self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='break_down', N=100),
+                              dx.predict_explanations.BreakDown)
+        self.assertEqual(_row_count, self.exp.data.shape[0])
 
         self.assertTrue(hasattr(self.exp.predict_parts(self.X.iloc[[0]], type='break_down', keep_distributions=True),
                                 'yhats_distributions'))
@@ -145,9 +151,15 @@ class PredictPartsTestTitanic(unittest.TestCase):
             self.exp.predict_parts(self.X.iloc[[0]], type='break_down_interactions', path=[3, 0, 1, 2, 4, 5, 6]),
             dx.predict_explanations.BreakDown)
 
+        _row_count = self.exp.data.shape[0]
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='break_down_interactions', B=1),
                               dx.predict_explanations.BreakDown)
-
+        self.assertEqual(_row_count, self.exp.data.shape[0])
+        _row_count = self.exp.data.shape[0]
+        self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='break_down_interactions', N=100),
+                              dx.predict_explanations.BreakDown)
+        self.assertEqual(_row_count, self.exp.data.shape[0])
+        
         self.assertTrue(
             hasattr(self.exp.predict_parts(self.X.iloc[[0]], type='break_down_interactions', keep_distributions=True),
                     'yhats_distributions'))
@@ -195,7 +207,12 @@ class PredictPartsTestTitanic(unittest.TestCase):
         self.assertTrue((tmp.loc[tmp.B == 0, 'variable_name'].values == [
             'embarked', 'gender', 'age', 'class', 'fare', 'sibsp', 'parch']).all())
 
+        _row_count = self.exp.data.shape[0]
         self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='shap', B=1), dx.predict_explanations.Shap)
+        self.assertEqual(_row_count, self.exp.data.shape[0])
+        _row_count = self.exp.data.shape[0]
+        self.assertIsInstance(self.exp.predict_parts(self.X.iloc[[0]], type='shap', N=100), dx.predict_explanations.Shap)
+        self.assertEqual(_row_count, self.exp.data.shape[0])
 
         self.assertTrue(hasattr(self.exp.predict_parts(self.X.iloc[[0]], type='shap', keep_distributions=True),
                                 'yhats_distributions'))
@@ -215,7 +232,7 @@ class PredictPartsTestTitanic(unittest.TestCase):
     def test_plot(self):
         case1 = self.exp.predict_parts(self.X.iloc[0, :])
         case2 = self.exp2.predict_parts(self.X.iloc[1, :])
-        case3 = self.exp.predict_parts(self.X.iloc[2, :], type="shap")
+        case3 = self.exp.predict_parts(self.X.iloc[2, :], B=10, N=100, type="shap")
 
         self.assertIsInstance(case1, dx.predict_explanations.BreakDown)
         self.assertIsInstance(case2, dx.predict_explanations.BreakDown)

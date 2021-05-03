@@ -12,7 +12,13 @@
 \alias{variable_attribution}
 \title{Instance Level Parts of the Model Predictions}
 \usage{
-predict_parts(explainer, new_observation, ..., type = "break_down")
+predict_parts(
+  explainer,
+  new_observation,
+  ...,
+  N = if (substr(type, 1, 4) == "osci") 500 else NULL,
+  type = "break_down"
+)
 
 predict_parts_oscillations(explainer, new_observation, ...)
 
@@ -28,7 +34,6 @@ predict_parts_oscillations_emp(
   new_observation,
   variable_splits = NULL,
   variables = colnames(explainer$data),
-  N = 500,
   ...
 )
 
@@ -38,7 +43,13 @@ predict_parts_break_down_interactions(explainer, new_observation, ...)
 
 predict_parts_shap(explainer, new_observation, ...)
 
-variable_attribution(explainer, new_observation, ..., type = "break_down")
+variable_attribution(
+  explainer,
+  new_observation,
+  ...,
+  N = if (substr(type, 1, 4) == "osci") 500 else NULL,
+  type = "break_down"
+)
 }
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the \code{explain} function}
@@ -46,6 +57,8 @@ variable_attribution(explainer, new_observation, ..., type = "break_down")
 \item{new_observation}{a new observation for which predictions need to be explained}
 
 \item{...}{other parameters that will be passed to \code{iBreakDown::break_down}}
+
+\item{N}{the maximum number of observations used for calculation of attributions. By default NULL (use all) or 500 (for oscillations).}
 
 \item{type}{the type of variable attributions. Either \code{shap}, \code{oscillations}, \code{oscillations_uni},
 \code{oscillations_emp}, \code{break_down} or \code{break_down_interactions}.}
@@ -55,8 +68,6 @@ variable_attribution(explainer, new_observation, ..., type = "break_down")
 \item{variable_splits}{named list of splits for variables. It is used by oscillations based measures. Will be passed to \code{\link[ingredients]{ceteris_paribus}}.}
 
 \item{variables}{names of variables for which splits shall be calculated. Will be passed to \code{\link[ingredients]{ceteris_paribus}}.}
-
-\item{N}{number of observations used for calculation of oscillations. By default 500.}
 }
 \value{
 Depending on the \code{type} there are different classes of the resulting object.

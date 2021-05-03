@@ -4,52 +4,23 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-from . import utils 
+from . import checks
+from . import utils
 from .._basics import checks as basic_checks
 from .._basics.exceptions import ParameterCheckError
-from ..._explainer import helper
 from ... import _theme
+from ..._explainer import helper
 
 
-def plot_fairness_check(fobject,
-                        title=None,
-                        other_objects=None,
-                        epsilon=0.8,
-                        verbose=True):
-    data = utils._metric_ratios_2_df(fobject)
-    n = 1
-    if other_objects is not None:
-        basic_checks.check_other_fairness_objects(fobject, other_objects)
-        for other_obj in other_objects:
-            other_data = utils._metric_ratios_2_df(other_obj)
-            data = data.append(other_data)
-            n += 1
-
-    if any(data.score == 0):
-        nan_models = set(data.label[data.score == 0])
-        helper.verbose_cat(f'\nFound NaN\'s or 0\'s for models: {nan_models}\n'
-                    f'It is advisable to check \'metric_ratios\'', verbose=verbose)
-
-    upper_bound = max([max(data.score[np.invert(np.isnan(data.score.to_numpy()))]), 1 / epsilon - 1]) + 0.1
-    lower_bound = min([min(data.score[np.invert(np.isnan(data.score.to_numpy()))]), epsilon - 1]) - 0.1
-    lower_bound = round(lower_bound, 1)
+def plot_fairness_check(data, n_models, epsilon, title):
+    upper_bound = max([max(data.score[np.invert(np.isnan(data.score.to_numpy()))]), 1 / epsilon - 1])
+    upper_bound = upper_bound * 1.05
+    lower_bound = min([min(data.score[np.invert(np.isnan(data.score.to_numpy()))]), epsilon - 1])
+    lower_bound = lower_bound * 1.1
     upper_bound = round(upper_bound, 1)
 
-    # including upper bound
-    ticks = np.arange(lower_bound, upper_bound + 0.001, step=0.1).round(1)
-
     # drwhy colors
-    colors = _theme.get_default_colors(n, 'line')
-
-    # change name of metrics
-    data.loc[data.metric == 'TPR', 'metric'] = 'Equal opportunity ratio     TP/(TP + FN)'
-    data.loc[data.metric == 'ACC', 'metric'] = 'Accuracy equality ratio    (TP + TN)/(TP + FP + TN + FN)'
-    data.loc[data.metric == 'PPV', 'metric'] = 'Predictive parity ratio     TP/(TP + FP)'
-    data.loc[data.metric == 'FPR', 'metric'] = 'Predictive equality ratio   FP/(FP + TN)'
-    data.loc[data.metric == 'STP', 'metric'] = 'Statistical parity ratio   (TP + FP)/(TP + FP + TN + FN)'
-
-    # without privileged
-    data = data.loc[data.subgroup != fobject.privileged]
+    colors = _theme.get_default_colors(n_models, 'line')
 
     # subgroup y-axis value creation
     n_ticks = len(data.subgroup.unique())
@@ -88,18 +59,39 @@ def plot_fairness_check(fobject,
         ]))
 
     # change axes range and labs
-    fig.update_xaxes(tickvals=ticks,
-                     ticktext=(ticks + 1).round(1),
+    # including upper bound
+    # if upper_bound < 1:
+    #     # tick are calculated by backend data
+    #     if upper_bound < 0.4 and lower_bound > -0.4:
+    #         ticks = np.arange(lower_bound, upper_bound + 0.001, step=0.1).round(1)
+    #     else:
+    #         ticks = np.arange(lower_bound, upper_bound + 0.001, step=0.2).round(1)
+    #
+    #     ticks = np.append(ticks, 0)
+    #     fig.update_xaxes(tickvals=ticks,
+    #                      ticktext=(ticks + 1).round(1),
+    #                      range=[lower_bound, upper_bound])
+    #
+    # else:
+    # ticks are calculated by appearance
+    min_value, max_value, spacing = utils.get_nice_ticks(lower_bound+1, upper_bound+1)
+
+    ticks = np.arange(min_value, max_value, step=spacing).round(1)
+    ticks = np.append(ticks, 1)
+    fig.update_xaxes(tickvals=ticks-1,
+                     ticktext=ticks,
                      range=[lower_bound, upper_bound])
 
     fig.update_yaxes(tickvals=list(subgroup_tick_dict.values()),
                      ticktext=list(subgroup_tick_dict.keys()),
-                     range=[0,1])
-
-
+                     range=[0, 1])
 
     # refs are dependent on fixed numbers of metrics
-    refs = ['y', 'y2', 'y3', 'y4', 'y5']
+
+    n_metrics = len(np.unique(data.metric))
+    refs = ['y' + str(i) for i in range(2, n_metrics + 1)]
+    refs.insert(0, 'y')
+
     left_red = [{'type': "rect",
                  'x0': lower_bound,
                  'y0': 0,
@@ -160,18 +152,90 @@ def plot_fairness_check(fobject,
         lambda a: a.update(text=a.text.replace("metric=", ""), xanchor='left', x=0.05, font={'size': 15}))
 
     # delete y axis names [fixed] number of refs
-    for i in ['', '2', '4', '5']:
+    for i in [ref[1:] for ref in refs]:
         fig.update_layout({'yaxis' + i + '_title_text': ''})
 
-    fig.update_layout({'yaxis3_title_text': 'subgroup'})
+    middle_ref_num = refs[len(refs) // 2][1:]
+    fig.update_layout({'yaxis' + str(middle_ref_num) + '_title_text': 'subgroup'})
     fig.update_yaxes(showgrid=False, zeroline=False)
 
     return fig
 
 
+def plot_fairness_check_clf(fobject,
+                            title=None,
+                            other_objects=None,
+                            epsilon=None,
+                            verbose=True):
+    data = utils._metric_ratios_2_df(fobject)
+    n = 1
+    if other_objects is not None:
+        basic_checks.check_other_fairness_objects(fobject, other_objects)
+        for other_obj in other_objects:
+            other_data = utils._metric_ratios_2_df(other_obj)
+            data = data.append(other_data)
+            n += 1
+
+    if epsilon is None:
+        epsilon = fobject.epsilon
+    else:
+        checks.check_epsilon(epsilon)
+
+    if any(data.score == 0):
+        nan_models = set(data.label[data.score == 0])
+        helper.verbose_cat(f'\nFound NaN\'s or 0\'s for models: {nan_models}\n'
+                           f'It is advisable to check \'metric_ratios\'', verbose=verbose)
+
+    # change name of metrics
+    data.loc[data.metric == 'TPR', 'metric'] = 'Equal opportunity ratio     TP/(TP + FN)'
+    data.loc[data.metric == 'ACC', 'metric'] = 'Accuracy equality ratio    (TP + TN)/(TP + FP + TN + FN)'
+    data.loc[data.metric == 'PPV', 'metric'] = 'Predictive parity ratio     TP/(TP + FP)'
+    data.loc[data.metric == 'FPR', 'metric'] = 'Predictive equality ratio   FP/(FP + TN)'
+    data.loc[data.metric == 'STP', 'metric'] = 'Statistical parity ratio   (TP + FP)/(TP + FP + TN + FN)'
+
+    # without privileged
+    data = data.loc[data.subgroup != fobject.privileged]
+
+    fig = plot_fairness_check(data, n, fobject.epsilon, title)
+
+    return fig
+
+
+def plot_fairness_check_reg(fobject,
+                            title=None,
+                            other_objects=None,
+                            epsilon=None,
+                            verbose=True):
+    data = fobject.result.unstack().reset_index()
+    data.columns = ['metric', 'subgroup', 'score']
+
+    if epsilon is None:
+        epsilon = fobject.epsilon
+    else:
+        checks.check_epsilon(epsilon)
+
+    data['label'] = fobject.label
+    n = 1
+
+    if other_objects is not None:
+        basic_checks.check_other_fairness_objects(fobject, other_objects)
+        for other_obj in other_objects:
+            other_data = other_obj.result.unstack().reset_index()
+            other_data.columns = ['metric', 'subgroup', 'score']
+            other_data['label'] = other_obj.label
+            data = data.append(other_data)
+            n += 1
+
+    data.score = data.score - 1
+
+    fig = plot_fairness_check(data, n, epsilon, title)
+    return fig
+
+
 def plot_metric_scores(fobject,
                        other_objects,
-                       title=None):
+                       title=None,
+                       verbose=True):
     data = fobject._subgroup_confusion_matrix_metrics_object.to_vertical_DataFrame()
     data['label'] = np.repeat(fobject.label, data.shape[0]).astype('U')
     n = 1
@@ -259,22 +323,34 @@ def plot_metric_scores(fobject,
         refs_dict[metric] = refs[len(refs) - j]
         j += 1
     # add lines
+    lines_nan = False
+
     for metric in data.metric.unique():
         for label in data.label.unique():
             x = float(privileged_data.loc[(privileged_data.metric == metric) &
                                           (privileged_data.label == label), :].score)
+            if np.isnan(x):
+                lines_nan = True
+                continue
             # lines
             for subgroup in data.subgroup.unique():
                 y = float(data.loc[(data.metric == metric) &
                                    (data.label == label) &
                                    (data.subgroup == subgroup)].subgroup_numeric)
                 # horizontal
+
+                x0 = float(data.loc[(data.metric == metric) &
+                                    (data.label == label) &
+                                    (data.subgroup == subgroup)].score)
+
+                if np.isnan(x0):
+                    lines_nan = True
+                    continue
+
                 fig.add_shape(type='line',
                               xref='x',
                               yref=refs_dict.get(metric),
-                              x0=float(data.loc[(data.metric == metric) &
-                                                (data.label == label) &
-                                                (data.subgroup == subgroup)].score),
+                              x0=x0,
                               x1=x,
                               y0=y,
                               y1=y,
@@ -317,7 +393,8 @@ def plot_metric_scores(fobject,
 
     # centers axis values
     fig.update_yaxes(tickvals=list(subgroup_tick_dict_updated.values()),
-                     ticktext=list(subgroup_tick_dict_updated.keys()))
+                     ticktext=list(subgroup_tick_dict_updated.keys()),
+                     range=[0, 1])
 
     # delete y axis names [fixed] number of refs
     for i in ['', '2', '4', '5']:
@@ -328,6 +405,15 @@ def plot_metric_scores(fobject,
     # fixes rare bug where axis are in center and blank fields on left and right
     fig.update_xaxes(range=[min_score - 0.05, max_score + 0.05])
     fig.update_yaxes(showgrid=False, zeroline=False)
+
+    # inform about nan's
+    if lines_nan:
+        data_joined = pd.concat([privileged_data, data])
+        nan_labels = set(data_joined.label[np.isnan(data_joined.score)])
+
+        helper.verbose_cat(f'\nFound NaN\'s while plotting metric_scores in models : {nan_labels}\n'
+                           f'It is advisable to check \'metric_scores\' attribute of the GroupFairnessClassification',
+                           verbose=verbose)
 
     return fig
 
@@ -433,7 +519,8 @@ def plot_performance_and_fairness(fobject,
 
     if other_objects:
         for i, obj in enumerate(other_objects):
-            performance_data.loc[i + 1] = [obj.label, utils._classification_performance(obj, verbose, performance_metric)]
+            performance_data.loc[i + 1] = [obj.label,
+                                           utils._classification_performance(obj, verbose, performance_metric)]
 
     data = data.merge(performance_data, on='label')
 
@@ -540,9 +627,9 @@ def plot_ceteris_paribus_cutoff(fobject,
         for i in range(1, grid_points):
             cutoff[subgroup] = i / grid_points
             sub_confusion_matrix = utils.SubgroupConfusionMatrix(y_true=y,
-                                                           y_pred=y_hat,
-                                                           protected=protected,
-                                                           cutoff=cutoff)
+                                                                 y_pred=y_hat,
+                                                                 protected=protected,
+                                                                 cutoff=cutoff)
 
             sub_confusion_matrix_metrics = utils.SubgroupConfusionMatrixMetrics(sub_confusion_matrix)
             parity_loss = utils.calculate_parity_loss(sub_confusion_matrix_metrics, privileged)
@@ -556,7 +643,7 @@ def plot_ceteris_paribus_cutoff(fobject,
         # Find minimum where NA is not present
         pivoted_data = data.pivot(index='cutoff', columns='metric', values='score')
         summed_metrics = pivoted_data.to_numpy().sum(axis=1)
-        min_index = np.where(summed_metrics == min(summed_metrics))[0][0] # get first minimal index
+        min_index = np.where(summed_metrics == min(summed_metrics))[0][0]  # get first minimal index
         min_cutoff = data.cutoff.unique()[min_index]
 
         # make figure from individual parts
@@ -597,5 +684,68 @@ def plot_ceteris_paribus_cutoff(fobject,
         hovertemplate="<br>".join([
             "parity loss: %{y:.3f}"
         ]))
+
+    return fig
+
+
+def plot_density(fobject,
+                 other_objects,
+                 title):
+    data = pd.DataFrame(columns=['y', 'y_hat', 'subgroup', 'model'])
+    objects = [fobject]
+    if other_objects is not None:
+        for other_obj in other_objects:
+            objects.append(other_obj)
+    for obj in objects:
+        for subgroup in np.unique(obj.protected):
+            y, y_hat = obj.y[obj.protected == subgroup], obj.y_hat[obj.protected == subgroup]
+            data_to_append = pd.DataFrame({'y': y,
+                                           'y_hat': y_hat,
+                                           'subgroup': np.repeat(subgroup, len(y)),
+                                           'model': np.repeat(obj.label, len(y))})
+            data = data.append(data_to_append)
+
+    fig = go.Figure()
+
+    counter = 0
+    for model in data.model.unique():
+        for i, sub in enumerate(data.subgroup.unique()):
+            counter += 1
+            fig.add_trace(
+                go.Violin(
+                    box_visible=True,
+                    x=data.loc[(data.subgroup == sub) & (data.model == model)].y_hat,
+                    y0=sub + model,
+                    name=sub,
+                    fillcolor=_theme.get_default_colors(len(data.subgroup.unique()), type='line')[i],
+                    opacity=0.9,
+                    line_color='black',
+                    hoveron='points'
+
+                )
+            )
+
+    violins_in_model = int(counter / len(data.model.unique()))
+    starter_violins = np.arange(0, counter, violins_in_model)
+
+    fig.update_xaxes(title='prediction')
+    fig.update_yaxes(title='model', tickvals=list((starter_violins + (violins_in_model - 1) / 2)),
+                     ticktext=list(data.model.unique()))
+
+    # hide doubling entries in legend
+    legend_entries = set()
+    for trace in fig['data']:
+        legend_entries.add(trace['name'])
+
+    for trace in fig['data']:
+        if trace['name'] in legend_entries:
+            legend_entries.remove(trace['name'])
+        else:
+            trace['showlegend'] = False
+
+    if title is None:
+        title = "Density plot"
+    fig.update_layout(utils._fairness_theme(title))
+    fig.update_traces(hovertemplate="outlier prediction: %{x:.3f}")
 
     return fig

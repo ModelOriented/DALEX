@@ -1,6 +1,7 @@
 import numpy as np
-from ..._explainer import helper
+
 from .._basics.exceptions import ParameterCheckError
+from ..._explainer import helper
 
 
 def check_cutoff(protected, cutoff, verbose):
@@ -43,6 +44,16 @@ def check_cutoff(protected, cutoff, verbose):
     return cutoff
 
 
+def check_classification_parameters(y, y_hat, protected, privileged, verbose):
+    if list(np.unique(y)) != [0, 1]:
+        raise ParameterCheckError("model must predict binary target")
+
+    if not 0 <= y_hat.all() <= 1:
+        raise ParameterCheckError("y_hat must have probabilistic output between 0 and 1")
+
+    return
+
+
 def check_epsilon(epsilon):
     if not isinstance(epsilon, float):
         raise ParameterCheckError("epsilon must be float")
@@ -51,4 +62,3 @@ def check_epsilon(epsilon):
         raise ParameterCheckError("epsilon must be in (0,1) range")
 
     return epsilon
-
