@@ -11,7 +11,7 @@ class ShapleyValuesContainer(PlotContainer):
     options_category = 'ShapleyValues'
     options = {}
     def _fit(self, model, observation):
-        resource = self.arena.resource_manager.get_resource('ShapleyValues', {'model': model, 'observation': observation})
+        resource = self.arena.resource_manager.get_resource('ShapleyValues', {'model': model, 'observation': observation}, cache=self.use_cache)
         try:
             data, progress, is_done = resource.get_result()
             if data.get('stats') is None:

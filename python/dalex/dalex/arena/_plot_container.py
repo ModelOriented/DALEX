@@ -3,7 +3,7 @@ from .params import ModelParam, DatasetParam, VariableParam, ObservationParam
 
 
 class PlotContainer(OptionBase):
-    def __init__(self, arena):
+    def __init__(self, arena, cache=True):
         super().__init__(arena)
         info = self.__class__.info
         self.name = info.get('name')
@@ -14,6 +14,8 @@ class PlotContainer(OptionBase):
         self.data = {}
         self.is_done = None
         self.progress = -1
+        # If plot class is allowed to use cache when requesting resources
+        self.use_cache = cache
     def fit(self, params):
         required_params = {}
         for p in self.__class__.info.get('requiredParams'):

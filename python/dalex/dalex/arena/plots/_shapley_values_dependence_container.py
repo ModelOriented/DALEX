@@ -19,7 +19,7 @@ class ShapleyValuesDependenceContainer(PlotContainer):
             self.plot_component = 'LinearShapleyDependence'
         else:
             self.plot_component = 'CategoricalShapleyDependence'
-        resource = self.arena.resource_manager.get_resource('DatasetShapleyValues', {'model': model})
+        resource = self.arena.resource_manager.get_resource('DatasetShapleyValues', {'model': model}, cache=self.use_cache)
         try:
             data, progress, is_done = resource.get_result()
             if data.get('result') is None:

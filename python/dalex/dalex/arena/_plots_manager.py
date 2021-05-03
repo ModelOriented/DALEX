@@ -157,10 +157,10 @@ class PlotsManager:
             required_params_labels[p] = params_values.get(p).get_label()
         result = self.find_in_cache(plot_type, required_params_labels) if cache else None
         if result is None:
-            result = plot_class(self.arena).fit(required_params_values)
+            result = plot_class(self.arena, cache=cache).fit(required_params_values)
             while wait and result.is_done == False:
                 time.sleep(0.5)
-                result = plot_class(self.arena).fit(required_params_values)
+                result = plot_class(self.arena, cache=cache).fit(required_params_values)
             if cache and result.is_done != False:
                 self.put_to_cache(result)
         return result

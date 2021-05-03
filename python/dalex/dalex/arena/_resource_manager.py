@@ -105,4 +105,8 @@ class ResourceManager:
             result = resource_class(self.arena).fit(required_params_values)
             if cache:
                 self.put_to_cache(result)
+            else:
+                # while is_done is False
+                while not result.get_result()[2]:
+                    result.wait_for_update()
         return result
