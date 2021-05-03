@@ -3,7 +3,25 @@ from . import resources
 
 
 class ResourceManager:
-    """
+    """Creates ResourceManager object
+
+    This class should be only created by arena instance to manage its resources.
+
+    Parameters
+    ----------
+    arena : dalex.Arena
+        Instance of Arena.
+
+    Attributes
+    --------
+    arena : Arena
+        Instance of dalex.Arena
+    cache : list of Resource objects
+        List of already requested resources (both calculated and in progress)
+    mutex : _thread.lock
+        Mutex for params, plots and resources cache. Should be common with mutex from Arena instance.
+    resources : list of classes extending PlotContainer
+        List of available resource classes
     """
     def __init__(self, arena):
         if type(arena).__name__ != 'Arena' or type(arena).__module__ != 'dalex.arena.object':

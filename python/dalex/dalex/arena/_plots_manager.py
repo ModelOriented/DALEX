@@ -20,9 +20,9 @@ class PlotsManager:
     cache : list of PlotContainer objects
         List of already calculated plots
     mutex : _thread.lock
-        Mutex for params, plots and resources cache. Copied from Arena instance.
+        Mutex for params, plots and resources cache. Should be common with mutex from Arena instance.
     plots : list of classes extending PlotContainer
-        List of enabled plots
+        List of available plot classes
     """
     def __init__(self, arena):
         if type(arena).__name__ != 'Arena' or type(arena).__module__ != 'dalex.arena.object':
