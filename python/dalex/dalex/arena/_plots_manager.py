@@ -1,5 +1,6 @@
 import time
 from . import plots
+from tqdm import tqdm
 from ._plot_container import PlotContainer
 
 
@@ -121,6 +122,9 @@ class PlotsManager:
             combinations = [[]]
             for pool in iteration_pools:
                 combinations = [x + [y] for x in combinations for y in pool]
+            if self.arena.verbose and len(combinations) > 0:
+                combinations = tqdm(combinations)
+                combinations.set_description(plot_class.info.get('name'))
             for params_values in combinations:
                 params = dict(zip(required_params, params_values))
                 self.get_plot(plot_type=plot_class.info.get('plotType'), params_values=params, wait=True)

@@ -31,6 +31,8 @@ class Arena:
     enable_custom_params : bool
         Enables modififying observations in dashboard. It requires attributes and works
         only in live version.
+    verbose : bool
+        Enables printing progresss of computations
 
     Attributes
     --------
@@ -60,13 +62,15 @@ class Arena:
         Object responsible for managing resources
     plots_manager: PlotsManager
         Object responsible for managing plots
+    verbose : bool
+        If progress of computations should be displayed
 
     Notes
     --------
     For tutorial look at https://arena.drwhy.ai/docs/guide/first-datasource
 
     """
-    def __init__(self, precalculate=False, enable_attributes=True, enable_custom_params=True):
+    def __init__(self, precalculate=False, enable_attributes=True, enable_custom_params=True, verbose=True):
         self.mutex = threading.Lock()
         self.models = []
         self.observations = []
@@ -78,6 +82,7 @@ class Arena:
         self.precalculate = bool(precalculate)
         self.enable_attributes = bool(enable_attributes)
         self.enable_custom_params = bool(enable_custom_params)
+        self.verbose = bool(verbose)
         self.timestamp = datetime.timestamp(datetime.now())
         self.options = {}
         for x in (self.plots_manager.plots + self.resource_manager.resources):
