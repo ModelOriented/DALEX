@@ -8,7 +8,7 @@ class DatasetShapleyValuesResource(Resource):
     required_params = ["model"]
     options_category = 'DatasetShapleyValues'
     options = {
-        'B': {'default': 5, 'desc': 'Number of random paths'},
+        'B': {'default': 4, 'desc': 'Number of random paths'},
         'N': {'default': 500, 'desc': 'Number of randomly sampled rows from dataset'},
         'cpus': {'default': 4, 'desc': 'Number of parallel processes'}
     }
