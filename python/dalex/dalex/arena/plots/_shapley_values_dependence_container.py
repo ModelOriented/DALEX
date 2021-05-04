@@ -33,10 +33,11 @@ class ShapleyValuesDependenceContainer(PlotContainer):
         result = data.get('result')
         result = result[result['variable_name'] == variable.variable]
         stats = result.groupby(['variable_value', 'row']).agg({'contribution': ['mean', 'min', 'max']}).contribution
-        if is_numeric and variable.levels is not None:
+        if self.plot_component == 'LinearShapleyDependence':
             stats = stats.sort_index()
+        transform_index = float if self.plot_component == 'LinearShapleyDependence' else str
         self.data = {
-            'x': [str(x[0]) for x in stats.index],
+            'x': [transform_index(x[0]) for x in stats.index],
             'mean': stats['mean'].values.tolist(),
             'min': stats['min'].values.tolist(),
             'max': stats['max'].values.tolist(),
