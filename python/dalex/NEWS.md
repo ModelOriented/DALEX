@@ -7,6 +7,7 @@ development
 
 * fixed wrong error value when no `predict_function` is found in `Explainer` ([77ca90d](https://github.com/ModelOriented/DALEX/commit/77ca90d))
 * set multiprocessing context to 'spawn'
+* fixed bug in `metric_scores` plot that made only one subgroup appear on y-axis ([#416](https://github.com/ModelOriented/DALEX/issues/416)) 
 
 v1.1.0 (18/04/2021)
 ----------------------------------------------------------------
