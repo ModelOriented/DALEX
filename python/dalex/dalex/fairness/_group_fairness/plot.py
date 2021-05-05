@@ -394,7 +394,7 @@ def plot_metric_scores(fobject,
     # centers axis values
     fig.update_yaxes(tickvals=list(subgroup_tick_dict_updated.values()),
                      ticktext=list(subgroup_tick_dict_updated.keys()),
-                     range=[0, 1])
+                     range=[-1/20 * len(subgroup_tick_dict), len(subgroup_tick_dict) + 1/20 * len(subgroup_tick_dict)])
 
     # delete y axis names [fixed] number of refs
     for i in ['', '2', '4', '5']:
