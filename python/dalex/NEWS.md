@@ -3,10 +3,19 @@
 development
 ----------------------------------------------------------------
 
+#### breaking changes
+
+* method `set_options` in Arena now takies `option_category` instead of `plot_type` (`SHAPValues` => `ShapleyValues`, `FeatureImportance` => `VariableImportance`)
+
 #### fixes
 
 * fixed wrong error value when no `predict_function` is found in `Explainer` ([77ca90d](https://github.com/ModelOriented/DALEX/commit/77ca90d))
 * set multiprocessing context to 'spawn'
+
+#### features
+
+* add resource mechanism to Arena
+* add ShapleyValuesImportance and ShapleyValuesDependence charts to Arena
 
 v1.1.0 (18/04/2021)
 ----------------------------------------------------------------
