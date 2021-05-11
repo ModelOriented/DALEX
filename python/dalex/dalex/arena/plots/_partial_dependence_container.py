@@ -8,6 +8,7 @@ class PartialDependenceContainer(PlotContainer):
         'plotCategory': 'Dataset Level',
         'requiredParams': ['model', 'variable']
     }
+    options_category = 'PartialDependence'
     options = {
         'grid_type': { 'default': 'quantile', 'desc': 'grid type "quantile" or "uniform"'},
         'grid_points': { 'default': 101, 'desc': 'Maximum number of points for profile' },
@@ -22,9 +23,9 @@ class PartialDependenceContainer(PlotContainer):
                 type='partial',
                 variables=variable.variable,
                 variable_type='numerical',
-                grid_points=self.arena.get_option(self.plot_type, 'grid_points'),
-                variable_splits_type=self.arena.get_option(self.plot_type, 'grid_type'),
-                N=self.arena.get_option(self.plot_type, 'N'),
+                grid_points=self.get_option('grid_points'),
+                variable_splits_type=self.get_option('grid_type'),
+                N=self.get_option('N'),
                 verbose=False
             )
         else:
@@ -33,7 +34,7 @@ class PartialDependenceContainer(PlotContainer):
                 type='partial',
                 variables=variable.variable,
                 variable_type='categorical',
-                N=self.arena.get_option(self.plot_type, 'N'),
+                N=self.get_option('N'),
                 verbose=False
             )
         self.data = {

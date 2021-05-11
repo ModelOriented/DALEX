@@ -7,6 +7,8 @@ from ._ceteris_paribus_container import CeterisParibusContainer
 from ._metrics_container import MetricsContainer
 from ._roc_container import ROCContainer
 from ._fairness_check_container import FairnessCheckContainer
+from ._shapley_values_dependence_container import ShapleyValuesDependenceContainer
+from ._shapley_values_variable_importance_container import ShapleyValuesVariableImportanceContainer
 
 __all__ = [
     'ShapleyValuesContainer',
@@ -17,5 +19,7 @@ __all__ = [
     'BreakDownContainer',
     'MetricsContainer',
     'ROCContainer',
-    'FairnessCheckContainer'
+    'FairnessCheckContainer',
+    'ShapleyValuesDependenceContainer',
+    'ShapleyValuesVariableImportanceContainer'
 ]

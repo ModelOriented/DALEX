@@ -8,6 +8,7 @@ class CeterisParibusContainer(PlotContainer):
         'plotCategory': 'Observation Level',
         'requiredParams': ['model', 'variable', 'observation']
     }
+    options_category = 'CeterisParibus'
     options = {
         'grid_points': { 'default': 101, 'desc': 'Maximum number of points for profile' },
         'grid_type': { 'default': 'quantile', 'desc': 'grid type "quantile" or "uniform"'}
@@ -22,8 +23,8 @@ class CeterisParibusContainer(PlotContainer):
         cp = model.explainer.predict_profile(
             row,
             variables=variable.variable,
-            grid_points=self.arena.get_option(self.plot_type, 'grid_points'),
-            variable_splits_type=self.arena.get_option(self.plot_type, 'grid_type'),
+            grid_points=self.get_option('grid_points'),
+            variable_splits_type=self.get_option('grid_type'),
             variable_splits_with_obs=False,
             verbose=False
         )

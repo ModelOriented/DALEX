@@ -80,7 +80,7 @@ def start_server(arena, host, port, disable_logs):
             abort(403)
             return
         try:
-            result = arena.get_plot(plot_type, params, cache=not custom_params)
+            result = arena.plots_manager.get_plot(plot_type, params, cache=not custom_params)
             return Response(json.dumps(result.serialize(), default=convert), content_type='application/json')
         except Exception as e:
             abort(404)

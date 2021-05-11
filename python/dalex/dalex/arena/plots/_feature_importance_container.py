@@ -7,14 +7,15 @@ class FeatureImportanceContainer(PlotContainer):
         'plotCategory': "Dataset Level",
         'requiredParams': ["model"]
     }
+    options_category = 'VariableImportance'
     options = {
         'N': { 'default': None, 'desc': 'Number of observations to use. None for all.' },
         'B': { 'default': 10, 'desc': 'Number of permutation rounds to perform each variable' }
     }
     def _fit(self, model):
         fi = model.explainer.model_parts(
-            N=self.arena.get_option(self.plot_type, 'N'),
-            B=self.arena.get_option(self.plot_type, 'B')
+            N=self.get_option('N'),
+            B=self.get_option('B')
         ).permutation
         def q1(x):
             return x.quantile(0.25)
