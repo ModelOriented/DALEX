@@ -56,7 +56,7 @@
 <meta property="og:description" content="This function performs local diagnostic of residuals.
 For a single instance its neighbors are identified in the validation data.
 Residuals are calculated for neighbors and plotted against residuals for all data.
-Find information how to use this function here: http://ema.drwhy.ai/localDiagnostics.html." />
+Find information how to use this function here: https://ema.drwhy.ai/localDiagnostics.html." />
 <meta property="og:image" content="/logo.png" />
 
 <meta name="robots" content="noindex" />
@@ -162,7 +162,7 @@ Find information how to use this function here: http://ema.drwhy.ai/localDiagnos
     <p>This function performs local diagnostic of residuals.
 For a single instance its neighbors are identified in the validation data.
 Residuals are calculated for neighbors and plotted against residuals for all data.
-Find information how to use this function here: <a href='http://ema.drwhy.ai/localDiagnostics.html'>http://ema.drwhy.ai/localDiagnostics.html</a>.</p>
+Find information how to use this function here: <a href='https://ema.drwhy.ai/localDiagnostics.html'>https://ema.drwhy.ai/localDiagnostics.html</a>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>predict_diagnostics</span><span class='op'>(</span>
@@ -224,7 +224,7 @@ Find information how to use this function here: <a href='http://ema.drwhy.ai/loc
 It's a data frame with calculated distribution of residuals.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. <a href='http://ema.drwhy.ai/'>http://ema.drwhy.ai/</a></p>
+    <p>Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. <a href='https://ema.drwhy.ai/'>https://ema.drwhy.ai/</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/imbs-hl/ranger'>"ranger"</a></span><span class='op'>)</span>
@@ -234,16 +234,16 @@ It's a data frame with calculated distribution of residuals.</p>
                          data <span class='op'>=</span> <span class='va'>titanic_imputed</span>,
                          y <span class='op'>=</span> <span class='va'>titanic_imputed</span><span class='op'>$</span><span class='va'>survived</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  ranger  ( <span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; model label       :  ranger  ( <span style='color: #BBBB00;'> default </span> )
 #&gt;   -&gt; data              :  2207  rows  8  cols 
 #&gt;   -&gt; target variable   :  2207  values 
-#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  No value for predict function target column. ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( <span style='color: #BBBB00;'> default </span> )
+#&gt;   -&gt; predicted values  :  No value for predict function target column. ( <span style='color: #BBBB00;'> default </span> )
+#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task regression ( <span style='color: #BBBB00;'> default </span> ) 
 #&gt;   -&gt; predicted values  :  numerical, min =  0.005624571 , mean =  0.3221549 , max =  0.9970937  
-#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; residual function :  difference between y and yhat ( <span style='color: #BBBB00;'> default </span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.7944499 , mean =  1.880322e-06 , max =  0.8768101  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='va'>johny_d</span> <span class='op'>&lt;-</span> <span class='va'>titanic_imputed</span><span class='op'>[</span><span class='fl'>24</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"gender"</span>, <span class='st'>"age"</span>, <span class='st'>"class"</span>, <span class='st'>"fare"</span>, <span class='st'>"sibsp"</span>, <span class='st'>"parch"</span><span class='op'>)</span><span class='op'>]</span>
+#&gt;  <span style='color: #00BB00;'> A new explainer has been created! </span> </div><div class='input'><span class='va'>johny_d</span> <span class='op'>&lt;-</span> <span class='va'>titanic_imputed</span><span class='op'>[</span><span class='fl'>24</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"gender"</span>, <span class='st'>"age"</span>, <span class='st'>"class"</span>, <span class='st'>"fare"</span>, <span class='st'>"sibsp"</span>, <span class='st'>"parch"</span><span class='op'>)</span><span class='op'>]</span>
 
 <span class='co'># \donttest{</span>
 <span class='va'>id_johny</span> <span class='op'>&lt;-</span> <span class='fu'>predict_diagnostics</span><span class='op'>(</span><span class='va'>explainer_glm</span>, <span class='va'>johny_d</span>, variables <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
@@ -301,7 +301,7 @@ It's a data frame with calculated distribution of residuals.</p>
 #&gt; 24 female   2   1st 151.16     1     2 0.4534189  ranger     1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>id_johny</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>'variable_type' changed to 'categorical' due to lack of numerical variables.</span></div><div class='output co'>#&gt; <span class='message'>'variable_type' changed to 'categorical' due to lack of numerical variables.</span></div><div class='img'><img src='predict_diagnostics-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
 
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

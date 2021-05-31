@@ -55,7 +55,7 @@
 <meta property="og:title" content="Dataset Level Model Diagnostics — model_diagnostics" />
 <meta property="og:description" content="This function performs model diagnostic of residuals.
 Residuals are calculated and plotted against predictions, true y values or selected variables.
-Find information how to use this function here: http://ema.drwhy.ai/residualDiagnostic.html." />
+Find information how to use this function here: https://ema.drwhy.ai/residualDiagnostic.html." />
 <meta property="og:image" content="/logo.png" />
 
 <meta name="robots" content="noindex" />
@@ -160,7 +160,7 @@ Find information how to use this function here: http://ema.drwhy.ai/residualDiag
     <div class="ref-description">
     <p>This function performs model diagnostic of residuals.
 Residuals are calculated and plotted against predictions, true y values or selected variables.
-Find information how to use this function here: <a href='http://ema.drwhy.ai/residualDiagnostic.html'>http://ema.drwhy.ai/residualDiagnostic.html</a>.</p>
+Find information how to use this function here: <a href='https://ema.drwhy.ai/residualDiagnostic.html'>https://ema.drwhy.ai/residualDiagnostic.html</a>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>model_diagnostics</span><span class='op'>(</span><span class='va'>explainer</span>, variables <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
@@ -188,7 +188,7 @@ Find information how to use this function here: <a href='http://ema.drwhy.ai/res
 It's a data frame with residuals and selected variables.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. <a href='http://ema.drwhy.ai/'>http://ema.drwhy.ai/</a></p>
+    <p>Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. <a href='https://ema.drwhy.ai/'>https://ema.drwhy.ai/</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dalex.drwhy.ai'>DALEX</a></span><span class='op'>)</span>
@@ -197,16 +197,16 @@ It's a data frame with residuals and selected variables.</p>
                          data <span class='op'>=</span> <span class='va'>apartments</span>,
                          y <span class='op'>=</span> <span class='va'>apartments</span><span class='op'>$</span><span class='va'>m2.price</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span> )
 #&gt;   -&gt; data              :  1000  rows  6  cols 
 #&gt;   -&gt; target variable   :  1000  values 
-#&gt;   -&gt; predict function  :  yhat.lm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  No value for predict function target column. ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.5 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; predict function  :  yhat.lm  will be used ( <span style='color: #BBBB00;'> default </span> )
+#&gt;   -&gt; predicted values  :  No value for predict function target column. ( <span style='color: #BBBB00;'> default </span> )
+#&gt;   -&gt; model_info        :  package stats , ver. 4.1.0 , task regression ( <span style='color: #BBBB00;'> default </span> ) 
 #&gt;   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  
-#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; residual function :  difference between y and yhat ( <span style='color: #BBBB00;'> default </span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -247.4728 , mean =  2.093656e-14 , max =  469.0023  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='va'>diag_lm</span> <span class='op'>&lt;-</span> <span class='fu'>model_diagnostics</span><span class='op'>(</span><span class='va'>explainer_lm</span><span class='op'>)</span>
+#&gt;  <span style='color: #00BB00;'> A new explainer has been created! </span> </div><div class='input'><span class='va'>diag_lm</span> <span class='op'>&lt;-</span> <span class='fu'>model_diagnostics</span><span class='op'>(</span><span class='va'>explainer_lm</span><span class='op'>)</span>
 <span class='va'>diag_lm</span>
 </div><div class='output co'>#&gt;     m2.price    construction.year    surface           floor       
 #&gt;  Min.   :1607   Min.   :1920      Min.   : 20.00   Min.   : 1.000  
@@ -239,16 +239,16 @@ It's a data frame with residuals and selected variables.</p>
                          data <span class='op'>=</span> <span class='va'>apartments</span>,
                          y <span class='op'>=</span> <span class='va'>apartments</span><span class='op'>$</span><span class='va'>m2.price</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; model label       :  ranger  ( <span style='color: #BBBB00;'> default </span> )
 #&gt;   -&gt; data              :  1000  rows  6  cols 
 #&gt;   -&gt; target variable   :  1000  values 
-#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  No value for predict function target column. ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( <span style='color: #BBBB00;'> default </span> )
+#&gt;   -&gt; predicted values  :  No value for predict function target column. ( <span style='color: #BBBB00;'> default </span> )
+#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task regression ( <span style='color: #BBBB00;'> default </span> ) 
 #&gt;   -&gt; predicted values  :  numerical, min =  1866.01 , mean =  3489.519 , max =  6175.203  
-#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; residual function :  difference between y and yhat ( <span style='color: #BBBB00;'> default </span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -400.8909 , mean =  -2.500362 , max =  600.1436  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='va'>diag_ranger</span> <span class='op'>&lt;-</span> <span class='fu'>model_diagnostics</span><span class='op'>(</span><span class='va'>explainer_ranger</span><span class='op'>)</span>
+#&gt;  <span style='color: #00BB00;'> A new explainer has been created! </span> </div><div class='input'><span class='va'>diag_ranger</span> <span class='op'>&lt;-</span> <span class='fu'>model_diagnostics</span><span class='op'>(</span><span class='va'>explainer_ranger</span><span class='op'>)</span>
 <span class='va'>diag_ranger</span>
 </div><div class='output co'>#&gt;     m2.price    construction.year    surface           floor       
 #&gt;  Min.   :1607   Min.   :1920      Min.   : 20.00   Min.   : 1.000  
@@ -281,7 +281,7 @@ It's a data frame with residuals and selected variables.</p>
 </div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'</span></div><div class='img'><img src='model_diagnostics-6.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>diag_ranger</span>, variable <span class='op'>=</span> <span class='st'>"y"</span>, yvariable <span class='op'>=</span> <span class='st'>"abs_residuals"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'</span></div><div class='img'><img src='model_diagnostics-7.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>diag_ranger</span>, variable <span class='op'>=</span> <span class='st'>"ids"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'</span></div><div class='img'><img src='model_diagnostics-8.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
