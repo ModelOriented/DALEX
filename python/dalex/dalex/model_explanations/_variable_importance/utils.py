@@ -62,7 +62,7 @@ def loss_after_permutation(data, y, model, predict, loss_function, variables, N,
     # loss on the full model or when outcomes are permuted
     loss_full = loss_function(observed, predict(model, sampled_data))
 
-    sampled_rows2 = rng.choice(range(observed.shape[0]), observed.shape[0], False)
+    sampled_rows2 = rng.choice(range(observed.shape[0]), observed.shape[0], replace=False)
     loss_baseline = loss_function(observed[sampled_rows2], predict(model, sampled_data))
 
     loss_features = {}

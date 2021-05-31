@@ -19,7 +19,7 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
         data.loc[:, 'survived'] = LabelEncoder().fit_transform(data.survived)
 
         self.X = data.drop(columns='survived')
-        self.y = data.survived
+        self.y = data.survived.values
 
         numeric_features = ['age', 'fare', 'sibsp', 'parch']
         numeric_transformer = Pipeline(steps=[
