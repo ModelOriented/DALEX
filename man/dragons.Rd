@@ -12,8 +12,8 @@ a data frame with 2000 rows and 8 columns
 data(dragons)
 }
 \description{
-Datasets \code{dragons} and \code{dragons_test} are artificial, generated form the same ground truth model, 
-but with sometimes different data distridution.
+Datasets \code{dragons} and \code{dragons_test} are artificial, generated form the same ground truth model,
+but with sometimes different data distribution.
 }
 \details{
 Values are generated in a way to:

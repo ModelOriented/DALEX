@@ -2,7 +2,7 @@
 #'
 #' From DALEX version 1.0 this function calls the \code{\link[ingredients]{accumulated_dependence}} or
 #' \code{\link[ingredients]{partial_dependence}} from the \code{ingredients} package.
-#' Find information how to use this function here: \url{http://ema.drwhy.ai/partialDependenceProfiles.html}.
+#' Find information how to use this function here: \url{https://ema.drwhy.ai/partialDependenceProfiles.html}.
 #'
 #' @param explainer a model to be explained, preprocessed by the 'explain' function
 #' @param variables character - names of variables to be explained
@@ -13,7 +13,7 @@
 #' @return An object of the class 'aggregated_profiles_explainer'.
 #' It's a data frame with calculated average response.
 #'
-#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{http://ema.drwhy.ai/}
+#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://ema.drwhy.ai/}
 #' @export
 #'
 #' @examples

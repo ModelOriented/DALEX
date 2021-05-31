@@ -3,7 +3,7 @@
 #' This function performs local diagnostic of residuals.
 #' For a single instance its neighbors are identified in the validation data.
 #' Residuals are calculated for neighbors and plotted against residuals for all data.
-#' Find information how to use this function here: \url{http://ema.drwhy.ai/localDiagnostics.html}.
+#' Find information how to use this function here: \url{https://ema.drwhy.ai/localDiagnostics.html}.
 #'
 #' @param explainer a model to be explained, preprocessed by the 'explain' function
 #' @param new_observation a new observation for which predictions need to be explained
@@ -16,7 +16,7 @@
 #' @return An object of the class 'predict_diagnostics'.
 #' It's a data frame with calculated distribution of residuals.
 #'
-#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{http://ema.drwhy.ai/}
+#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://ema.drwhy.ai/}
 #' @export
 #' @importFrom stats ks.test
 #' @importFrom graphics plot

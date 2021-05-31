@@ -40,7 +40,7 @@
 #' \item \code{model_info} named list contating basic information about model, like package, version of package and type.
 #' }
 #'
-#' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{http://ema.drwhy.ai/}
+#' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://ema.drwhy.ai/}
 #' @rdname explain
 #' @export
 #' @importFrom stats predict

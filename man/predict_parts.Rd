@@ -79,9 +79,9 @@ Model prediction is decomposed into parts that are attributed for particular var
 From DALEX version 1.0 this function calls the \code{\link[iBreakDown]{break_down}} or
 \code{\link[iBreakDown:break_down_uncertainty]{shap}} functions from the \code{iBreakDown} package or
 \code{\link[ingredients:ceteris_paribus]{ceteris_paribus}} from the \code{ingredients} package.
-Find information how to use the \code{break_down} method here: \url{http://ema.drwhy.ai/breakDown.html}.
-Find information how to use the \code{shap} method here: \url{http://ema.drwhy.ai/shapley.html}.
-Find information how to use the \code{oscillations} method here: \url{http://ema.drwhy.ai/ceterisParibusOscillations.html}.
+Find information how to use the \code{break_down} method here: \url{https://ema.drwhy.ai/breakDown.html}.
+Find information how to use the \code{shap} method here: \url{https://ema.drwhy.ai/shapley.html}.
+Find information how to use the \code{oscillations} method here: \url{https://ema.drwhy.ai/ceterisParibusOscillations.html}.
 }
 \examples{
 library(DALEX)
@@ -125,5 +125,5 @@ plot(bd_ranger)
 
 }
 \references{
-Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{http://ema.drwhy.ai/}
+Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://ema.drwhy.ai/}
 }
