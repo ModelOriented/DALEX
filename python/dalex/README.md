@@ -35,17 +35,15 @@ pip install dalex -U
 
 ## Authors
 
-Main authors of the `dalex` package are:
+The authors of the `dalex` package are:
 
 * [Hubert Baniecki](https://github.com/hbaniecki)
 * [Wojciech Kretowicz](https://github.com/wojciechkretowicz)
-
-Under the supervision of [Przemyslaw Biecek](https://github.com/pbiecek).
-
-Other contributors:
-
 * [Piotr Piatyszek](https://github.com/piotrpiatyszek) maintains the `arena` module
 * [Jakub Wisnewski](https://github.com/jakwisn) maintains the `fairness` module
+* [Przemyslaw Biecek](https://github.com/pbiecek)
+
+We welcome contributions: [start by opening an issue on GitHub](https://github.com/ModelOriented/DALEX/issues/new).
 
 ## Citation
 
