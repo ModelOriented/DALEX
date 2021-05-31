@@ -52,13 +52,13 @@ def calculate_variable_importance(explainer,
 def loss_after_permutation(data, y, model, predict, loss_function, variables, N, rng):
     if isinstance(N, int):
         N = min(N, data.shape[0])
-        sampled_rows = rng.choice(np.arange(N), N, replace=False)
+        sampled_rows = rng.choice(np.arange(data.shape[0]), N, replace=False)
         sampled_data = data.iloc[sampled_rows, :]
         observed = y[sampled_rows]
     else:
         sampled_data = data
         observed = y
-
+    
     # loss on the full model or when outcomes are permuted
     loss_full = loss_function(observed, predict(model, sampled_data))
 

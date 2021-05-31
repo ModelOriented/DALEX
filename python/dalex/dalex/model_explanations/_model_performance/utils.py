@@ -24,6 +24,8 @@ def r2(y_pred, y_true):
 
 def auc(y_pred, y_true):
     df = pd.DataFrame({'y_pred': y_pred, 'y_true': y_true})
+    if df.y_true.nunique() == 1:
+        raise ValueError("Only one class present in y_true. ROC AUC score is not defined in that case.")
     df = df.sort_values('y_pred', ascending=False)
 
     # assumes that y = 0/1 where 1 is the positive label
