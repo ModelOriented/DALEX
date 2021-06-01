@@ -352,6 +352,7 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt;   -&gt; residual function :  difference between y and yhat ( <span style='color: #BBBB00;'> default </span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -247.4728 , mean =  2.093656e-14 , max =  469.0023  
 #&gt;  <span style='color: #00BB00;'> A new explainer has been created! </span> </div><div class='input'>
+<span class='co'># \donttest{</span>
 <span class='co'># user provided predict_function</span>
 <span class='va'>aps_ranger</span> <span class='op'>&lt;-</span> <span class='fu'>ranger</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>m2.price</span><span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>apartments</span>, num.trees <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span>
 <span class='va'>custom_predict</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>X.model</span>, <span class='va'>newdata</span><span class='op'>)</span> <span class='op'>{</span>
@@ -441,7 +442,6 @@ But some explanations may expect that other arguments will be provided too.</p>
 #&gt;   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  
 #&gt;   -&gt; residual function :  difference between y and yhat ( <span style='color: #BBBB00;'> default </span> )
 #&gt;  <span style='color: #00BB00;'> A new explainer has been created! </span> </div><div class='input'>
-<span class='co'># \donttest{</span>
 <span class='co'># simple function</span>
 <span class='va'>aps_fun</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fl'>58</span><span class='op'>*</span><span class='va'>x</span><span class='op'>$</span><span class='va'>surface</span>
 <span class='va'>aps_fun_explainer</span> <span class='op'>&lt;-</span> <span class='fu'>explain</span><span class='op'>(</span><span class='va'>aps_fun</span>, data <span class='op'>=</span> <span class='va'>apartments</span>, y <span class='op'>=</span> <span class='va'>apartments</span><span class='op'>$</span><span class='va'>m2.price</span>, label<span class='op'>=</span><span class='st'>"sfun"</span><span class='op'>)</span>
