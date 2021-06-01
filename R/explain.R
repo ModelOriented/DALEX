@@ -64,6 +64,7 @@
 #' aps_lm <- explain(aps_lm_model4, data = apartments, label = "model_4v", y = apartments$m2.price,
 #'                                    predict_function = predict)
 #'
+#' \donttest{
 #' # user provided predict_function
 #' aps_ranger <- ranger::ranger(m2.price~., data = apartments, num.trees = 50)
 #' custom_predict <- function(X.model, newdata) {
@@ -100,7 +101,6 @@
 #' aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, label = "model_4v",
 #'                              model_info = model_info)
 #'
-#' \donttest{
 #' # simple function
 #' aps_fun <- function(x) 58*x$surface
 #' aps_fun_explainer <- explain(aps_fun, data = apartments, y = apartments$m2.price, label="sfun")

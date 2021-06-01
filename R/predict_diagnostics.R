@@ -21,6 +21,7 @@
 #' @importFrom stats ks.test
 #' @importFrom graphics plot
 #' @examples
+#' \donttest{
 #' library("ranger")
 #' titanic_glm_model <- ranger(survived ~ gender + age + class + fare + sibsp + parch,
 #'                      data = titanic_imputed)
@@ -29,7 +30,6 @@
 #'                          y = titanic_imputed$survived)
 #' johny_d <- titanic_imputed[24, c("gender", "age", "class", "fare", "sibsp", "parch")]
 #'
-#' \donttest{
 #' id_johny <- predict_diagnostics(explainer_glm, johny_d, variables = NULL)
 #' id_johny
 #' plot(id_johny)
