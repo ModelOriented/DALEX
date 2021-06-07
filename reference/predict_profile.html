@@ -282,21 +282,21 @@ It's a data frame with calculated average response.</p>
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( <span style='color: #BBBB00;'> default </span> )
 #&gt;   -&gt; predicted values  :  No value for predict function target column. ( <span style='color: #BBBB00;'> default </span> )
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task regression ( <span style='color: #BBBB00;'> default </span> ) 
-#&gt;   -&gt; predicted values  :  numerical, min =  597.5155 , mean =  1370.14 , max =  3501.093  
+#&gt;   -&gt; predicted values  :  numerical, min =  596.6046 , mean =  1370.265 , max =  3440.155  
 #&gt;   -&gt; residual function :  difference between y and yhat ( <span style='color: #BBBB00;'> default </span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -5072.093 , mean =  -1449.678 , max =  1018.877  
+#&gt;   -&gt; residuals         :  numerical, min =  -5011.155 , mean =  -1449.803 , max =  1028.401  
 #&gt;  <span style='color: #00BB00;'> A new explainer has been created! </span> </div><div class='input'><span class='va'>dragon_ranger_predict4</span> <span class='op'>&lt;-</span> <span class='fu'>predict_profile</span><span class='op'>(</span><span class='va'>dragon_ranger_explainer4</span>,
                                            new_observation <span class='op'>=</span> <span class='va'>new_dragon</span>,
                                            variables <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"year_of_birth"</span>, <span class='st'>"height"</span>, <span class='st'>"scars"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>dragon_ranger_predict4</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Top profiles    : 
 #&gt;     year_of_birth height weight scars number_of_lost_teeth   _yhat_
-#&gt; 1        -1999.00     80   12.5     0                    5 857.7313
-#&gt; 1.1      -1961.01     80   12.5     0                    5 852.8283
-#&gt; 1.2      -1923.02     80   12.5     0                    5 856.6730
-#&gt; 1.3      -1885.03     80   12.5     0                    5 861.4233
-#&gt; 1.4      -1847.04     80   12.5     0                    5 861.4233
-#&gt; 1.5      -1809.05     80   12.5     0                    5 860.8127
+#&gt; 1        -1999.00     80   12.5     0                    5 913.0308
+#&gt; 1.1      -1961.01     80   12.5     0                    5 899.5276
+#&gt; 1.2      -1923.02     80   12.5     0                    5 893.0139
+#&gt; 1.3      -1885.03     80   12.5     0                    5 892.4564
+#&gt; 1.4      -1847.04     80   12.5     0                    5 892.4564
+#&gt; 1.5      -1809.05     80   12.5     0                    5 891.4831
 #&gt;           _vname_ _ids_      _label_
 #&gt; 1   year_of_birth     1 model_ranger
 #&gt; 1.1 year_of_birth     1 model_ranger
@@ -308,7 +308,7 @@ It's a data frame with calculated average response.</p>
 #&gt; 
 #&gt; Top observations:
 #&gt;   year_of_birth height weight scars number_of_lost_teeth   _yhat_      _label_
-#&gt; 1           200     80   12.5     0                    5 868.8245 model_ranger
+#&gt; 1           200     80   12.5     0                    5 843.5634 model_ranger
 #&gt;   _ids_
 #&gt; 1     1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>dragon_ranger_predict4</span>,
     variables <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"year_of_birth"</span>, <span class='st'>"height"</span>, <span class='st'>"scars"</span><span class='op'>)</span><span class='op'>)</span>

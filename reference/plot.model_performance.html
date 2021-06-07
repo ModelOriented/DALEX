@@ -221,9 +221,9 @@
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( <span style='color: #BBBB00;'> default </span> )
 #&gt;   -&gt; predicted values  :  No value for predict function target column. ( <span style='color: #BBBB00;'> default </span> )
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( <span style='color: #BBBB00;'> default </span> ) 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.0218781 , mean =  0.3234796 , max =  0.9969801  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.004780227 , mean =  0.3225835 , max =  0.9980838  
 #&gt;   -&gt; residual function :  difference between y and yhat ( <span style='color: #BBBB00;'> default </span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8033318 , mean =  -0.00132286 , max =  0.9048183  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8142786 , mean =  -0.0004267713 , max =  0.8893356  
 #&gt;  <span style='color: #00BB00;'> A new explainer has been created! </span> </div><div class='input'><span class='va'>mp_ranger</span> <span class='op'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span><span class='op'>(</span><span class='va'>explainer_ranger</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mp_ranger</span><span class='op'>)</span>
 </div><div class='img'><img src='plot.model_performance-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mp_ranger</span>, geom <span class='op'>=</span> <span class='st'>"boxplot"</span>, show_outliers <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
@@ -240,9 +240,9 @@
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( <span style='color: #BBBB00;'> default </span> )
 #&gt;   -&gt; predicted values  :  No value for predict function target column. ( <span style='color: #BBBB00;'> default </span> )
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( <span style='color: #BBBB00;'> default </span> ) 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1549831 , mean =  0.3236262 , max =  0.8695468  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1568098 , mean =  0.3233851 , max =  0.8937083  
 #&gt;   -&gt; residual function :  difference between y and yhat ( <span style='color: #BBBB00;'> default </span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8373586 , mean =  -0.001469422 , max =  0.8450169  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.845436 , mean =  -0.001228278 , max =  0.8431902  
 #&gt;  <span style='color: #00BB00;'> A new explainer has been created! </span> </div><div class='input'><span class='va'>mp_ranger2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='model_performance.html'>model_performance</a></span><span class='op'>(</span><span class='va'>explainer_ranger2</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mp_ranger</span>, <span class='va'>mp_ranger2</span>, geom <span class='op'>=</span> <span class='st'>"prc"</span><span class='op'>)</span>
 </div><div class='img'><img src='plot.model_performance-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mp_ranger</span>, <span class='va'>mp_ranger2</span>, geom <span class='op'>=</span> <span class='st'>"roc"</span><span class='op'>)</span>

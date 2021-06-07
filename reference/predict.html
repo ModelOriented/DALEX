@@ -230,15 +230,15 @@
 #&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  ( <span style='color: #BBBB00;'> default </span> ) 
 #&gt;   -&gt; residual function :  difference between 1 and probability of true class ( <span style='color: #BBBB00;'> default </span> )
 #&gt;  <span style='color: #00BB00;'> A new explainer has been created! </span> </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>explainer_ranger</span>, <span class='va'>HR</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>,<span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;          fired         ok    promoted
-#&gt; [1,] 0.7662407 0.22510943 0.008649892
-#&gt; [2,] 0.9471444 0.04801462 0.004840943
-#&gt; [3,] 0.9459389 0.05235408 0.001706986</div><div class='input'>
+</div><div class='output co'>#&gt;          fired        ok    promoted
+#&gt; [1,] 0.7392260 0.2549723 0.005801643
+#&gt; [2,] 0.9556583 0.0404699 0.003871795
+#&gt; [3,] 0.9702200 0.0242534 0.005526593</div><div class='input'>
 <span class='fu'>model_prediction</span><span class='op'>(</span><span class='va'>explainer_ranger</span>, <span class='va'>HR</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>,<span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;          fired         ok    promoted
-#&gt; [1,] 0.7662407 0.22510943 0.008649892
-#&gt; [2,] 0.9471444 0.04801462 0.004840943
-#&gt; [3,] 0.9459389 0.05235408 0.001706986</div><div class='input'> <span class='co'># }</span>
+</div><div class='output co'>#&gt;          fired        ok    promoted
+#&gt; [1,] 0.7392260 0.2549723 0.005801643
+#&gt; [2,] 0.9556583 0.0404699 0.003871795
+#&gt; [3,] 0.9702200 0.0242534 0.005526593</div><div class='input'> <span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

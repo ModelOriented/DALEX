@@ -315,19 +315,19 @@ It's a data frame with calculated average response.</p>
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( <span style='color: #BBBB00;'> default </span> )
 #&gt;   -&gt; predicted values  :  No value for predict function target column. ( <span style='color: #BBBB00;'> default </span> )
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task regression ( <span style='color: #BBBB00;'> default </span> ) 
-#&gt;   -&gt; predicted values  :  numerical, min =  592.4232 , mean =  1369.91 , max =  3414.256  
+#&gt;   -&gt; predicted values  :  numerical, min =  604.7741 , mean =  1370.237 , max =  3582.142  
 #&gt;   -&gt; residual function :  difference between y and yhat ( <span style='color: #BBBB00;'> default </span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -4953.277 , mean =  -1449.448 , max =  999.6154  
+#&gt;   -&gt; residuals         :  numerical, min =  -5153.142 , mean =  -1449.775 , max =  1027.518  
 #&gt;  <span style='color: #00BB00;'> A new explainer has been created! </span> </div><div class='input'>
 <span class='va'>bd_ranger</span> <span class='op'>&lt;-</span> <span class='fu'>predict_parts_break_down</span><span class='op'>(</span><span class='va'>explainer_ranger</span>, new_observation <span class='op'>=</span> <span class='va'>new_dragon</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>bd_ranger</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                                        contribution
-#&gt; model_ranger: intercept                    1369.910
-#&gt; model_ranger: scars = 0                    -344.536
-#&gt; model_ranger: number_of_lost_teeth = 5     -298.719
-#&gt; model_ranger: height = 80                    48.110
-#&gt; model_ranger: year_of_birth = 200            -7.976
-#&gt; model_ranger: weight = 12.5                   2.085</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>bd_ranger</span><span class='op'>)</span>
+#&gt; model_ranger: intercept                    1370.237
+#&gt; model_ranger: scars = 0                    -342.612
+#&gt; model_ranger: number_of_lost_teeth = 5     -300.440
+#&gt; model_ranger: height = 80                   113.394
+#&gt; model_ranger: year_of_birth = 200             9.709
+#&gt; model_ranger: weight = 12.5                 -13.723</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>bd_ranger</span><span class='op'>)</span>
 </div><div class='img'><img src='predict_parts-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
 
 </div></pre>
