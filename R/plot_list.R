@@ -28,7 +28,9 @@
 #'
 #
 plot.list <- function(x, ...) {
-  do.call(plot, c(x, list(...)))
+  args <- c(x, list(...))
+  names(args) <- NULL
+  do.call(plot, args)
 }
 
 
