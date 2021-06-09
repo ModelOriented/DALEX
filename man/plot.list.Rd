@@ -35,6 +35,9 @@ mp_ranger2 <- model_performance(explainer_ranger2)
 
 plot(list(mp_ranger, mp_ranger2), geom = "prc")
 plot(list(mp_ranger, mp_ranger2), geom = "roc")
+tmp <- list(mp_ranger, mp_ranger2)
+names(tmp) <- c("ranger", "ranger2")
+plot(tmp)
 }
 
 }
