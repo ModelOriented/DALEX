@@ -426,5 +426,12 @@ class FairnessTest(unittest.TestCase):
 
         self.assertIsInstance(fig, Figure)
 
+    # def test_mitigation_reweight(self):
+    #     predicted_weights = reweight(np.array([1, 1, 1, 1, 1, 0, 0, 0, 0, 0]), np.array([1, 1, 1, 1, 0, 0, 0, 1, 0, 1]))
+    #     # actual weights as in article
+    #     actual_weights = np.array([0.75, 0.75, 0.75, 0.75, 2, 0.67, 0.67, 1.5, 0.67, 1.5])
+    #
+    #     self.assertTrue(np.all(np.around(predicted_weights.astype(float), 2) == actual_weights))
+
 if __name__ == '__main__':
     unittest.main()

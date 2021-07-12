@@ -1,3 +1,4 @@
+import copy
 from copy import deepcopy
 
 import numpy as np
@@ -6,8 +7,9 @@ import pandas as pd
 from . import checks
 from ... import _global_checks
 from ..._explainer import helper
+from .._basics import checks as basic_checks
 from ...model_explanations._model_performance import utils
-
+from .._basics.exceptions import ParameterCheckError
 
 # -------------- Objects needed in creation of GroupFairnessClassification object in object.py --------------
 
@@ -414,3 +416,57 @@ def readable_number(tick_range, round_number):
             readable_tick = 10
 
     return readable_tick * np.power(10, exponent)
+
+# -------------- Mitigation techniques --------------
+
+def reweight(protected, y, verbose = True):
+
+    y = basic_checks.check_y(y, verbose)
+    protected = basic_checks.check_protected(protected, verbose)
+
+    if not len(y) == len(protected):
+        raise ParameterCheckError("protected and target (y) must have the same length")
+
+    weights = np.repeat(None, len(y))
+
+    for subgroup in np.unique(protected):
+        for c in np.unique(y):
+
+            Xs = np.sum(protected == subgroup)
+            Xc = np.sum(y == c)
+            Xsc = np.sum((protected == subgroup) & (c == y))
+            Wsc = (Xs * Xc) / (len(y) * Xsc)
+
+            weights[(protected == subgroup) & (y == c)] = Wsc
+
+    return weights
+
+def roc_pivot(explainer, protected, privileged, cutoff = 0.5, theta = 0.05, verbose = True):
+
+    # ToDo check if explainer
+
+    protected = basic_checks.check_protected(protected, verbose)
+    privileged = basic_checks.check_privileged(privileged, protected, verbose)
+
+
+    exp = copy.deepcopy(explainer)
+    probs = exp.y_hat
+
+    if not len(probs) == len(protected):
+        raise ParameterCheckError("protected and target (y) must have the same length")
+
+    is_close = np.abs(probs - cutoff) < theta
+    is_privileged = privileged == protected
+    is_favorable = probs > cutoff
+
+    probs[is_close & is_privileged & is_favorable] = cutoff - (probs[is_close & is_privileged & is_favorable] - cutoff)
+    probs[is_close & np.logical_not(is_privileged) & np.logical_not(is_favorable)] = cutoff + (cutoff - probs[is_close & np.logical_not(is_privileged) & np.logical_not(is_favorable)])
+
+    probs[probs < 0] = 0
+    probs[probs > 1] = 1
+
+    exp.y_hat = probs
+
+    return exp
+
+
