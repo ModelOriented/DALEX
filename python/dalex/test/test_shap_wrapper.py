@@ -55,7 +55,7 @@ class TestShapWrapperRandomForestClassifierTitanicNumericalDataset(unittest.Test
         self.X = data.loc[:, ["age", "fare", "sibsp", "parch"]]
         self.y = data.survived
 
-        clf = RandomForestClassifier(n_estimators=100)
+        clf = RandomForestClassifier(n_estimators=100, random_state=123)
         clf.fit(self.X, self.y)
 
         self.exp = dx.Explainer(clf, self.X, self.y, verbose=False)
