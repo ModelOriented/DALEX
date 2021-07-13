@@ -3,6 +3,7 @@ from copy import deepcopy
 
 import numpy as np
 import pandas as pd
+from copy import copy
 from plotly.graph_objs import Figure
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
@@ -11,6 +12,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import DecisionTreeRegressor
 
 import dalex as dx
+from dalex.fairness import reweight, resample, roc_pivot
 
 
 class FairnessTest(unittest.TestCase):
@@ -426,12 +428,102 @@ class FairnessTest(unittest.TestCase):
 
         self.assertIsInstance(fig, Figure)
 
-    # def test_mitigation_reweight(self):
-    #     predicted_weights = reweight(np.array([1, 1, 1, 1, 1, 0, 0, 0, 0, 0]), np.array([1, 1, 1, 1, 0, 0, 0, 1, 0, 1]))
-    #     # actual weights as in article
-    #     actual_weights = np.array([0.75, 0.75, 0.75, 0.75, 2, 0.67, 0.67, 1.5, 0.67, 1.5])
-    #
-    #     self.assertTrue(np.all(np.around(predicted_weights.astype(float), 2) == actual_weights))
+    def test_mitigation_reweight(self):
+        predicted_weights = reweight(np.array([1, 1, 1, 1, 1, 0, 0, 0, 0, 0]), np.array([1, 1, 1, 1, 0, 0, 0, 1, 0, 1]))
+        # actual weights as in article
+        actual_weights = np.array([0.75, 0.75, 0.75, 0.75, 2, 0.67, 0.67, 1.5, 0.67, 1.5])
+
+        self.assertTrue(np.all(np.around(predicted_weights.astype(float), 2) == actual_weights))
+
+    def test_mitigation_resample(self):
+        # uniform
+        df = pd.DataFrame({'sex':np.concatenate((np.repeat("M", 5), np.repeat("F", 5), np.repeat("N", 5)), axis = 0),
+                           'target': [1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1]})
+
+        MN = sum((df.sex == "M") & (df.target == 0))
+        MP = sum((df.sex == "M") & (df.target == 1))
+        FN = sum((df.sex == "F") & (df.target == 0))
+        FP = sum((df.sex == "F") & (df.target == 1))
+        NN = sum((df.sex == "N") & (df.target == 0))
+        NP = sum((df.sex == "N") & (df.target == 1))
+
+        weights = reweight(df.sex, df.target)
+
+        wMP = weights[0]
+        wMN = weights[4]
+        wFP = weights[9]
+        wFN = weights[5]
+        wNN = weights[12]
+        wNP = weights[14]
+
+        # expected
+        E_MP = round(MP * wMP)
+        E_MN = round(MN * wMN)
+        E_FN = round(FN * wFN)
+        E_FP = round(FP * wFP)
+        E_NP = round(NP * wNP)
+        E_NN = round(NN * wNN)
+
+        # uniform
+        df_2 = df.iloc[resample(df.sex, df.target), :]
+
+        MN_2 = sum((df_2.sex == "M") & (df_2.target == 0))
+        MP_2 = sum((df_2.sex == "M") & (df_2.target == 1))
+        FN_2 = sum((df_2.sex == "F") & (df_2.target == 0))
+        FP_2 = sum((df_2.sex == "F") & (df_2.target == 1))
+        NN_2 = sum((df_2.sex == "N") & (df_2.target == 0))
+        NP_2 = sum((df_2.sex == "N") & (df_2.target == 1))
+
+        self.assertEqual(E_MP, MP_2)
+        self.assertEqual(E_MN, MN_2)
+        self.assertEqual(E_FP, FP_2)
+        self.assertEqual(E_FN, FN_2)
+        self.assertEqual(E_NP, MP_2)
+        self.assertEqual(E_NN, NN_2)
+
+        # preferential
+
+        df = pd.DataFrame({'sex': np.concatenate((np.repeat("M", 5), np.repeat("F", 5), np.repeat("N", 5)), axis=0),
+                           'target': [1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1],
+                           'name': np.arange(1,16),
+                           'probs': [0.9, 0.82, 0.56, 0.78, 0.45, 0.12, 0.48, 0.63, 0.48, 0.88, 0.34, 0.12, 0.34, 0.49, 0.9]})
+
+
+        df_3 = df.iloc[resample(df.sex, df.target, type = "preferential", probs = df.probs), :]
+        self.assertTrue(np.all(sorted(np.array(df_3.name)) == np.array([1, 2, 5, 5, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 15])))
+
+        with self.assertRaises(dx.fairness._basics.exceptions.ParameterCheckError):
+            resample(df.sex, df.target, type = "preferential", probs = [0,1,2,3,4])
+
+        with self.assertRaises(dx.fairness._basics.exceptions.ParameterCheckError):
+            resample(df.sex, df.target, type = "not_existing", probs = df.probs)
+
+    def test_mitigation_roc(self):
+        exp = copy(self.exp)
+        exp.y_hat = np.array([0.3, 0.4, 0.45, 0.55, 0.6, 0.7])
+        exp.y     = np.array([0, 0, 0, 1, 1, 1])
+        protected = ['A', 'A', 'A', 'B', 'B', 'B']
+        privileged = 'B'
+
+        exp2 = roc_pivot(exp, protected, privileged, cutoff=0.5, theta=0.09)
+        self.assertEqual(list(np.round(exp2.y_hat, 2)), [0.3, 0.4, 0.55, 0.45, 0.6, 0.7])
+
+        exp.y_hat = np.array([0.3, 0.4, 0.45, 0.55, 0.6, 0.7])
+        exp.y = np.array([0, 0, 0, 1, 1, 1])
+        protected = ['A', 'A', 'A', 'B', 'B', 'B']
+        privileged = 'B'
+
+        exp2 = roc_pivot(exp, protected, privileged, cutoff=0.5, theta=0.11)
+        self.assertEqual(list(np.round(exp2.y_hat, 2)), [0.3, 0.6, 0.55, 0.45, 0.4, 0.7])
+
+        with self.assertRaises(dx.fairness._basics.exceptions.ParameterCheckError):
+            roc_pivot('not explainer', protected, privileged)
+
+        with self.assertRaises(dx.fairness._basics.exceptions.ParameterCheckError):
+            roc_pivot(exp, protected, privileged, cutoff=0.5, theta=1.4)
+
+        with self.assertRaises(dx.fairness._basics.exceptions.ParameterCheckError):
+            roc_pivot(exp, protected, privileged, cutoff=0.5, theta='sth_else')
 
 if __name__ == '__main__':
     unittest.main()
