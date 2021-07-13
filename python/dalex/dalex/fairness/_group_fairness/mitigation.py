@@ -10,7 +10,37 @@ from ..._explainer import helper
 
 
 def reweight(protected, y, verbose = True):
+    """Obtain weights for model training and mitigate bias in Statistical Parity.
 
+    Method produces weights for each subgroup for each class.
+    Firstly, it assumes that protected variable and class are
+    independent and calculates expected probability of this
+    certain event (that subgroup == a and class = c).
+    Than it calculates the actual probability of this event
+    based on empirical data. Finally the weight is quotient
+    of those probabilities.
+
+    Parameters
+    -----------
+    protected : np.ndarray (1d)
+        Vector, preferably 1-dimensional np.ndarray containing strings,
+        which denotes the membership to a subgroup.
+        NOTE: List and pd.Series are also supported; however, if provided,
+        they will be transformed into a np.ndarray (1d) with dtype 'U'.
+    y : pd.Series or pd.DataFrame or np.ndarray (1d)
+        Target variable with outputs / scores. It shall have the same length as `protected`
+    verbose : bool
+        Print messages about changes of types in 'y' and 'protected' (default is `True`).
+
+    Returns
+    -----------
+    numpy.ndarray (1d)
+        Array with sample (case) weights
+
+    Notes
+    -----------
+    - https://link.springer.com/content/pdf/10.1007/s10115-011-0463-8.pdf
+    """
     y = basic_checks.check_y(y, verbose)
     protected = basic_checks.check_protected(protected, verbose)
 
@@ -32,9 +62,62 @@ def reweight(protected, y, verbose = True):
     return weights
 
 def roc_pivot(explainer, protected, privileged, cutoff = 0.5, theta = 0.05, verbose = True):
+    """Reject Option based Classification pivot
+
+    Reject Option based Classifier is post-processing bias
+    mitigation method. Method changes the predictions of model
+    (probabilities) and returns new explainer with modified 'y_hat'.
+    Probabilities that are made for privileged subgroup and are
+    favorable, and close to cutoff are pivoted to the other side
+    of the cutoff. The opposite happens for unprivileged observations
+    (changing unfavorable and close to cutoff observations to favorable
+    by pivoting probabilities from left of the cutoff to right).
+    By this potentially wrongfully labeled observations are
+    assigned different labels. Note that 1 in y in Explainer
+    should indicate favorable outcome.
+
+    Parameters
+    -----------
+    explainer: Explainer
+        Explainer made from classification model.
+
+    protected : np.ndarray (1d)
+        Vector, preferably 1-dimensional np.ndarray containing strings,
+        which denotes the membership to a subgroup.
+        NOTE: List and pd.Series are also supported; however, if provided,
+        they will be transformed into a np.ndarray (1d) with dtype 'U'.
+    privileged : str
+        Subgroup that is suspected to have the most privilege.
+        It needs to be a string present in `protected`.
+    cutoff: float
+        Threshold for probabilistic output of a classifier.
+    theta: float
+        Value that indicates the radius of the area where values
+        are pivoted. The default is (0.05) which means that
+        the probabilities of privileged class within
+        (cutoff, cutoff+ theta)  will be pivoted to the other
+        side of the cutoff. The opposite thing will happen for
+        unprivileged subgroup.
+    verbose : bool
+        Print messages about changes of types in 'y' and 'protected' (default is `True`).
+
+    Returns
+    -----------
+    Explainer class object
+        Explainer with changed 'y_hat'
+
+    Notes
+    -----------
+    - https://ieeexplore.ieee.org/document/6413831/
+    """
+
+
 
     if not isinstance(explainer, dalex.Explainer):
-        raise ParameterCheckError("explainer must be of type 'Explainer")
+        raise ParameterCheckError("explainer must be of type 'Explainer'")
+
+    if explainer.model_type != 'classification':
+        raise ParameterCheckError("model in explainer must be binary classification type")
 
     # same checking as in epsilon
     theta = checks.check_epsilon(theta, 'theta')
@@ -59,12 +142,51 @@ def roc_pivot(explainer, protected, privileged, cutoff = 0.5, theta = 0.05, verb
     probs[probs < 0] = 0
     probs[probs > 1] = 1
 
-    exp.y_hat = probs
-
     return exp
 
 def resample(protected, y, type = 'uniform', probs = None,  verbose = True):
+    """Returns indices of observations for data.
 
+    Method of bias mitigation. Similarly to 'reweight'
+    this method computes desired number of observations just
+    if the protected variable was independent from y and
+    on this basis decides if this subgroup with certain class
+    (favorable or not) should be more or less numerous. Than performs
+    oversampling or undersampling depending on the case.
+    If type of sampling is set to 'preferential' and probs
+    are provided than instead of uniform sampling preferential
+    sampling will be performed. Preferential sampling depending on the case
+    will sample observations close to border or far from border.
+
+    Parameters
+    -----------
+    protected : np.ndarray (1d)
+        Vector, preferably 1-dimensional np.ndarray containing strings,
+        which denotes the membership to a subgroup.
+        NOTE: List and pd.Series are also supported; however, if provided,
+        they will be transformed into a np.ndarray (1d) with dtype 'U'.
+    y : pd.Series or pd.DataFrame or np.ndarray (1d)
+        Target variable with outputs / scores. It shall have the same length as `protected`
+    type : {'uniform', 'preferential'}
+        Type indicates what strategy to use when choosing the samples.
+        (default is 'uniform')
+    probs : np.ndarray (1d)
+        Vector with probabilities for each sample. Note that this should be
+        probabilities for favourable outcome. For the best performance they
+        should be consistent with 'y' but it is not required. This argument
+        is required when using strategy of type 'preferential'
+    verbose : bool
+        Print messages about changes of types in 'y' and 'protected' (default is `True`).
+
+    Returns
+    -----------
+    numpy.ndarray (1d)
+        Array with indices for the data.
+
+    Notes
+    -----------
+        - https://link.springer.com/content/pdf/10.1007/s10115-011-0463-8.pdf
+    """
     if type == 'preferential' and probs is None:
         raise ParameterCheckError("when using type 'preferential' probabilities (probs) must be provided")
 
@@ -137,4 +259,4 @@ def resample(protected, y, type = 'uniform', probs = None,  verbose = True):
 
                     indices += p_ind
 
-    return indices
+    return np.array(indices)
