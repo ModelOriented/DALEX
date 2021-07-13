@@ -1,6 +1,6 @@
 ## Changelog
 
-v1.2.0.9000 (13/07/2021)
+v1.3.0 (development)
 
 #### features 
 

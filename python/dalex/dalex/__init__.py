@@ -7,7 +7,7 @@ from . import datasets
 from ._explainer.object import Explainer
 from .arena.object import Arena
 
-__version__ = '1.2.0.9000'
+__version__ = '1.3.0'
 
 __all__ = [
     "Arena",
