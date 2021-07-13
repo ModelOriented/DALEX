@@ -414,3 +414,9 @@ def readable_number(tick_range, round_number):
             readable_tick = 10
 
     return readable_tick * np.power(10, exponent)
+
+
+
+
+
+
