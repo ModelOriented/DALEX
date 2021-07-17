@@ -16,7 +16,7 @@
 \alias{yhat.rpart}
 \alias{yhat.function}
 \alias{yhat.default}
-\title{Wrap Various Predict Functions}
+\title{Predict Functions for various models}
 \usage{
 yhat(X.model, newdata, ...)
 
@@ -49,35 +49,38 @@ yhat(X.model, newdata, ...)
 \method{yhat}{default}(X.model, newdata, ...)
 }
 \arguments{
-\item{X.model}{object - a model to be explained}
+\item{X.model}{a model to be explained}
 
-\item{newdata}{data.frame or matrix - observations for prediction}
+\item{newdata}{data.frame or matrix, observations for the prediction}
 
-\item{...}{other parameters that will be passed to the predict function}
+\item{...}{other parameters that will be passed to the \code{predict_function}}
 }
 \value{
-An numeric matrix of predictions
+A numeric vector of predictions, or a matrix for the `multiclass` task
 }
 \description{
-This function is a wrapper over various predict functions for different models and differnt model structures.
+The \code{yhat} function is a wrapper over different \code{predict_function}s for various models.
 The wrapper returns a single numeric score for each new observation.
-To do this it uses different extraction techniques for models from different classes,
-like for classification random forest is forces the output to be probabilities
-not classes itself.
+\code{yhat} uses different extraction techniques for different object classes,
+e.g. for the random forest classifier, it forces the output to be probabilities for a target class,
+not the classes itself.
 }
 \details{
-Currently supported packages are:
+Currently supported models are:
 \itemize{
-\item class \code{cv.glmnet} and \code{glmnet} - models created with \pkg{glmnet} package,
+\item class \code{cv.glmnet} and \code{glmnet} - models created with the \pkg{glmnet} package,
 \item class \code{glm} - generalized linear models created with \link[stats]{glm},
-\item class \code{model_fit} - models created with \pkg{parsnip} package,
+\item class \code{model_fit} - models created with the \pkg{parsnip} package,
 \item class \code{lm} - linear models created with \link[stats]{lm},
-\item class \code{ranger} - models created with \pkg{ranger} package,
-\item class \code{randomForest} - random forest models created with \pkg{randomForest} package,
+\item class \code{ranger} - models created with the \pkg{ranger} package,
+\item class \code{randomForest} - random forest models created with the \pkg{randomForest} package,
 \item class \code{svm} - support vector machines models created with the \pkg{e1071} package,
-\item class \code{train} - models created with \pkg{caret} package,
-\item class \code{gbm} - models created with \pkg{gbm} package,
-\item class \code{lrm} - models created with \pkg{rms} package,
-\item class \code{rpart} - models created with \pkg{rpart} package.
+\item class \code{train} - models created with the \pkg{caret} package,
+\item class \code{gbm} - models created with the \pkg{gbm} package,
+\item class \code{lrm} - models created with the \pkg{rms} package,
+\item class \code{rpart} - models created with the \pkg{rpart} package,
+\item classes \code{ctree} and \code{cforest} - models created with the \pkg{partykit} package.
 }
+
+More \code{predict_function}s are available in the \link[DALEXtra]{https://modeloriented.github.io/DALEXtra/} package.
 }

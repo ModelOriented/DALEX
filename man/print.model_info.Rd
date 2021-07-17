@@ -7,10 +7,10 @@
 \method{print}{model_info}(x, ...)
 }
 \arguments{
-\item{x}{- an object of class \code{model_info}}
+\item{x}{an object of class \code{model_info}}
 
-\item{...}{- other parameters}
+\item{...}{not used}
 }
 \description{
-Function prints object of class \code{model_info} created with \code{\link{model_info}}
+Function prints the object of class \code{model_info} created with \code{\link{model_info}}.
 }

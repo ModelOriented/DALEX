@@ -15,7 +15,7 @@
 \alias{model_info.train}
 \alias{model_info.rpart}
 \alias{model_info.default}
-\title{Exract info from model}
+\title{Extract the model metadata}
 \usage{
 model_info(model, is_multiclass = FALSE, ...)
 
@@ -46,34 +46,42 @@ model_info(model, is_multiclass = FALSE, ...)
 \method{model_info}{default}(model, is_multiclass = FALSE, ...)
 }
 \arguments{
-\item{model}{- model object}
+\item{model}{model object}
 
-\item{is_multiclass}{- if TRUE and task is classification, then multitask classification is set. Else is omitted. If \code{model_info}
-was executed withing \code{explain} function. DALEX will recognize subtype on it's own.}
+\item{is_multiclass}{if \code{TRUE} and the task is classification, then
+the \code{multiclass} task is acknowledged. If \code{model_info}
+was executed within the \code{explain} function,
+\code{DALEX} will recognize a task type on it's own.}
 
-\item{...}{- another arguments
+\item{...}{not used
 
 Currently supported packages are:
 \itemize{
-\item class \code{cv.glmnet} and \code{glmnet} - models created with \pkg{glmnet} package
-\item class \code{glm} - generalized linear models
-\item class \code{lrm} - models created with \pkg{rms} package,
-\item class \code{model_fit} - models created with \pkg{parsnip} package
-\item class \code{lm} - linear models created with \code{stats::lm}
-\item class \code{ranger} - models created with \pkg{ranger} package
-\item class \code{randomForest} - random forest models created with \pkg{randomForest} package
-\item class \code{svm} - support vector machines models created with the \pkg{e1071} package
-\item class \code{train} - models created with \pkg{caret} package
-\item class \code{gbm} - models created with \pkg{gbm} package
-}}
+\item class \code{cv.glmnet} and \code{glmnet} - models created with the \pkg{glmnet} package,
+\item class \code{glm} - generalized linear models,
+\item class \code{lrm} - models created with the \pkg{rms} package,
+\item class \code{model_fit} - models created with the \pkg{parsnip} package,
+\item class \code{lm} - linear models created with \code{stats::lm},
+\item class \code{ranger} - models created with the \pkg{ranger} package,
+\item class \code{randomForest} - random forest models created with the \pkg{randomForest} package,
+\item class \code{svm} - support vector machines models created with the \pkg{e1071} package,
+\item class \code{train} - models created with the \pkg{caret} package,
+\item class \code{gbm} - models created with the \pkg{gbm} package,
+\item class \code{rpart} - models created with the \pkg{rpart} package,
+\item classes \code{ctree} and \code{cforest} - models created with the \pkg{partykit} package.
+}
+
+More \code{model_info}s are available in the \link[DALEXtra]{https://modeloriented.github.io/DALEXtra/} package.}
 }
 \value{
 A named list of class \code{model_info}
 }
 \description{
-This generic function let user extract base information about model. The function returns a named list of class \code{model_info} that
-contain about package of model, version and task type. For wrappers like \code{mlr} or \code{caret} both, package and wrapper inforamtion
-are stored
+This generic function lets the user extract base information about a model.
+\code{model_info} returns a named list of class \code{model_info} that
+contains metadata about the model's package, version and task type.
+For frameworks like \code{mlr} and \code{caret} both, the package and framework
+information are stored.
 }
 \examples{
 aps_lm_model4 <- lm(m2.price ~., data = apartments)

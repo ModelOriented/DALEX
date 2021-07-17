@@ -1,31 +1,34 @@
-#' Wrap Various Predict Functions
+#' Predict Functions for various models
 #'
-#' This function is a wrapper over various predict functions for different models and differnt model structures.
+#' The \code{yhat} function is a wrapper over different \code{predict_function}s for various models.
 #' The wrapper returns a single numeric score for each new observation.
-#' To do this it uses different extraction techniques for models from different classes,
-#' like for classification random forest is forces the output to be probabilities
-#' not classes itself.
+#' \code{yhat} uses different extraction techniques for different object classes,
+#' e.g. for the random forest classifier, it forces the output to be probabilities for a target class,
+#' not the classes itself.
 #'
-#' Currently supported packages are:
+#' Currently supported models are:
 #' \itemize{
-#' \item class \code{cv.glmnet} and \code{glmnet} - models created with \pkg{glmnet} package,
+#' \item class \code{cv.glmnet} and \code{glmnet} - models created with the \pkg{glmnet} package,
 #' \item class \code{glm} - generalized linear models created with \link[stats]{glm},
-#' \item class \code{model_fit} - models created with \pkg{parsnip} package,
+#' \item class \code{model_fit} - models created with the \pkg{parsnip} package,
 #' \item class \code{lm} - linear models created with \link[stats]{lm},
-#' \item class \code{ranger} - models created with \pkg{ranger} package,
-#' \item class \code{randomForest} - random forest models created with \pkg{randomForest} package,
+#' \item class \code{ranger} - models created with the \pkg{ranger} package,
+#' \item class \code{randomForest} - random forest models created with the \pkg{randomForest} package,
 #' \item class \code{svm} - support vector machines models created with the \pkg{e1071} package,
-#' \item class \code{train} - models created with \pkg{caret} package,
-#' \item class \code{gbm} - models created with \pkg{gbm} package,
-#' \item class \code{lrm} - models created with \pkg{rms} package,
-#' \item class \code{rpart} - models created with \pkg{rpart} package.
+#' \item class \code{train} - models created with the \pkg{caret} package,
+#' \item class \code{gbm} - models created with the \pkg{gbm} package,
+#' \item class \code{lrm} - models created with the \pkg{rms} package,
+#' \item class \code{rpart} - models created with the \pkg{rpart} package,
+#' \item classes \code{ctree} and \code{cforest} - models created with the \pkg{partykit} package.
 #' }
 #'
-#' @param X.model object - a model to be explained
-#' @param newdata data.frame or matrix - observations for prediction
-#' @param ... other parameters that will be passed to the predict function
+#' More \code{predict_function}s are available in the \link[DALEXtra]{https://modeloriented.github.io/DALEXtra/} package.
 #'
-#' @return An numeric matrix of predictions
+#' @param X.model a model to be explained
+#' @param newdata data.frame or matrix, observations for the prediction
+#' @param ... other parameters that will be passed to the \code{predict_function}
+#'
+#' @return A numeric vector of predictions, or a matrix for the `multiclass` task
 #'
 #' @rdname yhat
 #' @export
@@ -265,7 +268,7 @@ yhat.default <- function(X.model, newdata, ...) {
   } else if (ncol(response) == 2 & is.null(attr(X.model, "predict_function_target_column"))) {
     return(as.numeric(response[,2]))
   }
-  # result is a matrix of data.frame with more than 2 columns (multi label classification)
+  # result is a matrix of data.frame with more than 2 columns (multiclass classification)
   as.matrix(response)
 }
 
