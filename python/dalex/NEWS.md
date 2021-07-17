@@ -1,10 +1,10 @@
 ## Changelog
 
-v1.3.0 (development)
+v1.3.0 (17/07/2021)
 
 #### features 
 
-* added bias mitigation techniques (`resample`, `reweight`, `roc_pivot`) to fairness module ([#432](https://github.com/ModelOriented/DALEX/issues/432))
+* added bias mitigation techniques (`resample`, `reweight`, `roc_pivot`) into the `fairness` module ([#432](https://github.com/ModelOriented/DALEX/issues/432))
 
 v1.2.0 (31/05/2021)
 ----------------------------------------------------------------

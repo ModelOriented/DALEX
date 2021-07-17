@@ -15,9 +15,9 @@ Unverified black box model is the path to the failure. Opaqueness leads to distr
 The `dalex` package xrays any model and helps to explore and explain its behaviour, helps to understand how complex models are working.
 The main `Explainer` object creates a wrapper around a predictive model. Wrapped models may then be explored and compared with a collection of model-level and predict-level explanations. Moreover, there are fairness methods and interactive exploration dashboards available to the user.
 
-The philosophy behind `dalex` explanations is described in the [Explanatory Model Analysis](https://pbiecek.github.io/ema/) e-book.
+The philosophy behind `dalex` explanations is described in the [Explanatory Model Analysis](https://pbiecek.github.io/ema/) book.
 
-![](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-diagram.png)
+[![](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-diagram.png)](http://python.drwhy.ai/)
 
 ## Installation
 
@@ -65,13 +65,15 @@ If you use `dalex`, please cite [our paper](https://arxiv.org/abs/2012.14406):
 
 ## Developer
 
+There is a detailed instruction on how to add native support for a [new model/framework](https://github.com/ModelOriented/DALEX-docs/blob/master/dalex/adding-new-model.md) into `dalex`, and how to add a [new explanation method](https://github.com/ModelOriented/DALEX-docs/blob/master/dalex/adding-new-explanation.md).
+
 ### Class diagram
 
-![](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-class.png)
+[![](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-class.png)](http://python.drwhy.ai/)
 
 ### Folder structure
 
-![](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-tree.png){ width=70% }
+[![](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-tree.png)](http://python.drwhy.ai/){ width=70% }
 
 -------------------------------------------
 

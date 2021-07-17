@@ -15,7 +15,7 @@ Unverified black box model is the path to the failure. Opaqueness leads to distr
 The `dalex` package xrays any model and helps to explore and explain its behaviour, helps to understand how complex models are working.
 The main `Explainer` object creates a wrapper around a predictive model. Wrapped models may then be explored and compared with a collection of model-level and predict-level explanations. Moreover, there are fairness methods and interactive exploration dashboards available to the user.
 
-The philosophy behind `dalex` explanations is described in the [Explanatory Model Analysis](https://pbiecek.github.io/ema/) e-book.
+The philosophy behind `dalex` explanations is described in the [Explanatory Model Analysis](https://pbiecek.github.io/ema/) book.
 
 ## Installation
 
@@ -27,11 +27,11 @@ pip install dalex -U
 
 ### Resources: https://dalex.drwhy.ai/python
 
-![](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-diagram.png)
+[![http://python.drwhy.ai/](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-diagram.png)](http://python.drwhy.ai/)
 
 ### API reference: https://dalex.drwhy.ai/python/api
 
-![](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-class.png)
+[![](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-class.png)](http://python.drwhy.ai/)
 
 ## Authors
 
