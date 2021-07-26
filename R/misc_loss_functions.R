@@ -52,19 +52,15 @@ attr(loss_accuracy, "loss_name") <- "Accuracy"
 
 #' @rdname loss_functions
 #' @export
-# Alicja Gosiewska (agosiewska) is the author of this function
 loss_one_minus_auc <- function(observed, predicted){
+  tpr_tmp <- tapply(observed, predicted, sum)
+  TPR <- c(0,cumsum(rev(tpr_tmp)))/sum(observed)
+  fpr_tmp <- tapply(1 - observed, predicted, sum)
+  FPR <- c(0,cumsum(rev(fpr_tmp)))/sum(1 - observed)
 
-  pred <- data.frame(fitted.values = predicted,
-             y = observed)
-  pred_sorted <- pred[order(pred$fitted.values, decreasing = TRUE), ]
-  roc_y <- factor(pred_sorted$y)
-  levels <- levels(roc_y)
-  x <- cumsum(roc_y == levels[1])/sum(roc_y == levels[1])
-  y <- cumsum(roc_y == levels[2])/sum(roc_y == levels[2])
-  auc <- sum((x[2:length(roc_y)]  -x[1:length(roc_y)-1]) * y[2:length(roc_y)])
+  auc <- sum(diff(FPR)*(TPR[-1] + TPR[-length(TPR)])/2)
+
   1 - auc
-
 }
 attr(loss_one_minus_auc, "loss_name") <- "One minus AUC"
 

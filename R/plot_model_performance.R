@@ -181,11 +181,12 @@ plot.model_performance_prc <- function(df, nlabels) {
 plot.model_performance_roc <- function(df, nlabels) {
   dfl <- split(df, factor(df$label))
   rocdfl <- lapply(dfl, function(df) {
-    pred_sorted <- df[order(df$predicted, decreasing = TRUE), ]
-
     # assuming that y = 0/1 where 1 is the positive
-    tpr <- cumsum(pred_sorted$observed)/sum(pred_sorted$observed)
-    fpr <- cumsum(1-pred_sorted$observed)/sum(1-pred_sorted$observed)
+    tpr_tmp <- tapply(df$observed, df$predicted, sum)
+    tpr <- c(0,cumsum(rev(tpr_tmp)))/sum(df$observed)
+    fpr_tmp <- tapply(1 - df$observed, df$predicted, sum)
+    fpr <- c(0,cumsum(rev(fpr_tmp)))/sum(1 - df$observed)
+
     data.frame(tpr = tpr, fpr = fpr, label = df$label[1])
   })
   rocdf <- do.call(rbind, rocdfl)
