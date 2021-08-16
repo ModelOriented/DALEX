@@ -48,7 +48,7 @@ jobs:
         config:
           - {os: macOS-latest,   r: '4.1'}
           - {os: macOS-latest,   r: '4.0'}
-          - {os: windows-latest, r: 'devel'}
+          # - {os: windows-latest, r: 'devel'} this won't work on the i386 architecture 
           - {os: windows-latest, r: '4.1'}
           - {os: windows-latest, r: '4.0'}
           - {os: windows-latest, r: '3.6'}
