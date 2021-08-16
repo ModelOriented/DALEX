@@ -105,7 +105,7 @@ jobs:
       - name: Check
         run: |
           Sys.setenv(NOT_CRAN = "true")
-          rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran", "--run-donttest", "--run-dontrun"),
+          rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran", "--run-donttest", "--run-dontrun", "--no-multiarch"),
                                build_args = "--compact-vignettes=no", error_on = "warning", check_dir = "check")
         shell: Rscript {0}
 
