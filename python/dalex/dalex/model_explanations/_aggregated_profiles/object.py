@@ -89,7 +89,7 @@ class AggregatedProfiles(Explanation):
         self.variables = _variables
         self.span = span
         self.center = center
-        self.result = None
+        self.result = pd.DataFrame()
         self.mean_prediction = None
         self.raw_profiles = None
         self.random_state = random_state
