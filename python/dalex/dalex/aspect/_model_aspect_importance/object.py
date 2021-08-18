@@ -10,6 +10,70 @@ from . import plot
 
 
 class ModelAspectImportance(VariableImportance):
+    """Calculate model-level aspect importance
+
+        Parameters
+        ----------
+        variable_groups : dict of lists 
+            Variables grouped in aspects to calculate their importance.
+        loss_function :  {'rmse', '1-auc', 'mse', 'mae', 'mad'} or function, optional
+            If string, then such loss function will be used to assess aspect importance
+            (default is `'rmse'` or `'1-auc'`, depends on `explainer.model_type` attribute).
+        type : {'variable_importance', 'ratio', 'difference'}, optional
+            Type of transformation that will be applied to dropout loss
+            (default is `'variable_importance'`, which is Permutational Variable Importance).
+        N : int, optional
+            Number of observations that will be sampled from the `explainer.data` attribute before
+            the calculation of aspect importance. `None` means all `data` (default is `1000`).
+        B : int, optional
+            Number of permutation rounds to perform on each variable (default is `10`).
+        depend_method: {'assoc', 'pps'} or function, optional
+            The method of calculating the dependencies between variables (i.e. the dependency 
+            matrix). Default is `'assoc'`, which means the use of statistical association 
+            (correlation coefficient, Cramér's V and eta-quared); 
+            `'pps'` stands for Power Predictive Score.
+            NOTE: When a function is passed, it is called with the `data` and it 
+            must return a symmetric dependency matrix (`pd.DataFrame` with variable names as 
+            columns and rows).
+        corr_method : {'spearman', 'pearson', 'kendall'}, optional
+            The method of calculating correlation between numerical variables 
+            (default is `'spearman'`).
+            NOTE: Ignored if `depend_method` is not `'assoc'`.
+        agg_method : {'max', 'min', 'avg'}, optional
+            The method of aggregating the PPS values for pairs of variables 
+            (default is `'max'`).
+            NOTE: Ignored if `depend_method` is not `'pps'`. 
+        processes : int, optional
+            Number of parallel processes to use in calculations. Iterated over `B`
+            (default is `1`, which means no parallel computation).
+        random_state : int, optional
+            Set seed for random number generator (default is random seed).
+
+        Attributes
+        -----------
+        result : pd.DataFrame
+            Main result attribute of an explanation.
+        variable_groups : dict of lists 
+            Variables grouped in aspects to calculate their importance. 
+        type : {'variable_importance', 'ratio', 'difference'}
+            Type of transformation that will be applied to dropout loss.
+        N : int, optional
+            Number of observations that will be sampled from the `explainer.data` attribute before
+            the calculation of aspect importance. 
+        B : int, optional
+            Number of permutation rounds to perform on each variable.
+        depend_method : {'assoc', 'pps'}
+            The method of calculating the dependencies between variables.
+        corr_method : {'spearman', 'pearson', 'kendall'}
+            The method of calculating correlation between numerical variables.
+        agg_method : {'max', 'min', 'avg'}
+            The method of aggregating the PPS values for pairs of variables.
+        processes : int
+            Number of parallel processes to use in calculations. Iterated over `B`.
+        random_state : int
+            Set seed for random number generator.
+        
+    """
     def __init__(
         self,
         variable_groups,
@@ -17,14 +81,12 @@ class ModelAspectImportance(VariableImportance):
         type="variable_importance",
         N=1000,
         B=10,
-        variables=None,
-        keep_raw_permutations=True,
-        processes=1,
-        random_state=None,
         depend_method="assoc",
         corr_method="spearman",
         agg_method="max",
-        min_depend=None,
+        processes=1,
+        random_state=None,
+        _min_depend=None,
         _is_aspect_model_parts=True,
     ):
         super().__init__(
@@ -32,20 +94,32 @@ class ModelAspectImportance(VariableImportance):
             type,
             N,
             B,
-            variables,
+            None,
             variable_groups,
-            keep_raw_permutations,
+            True,
             processes,
             random_state,
         )
         self.result = pd.DataFrame()
-        self._min_depend = min_depend
+        self._min_depend = _min_depend
         self.depend_method = depend_method
         self.corr_method = corr_method
         self.agg_method = agg_method
         self._is_aspect_model_parts = _is_aspect_model_parts
 
     def fit(self, explainer):
+        """Calculate the result of explanation
+        Fit method makes calculations in place and changes the attributes.
+
+        Parameters
+        ----------
+        explainer : Explainer object
+            Model wrapper created using the Explainer class.
+        
+        Returns
+        -----------
+        None
+        """
         super().fit(explainer)
 
         self.result["variables_names"] = self.result["variable"].map(
@@ -110,40 +184,45 @@ class ModelAspectImportance(VariableImportance):
     def plot(
         self,
         objects=None,
-        max_vars=10,
+        max_aspects=10,
+        show_variables_names=True,
         digits=3,
         rounding_function=np.around,
-        bar_width=16,
+        bar_width=25,
         split=("model", "aspect"),
         title="Model Aspect Importance",
         vertical_spacing=None,
-        show_variables_names=False,
         show=True,
     ):
-        """Plot the Variable Importance explanation
+        """Plot the Model Aspect Importance explanation.
+
         Parameters
         -----------
-        objects : VariableImportance object or array_like of VariableImportance objects
+        objects : ModelAspectImportance object or array_like of ModelAspectImportance objects
             Additional objects to plot in subplots (default is `None`).
-        max_vars : int, optional
-            Maximum number of variables that will be presented for for each subplot
+        max_aspects : int, optional
+            Maximum number of aspects that will be presented for for each subplot
             (default is `10`).
+        show_variables_names : bool, optional
+            `True` shows names of variables grouped in aspects; `False` shows names of aspects
+            (default is `True`).
         digits : int, optional
             Number of decimal places (`np.around`) to round contributions.
             See `rounding_function` parameter (default is `3`).
         rounding_function : function, optional
             A function that will be used for rounding numbers (default is `np.around`).
         bar_width : float, optional
-            Width of bars in px (default is `16`).
+            Width of bars in px (default is `25`).
         split : {'model', 'aspect'}, optional
             Split the subplots by model or aspect (default is `'model'`).
         title : str, optional
-            Title of the plot (default is `"Variable Importance"`).
+            Title of the plot (default is `"Model Aspect Importance"`).
         vertical_spacing : float <0, 1>, optional
             Ratio of vertical space between the plots (default is `0.2/number of rows`).
         show : bool, optional
             `True` shows the plot; `False` returns the plotly Figure object that can
             be edited or saved using the `write_image()` method (default is `True`).
+            
         Returns
         -----------
         None or plotly.graph_objects.Figure
@@ -267,10 +346,10 @@ class ModelAspectImportance(VariableImportance):
 
             for i, df in enumerate(df_list):
                 m = df.shape[0]
-                if max_vars is not None and max_vars < m:
-                    m = max_vars
+                if max_aspects is not None and max_aspects < m:
+                    m = max_aspects
 
-                # take only m variables (for max_vars)
+                # take only m variables (for max_aspects)
                 # sort rows of df by variable permutation and drop unused variables
                 if self._is_aspect_model_parts:
                     df = (
@@ -380,8 +459,8 @@ class ModelAspectImportance(VariableImportance):
             df_list = [v for k, v in _result_df.groupby("aspect_name", sort=False)]
 
             n = len(df_list)
-            if max_vars is not None and max_vars < n:
-                n = max_vars
+            if max_aspects is not None and max_aspects < n:
+                n = max_aspects
 
             if vertical_spacing is None:
                 vertical_spacing = 0.2 / n
@@ -398,7 +477,7 @@ class ModelAspectImportance(VariableImportance):
 
             df_dict = {e.aspect_name.array[0]: e for e in df_list}
 
-            # take only n=max_vars elements from df_dict
+            # take only n=max_aspects elements from df_dict
             for i in range(n):
                 df = df_dict[perm[i]]
                 m = df.shape[0]
