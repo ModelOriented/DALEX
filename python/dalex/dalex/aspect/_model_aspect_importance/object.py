@@ -6,7 +6,7 @@ from dalex.model_explanations._variable_importance.object import VariableImporta
 from dalex.model_explanations._variable_importance import utils
 from ... import _theme, _global_checks
 from .._predict_aspect_importance.utils import calculate_min_depend
-from . import plot
+from . import plot, checks
 
 
 class ModelAspectImportance(VariableImportance):
@@ -102,11 +102,12 @@ class ModelAspectImportance(VariableImportance):
             processes,
             random_state,
         )
+        _depend_method, _corr_method, _agg_method = checks.check_method_depend(depend_method, corr_method, agg_method)
         self.result = pd.DataFrame()
         self._min_depend = _min_depend
-        self.depend_method = depend_method
-        self.corr_method = corr_method
-        self.agg_method = agg_method
+        self.depend_method = _depend_method
+        self.corr_method = _corr_method
+        self.agg_method = _agg_method
         self._is_aspect_model_parts = _is_aspect_model_parts
 
     def fit(self, explainer):

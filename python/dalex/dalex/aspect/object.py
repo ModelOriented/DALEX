@@ -75,13 +75,14 @@ class Aspect:
         corr_method="spearman",
         agg_method="max",
     ):
+        _depend_method, _corr_method, _agg_method = checks.check_method_depend(depend_method, corr_method, agg_method)
         self.explainer = explainer
-        self.depend_method = depend_method
+        self.depend_method = _depend_method
         self.clust_method = clust_method
-        self.corr_method = corr_method
-        self.agg_method = agg_method
+        self.corr_method = _corr_method
+        self.agg_method = _agg_method
         self.depend_matrix = utils.calculate_depend_matrix(
-            self.explainer.data, depend_method, corr_method, agg_method
+            self.explainer.data, self.depend_method, self.corr_method, self.agg_method
         )
         self.linkage_matrix = utils.calculate_linkage_matrix(
             self.depend_matrix, clust_method

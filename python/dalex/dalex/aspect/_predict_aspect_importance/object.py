@@ -110,10 +110,11 @@ class PredictAspectImportance(Explanation):
     ):
         
         types = ('default', 'shap')
-        aliases = {'simplified_lime': 'default', 'lime': 'default'}
+        aliases = {'simplified_lime': 'default', 'lime': 'default', 'shapley_values': 'shap'}
         _type = checks.check_method_type(type, types, aliases)
         _processes = checks.check_processes(processes)
         _random_state = checks.check_random_state(random_state)
+        _depend_method, _corr_method, _agg_method = checks.check_method_depend(depend_method, corr_method, agg_method)
         self._min_depend = None
         if "min_depend" in kwargs:
             self._min_depend = kwargs.get("min_depend")
@@ -125,9 +126,9 @@ class PredictAspectImportance(Explanation):
         self.n_var = n_var
         self.sample_method = sample_method
         self.f = f
-        self.depend_method = depend_method
-        self.corr_method = corr_method
-        self.agg_method = agg_method
+        self.depend_method = _depend_method
+        self.corr_method = _corr_method
+        self.agg_method = _agg_method
         self.random_state = _random_state
         self.processes = _processes
         self.result = pd.DataFrame()
