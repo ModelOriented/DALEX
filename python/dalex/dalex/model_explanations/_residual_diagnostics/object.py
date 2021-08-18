@@ -32,7 +32,7 @@ class ResidualDiagnostics(Explanation):
 
         _variables = checks.check_variables(variables)
 
-        self.result = None
+        self.result = pd.DataFrame()
         self.variables = _variables
 
     def _repr_html_(self):
