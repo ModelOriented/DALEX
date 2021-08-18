@@ -55,12 +55,14 @@ class ModelAspectImportance(VariableImportance):
             Main result attribute of an explanation.
         variable_groups : dict of lists 
             Variables grouped in aspects to calculate their importance. 
+        loss_function : function
+            Loss function used to assess the variable importance.
         type : {'variable_importance', 'ratio', 'difference'}
             Type of transformation that will be applied to dropout loss.
-        N : int, optional
+        N : int
             Number of observations that will be sampled from the `explainer.data` attribute before
             the calculation of aspect importance. 
-        B : int, optional
+        B : int
             Number of permutation rounds to perform on each variable.
         depend_method : {'assoc', 'pps'}
             The method of calculating the dependencies between variables.
