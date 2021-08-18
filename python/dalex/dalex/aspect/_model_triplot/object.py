@@ -13,6 +13,49 @@ from . import checks, utils, plot
 
 
 class ModelTriplot(Explanation):
+    """Calculate model-level hierarchical aspect importance
+
+    Parameters
+    ----------
+    loss_function :  {'rmse', '1-auc', 'mse', 'mae', 'mad'} or function, optional
+        If string, then such loss function will be used to assess aspect importance
+        (default is `'rmse'` or `'1-auc'`, depends on `explainer.model_type` attribute).
+    type : {'variable_importance', 'ratio', 'difference'}, optional
+        Type of transformation that will be applied to dropout loss
+        (default is `'variable_importance'`, which is Permutational Variable Importance).
+    N : int, optional
+        Number of observations that will be sampled from the `explainer.data` attribute before
+        the calculation of aspect importance. `None` means all `data` (default is `1000`).
+    B : int, optional
+        Number of permutation rounds to perform on each variable (default is `10`).
+    processes : int, optional
+        Number of parallel processes to use in calculations. Iterated over `B`
+        (default is `1`, which means no parallel computation).
+    random_state : int, optional
+        Set seed for random number generator (default is random seed).
+
+    Attributes
+    -----------
+    result : pd.DataFrame
+        Main result attribute of an explanation.
+    single_variable_importance : pd.DataFrame
+        Additional result attribute of an explanation (it contains information 
+        about the importance of individual variables).
+    loss_function : function
+        Loss function used to assess the variable importance.
+    type : {'variable_importance', 'ratio', 'difference'}
+        Type of transformation that will be applied to dropout loss.
+    N : int
+        Number of observations that will be sampled from the `explainer.data` attribute before
+        the calculation of aspect importance. `None` means all `data` (default is `1000`).
+    B : int
+        Number of permutation rounds to perform on each variable (default is `10`).
+    processes : int
+        Number of parallel processes to use in calculations. Iterated over `B`
+        (default is `1`, which means no parallel computation).
+    random_state : int or None
+        Set seed for random number generator.
+    """
     def __init__(
         self,
         loss_function="rmse",
@@ -33,20 +76,33 @@ class ModelTriplot(Explanation):
         self.B = _B
         self.random_state = _random_state
         self.processes = _processes
-        self.hierarchical_importance_data = pd.DataFrame()
-        self.single_variable_importance_data = None
-        self.hierarchical_clustering_dendrogram = None
+        self.result = pd.DataFrame()
+        self.single_variable_importance = None
+        self._hierarchical_clustering_dendrogram = None
 
     def _repr_html_(self):
-        return self.hierarchical_importance_data._repr_html_()
+        return self.result._repr_html_()
 
     def fit(self, aspect):
-        self.hierarchical_clustering_dendrogram = (
+        """Calculate the result of explanation
+        Fit method makes calculations in place and changes the attributes.
+
+        Parameters
+        ----------
+        aspect : Aspect object
+            Explainer wrapper created using the Aspect class.
+        
+        Returns
+        -----------
+        None
+        """
+
+        self._hierarchical_clustering_dendrogram = (
             aspect._hierarchical_clustering_dendrogram
         )
 
         (
-            self.hierarchical_importance_data,
+            self.result,
             aspect._full_hierarchical_aspect_importance,
         ) = utils.calculate_model_hierarchical_importance(
             aspect,
@@ -58,17 +114,17 @@ class ModelTriplot(Explanation):
             self.random_state,
         )
 
-        self.hierarchical_importance_data.insert(3, "min_depend", None)
-        self.hierarchical_importance_data.insert(4, "vars_min_depend", None)
-        for index, row in self.hierarchical_importance_data.iterrows():
+        self.result.insert(3, "min_depend", None)
+        self.result.insert(4, "vars_min_depend", None)
+        for index, row in self.result.iterrows():
             _matching_row = aspect._dendrogram_aspects_ordered.loc[
                 pd.Series(map(set, aspect._dendrogram_aspects_ordered.variables_names))
                 == set(row.variables_names)
             ]
             min_dep = _matching_row.min_depend.values[0]
             vars_min_depend = _matching_row.vars_min_depend.values[0]
-            self.hierarchical_importance_data.at[index, "min_depend"] = min_dep
-            self.hierarchical_importance_data.at[
+            self.result.at[index, "min_depend"] = min_dep
+            self.result.at[
                 index, "vars_min_depend"
             ] = vars_min_depend
         ## left plot data
@@ -84,9 +140,9 @@ class ModelTriplot(Explanation):
             _is_aspect_model_parts=False,
         )
         self._variable_importance_object.fit(aspect.explainer)
-        self.single_variable_importance_data = self._variable_importance_object.result
+        self.single_variable_importance = self._variable_importance_object.result
 
-        single_vi = deepcopy(self.single_variable_importance_data)
+        single_vi = deepcopy(self.single_variable_importance)
         single_vi["h"] = 1
         aspect._full_hierarchical_aspect_importance = pd.concat(
             [aspect._full_hierarchical_aspect_importance, single_vi]
@@ -94,14 +150,42 @@ class ModelTriplot(Explanation):
 
     def plot(
         self,
-        rounding_function=np.around,
         digits=3,
+        rounding_function=np.around,
         bar_width=25,
         width=1500,
         title="Model Triplot",
-        show=True,
         widget=False,
+        show=True
     ):
+        """Plot the Model Triplot explanation (triplot visualization).
+
+        Parameters
+        ----------
+        digits : int, optional
+            Number of decimal places (`np.around`) to round contributions.
+            See `rounding_function` parameter (default is `3`).
+        rounding_function : function, optional
+            A function that will be used for rounding numbers (default is `np.around`).
+        bar_width : float, optional
+            Width of bars in px (default is `16`).
+        width : float, optional
+            Width of triplot in px (default is `1500`).
+        title : str, optional
+            Title of the plot (default is `"Model Triplot"`).
+        widget : bool, optional
+            If `True` triplot interactive widget version is generated
+            (default is `False`).
+        show : bool, optional
+            `True` shows the plot; `False` returns the plotly Figure object 
+            (default is `True`).
+            NOTE: Ignored if `widget` is `True`.
+
+        Returns
+        -------
+        None or plotly.graph_objects.Figure or ipywidgets.HBox with plotly.graph_objs._figurewidget.FigureWidget
+            Return figure that can be edited or saved. See `show` parameter.
+        """
         ## right plot
         hierarchical_clustering_dendrogram_plot_without_annotations = (
             self.hierarchical_clustering_dendrogram
@@ -117,7 +201,7 @@ class ModelTriplot(Explanation):
             updated_dendro_traces,
         ) = plot.plot_model_hierarchical_importance(
             hierarchical_clustering_dendrogram_plot_without_annotations,
-            self.hierarchical_importance_data,
+            self.result,
             rounding_function,
             digits,
         )
@@ -135,7 +219,7 @@ class ModelTriplot(Explanation):
         )
 
         ## left plot
-        _result = deepcopy(self.single_variable_importance_data)
+        _result = deepcopy(self.single_variable_importance)
         sorter = dict(zip(variables_order, range(m)))
         _result["order"] = _result["aspect_name"].map(sorter)
         _result = _result.sort_values(["order"], ascending=True).reset_index(drop=True)
