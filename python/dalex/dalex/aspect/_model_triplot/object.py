@@ -79,7 +79,6 @@ class ModelTriplot(Explanation):
             type=self.type,
             N=self.N,
             B=self.B,
-            keep_raw_permutations=True,
             processes=self.processes,
             random_state=self.random_state,
             _is_aspect_model_parts=False,
@@ -99,7 +98,6 @@ class ModelTriplot(Explanation):
         digits=3,
         bar_width=25,
         width=1500,
-        vcolors=None,
         title="Model Triplot",
         show=True,
         widget=False,
@@ -145,12 +143,13 @@ class ModelTriplot(Explanation):
         self._variable_importance_object.result = _result
 
         fig = self._variable_importance_object.plot(
-            max_vars=_result.shape[0],
+            max_aspects=_result.shape[0],
             digits=digits,
             rounding_function=rounding_function,
             bar_width=bar_width,
             show=False,
             title=None,
+            show_variables_names=False
         )
         fig.data[0]["textfont_color"] = ["#371ea3"] * m
 
