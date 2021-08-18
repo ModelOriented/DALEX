@@ -54,7 +54,7 @@ def calculate_cat_num_assoc_matrix(data, categorical_variables, numerical_variab
     return cat_num_assoc_matrix
 
 
-def calculate_assoc_matrix(data, corr_method="spearman"):
+def calculate_assoc_matrix(data, corr_method):
     corr_matrix = data.corr(corr_method)
     numerical_variables = corr_matrix.columns
     categorical_variables = list(set(data.columns) - set(numerical_variables))
@@ -78,13 +78,13 @@ def calculate_pps_matrix(data, agg_method):
         pps_matrix = np.maximum(pps_matrix, pps_matrix.transpose())
     if agg_method == "min":
         pps_matrix = np.minimum(pps_matrix, pps_matrix.transpose())
-    if agg_method == "mean" or agg_method == "avg":
+    if agg_method == "mean":
         pps_matrix = (pps_matrix + pps_matrix.transpose()) / 2
     return pps_matrix
 
 
 def calculate_depend_matrix(
-    data, depend_method="assoc", corr_method="spearman", agg_method="max"
+    data, depend_method, corr_method, agg_method
 ):
     if depend_method == "assoc":
         depend_matrix = calculate_assoc_matrix(data, corr_method)
@@ -101,7 +101,7 @@ def calculate_depend_matrix(
     return depend_matrix
 
 
-def calculate_linkage_matrix(depend_matrix, clust_method="complete"):
+def calculate_linkage_matrix(depend_matrix, clust_method):
     dissimilarity = 1 - abs(depend_matrix)
     ## https://www.kaggle.com/sgalella/correlation-heatmaps-with-hierarchical-clustering?scriptVersionId=24045077&cellId=10
     linkage_matrix = linkage(squareform(dissimilarity), clust_method)
