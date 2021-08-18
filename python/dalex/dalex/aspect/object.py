@@ -64,7 +64,6 @@ class Aspect:
         The dependency matrix (with variable names as columns and rows).
     linkage_matrix :
         The hierarchical clustering of variables encoded as a `scipy` linkage matrix.
-
     """
 
     def __init__(

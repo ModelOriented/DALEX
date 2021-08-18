@@ -12,69 +12,68 @@ from . import plot, checks
 class ModelAspectImportance(VariableImportance):
     """Calculate model-level aspect importance
 
-        Parameters
-        ----------
-        variable_groups : dict of lists 
-            Variables grouped in aspects to calculate their importance.
-        loss_function :  {'rmse', '1-auc', 'mse', 'mae', 'mad'} or function, optional
-            If string, then such loss function will be used to assess aspect importance
-            (default is `'rmse'` or `'1-auc'`, depends on `explainer.model_type` attribute).
-        type : {'variable_importance', 'ratio', 'difference'}, optional
-            Type of transformation that will be applied to dropout loss
-            (default is `'variable_importance'`, which is Permutational Variable Importance).
-        N : int, optional
-            Number of observations that will be sampled from the `explainer.data` attribute before
-            the calculation of aspect importance. `None` means all `data` (default is `1000`).
-        B : int, optional
-            Number of permutation rounds to perform on each variable (default is `10`).
-        depend_method: {'assoc', 'pps'} or function, optional
-            The method of calculating the dependencies between variables (i.e. the dependency 
-            matrix). Default is `'assoc'`, which means the use of statistical association 
-            (correlation coefficient, Cramér's V and eta-quared); 
-            `'pps'` stands for Power Predictive Score.
-            NOTE: When a function is passed, it is called with the `data` and it 
-            must return a symmetric dependency matrix (`pd.DataFrame` with variable names as 
-            columns and rows).
-        corr_method : {'spearman', 'pearson', 'kendall'}, optional
-            The method of calculating correlation between numerical variables 
-            (default is `'spearman'`).
-            NOTE: Ignored if `depend_method` is not `'assoc'`.
-        agg_method : {'max', 'min', 'avg'}, optional
-            The method of aggregating the PPS values for pairs of variables 
-            (default is `'max'`).
-            NOTE: Ignored if `depend_method` is not `'pps'`. 
-        processes : int, optional
-            Number of parallel processes to use in calculations. Iterated over `B`
-            (default is `1`, which means no parallel computation).
-        random_state : int, optional
-            Set seed for random number generator (default is random seed).
+    Parameters
+    ----------
+    variable_groups : dict of lists 
+        Variables grouped in aspects to calculate their importance.
+    loss_function :  {'rmse', '1-auc', 'mse', 'mae', 'mad'} or function, optional
+        If string, then such loss function will be used to assess aspect importance
+        (default is `'rmse'` or `'1-auc'`, depends on `explainer.model_type` attribute).
+    type : {'variable_importance', 'ratio', 'difference'}, optional
+        Type of transformation that will be applied to dropout loss
+        (default is `'variable_importance'`, which is Permutational Variable Importance).
+    N : int, optional
+        Number of observations that will be sampled from the `explainer.data` attribute before
+        the calculation of aspect importance. `None` means all `data` (default is `1000`).
+    B : int, optional
+        Number of permutation rounds to perform on each variable (default is `10`).
+    depend_method: {'assoc', 'pps'} or function, optional
+        The method of calculating the dependencies between variables (i.e. the dependency 
+        matrix). Default is `'assoc'`, which means the use of statistical association 
+        (correlation coefficient, Cramér's V and eta-quared); 
+        `'pps'` stands for Power Predictive Score.
+        NOTE: When a function is passed, it is called with the `data` and it 
+        must return a symmetric dependency matrix (`pd.DataFrame` with variable names as 
+        columns and rows).
+    corr_method : {'spearman', 'pearson', 'kendall'}, optional
+        The method of calculating correlation between numerical variables 
+        (default is `'spearman'`).
+        NOTE: Ignored if `depend_method` is not `'assoc'`.
+    agg_method : {'max', 'min', 'avg'}, optional
+        The method of aggregating the PPS values for pairs of variables 
+        (default is `'max'`).
+        NOTE: Ignored if `depend_method` is not `'pps'`. 
+    processes : int, optional
+        Number of parallel processes to use in calculations. Iterated over `B`
+        (default is `1`, which means no parallel computation).
+    random_state : int, optional
+        Set seed for random number generator (default is random seed).
 
-        Attributes
-        -----------
-        result : pd.DataFrame
-            Main result attribute of an explanation.
-        variable_groups : dict of lists 
-            Variables grouped in aspects to calculate their importance. 
-        loss_function : function
-            Loss function used to assess the variable importance.
-        type : {'variable_importance', 'ratio', 'difference'}
-            Type of transformation that will be applied to dropout loss.
-        N : int
-            Number of observations that will be sampled from the `explainer.data` attribute before
-            the calculation of aspect importance. 
-        B : int
-            Number of permutation rounds to perform on each variable.
-        depend_method : {'assoc', 'pps'}
-            The method of calculating the dependencies between variables.
-        corr_method : {'spearman', 'pearson', 'kendall'}
-            The method of calculating correlation between numerical variables.
-        agg_method : {'max', 'min', 'avg'}
-            The method of aggregating the PPS values for pairs of variables.
-        processes : int
-            Number of parallel processes to use in calculations. Iterated over `B`.
-        random_state : int
-            Set seed for random number generator.
-        
+    Attributes
+    -----------
+    result : pd.DataFrame
+        Main result attribute of an explanation.
+    variable_groups : dict of lists 
+        Variables grouped in aspects to calculate their importance. 
+    loss_function : function
+        Loss function used to assess the variable importance.
+    type : {'variable_importance', 'ratio', 'difference'}
+        Type of transformation that will be applied to dropout loss.
+    N : int
+        Number of observations that will be sampled from the `explainer.data` attribute before
+        the calculation of aspect importance. 
+    B : int
+        Number of permutation rounds to perform on each variable.
+    depend_method : {'assoc', 'pps'}
+        The method of calculating the dependencies between variables.
+    corr_method : {'spearman', 'pearson', 'kendall'}
+        The method of calculating correlation between numerical variables.
+    agg_method : {'max', 'min', 'avg'}
+        The method of aggregating the PPS values for pairs of variables.
+    processes : int
+        Number of parallel processes to use in calculations. Iterated over `B`.
+    random_state : int
+        Set seed for random number generator.
     """
     def __init__(
         self,

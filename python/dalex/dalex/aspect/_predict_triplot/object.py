@@ -16,56 +16,56 @@ from . import checks, plot, utils
 class PredictTriplot(Explanation):
     """Calculate predict-level hierarchical aspect importance
 
-        Parameters
-        ----------
-        type : {'default', 'shap'}, optional
-            Type of aspect importance/attributions (default is `'default'`, which means 
-            the use of simplified LIME method).
-        N : int, optional
-            Number of observations that will be sampled from the `explainer.data` attribute
-            before the calculation of aspect importance (default is `2000`).
-        B : int, optional
-            Parameter specific for `type == 'shap'`. Number of random paths to calculate aspect
-            attributions (default is `25`).
-            NOTE: Ignored if `type` is not `'shap'`.
-        sample_method : {'default', 'binom'}, optional
-            Parameter specific for `type == 'default'`. Sampling method for creating binary matrix 
-            used as mask for replacing aspects in data (default is `'default'`, which means 
-            it randomly replaces one or two zeros per row; `'binom'` replaces random number of zeros 
-            per row).
-            NOTE: Ignored if `type` is not `'default'`.
-        f : int, optional
-            Parameter specific for `type == 'default'` and `sample_method == 'binom'`. Parameter 
-            controlling average number of replaced zeros for binomial sampling (default is `2`). 
-            NOTE: Ignored if `type` is not `'default'` or `sample_method` is not `'binom'`.
-        processes : int, optional
-            Number of parallel processes to use in calculations. Iterated over `B`
-            (default is `1`, which means no parallel computation).
-        random_state : int, optional
-            Set seed for random number generator (default is random seed).
+    Parameters
+    ----------
+    type : {'default', 'shap'}, optional
+        Type of aspect importance/attributions (default is `'default'`, which means 
+        the use of simplified LIME method).
+    N : int, optional
+        Number of observations that will be sampled from the `explainer.data` attribute
+        before the calculation of aspect importance (default is `2000`).
+    B : int, optional
+        Parameter specific for `type == 'shap'`. Number of random paths to calculate aspect
+        attributions (default is `25`).
+        NOTE: Ignored if `type` is not `'shap'`.
+    sample_method : {'default', 'binom'}, optional
+        Parameter specific for `type == 'default'`. Sampling method for creating binary matrix 
+        used as mask for replacing aspects in data (default is `'default'`, which means 
+        it randomly replaces one or two zeros per row; `'binom'` replaces random number of zeros 
+        per row).
+        NOTE: Ignored if `type` is not `'default'`.
+    f : int, optional
+        Parameter specific for `type == 'default'` and `sample_method == 'binom'`. Parameter 
+        controlling average number of replaced zeros for binomial sampling (default is `2`). 
+        NOTE: Ignored if `type` is not `'default'` or `sample_method` is not `'binom'`.
+    processes : int, optional
+        Number of parallel processes to use in calculations. Iterated over `B`
+        (default is `1`, which means no parallel computation).
+    random_state : int, optional
+        Set seed for random number generator (default is random seed).
 
-        Attributes
-        -----------
-        result : pd.DataFrame
-            Main result attribute of an explanation.
-        single_variable_importance : pd.DataFrame
-            Additional result attribute of an explanation (it contains information 
-            about the importance of individual variables).
-        type : {'default', 'shap'}
-            Type of aspect importance/attributions to calculate.
-        N : int
-            Number of observations that will be sampled from the `data` attribute
-            before the calculation of aspect importance.
-        B : int
-            Number of random paths to calculate aspect attributions.
-        sample_method : {'default', 'binom'}
-            Sampling method for creating binary matrix used as mask for replacing aspects in sampled data.
-        f : int
-            Average number of replaced zeros for binomial sampling.
-        processes : int
-            Number of parallel processes to use in calculations. Iterated over `B`.
-        random_state : int or None
-            Set seed for random number generator.
+    Attributes
+    -----------
+    result : pd.DataFrame
+        Main result attribute of an explanation.
+    single_variable_importance : pd.DataFrame
+        Additional result attribute of an explanation (it contains information 
+        about the importance of individual variables).
+    type : {'default', 'shap'}
+        Type of aspect importance/attributions to calculate.
+    N : int
+        Number of observations that will be sampled from the `data` attribute
+        before the calculation of aspect importance.
+    B : int
+        Number of random paths to calculate aspect attributions.
+    sample_method : {'default', 'binom'}
+        Sampling method for creating binary matrix used as mask for replacing aspects in sampled data.
+    f : int
+        Average number of replaced zeros for binomial sampling.
+    processes : int
+        Number of parallel processes to use in calculations. Iterated over `B`.
+    random_state : int or None
+        Set seed for random number generator.
     """
     def __init__(
         self,

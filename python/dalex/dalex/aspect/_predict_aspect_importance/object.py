@@ -11,86 +11,86 @@ from dalex._explanation import Explanation
 
 class PredictAspectImportance(Explanation):
     """Calculate predict-level aspect importance
-        Parameters
-        -----------
-        variable_groups : dict of lists 
-            Variables grouped in aspects to calculate their importance. 
-        type : {'default', 'shap'}, optional
-            Type of aspect importance/attributions (default is `'default'`, which means 
-            the use of simplified LIME method).
-        N : int, optional
-            Number of observations that will be sampled from the `data` attribute
-            before the calculation of aspect importance (default is `2000`).
-        B : int, optional
-            Parameter specific for `type == 'shap'`. Number of random paths to calculate aspect
-            attributions (default is `25`).
-            NOTE: Ignored if `type` is not `'shap'`.
-        n_var : int, optional
-            Parameter specific for `type == 'default'`. Maximum number of non-zero importances, i.e.
-            coefficients after lasso fitting (default is `0`, which means the linear regression is used).
-            NOTE: Ignored if `type` is not `'default'`.
-        sample_method : {'default', 'binom'}, optional
-            Parameter specific for `type == 'default'`. Sampling method for creating binary matrix 
-            used as mask for replacing aspects in sampled data (default is `'default'`, which means 
-            it randomly replaces one or two zeros per row; `'binom'` replaces random number of zeros 
-            per row).
-            NOTE: Ignored if `type` is not `'default'`.
-        f : int, optional
-            Parameter specific for `type == 'default'` and `sample_method == 'binom'`. Parameter 
-            controlling average number of replaced zeros for binomial sampling (default is `2`). 
-            NOTE: Ignored if `type` is not `'default'` or `sample_method` is not `'binom'`.
-        depend_method: {'assoc', 'pps'} or function, optional
-            The method of calculating the dependencies between variables (i.e. the dependency 
-            matrix). Default is `'assoc'`, which means the use of statistical association 
-            (correlation coefficient, Cramér's V and eta-quared); 
-            `'pps'` stands for Power Predictive Score.
-            NOTE: When a function is passed, it is called with the `data` and it 
-            must return a symmetric dependency matrix (`pd.DataFrame` with variable names as 
-            columns and rows).
-        corr_method : {'spearman', 'pearson', 'kendall'}, optional
-            The method of calculating correlation between numerical variables 
-            (default is `'spearman'`).
-            NOTE: Ignored if `depend_method` is not `'assoc'`.
-        agg_method : {'max', 'min', 'avg'}, optional
-            The method of aggregating the PPS values for pairs of variables 
-            (default is `'max'`).
-            NOTE: Ignored if `depend_method` is not `'pps'`. 
-        processes : int, optional
-            Parameter specific for `type == 'shap'`. Number of parallel processes to use in calculations.
-            Iterated over `B` (default is `1`, which means no parallel computation).
-        random_state : int, optional
-            Set seed for random number generator (default is random seed).
 
-        Attributes
-        -----------
-        result : pd.DataFrame
-            Main result attribute of an explanation.
-        variable_groups : dict of lists 
-            Variables grouped in aspects to calculate their importance. 
-        type : {'default', 'shap'}
-            Type of aspect importance/attributions to calculate.
-        N : int
-            Number of observations that will be sampled from the `data` attribute
-            before the calculation of aspect importance.
-        B : int
-            Number of random paths to calculate aspect attributions.
-        n_var : int
-            Maximum number of non-zero importances.
-        sample_method : {'default', 'binom'}
-            Sampling method for creating binary matrix used as mask for replacing aspects in sampled data.
-        f : int
-            Average number of replaced zeros for binomial sampling.
-        depend_method : {'assoc', 'pps'}
-            The method of calculating the dependencies between variables.
-        corr_method : {'spearman', 'pearson', 'kendall'}
-            The method of calculating correlation between numerical variables.
-        agg_method : {'max', 'min', 'avg'}
-            The method of aggregating the PPS values for pairs of variables.
-        processes : int
-            Number of parallel processes to use in calculations. Iterated over `B`.
-        random_state : int
-            Set seed for random number generator.
-        
+    Parameters
+    -----------
+    variable_groups : dict of lists 
+        Variables grouped in aspects to calculate their importance. 
+    type : {'default', 'shap'}, optional
+        Type of aspect importance/attributions (default is `'default'`, which means 
+        the use of simplified LIME method).
+    N : int, optional
+        Number of observations that will be sampled from the `data` attribute
+        before the calculation of aspect importance (default is `2000`).
+    B : int, optional
+        Parameter specific for `type == 'shap'`. Number of random paths to calculate aspect
+        attributions (default is `25`).
+        NOTE: Ignored if `type` is not `'shap'`.
+    n_var : int, optional
+        Parameter specific for `type == 'default'`. Maximum number of non-zero importances, i.e.
+        coefficients after lasso fitting (default is `0`, which means the linear regression is used).
+        NOTE: Ignored if `type` is not `'default'`.
+    sample_method : {'default', 'binom'}, optional
+        Parameter specific for `type == 'default'`. Sampling method for creating binary matrix 
+        used as mask for replacing aspects in sampled data (default is `'default'`, which means 
+        it randomly replaces one or two zeros per row; `'binom'` replaces random number of zeros 
+        per row).
+        NOTE: Ignored if `type` is not `'default'`.
+    f : int, optional
+        Parameter specific for `type == 'default'` and `sample_method == 'binom'`. Parameter 
+        controlling average number of replaced zeros for binomial sampling (default is `2`). 
+        NOTE: Ignored if `type` is not `'default'` or `sample_method` is not `'binom'`.
+    depend_method: {'assoc', 'pps'} or function, optional
+        The method of calculating the dependencies between variables (i.e. the dependency 
+        matrix). Default is `'assoc'`, which means the use of statistical association 
+        (correlation coefficient, Cramér's V and eta-quared); 
+        `'pps'` stands for Power Predictive Score.
+        NOTE: When a function is passed, it is called with the `data` and it 
+        must return a symmetric dependency matrix (`pd.DataFrame` with variable names as 
+        columns and rows).
+    corr_method : {'spearman', 'pearson', 'kendall'}, optional
+        The method of calculating correlation between numerical variables 
+        (default is `'spearman'`).
+        NOTE: Ignored if `depend_method` is not `'assoc'`.
+    agg_method : {'max', 'min', 'avg'}, optional
+        The method of aggregating the PPS values for pairs of variables 
+        (default is `'max'`).
+        NOTE: Ignored if `depend_method` is not `'pps'`. 
+    processes : int, optional
+        Parameter specific for `type == 'shap'`. Number of parallel processes to use in calculations.
+        Iterated over `B` (default is `1`, which means no parallel computation).
+    random_state : int, optional
+        Set seed for random number generator (default is random seed).
+
+    Attributes
+    -----------
+    result : pd.DataFrame
+        Main result attribute of an explanation.
+    variable_groups : dict of lists 
+        Variables grouped in aspects to calculate their importance. 
+    type : {'default', 'shap'}
+        Type of aspect importance/attributions to calculate.
+    N : int
+        Number of observations that will be sampled from the `data` attribute
+        before the calculation of aspect importance.
+    B : int
+        Number of random paths to calculate aspect attributions.
+    n_var : int
+        Maximum number of non-zero importances.
+    sample_method : {'default', 'binom'}
+        Sampling method for creating binary matrix used as mask for replacing aspects in sampled data.
+    f : int
+        Average number of replaced zeros for binomial sampling.
+    depend_method : {'assoc', 'pps'}
+        The method of calculating the dependencies between variables.
+    corr_method : {'spearman', 'pearson', 'kendall'}
+        The method of calculating correlation between numerical variables.
+    agg_method : {'max', 'min', 'avg'}
+        The method of aggregating the PPS values for pairs of variables.
+    processes : int
+        Number of parallel processes to use in calculations. Iterated over `B`.
+    random_state : int
+        Set seed for random number generator.
     """
     def __init__(
         self,
