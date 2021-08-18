@@ -1,15 +1,15 @@
 from copy import deepcopy
 
-import pandas as pd
-from dalex.aspect._model_aspect_importance.object import ModelAspectImportance
-
 import numpy as np
+import pandas as pd
 import plotly.graph_objs as go
-
 from dalex import _theme
 from dalex._explanation import Explanation
+from dalex.aspect._model_aspect_importance.object import ModelAspectImportance
 from dalex.model_explanations._variable_importance import VariableImportance
-from . import checks, utils, plot
+from ipywidgets import HBox, Layout
+
+from . import checks, plot, utils
 
 
 class ModelTriplot(Explanation):
@@ -188,7 +188,7 @@ class ModelTriplot(Explanation):
         """
         ## right plot
         hierarchical_clustering_dendrogram_plot_without_annotations = (
-            self.hierarchical_clustering_dendrogram
+            self._hierarchical_clustering_dendrogram
         )
         variables_order = list(
             hierarchical_clustering_dendrogram_plot_without_annotations.layout.yaxis.ticktext
@@ -365,7 +365,6 @@ class ModelTriplot(Explanation):
         ##################################################################
 
         if widget:
-            fig.update_layout(width=None)
             fig = go.FigureWidget(fig, layout={"autosize": True, "hoverdistance": 100})
             original_bar_colors = deepcopy([fig.data[0]["marker"]["color"]] * m)
             original_text_colors = deepcopy(list(fig.data[0]["textfont"]["color"]))
@@ -470,7 +469,7 @@ class ModelTriplot(Explanation):
 
             for i in range(1, k):
                 fig.data[i].on_click(_update_trace)
-            return fig
+            return HBox([fig], layout=Layout(overflow='scroll', width=f'{fig.layout.width}px'))
         if show:
             fig.show(config=_theme.get_default_config())
         else:
