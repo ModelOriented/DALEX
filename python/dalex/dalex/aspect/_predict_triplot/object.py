@@ -1,16 +1,16 @@
 from copy import deepcopy
-from .._predict_aspect_importance.utils import calculate_predict_aspect_importance
 from re import T
 
 import numpy as np
 import pandas as pd
-
-from . import checks, utils, plot
 import plotly.graph_objs as go
-
-
 from dalex import _theme
 from dalex._explanation import Explanation
+from ipywidgets import HBox, Layout
+
+from .._predict_aspect_importance.utils import \
+    calculate_predict_aspect_importance
+from . import checks, plot, utils
 
 
 class PredictTriplot(Explanation):
@@ -204,12 +204,12 @@ class PredictTriplot(Explanation):
             (default is `False`).
         show : bool, optional
             `True` shows the plot; `False` returns the plotly Figure object 
-            or FigureWidget ipywidget object, depends on the value of `widget` parameter
             (default is `True`).
+            NOTE: Ignored if `widget` is `True`.
 
         Returns
         -------
-        None or plotly.graph_objects.Figure or plotly.graph_objs._figurewidget.FigureWidget
+        None or plotly.graph_objects.Figure or ipywidgets.HBox with plotly.graph_objs._figurewidget.FigureWidget
             Return figure that can be edited or saved. See `show` parameter.
         """    
 
@@ -394,7 +394,6 @@ class PredictTriplot(Explanation):
         ##################################################################
 
         if widget:
-            fig.update_layout(width=None)
             fig = go.FigureWidget(fig, layout={"autosize": True, "hoverdistance": 100})
             original_bar_colors = deepcopy(list(fig.data[0]["marker"]["color"]))
             original_text_colors = deepcopy(list(fig.data[0]["textfont"]["color"]))
@@ -499,7 +498,7 @@ class PredictTriplot(Explanation):
 
             for i in range(1, k):
                 fig.data[i].on_click(_update_trace)
-            return fig
+            return HBox([fig], layout=Layout(overflow='scroll', width=f'{fig.layout.width}px'))
         if show:
             fig.show(config=_theme.get_default_config())
         else:
