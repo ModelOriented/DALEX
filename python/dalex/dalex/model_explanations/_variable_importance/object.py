@@ -339,7 +339,7 @@ class VariableImportance(Explanation):
                     row=i + 1, col=1)
 
                 fig.update_yaxes({'type': 'category', 'autorange': 'reversed', 'gridwidth': 2, 'automargin': True,
-                                  'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True},
+                                  'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 10, 'dtick':1, 'fixedrange': True},
                                  row=i + 1, col=1)
 
                 fig.update_xaxes(
