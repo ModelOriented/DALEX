@@ -476,14 +476,14 @@ class Aspect:
             (default is `'variable_importance'`, which is Permutational Variable Importance).
         N : int, optional
             Number of observations that will be sampled from the `explainer.data` attribute before
-            the calculation of aspect importance. `None` means all `data` (default is `2000`).
+            the calculation of aspect importance. `None` means all `data` (default is `1000`).
         B : int, optional
             Number of permutation rounds to perform on each variable (default is `10`).
         processes : int, optional
             Number of parallel processes to use in calculations. Iterated over `B`
             (default is `1`, which means no parallel computation).
-        random_state : [type], optional
-            [description], by default None
+        random_state : int, optional
+            Set seed for random number generator (default is random seed).
 
         Returns
         -------
