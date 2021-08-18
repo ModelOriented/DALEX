@@ -189,7 +189,7 @@ class PredictTriplot(Explanation):
         rounding_function : function, optional
             A function that will be used for rounding numbers (default is `np.around`).
         bar_width : float, optional
-            Width of bars in px (default is `16`).
+            Width of bars in px (default is `25`).
         width : float, optional
             Width of triplot in px (default is `1500`).
         abbrev_labels : int, optional
