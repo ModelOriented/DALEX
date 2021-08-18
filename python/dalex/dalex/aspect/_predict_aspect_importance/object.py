@@ -220,7 +220,8 @@ class PredictAspectImportance(Explanation):
             Maximum number of aspects that will be presented for for each subplot
             (default is `10`).
         show_variables_names : bool, optional
-            [description], by default True
+            `True` shows names of variables grouped in aspects; `False` shows names of aspects
+            (default is `True`).
         digits : int, optional
             Number of decimal places (`np.around`) to round contributions.
             See `rounding_function` parameter (default is `3`).
