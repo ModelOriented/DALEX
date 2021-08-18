@@ -222,7 +222,7 @@ class ModelAspectImportance(VariableImportance):
         show : bool, optional
             `True` shows the plot; `False` returns the plotly Figure object that can
             be edited or saved using the `write_image()` method (default is `True`).
-            
+
         Returns
         -----------
         None or plotly.graph_objects.Figure
@@ -492,7 +492,7 @@ class ModelAspectImportance(VariableImportance):
                     else str(rounding_function(np.abs(val), digits))
                 )
                 tt = df.apply(
-                    lambda row: plot.tooltip_text(row, rounding_function, digits),
+                    lambda row: plot.tooltip_text_aspect(row, rounding_function, digits),
                     axis=1,
                 )
                 df = df.assign(label_text=lt, tooltip_text=tt)
