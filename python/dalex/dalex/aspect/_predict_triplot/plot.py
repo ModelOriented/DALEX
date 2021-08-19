@@ -54,13 +54,14 @@ def plot_predict_hierarchical_importance(
                 imp_scatter = abs(hierarchical_importance_data.iloc[-1]["importance"])
             else:
                 imp_scatter = hierarchical_importance_data.iloc[-1]["importance"]
+            change_last = True if type == 'default' else False
             scatter.hoverinfo = "text"
             scatter.hoverlabel = {"bgcolor": "rgba(0,0,0,0.8)"}
-            scatter.hovertext = get_tooltip_text(hierarchical_importance_data.iloc[-1], rounding_function, digits)
+            scatter.hovertext = get_tooltip_text(hierarchical_importance_data.iloc[-1], rounding_function, digits, change_last)
             scatter_clustering = dendrogram_hierarchical_correlation.data[i]
             scatter_clustering.hoverinfo = "text"
             scatter_clustering.hoverlabel = {"bgcolor": "rgba(0,0,0,0.8)"}
-            scatter_clustering.hovertext = get_tooltip_text(hierarchical_importance_data.iloc[-1], rounding_function, digits)
+            scatter_clustering.hovertext = get_tooltip_text(hierarchical_importance_data.iloc[-1], rounding_function, digits, change_last)
             scatter.x[1:3] = imp_scatter
             importance_dict[np.mean(scatter.y[1:3])] = imp_scatter
 
@@ -106,17 +107,18 @@ def get_ticktext_for_plot(
     return ticktext
 
 
-def get_tooltip_text(row, rounding_function, digits):
+def get_tooltip_text(row, rounding_function, digits, last=False):
     var_val_string = ""
     for i in range(len(row.variables_names)):
         var_val_string += (
             "<br>" + row.variables_names[i] + " = " + str(row.variables_values[i])
         )
+    keyword = "Change in average response: " if last else "Importance: " 
 
     return (
         f"Min abs depend: {rounding_function(row.min_depend, digits)}<br>"
         + "(between variables: " + ", ".join(row.vars_min_depend) + ")<br>"
-        + f"Importance: {rounding_function(row.importance, digits)}<br>Variables: "
+        + keyword + f"{rounding_function(row.importance, digits)}<br>Variables: "
         + var_val_string
     )
 
