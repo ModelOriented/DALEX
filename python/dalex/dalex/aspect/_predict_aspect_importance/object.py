@@ -66,6 +66,10 @@ class PredictAspectImportance(Explanation):
     -----------
     result : pd.DataFrame
         Main result attribute of an explanation.
+    prediction : float
+        Prediction for `new_observation`.
+    intercept : float
+        Average prediction for `data`.
     variable_groups : dict of lists 
         Variables grouped in aspects to calculate their importance. 
     type : {'default', 'shap'}
@@ -131,6 +135,8 @@ class PredictAspectImportance(Explanation):
         self.agg_method = _agg_method
         self.random_state = _random_state
         self.processes = _processes
+        self.prediction = None
+        self.intercept = None
         self.result = pd.DataFrame()
 
     def _repr_html_(self):
@@ -154,7 +160,10 @@ class PredictAspectImportance(Explanation):
         _new_observation = checks.check_new_observation(new_observation, explainer)
         checks.check_columns_in_new_observation(_new_observation, explainer)
         _variable_groups = checks.check_variable_groups(self.variable_groups, explainer)
-    
+        
+        self.prediction = explainer.predict(_new_observation)[0]
+        self.intercept = explainer.y_hat.mean()
+        
         if self.type == "default":
             self.result = utils.calculate_predict_aspect_importance(
                 explainer,
@@ -200,6 +209,7 @@ class PredictAspectImportance(Explanation):
     def plot(
         self,
         objects=None,
+        baseline=None,
         max_aspects=10,
         show_variables_names=True,
         digits=3,
@@ -217,6 +227,9 @@ class PredictAspectImportance(Explanation):
         ----------
         objects : PredictAspectImportance object or array_like of PredictAspectImportance objects
             Additional objects to plot in subplots (default is `None`).
+        baseline: float, optional
+            Starting x point for bars 
+            (default is 0 if `type` is `'default'` and average prediction if `type` is `'shap'`).
         max_aspects : int, optional
             Maximum number of aspects that will be presented for for each subplot
             (default is `10`).
@@ -249,16 +262,19 @@ class PredictAspectImportance(Explanation):
         """
 
         _result_list = [self.result.copy()]
+        _intercept_list = [self.intercept]
         if objects is None:
             n = 1
         elif isinstance(objects, self.__class__):
             n = 2
             _result_list += [objects.result.copy()]
+            _intercept_list += [objects.intercept]
         elif isinstance(objects, (list, tuple)):
             n = len(objects) + 1
             for ob in objects:
                 _global_checks.global_check_object_class(ob, self.__class__)
                 _result_list += [ob.result.copy()]
+                _intercept_list += [ob.intercept]
         else:
             _global_checks.global_raise_objects_class(objects, self.__class__)
 
@@ -294,6 +310,12 @@ class PredictAspectImportance(Explanation):
                 m = _result.shape[0]
             else:
                 m = max_aspects + 1
+
+            if baseline is None:
+                if self.type == 'shap':
+                    baseline = _intercept_list[i]
+                else: 
+                    baseline = 0 
             
             _result = _result.iloc[:max_aspects, :]
             _result.loc[:, "importance"] = rounding_function(
@@ -311,8 +333,8 @@ class PredictAspectImportance(Explanation):
 
             fig.add_shape(
                 type="line",
-                x0=0,
-                x1=0,
+                x0=baseline,
+                x1=baseline,
                 y0=-1,
                 y1=m,
                 yref="paper",
@@ -334,6 +356,7 @@ class PredictAspectImportance(Explanation):
                 textposition="outside",
                 text=_result["label_text"].tolist(),
                 marker_color=[vcolors[int(c)] for c in _result["color"].tolist()],
+                base=baseline,
                 hovertext=_result["tooltip_text"].tolist(),
                 hoverinfo="text",
                 hoverlabel={"bgcolor": "rgba(0,0,0,0.8)"},
@@ -375,19 +398,18 @@ class PredictAspectImportance(Explanation):
             plot_height += m * bar_width + (m + 1) * bar_width / 4
 
             if min_max is None:
-                min_max_margin = _result.importance.values.ptp() * 0.15
+                cum = _result.importance.values + baseline
+                min_max_margin =  cum.ptp() * 0.15 
                 temp_min_max[0] = np.min(
                     [
                         temp_min_max[0],
-                        _result.importance.values.min() - min_max_margin,
-                        0 - min_max_margin,
+                        cum.min() - min_max_margin,
                     ]
                 )
                 temp_min_max[1] = np.max(
                     [
                         temp_min_max[1],
-                        _result.importance.values.max() + min_max_margin,
-                        0 + min_max_margin,
+                        cum.max() + min_max_margin,
                     ]
                 )
 

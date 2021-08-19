@@ -38,7 +38,7 @@ def calculate_predict_aspect_importance(
                 "aspect_name": list(variables_groups.keys())[0],
                 "variables_names": [list(variables_groups.values())[0]],
                 "variables_values": new_observation[list(variables_groups.values())[0]].values.tolist(),
-                "importance": explainer.predict(new_observation) - np.mean(explainer.predict(n_sample)),
+                "importance": explainer.predict(new_observation) - explainer.y_hat.mean(),
                 "label": explainer.label,
             }
         )

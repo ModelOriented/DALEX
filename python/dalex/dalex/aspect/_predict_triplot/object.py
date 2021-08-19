@@ -51,6 +51,10 @@ class PredictTriplot(Explanation):
     single_variable_importance : pd.DataFrame
         Additional result attribute of an explanation (it contains information 
         about the importance of individual variables).
+    prediction : float
+        Prediction for `new_observation`.
+    intercept : float
+        Average prediction for `data`.
     type : {'default', 'shap'}
         Type of aspect importance/attributions to calculate.
     N : int
@@ -120,6 +124,9 @@ class PredictTriplot(Explanation):
         self._hierarchical_clustering_dendrogram = (
             aspect._hierarchical_clustering_dendrogram
         )
+
+        self.prediction = aspect.explainer.predict(_new_observation)[0]
+        self.intercept = aspect.explainer.y_hat.mean()
 
         ## middle plot data
         self.result = (
