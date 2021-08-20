@@ -57,6 +57,8 @@ In many applications we need to know, understand or prove how input variables ar
 
 ### R package
 
+* [Introduction to Responsible Machine Learning @ useR! 2021](https://github.com/MI2DataLab/ResponsibleML-UseR2021)
+* DALEX + mlr3 [@ BioColl 2021](https://github.com/pbiecek/BioColl2021) & [@ Open-Forest-Training 2021](https://github.com/pbiecek/Open-Forest-Training-2021/)
 * [Materials from Explanatory Model Analysis Workshop @ eRum 2020](https://github.com/pbiecek/XAIatERUM2020), [cheatsheet](https://github.com/pbiecek/XAIatERUM2020/blob/master/Cheatsheet.pdf)
 * How to use DALEX with: [keras](https://rawgit.com/pbiecek/DALEX_docs/master/vignettes/DALEX_and_keras.html), [parsnip](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_parsnip.html), [caret](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_caret.html), [mlr](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_mlr.html), [H2O](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_h2o.html), [xgboost](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/DALEX_and_xgboost.html)
 * [Compare GBM models created in different languages](https://raw.githack.com/pbiecek/DALEX_docs/master/vignettes/Multilanguages_comparision.html): gbm and CatBoost in R / gbm in h2o / gbm in Python
