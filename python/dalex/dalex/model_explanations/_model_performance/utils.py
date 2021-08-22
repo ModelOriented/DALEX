@@ -25,12 +25,12 @@ def r2(y_pred, y_true):
 def auc(y_pred, y_true):
     df = pd.DataFrame({'y_pred': y_pred, 'y_true': y_true})
     if df.y_true.nunique() == 1:
-        raise ValueError("Only one class present in y_true. ROC AUC score is not defined in that case.")
-    df = df.sort_values('y_pred', ascending=False)
+        raise ValueError("Only one class present in `y`. ROC AUC score is not defined in that case.")
+    df = df.groupby('y_pred').sum().reset_index().sort_values('y_pred', ascending=False)
 
     # assumes that y = 0/1 where 1 is the positive label
-    tpr = df.loc[:, 'y_true'].cumsum() / df.loc[:, 'y_true'].sum()
-    fpr = (1 - df.loc[:, 'y_true']).cumsum() / (1 - df.loc[:, 'y_true']).sum()
+    tpr = pd.Series([0]).append(df.y_true.cumsum()) / df.y_true.sum()
+    fpr = pd.Series([0]).append((1 - df.y_true).cumsum()) / (1 - df.y_true).sum()
 
     _auc = (np.diff(fpr) * (tpr.iloc[1:].values + tpr.iloc[:-1].values) / 2).sum()
 
