@@ -59,7 +59,7 @@ def add_text_and_tooltips_to_dendrogram(fig, _dendrogram_aspects_ordered, roundi
         min_depend_val_rounded = str(rounding_function(_dendrogram_aspects_ordered.iloc[i].min_depend, digits))
         if x_cord != 1:
             scatter.mode = "text+lines"
-            scatter["text"] = [None, None, min_depend_val_rounded, None, None]
+            scatter["text"] = [None, None, str(rounding_function(1-x_cord, digits)), None, None]
             scatter["textposition"] = "middle left"
             scatter.hoverinfo = "text"
             scatter.hoverlabel = {"bgcolor": "rgba(0,0,0,0.8)"}
