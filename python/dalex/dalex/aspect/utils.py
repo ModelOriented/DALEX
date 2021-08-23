@@ -55,7 +55,7 @@ def calculate_cat_num_assoc_matrix(data, categorical_variables, numerical_variab
 
 
 def calculate_assoc_matrix(data, corr_method):
-    corr_matrix = data.corr(corr_method)
+    corr_matrix = abs(data.corr(corr_method))
     numerical_variables = corr_matrix.columns
     categorical_variables = list(set(data.columns) - set(numerical_variables))
     n = len(data)
