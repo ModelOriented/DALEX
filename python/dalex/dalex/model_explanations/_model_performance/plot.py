@@ -43,17 +43,19 @@ def plot_ecdf(df_list, colors, title):
 def plot_roc(df_list, colors, title):
     fig = go.Figure()
     grid_points = 101
-    idx = np.arange(df_list[0].shape[0], step=int(df_list[0].shape[0]/grid_points))
     for i, df in enumerate(df_list):
-        _df = df.loc[:, ['y_hat', 'y']].groupby('y_hat').sum().reset_index().sort_values('y_hat', ascending=False)
-        _df = _df.assign(tpr=pd.Series([0]).append(_df.y_true.cumsum()) / _df.y_true.sum(),
-                         fpr=pd.Series([0]).append((1 - _df.y_true).cumsum()) / (1 - _df.y_true).sum())
+        tpr_temp = df.loc[:, ['y_hat', 'y']].groupby('y_hat').sum().reset_index().sort_values('y_hat', ascending=False)
+        fpr_temp = df.loc[:, ['y_hat']].assign(y=1-df.y).groupby('y_hat').sum().reset_index().sort_values('y_hat', ascending=False)
+
+        _df = pd.DataFrame({'tpr': tpr_temp.y.cumsum() / df.y.sum(),
+                            'fpr': fpr_temp.y.cumsum() / (1 - df.y).sum()})
+                            
         if _df.shape[0] > grid_points:
-            _df = _df.iloc[idx, :].sort_values('fpr', ascending=True)
+            _df = _df.sample(grid_points).sort_values('fpr', ascending=True)
 
         fig.add_scatter(
-            x=_df.fpr,
-            y=_df.tpr,
+            x=[0] + _df['fpr'].tolist(),
+            y=[0] + _df['tpr'].tolist(),
             line_shape='hv',
             name=df.iloc[0, df.columns.get_loc('label')],
             marker=dict(color=colors[i])
