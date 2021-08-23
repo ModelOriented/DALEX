@@ -9,7 +9,7 @@ from dalex._explanation import Explanation
 from ipywidgets import HBox, Layout
 
 from .._predict_aspect_importance.utils import \
-    calculate_predict_aspect_importance
+    calculate_predict_aspect_importance, calculate_shap_predict_aspect_importance
 from . import checks, plot, utils
 
 
@@ -159,16 +159,26 @@ class PredictTriplot(Explanation):
 
         ## left plot data
         variable_groups = aspect.get_aspects(h=2)
-        self.single_variable_importance = calculate_predict_aspect_importance(
-            aspect.explainer,
-            _new_observation,
-            variable_groups,
-            self.N,
-            n_var=0,
-            sample_method=self.sample_method,
-            f=self.f,
-            random_state=self.random_state,
-        )
+        if self.type == 'default':
+            self.single_variable_importance = calculate_predict_aspect_importance(
+                aspect.explainer,
+                _new_observation,
+                variable_groups,
+                self.N,
+                n_var=0,
+                sample_method=self.sample_method,
+                f=self.f,
+                random_state=self.random_state,
+            )
+        elif self.type == 'shap':
+            self.single_variable_importance = calculate_shap_predict_aspect_importance(
+                aspect.explainer, 
+                _new_observation, 
+                variable_groups, 
+                self.N, 
+                self.B,
+                self.processes, 
+                self.random_state)
 
     def plot(
         self,
