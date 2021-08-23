@@ -58,9 +58,8 @@ def add_text_and_tooltips_to_dendrogram(fig, _dendrogram_aspects_ordered, roundi
         scatter.y = np.insert(scatter.y, 2, y_cord)
         min_depend_val_rounded = str(rounding_function(_dendrogram_aspects_ordered.iloc[i].min_depend, digits))
         if x_cord != 1:
-            label = "{0:.2f}".format(1 - x_cord)
             scatter.mode = "text+lines"
-            scatter["text"] = [None, None, label, None, None]
+            scatter["text"] = [None, None, min_depend_val_rounded, None, None]
             scatter["textposition"] = "middle left"
             scatter.hoverinfo = "text"
             scatter.hoverlabel = {"bgcolor": "rgba(0,0,0,0.8)"}
@@ -80,7 +79,7 @@ def add_text_and_tooltips_to_dendrogram(fig, _dendrogram_aspects_ordered, roundi
 
     if corner_scatters:  
         scatter = corner_scatters[len(corner_scatters)//2]
-        label = "0.00"
+        label = str(rounding_function(0, digits))
         scatter.mode = "text+lines"
         scatter["text"] = [None, None, label, None, None]
         scatter["textposition"] = "middle left"

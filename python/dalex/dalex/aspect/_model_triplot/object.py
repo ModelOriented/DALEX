@@ -209,12 +209,16 @@ class ModelTriplot(Explanation):
         hierarchical_clustering_dendrogram_plot = plot.add_text_to_dendrogram(
             hierarchical_clustering_dendrogram_plot_without_annotations,
             updated_dendro_traces,
+            rounding_function, 
+            digits,
             type="clustering",
         )
 
         hierarchical_importance_dendrogram_plot = plot.add_text_to_dendrogram(
             hierarchical_importance_dendrogram_plot_without_annotations,
             updated_dendro_traces,
+            rounding_function, 
+            digits,
             type="importance",
         )
 
@@ -237,10 +241,10 @@ class ModelTriplot(Explanation):
         )
         fig.data[0]["textfont_color"] = ["#371ea3"] * m
 
-        ## Do not touch! It works, but we don't know why.
         fig.layout["shapes"][0]["y0"] = -0.01
-        fig.layout["shapes"][0]["y1"] = 0.1
-        ##
+        fig.layout["shapes"][0]["y1"] = 1.01
+        fig.layout["shapes"][0]["yref"] = 'paper'
+        
         fig.layout["xaxis"]["range"] = (
             fig.layout["xaxis"]["range"][0],
             fig.layout["xaxis"]["range"][1] * 1.05,

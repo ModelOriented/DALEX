@@ -244,12 +244,16 @@ class PredictTriplot(Explanation):
         hierarchical_clustering_dendrogram_plot = plot.add_text_to_dendrogram(
             hierarchical_clustering_dendrogram_plot_without_annotations,
             updated_dendro_traces,
+            rounding_function,
+            digits,
             type="clustering",
         )
 
         hierarchical_importance_dendrogram_plot = plot.add_text_to_dendrogram(
             hierarchical_importance_dendrogram_plot_without_annotations,
             updated_dendro_traces,
+            rounding_function,
+            digits,
             type="importance",
         )
 

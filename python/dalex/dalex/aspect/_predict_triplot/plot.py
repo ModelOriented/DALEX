@@ -123,7 +123,7 @@ def get_tooltip_text(row, rounding_function, digits, last=False):
     )
 
 
-def add_text_to_dendrogram(fig, updated, type="clustering"):
+def add_text_to_dendrogram(fig, updated, rounding_function, digits, type="clustering"):
     res_fig = go.Figure(fig)
     corner_scatters = [] 
     for i, scatter in enumerate(res_fig.data):
@@ -131,9 +131,9 @@ def add_text_to_dendrogram(fig, updated, type="clustering"):
             x_cord = scatter.x[1]
             y_cord = np.mean(scatter.y[1:3])
             if type == "clustering":
-                lab_text = 1 - x_cord
+                lab_text = str(rounding_function(1-x_cord, digits))
             else:
-                lab_text = x_cord
+                lab_text = str(rounding_function(x_cord, digits))
             scatter.x = np.insert(scatter.x, 2, x_cord)
             scatter.y = np.insert(scatter.y, 2, y_cord)
             label = "{0:.2f}".format(lab_text)
