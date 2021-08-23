@@ -40,8 +40,8 @@ class ROCContainer(PlotContainer):
 
         self.data = {
             'cutoff': df['y_hat'].tolist(),
-            'specifity': [0] + df['TNR'].tolist(),
-            'sensivity': [1] + df['TPR'].tolist()
+            'specifity': [1] + df['TNR'].tolist(),
+            'sensivity': [0] + df['TPR'].tolist()
         }
 
     def test_arena(arena):
