@@ -26,9 +26,9 @@ class PredictAspectImportance(Explanation):
         Parameter specific for `type == 'shap'`. Number of random paths to calculate aspect
         attributions (default is `25`).
         NOTE: Ignored if `type` is not `'shap'`.
-    n_var : int, optional
+    n_aspects : int, optional
         Parameter specific for `type == 'default'`. Maximum number of non-zero importances, i.e.
-        coefficients after lasso fitting (default is `0`, which means the linear regression is used).
+        coefficients after lasso fitting (default is `None`, which means the linear regression is used).
         NOTE: Ignored if `type` is not `'default'`.
     sample_method : {'default', 'binom'}, optional
         Parameter specific for `type == 'default'`. Sampling method for creating binary matrix 
@@ -79,7 +79,7 @@ class PredictAspectImportance(Explanation):
         before the calculation of aspect importance.
     B : int
         Number of random paths to calculate aspect attributions.
-    n_var : int
+    n_aspects : int
         Maximum number of non-zero importances.
     sample_method : {'default', 'binom'}
         Sampling method for creating binary matrix used as mask for replacing aspects in sampled data.
@@ -102,7 +102,7 @@ class PredictAspectImportance(Explanation):
         type="default",
         N=2000,
         B=25,
-        n_var=0,
+        n_aspects=0,
         sample_method="default",
         f=2,
         depend_method="assoc",
@@ -127,7 +127,7 @@ class PredictAspectImportance(Explanation):
         self.type = _type
         self.N = N
         self.B = B
-        self.n_var = n_var
+        self.n_aspects = n_aspects
         self.sample_method = sample_method
         self.f = f
         self.depend_method = _depend_method
@@ -170,7 +170,7 @@ class PredictAspectImportance(Explanation):
                 _new_observation,
                 _variable_groups,
                 self.N,
-                self.n_var,
+                self.n_aspects,
                 self.sample_method,
                 self.f,
                 self.random_state,
