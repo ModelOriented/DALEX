@@ -10,6 +10,7 @@ from dalex.model_explanations._variable_importance import VariableImportance
 from ipywidgets import HBox, Layout
 
 from . import checks, plot, utils
+from ... import _global_checks
 
 
 class ModelTriplot(Explanation):
@@ -186,6 +187,7 @@ class ModelTriplot(Explanation):
         None or plotly.graph_objects.Figure or ipywidgets.HBox with plotly.graph_objs._figurewidget.FigureWidget
             Return figure that can be edited or saved. See `show` parameter.
         """
+        _global_checks.global_check_import('kaleido', 'Model Triplot')
         ## right plot
         hierarchical_clustering_dendrogram_plot_without_annotations = (
             self._hierarchical_clustering_dendrogram

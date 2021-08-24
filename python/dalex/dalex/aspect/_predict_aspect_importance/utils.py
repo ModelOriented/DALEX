@@ -11,6 +11,7 @@ from ..utils import (
     calculate_depend_matrix,
     get_min_depend_from_matrix,
 )
+from ... import _global_checks
 
 
 
@@ -24,6 +25,7 @@ def calculate_predict_aspect_importance(
     f,
     random_state
 ):
+    _global_checks.global_check_import('scikit-learn', 'Predict Aspect Importance explanations')
     # create sample from data and copy
     r = np.random.RandomState(random_state)
     N = min(explainer.data.shape[0], N)
