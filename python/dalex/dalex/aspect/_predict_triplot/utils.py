@@ -46,7 +46,7 @@ def calculate_predict_hierarchical_importance(
                 new_observation=new_observation,
                 variables_groups=aspects_list_current,
                 N=N,
-                n_var=0,
+                n_aspects=None,
                 sample_method=sample_method,
                 f=f,
                 random_state=random_state,

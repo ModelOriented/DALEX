@@ -19,7 +19,7 @@ def calculate_predict_aspect_importance(
     new_observation,
     variables_groups,
     N,
-    n_var,
+    n_aspects,
     sample_method,
     f,
     random_state
@@ -63,13 +63,13 @@ def calculate_predict_aspect_importance(
     X_prim = pd.DataFrame(X_prim)
     X_prim.columns = [aspect_name for aspect_name in variables_groups]
 
-    if n_var == 0:
+    if n_aspects == None:
         lr = LinearRegression()
         lr.fit(X_prim, y_changed)
         model_coef = lr.coef_
     else:
         lasso_res_matrix = lasso_path(X_prim, y_changed)[1]
-        indx = np.max(np.where(np.count_nonzero(lasso_res_matrix, axis=0) <= n_var))
+        indx = np.max(np.where(np.count_nonzero(lasso_res_matrix, axis=0) <= n_aspects))
         model_coef = lasso_res_matrix[:, indx]
 
     # generate result pd.DataFrame

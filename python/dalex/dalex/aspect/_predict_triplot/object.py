@@ -165,7 +165,7 @@ class PredictTriplot(Explanation):
                 _new_observation,
                 variable_groups,
                 self.N,
-                n_var=0,
+                n_aspects=None,
                 sample_method=self.sample_method,
                 f=self.f,
                 random_state=self.random_state,

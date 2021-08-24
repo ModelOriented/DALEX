@@ -182,7 +182,7 @@ class Aspect:
         h=0.5,
         N=2000,
         B=25,
-        n_var=0,
+        n_aspects=0,
         sample_method="default",
         f=2,
         label=None,
@@ -210,9 +210,9 @@ class Aspect:
             Parameter specific for `type == 'shap'`. Number of random paths to calculate aspect
             attributions (default is `25`).
             NOTE: Ignored if `type` is not `'shap'`.
-        n_var : int, optional
+        n_aspects : int, optional
             Parameter specific for `type == 'default'`. Maximum number of non-zero importances, i.e.
-            coefficients after lasso fitting (default is `0`, which means the linear regression is used).
+            coefficients after lasso fitting (default is `None`, which means the linear regression is used).
             NOTE: Ignored if `type` is not `'default'`.
         sample_method : {'default', 'binom'}, optional
             Parameter specific for `type == 'default'`. Sampling method for creating binary matrix
@@ -258,7 +258,7 @@ class Aspect:
             type,
             N,
             B,
-            n_var,
+            n_aspects,
             sample_method,
             f,
             self.depend_method,
