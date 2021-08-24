@@ -31,17 +31,21 @@ class ROCContainer(PlotContainer):
 
         tpr_temp = df.groupby('y_hat').sum().reset_index().sort_values('y_hat', ascending=False)
         fpr_temp = df.assign(y=1-df.y).groupby('y_hat').sum().reset_index().sort_values('y_hat', ascending=False)
-        df['TPR'] = tpr_temp.y.cumsum() / P_n
-        df['TNR'] = 1 - (fpr_temp.y.cumsum() / N_n)
+        
+        _df = pd.DataFrame({
+            'TPR': tpr_temp.y.cumsum() / P_n,
+            'TNR': 1 - (fpr_temp.y.cumsum() / N_n),
+            'cutoff': np.sort(df['y_hat'].unique())[::-1]
+        })
 
         grid_points = self.get_option('grid_points')
-        if df.shape[0] > grid_points:
-            df = df.sample(grid_points).sort_values('y_hat', ascending=False)
+        if _df.shape[0] > grid_points:
+            _df = _df.sample(grid_points).sort_values('cutoff', ascending=False)
 
         self.data = {
-            'cutoff': df['y_hat'].tolist(),
-            'specifity': [1] + df['TNR'].tolist(),
-            'sensivity': [0] + df['TPR'].tolist()
+            'cutoff': _df['cutoff'].tolist(),
+            'specifity': [1] + _df['TNR'].tolist(),
+            'sensivity': [0] + _df['TPR'].tolist()
         }
 
     def test_arena(arena):
