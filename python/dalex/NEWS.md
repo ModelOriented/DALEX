@@ -3,6 +3,10 @@
 development
 ----------------------------------------------------------------
 
+#### breaking changes
+
+* improved the calculation of AUC, ROC plot ([#459](https://github.com/ModelOriented/DALEX/issues/459))
+
 #### fixes
 
 * wrong yaxis labels in `VariableImportance.plot(split="variable")` ([#451](https://github.com/ModelOriented/DALEX/issues/451))

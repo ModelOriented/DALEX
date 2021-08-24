@@ -1,4 +1,3 @@
-import pandas as pd
 import numpy as np
 from pandas.api.types import is_object_dtype
 from .._plot_container import PlotContainer

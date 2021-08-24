@@ -43,19 +43,21 @@ def plot_ecdf(df_list, colors, title):
 def plot_roc(df_list, colors, title):
     fig = go.Figure()
     grid_points = 101
-    idx = np.arange(df_list[0].shape[0], step=int(df_list[0].shape[0]/grid_points))
-    for i, _df in enumerate(df_list):
-        _df = _df.sort_values('y_hat', ascending=False)
-        _df = _df.assign(TPR=np.cumsum(_df.y)/np.sum(_df.y),
-                         FPR=(np.cumsum(1-_df.y)/np.sum(1-_df.y)))
+    for i, df in enumerate(df_list):
+        tpr_temp = df.loc[:, ['y_hat', 'y']].groupby('y_hat').sum().reset_index().sort_values('y_hat', ascending=False)
+        fpr_temp = df.loc[:, ['y_hat']].assign(y=1-df.y).groupby('y_hat').sum().reset_index().sort_values('y_hat', ascending=False)
+
+        _df = pd.DataFrame({'tpr': tpr_temp.y.cumsum() / df.y.sum(),
+                            'fpr': fpr_temp.y.cumsum() / (1 - df.y).sum()})
+                            
         if _df.shape[0] > grid_points:
-            _df = _df.iloc[idx,:].sort_values('FPR', ascending=True)
+            _df = _df.sample(grid_points).sort_values('fpr', ascending=True)
 
         fig.add_scatter(
-            x=_df.FPR,
-            y=_df.TPR,
+            x=[0] + _df['fpr'].tolist(),
+            y=[0] + _df['tpr'].tolist(),
             line_shape='hv',
-            name=_df.iloc[0, _df.columns.get_loc('label')],
+            name=df.iloc[0, df.columns.get_loc('label')],
             marker=dict(color=colors[i])
         )
 
