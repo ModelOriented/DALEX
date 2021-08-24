@@ -299,12 +299,11 @@ def _add_points_on_dendrogram_traces(fig):
             range_x_len = range_x2_len
         else:
             range_x_len = range_x3_len
-        arr_text = None
-        num_points = len(fig.data[i]["x"])
-        if num_points == 5:
-            arr_text = fig.data[i]["text"]
+        arr_text = fig.data[i]["text"]
         middle_point[i] = fig.data[i]["x"][2], fig.data[i]["y"][2]
+
         inserted_points = 0
+
         fig.data[i]["x"], fig.data[i]["y"], j, arr_text = _add_between_points(
             fig.data[i]["x"],
             fig.data[i]["y"],
@@ -315,6 +314,7 @@ def _add_points_on_dendrogram_traces(fig):
             arr_text,
         )
         inserted_points += j + 1
+
         fig.data[i]["y"], fig.data[i]["x"], j, arr_text = _add_between_points(
             fig.data[i]["y"],
             fig.data[i]["x"],
@@ -325,13 +325,8 @@ def _add_points_on_dendrogram_traces(fig):
             arr_text,
         )
         inserted_points += j + 1
-        if num_points == 5:
-            (
-                fig.data[i]["y"],
-                fig.data[i]["x"],
-                j,
-                arr_text,
-            ) = _add_between_points(
+        
+        fig.data[i]["y"], fig.data[i]["x"], j, arr_text = _add_between_points(
                 fig.data[i]["y"],
                 fig.data[i]["x"],
                 fig.data[i]["x"][inserted_points],
@@ -340,7 +335,8 @@ def _add_points_on_dendrogram_traces(fig):
                 inserted_points + 1,
                 arr_text,
             )
-            inserted_points += j + 1
+        inserted_points += j + 1
+
         fig.data[i]["x"], fig.data[i]["y"], j, arr_text = _add_between_points(
             fig.data[i]["x"],
             fig.data[i]["y"],
@@ -351,6 +347,7 @@ def _add_points_on_dendrogram_traces(fig):
             arr_text,
         )
         inserted_points += j + 1
+        
         if arr_text is not None:
             fig.data[i]["text"] = arr_text
     return fig, middle_point

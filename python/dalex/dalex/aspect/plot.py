@@ -50,12 +50,20 @@ def plot_dendrogram(linkage_matrix, labels=None):
 
 def add_text_and_tooltips_to_dendrogram(fig, _dendrogram_aspects_ordered, rounding_function, digits):
     res_fig = go.Figure(fig)
-    corner_scatters = []
+    corner_scatters = [] # scatters with depend=0
     for i, scatter in enumerate(res_fig.data):
-        x_cord = scatter.x[1]
+        # 0 ---- 1
+        #        | 
+        #        *   scatter indexing convention
+        #        |
+        # 3 ---- 2
+        # add middle point - for text label (*) 
+        x_cord = scatter.x[1] 
         y_cord = np.mean(scatter.y[1:3])
-        scatter.x = np.insert(scatter.x, 2, x_cord)
+        scatter.x = np.insert(scatter.x, 2, x_cord)   
         scatter.y = np.insert(scatter.y, 2, y_cord)
+
+        # add text labels and tooltips
         min_depend_val_rounded = str(rounding_function(_dendrogram_aspects_ordered.iloc[i].min_depend, digits))
         if x_cord != 1:
             scatter.mode = "text+lines"
@@ -78,6 +86,7 @@ def add_text_and_tooltips_to_dendrogram(fig, _dendrogram_aspects_ordered, roundi
             corner_scatters.append(scatter)
 
     if corner_scatters:  
+        # (add only one text label for all)
         scatter = corner_scatters[len(corner_scatters)//2]
         label = str(rounding_function(0, digits))
         scatter.mode = "text+lines"
@@ -92,6 +101,8 @@ def add_text_and_tooltips_to_dendrogram(fig, _dendrogram_aspects_ordered, roundi
 def _add_between_points(
     arr, arr_2, val_arr_2, range_global, i_begin, i_end, arr_text=None
 ):
+    # helper function to add more points to trace (dendrogram line)
+    # number of added points is based on length of line (min 5)
     curr_val = arr[i_begin]
     last_val = arr[i_end]
     range_curr = abs(curr_val - last_val)
@@ -111,16 +122,15 @@ def _add_between_points(
 
 
 def _add_points_on_dendrogram_traces(fig):
+    # add points to all traces in dendrogram 
     k = len(fig.data)
+    # get global range of axis
     range_x = fig.full_figure_for_development(warn=False).layout.xaxis.range
     range_x_len = range_x[1] - range_x[0]
     range_y = fig.full_figure_for_development(warn=False).layout.yaxis.range
     range_y_len = range_y[1] - range_y[0]
     for i in range(k):
-        arr_text = None
-        num_points = len(fig.data[i]["x"])
-        if num_points == 5:
-            arr_text = fig.data[i]["text"]
+        arr_text = fig.data[i]["text"]
         inserted_points = 0
         fig.data[i]["x"], fig.data[i]["y"], j, arr_text = _add_between_points(
             fig.data[i]["x"],
@@ -142,22 +152,16 @@ def _add_points_on_dendrogram_traces(fig):
             arr_text,
         )
         inserted_points += j + 1
-        if num_points == 5:
-            (
-                fig.data[i]["y"],
-                fig.data[i]["x"],
-                j,
-                arr_text,
-            ) = _add_between_points(
-                fig.data[i]["y"],
-                fig.data[i]["x"],
-                fig.data[i]["x"][inserted_points],
-                range_y_len,
-                inserted_points,
-                inserted_points + 1,
-                arr_text,
-            )
-            inserted_points += j + 1
+        fig.data[i]["y"], fig.data[i]["x"], j, arr_text = _add_between_points(
+            fig.data[i]["y"],
+            fig.data[i]["x"],
+            fig.data[i]["x"][inserted_points],
+            range_y_len,
+            inserted_points,
+            inserted_points + 1,
+            arr_text,
+        )
+        inserted_points += j + 1
         fig.data[i]["x"], fig.data[i]["y"], j, arr_text = _add_between_points(
             fig.data[i]["x"],
             fig.data[i]["y"],
