@@ -188,6 +188,8 @@ class PredictAspectImportance(Explanation):
 
         self.result.insert(4, "min_depend", None)
         self.result.insert(5, "vars_min_depend", None)
+
+        # if there is _min_depend in kwargs (called from Aspect object) 
         if self._min_depend is not None:
             for index, row in self.result.iterrows():
                 _matching_row = self._min_depend.loc[self._min_depend.variables == set(row.variables_names)]
@@ -263,6 +265,7 @@ class PredictAspectImportance(Explanation):
 
         _result_list = [self.result.copy()]
         _intercept_list = [self.intercept]
+        # are there any other objects to plot?
         if objects is None:
             n = 1
         elif isinstance(objects, self.__class__):

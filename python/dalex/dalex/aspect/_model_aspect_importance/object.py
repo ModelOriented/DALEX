@@ -137,6 +137,7 @@ class ModelAspectImportance(VariableImportance):
         if self._is_aspect_model_parts:
             self.result.insert(4, "min_depend", None)
             self.result.insert(5, "vars_min_depend", None)
+            # if there is _min_depend in kwargs (called from Aspect object) 
             if self._min_depend is not None:
                 for index, row in self.result[1:-1].iterrows():
                     _matching_row = self._min_depend.loc[

@@ -115,7 +115,7 @@ def calculate_shap_predict_aspect_importance(
                            new_observation, variable_groups, p, b + 1, np.random)
             for b in range(B)]
     else:
-        # Create number generator for each iteration
+        # create number generator for each iteration
         ss = SeedSequence(random_state)
         generators = [default_rng(s) for s in ss.spawn(B)]
         pool = mp.get_context('spawn').Pool(processes)
@@ -129,7 +129,7 @@ def calculate_shap_predict_aspect_importance(
     # average over all of the paths
     variable_average = tmp_result.pivot(index='aspect_name', columns='B', values='importance').mean(axis=1)
     
-    # sort pd.Series by index of abs-sorted pd.Series
+    # generate result pd.DataFrame
     result = pd.DataFrame(
             {
             "aspect_name": variable_average.index.tolist(), 

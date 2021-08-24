@@ -16,10 +16,11 @@ def calculate_cat_assoc_matrix(data, categorical_variables, n):
     for i, variable_name_a in enumerate(categorical_variables):
         for j, variable_name_b in enumerate(categorical_variables):
             if i > j:
-                continue
+                continue   # matrix is symmetric
             elif i == j:
                 cramers_V = 1
             else:
+                # calculate Cramér’s V with bias correction
                 cont_tab = pd.crosstab(data[variable_name_a], data[variable_name_b])
                 r = cont_tab.shape[0]
                 c = cont_tab.shape[1]
@@ -40,6 +41,7 @@ def calculate_cat_num_assoc_matrix(data, categorical_variables, numerical_variab
     )
     for cat_variable_name in categorical_variables:
         for num_variable_name in numerical_variables:
+            # calculate eta-squared
             samples = [
                 gr_data[num_variable_name].values
                 for gr_name, gr_data in data.groupby(cat_variable_name, as_index=False)
@@ -55,12 +57,12 @@ def calculate_cat_num_assoc_matrix(data, categorical_variables, numerical_variab
 
 
 def calculate_assoc_matrix(data, corr_method):
-    corr_matrix = abs(data.corr(corr_method))
-    numerical_variables = corr_matrix.columns
+    corr_matrix = abs(data.corr(corr_method)) # get submatrix for only numerical variables
+    numerical_variables = corr_matrix.columns 
     categorical_variables = list(set(data.columns) - set(numerical_variables))
     n = len(data)
-    cat_assoc_matrix = calculate_cat_assoc_matrix(data, categorical_variables, n)
-    cat_num_assoc_matrix = calculate_cat_num_assoc_matrix(
+    cat_assoc_matrix = calculate_cat_assoc_matrix(data, categorical_variables, n) # get submatrix for only categorical variables
+    cat_num_assoc_matrix = calculate_cat_num_assoc_matrix(          # get submatrix for mixed variables
         data, categorical_variables, numerical_variables, n
     )
     tmp_matrix = pd.concat([corr_matrix, cat_num_assoc_matrix.T], axis=1)
@@ -74,6 +76,7 @@ def calculate_pps_matrix(data, agg_method):
     pps_matrix = pps_result[["x", "y", "ppscore"]].pivot(
         columns="x", index="y", values="ppscore"
     )
+    # aggregate values to make symmetric matrix
     if agg_method == "max":
         pps_matrix = np.maximum(pps_matrix, pps_matrix.transpose())
     if agg_method == "min":
@@ -109,16 +112,16 @@ def calculate_linkage_matrix(depend_matrix, clust_method):
     return linkage_matrix
 
 def get_dendrogram_aspects_ordered(hierarchical_clustering_dendrogram, depend_matrix):
+    # names of variables on axis
     tick_dict = dict(
         zip(
             hierarchical_clustering_dendrogram.layout.yaxis.tickvals,
-            [
-                [var]
-                for var in hierarchical_clustering_dendrogram.layout.yaxis.ticktext
-            ],
+            [[var] for var in hierarchical_clustering_dendrogram.layout.yaxis.ticktext]
         )
     )
-    d = {k:v for v,k in enumerate(depend_matrix.columns)}
+    d = {k:v for v,k in enumerate(depend_matrix.columns)} # original order of columns
+    
+    # get names of variables for dendrogram traces
     _aspects_dendrogram_order = []
     for scatter in hierarchical_clustering_dendrogram.data:
         vars_list = tick_dict[scatter.y[1]] + tick_dict[scatter.y[2]]
@@ -128,6 +131,7 @@ def get_dendrogram_aspects_ordered(hierarchical_clustering_dendrogram, depend_ma
             vars_list
         )
     
+    # get min dependency between grouped variables
     _vars_min_depend, _min_depend = get_min_depend_from_matrix(depend_matrix, _aspects_dendrogram_order)
 
     return pd.DataFrame({

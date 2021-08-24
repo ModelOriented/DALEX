@@ -327,6 +327,8 @@ class Aspect:
 
         if variable_groups is None:
             variable_groups = self.get_aspects(h)
+
+            # get results from triplot if it was precalculated with the same params
             if self._full_hierarchical_aspect_importance is not None:
                 if (
                     self._mt_params["loss_function"] == loss_function
@@ -367,10 +369,11 @@ class Aspect:
             _is_aspect_model_parts=True,
         )
 
-        # if jeszcze nie obliczone:
+        # calculate if there was no results
         if mai_result is None:
             ai.fit(self.explainer)
-        else:
+        else: 
+            # use results from triplot
             mai_result.insert(4, "min_depend", None)
             mai_result.insert(5, "vars_min_depend", None)
 
@@ -491,9 +494,10 @@ class Aspect:
             Explanation object containing the main result attribute and the plot method.
         """
 
-        loss_function = checks.check_method_loss_function(self.explainer, loss_function)
+        
+        loss_function = checks.check_method_loss_function(self.explainer, loss_function) # get proper loss_function for model_type
         mt = ModelTriplot(loss_function, type, N, B, processes, random_state)
-        self._mt_params = {"loss_function": loss_function, "type": type, "N": N, "B": B}
+        self._mt_params = {"loss_function": loss_function, "type": type, "N": N, "B": B} # save params for future calls of model_parts
         mt.fit(self)
 
         return mt
