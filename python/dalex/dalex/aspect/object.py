@@ -8,7 +8,7 @@ from scipy.cluster.hierarchy import fcluster
 
 from . import utils, checks, plot
 from ._predict_aspect_importance import PredictAspectImportance
-from .. import _theme
+from .. import _theme, _global_checks
 from dalex import aspect
 
 
@@ -73,7 +73,8 @@ class Aspect:
         clust_method="complete",
         corr_method="spearman",
         agg_method="max",
-    ):
+    ):  
+        _global_checks.global_check_import('scipy', 'calculate hierarchical structure of dependencies')
         _depend_method, _corr_method, _agg_method = checks.check_method_depend(depend_method, corr_method, agg_method)
         self.explainer = explainer
         self.depend_method = _depend_method
