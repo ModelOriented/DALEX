@@ -95,7 +95,7 @@ class VariableImportance(Explanation):
         self.variable_groups = variable_groups
         self.random_state = _random_state
         self.keep_raw_permutations = _keep_raw_permutations
-        self.result = None
+        self.result = pd.DataFrame()
         self.permutation = None
         self.processes = _processes
 
@@ -339,7 +339,7 @@ class VariableImportance(Explanation):
                     row=i + 1, col=1)
 
                 fig.update_yaxes({'type': 'category', 'autorange': 'reversed', 'gridwidth': 2, 'automargin': True,
-                                  'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True},
+                                  'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 10, 'dtick':1, 'fixedrange': True},
                                  row=i + 1, col=1)
 
                 fig.update_xaxes(

@@ -1,5 +1,13 @@
 ## Changelog
 
+development
+----------------------------------------------------------------
+
+#### fixes
+
+* wrong yaxis labels in `VariableImportance.plot(split="variable")` ([#451](https://github.com/ModelOriented/DALEX/issues/451))
+* `repr_html()` didn't work for explanation objects before using the `fit` method ([#449](https://github.com/ModelOriented/DALEX/issues/449))
+
 v1.3.0 (17/07/2021)
 ----------------------------------------------------------------
 

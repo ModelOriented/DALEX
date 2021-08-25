@@ -8,9 +8,16 @@ from ._explainer.object import Explainer
 from .arena.object import Arena
 from .aspect import Aspect
 
-__version__ = "1.3.0"
 
-__all__ = ["Arena", "Aspect", "datasets", "Explainer", "fairness"]
+__version__ = '1.3.0.9000'
+
+__all__ = [
+  "Arena",
+  "Aspect",
+  "datasets",
+  "Explainer",
+  "fairness"
+]
 
 # specify autocompletion in IPython
 # see comment: https://github.com/ska-telescope/katpoint/commit/ed7e8b9e389ee035073c62c2394975fe71031f88

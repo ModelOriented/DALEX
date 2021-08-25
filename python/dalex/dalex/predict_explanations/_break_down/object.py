@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from plotly.subplots import make_subplots
 import warnings
 
@@ -56,7 +57,7 @@ class BreakDown(Explanation):
         self.keep_distributions = keep_distributions
         self.order = _order
         self.interaction_preference = interaction_preference
-        self.result = None
+        self.result = pd.DataFrame()
         self.yhats_distributions = None
 
     def _repr_html_(self):
