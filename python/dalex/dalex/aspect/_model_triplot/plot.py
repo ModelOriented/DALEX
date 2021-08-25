@@ -57,8 +57,6 @@ def plot_model_hierarchical_importance(
         if i not in updated:
             scatter.x[1:3] = max_imp
             importance_dict[np.mean(scatter.y[1:3])] = max_imp
-
-    for scatter in dendrogram_hierarchical_importance.data:
         if scatter.y[0] in importance_dict.keys():
             scatter.x[0] = importance_dict[scatter.y[0]]
         if scatter.y[3] in importance_dict.keys():
@@ -165,7 +163,10 @@ def _add_points_on_dendrogram_traces(fig):
             range_x_len = range_x2_len
         else:
             range_x_len = range_x3_len
-        arr_text = fig.data[i]["text"]
+        arr_text = None
+        num_points = len(fig.data[i]["x"])
+        if num_points == 5:
+            arr_text = fig.data[i]["text"]
         middle_point[i] = fig.data[i]["x"][2], fig.data[i]["y"][2]
 
         inserted_points = 0
@@ -192,16 +193,22 @@ def _add_points_on_dendrogram_traces(fig):
         )
         inserted_points += j + 1    
 
-        fig.data[i]["y"], fig.data[i]["x"], j, arr_text = _add_between_points(
-            fig.data[i]["y"],
-            fig.data[i]["x"],
-            fig.data[i]["x"][inserted_points],
-            range_y_len,
-            inserted_points,
-            inserted_points + 1,
-            arr_text,
-        )
-        inserted_points += j + 1
+        if num_points == 5:
+            (
+                fig.data[i]["y"],
+                fig.data[i]["x"],
+                j,
+                arr_text,
+            ) = _add_between_points(
+                fig.data[i]["y"],
+                fig.data[i]["x"],
+                fig.data[i]["x"][inserted_points],
+                range_y_len,
+                inserted_points,
+                inserted_points + 1,
+                arr_text,
+            )
+            inserted_points += j + 1
 
         fig.data[i]["x"], fig.data[i]["y"], j, arr_text = _add_between_points(
             fig.data[i]["x"],
@@ -213,7 +220,7 @@ def _add_points_on_dendrogram_traces(fig):
             arr_text,
         )
         inserted_points += j + 1
-        
+
         if arr_text is not None:
             fig.data[i]["text"] = arr_text
     return fig, middle_point
