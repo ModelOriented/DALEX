@@ -102,7 +102,7 @@ class PredictAspectImportance(Explanation):
         type="default",
         N=2000,
         B=25,
-        n_aspects=0,
+        n_aspects=None,
         sample_method="default",
         f=2,
         depend_method="assoc",
