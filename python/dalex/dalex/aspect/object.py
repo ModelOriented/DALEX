@@ -183,7 +183,7 @@ class Aspect:
         h=0.5,
         N=2000,
         B=25,
-        n_aspects=0,
+        n_aspects=None,
         sample_method="default",
         f=2,
         label=None,
