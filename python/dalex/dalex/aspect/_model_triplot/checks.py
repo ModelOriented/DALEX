@@ -4,7 +4,6 @@ import numpy as np
 from dalex.model_explanations._model_performance.utils import *
 from dalex.model_explanations._variable_importance.loss_functions import *
 
-# checks.py from dalex/model_explanations/_variable_importance
 def check_loss_function(loss_function):
     loss_functions = {
         "rmse": loss_root_mean_square,

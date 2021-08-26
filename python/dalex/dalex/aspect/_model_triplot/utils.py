@@ -1,11 +1,7 @@
-from copy import deepcopy
-from dalex.aspect._model_aspect_importance.object import ModelAspectImportance
-from dalex.model_explanations._variable_importance.object import VariableImportance
-import numpy as np
 import pandas as pd
-import plotly.graph_objects as go
+from copy import deepcopy
 
-from .checks import check_loss_function
+from dalex.aspect._model_aspect_importance.object import ModelAspectImportance
 
 
 def calculate_model_hierarchical_importance(
