@@ -5,8 +5,7 @@ from copy import deepcopy
 
 from dalex import _theme, _global_checks
 from dalex._explanation import Explanation
-from dalex.aspect._predict_aspect_importance.utils import \
-    calculate_predict_aspect_importance, calculate_shap_predict_aspect_importance
+from dalex.aspect._predict_aspect_importance.object import PredictAspectImportance
 
 from . import checks, plot, utils
 
@@ -115,14 +114,10 @@ class PredictTriplot(Explanation):
         None
         """
 
-        _new_observation = checks.check_new_observation(
-            new_observation, aspect.explainer
-        )
+        _new_observation = checks.check_new_observation(new_observation, aspect.explainer)
         checks.check_columns_in_new_observation(_new_observation, aspect.explainer)
 
-        self._hierarchical_clustering_dendrogram = (
-            aspect._hierarchical_clustering_dendrogram
-        )
+        self._hierarchical_clustering_dendrogram = aspect._hierarchical_clustering_dendrogram
 
         self.prediction = aspect.explainer.predict(_new_observation)[0]
         self.intercept = aspect.explainer.y_hat.mean()
@@ -158,27 +153,19 @@ class PredictTriplot(Explanation):
 
         ## left plot data
         variable_groups = aspect.get_aspects(h=2)
-        if self.type == 'default':
-            self.single_variable_importance = calculate_predict_aspect_importance(
-                aspect.explainer,
-                _new_observation,
-                variable_groups,
-                self.N,
-                n_aspects=None,
-                sample_method=self.sample_method,
-                f=self.f,
-                random_state=self.random_state,
-            )
-        elif self.type == 'shap':
-            self.single_variable_importance = calculate_shap_predict_aspect_importance(
-                aspect.explainer, 
-                _new_observation, 
-                variable_groups, 
-                self.N, 
-                self.B,
-                self.processes, 
-                self.random_state)
-
+        pai_object = PredictAspectImportance(
+            variable_groups,
+            self.type,
+            self.N,
+            self.B, 
+            sample_method=self.sample_method,
+            f=self.f,
+            processes=self.processes,
+            random_state=self.random_state
+        )
+        pai_object.fit(aspect.explainer, _new_observation)
+        self.single_variable_importance = pai_object.result
+        
     def plot(
         self,
         absolute_value=False,
