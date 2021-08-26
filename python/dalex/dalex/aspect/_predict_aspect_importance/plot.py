@@ -1,4 +1,4 @@
-def get_tooltip_text(row, rounding_function, digits, type):
+def tooltip_text(row, rounding_function, digits, type):
     var_val_string = ""
     for i in range(len(row.variables_names)):
         var_val_string += (

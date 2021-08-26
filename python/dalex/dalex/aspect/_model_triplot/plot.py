@@ -1,5 +1,3 @@
-from dalex.aspect._model_aspect_importance.object import ModelAspectImportance
-from dalex.model_explanations._variable_importance.object import VariableImportance
 import numpy as np
 import plotly.graph_objects as go
 
@@ -43,13 +41,13 @@ def plot_model_hierarchical_importance(
 
             scatter_importance.hoverinfo = "text"
             scatter_importance.hoverlabel = {"bgcolor": "rgba(0,0,0,0.8)"}
-            scatter_importance.hovertext = get_tooltip_text(
+            scatter_importance.hovertext = tooltip_text(
                 row, rounding_function, digits
             )
 
             scatter_clustering.hoverinfo = "text"
             scatter_clustering.hoverlabel = {"bgcolor": "rgba(0,0,0,0.8)"}
-            scatter_clustering.hovertext = get_tooltip_text(
+            scatter_clustering.hovertext = tooltip_text(
                 row, rounding_function, digits
             )
 
@@ -86,7 +84,7 @@ def add_text_to_model_importance_dendrogram(fig, hierarchical_importance_data):
     return res_fig
 
 
-def get_tooltip_text(row, rounding_function, digits):
+def tooltip_text(row, rounding_function, digits):
 
     if row.dropout_loss_change > 0:
         dropout_loss_change_string = "+" + str(
