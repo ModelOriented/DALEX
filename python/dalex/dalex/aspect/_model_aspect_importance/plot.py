@@ -39,5 +39,5 @@ def tooltip_text_aspect(row, rounding_function, digits):
         + dropout_loss_change_string
         + "<br>"
         + "Variables:<br>"
-        + "<br>".join(row.variables_names)
+        + "<br>".join(row.variable_names)
     )

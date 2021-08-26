@@ -134,7 +134,7 @@ def get_dendrogram_aspects_ordered(hierarchical_clustering_dendrogram, depend_ma
     _vars_min_depend, _min_depend = get_min_depend_from_matrix(depend_matrix, _aspects_dendrogram_order)
 
     return pd.DataFrame({
-        "variables_names": _aspects_dendrogram_order,
+        "variable_names": _aspects_dendrogram_order,
         "min_depend": _min_depend,
         "vars_min_depend": _vars_min_depend
     })

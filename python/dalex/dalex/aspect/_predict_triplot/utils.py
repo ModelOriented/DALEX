@@ -63,7 +63,7 @@ def calculate_predict_hierarchical_importance(
             )
 
         ind = [
-            elem in lastly_merged for elem in current_aspects_importance.variables_names
+            elem in lastly_merged for elem in current_aspects_importance.variable_names
         ]
         lastly_merged_aspect_importance = current_aspects_importance.loc[ind]
 

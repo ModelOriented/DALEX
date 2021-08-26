@@ -116,8 +116,8 @@ class ModelTriplot(Explanation):
         self.result.insert(4, "vars_min_depend", None)
         for index, row in self.result.iterrows():
             _matching_row = aspect._dendrogram_aspects_ordered.loc[
-                pd.Series(map(set, aspect._dendrogram_aspects_ordered.variables_names))
-                == set(row.variables_names)
+                pd.Series(map(set, aspect._dendrogram_aspects_ordered.variable_names))
+                == set(row.variable_names)
             ]
             min_dep = _matching_row.min_depend.values[0]
             vars_min_depend = _matching_row.vars_min_depend.values[0]
@@ -234,7 +234,7 @@ class ModelTriplot(Explanation):
             bar_width=bar_width,
             show=False,
             title=None,
-            show_variables_names=False
+            show_variable_names=False
         )
         fig.data[0]["textfont_color"] = ["#371ea3"] * m
 

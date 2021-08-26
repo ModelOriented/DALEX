@@ -30,7 +30,7 @@ def calculate_predict_aspect_importance(
         result = pd.DataFrame(
             {
                 "aspect_name": list(variable_groups.keys())[0],
-                "variables_names": [list(variable_groups.values())[0]],
+                "variable_names": [list(variable_groups.values())[0]],
                 "variables_values": new_observation[list(variable_groups.values())[0]].values.tolist(),
                 "importance": explainer.predict(new_observation) - explainer.y_hat.mean(),
                 "label": explainer.label,
@@ -69,16 +69,16 @@ def calculate_predict_aspect_importance(
         model_coef = lasso_res_matrix[:, indx]
 
     # generate result pd.DataFrame
-    variables_names = [
+    variable_names = [
         variable_groups[variables_set_key] for variables_set_key in variable_groups
     ]
     variables_values = [
-        new_observation[variables_list].values[0] for variables_list in variables_names
+        new_observation[variables_list].values[0] for variables_list in variable_names
     ]
     result = pd.DataFrame(
         {
             "aspect_name": X_prim.columns,
-            "variables_names": variables_names,
+            "variable_names": variable_names,
             "variables_values": variables_values,
             "importance": model_coef,
             "label": explainer.label,
@@ -133,15 +133,15 @@ def calculate_shap_predict_aspect_importance(
             "label": explainer.label
             }
         )
-    result["variables_names"] = result["aspect_name"].map(variable_groups)
+    result["variable_names"] = result["aspect_name"].map(variable_groups)
     variables_values = [
-        new_observation[variables_list].values[0] for variables_list in result["variables_names"]
+        new_observation[variables_list].values[0] for variables_list in result["variable_names"]
     ]
     result["variables_values"] = variables_values
     result = result.sort_values(by="importance", key=abs, ascending=False).reset_index(
         drop=True
     )
-    return result[["aspect_name", "variables_names", "variables_values", "importance", "label"]]
+    return result[["aspect_name", "variable_names", "variables_values", "importance", "label"]]
 
 
 def calculate_min_depend(
@@ -191,12 +191,12 @@ def get_single_random_path(predict_function, data_sample, new_observation, varia
         yhats[i + 1] = predict_function(current_data).mean()
 
     diffs = np.diff(yhats)
-    variables_names = [variable_groups_varnames[i] for i in random_path]
+    variable_names = [variable_groups_varnames[i] for i in random_path]
     aspect_name = [variable_groups_aspnames[i] for i in random_path]
 
     return pd.DataFrame({
         'aspect_name': aspect_name,
-        'variables_names': variables_names,
+        'variable_names': variable_names,
         'importance': diffs,
         'B': b
     })

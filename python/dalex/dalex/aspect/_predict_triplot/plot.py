@@ -32,7 +32,7 @@ def plot_predict_hierarchical_importance(
 
     updated = []
     for i, row in hierarchical_importance_data[:-1].iterrows():
-        dendro_mask = np.array([set(row.variables_names) == set(el) for el in aspects_dendro_order])
+        dendro_mask = np.array([set(row.variable_names) == set(el) for el in aspects_dendro_order])
         if dendro_mask.any():
             k = np.flatnonzero(dendro_mask == True)[0]
             updated.append(k)
@@ -96,12 +96,12 @@ def get_ticktext_for_plot(
 ):
     _df = deepcopy(single_aspect_importance_df)
     _df["variables_values"] = _df["variables_values"].apply(lambda x: x[0])
-    _df["variables_names"] = _df["variables_names"].apply(lambda x: x[0])
+    _df["variable_names"] = _df["variable_names"].apply(lambda x: x[0])
     ticktext = [
-        f"{variable} = {utils.nice_format(_df.loc[_df['variables_names']==variable, 'variables_values'].values[0])}"
+        f"{variable} = {utils.nice_format(_df.loc[_df['variable_names']==variable, 'variables_values'].values[0])}"
         if abbrev_labels <= 0
         else utils.text_abbreviate(
-            f"{variable} = {utils.nice_format(_df.loc[_df['variables_names']==variable, 'variables_values'].values[0])}",
+            f"{variable} = {utils.nice_format(_df.loc[_df['variable_names']==variable, 'variables_values'].values[0])}",
             abbrev_labels,
         )
         for variable in variables_order
@@ -111,9 +111,9 @@ def get_ticktext_for_plot(
 
 def tooltip_text(row, rounding_function, digits, last=False):
     var_val_string = ""
-    for i in range(len(row.variables_names)):
+    for i in range(len(row.variable_names)):
         var_val_string += (
-            "<br>" + row.variables_names[i] + " = " + str(row.variables_values[i])
+            "<br>" + row.variable_names[i] + " = " + str(row.variables_values[i])
         )
     keyword = "Change in average response: " if last else "Importance: " 
 
@@ -166,7 +166,7 @@ def get_single_tooltip_text(row, rounding_function, digits):
     return (
         f"Importance: {rounding_function(row.importance, digits)}<br>"
         + "Variable:<br>"
-        + f"{row.variables_names} = " + str(row.variables_values[0])
+        + f"{row.variable_names} = " + str(row.variables_values[0])
     )
 
 
@@ -175,9 +175,9 @@ def plot_single_aspects_importance(
 ):
     fig = go.Figure()
     _result = deepcopy(result_dataframe)
-    _result["variables_names"] = list(itertools.chain.from_iterable(_result["variables_names"]))
+    _result["variable_names"] = list(itertools.chain.from_iterable(_result["variable_names"]))
     sorter = dict(zip(order, range(len(order))))
-    _result["order"] = _result["variables_names"].map(sorter)
+    _result["order"] = _result["variable_names"].map(sorter)
     _result = _result.sort_values(["order"], ascending=True).reset_index(drop=True)
     _result = _result.drop("order", axis=1)
     _result.loc[:, "importance"] = rounding_function(
@@ -204,7 +204,7 @@ def plot_single_aspects_importance(
 
     fig.add_bar(
         orientation="h",
-        y=_result["variables_names"].tolist(),
+        y=_result["variable_names"].tolist(),
         x=_result["importance"].tolist(),
         textposition="outside",
         text=_result["label_text"].tolist(),

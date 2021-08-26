@@ -96,8 +96,8 @@ class AspectTestTitanic(unittest.TestCase):
         self.assertIsInstance(pai.result, pd.DataFrame)
         self.assertIsInstance(pai2.result, pd.DataFrame)
 
-        self.assertEqual(set(pai.result.columns), set(["aspect_name", "variables_names", "variables_values", "importance", "min_depend", "vars_min_depend", "label"]))
-        self.assertEqual(set(pai2.result.columns), set(["aspect_name", "variables_names", "variables_values", "importance", "min_depend", "vars_min_depend", "label"]))
+        self.assertEqual(set(pai.result.columns), set(["aspect_name", "variable_names", "variables_values", "importance", "min_depend", "vars_min_depend", "label"]))
+        self.assertEqual(set(pai2.result.columns), set(["aspect_name", "variable_names", "variables_values", "importance", "min_depend", "vars_min_depend", "label"]))
 
         self.assertGreaterEqual(1, pai.result.min_depend.max())
         self.assertGreaterEqual(1, pai2.result.min_depend.max())
@@ -106,9 +106,9 @@ class AspectTestTitanic(unittest.TestCase):
         self.assertGreaterEqual(pai2.result.min_depend.min(), 0)
 
         for i in range(len(pai.result)):
-            self.assertTrue(len(pai.result.loc[:, 'variables_values'][i]) == len(pai.result.loc[:, 'variables_names'][i]))
+            self.assertTrue(len(pai.result.loc[:, 'variables_values'][i]) == len(pai.result.loc[:, 'variable_names'][i]))
         for i in range(len(pai2.result)):
-            self.assertTrue([len(pai2.result.loc[:, 'variables_values'][i]) == len(pai2.result.loc[:, 'variables_names'][i])])
+            self.assertTrue([len(pai2.result.loc[:, 'variables_values'][i]) == len(pai2.result.loc[:, 'variable_names'][i])])
 
         self.assertEqual(list(groups.keys()), list(pai2.result.aspect_name))
         
@@ -128,8 +128,8 @@ class AspectTestTitanic(unittest.TestCase):
         self.assertIsInstance(mai.result, pd.DataFrame)
         self.assertIsInstance(mai2.result, pd.DataFrame)
 
-        self.assertEqual(set(mai.result.columns), set(["aspect_name","variables_names","dropout_loss","dropout_loss_change","label", "min_depend", "vars_min_depend"]))
-        self.assertEqual(set(mai2.result.columns), set(["aspect_name","variables_names","dropout_loss","dropout_loss_change","label", "min_depend", "vars_min_depend"]))
+        self.assertEqual(set(mai.result.columns), set(["aspect_name","variable_names","dropout_loss","dropout_loss_change","label", "min_depend", "vars_min_depend"]))
+        self.assertEqual(set(mai2.result.columns), set(["aspect_name","variable_names","dropout_loss","dropout_loss_change","label", "min_depend", "vars_min_depend"]))
 
         self.assertGreaterEqual(1, mai.result.min_depend.max())
         self.assertGreaterEqual(1, mai2.result.min_depend.max())
@@ -154,8 +154,8 @@ class AspectTestTitanic(unittest.TestCase):
         self.assertIsInstance(pt.result, pd.DataFrame)
         self.assertIsInstance(pt2.result, pd.DataFrame)
 
-        self.assertEqual(set(pt.result.columns), set(["variables_names", "variables_values", "importance", "min_depend", "vars_min_depend", "label"]))
-        self.assertEqual(set(pt2.result.columns), set(["variables_names", "variables_values", "importance", "min_depend", "vars_min_depend", "label"]))
+        self.assertEqual(set(pt.result.columns), set(["variable_names", "variables_values", "importance", "min_depend", "vars_min_depend", "label"]))
+        self.assertEqual(set(pt2.result.columns), set(["variable_names", "variables_values", "importance", "min_depend", "vars_min_depend", "label"]))
 
         self.assertGreaterEqual(1, pt.result.min_depend.max())
         self.assertGreaterEqual(1, pt2.result.min_depend.max())
@@ -164,18 +164,18 @@ class AspectTestTitanic(unittest.TestCase):
         self.assertGreaterEqual(pt2.result.min_depend.min(), 0)
 
         self.assertEqual(
-            set(pt.result["variables_names"].iloc[-1]),
+            set(pt.result["variable_names"].iloc[-1]),
             set(self.X.columns),
         )
         self.assertEqual(
-            set(pt2.result["variables_names"].iloc[-1]),
+            set(pt2.result["variable_names"].iloc[-1]),
             set(self.X.columns),
         )
 
         for i in range(len(pt.result)):
-            self.assertTrue(len(pt.result.loc[:, 'variables_values'][i]) == len(pt.result.loc[:, 'variables_names'][i]))
+            self.assertTrue(len(pt.result.loc[:, 'variables_values'][i]) == len(pt.result.loc[:, 'variable_names'][i]))
         for i in range(len(pt2.result)):
-            self.assertTrue([len(pt2.result.loc[:, 'variables_values'][i]) == len(pt2.result.loc[:, 'variables_names'][i])])
+            self.assertTrue([len(pt2.result.loc[:, 'variables_values'][i]) == len(pt2.result.loc[:, 'variable_names'][i])])
         
         fig = pt.plot(show=False)
         self.assertIsInstance(fig, Figure)
@@ -193,8 +193,8 @@ class AspectTestTitanic(unittest.TestCase):
         self.assertIsInstance(mt.result, pd.DataFrame)
         self.assertIsInstance(mt2.result, pd.DataFrame)
 
-        self.assertEqual(set(mt.result.columns), set(["variables_names","dropout_loss","dropout_loss_change","label", "min_depend", "vars_min_depend"]))
-        self.assertEqual(set(mt2.result.columns), set(["variables_names","dropout_loss","dropout_loss_change","label", "min_depend", "vars_min_depend"]))
+        self.assertEqual(set(mt.result.columns), set(["variable_names","dropout_loss","dropout_loss_change","label", "min_depend", "vars_min_depend"]))
+        self.assertEqual(set(mt2.result.columns), set(["variable_names","dropout_loss","dropout_loss_change","label", "min_depend", "vars_min_depend"]))
 
         self.assertGreaterEqual(1, mt.result.min_depend.max())
         self.assertGreaterEqual(1, mt2.result.min_depend.max())
@@ -203,11 +203,11 @@ class AspectTestTitanic(unittest.TestCase):
         self.assertGreaterEqual(mt2.result.min_depend.min(), 0)
 
         self.assertEqual(
-            set(mt.result["variables_names"].iloc[-1]),
+            set(mt.result["variable_names"].iloc[-1]),
             set(self.X.columns),
         )
         self.assertEqual(
-            set(mt2.result["variables_names"].iloc[-1]),
+            set(mt2.result["variable_names"].iloc[-1]),
             set(self.X.columns),
         )
         

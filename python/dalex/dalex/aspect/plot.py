@@ -68,14 +68,14 @@ def add_text_and_tooltips_to_dendrogram(fig, _dendrogram_aspects_ordered, roundi
             scatter.hovertext = (
                 "Min depend value: " + min_depend_val_rounded
                 + "<br>(between variables: " + ", ".join(_dendrogram_aspects_ordered.iloc[i].vars_min_depend) + ")"
-                + "<br>Variables:<br>" + "<br>".join(_dendrogram_aspects_ordered.iloc[i].variables_names)
+                + "<br>Variables:<br>" + "<br>".join(_dendrogram_aspects_ordered.iloc[i].variable_names)
             )
         else:
             scatter.hoverlabel = {"bgcolor": "rgba(0,0,0,0.8)"}
             scatter.hovertext = (
                 "Min depend value: " + min_depend_val_rounded
                 +  "<br>(between variables: " + ", ".join(_dendrogram_aspects_ordered.iloc[-1].vars_min_depend) + ")"
-                + "<br>Variables:<br>" + "<br>".join(_dendrogram_aspects_ordered.iloc[-1].variables_names)
+                + "<br>Variables:<br>" + "<br>".join(_dendrogram_aspects_ordered.iloc[-1].variable_names)
             )
             corner_scatters.append(scatter)
 

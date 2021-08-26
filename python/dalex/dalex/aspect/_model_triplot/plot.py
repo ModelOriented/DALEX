@@ -28,7 +28,7 @@ def plot_model_hierarchical_importance(
     updated = []
     for i, row in hierarchical_importance_data.iterrows():
         dendro_mask = np.array(
-            [set(row.variables_names) == set(el) for el in aspects_dendro_order]
+            [set(row.variable_names) == set(el) for el in aspects_dendro_order]
         )
         if dendro_mask.any():
             k = np.flatnonzero(dendro_mask == True)[0]
@@ -104,7 +104,7 @@ def tooltip_text(row, rounding_function, digits):
         + dropout_loss_change_string
         + "<br>"
         + "Variables:<br>"
-        + "<br>".join(row.variables_names)
+        + "<br>".join(row.variable_names)
     )
 
 

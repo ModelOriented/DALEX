@@ -124,7 +124,7 @@ class ModelAspectImportance(VariableImportance):
         """
         super().fit(explainer)
 
-        self.result["variables_names"] = self.result["variable"].map(self.variable_groups)
+        self.result["variable_names"] = self.result["variable"].map(self.variable_groups)
         baseline = self.result[self.result["variable"] == "_full_model_"]["dropout_loss"].values[0]
         self.result = self.result.assign(
             dropout_loss_change=lambda x: x["dropout_loss"] - baseline
@@ -137,7 +137,7 @@ class ModelAspectImportance(VariableImportance):
             if self._min_depend is not None:
                 for index, row in self.result[1:-1].iterrows():
                     _matching_row = self._min_depend.loc[
-                        self._min_depend.variables == set(row.variables_names)
+                        self._min_depend.variables == set(row.variable_names)
                     ]
                     min_dep = _matching_row.min_depend.values[0]
                     vars_min_depend = _matching_row.vars_min_depend.values[0]
@@ -145,7 +145,7 @@ class ModelAspectImportance(VariableImportance):
                     self.result.at[index, "vars_min_depend"] = vars_min_depend
             else:
                 vars_min_depend, min_depend = calculate_min_depend(
-                    self.result[1:-1].variables_names,
+                    self.result[1:-1].variable_names,
                     explainer.data,
                     self.depend_method,
                     self.corr_method,
@@ -161,7 +161,7 @@ class ModelAspectImportance(VariableImportance):
             self.result = self.result[
                 [
                     "aspect_name",
-                    "variables_names",
+                    "variable_names",
                     "dropout_loss",
                     "dropout_loss_change",
                     "min_depend",
@@ -173,7 +173,7 @@ class ModelAspectImportance(VariableImportance):
             self.result = self.result[
                 [
                     "aspect_name",
-                    "variables_names",
+                    "variable_names",
                     "dropout_loss",
                     "dropout_loss_change",
                     "label",
@@ -184,7 +184,7 @@ class ModelAspectImportance(VariableImportance):
         self,
         objects=None,
         max_aspects=10,
-        show_variables_names=True,
+        show_variable_names=True,
         digits=3,
         rounding_function=np.around,
         bar_width=25,
@@ -202,7 +202,7 @@ class ModelAspectImportance(VariableImportance):
         max_aspects : int, optional
             Maximum number of aspects that will be presented for for each subplot
             (default is `10`).
-        show_variables_names : bool, optional
+        show_variable_names : bool, optional
             `True` shows names of variables grouped in aspects; `False` shows names of aspects
             (default is `True`).
         digits : int, optional
@@ -282,7 +282,7 @@ class ModelAspectImportance(VariableImportance):
                     "aspect_name",
                     "dropout_loss_x",
                     "dropout_loss_y",
-                    "variables_names",
+                    "variable_names",
                     "min_depend",
                     "vars_min_depend",
                 ]
@@ -398,10 +398,10 @@ class ModelAspectImportance(VariableImportance):
                     col=1,
                 )
 
-                if show_variables_names:
+                if show_variable_names:
                     y_axis_ticks = [
                         ", ".join(variables_list)
-                        for variables_list in df["variables_names"]
+                        for variables_list in df["variable_names"]
                     ]
                 else:
                     y_axis_ticks = df["aspect_name"]

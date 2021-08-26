@@ -379,7 +379,7 @@ class Aspect:
 
             for index, row in mai_result[1:-1].iterrows():
                 _matching_row = min_depend.loc[
-                    min_depend.variables == set(row.variables_names)
+                    min_depend.variables == set(row.variable_names)
                 ]
                 min_dep = _matching_row.min_depend.values[0]
                 vars_min_depend = _matching_row.vars_min_depend.values[0]
@@ -388,7 +388,7 @@ class Aspect:
             mai_result = mai_result[
                 [
                     "aspect_name",
-                    "variables_names",
+                    "variable_names",
                     "dropout_loss",
                     "dropout_loss_change",
                     "min_depend",

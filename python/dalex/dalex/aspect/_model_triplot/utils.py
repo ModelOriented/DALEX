@@ -55,7 +55,7 @@ def calculate_model_hierarchical_importance(
                 ["_baseline_", "_full_model_"]
             )
         ]
-        current_variable_importance_res["variables_names"] = (
+        current_variable_importance_res["variable_names"] = (
             current_variable_importance_res["aspect_name"]
             .map(aspects_list_current)
             .apply(lambda x: x.tolist())
@@ -63,7 +63,7 @@ def calculate_model_hierarchical_importance(
 
         ind = [
             elem in lastly_merged
-            for elem in current_variable_importance_res.variables_names
+            for elem in current_variable_importance_res.variable_names
         ]
         lastly_merged_aspect_importance = current_variable_importance_res.loc[ind]
 
