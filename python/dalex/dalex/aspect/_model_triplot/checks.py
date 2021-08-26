@@ -33,10 +33,10 @@ def check_variable_groups(variable_groups, explainer):
             if isinstance(variable_groups[key], list):
                 variable_groups[key] = np.array(variable_groups[key])
             elif not isinstance(variable_groups[key], np.ndarray):
-                raise TypeError("variable_groups' is a dict of lists of variables")
+                raise TypeError("variable_groups is a dict of lists of variables")
 
             if not isinstance(variable_groups[key][0], str):
-                raise TypeError("variable_groups' is a dict of lists of variables")
+                raise TypeError("variable_groups is a dict of lists of variables")
 
             wrong_names[i] = np.in1d(variable_groups[key], explainer.data.columns).all()
 
