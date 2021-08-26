@@ -17,7 +17,6 @@ def plot_dendrogram(linkage_matrix, labels=None):
     
     fig.update_xaxes(range=[-0.05, 1.05], visible=False, showticklabels=False)
 
-    # Edit xaxis
     fig.update_layout(
         xaxis={
             "mirror": False,
@@ -26,11 +25,7 @@ def plot_dendrogram(linkage_matrix, labels=None):
             "zeroline": False,
             "ticks": "",
             "fixedrange": True,
-        }
-    )
-
-    # Edit yaxis
-    fig.update_layout(
+        },
         yaxis={
             "mirror": False,
             "showgrid": False,
@@ -38,11 +33,10 @@ def plot_dendrogram(linkage_matrix, labels=None):
             "zeroline": False,
             "ticks": "",
             "fixedrange": True,
-        }
-    )
-
-    fig.update_layout(
-        font={"color": "#371ea3"}, template="none", margin={"t": 78, "b": 71, "r": 30}
+        },
+        font={"color": "#371ea3"}, 
+        template="none", 
+        margin={"t": 78, "b": 71, "r": 30}
     )
 
     return fig

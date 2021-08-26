@@ -303,6 +303,7 @@ class PredictTriplot(Explanation):
             fig.add_trace(data)
             min_x_imp = np.min([min_x_imp, np.min(data["x"])])
             max_x_imp = np.max([max_x_imp, np.max(data["x"])])
+        min_max_margin_imp = (max_x_imp - min_x_imp) * 0.15
 
         min_x_clust, max_x_clust = np.Inf, -np.Inf
         for data in hierarchical_clustering_dendrogram_plot["data"]:
@@ -310,18 +311,14 @@ class PredictTriplot(Explanation):
             data["hoverinfo"] = "text"
             data["line"] = {"color": "#46bac2", "width": 2}
             fig.add_trace(data)
-            min_x_clust = np.min(
-                [
-                    min_x_clust,
-                    np.min(data["x"]),
-                ]
-            )
-            max_x_clust = np.max(
-                [
-                    max_x_clust,
-                    np.max(data["x"]),
-                ]
-            )
+            min_x_clust = np.min([min_x_clust, np.min(data["x"])])
+            max_x_clust = np.max([max_x_clust, np.max(data["x"])])
+        min_max_margin_clust = (max_x_clust - min_x_clust) * 0.15
+
+        plot_height = 78 + 71 + m * bar_width + (m + 1) * bar_width / 4
+        ticktext = plot.get_ticktext_for_plot(
+            self.single_variable_importance, variables_order, abbrev_labels
+        )
 
         fig.update_layout(
             xaxis={
@@ -333,11 +330,7 @@ class PredictTriplot(Explanation):
                 "zeroline": False,
                 "ticks": "",
                 "title_text": "Local variable importance",
-            }
-        )
-
-        min_max_margin_imp = (max_x_imp - min_x_imp) * 0.15
-        fig.update_layout(
+            },
             xaxis2={
                 "domain": [0.33, 0.66],
                 "mirror": False,
@@ -355,10 +348,7 @@ class PredictTriplot(Explanation):
                     min_x_imp - min_max_margin_imp,
                     max_x_imp + min_max_margin_imp,
                 ],
-            }
-        )
-        min_max_margin_clust = (max_x_clust - min_x_clust) * 0.15
-        fig.update_layout(
+            },
             xaxis3={
                 "domain": [0.66, 0.99],
                 "mirror": False,
@@ -376,14 +366,7 @@ class PredictTriplot(Explanation):
                     min_x_clust - min_max_margin_clust,
                     max_x_clust + min_max_margin_clust,
                 ],
-            }
-        )
-
-        ticktext = plot.get_ticktext_for_plot(
-            self.single_variable_importance, variables_order, abbrev_labels
-        )
-
-        fig.update_layout(
+            },
             yaxis={
                 "mirror": False,
                 "ticks": "",
@@ -393,11 +376,7 @@ class PredictTriplot(Explanation):
                 "tickmode": "array",
                 "tickvals": y_vals,
                 "ticktext": ticktext,
-            }
-        )
-
-        plot_height = 78 + 71 + m * bar_width + (m + 1) * bar_width / 4
-        fig.update_layout(
+            },
             title_text=title,
             title_x=0.5,
             font={"color": "#371ea3"},
@@ -406,7 +385,7 @@ class PredictTriplot(Explanation):
             width=width,
             height=plot_height,
             showlegend=False,
-            hovermode="closest",
+            hovermode="closest"
         )
 
         fig, middle_point = plot._add_points_on_dendrogram_traces(fig)
