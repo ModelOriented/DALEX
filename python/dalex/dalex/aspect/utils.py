@@ -44,9 +44,7 @@ def calculate_cat_num_assoc_matrix(data, categorical_variables, numerical_variab
             ]
             kruskal_wallis_test = kruskal(*samples, nan_policy="omit")
             n_samples = len(samples)
-            eta_squared = (kruskal_wallis_test.statistic - n_samples + 1) / (
-                n - n_samples
-            )
+            eta_squared = (kruskal_wallis_test.statistic - n_samples + 1) / (n - n_samples)
             eta_squared = checks.check_assoc_value(eta_squared)
             cat_num_assoc_matrix.loc[cat_variable_name, num_variable_name] = eta_squared
     return cat_num_assoc_matrix

@@ -123,9 +123,7 @@ class ModelTriplot(Explanation):
             min_dep = _matching_row.min_depend.values[0]
             vars_min_depend = _matching_row.vars_min_depend.values[0]
             self.result.at[index, "min_depend"] = min_dep
-            self.result.at[
-                index, "vars_min_depend"
-            ] = vars_min_depend
+            self.result.at[index, "vars_min_depend"] = vars_min_depend
         ## left plot data
         variable_groups = aspect.get_aspects(h=2)
         self._variable_importance_object = ModelAspectImportance(
