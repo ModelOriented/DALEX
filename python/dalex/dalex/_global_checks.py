@@ -14,8 +14,9 @@ import pandas as pd
 # - flask:          Arena.run_server
 # - flask_cors:     Arena.run_server
 # - requests:       Arena.stop_server
-# - kaleido:        Aspect
-# - ppscore:        Aspect
+# - kaleido:        Aspect triplot widgets
+# - ppscore:        Aspect dependency method
+# - scipy:          Aspect hierarchical clustering
 OPTIONAL_DEPENDENCIES = {
     'dalex': '99.0',
     'lime': '0.2.0.1',
