@@ -4,13 +4,13 @@ from copy import deepcopy
 import multiprocessing as mp
 from numpy.random import SeedSequence, default_rng
 
-from ... import _global_checks
+from dalex import _global_checks
 
 
 def calculate_predict_aspect_importance(
     explainer,
     new_observation,
-    variables_groups,
+    variable_groups,
     N,
     n_aspects,
     sample_method,
@@ -26,12 +26,12 @@ def calculate_predict_aspect_importance(
     n_sample_changed = deepcopy(n_sample)
     n_sample_changed.reset_index(inplace=True, drop=True)
 
-    if len(variables_groups) == 1:
+    if len(variable_groups) == 1:
         result = pd.DataFrame(
             {
-                "aspect_name": list(variables_groups.keys())[0],
-                "variables_names": [list(variables_groups.values())[0]],
-                "variables_values": new_observation[list(variables_groups.values())[0]].values.tolist(),
+                "aspect_name": list(variable_groups.keys())[0],
+                "variables_names": [list(variable_groups.values())[0]],
+                "variables_values": new_observation[list(variable_groups.values())[0]].values.tolist(),
                 "importance": explainer.predict(new_observation) - explainer.y_hat.mean(),
                 "label": explainer.label,
             }
@@ -39,13 +39,13 @@ def calculate_predict_aspect_importance(
         return result
 
     # generate binary matrix for replacing aspect
-    X_prim = get_sample(N, len(variables_groups), sample_method, f, random_state)
+    X_prim = get_sample(N, len(variable_groups), sample_method, f, random_state)
 
     # replace aspect in sample with observation's values of features
     for i in range(n_sample_changed.shape[0]):
-        for k, variables_set_key in enumerate(variables_groups):
+        for k, variables_set_key in enumerate(variable_groups):
             if X_prim[i, k] == 1:
-                variables = variables_groups[variables_set_key]
+                variables = variable_groups[variables_set_key]
                 n_sample_changed.loc[i, variables] = [
                     new_observation.iloc[0][var] for var in variables
                 ]
@@ -55,7 +55,7 @@ def calculate_predict_aspect_importance(
 
     # fit linear model to binary matrix and change in predictions vector to estimate aspect importance
     X_prim = pd.DataFrame(X_prim)
-    X_prim.columns = [aspect_name for aspect_name in variables_groups]
+    X_prim.columns = [aspect_name for aspect_name in variable_groups]
 
     if n_aspects == None:
         from sklearn.linear_model import LinearRegression
@@ -70,7 +70,7 @@ def calculate_predict_aspect_importance(
 
     # generate result pd.DataFrame
     variables_names = [
-        variables_groups[variables_set_key] for variables_set_key in variables_groups
+        variable_groups[variables_set_key] for variables_set_key in variable_groups
     ]
     variables_values = [
         new_observation[variables_list].values[0] for variables_list in variables_names
@@ -182,7 +182,7 @@ def iterate_paths(predict_function, data_sample, new_observation, variable_group
 def get_single_random_path(predict_function, data_sample, new_observation, variable_groups, random_path, b):
     current_data = deepcopy(data_sample)
     variable_groups_varnames = list(variable_groups.values())
-    variables_groups_aspnames = list(variable_groups.keys())
+    variable_groups_aspnames = list(variable_groups.keys())
     yhats = np.empty(len(random_path) + 1)
     yhats[0] = predict_function(current_data).mean()
     for i, candidate in enumerate(random_path):
@@ -192,7 +192,7 @@ def get_single_random_path(predict_function, data_sample, new_observation, varia
 
     diffs = np.diff(yhats)
     variables_names = [variable_groups_varnames[i] for i in random_path]
-    aspect_name = [variables_groups_aspnames[i] for i in random_path]
+    aspect_name = [variable_groups_aspnames[i] for i in random_path]
 
     return pd.DataFrame({
         'aspect_name': aspect_name,
