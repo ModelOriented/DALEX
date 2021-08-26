@@ -46,11 +46,11 @@ def plot_predict_hierarchical_importance(
 
             scatter_importance.hoverinfo = "text"
             scatter_importance.hoverlabel = {"bgcolor": "rgba(0,0,0,0.8)"}
-            scatter_importance.hovertext = tooltip_text(row, rounding_function, digits)
+            scatter_importance.hovertext = tooltip_text_aspect(row, rounding_function, digits)
 
             scatter_clustering.hoverinfo = "text"
             scatter_clustering.hoverlabel = {"bgcolor": "rgba(0,0,0,0.8)"}
-            scatter_clustering.hovertext = tooltip_text(row, rounding_function, digits)
+            scatter_clustering.hovertext = tooltip_text_aspect(row, rounding_function, digits)
 
     for i, scatter in enumerate(dendrogram_hierarchical_importance.data):
         if i not in updated:
@@ -61,11 +61,11 @@ def plot_predict_hierarchical_importance(
             change_last = True if type == 'default' else False
             scatter.hoverinfo = "text"
             scatter.hoverlabel = {"bgcolor": "rgba(0,0,0,0.8)"}
-            scatter.hovertext = tooltip_text(hierarchical_importance_data.iloc[-1], rounding_function, digits, change_last)
+            scatter.hovertext = tooltip_text_aspect(hierarchical_importance_data.iloc[-1], rounding_function, digits, change_last)
             scatter_clustering = dendrogram_hierarchical_correlation.data[i]
             scatter_clustering.hoverinfo = "text"
             scatter_clustering.hoverlabel = {"bgcolor": "rgba(0,0,0,0.8)"}
-            scatter_clustering.hovertext = tooltip_text(hierarchical_importance_data.iloc[-1], rounding_function, digits, change_last)
+            scatter_clustering.hovertext = tooltip_text_aspect(hierarchical_importance_data.iloc[-1], rounding_function, digits, change_last)
             scatter.x[1:3] = imp_scatter
             importance_dict[np.mean(scatter.y[1:3])] = imp_scatter
         if scatter.y[0] in importance_dict.keys():
@@ -109,7 +109,7 @@ def get_ticktext_for_plot(
     return ticktext
 
 
-def tooltip_text(row, rounding_function, digits, last=False):
+def tooltip_text_aspect(row, rounding_function, digits, last=False):
     var_val_string = ""
     for i in range(len(row.variable_names)):
         var_val_string += (
@@ -122,6 +122,14 @@ def tooltip_text(row, rounding_function, digits, last=False):
         + "(between variables: " + ", ".join(row.vars_min_depend) + ")<br>"
         + keyword + f"{rounding_function(row.importance, digits)}<br>Variables: "
         + var_val_string
+    )
+
+
+def tooltip_text_single(row, rounding_function, digits):
+    return (
+        f"Importance: {rounding_function(row.importance, digits)}<br>"
+        + "Variable:<br>"
+        + f"{row.variable_names} = " + str(row.variables_values[0])
     )
 
 
@@ -160,16 +168,6 @@ def add_text_to_dendrogram(fig, updated, rounding_function, digits, type="cluste
     return res_fig
 
 
-
-
-def get_single_tooltip_text(row, rounding_function, digits):
-    return (
-        f"Importance: {rounding_function(row.importance, digits)}<br>"
-        + "Variable:<br>"
-        + f"{row.variable_names} = " + str(row.variables_values[0])
-    )
-
-
 def plot_single_aspects_importance(
     result_dataframe, order, rounding_function, digits, vcolors
 ):
@@ -185,7 +183,7 @@ def plot_single_aspects_importance(
             )
 
     _result["color"] = [0 if imp > 0 else 1 for imp in _result["importance"]]
-    _result["tooltip_text"] = _result.apply(get_single_tooltip_text, args=(rounding_function, digits), axis=1)
+    _result["tooltip_text"] = _result.apply(tooltip_text_single, args=(rounding_function, digits), axis=1)
     _result["label_text"] = _global_utils.convert_float_to_str(_result.importance, "+")
 
     if vcolors is None:
@@ -261,10 +259,10 @@ def plot_single_aspects_importance(
 
     return fig
 
+
 def get_aspect_importance_colors():
     """return default dalex colors"""
     return ["#8bdcbe", "#f05a71"]
-
 
 
 def _add_between_points(
