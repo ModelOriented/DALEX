@@ -1,5 +1,5 @@
-from warnings import warn
 import numpy as np
+from warnings import warn
 
 from dalex.model_explanations._model_performance.utils import *
 from dalex.model_explanations._variable_importance.loss_functions import *

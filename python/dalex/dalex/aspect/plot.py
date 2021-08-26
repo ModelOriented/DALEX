@@ -1,6 +1,6 @@
+import numpy as np
 from plotly.figure_factory import create_dendrogram
 import plotly.graph_objects as go
-import numpy as np
 
 def plot_dendrogram(linkage_matrix, labels=None):
     fig = create_dendrogram(

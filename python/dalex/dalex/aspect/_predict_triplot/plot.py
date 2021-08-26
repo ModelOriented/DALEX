@@ -1,5 +1,5 @@
-import plotly.graph_objects as go
 import numpy as np
+import plotly.graph_objects as go
 import itertools
 from copy import deepcopy 
 
@@ -46,11 +46,11 @@ def plot_predict_hierarchical_importance(
 
             scatter_importance.hoverinfo = "text"
             scatter_importance.hoverlabel = {"bgcolor": "rgba(0,0,0,0.8)"}
-            scatter_importance.hovertext = get_tooltip_text(row, rounding_function, digits)
+            scatter_importance.hovertext = tooltip_text(row, rounding_function, digits)
 
             scatter_clustering.hoverinfo = "text"
             scatter_clustering.hoverlabel = {"bgcolor": "rgba(0,0,0,0.8)"}
-            scatter_clustering.hovertext = get_tooltip_text(row, rounding_function, digits)
+            scatter_clustering.hovertext = tooltip_text(row, rounding_function, digits)
 
     for i, scatter in enumerate(dendrogram_hierarchical_importance.data):
         if i not in updated:
@@ -61,11 +61,11 @@ def plot_predict_hierarchical_importance(
             change_last = True if type == 'default' else False
             scatter.hoverinfo = "text"
             scatter.hoverlabel = {"bgcolor": "rgba(0,0,0,0.8)"}
-            scatter.hovertext = get_tooltip_text(hierarchical_importance_data.iloc[-1], rounding_function, digits, change_last)
+            scatter.hovertext = tooltip_text(hierarchical_importance_data.iloc[-1], rounding_function, digits, change_last)
             scatter_clustering = dendrogram_hierarchical_correlation.data[i]
             scatter_clustering.hoverinfo = "text"
             scatter_clustering.hoverlabel = {"bgcolor": "rgba(0,0,0,0.8)"}
-            scatter_clustering.hovertext = get_tooltip_text(hierarchical_importance_data.iloc[-1], rounding_function, digits, change_last)
+            scatter_clustering.hovertext = tooltip_text(hierarchical_importance_data.iloc[-1], rounding_function, digits, change_last)
             scatter.x[1:3] = imp_scatter
             importance_dict[np.mean(scatter.y[1:3])] = imp_scatter
         if scatter.y[0] in importance_dict.keys():
@@ -109,7 +109,7 @@ def get_ticktext_for_plot(
     return ticktext
 
 
-def get_tooltip_text(row, rounding_function, digits, last=False):
+def tooltip_text(row, rounding_function, digits, last=False):
     var_val_string = ""
     for i in range(len(row.variables_names)):
         var_val_string += (

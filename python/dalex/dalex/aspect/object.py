@@ -1,5 +1,5 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 from dalex.aspect._model_aspect_importance.object import ModelAspectImportance
 from dalex.aspect._predict_aspect_importance.object import PredictAspectImportance

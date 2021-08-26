@@ -1,8 +1,7 @@
-from copy import deepcopy
-from warnings import warn
-
 import numpy as np
 import pandas as pd
+from copy import deepcopy
+from warnings import warn
 
 
 def check_random_state(random_state):

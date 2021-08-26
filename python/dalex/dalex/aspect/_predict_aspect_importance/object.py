@@ -1,11 +1,10 @@
 import numpy as np
 import pandas as pd
 from plotly.subplots import make_subplots
-from copy import deepcopy
 
-from dalex.aspect.utils import calculate_min_depend
 from dalex import _theme, _global_checks, _global_utils
 from dalex._explanation import Explanation
+from dalex.aspect.utils import calculate_min_depend
 
 from . import checks, utils, plot
 
@@ -328,7 +327,7 @@ class PredictAspectImportance(Explanation):
 
             _result["color"] = [0 if imp > 0 else 1 for imp in _result["importance"]]
             _result["tooltip_text"] = _result.apply(
-                lambda row: plot.get_tooltip_text(row, rounding_function, digits, self.type),
+                lambda row: plot.tooltip_text(row, rounding_function, digits, self.type),
                 axis=1,
             )
             _result["label_text"] = _global_utils.convert_float_to_str(

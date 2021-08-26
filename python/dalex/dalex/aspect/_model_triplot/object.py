@@ -10,7 +10,6 @@ from dalex.aspect._model_aspect_importance.object import ModelAspectImportance
 from . import checks, plot, utils
 
 
-
 class ModelTriplot(Explanation):
     """Calculate model-level hierarchical aspect importance
 

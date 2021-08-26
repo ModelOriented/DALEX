@@ -1,12 +1,12 @@
+import numpy as np
+import pandas as pd
 from copy import deepcopy
-from .._predict_aspect_importance.utils import (
+import re
+
+from dalex.aspect._predict_aspect_importance.utils import (
     calculate_predict_aspect_importance,
     calculate_shap_predict_aspect_importance,
 )
-import re
-
-import pandas as pd
-import numpy as np
 
 
 def calculate_predict_hierarchical_importance(
@@ -44,7 +44,7 @@ def calculate_predict_hierarchical_importance(
             current_aspects_importance = calculate_predict_aspect_importance(
                 explainer=aspect.explainer,
                 new_observation=new_observation,
-                variables_groups=aspects_list_current,
+                variable_groups=aspects_list_current,
                 N=N,
                 n_aspects=None,
                 sample_method=sample_method,
