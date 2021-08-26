@@ -1,15 +1,11 @@
 import numpy as np
 import pandas as pd
-import ppscore as pps
-from scipy import stats
-from scipy.cluster.hierarchy import fcluster, linkage
-from scipy.spatial.distance import squareform
-
 from .. import _theme
 from . import checks
 
 
 def calculate_cat_assoc_matrix(data, categorical_variables, n):
+    from scipy.stats import chi2_contingency
     cat_assoc_matrix = pd.DataFrame(
         index=categorical_variables, columns=categorical_variables, dtype=float
     )
@@ -24,7 +20,7 @@ def calculate_cat_assoc_matrix(data, categorical_variables, n):
                 cont_tab = pd.crosstab(data[variable_name_a], data[variable_name_b])
                 r = cont_tab.shape[0]
                 c = cont_tab.shape[1]
-                chi2_test = stats.chi2_contingency(cont_tab)
+                chi2_test = chi2_contingency(cont_tab)
                 phi = max(0, (chi2_test[0] / n) - (((r - 1) * (c - 1)) / (n - 1)))
                 r = r - ((r - 1) ** 2 / (n - 1))
                 c = c - ((c - 1) ** 2 / (n - 1))
@@ -36,6 +32,7 @@ def calculate_cat_assoc_matrix(data, categorical_variables, n):
 
 
 def calculate_cat_num_assoc_matrix(data, categorical_variables, numerical_variables, n):
+    from scipy.stats import kruskal
     cat_num_assoc_matrix = pd.DataFrame(
         index=categorical_variables, columns=numerical_variables, dtype=float
     )
@@ -46,7 +43,7 @@ def calculate_cat_num_assoc_matrix(data, categorical_variables, numerical_variab
                 gr_data[num_variable_name].values
                 for gr_name, gr_data in data.groupby(cat_variable_name, as_index=False)
             ]
-            kruskal_wallis_test = stats.kruskal(*samples, nan_policy="omit")
+            kruskal_wallis_test = kruskal(*samples, nan_policy="omit")
             n_samples = len(samples)
             eta_squared = (kruskal_wallis_test.statistic - n_samples + 1) / (
                 n - n_samples
@@ -72,6 +69,7 @@ def calculate_assoc_matrix(data, corr_method):
 
 
 def calculate_pps_matrix(data, agg_method):
+    import ppscore as pps
     pps_result = pps.matrix(data, sample=None)
     pps_matrix = pps_result[["x", "y", "ppscore"]].pivot(
         columns="x", index="y", values="ppscore"
@@ -105,11 +103,14 @@ def calculate_depend_matrix(
 
 
 def calculate_linkage_matrix(depend_matrix, clust_method):
+    from scipy.cluster.hierarchy import linkage
+    from scipy.spatial.distance import squareform
     dissimilarity = 1 - abs(depend_matrix)
     ## https://www.kaggle.com/sgalella/correlation-heatmaps-with-hierarchical-clustering?scriptVersionId=24045077&cellId=10
     linkage_matrix = linkage(squareform(dissimilarity), clust_method)
 
     return linkage_matrix
+
 
 def get_dendrogram_aspects_ordered(hierarchical_clustering_dendrogram, depend_matrix):
     # names of variables on axis
@@ -140,6 +141,7 @@ def get_dendrogram_aspects_ordered(hierarchical_clustering_dendrogram, depend_ma
         "vars_min_depend": _vars_min_depend
     })
 
+
 def get_min_depend_from_matrix(depend_matrix, variables_list): 
     _vars_min_depend = []
     _min_depend = []
@@ -151,3 +153,14 @@ def get_min_depend_from_matrix(depend_matrix, variables_list):
         _vars_min_depend.append(depend_submatrix.columns[[var_a_idx, var_b_idx]].tolist())
         _min_depend.append(_min)
     return _vars_min_depend, _min_depend
+
+
+def calculate_min_depend(
+    variables_list,
+    data,
+    depend_method="assoc",
+    corr_method="spearman",
+    agg_method="max",
+): 
+    depend_matrix = calculate_depend_matrix(data, depend_method, corr_method, agg_method)
+    return get_min_depend_from_matrix(depend_matrix, variables_list)
