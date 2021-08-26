@@ -30,6 +30,7 @@ def calculate_model_hierarchical_importance(
         lastly_merged = list(set_diff)
         lastly_merged = [list(el) for el in lastly_merged]
 
+
         current_variable_importance = ModelAspectImportance(
             loss_function=loss_function,
             type=type,
@@ -38,7 +39,7 @@ def calculate_model_hierarchical_importance(
             variable_groups=aspects_list_current, 
             processes=processes,
             random_state=random_state,
-            _is_aspect_model_parts=False,
+            _depend_matrix=aspect.depend_matrix
         )
 
         current_variable_importance.fit(aspect.explainer)

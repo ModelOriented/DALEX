@@ -4,7 +4,7 @@ from plotly.subplots import make_subplots
 
 from dalex import _theme, _global_checks
 from dalex.model_explanations._variable_importance.object import VariableImportance
-from dalex.aspect.utils import calculate_min_depend
+from dalex.aspect.utils import calculate_min_depend, get_min_depend_from_matrix
 
 from . import plot, checks
 
@@ -87,8 +87,7 @@ class ModelAspectImportance(VariableImportance):
         agg_method="max",
         processes=1,
         random_state=None,
-        _min_depend=None,
-        _is_aspect_model_parts=True,
+        _depend_matrix=None
     ):
         super().__init__(
             loss_function,
@@ -103,11 +102,10 @@ class ModelAspectImportance(VariableImportance):
         )
         _depend_method, _corr_method, _agg_method = checks.check_method_depend(depend_method, corr_method, agg_method)
         self.result = pd.DataFrame()
-        self._min_depend = _min_depend
+        self._depend_matrix = _depend_matrix
         self.depend_method = _depend_method
         self.corr_method = _corr_method
         self.agg_method = _agg_method
-        self._is_aspect_model_parts = _is_aspect_model_parts
 
     def fit(self, explainer):
         """Calculate the result of explanation
@@ -130,55 +128,37 @@ class ModelAspectImportance(VariableImportance):
             dropout_loss_change=lambda x: x["dropout_loss"] - baseline
         )
         self.result = self.result.rename(columns={"variable": "aspect_name"})
-        if self._is_aspect_model_parts:
-            self.result.insert(4, "min_depend", None)
-            self.result.insert(5, "vars_min_depend", None)
-            # if there is _min_depend in kwargs (called from Aspect object) 
-            if self._min_depend is not None:
-                for index, row in self.result[1:-1].iterrows():
-                    _matching_row = self._min_depend.loc[
-                        self._min_depend.variables == set(row.variable_names)
-                    ]
-                    min_dep = _matching_row.min_depend.values[0]
-                    vars_min_depend = _matching_row.vars_min_depend.values[0]
-                    self.result.at[index, "min_depend"] = min_dep
-                    self.result.at[index, "vars_min_depend"] = vars_min_depend
-            else:
-                vars_min_depend, min_depend = calculate_min_depend(
-                    self.result[1:-1].variable_names,
-                    explainer.data,
-                    self.depend_method,
-                    self.corr_method,
-                    self.agg_method,
+        self.result.insert(4, "min_depend", None)
+        self.result.insert(5, "vars_min_depend", None)
+        # if there is _depend_matrix in kwargs (called from Aspect object) 
+        if self._depend_matrix is not None:
+            vars_min_depend, min_depend = get_min_depend_from_matrix(self._depend_matrix, 
+                    self.result.variable_names
                 )
-                min_depend.append(None)
-                min_depend.insert(0, None)
-                vars_min_depend.append(None)
-                vars_min_depend.insert(0, None)
-                self.result["min_depend"] = min_depend
-                self.result["vars_min_depend"] = vars_min_depend
-
-            self.result = self.result[
-                [
-                    "aspect_name",
-                    "variable_names",
-                    "dropout_loss",
-                    "dropout_loss_change",
-                    "min_depend",
-                    "vars_min_depend",
-                    "label",
-                ]
-            ]
         else:
-            self.result = self.result[
-                [
-                    "aspect_name",
-                    "variable_names",
-                    "dropout_loss",
-                    "dropout_loss_change",
-                    "label",
-                ]
+            vars_min_depend, min_depend = calculate_min_depend(
+                self.result.variable_names, 
+                explainer.data,
+                self.depend_method,
+                self.corr_method,
+                self.agg_method,
+            )
+
+        self.result["min_depend"] = min_depend
+        self.result["vars_min_depend"] = vars_min_depend
+
+        self.result = self.result[
+            [
+                "aspect_name",
+                "variable_names",
+                "dropout_loss",
+                "dropout_loss_change",
+                "min_depend",
+                "vars_min_depend",
+                "label",
             ]
+        ]
+      
 
     def plot(
         self,
@@ -234,9 +214,6 @@ class ModelAspectImportance(VariableImportance):
         if split not in ("model", "aspect"):
             raise TypeError("split should be 'model' or 'aspect'")
 
-        if not self._is_aspect_model_parts:
-            objects = None
-
         # are there any other objects to plot?
         if objects is None:
             n = 1
@@ -275,52 +252,36 @@ class ModelAspectImportance(VariableImportance):
             (_result_df.aspect_name != "_full_model_")
             & (_result_df.aspect_name != "_baseline_")
         ]
-        if self._is_aspect_model_parts:
-            _result_df = _result_df[
-                [
-                    "label",
-                    "aspect_name",
-                    "dropout_loss_x",
-                    "dropout_loss_y",
-                    "variable_names",
-                    "min_depend",
-                    "vars_min_depend",
-                ]
-            ].rename(
-                columns={
-                    "dropout_loss_x": "dropout_loss",
-                    "dropout_loss_y": "full_model",
-                }
-            )
-            # calculate order of bars or variable plots (split = 'aspect')
-            # get variable permutation
-            perm = (
-                _result_df[["aspect_name", "dropout_loss"]]
-                .groupby("aspect_name")
-                .mean()
-                .reset_index()
-                .sort_values("dropout_loss", ascending=False)
-                .aspect_name.values
-            )
-            model_names = _result_df["label"].unique().tolist()
+        _result_df = _result_df[
+            [
+                "label",
+                "aspect_name",
+                "dropout_loss_x",
+                "dropout_loss_y",
+                "variable_names",
+                "min_depend",
+                "vars_min_depend",
+            ]
+        ].rename(
+            columns={
+                "dropout_loss_x": "dropout_loss",
+                "dropout_loss_y": "full_model",
+            }
+        )
+        # calculate order of bars or variable plots (split = 'aspect')
+        # get variable permutation
+        perm = (
+            _result_df[["aspect_name", "dropout_loss"]]
+            .groupby("aspect_name")
+            .mean()
+            .reset_index()
+            .sort_values("dropout_loss", ascending=False)
+            .aspect_name.values
+        )
+        model_names = _result_df["label"].unique().tolist()
 
-            if len(model_names) != n:
-                raise ValueError("label must be unique for each model")
-        else:
-            _result_df = _result_df[
-                [
-                    "label",
-                    "aspect_name",
-                    "dropout_loss_x",
-                    "dropout_loss_y",
-                ]
-            ].rename(
-                columns={
-                    "dropout_loss_x": "dropout_loss",
-                    "dropout_loss_y": "full_model",
-                }
-            )
-            model_names=None
+        if len(model_names) != n:
+            raise ValueError("label must be unique for each model")
 
         plot_height = 78 + 71
 
@@ -329,14 +290,13 @@ class ModelAspectImportance(VariableImportance):
         if vertical_spacing is None:
             vertical_spacing = 0.2 / n
 
-        x_title = "drop-out loss" if self._is_aspect_model_parts else None
         # init plot
         fig = make_subplots(
             rows=n,
             cols=1,
             shared_xaxes=True,
             vertical_spacing=vertical_spacing,
-            x_title=x_title,
+            x_title="drop-out loss",
             subplot_titles=model_names,
         )
         if split == "model":
@@ -350,15 +310,14 @@ class ModelAspectImportance(VariableImportance):
 
                 # take only m variables (for max_aspects)
                 # sort rows of df by variable permutation and drop unused variables
-                if self._is_aspect_model_parts:
-                    df = (
-                        df.sort_values("dropout_loss")
-                        .tail(m)
-                        .set_index("aspect_name")
-                        .reindex(perm)
-                        .dropna()
-                        .reset_index()
-                    )
+                df = (
+                    df.sort_values("dropout_loss")
+                    .tail(m)
+                    .set_index("aspect_name")
+                    .reindex(perm)
+                    .dropna()
+                    .reset_index()
+                )
 
                 baseline = df.iloc[0, df.columns.get_loc("full_model")]
 
@@ -369,20 +328,13 @@ class ModelAspectImportance(VariableImportance):
                     if val > 0
                     else str(rounding_function(np.abs(val), digits))
                 )
-                if self._is_aspect_model_parts:
-                    tt = df.apply(
-                        lambda row: plot.tooltip_text_aspect(
-                            row, rounding_function, digits
-                        ),
-                        axis=1,
-                    )
-                else:
-                    tt = df.apply(
-                        lambda row: plot.tooltip_text_single(
-                            row, rounding_function, digits
-                        ),
-                        axis=1,
-                    )
+                tt = df.apply(
+                    lambda row: plot.tooltip_text(
+                        row, rounding_function, digits
+                    ),
+                    axis=1,
+                )
+               
                 df = df.assign(label_text=lt, tooltip_text=tt)
 
                 fig.add_shape(
@@ -470,7 +422,7 @@ class ModelAspectImportance(VariableImportance):
                 cols=1,
                 shared_xaxes=True,
                 vertical_spacing=vertical_spacing,
-                x_title=x_title,
+                x_title="drop-out loss",
                 subplot_titles=variable_names,
             )
 
@@ -491,7 +443,7 @@ class ModelAspectImportance(VariableImportance):
                     else str(rounding_function(np.abs(val), digits))
                 )
                 tt = df.apply(
-                    lambda row: plot.tooltip_text_aspect(row, rounding_function, digits),
+                    lambda row: plot.tooltip_text(row, rounding_function, digits),
                     axis=1,
                 )
                 df = df.assign(label_text=lt, tooltip_text=tt)
