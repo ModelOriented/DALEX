@@ -1,5 +1,9 @@
 import numpy as np
 import plotly.graph_objects as go
+import itertools
+from copy import deepcopy 
+
+from dalex import _theme, _global_utils
 
 
 def plot_model_hierarchical_importance(
@@ -68,6 +72,99 @@ def plot_model_hierarchical_importance(
     return dendrogram_hierarchical_importance, updated
 
 
+def plot_single_aspects_importance(
+    result_dataframe, order, rounding_function, digits, vcolors
+):
+    fig = go.Figure()
+    _result = deepcopy(result_dataframe)
+    _result["variable_names"] = list(itertools.chain.from_iterable(_result["variable_names"]))
+    baseline = _result.iloc[0].dropout_loss - _result.iloc[0].dropout_loss_change
+    sorter = dict(zip(order, range(len(order))))
+    _result["order"] = _result["variable_names"].map(sorter)
+    _result = _result.sort_values(["order"], ascending=True).reset_index(drop=True)
+    _result = _result.drop("order", axis=1)
+    _result.loc[:, "dropout_loss_change"] = rounding_function(
+                _result.loc[:, "dropout_loss_change"], digits
+            )
+
+    _result["tooltip_text"] = _result.apply(tooltip_text_single, args=(rounding_function, digits), axis=1)
+    _result["label_text"] = _global_utils.convert_float_to_str(_result.dropout_loss_change, "+")
+
+    if vcolors is None:
+        vcolors = _theme.get_default_colors(1, 'bar')[0]
+
+    fig.add_shape(
+        type="line",
+        x0=baseline,
+        x1=baseline,
+        y0=-0.01,
+        y1=1.01,
+        yref="paper",
+        xref="x",
+        line={"color": "#371ea3", "width": 1.5, "dash": "dot"},
+    )
+
+    fig.add_bar(
+        orientation="h",
+        y=_result["variable_names"].tolist(),
+        x=_result["dropout_loss_change"].tolist(),
+        base=baseline,
+        textposition="outside",
+        text=_result["label_text"].tolist(),
+        textfont_color=["#371ea3"] * len(order),
+        marker_color=vcolors,
+        hovertext=_result["tooltip_text"].tolist(),
+        hoverinfo="text",
+        hoverlabel={"bgcolor": "rgba(0,0,0,0.8)"},
+        showlegend=False,
+    )
+
+    fig.update_yaxes(
+        {
+            "type": "category",
+            "autorange": "reversed",
+            "gridwidth": 2,
+            "automargin": True,
+            "ticks": "outside",
+            "tickcolor": "white",
+            "ticklen": 10,
+            "fixedrange": True,
+        }
+    )
+
+    fig.update_xaxes(
+        {
+            "type": "linear",
+            "gridwidth": 2,
+            "zeroline": False,
+            "automargin": True,
+            "ticks": "outside",
+            "tickcolor": "white",
+            "ticklen": 3,
+            "fixedrange": True,
+        }
+    )
+
+    temp_min_max = [np.Inf, -np.Inf]
+    min_max_margin = _result.dropout_loss.values.ptp() * 0.15
+    temp_min_max[0] = np.min(
+        [temp_min_max[0], baseline - min_max_margin]
+    )
+    temp_min_max[1] = np.max(
+        [temp_min_max[1], _result.dropout_loss.values.max() + min_max_margin]
+    )
+
+    fig.update_xaxes({"range": temp_min_max})
+    fig.update_layout(
+        title_x=0.15,
+        font={"color": "#371ea3"},
+        template="none",
+        margin={"t": 78, "b": 71, "r": 30},
+    )
+
+    return fig
+
+
 def add_text_to_model_importance_dendrogram(fig, hierarchical_importance_data):
     res_fig = go.Figure(fig)
     for scatter in res_fig.data:
@@ -105,6 +202,24 @@ def tooltip_text(row, rounding_function, digits):
         + "<br>"
         + "Variables:<br>"
         + "<br>".join(row.variable_names)
+    )
+
+
+def tooltip_text_single(row, rounding_function, digits):
+    if row.dropout_loss_change > 0:
+        key_word = "+"
+    else:
+        key_word = "-"
+    return (
+        "Drop-out loss: "
+        + str(rounding_function(row.dropout_loss, digits))
+        + "<br>"
+        + "Drop-out loss change: "
+        + key_word
+        + str(rounding_function(np.abs(row.dropout_loss_change), digits))
+        + "<br>"
+        + "Variable: "
+        + str(row.aspect_name)
     )
 
 

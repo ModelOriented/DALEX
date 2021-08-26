@@ -95,13 +95,12 @@ class ModelTriplot(Explanation):
         None
         """
 
-        self._hierarchical_clustering_dendrogram = (
-            aspect._hierarchical_clustering_dendrogram
-        )
-
+        self._hierarchical_clustering_dendrogram = aspect._hierarchical_clustering_dendrogram
+        
+        ## middle plot
         (
-            self.result,
-            aspect._full_hierarchical_aspect_importance,
+        self.result,
+        aspect._full_hierarchical_aspect_importance
         ) = utils.calculate_model_hierarchical_importance(
             aspect,
             self.loss_function,
@@ -112,31 +111,21 @@ class ModelTriplot(Explanation):
             self.random_state,
         )
 
-        self.result.insert(3, "min_depend", None)
-        self.result.insert(4, "vars_min_depend", None)
-        for index, row in self.result.iterrows():
-            _matching_row = aspect._dendrogram_aspects_ordered.loc[
-                pd.Series(map(set, aspect._dendrogram_aspects_ordered.variable_names))
-                == set(row.variable_names)
-            ]
-            min_dep = _matching_row.min_depend.values[0]
-            vars_min_depend = _matching_row.vars_min_depend.values[0]
-            self.result.at[index, "min_depend"] = min_dep
-            self.result.at[index, "vars_min_depend"] = vars_min_depend
         ## left plot data
         variable_groups = aspect.get_aspects(h=2)
-        self._variable_importance_object = ModelAspectImportance(
+        mai_object = ModelAspectImportance(
             variable_groups=variable_groups,
             loss_function=self.loss_function,
             type=self.type,
             N=self.N,
             B=self.B,
             processes=self.processes,
-            random_state=self.random_state,
-            _is_aspect_model_parts=False,
+            random_state=self.random_state
         )
-        self._variable_importance_object.fit(aspect.explainer)
-        self.single_variable_importance = self._variable_importance_object.result
+        mai_object.fit(aspect.explainer)
+        self.single_variable_importance = mai_object.result[
+            (mai_object.result.aspect_name != "_full_model_") & 
+            (mai_object.result.aspect_name != "_baseline_")]
 
         single_vi = deepcopy(self.single_variable_importance)
         single_vi["h"] = 1
@@ -150,6 +139,7 @@ class ModelTriplot(Explanation):
         rounding_function=np.around,
         bar_width=25,
         width=1500,
+        vcolors=None,
         title="Model Triplot",
         widget=False,
         show=True
@@ -167,6 +157,8 @@ class ModelTriplot(Explanation):
             Width of bars in px (default is `16`).
         width : float, optional
             Width of triplot in px (default is `1500`).
+        vcolors : str, optional
+            Color of bars (default is `"#46bac2"`).
         title : str, optional
             Title of the plot (default is `"Model Triplot"`).
         widget : bool, optional
@@ -220,27 +212,13 @@ class ModelTriplot(Explanation):
         )
 
         ## left plot
-        _result = deepcopy(self.single_variable_importance)
-        sorter = dict(zip(variables_order, range(m)))
-        _result["order"] = _result["aspect_name"].map(sorter)
-        _result = _result.sort_values(["order"], ascending=True).reset_index(drop=True)
-        _result = _result.drop("order", axis=1)
-        self._variable_importance_object.result = _result
-
-        fig = self._variable_importance_object.plot(
-            max_aspects=_result.shape[0],
-            digits=digits,
-            rounding_function=rounding_function,
-            bar_width=bar_width,
-            show=False,
-            title=None,
-            show_variable_names=False
+        fig = plot.plot_single_aspects_importance(
+            self.single_variable_importance,
+            variables_order,
+            rounding_function,
+            digits,
+            vcolors
         )
-        fig.data[0]["textfont_color"] = ["#371ea3"] * m
-
-        fig.layout["shapes"][0]["y0"] = -0.01
-        fig.layout["shapes"][0]["y1"] = 1.01
-        fig.layout["shapes"][0]["yref"] = 'paper'
         
         fig.layout["xaxis"]["range"] = (
             fig.layout["xaxis"]["range"][0],
