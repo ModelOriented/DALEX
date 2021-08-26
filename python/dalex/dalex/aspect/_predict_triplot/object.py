@@ -1,17 +1,15 @@
-from copy import deepcopy
-from re import T
-
 import numpy as np
 import pandas as pd
 import plotly.graph_objs as go
-from dalex import _theme
-from dalex._explanation import Explanation
-from ipywidgets import HBox, Layout
+from copy import deepcopy
 
-from .._predict_aspect_importance.utils import \
+from dalex import _theme, _global_checks
+from dalex._explanation import Explanation
+from dalex.aspect._predict_aspect_importance.utils import \
     calculate_predict_aspect_importance, calculate_shap_predict_aspect_importance
+
 from . import checks, plot, utils
-from ... import _global_checks
+
 
 
 class PredictTriplot(Explanation):
@@ -416,6 +414,7 @@ class PredictTriplot(Explanation):
         ##################################################################
 
         if widget:
+            from ipywidgets import HBox, Layout
             fig = go.FigureWidget(fig, layout={"autosize": True, "hoverdistance": 100})
             original_bar_colors = deepcopy(list(fig.data[0]["marker"]["color"]))
             original_text_colors = deepcopy(list(fig.data[0]["textfont"]["color"]))

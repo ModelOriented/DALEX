@@ -3,10 +3,11 @@ import pandas as pd
 from plotly.subplots import make_subplots
 from copy import deepcopy
 
-from . import checks, utils, plot
-
+from dalex.aspect.utils import calculate_min_depend
 from dalex import _theme, _global_checks, _global_utils
 from dalex._explanation import Explanation
+
+from . import checks, utils, plot
 
 
 class PredictAspectImportance(Explanation):
@@ -198,7 +199,7 @@ class PredictAspectImportance(Explanation):
                 self.result.at[index, "min_depend"] = min_dep
                 self.result.at[index, "vars_min_depend"] = vars_min_depend 
         else:
-            vars_min_depend, min_depend = utils.calculate_min_depend(
+            vars_min_depend, min_depend = calculate_min_depend(
                 self.result.variables_names,
                 explainer.data,
                 self.depend_method,

@@ -1,5 +1,4 @@
 from warnings import warn
-
 import numpy as np
 
 from dalex.model_explanations._model_performance.utils import *

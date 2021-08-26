@@ -1,16 +1,14 @@
-from copy import deepcopy
-
 import numpy as np
 import pandas as pd
+from copy import deepcopy
 import plotly.graph_objs as go
-from dalex import _theme
+
+from dalex import _theme, _global_checks
 from dalex._explanation import Explanation
 from dalex.aspect._model_aspect_importance.object import ModelAspectImportance
-from dalex.model_explanations._variable_importance import VariableImportance
-from ipywidgets import HBox, Layout
 
 from . import checks, plot, utils
-from ... import _global_checks
+
 
 
 class ModelTriplot(Explanation):
@@ -371,6 +369,7 @@ class ModelTriplot(Explanation):
         ##################################################################
 
         if widget:
+            from ipywidgets import HBox, Layout
             fig = go.FigureWidget(fig, layout={"autosize": True, "hoverdistance": 100})
             original_bar_colors = deepcopy([fig.data[0]["marker"]["color"]] * m)
             original_text_colors = deepcopy(list(fig.data[0]["textfont"]["color"]))

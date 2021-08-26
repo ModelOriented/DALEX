@@ -2,10 +2,10 @@ import numpy as np
 import pandas as pd
 from plotly.subplots import make_subplots
 
+from dalex import _theme, _global_checks
 from dalex.model_explanations._variable_importance.object import VariableImportance
-from dalex.model_explanations._variable_importance import utils
-from ... import _theme, _global_checks
-from .._predict_aspect_importance.utils import calculate_min_depend
+from dalex.aspect.utils import calculate_min_depend
+
 from . import plot, checks
 
 
@@ -124,12 +124,8 @@ class ModelAspectImportance(VariableImportance):
         """
         super().fit(explainer)
 
-        self.result["variables_names"] = self.result["variable"].map(
-            self.variable_groups
-        )
-        baseline = self.result[self.result["variable"] == "_full_model_"][
-            "dropout_loss"
-        ].values[0]
+        self.result["variables_names"] = self.result["variable"].map(self.variable_groups)
+        baseline = self.result[self.result["variable"] == "_full_model_"]["dropout_loss"].values[0]
         self.result = self.result.assign(
             dropout_loss_change=lambda x: x["dropout_loss"] - baseline
         )

@@ -1,18 +1,10 @@
 import numpy as np
 import pandas as pd
 from copy import deepcopy
-from sklearn.linear_model import LinearRegression, lasso_path
 import multiprocessing as mp
-from copy import deepcopy
 from numpy.random import SeedSequence, default_rng
 
-
-from ..utils import (
-    calculate_depend_matrix,
-    get_min_depend_from_matrix,
-)
 from ... import _global_checks
-
 
 
 def calculate_predict_aspect_importance(
@@ -66,10 +58,12 @@ def calculate_predict_aspect_importance(
     X_prim.columns = [aspect_name for aspect_name in variables_groups]
 
     if n_aspects == None:
+        from sklearn.linear_model import LinearRegression
         lr = LinearRegression()
         lr.fit(X_prim, y_changed)
         model_coef = lr.coef_
     else:
+        from sklearn.linear_model import lasso_path
         lasso_res_matrix = lasso_path(X_prim, y_changed)[1]
         indx = np.max(np.where(np.count_nonzero(lasso_res_matrix, axis=0) <= n_aspects))
         model_coef = lasso_res_matrix[:, indx]

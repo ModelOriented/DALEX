@@ -1,15 +1,13 @@
-from dalex.aspect._model_aspect_importance.object import ModelAspectImportance
-from dalex.aspect._model_triplot.object import ModelTriplot
-from ._predict_triplot import PredictTriplot
-from ..model_explanations._variable_importance.object import VariableImportance
 import pandas as pd
 import numpy as np
-from scipy.cluster.hierarchy import fcluster
+
+from dalex.aspect._model_aspect_importance.object import ModelAspectImportance
+from dalex.aspect._predict_aspect_importance.object import PredictAspectImportance
+from dalex.aspect._model_triplot.object import ModelTriplot
+from dalex.aspect._predict_triplot.object import PredictTriplot
 
 from . import utils, checks, plot
-from ._predict_aspect_importance import PredictAspectImportance
 from .. import _theme, _global_checks
-from dalex import aspect
 
 
 class Aspect:
@@ -97,6 +95,7 @@ class Aspect:
         self._mt_params = None
 
     def get_aspects(self, h=0.5):
+        from scipy.cluster.hierarchy import fcluster
         """Form aspects of variables from the hierarchical clustering
 
         Parameters
