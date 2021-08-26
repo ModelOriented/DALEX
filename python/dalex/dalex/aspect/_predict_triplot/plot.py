@@ -1,9 +1,13 @@
 import plotly.graph_objects as go
 import numpy as np
-from . import utils
-from copy import deepcopy 
-from ... import _global_utils
 import itertools
+from copy import deepcopy 
+
+from dalex import _global_utils
+
+from . import utils
+
+
 
 def plot_predict_hierarchical_importance(
     dendrogram_hierarchical_correlation,
