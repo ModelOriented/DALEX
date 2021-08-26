@@ -87,7 +87,7 @@ class ModelAspectImportance(VariableImportance):
         agg_method="max",
         processes=1,
         random_state=None,
-        _depend_matrix=None
+        **kwargs
     ):
         super().__init__(
             loss_function,
@@ -102,10 +102,15 @@ class ModelAspectImportance(VariableImportance):
         )
         _depend_method, _corr_method, _agg_method = checks.check_method_depend(depend_method, corr_method, agg_method)
         self.result = pd.DataFrame()
-        self._depend_matrix = _depend_matrix
+        self._depend_matrix = None
+        if "_depend_matrix" in kwargs:
+            self._depend_matrix = kwargs.get("_depend_matrix")
         self.depend_method = _depend_method
         self.corr_method = _corr_method
         self.agg_method = _agg_method
+
+    def _repr_html_(self):
+        return self.result._repr_html_()
 
     def fit(self, explainer):
         """Calculate the result of explanation

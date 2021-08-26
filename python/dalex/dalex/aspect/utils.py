@@ -85,6 +85,7 @@ def calculate_pps_matrix(data, agg_method):
 def calculate_depend_matrix(
     data, depend_method, corr_method, agg_method
 ):
+    depend_matrix = pd.DataFrame()
     if depend_method == "assoc":
         depend_matrix = calculate_assoc_matrix(data, corr_method)
     if depend_method == "pps":
@@ -144,12 +145,16 @@ def get_min_depend_from_matrix(depend_matrix, variables_list):
     _vars_min_depend = []
     _min_depend = []
     for vars in variables_list:
-        depend_submatrix = abs(depend_matrix).loc[list(vars), list(vars)]
-        _min = np.array(depend_submatrix).min()
-        _min_idx = np.where(depend_submatrix == _min)
-        var_a_idx, var_b_idx = _min_idx[0][0], _min_idx[1][0]
-        _vars_min_depend.append(depend_submatrix.columns[[var_a_idx, var_b_idx]].tolist())
-        _min_depend.append(_min)
+        if isinstance(vars, (list, tuple, np.ndarray)):
+            depend_submatrix = abs(depend_matrix).loc[list(vars), list(vars)]
+            _min = np.array(depend_submatrix).min()
+            _min_idx = np.where(depend_submatrix == _min)
+            var_a_idx, var_b_idx = _min_idx[0][0], _min_idx[1][0]
+            _vars_min_depend.append(np.array(depend_submatrix.columns[[var_a_idx, var_b_idx]]))
+            _min_depend.append(_min)
+        else:
+            _vars_min_depend.append(None)
+            _min_depend.append(None)
     return _vars_min_depend, _min_depend
 
 

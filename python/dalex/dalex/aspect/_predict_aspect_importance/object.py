@@ -4,7 +4,7 @@ from plotly.subplots import make_subplots
 
 from dalex import _theme, _global_checks, _global_utils
 from dalex._explanation import Explanation
-from dalex.aspect.utils import calculate_min_depend
+from dalex.aspect.utils import calculate_min_depend, get_min_depend_from_matrix
 
 from . import checks, utils, plot
 
@@ -119,9 +119,9 @@ class PredictAspectImportance(Explanation):
         _processes = checks.check_processes(processes)
         _random_state = checks.check_random_state(random_state)
         _depend_method, _corr_method, _agg_method = checks.check_method_depend(depend_method, corr_method, agg_method)
-        self._min_depend = None
-        if "min_depend" in kwargs:
-            self._min_depend = kwargs.get("min_depend")
+        self._depend_matrix = None
+        if "_depend_matrix" in kwargs:
+            self._depend_matrix = kwargs.get("_depend_matrix")
         
         self.variable_groups = variable_groups
         self.type = _type
@@ -189,24 +189,22 @@ class PredictAspectImportance(Explanation):
         self.result.insert(4, "min_depend", None)
         self.result.insert(5, "vars_min_depend", None)
 
-        # if there is _min_depend in kwargs (called from Aspect object) 
-        if self._min_depend is not None:
-            for index, row in self.result.iterrows():
-                _matching_row = self._min_depend.loc[self._min_depend.variables == set(row.variable_names)]
-                min_dep = _matching_row.min_depend.values[0]
-                vars_min_depend = _matching_row.vars_min_depend.values[0]
-                self.result.at[index, "min_depend"] = min_dep
-                self.result.at[index, "vars_min_depend"] = vars_min_depend 
+        # if there is _depend_matrix in kwargs (called from Aspect object) 
+        if self._depend_matrix is not None:
+            vars_min_depend, min_depend = get_min_depend_from_matrix(self._depend_matrix, 
+                    self.result.variable_names
+                )
         else:
             vars_min_depend, min_depend = calculate_min_depend(
-                self.result.variable_names,
+                self.result.variable_names, 
                 explainer.data,
                 self.depend_method,
                 self.corr_method,
                 self.agg_method,
             )
-            self.result["min_depend"] = min_depend
-            self.result["vars_min_depend"] = vars_min_depend
+
+        self.result["min_depend"] = min_depend
+        self.result["vars_min_depend"] = vars_min_depend
 
     def plot(
         self,

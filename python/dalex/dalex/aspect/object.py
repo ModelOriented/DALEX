@@ -241,18 +241,6 @@ class Aspect:
         if variable_groups is None:
             variable_groups = self.get_aspects(h)
 
-        _vars_min_depend, _min_depend = utils.get_min_depend_from_matrix(
-            self.depend_matrix, variable_groups.values()
-        )
-
-        min_depend = pd.DataFrame(
-            {
-                "variables": [set(vars) for vars in variable_groups.values()],
-                "min_depend": _min_depend,
-                "vars_min_depend": _vars_min_depend,
-            }
-        )
-
         pai = PredictAspectImportance(
             variable_groups,
             type,
@@ -266,7 +254,7 @@ class Aspect:
             self.agg_method,
             processes,
             random_state,
-            min_depend=min_depend,
+            _depend_matrix=self.depend_matrix
         )
 
         pai.fit(self.explainer, new_observation)
@@ -346,17 +334,6 @@ class Aspect:
                         self._full_hierarchical_aspect_importance.h == h_selected
                     ]
 
-        _vars_min_depend, _min_depend = utils.get_min_depend_from_matrix(
-            self.depend_matrix, variable_groups.values()
-        )
-        min_depend = pd.DataFrame(
-            {
-                "variables": [set(vars) for vars in variable_groups.values()],
-                "min_depend": _min_depend,
-                "vars_min_depend": _vars_min_depend,
-            }
-        )
-
         ai = ModelAspectImportance(
             loss_function=loss_function,
             type=type,
@@ -365,26 +342,13 @@ class Aspect:
             variable_groups=variable_groups,
             processes=processes,
             random_state=random_state,
-            _min_depend=min_depend,
-            _is_aspect_model_parts=True,
+            _depend_matrix=self.depend_matrix
         )
 
         # calculate if there was no results
         if mai_result is None:
             ai.fit(self.explainer)
         else: 
-            # use results from triplot
-            mai_result.insert(4, "min_depend", None)
-            mai_result.insert(5, "vars_min_depend", None)
-
-            for index, row in mai_result[1:-1].iterrows():
-                _matching_row = min_depend.loc[
-                    min_depend.variables == set(row.variable_names)
-                ]
-                min_dep = _matching_row.min_depend.values[0]
-                vars_min_depend = _matching_row.vars_min_depend.values[0]
-                mai_result.at[index, "min_depend"] = min_dep
-                mai_result.at[index, "vars_min_depend"] = vars_min_depend
             mai_result = mai_result[
                 [
                     "aspect_name",
