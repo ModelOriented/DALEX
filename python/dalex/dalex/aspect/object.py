@@ -7,7 +7,7 @@ from dalex.aspect._model_triplot.object import ModelTriplot
 from dalex.aspect._predict_triplot.object import PredictTriplot
 
 from . import utils, checks, plot
-from .. import _theme, _global_checks
+from .. import _theme
 
 
 class Aspect:
@@ -80,7 +80,6 @@ class Aspect:
         corr_method="spearman",
         agg_method="max",
     ):  
-        _global_checks.global_check_import('scipy', 'calculate hierarchical structure of dependencies')
         _depend_method, _corr_method, _agg_method = checks.check_method_depend(depend_method, corr_method, agg_method)
         self.explainer = explainer
         self.depend_method = _depend_method
