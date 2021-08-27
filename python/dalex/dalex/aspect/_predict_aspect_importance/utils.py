@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 from copy import deepcopy
 import multiprocessing as mp
-from numpy.random import SeedSequence, default_rng
 
 from dalex import _global_checks
 
@@ -112,8 +111,8 @@ def calculate_shap_predict_aspect_importance(
             for b in range(B)]
     else:
         # create number generator for each iteration
-        ss = SeedSequence(random_state)
-        generators = [default_rng(s) for s in ss.spawn(B)]
+        ss = np.random.SeedSequence(random_state)
+        generators = [np.random.default_rng(s) for s in ss.spawn(B)]
         pool = mp.get_context('spawn').Pool(processes)
         result_list = pool.starmap_async(iterate_paths,
                                          [(explainer.predict, data_sample,
