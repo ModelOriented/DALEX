@@ -56,7 +56,7 @@ class ModelTriplot(Explanation):
     """
     def __init__(
         self,
-        loss_function="rmse",
+        loss_function=None,
         type="variable_importance",
         N=1000,
         B=10,
@@ -94,6 +94,8 @@ class ModelTriplot(Explanation):
         -----------
         None
         """
+        _loss_function = checks.check_method_loss_function(aspect.explainer, self.loss_function)
+        self.loss_function = checks.check_loss_function(_loss_function)
 
         self._hierarchical_clustering_dendrogram = aspect._hierarchical_clustering_dendrogram
         

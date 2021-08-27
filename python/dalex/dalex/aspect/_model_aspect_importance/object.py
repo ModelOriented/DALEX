@@ -78,7 +78,7 @@ class ModelAspectImportance(VariableImportance):
     def __init__(
         self,
         variable_groups,
-        loss_function="rmse",
+        loss_function=None,
         type="variable_importance",
         N=1000,
         B=10,
@@ -108,6 +108,7 @@ class ModelAspectImportance(VariableImportance):
         self.depend_method = _depend_method
         self.corr_method = _corr_method
         self.agg_method = _agg_method
+        self.loss_function = loss_function
 
     def _repr_html_(self):
         return self.result._repr_html_()
@@ -125,6 +126,9 @@ class ModelAspectImportance(VariableImportance):
         -----------
         None
         """
+        _loss_function = checks.check_method_loss_function(explainer, self.loss_function)
+        self.loss_function = checks.check_loss_function(_loss_function)
+
         super().fit(explainer)
 
         self.result["variable_names"] = self.result["variable"].map(self.variable_groups)

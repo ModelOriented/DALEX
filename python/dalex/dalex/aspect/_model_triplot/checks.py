@@ -22,6 +22,19 @@ def check_loss_function(loss_function):
     return loss_function
 
 
+def check_method_loss_function(explainer, loss_function):
+    if loss_function is not None:
+        # user passed a function
+        return loss_function
+    elif explainer.model_type is None:
+        # type is not known
+        return "rmse"
+    elif explainer.model_type == "regression":
+        return "rmse"
+    elif explainer.model_type == "classification":
+        return "1-auc"
+
+
 def check_variable_groups(variable_groups, explainer):
     if variable_groups is not None:
         if not isinstance(variable_groups, dict):

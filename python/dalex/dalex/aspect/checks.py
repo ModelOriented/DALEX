@@ -49,10 +49,12 @@ def check_assoc_value(value):
 
 
 def check_method_loss_function(explainer, loss_function):
-    if (
-        loss_function is not None or explainer.model_type is None
-    ):  # user passed a function or type is not known
+    if loss_function is not None:
+        # user passed a function
         return loss_function
+    elif explainer.model_type is None:
+        # type is not known
+        return "rmse"
     elif explainer.model_type == "regression":
         return "rmse"
     elif explainer.model_type == "classification":

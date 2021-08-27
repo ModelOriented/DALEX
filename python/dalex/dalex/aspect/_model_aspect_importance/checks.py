@@ -1,3 +1,6 @@
+from dalex.model_explanations._variable_importance.loss_functions import *
+from dalex.model_explanations._model_performance.utils import *
+
 def check_method_depend(depend_method, corr_method, agg_method):
     depend_method_types = ('assoc', 'pps')
     depend_method_aliases = {'association': 'assoc', "PPS": 'pps', 'stats': 'assoc'}
@@ -20,4 +23,33 @@ def check_method_depend(depend_method, corr_method, agg_method):
                 else: 
                     agg_method = agg_method_aliases[agg_method]
     return depend_method, corr_method, agg_method
+
+
+def check_loss_function(loss_function):
+    loss_functions = {
+        'rmse': loss_root_mean_square,
+        'mse': mse,
+        'mae': mae,
+        'mad': mad,
+        'r2': r2,
+        '1-auc': loss_one_minus_auc,
+        'auc': loss_one_minus_auc  # semi backward compatibility
+    }
+    if isinstance(loss_function, str):
+        loss_function = loss_functions[loss_function]
+
+    return loss_function
+
+def check_method_loss_function(explainer, loss_function):
+    if loss_function is not None:
+        # user passed a function
+        return loss_function
+    elif explainer.model_type is None:
+        # type is not known
+        return "rmse"
+    elif explainer.model_type == "regression":
+        return "rmse"
+    elif explainer.model_type == "classification":
+        return "1-auc"
+
 
