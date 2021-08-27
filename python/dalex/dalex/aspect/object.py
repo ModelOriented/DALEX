@@ -69,6 +69,7 @@ class Aspect:
     - https://www.researchgate.net/publication/303919832_The_need_to_report_effect_size_estimates_revisited_An_overview_of_some_recommended_measures_of_effect_size
     - http://stats.lse.ac.uk/bergsma/pdf/cramerV3.pdf
     - https://github.com/8080labs/ppscore
+    - https://arxiv.org/abs/2104.03403
     """
 
     def __init__(

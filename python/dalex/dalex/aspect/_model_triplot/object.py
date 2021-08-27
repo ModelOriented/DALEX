@@ -53,6 +53,10 @@ class ModelTriplot(Explanation):
         (default is `1`, which means no parallel computation).
     random_state : int or None
         Set seed for random number generator.
+
+    Notes
+    -----
+    - https://arxiv.org/abs/2104.03403
     """
     def __init__(
         self,
