@@ -16,7 +16,6 @@ import pandas as pd
 # - requests:       Arena.stop_server
 # - kaleido:        Aspect triplot widgets
 # - ppscore:        Aspect dependency method
-# - scipy:          Aspect hierarchical clustering
 OPTIONAL_DEPENDENCIES = {
     'dalex': '99.0',
     'lime': '0.2.0.1',
@@ -27,8 +26,7 @@ OPTIONAL_DEPENDENCIES = {
     'flask_cors': '3.0.8',
     'requests': '2.24.0',
     'kaleido': '0.2.1',
-    'ppscore': '1.2.0',
-    'scipy': '1.7.0'
+    'ppscore': '1.2.0'
 }
 # WARNING
 # WARNING
