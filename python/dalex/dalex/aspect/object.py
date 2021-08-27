@@ -29,7 +29,8 @@ class Aspect:
     depend_method: {'assoc', 'pps'} or function, optional
         The method of calculating the dependencies between variables (i.e. the dependency
         matrix). Default is `'assoc'`, which means the use of statistical association
-        (correlation coefficient, Cramér's V and eta-quared);
+        (correlation coefficient, Cramér's V based on Pearson's chi-squared statistic 
+        and eta-quared based on Kruskal-Wallis H-statistic);
         `'pps'` stands for Power Predictive Score.
         NOTE: When a function is passed, it is called with the `explainer.data` and it
         must return a symmetric dependency matrix (`pd.DataFrame` with variable names as
@@ -62,6 +63,12 @@ class Aspect:
         The dependency matrix (with variable names as columns and rows).
     linkage_matrix :
         The hierarchical clustering of variables encoded as a `scipy` linkage matrix.
+
+    Notes
+    -----
+    - https://www.researchgate.net/publication/303919832_The_need_to_report_effect_size_estimates_revisited_An_overview_of_some_recommended_measures_of_effect_size
+    - http://stats.lse.ac.uk/bergsma/pdf/cramerV3.pdf
+    - https://github.com/8080labs/ppscore
     """
 
     def __init__(
@@ -94,7 +101,7 @@ class Aspect:
         self._full_hierarchical_aspect_importance = None
         self._mt_params = None
 
-    def get_aspects(self, h=0.5):
+    def get_aspects(self, h=0.5, n=None):
         from scipy.cluster.hierarchy import fcluster
         """Form aspects of variables from the hierarchical clustering
 
@@ -103,13 +110,20 @@ class Aspect:
         h : float, optional
             Threshold to apply when forming aspects, i.e., the minimum value of the dependency
             between the variables grouped in one aspect (default is `0.5`).
+            NOTE: Ignored if `n` is not `None`.
+        n : int, optional
+            Maximum number of aspects to form 
+            (default is `None`, which means the use of `h` parameter).
 
         Returns
         -------
         dict of lists
             Variables grouped in aspects, e.g. `{'aspect_1': ['x1', 'x2'], 'aspect_2': ['y1', 'y2']}`.
         """
-        aspect_label = fcluster(self.linkage_matrix, 1 - h, criterion="distance")
+        if n is None:
+            aspect_label = fcluster(self.linkage_matrix, 1 - h, criterion="distance")
+        else:
+            aspect_label = fcluster(self.linkage_matrix, n, criterion="maxclust")
         aspects = pd.DataFrame(
             {"feature": self.depend_matrix.columns, "aspect": aspect_label}
         )
