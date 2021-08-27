@@ -11,10 +11,11 @@ def plot_model_hierarchical_importance(
     hierarchical_importance_data,
     rounding_function,
     digits,
+    change
 ):
     dendrogram_hierarchical_importance = go.Figure(dendrogram_hierarchical_correlation)
     importance_dict = {}
-    max_imp = max(hierarchical_importance_data["dropout_loss"])
+    max_imp = max(hierarchical_importance_data["dropout_loss_change"]) if change else max(hierarchical_importance_data["dropout_loss"])
 
     tick_dict = dict(
         zip(
@@ -37,7 +38,7 @@ def plot_model_hierarchical_importance(
         if dendro_mask.any():
             k = np.flatnonzero(dendro_mask == True)[0]
             updated.append(k)
-            imp_scatter = row["dropout_loss"]
+            imp_scatter = row["dropout_loss_change"] if change else row["dropout_loss"]
             scatter_importance = dendrogram_hierarchical_importance.data[k]
             scatter_clustering = dendrogram_hierarchical_correlation.data[k]
             importance_dict[np.mean(scatter_importance.y[1:3])] = imp_scatter
@@ -65,7 +66,8 @@ def plot_model_hierarchical_importance(
             scatter.x[3] = importance_dict[scatter.y[3]]
 
     dendrogram_hierarchical_importance.update_xaxes(
-        range=[0, max(hierarchical_importance_data["dropout_loss"]) * 1.05],
+        range=[0, max(hierarchical_importance_data["dropout_loss_change"]) * 1.05] if change 
+                else [0, max(hierarchical_importance_data["dropout_loss"]) * 1.05],
         visible=False,
         showticklabels=False,
     )
