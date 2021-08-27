@@ -95,6 +95,10 @@ class PredictAspectImportance(Explanation):
         Number of parallel processes to use in calculations. Iterated over `B`.
     random_state : int
         Set seed for random number generator.
+    
+    Notes
+    -----
+    - https://arxiv.org/abs/2104.03403
     """
     def __init__(
         self,

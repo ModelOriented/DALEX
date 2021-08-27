@@ -53,6 +53,10 @@ class ModelTriplot(Explanation):
         (default is `1`, which means no parallel computation).
     random_state : int or None
         Set seed for random number generator.
+
+    Notes
+    -----
+    - https://arxiv.org/abs/2104.03403
     """
     def __init__(
         self,
@@ -139,6 +143,7 @@ class ModelTriplot(Explanation):
         self,
         digits=3,
         rounding_function=np.around,
+        show_change = True,
         bar_width=25,
         width=1500,
         vcolors=None,
@@ -155,6 +160,9 @@ class ModelTriplot(Explanation):
             See `rounding_function` parameter (default is `3`).
         rounding_function : function, optional
             A function that will be used for rounding numbers (default is `np.around`).
+        show_change : bool, optional
+            If `True` middle panel shows dropout loss change, otherwise dropout loss
+            (default is `True`). 
         bar_width : float, optional
             Width of bars in px (default is `16`).
         width : float, optional
@@ -195,6 +203,7 @@ class ModelTriplot(Explanation):
             self.result,
             rounding_function,
             digits,
+            show_change
         )
 
         hierarchical_clustering_dendrogram_plot = plot.add_text_to_dendrogram(
