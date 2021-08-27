@@ -67,7 +67,7 @@ def calculate_assoc_matrix(data, corr_method):
 
 
 def calculate_pps_matrix(data, agg_method):
-    _global_checks.global_check_import('pps', 'depend_matrix with PPS calculation')
+    _global_checks.global_check_import('ppscore', 'depend_matrix with PPS calculation')
     import ppscore as pps
     pps_result = pps.matrix(data, sample=None)
     pps_matrix = pps_result[["x", "y", "ppscore"]].pivot(
