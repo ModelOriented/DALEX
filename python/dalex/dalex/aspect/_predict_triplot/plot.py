@@ -3,7 +3,7 @@ import plotly.graph_objects as go
 import itertools
 from copy import deepcopy 
 
-from dalex import _global_utils
+from dalex import _global_utils, _theme
 
 from . import utils
 
@@ -187,7 +187,7 @@ def plot_single_aspects_importance(
     _result["label_text"] = _global_utils.convert_float_to_str(_result.importance, "+")
 
     if vcolors is None:
-        vcolors = get_aspect_importance_colors()
+        vcolors = _theme.get_aspect_importance_colors()
 
     fig.add_shape(
         type="line",
@@ -258,11 +258,6 @@ def plot_single_aspects_importance(
     )
 
     return fig
-
-
-def get_aspect_importance_colors():
-    """return default dalex colors"""
-    return ["#8bdcbe", "#f05a71"]
 
 
 def _add_between_points(

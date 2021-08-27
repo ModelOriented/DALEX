@@ -13,7 +13,3 @@ def tooltip_text(row, rounding_function, digits, type):
         + "Variables:"
         + var_val_string
     )
-
-def get_aspect_importance_colors():
-    """return default dalex colors"""
-    return ["#8bdcbe", "#f05a71"]
