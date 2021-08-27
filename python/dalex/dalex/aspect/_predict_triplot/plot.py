@@ -95,13 +95,13 @@ def get_ticktext_for_plot(
     single_aspect_importance_df, variables_order, abbrev_labels=0
 ):
     _df = deepcopy(single_aspect_importance_df)
-    _df["variables_values"] = _df["variables_values"].apply(lambda x: x[0])
+    _df["variable_values"] = _df["variable_values"].apply(lambda x: x[0])
     _df["variable_names"] = _df["variable_names"].apply(lambda x: x[0])
     ticktext = [
-        f"{variable} = {utils.nice_format(_df.loc[_df['variable_names']==variable, 'variables_values'].values[0])}"
+        f"{variable} = {utils.nice_format(_df.loc[_df['variable_names']==variable, 'variable_values'].values[0])}"
         if abbrev_labels <= 0
         else utils.text_abbreviate(
-            f"{variable} = {utils.nice_format(_df.loc[_df['variable_names']==variable, 'variables_values'].values[0])}",
+            f"{variable} = {utils.nice_format(_df.loc[_df['variable_names']==variable, 'variable_values'].values[0])}",
             abbrev_labels,
         )
         for variable in variables_order
@@ -113,7 +113,7 @@ def tooltip_text_aspect(row, rounding_function, digits, last=False):
     var_val_string = ""
     for i in range(len(row.variable_names)):
         var_val_string += (
-            "<br>" + row.variable_names[i] + " = " + str(row.variables_values[i])
+            "<br>" + row.variable_names[i] + " = " + str(row.variable_values[i])
         )
     keyword = "Change in average response: " if last else "Importance: " 
 
@@ -129,7 +129,7 @@ def tooltip_text_single(row, rounding_function, digits):
     return (
         f"Importance: {rounding_function(row.importance, digits)}<br>"
         + "Variable:<br>"
-        + f"{row.variable_names} = " + str(row.variables_values[0])
+        + f"{row.variable_names} = " + str(row.variable_values[0])
     )
 
 

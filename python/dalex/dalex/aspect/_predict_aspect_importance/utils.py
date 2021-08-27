@@ -31,7 +31,7 @@ def calculate_predict_aspect_importance(
             {
                 "aspect_name": list(variable_groups.keys())[0],
                 "variable_names": [list(variable_groups.values())[0]],
-                "variables_values": new_observation[list(variable_groups.values())[0]].values.tolist(),
+                "variable_values": new_observation[list(variable_groups.values())[0]].values.tolist(),
                 "importance": explainer.predict(new_observation) - explainer.y_hat.mean(),
                 "label": explainer.label,
             }
@@ -72,14 +72,14 @@ def calculate_predict_aspect_importance(
     variable_names = [
         variable_groups[variables_set_key] for variables_set_key in variable_groups
     ]
-    variables_values = [
+    variable_values = [
         new_observation[variables_list].values[0] for variables_list in variable_names
     ]
     result = pd.DataFrame(
         {
             "aspect_name": X_prim.columns,
             "variable_names": variable_names,
-            "variables_values": variables_values,
+            "variable_values": variable_values,
             "importance": model_coef,
             "label": explainer.label,
         }
@@ -134,14 +134,14 @@ def calculate_shap_predict_aspect_importance(
             }
         )
     result["variable_names"] = result["aspect_name"].map(variable_groups)
-    variables_values = [
+    variable_values = [
         new_observation[variables_list].values[0] for variables_list in result["variable_names"]
     ]
-    result["variables_values"] = variables_values
+    result["variable_values"] = variable_values
     result = result.sort_values(by="importance", key=abs, ascending=False).reset_index(
         drop=True
     )
-    return result[["aspect_name", "variable_names", "variables_values", "importance", "label"]]
+    return result[["aspect_name", "variable_names", "variable_values", "importance", "label"]]
 
 
 def calculate_min_depend(

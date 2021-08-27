@@ -2,7 +2,7 @@ def tooltip_text(row, rounding_function, digits, type):
     var_val_string = ""
     for i in range(len(row.variable_names)):
         var_val_string += (
-            "<br>" + row.variable_names[i] + " = " + str(row.variables_values[i])
+            "<br>" + row.variable_names[i] + " = " + str(row.variable_values[i])
         )
     keyword = "Importance: " if type == "default" else "Contribution: "
     return (
