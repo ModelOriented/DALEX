@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 from . import checks
-
+from .. import _global_checks
 
 def calculate_cat_assoc_matrix(data, categorical_variables, n):
     from scipy.stats import chi2_contingency
@@ -67,6 +67,7 @@ def calculate_assoc_matrix(data, corr_method):
 
 
 def calculate_pps_matrix(data, agg_method):
+    _global_checks.global_check_import('pps', 'depend_matrix with PPS calculation')
     import ppscore as pps
     pps_result = pps.matrix(data, sample=None)
     pps_matrix = pps_result[["x", "y", "ppscore"]].pivot(
