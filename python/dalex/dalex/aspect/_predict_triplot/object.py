@@ -156,19 +156,17 @@ class PredictTriplot(Explanation):
             ] = vars_min_depend
 
         ## left plot data
-        variable_groups = aspect.get_aspects(h=2)
-        pai_object = PredictAspectImportance(
-            variable_groups,
+        self.single_variable_importance = utils.calculate_single_variable_importance(
+            aspect,
+            _new_observation,
             self.type,
             self.N,
             self.B, 
-            sample_method=self.sample_method,
-            f=self.f,
-            processes=self.processes,
-            random_state=self.random_state
+            self.sample_method,
+            self.f,
+            self.processes,
+            self.random_state
         )
-        pai_object.fit(aspect.explainer, _new_observation)
-        self.single_variable_importance = pai_object.result
         
     def plot(
         self,

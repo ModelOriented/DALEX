@@ -1,6 +1,5 @@
 import numpy as np
 import plotly.graph_objects as go
-import itertools
 from copy import deepcopy 
 
 from dalex import _global_utils, _theme
@@ -95,8 +94,6 @@ def get_ticktext_for_plot(
     single_aspect_importance_df, variables_order, abbrev_labels=0
 ):
     _df = deepcopy(single_aspect_importance_df)
-    _df["variable_values"] = _df["variable_values"].apply(lambda x: x[0])
-    _df["variable_names"] = _df["variable_names"].apply(lambda x: x[0])
     ticktext = [
         f"{variable} = {utils.nice_format(_df.loc[_df['variable_names']==variable, 'variable_values'].values[0])}"
         if abbrev_labels <= 0
@@ -129,7 +126,7 @@ def tooltip_text_single(row, rounding_function, digits):
     return (
         f"Importance: {rounding_function(row.importance, digits)}<br>"
         + "Variable:<br>"
-        + f"{row.variable_names} = " + str(row.variable_values[0])
+        + f"{row.variable_names} = " + str(row.variable_values)
     )
 
 
@@ -173,7 +170,6 @@ def plot_single_aspects_importance(
 ):
     fig = go.Figure()
     _result = deepcopy(result_dataframe)
-    _result["variable_names"] = list(itertools.chain.from_iterable(_result["variable_names"]))
     sorter = dict(zip(order, range(len(order))))
     _result["order"] = _result["variable_names"].map(sorter)
     _result = _result.sort_values(["order"], ascending=True).reset_index(drop=True)

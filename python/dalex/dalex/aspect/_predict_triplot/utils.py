@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import itertools
 from copy import deepcopy
 import re
 
@@ -72,6 +73,46 @@ def calculate_predict_hierarchical_importance(
 
     result_df = result_df.drop("aspect_name", axis=1).reset_index(drop=True)
     return result_df
+
+
+def calculate_single_variable_importance(
+    aspect,
+    new_observation,
+    type,
+    N,
+    B, 
+    sample_method,
+    f,
+    processes,
+    random_state
+):
+    variable_groups = aspect.get_aspects(h=2)
+    if type == "default":
+        result_df = calculate_predict_aspect_importance(
+            aspect.explainer,
+            new_observation,
+            variable_groups,
+            N,
+            None,
+            sample_method,
+            f,
+            random_state)
+    else:
+        result_df = calculate_shap_predict_aspect_importance(
+            aspect.explainer,
+            new_observation,
+            variable_groups,
+            N,
+            B,
+            processes,
+            random_state)
+    result_df.variable_names = list(
+            itertools.chain.from_iterable(result_df.variable_names))
+    result_df.variable_values = list(
+            itertools.chain.from_iterable(result_df.variable_values))
+    result_df = result_df[["variable_names", "variable_values", "importance"]]
+    return result_df
+
 
 
 def nice_format(x):
