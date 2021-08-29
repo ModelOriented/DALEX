@@ -3,6 +3,7 @@ import unittest
 import numpy as np
 import pandas as pd
 from plotly.graph_objs import Figure
+from ipywidgets.widgets.widget_box import HBox
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.neural_network import MLPClassifier
@@ -106,8 +107,8 @@ class AspectTestTitanic(unittest.TestCase):
         pai3 = self.aspect.predict_parts(self.X.iloc[19], type='shap')
         n_aspects = 4
         pai4 = self.aspect2.predict_parts(self.X.iloc[22], sample_method='binom', n_aspects=n_aspects)
-
         self.assertEqual(set(groups.keys()), set(pai2.result.aspect_name))
+
         for pai_x in [pai, pai2, pai3, pai4]:
             self.assertIsInstance(pai_x, dx.aspect.PredictAspectImportance)
             self.assertIsInstance(pai_x.result, pd.DataFrame)
@@ -116,6 +117,16 @@ class AspectTestTitanic(unittest.TestCase):
             self.assertGreaterEqual(pai_x.result.min_depend.min(), 0)
             fig = pai_x.plot(show=False)
             self.assertIsInstance(fig, Figure)
+            fig2 = pai_x.plot(show=False, max_aspects=3, digits=4, bar_width=23, title='Test plot', vertical_spacing=0.2)
+            self.assertIsInstance(fig2, Figure)
+            fig3 = pai_x.plot(show=False, bar_width=23)
+            self.assertIsInstance(fig3, Figure)
+            fig4 = pai_x.plot(show=False, vertical_spacing=0.2)
+            self.assertIsInstance(fig4, Figure)
+            fig5 = pai_x.plot(show=False, max_aspects=3)
+            self.assertIsInstance(fig5, Figure)
+            fig6 = pai_x.plot(show=False, max_aspects=3, digits=4, bar_width=23, title='Test plot', vertical_spacing=0.2)
+            self.assertIsInstance(fig6, Figure)
             for index, row in pai_x.result.iterrows():
                 self.assertTrue(len(row['variable_values']) == len(row['variable_names']))
                 self.assertTrue(set(row['vars_min_depend']).issubset(set(row['variable_names'])))
@@ -135,58 +146,28 @@ class AspectTestTitanic(unittest.TestCase):
         pai3.fit(self.exp, self.X.iloc[14])
         pai4.fit(self.exp2, self.X.iloc[15])
 
-        self.assertIsInstance(pai, dx.aspect.PredictAspectImportance)
-        self.assertIsInstance(pai2, dx.aspect.PredictAspectImportance)
-        self.assertIsInstance(pai3, dx.aspect.PredictAspectImportance)
-        self.assertIsInstance(pai4, dx.aspect.PredictAspectImportance)
-
-        self.assertIsInstance(pai.result, pd.DataFrame)
-        self.assertIsInstance(pai2.result, pd.DataFrame)
-        self.assertIsInstance(pai3.result, pd.DataFrame)
-        self.assertIsInstance(pai4.result, pd.DataFrame)
-        
-        self.assertEqual(set(pai.result.columns), set(["aspect_name", "variable_names", "variable_values", "importance", "min_depend", "vars_min_depend", "label"]))
-        self.assertEqual(set(pai2.result.columns), set(["aspect_name", "variable_names", "variable_values", "importance", "min_depend", "vars_min_depend", "label"]))
-        self.assertEqual(set(pai3.result.columns), set(["aspect_name", "variable_names", "variable_values", "importance", "min_depend", "vars_min_depend", "label"]))
-        self.assertEqual(set(pai4.result.columns), set(["aspect_name", "variable_names", "variable_values", "importance", "min_depend", "vars_min_depend", "label"]))
-
-        self.assertGreaterEqual(1, pai.result.min_depend.max())
-        self.assertGreaterEqual(1, pai2.result.min_depend.max())
-        self.assertGreaterEqual(1, pai3.result.min_depend.max())
-        self.assertGreaterEqual(1, pai4.result.min_depend.max())
-
-        self.assertGreaterEqual(pai.result.min_depend.min(), 0)
-        self.assertGreaterEqual(pai2.result.min_depend.min(), 0)
-        self.assertGreaterEqual(pai3.result.min_depend.min(), 0)
-        self.assertGreaterEqual(pai4.result.min_depend.min(), 0)
-
-        for i in range(len(pai.result)):
-            self.assertTrue(len(pai.result.loc[i, 'variable_values']) == len(pai.result.loc[i, 'variable_names']))
-            self.assertTrue(set(pai.result.loc[i, 'vars_min_depend']).issubset(set(pai.result.loc[i, 'variable_names'])))
-        for i in range(len(pai2.result)):
-            self.assertTrue([len(pai2.result.loc[i, 'variable_values']) == len(pai2.result.loc[i, 'variable_names'])])
-            self.assertTrue(set(pai2.result.loc[i, 'vars_min_depend']).issubset(set(pai2.result.loc[i, 'variable_names'])))
-        for i in range(len(pai3.result)):
-            self.assertTrue(len(pai3.result.loc[i, 'variable_values']) == len(pai3.result.loc[i, 'variable_names']))
-            self.assertTrue(set(pai3.result.loc[i, 'vars_min_depend']).issubset(set(pai3.result.loc[i, 'variable_names'])))
-        counter = 0
-        for i in range(len(pai4.result)):
-            self.assertTrue([len(pai4.result.loc[i, 'variable_values']) == len(pai4.result.loc[i, 'variable_names'])])
-            self.assertTrue(set(pai4.result.loc[i, 'vars_min_depend']).issubset(set(pai4.result.loc[i, 'variable_names'])))
-            if pai4.result.loc[i, 'importance'] != 0:
-                counter +=1
-        self.assertEqual(counter, n_aspects)
-
         self.assertEqual(set(groups.keys()), set(pai2.result.aspect_name))
-        
-        fig = pai.plot(show=False)
-        self.assertIsInstance(fig, Figure)
-        fig2 = pai2.plot(show=False)
-        self.assertIsInstance(fig2, Figure)
-        fig3 = pai3.plot(show=False)
-        self.assertIsInstance(fig3, Figure)
-        fig4 = pai4.plot(show=False)
-        self.assertIsInstance(fig4, Figure)
+        for pai_x in [pai, pai2, pai3, pai4]:
+            self.assertIsInstance(pai_x, dx.aspect.PredictAspectImportance)
+            self.assertIsInstance(pai_x.result, pd.DataFrame)
+            self.assertEqual(set(pai_x.result.columns), set(["aspect_name", "variable_names", "variable_values", "importance", "min_depend", "vars_min_depend", "label"]))
+            self.assertGreaterEqual(1, pai_x.result.min_depend.max())
+            self.assertGreaterEqual(pai_x.result.min_depend.min(), 0)
+            fig = pai_x.plot(show=False)
+            self.assertIsInstance(fig, Figure)
+            fig2 = pai_x.plot(show=False, max_aspects=3, digits=4, bar_width=23, title='Test plot', vertical_spacing=0.2)
+            self.assertIsInstance(fig2, Figure)
+            fig3 = pai_x.plot(show=False, bar_width=23)
+            self.assertIsInstance(fig3, Figure)
+            fig4 = pai_x.plot(show=False, vertical_spacing=0.2)
+            self.assertIsInstance(fig4, Figure)
+            fig5 = pai_x.plot(show=False, max_aspects=3)
+            self.assertIsInstance(fig5, Figure)
+            fig6 = pai_x.plot(show=False, max_aspects=3, digits=4, bar_width=23, title='Test plot', vertical_spacing=0.2)
+            self.assertIsInstance(fig6, Figure)
+            for index, row in pai_x.result.iterrows():
+                self.assertTrue(len(row['variable_values']) == len(row['variable_names']))
+                self.assertTrue(set(row['vars_min_depend']).issubset(set(row['variable_names'])))
         
 
     def test_model_parts(self):
@@ -214,6 +195,12 @@ class AspectTestTitanic(unittest.TestCase):
                     self.assertTrue(set(row['vars_min_depend']).issubset(set(row['variable_names'])))
             fig = mai_x.plot(show=False)
             self.assertIsInstance(fig, Figure)
+            fig2 = mai_x.plot(show=False, bar_width=18, vertical_spacing=0.12)
+            self.assertIsInstance(fig2, Figure)
+            fig3 = mai_x.plot(show=False, show_variable_names=False, bar_width=18, title='Testing', vertical_spacing=0.12)
+            self.assertIsInstance(fig3, Figure)
+            fig4 = mai_x.plot(show=False,max_aspects=4,show_variable_names=False, bar_width=18, title='Testing', vertical_spacing=0.12)
+            self.assertIsInstance(fig4, Figure)
 
     def test_model_aspect_importance(self):
         mai = ModelAspectImportance(self.aspect.get_aspects(h=0.2))
@@ -246,6 +233,12 @@ class AspectTestTitanic(unittest.TestCase):
                     self.assertTrue(set(row['vars_min_depend']).issubset(set(row['variable_names'])))
             fig = mai_x.plot(show=False)
             self.assertIsInstance(fig, Figure)
+            fig2 = mai_x.plot(show=False, bar_width=18, vertical_spacing=0.12)
+            self.assertIsInstance(fig2, Figure)
+            fig3 = mai_x.plot(show=False, show_variable_names=False, bar_width=18, title='Testing', vertical_spacing=0.12)
+            self.assertIsInstance(fig3, Figure)
+            fig4 = mai_x.plot(show=False,max_aspects=4,show_variable_names=False, bar_width=18, title='Testing', vertical_spacing=0.12)
+            self.assertIsInstance(fig4, Figure)
 
     def test_predict_triplot(self):
         pt = self.aspect.predict_triplot(self.X.iloc[12], sample_method='binom')
@@ -286,6 +279,17 @@ class AspectTestTitanic(unittest.TestCase):
         self.assertIsInstance(fig, Figure)
         fig2 = pt2.plot(show=False)
         self.assertIsInstance(fig2, Figure)
+        fig3 = pt.plot(show=False, absolute_value=True, width=1200, abbrev_labels=6)
+        self.assertIsInstance(fig3, Figure)
+        fig4 = pt.plot(show=False, absolute_value=True, width=1200, abbrev_labels=6, widget=True)
+        self.assertIsInstance(fig4, HBox)
+        fig5 = pt.plot(show=False, bar_width=22, width=1200, abbrev_labels=6, title='Test')
+        self.assertIsInstance(fig5, Figure)
+        fig6 = pt.plot(show=False, bar_width=22, width=1200, abbrev_labels=6, title='Test', widget=True)
+        self.assertIsInstance(fig6, HBox)
+        fig7 = pt.plot(show=False, absolute_value=True, digits=2, bar_width=22, width=1200, abbrev_labels=6, title='Test', widget=True)
+        self.assertIsInstance(fig7, HBox)
+
     
     def test_predict_triplot_class(self):
         pt = PredictTriplot(sample_method='binom')
@@ -328,6 +332,16 @@ class AspectTestTitanic(unittest.TestCase):
         self.assertIsInstance(fig, Figure)
         fig2 = pt2.plot(show=False)
         self.assertIsInstance(fig2, Figure)
+        fig3 = pt.plot(show=False, absolute_value=True, width=1200, abbrev_labels=6)
+        self.assertIsInstance(fig3, Figure)
+        fig4 = pt.plot(show=False, absolute_value=True, width=1200, abbrev_labels=6, widget=True)
+        self.assertIsInstance(fig4, HBox)
+        fig5 = pt.plot(show=False, bar_width=22, width=1200, abbrev_labels=6, title='Test')
+        self.assertIsInstance(fig5, Figure)
+        fig6 = pt.plot(show=False, bar_width=22, width=1200, abbrev_labels=6, title='Test', widget=True)
+        self.assertIsInstance(fig6, HBox)
+        fig7 = pt.plot(show=False, absolute_value=True, digits=2, bar_width=22, width=1200, abbrev_labels=6, title='Test', widget=True)
+        self.assertIsInstance(fig7, HBox)
 
 
     def test_model_triplot(self):
@@ -363,8 +377,21 @@ class AspectTestTitanic(unittest.TestCase):
         
         fig = mt.plot(show=False)
         self.assertIsInstance(fig, Figure)
-        fig2 = mt2.plot(show=False)
+        fig2 = mt2.plot(show=False, width=1200)
         self.assertIsInstance(fig2, Figure)
+        fig3 = mt.plot(show=False, digits=2, bar_width=22, width=1200, title='Test')
+        self.assertIsInstance(fig3, Figure)
+        fig4 = mt.plot(show=False, width=1200, show_change=False)
+        self.assertIsInstance(fig4, Figure)
+        fig5 = mt.plot(show=False, width=1200, show_change=False, widget=True)
+        self.assertIsInstance(fig5, HBox)
+        fig6 = mt.plot(show=False, digits=9, bar_width=22)
+        self.assertIsInstance(fig6, Figure)
+        fig7 = mt.plot(show=False, digits=9, bar_width=22, widget=True)
+        self.assertIsInstance(fig7, HBox)
+        fig8 = mt.plot(show=False, digits=2, bar_width=22, width=1200, title='Test', widget=True)
+        self.assertIsInstance(fig8, HBox)
+
     
     def test_model_triplot_class(self):
         mt = ModelTriplot()
@@ -402,8 +429,20 @@ class AspectTestTitanic(unittest.TestCase):
         
         fig = mt.plot(show=False)
         self.assertIsInstance(fig, Figure)
-        fig2 = mt2.plot(show=False)
+        fig2 = mt2.plot(show=False, width=1200)
         self.assertIsInstance(fig2, Figure)
+        fig3 = mt.plot(show=False, digits=2, bar_width=22, width=1200, title='Test')
+        self.assertIsInstance(fig3, Figure)
+        fig4 = mt.plot(show=False, width=1200, show_change=False)
+        self.assertIsInstance(fig4, Figure)
+        fig5 = mt.plot(show=False, width=1200, show_change=False, widget=True)
+        self.assertIsInstance(fig5, HBox)
+        fig6 = mt.plot(show=False, digits=9, bar_width=22)
+        self.assertIsInstance(fig6, Figure)
+        fig7 = mt.plot(show=False, digits=9, bar_width=22, widget=True)
+        self.assertIsInstance(fig7, HBox)
+        fig8 = mt.plot(show=False, digits=2, bar_width=22, width=1200, title='Test', widget=True)
+        self.assertIsInstance(fig8, HBox)
 
 
 class AspectTestFifa(unittest.TestCase):
@@ -477,6 +516,16 @@ class AspectTestFifa(unittest.TestCase):
             self.assertGreaterEqual(pai_x.result.min_depend.min(), 0)
             fig = pai_x.plot(show=False)
             self.assertIsInstance(fig, Figure)
+            fig2 = pai_x.plot(show=False, max_aspects=3, digits=4, bar_width=23, title='Test plot', vertical_spacing=0.2)
+            self.assertIsInstance(fig2, Figure)
+            fig3 = pai_x.plot(show=False, bar_width=23)
+            self.assertIsInstance(fig3, Figure)
+            fig4 = pai_x.plot(show=False, vertical_spacing=0.2)
+            self.assertIsInstance(fig4, Figure)
+            fig5 = pai_x.plot(show=False, max_aspects=3)
+            self.assertIsInstance(fig5, Figure)
+            fig6 = pai_x.plot(show=False, max_aspects=3, digits=4, bar_width=23, title='Test plot', vertical_spacing=0.2)
+            self.assertIsInstance(fig6, Figure)
             for index, row in pai_x.result.iterrows():
                 self.assertTrue(len(row['variable_values']) == len(row['variable_names']))
                 self.assertTrue(set(row['vars_min_depend']).issubset(set(row['variable_names'])))
@@ -504,6 +553,16 @@ class AspectTestFifa(unittest.TestCase):
             self.assertGreaterEqual(pai_x.result.min_depend.min(), 0)
             fig = pai_x.plot(show=False)
             self.assertIsInstance(fig, Figure)
+            fig2 = pai_x.plot(show=False, max_aspects=3, digits=4, bar_width=23, title='Test plot', vertical_spacing=0.2)
+            self.assertIsInstance(fig2, Figure)
+            fig3 = pai_x.plot(show=False, bar_width=23)
+            self.assertIsInstance(fig3, Figure)
+            fig4 = pai_x.plot(show=False, vertical_spacing=0.2)
+            self.assertIsInstance(fig4, Figure)
+            fig5 = pai_x.plot(show=False, max_aspects=3)
+            self.assertIsInstance(fig5, Figure)
+            fig6 = pai_x.plot(show=False, max_aspects=3, digits=4, bar_width=23, title='Test plot', vertical_spacing=0.2)
+            self.assertIsInstance(fig6, Figure)
             for index, row in pai_x.result.iterrows():
                 self.assertTrue(len(row['variable_values']) == len(row['variable_names']))
                 self.assertTrue(set(row['vars_min_depend']).issubset(set(row['variable_names'])))
@@ -535,7 +594,12 @@ class AspectTestFifa(unittest.TestCase):
                     self.assertTrue(set(row['vars_min_depend']).issubset(set(row['variable_names'])))
             fig = mai_x.plot(show=False)
             self.assertIsInstance(fig, Figure)
-
+            fig2 = mai_x.plot(show=False, bar_width=18, vertical_spacing=0.12)
+            self.assertIsInstance(fig2, Figure)
+            fig3 = mai_x.plot(show=False, show_variable_names=False, bar_width=18, title='Testing', vertical_spacing=0.12)
+            self.assertIsInstance(fig3, Figure)
+            fig4 = mai_x.plot(show=False,max_aspects=4,show_variable_names=False, bar_width=18, title='Testing', vertical_spacing=0.12)
+            self.assertIsInstance(fig4, Figure)
         
 
     def test_model_aspect_importance(self):
@@ -571,6 +635,12 @@ class AspectTestFifa(unittest.TestCase):
                     self.assertTrue(set(row['vars_min_depend']).issubset(set(row['variable_names'])))
             fig = mai_x.plot(show=False)
             self.assertIsInstance(fig, Figure)
+            fig2 = mai_x.plot(show=False, bar_width=18, vertical_spacing=0.12)
+            self.assertIsInstance(fig2, Figure)
+            fig3 = mai_x.plot(show=False, show_variable_names=False, bar_width=18, title='Testing', vertical_spacing=0.12)
+            self.assertIsInstance(fig3, Figure)
+            fig4 = mai_x.plot(show=False,max_aspects=4,show_variable_names=False, bar_width=18, title='Testing', vertical_spacing=0.12)
+            self.assertIsInstance(fig4, Figure)
 
     def test_predict_triplot(self):
         pt = self.aspect.predict_triplot(self.X.iloc[12], sample_method='binom')
@@ -611,6 +681,16 @@ class AspectTestFifa(unittest.TestCase):
         self.assertIsInstance(fig, Figure)
         fig2 = pt2.plot(show=False)
         self.assertIsInstance(fig2, Figure)
+        fig3 = pt.plot(show=False, absolute_value=True, width=1200, abbrev_labels=6)
+        self.assertIsInstance(fig3, Figure)
+        fig4 = pt.plot(show=False, absolute_value=True, width=1200, abbrev_labels=6, widget=True)
+        self.assertIsInstance(fig4, HBox)
+        fig5 = pt.plot(show=False, bar_width=22, width=1200, abbrev_labels=6, title='Test')
+        self.assertIsInstance(fig5, Figure)
+        fig6 = pt.plot(show=False, bar_width=22, width=1200, abbrev_labels=6, title='Test', widget=True)
+        self.assertIsInstance(fig6, HBox)
+        fig7 = pt.plot(show=False, absolute_value=True, digits=2, bar_width=22, width=1200, abbrev_labels=6, title='Test', widget=True)
+        self.assertIsInstance(fig7, HBox)
     
     def test_predict_triplot_class(self):
         pt = PredictTriplot(sample_method='binom')
@@ -653,6 +733,16 @@ class AspectTestFifa(unittest.TestCase):
         self.assertIsInstance(fig, Figure)
         fig2 = pt2.plot(show=False)
         self.assertIsInstance(fig2, Figure)
+        fig3 = pt.plot(show=False, absolute_value=True, width=1200, abbrev_labels=6)
+        self.assertIsInstance(fig3, Figure)
+        fig4 = pt.plot(show=False, absolute_value=True, width=1200, abbrev_labels=6, widget=True)
+        self.assertIsInstance(fig4, HBox)
+        fig5 = pt.plot(show=False, bar_width=22, width=1200, abbrev_labels=6, title='Test')
+        self.assertIsInstance(fig5, Figure)
+        fig6 = pt.plot(show=False, bar_width=22, width=1200, abbrev_labels=6, title='Test', widget=True)
+        self.assertIsInstance(fig6, HBox)
+        fig7 = pt.plot(show=False, absolute_value=True, digits=2, bar_width=22, width=1200, abbrev_labels=6, title='Test', widget=True)
+        self.assertIsInstance(fig7, HBox)
 
 
     def test_model_triplot(self):
@@ -688,8 +778,20 @@ class AspectTestFifa(unittest.TestCase):
         
         fig = mt.plot(show=False)
         self.assertIsInstance(fig, Figure)
-        fig2 = mt2.plot(show=False)
+        fig2 = mt2.plot(show=False, width=1200)
         self.assertIsInstance(fig2, Figure)
+        fig3 = mt.plot(show=False, digits=2, bar_width=22, width=1200, title='Test')
+        self.assertIsInstance(fig3, Figure)
+        fig4 = mt.plot(show=False, width=1200, show_change=False)
+        self.assertIsInstance(fig4, Figure)
+        fig5 = mt.plot(show=False, width=1200, show_change=False, widget=True)
+        self.assertIsInstance(fig5, HBox)
+        fig6 = mt.plot(show=False, digits=9, bar_width=22)
+        self.assertIsInstance(fig6, Figure)
+        fig7 = mt.plot(show=False, digits=9, bar_width=22, widget=True)
+        self.assertIsInstance(fig7, HBox)
+        fig8 = mt.plot(show=False, digits=2, bar_width=22, width=1200, title='Test', widget=True)
+        self.assertIsInstance(fig8, HBox)
     
     def test_model_triplot_class(self):
         mt = ModelTriplot()
@@ -727,6 +829,18 @@ class AspectTestFifa(unittest.TestCase):
         
         fig = mt.plot(show=False)
         self.assertIsInstance(fig, Figure)
-        fig2 = mt2.plot(show=False)
+        fig2 = mt2.plot(show=False, width=1200)
         self.assertIsInstance(fig2, Figure)
+        fig3 = mt.plot(show=False, digits=2, bar_width=22, width=1200, title='Test')
+        self.assertIsInstance(fig3, Figure)
+        fig4 = mt.plot(show=False, width=1200, show_change=False)
+        self.assertIsInstance(fig4, Figure)
+        fig5 = mt.plot(show=False, width=1200, show_change=False, widget=True)
+        self.assertIsInstance(fig5, HBox)
+        fig6 = mt.plot(show=False, digits=9, bar_width=22)
+        self.assertIsInstance(fig6, Figure)
+        fig7 = mt.plot(show=False, digits=9, bar_width=22, widget=True)
+        self.assertIsInstance(fig7, HBox)
+        fig8 = mt.plot(show=False, digits=2, bar_width=22, width=1200, title='Test', widget=True)
+        self.assertIsInstance(fig8, HBox)
         
