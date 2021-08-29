@@ -7,7 +7,7 @@ from dalex.aspect._model_triplot.object import ModelTriplot
 from dalex.aspect._predict_triplot.object import PredictTriplot
 
 from . import utils, checks, plot
-from .. import _theme, _global_checks
+from .. import _theme
 
 
 class Aspect:
@@ -66,10 +66,10 @@ class Aspect:
 
     Notes
     -----
-    - https://www.researchgate.net/publication/303919832_The_need_to_report_effect_size_estimates_revisited_An_overview_of_some_recommended_measures_of_effect_size
-    - http://stats.lse.ac.uk/bergsma/pdf/cramerV3.pdf
-    - https://github.com/8080labs/ppscore
-    - https://arxiv.org/abs/2104.03403
+    - assoc, eta-squared: http://tss.awf.poznan.pl/files/3_Trends_Vol21_2014__no1_20.pdf
+    - assoc, Cramér's V: http://stats.lse.ac.uk/bergsma/pdf/cramerV3.pdf
+    - PPS: https://github.com/8080labs/ppscore
+    - triplot: https://arxiv.org/abs/2104.03403
     """
 
     def __init__(
@@ -80,7 +80,6 @@ class Aspect:
         corr_method="spearman",
         agg_method="max",
     ):  
-        _global_checks.global_check_import('scipy', 'calculate hierarchical structure of dependencies')
         _depend_method, _corr_method, _agg_method = checks.check_method_depend(depend_method, corr_method, agg_method)
         self.explainer = explainer
         self.depend_method = _depend_method

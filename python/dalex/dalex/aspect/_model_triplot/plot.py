@@ -1,6 +1,5 @@
 import numpy as np
 import plotly.graph_objects as go
-import itertools
 from copy import deepcopy 
 
 from dalex import _theme, _global_utils
@@ -79,7 +78,6 @@ def plot_single_aspects_importance(
 ):
     fig = go.Figure()
     _result = deepcopy(result_dataframe)
-    _result["variable_names"] = list(itertools.chain.from_iterable(_result["variable_names"]))
     baseline = _result.iloc[0].dropout_loss - _result.iloc[0].dropout_loss_change
     sorter = dict(zip(order, range(len(order))))
     _result["order"] = _result["variable_names"].map(sorter)
@@ -221,7 +219,7 @@ def tooltip_text_single(row, rounding_function, digits):
         + str(rounding_function(np.abs(row.dropout_loss_change), digits))
         + "<br>"
         + "Variable: "
-        + str(row.aspect_name)
+        + str(row.variable_names)
     )
 
 

@@ -34,11 +34,6 @@ def check_variable_groups(variable_groups, explainer):
 
 
 def check_assoc_value(value):
-    if value < -0.01 or value > 1.01:
-        warnings.warn(
-            "Association value outside the range [0, 1]. Truncated to the range."
-        )
-
     if value < 0:
         value = 0
 

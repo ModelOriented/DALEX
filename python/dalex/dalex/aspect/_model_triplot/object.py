@@ -114,29 +114,22 @@ class ModelTriplot(Explanation):
             self.N,
             self.B,
             self.processes,
-            self.random_state,
+            self.random_state
         )
 
         ## left plot data
-        variable_groups = aspect.get_aspects(h=2)
-        mai_object = ModelAspectImportance(
-            variable_groups=variable_groups,
-            loss_function=self.loss_function,
-            type=self.type,
-            N=self.N,
-            B=self.B,
-            processes=self.processes,
-            random_state=self.random_state
+        self.single_variable_importance, svi_full = utils.calculate_single_variable_importance(
+            aspect,
+            self.loss_function,
+            self.type,
+            self.N,
+            self.B,
+            self.processes,
+            self.random_state,
         )
-        mai_object.fit(aspect.explainer)
-        self.single_variable_importance = mai_object.result[
-            (mai_object.result.aspect_name != "_full_model_") & 
-            (mai_object.result.aspect_name != "_baseline_")]
-
-        single_vi = deepcopy(self.single_variable_importance)
-        single_vi["h"] = 1
+    
         aspect._full_hierarchical_aspect_importance = pd.concat(
-            [aspect._full_hierarchical_aspect_importance, single_vi]
+            [aspect._full_hierarchical_aspect_importance, svi_full]
         )
 
     def plot(

@@ -1,4 +1,5 @@
 import pandas as pd
+import itertools
 from copy import deepcopy
 
 from dalex.aspect._model_aspect_importance.object import ModelAspectImportance
@@ -73,3 +74,40 @@ def calculate_model_hierarchical_importance(
 
     result_df = result_df.drop(columns="aspect_name").reset_index(drop=True)
     return result_df, full_hierarchical_aspect_importance
+
+
+def calculate_single_variable_importance(
+    aspect, 
+    loss_function,
+    type,
+    N,
+    B, 
+    processes,
+    random_state
+):
+    variable_groups = aspect.get_aspects(h=2)
+    mai_object = ModelAspectImportance(
+        variable_groups,
+        loss_function,
+        type,
+        N,
+        B,
+        processes=processes,
+        random_state=random_state
+    )
+    mai_object.fit(aspect.explainer)
+
+    full_result_df = mai_object.result
+    single_vi = full_result_df[
+            (full_result_df.aspect_name != "_full_model_") & 
+            (full_result_df.aspect_name != "_baseline_")]
+    single_vi.variable_names = list(
+            itertools.chain.from_iterable(single_vi.variable_names))
+    single_vi = single_vi[["variable_names", "dropout_loss", "dropout_loss_change"]]
+    full_result_df["h"] = 1
+
+    return single_vi, full_result_df
+
+    
+    
+    

@@ -45,6 +45,11 @@ def get_break_down_colors():
     return ["#371ea3", "#8bdcbe", "#f05a71"]
 
 
+def get_aspect_importance_colors():
+    """return default dalex colors"""
+    return ["#8bdcbe", "#f05a71"]
+
+
 def get_default_config():
     """return default dalex plotly config"""
     return {

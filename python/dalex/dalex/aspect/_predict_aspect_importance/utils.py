@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 from copy import deepcopy
 import multiprocessing as mp
-from numpy.random import SeedSequence, default_rng
 
 from dalex import _global_checks
 
@@ -112,8 +111,8 @@ def calculate_shap_predict_aspect_importance(
             for b in range(B)]
     else:
         # create number generator for each iteration
-        ss = SeedSequence(random_state)
-        generators = [default_rng(s) for s in ss.spawn(B)]
+        ss = np.random.SeedSequence(random_state)
+        generators = [np.random.default_rng(s) for s in ss.spawn(B)]
         pool = mp.get_context('spawn').Pool(processes)
         result_list = pool.starmap_async(iterate_paths,
                                          [(explainer.predict, data_sample,
@@ -144,33 +143,23 @@ def calculate_shap_predict_aspect_importance(
     return result[["aspect_name", "variable_names", "variable_values", "importance", "label"]]
 
 
-def calculate_min_depend(
-    variables_list,
-    data,
-    depend_method="assoc",
-    corr_method="spearman",
-    agg_method="max",
-): 
-    depend_matrix = calculate_depend_matrix(data, depend_method, corr_method, agg_method)
-    return get_min_depend_from_matrix(depend_matrix, variables_list)
-
 def get_sample(n, p, sample_method="default", f=2, random_state=None):
-    if not n > 0:
-        raise ValueError("n should be positive")
-    if not p > 0:
-        raise ValueError("p should be positive")
-    if not f > 0:
-        raise ValueError("f should be positive")
     X_prim = np.zeros(shape=(n, p))
-    r = np.random.RandomState(random_state)
-
+    def_rng = np.random.default_rng(random_state)
+    # f is average number of replaced zeros for binomial sampling
     if sample_method == "binom":
+        if f <= 0: 
+            # it must be > 0 
+            raise ValueError("f should be positive")
+        if f >= p: 
+            # it must be < p (number_of_aspects)
+            f = p - 1
         for i in range(n):
-            n_of_changes = max(r.binomial(p, f / p, 1), 1)
-            X_prim[i, np.unique(r.randint(0, p, n_of_changes))] = 1
+            n_of_changes = max(def_rng.binomial(p, f / p, 1), 1)
+            X_prim[i, def_rng.choice(p, n_of_changes, replace=False)] = 1
     else:
         for i in range(n):
-            X_prim[i, np.unique(r.randint(0, p, 2))] = 1
+            X_prim[i, np.unique(def_rng.integers(0, p, 2))] = 1
     return X_prim
 
 

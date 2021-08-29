@@ -303,7 +303,7 @@ class PredictAspectImportance(Explanation):
         plot_height = 78 + 71
 
         if vcolors is None:
-            vcolors = plot.get_aspect_importance_colors()
+            vcolors = _theme.get_aspect_importance_colors()
 
         if min_max is None:
             temp_min_max = [np.Inf, -np.Inf]
