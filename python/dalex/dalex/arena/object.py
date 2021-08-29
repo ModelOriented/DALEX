@@ -6,7 +6,6 @@ from datetime import datetime
 from dalex import Explainer
 from pandas.core.frame import DataFrame
 from .server import start_server
-from ._plot_container import PlotContainer
 from .params import ModelParam, DatasetParam, VariableParam, ObservationParam, Param
 from .._global_checks import global_check_import
 from .static import get_json, upload_arena, generate_token

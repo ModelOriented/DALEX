@@ -186,8 +186,7 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
         self.assertIsInstance(self.exp.model_parts(N=100), dx.model_explanations.VariableImportance)
         self.assertIsInstance(self.exp.model_parts(B=1), dx.model_explanations.VariableImportance)
 
-        self.assertIsInstance(self.exp.model_parts(B=2, N=10), dx.model_explanations.VariableImportance)
-        self.assertIsInstance(self.exp.model_parts(), dx.model_explanations.VariableImportance)
+        self.assertIsInstance(self.exp.model_parts(B=2, N=100), dx.model_explanations.VariableImportance)
 
     def test_loss_functions(self):
         self.assertIsInstance(self.exp.model_parts(loss_function='rmse'), dx.model_explanations.VariableImportance)
