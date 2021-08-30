@@ -170,13 +170,15 @@ def iterate_paths(predict_function, data_sample, new_observation, variable_group
 
 def get_single_random_path(predict_function, data_sample, new_observation, variable_groups, random_path, b):
     current_data = deepcopy(data_sample)
+    current_data.reset_index(inplace=True, drop=True)
     variable_groups_varnames = list(variable_groups.values())
     variable_groups_aspnames = list(variable_groups.keys())
     yhats = np.empty(len(random_path) + 1)
     yhats[0] = predict_function(current_data).mean()
     for i, candidate in enumerate(random_path):
         variables = variable_groups_varnames[candidate]
-        current_data.loc[:, variables] = [new_observation.iloc[0][var] for var in variables]
+        for var in variables:
+            current_data.loc[:, var] = new_observation.iloc[0][var]
         yhats[i + 1] = predict_function(current_data).mean()
 
     diffs = np.diff(yhats)
