@@ -9,9 +9,8 @@ from sklearn.impute import SimpleImputer
 from sklearn.neural_network import MLPClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
+from sklearn.ensemble import RandomForestRegressor
 from traitlets.traitlets import Dict
-from lightgbm import LGBMRegressor
-
 
 import dalex as dx
 from dalex.model_explanations._variable_importance.loss_functions import *
@@ -456,7 +455,7 @@ class AspectTestFifa(unittest.TestCase):
         self.X = data.drop(["value_eur"], axis = 1)
         self.y = data['value_eur']
         clf = Pipeline(steps=[
-            ('classifier', LGBMRegressor(random_state=123))
+            ('classifier', RandomForestRegressor(random_state=123))
         ])
 
         clf.fit(self.X, self.y)
