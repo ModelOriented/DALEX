@@ -76,6 +76,7 @@ class AspectTestTitanic(unittest.TestCase):
         
         self.assertIsInstance(self.aspect.depend_matrix, pd.DataFrame)
         self.assertIsInstance(self.aspect2.depend_matrix, pd.DataFrame)
+        pd.testing.assert_frame_equal(self.aspect.depend_matrix, self.aspect.depend_matrix.T)
         pd.testing.assert_frame_equal(self.aspect2.depend_matrix, self.aspect2.depend_matrix.T)
         for ind, row in self.aspect.depend_matrix.iterrows():
             self.assertEqual(row[ind], 1.0)
