@@ -73,6 +73,8 @@ def calculate_pps_matrix(data, agg_method):
     pps_matrix = pps_result[["x", "y", "ppscore"]].pivot(
         columns="x", index="y", values="ppscore"
     )
+    pps_matrix.rename_axis(None, axis=1, inplace=True)
+    pps_matrix.rename_axis(None, axis=0, inplace=True)
     # aggregate values to make symmetric matrix
     if agg_method == "max":
         pps_matrix = np.maximum(pps_matrix, pps_matrix.transpose())
