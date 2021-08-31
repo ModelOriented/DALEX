@@ -448,6 +448,8 @@ class AspectTestTitanic(unittest.TestCase):
 class AspectTestFifa(unittest.TestCase):
     def setUp(self):
         data = dx.datasets.load_fifa()
+        data = data.sample(int(len(data)*0.2))
+        data = data.loc[:,['age', 'attacking_short_passing', 'skill_dribbling', 'skill_ball_control', 'skill_long_passing', 'movement_acceleration', 'movement_reactions', 'mentality_vision']]
 
         self.X = data.drop(["overall", "potential", "value_eur", "wage_eur"], axis = 1)
         self.y = data['value_eur']
