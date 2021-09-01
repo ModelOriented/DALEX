@@ -3,6 +3,9 @@
 development
 ----------------------------------------------------------------
 
+* added new `aspect` module, which will focus on groups of dependent variables ([#446](https://github.com/ModelOriented/DALEX/issues/446)) [@krzyzinskim](https://github.com/krzyzinskim) [@arturzolkowski](https://github.com/arturzolkowski) 
+* add the `scipy>=1.5.4` dependency 
+
 #### breaking changes
 
 * improved the calculation of AUC, ROC plot ([#459](https://github.com/ModelOriented/DALEX/issues/459))
@@ -11,6 +14,10 @@ development
 
 * wrong yaxis labels in `VariableImportance.plot(split="variable")` ([#451](https://github.com/ModelOriented/DALEX/issues/451))
 * `repr_html()` didn't work for explanation objects before using the `fit` method ([#449](https://github.com/ModelOriented/DALEX/issues/449))
+
+#### features
+* added new `Aspect` object with a  `predict_triplot`, `model_triplot`, `predict_parts`, `model_parts`, `get_aspects` methods
+* added new `PredictTriplot`, `ModelTriplot`, `PredictAspectImportance`, `ModelAspectImportance` objects with a `plot` method
 
 v1.3.0 (17/07/2021)
 ----------------------------------------------------------------

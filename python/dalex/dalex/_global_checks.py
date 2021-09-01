@@ -14,6 +14,9 @@ import pandas as pd
 # - flask:          Arena.run_server
 # - flask_cors:     Arena.run_server
 # - requests:       Arena.stop_server
+# - kaleido:        Aspect triplot widgets
+# - ppscore:        Aspect dependency method
+# - ipywidgets:     Aspect triplot widgets
 OPTIONAL_DEPENDENCIES = {
     'dalex': '99.0',
     'lime': '0.2.0.1',
@@ -22,7 +25,10 @@ OPTIONAL_DEPENDENCIES = {
     'shap': '0.35.0',
     'flask': '1.1.2',
     'flask_cors': '3.0.8',
-    'requests': '2.24.0'
+    'requests': '2.24.0',
+    'kaleido': '0.2.1',
+    'ppscore': '1.2.0',
+    'ipywidgets': '7.6.3'
 }
 # WARNING
 # WARNING
