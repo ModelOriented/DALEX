@@ -19,11 +19,15 @@ The philosophy behind `dalex` explanations is described in the [Explanatory Mode
 
 ## Installation
 
-The `dalex` package is available [on PyPI](https://pypi.org/project/dalex/)
+The `dalex` package is available [on PyPI](https://pypi.org/project/dalex/) and [conda-forge](https://anaconda.org/conda-forge/dalex).
 
 ```console
 pip install dalex -U
+
+conda install -c conda-forge dalex
 ```
+
+One can install optional dependencies for all additional features using `pip install dalex[full]`.
 
 ### Resources: https://dalex.drwhy.ai/python
 
@@ -40,7 +44,9 @@ The authors of the `dalex` package are:
 * [Hubert Baniecki](https://github.com/hbaniecki)
 * [Wojciech Kretowicz](https://github.com/wojciechkretowicz)
 * [Piotr Piatyszek](https://github.com/piotrpiatyszek) maintains the `arena` module
-* [Jakub Wisnewski](https://github.com/jakwisn) maintains the `fairness` module
+* [Jakub Wisniewski](https://github.com/jakwisn) maintains the `fairness` module
+* [Mateusz Krzyzinski](https://github.com/krzyzinskim) maintains the `aspect` module
+* [Artur Zołkowski](https://github.com/arturzolkowski) maintains the `aspect` module
 * [Przemyslaw Biecek](https://github.com/pbiecek)
 
 We welcome contributions: [start by opening an issue on GitHub](https://github.com/ModelOriented/DALEX/issues/new).

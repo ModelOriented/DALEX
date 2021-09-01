@@ -47,8 +47,7 @@ def run_setup():
     # fixes warning https://github.com/pypa/setuptools/issues/2230
     from setuptools import setup, find_packages
 
-    test_requirements = []  # input dependencies for test, but not for user
-    test_requirements += get_optional_dependencies("dalex/_global_checks.py")
+    extras_require = get_optional_dependencies("dalex/_global_checks.py")
 
     setup(
         name="dalex",
@@ -87,7 +86,7 @@ def run_setup():
             'tqdm>=4.48.2',
             'scipy>=1.5.4'
         ],
-        test_requirements=test_requirements,
+        extras_require={'full': extras_require},
         packages=find_packages(include=["dalex", "dalex.*"]),
         python_requires='>=3.6',
         include_package_data=True
