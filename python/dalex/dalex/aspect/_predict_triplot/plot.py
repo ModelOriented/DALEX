@@ -25,9 +25,11 @@ def plot_predict_hierarchical_importance(
     tick_dict = dict(zip(dendrogram_hierarchical_importance.layout.yaxis.tickvals, 
                     [[var] for var in dendrogram_hierarchical_importance.layout.yaxis.ticktext]))
     aspects_dendro_order = []
+    aspects_vars_before = []
     for scatter in dendrogram_hierarchical_importance.data:
         tick_dict[np.mean(scatter.y[1:3])] = tick_dict[scatter.y[1]] + tick_dict[scatter.y[2]]
         aspects_dendro_order.append(tick_dict[scatter.y[1]] + tick_dict[scatter.y[2]])
+        aspects_vars_before.append((tick_dict[scatter.y[1]], tick_dict[scatter.y[2]]))
 
     updated = []
     for i, row in hierarchical_importance_data[:-1].iterrows():
@@ -40,7 +42,7 @@ def plot_predict_hierarchical_importance(
                 imp_scatter = abs(imp_scatter)
             scatter_importance = dendrogram_hierarchical_importance.data[k]
             scatter_clustering = dendrogram_hierarchical_correlation.data[k]
-            importance_dict[np.mean(scatter_importance.y[1:3])] = imp_scatter
+            importance_dict[tuple(aspects_dendro_order[k])] = imp_scatter
             scatter_importance.x[1:3] = imp_scatter
 
             scatter_importance.hoverinfo = "text"
@@ -52,6 +54,7 @@ def plot_predict_hierarchical_importance(
             scatter_clustering.hovertext = tooltip_text_aspect(row, rounding_function, digits)
 
     for i, scatter in enumerate(dendrogram_hierarchical_importance.data):
+        vars_before = aspects_vars_before[i]
         if i not in updated:
             if absolute_value == True:
                 imp_scatter = abs(hierarchical_importance_data.iloc[-1]["importance"])
@@ -66,11 +69,11 @@ def plot_predict_hierarchical_importance(
             scatter_clustering.hoverlabel = {"bgcolor": "rgba(0,0,0,0.8)"}
             scatter_clustering.hovertext = tooltip_text_aspect(hierarchical_importance_data.iloc[-1], rounding_function, digits, change_last)
             scatter.x[1:3] = imp_scatter
-            importance_dict[np.mean(scatter.y[1:3])] = imp_scatter
-        if scatter.y[0] in importance_dict.keys():
-            scatter.x[0] = importance_dict[scatter.y[0]]
-        if scatter.y[3] in importance_dict.keys():
-            scatter.x[3] = importance_dict[scatter.y[3]]
+            importance_dict[tuple(aspects_dendro_order[i])] = imp_scatter
+        if tuple(vars_before[0]) in importance_dict.keys():
+            scatter.x[0] = importance_dict[tuple(vars_before[0])]
+        if tuple(vars_before[1]) in importance_dict.keys():
+            scatter.x[3] = importance_dict[tuple(vars_before[1])]
 
     min_range = (
         min_imp * 1.15

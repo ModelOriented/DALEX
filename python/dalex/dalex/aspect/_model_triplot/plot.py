@@ -23,11 +23,13 @@ def plot_model_hierarchical_importance(
         )
     )
     aspects_dendro_order = []
-    for scatter in dendrogram_hierarchical_importance.data:
+    aspects_vars_before = []
+    for i, scatter in enumerate(dendrogram_hierarchical_importance.data):
         tick_dict[np.mean(scatter.y[1:3])] = (
             tick_dict[scatter.y[1]] + tick_dict[scatter.y[2]]
         )
         aspects_dendro_order.append(tick_dict[scatter.y[1]] + tick_dict[scatter.y[2]])
+        aspects_vars_before.append((tick_dict[scatter.y[1]], tick_dict[scatter.y[2]]))
 
     updated = []
     for i, row in hierarchical_importance_data.iterrows():
@@ -40,7 +42,7 @@ def plot_model_hierarchical_importance(
             imp_scatter = row["dropout_loss_change"] if change else row["dropout_loss"]
             scatter_importance = dendrogram_hierarchical_importance.data[k]
             scatter_clustering = dendrogram_hierarchical_correlation.data[k]
-            importance_dict[np.mean(scatter_importance.y[1:3])] = imp_scatter
+            importance_dict[tuple(aspects_dendro_order[k])] = imp_scatter
             scatter_importance.x[1:3] = imp_scatter
 
             scatter_importance.hoverinfo = "text"
@@ -56,13 +58,14 @@ def plot_model_hierarchical_importance(
             )
 
     for i, scatter in enumerate(dendrogram_hierarchical_importance.data):
+        vars_before = aspects_vars_before[i]
         if i not in updated:
             scatter.x[1:3] = max_imp
-            importance_dict[np.mean(scatter.y[1:3])] = max_imp
-        if scatter.y[0] in importance_dict.keys():
-            scatter.x[0] = importance_dict[scatter.y[0]]
-        if scatter.y[3] in importance_dict.keys():
-            scatter.x[3] = importance_dict[scatter.y[3]]
+            importance_dict[tuple(aspects_dendro_order[i])] = max_imp
+        if tuple(vars_before[0]) in importance_dict.keys():
+            scatter.x[0] = importance_dict[tuple(vars_before[0])]
+        if tuple(vars_before[1]) in importance_dict.keys():
+            scatter.x[3] = importance_dict[tuple(vars_before[1])]
 
     dendrogram_hierarchical_importance.update_xaxes(
         range=[0, max(hierarchical_importance_data["dropout_loss_change"]) * 1.05] if change 
