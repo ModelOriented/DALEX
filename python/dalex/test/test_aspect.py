@@ -97,8 +97,8 @@ class AspectTestTitanic(unittest.TestCase):
         self.assertGreaterEqual(3, len(self.aspect.get_aspects(h=0.3, n=3)))
         self.assertEqual(len(self.aspect.depend_matrix), len(self.aspect2.get_aspects(h=3)))
 
-        self.assertIsInstance(self.aspect.plot_clustering_dendrogram(show=False), Figure)
-        self.assertIsInstance(self.aspect2.plot_clustering_dendrogram(show=False), Figure)
+        self.assertIsInstance(self.aspect.plot_dendrogram(show=False), Figure)
+        self.assertIsInstance(self.aspect2.plot_dendrogram(show=False), Figure)
         
     def test_predict_parts(self):
         pai = self.aspect.predict_parts(self.X.iloc[12])
@@ -492,8 +492,8 @@ class AspectTestFifa(unittest.TestCase):
         self.assertGreaterEqual(3, len(self.aspect.get_aspects(h=0.3, n=3)))
         self.assertEqual(len(self.aspect.depend_matrix), len(self.aspect2.get_aspects(h=3)))
 
-        self.assertIsInstance(self.aspect.plot_clustering_dendrogram(show=False), Figure)
-        self.assertIsInstance(self.aspect2.plot_clustering_dendrogram(show=False), Figure)
+        self.assertIsInstance(self.aspect.plot_dendrogram(show=False), Figure)
+        self.assertIsInstance(self.aspect2.plot_dendrogram(show=False), Figure)
         
     def test_predict_parts(self):
         pai = self.aspect.predict_parts(self.X.iloc[12])

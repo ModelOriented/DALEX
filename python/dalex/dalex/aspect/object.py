@@ -141,7 +141,7 @@ class Aspect:
 
         return aspects_dict
 
-    def plot_clustering_dendrogram(
+    def plot_dendrogram(
         self,
         title="Hierarchical clustering dendrogram",
         lines_interspace=20,
