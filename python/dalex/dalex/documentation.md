@@ -21,11 +21,15 @@ The philosophy behind `dalex` explanations is described in the [Explanatory Mode
 
 ## Installation
 
-The `dalex` package is available [on PyPI](https://pypi.org/project/dalex/)
+The `dalex` package is available [on PyPI](https://pypi.org/project/dalex/) and [conda-forge](https://anaconda.org/conda-forge/dalex).
 
 ```console
 pip install dalex -U
+
+conda install -c conda-forge dalex
 ```
+
+One can install optional dependencies for all additional features using `pip install dalex[full]`.
 
 ## Examples
 
@@ -35,6 +39,7 @@ pip install dalex -U
 * More explanations: [residuals, shap, lime](https://dalex.drwhy.ai/python-dalex-new.html)
 * Introduction to the [Fairness module in dalex](https://dalex.drwhy.ai/python-dalex-fairness.html)
 * Tutorial [on bias detection with dalex](https://dalex.drwhy.ai/python-dalex-fairness2.html)
+* Introduction to the [Aspect module in dalex](https://dalex.drwhy.ai/python-dalex-aspect.html)
 * Introduction to the [Arena module in dalex](https://dalex.drwhy.ai/python-dalex-arena.html)
 * Arena documentation: [Getting Started & Demos](https://arena.drwhy.ai/docs/guide/basic-concepts/)
 * Code in the form of [jupyter notebook](https://github.com/ModelOriented/DALEX-docs/tree/master/jupyter-notebooks)

@@ -46,7 +46,7 @@ The authors of the `dalex` package are:
 * [Piotr Piatyszek](https://github.com/piotrpiatyszek) maintains the `arena` module
 * [Jakub Wisniewski](https://github.com/jakwisn) maintains the `fairness` module
 * [Mateusz Krzyzinski](https://github.com/krzyzinskim) maintains the `aspect` module
-* [Artur Zołkowski](https://github.com/arturzolkowski) maintains the `aspect` module
+* [Artur Zolkowski](https://github.com/arturzolkowski) maintains the `aspect` module
 * [Przemyslaw Biecek](https://github.com/pbiecek)
 
 We welcome contributions: [start by opening an issue on GitHub](https://github.com/ModelOriented/DALEX/issues/new).

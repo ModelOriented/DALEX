@@ -1,9 +1,9 @@
 ## Changelog
 
 
-### development
+### v1.4.0 (09/09/2021)
 
-* added new `aspect` module, which will focus on groups of dependent variables  [@krzyzinskim](https://github.com/krzyzinskim) [@arturzolkowski](https://github.com/arturzolkowski) 
+* added new `aspect` module, which will focus on groups of dependent variables [@krzyzinskim](https://github.com/krzyzinskim) & [@arturzolkowski](https://github.com/arturzolkowski) 
 * added new `scipy>=1.5.4` dependency 
 
 #### breaking changes
