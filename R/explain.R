@@ -162,7 +162,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     } else {
       # Setting 0 as value of n if data is not present is necessary for future checks
       n <- 0
-      verbose_cat("  -> no data avaliable! (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
+      verbose_cat("  -> no data available! (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
     }
   } else {
     n <- nrow(data)
