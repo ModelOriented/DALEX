@@ -125,7 +125,8 @@
 <p>Unverified black box model is the path to the failure. Opaqueness leads to distrust. Distrust leads to ignoration. Ignoration leads to rejection.</p>
 <p>The <code>DALEX</code> package xrays any model and helps to explore and explain its behaviour, helps to understand how complex models are working. The main function <code><a href="reference/explain.default.html">explain()</a></code> creates a wrapper around a predictive model. Wrapped models may then be explored and compared with a collection of local and global explainers. Recent developents from the area of Interpretable Machine Learning/eXplainable Artificial Intelligence.</p>
 <p>The philosophy behind <code>DALEX</code> explanations is described in the <a href="https://pbiecek.github.io/ema/">Explanatory Model Analysis</a> e-book. The <code>DALEX</code> package is a part of <a href="http://DrWhy.AI">DrWhy.AI</a> universe.</p>
-<p>If you work with <code>scikit-learn</code>, <code>keras</code>, <code>H2O</code>, <code>tidymodels</code>, <code>xgboost</code>, <code>mlr</code> or <code>mlr3</code>, you may be interested in the <a href="https://github.com/ModelOriented/DALEXtra">DALEXtra</a> package. It is an extension pack for <code>DALEX</code> with easy to use connectors to models created in these libraries.</p>
+<p>If you work with <code>scikit-learn</code>, <code>keras</code>, <code>H2O</code>, <code>tidymodels</code>, <code>xgboost</code>, <code>mlr</code> or <code>mlr3</code> in R, you may be interested in the <a href="https://github.com/ModelOriented/DALEXtra">DALEXtra</a> package, which is an extension of <code>DALEX</code> with easy to use <code>explain_*()</code> functions for models created in these libraries.</p>
+<p><strong><a href="https://github.com/ModelOriented/DALEX/tree/master/python/dalex">Additional overview of the dalex Python package is available.</a></strong></p>
 <p align="center">
 <a href="https://pbiecek.github.io/ema/introduction.html#bookstructure"><img src="https://github.com/ModelOriented/DALEX/raw/master/misc/DALEXpiramide.png" width="800"></a>
 </p>
@@ -133,11 +134,13 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>The easiest way to get the <strong>R</strong> version of DALEX is to install it <a href="https://cran.r-project.org/package=DALEX">from CRAN</a></p>
+<p>The <code>DALEX</code> <strong>R</strong> package can be installed from <a href="https://cran.r-project.org/package=DALEX">CRAN</a></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"DALEX"</span><span class="op">)</span></code></pre></div>
-<p>The <strong>Python</strong> version of dalex is available <a href="https://pypi.org/project/dalex/">on PyPI</a></p>
-<pre class="console"><code>pip install dalex -U</code></pre>
+<p>The <code>dalex</code> <strong>Python</strong> package is available on <a href="https://pypi.org/project/dalex/">PyPI</a> and <a href="https://anaconda.org/conda-forge/dalex">conda-forge</a></p>
+<pre class="console"><code>pip install dalex -U
+
+conda install -c conda-forge dalex</code></pre>
 </div>
 <div id="learn-more" class="section level2">
 <h2 class="hasAnchor">
@@ -207,6 +210,37 @@
 <li><a href="https://github.com/pbiecek/Talks/blob/master/2018/DALEX_PyDataWarsaw2018.pdf">Talk about DALEX at PyData Warsaw 2018</a></li>
 </ul>
 </div>
+</div>
+<div id="citation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#citation" class="anchor"></a>Citation</h2>
+<p>If you use <code>DALEX</code> in R or <code>dalex</code> in Python, please cite our JMLR papers:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1"></a>@article{JMLR:v19:18-416,</span>
+<span id="cb3-2"><a href="#cb3-2"></a>  author  = {Przemyslaw Biecek},</span>
+<span id="cb3-3"><a href="#cb3-3"></a>  title   = {DALEX: Explainers for Complex Predictive Models in R},</span>
+<span id="cb3-4"><a href="#cb3-4"></a>  journal = {Journal of Machine Learning Research},</span>
+<span id="cb3-5"><a href="#cb3-5"></a>  year    = {2018},</span>
+<span id="cb3-6"><a href="#cb3-6"></a>  volume  = {19},</span>
+<span id="cb3-7"><a href="#cb3-7"></a>  number  = {84},</span>
+<span id="cb3-8"><a href="#cb3-8"></a>  pages   = {1-5},</span>
+<span id="cb3-9"><a href="#cb3-9"></a>  url     = {http://jmlr.org/papers/v19/18-416.html}</span>
+<span id="cb3-10"><a href="#cb3-10"></a>}</span>
+<span id="cb3-11"><a href="#cb3-11"></a></span>
+<span id="cb3-12"><a href="#cb3-12"></a>@article{JMLR:v22:20-1473,</span>
+<span id="cb3-13"><a href="#cb3-13"></a>  author  = {Hubert Baniecki and</span>
+<span id="cb3-14"><a href="#cb3-14"></a>             Wojciech Kretowicz and</span>
+<span id="cb3-15"><a href="#cb3-15"></a>             Piotr Piatyszek and </span>
+<span id="cb3-16"><a href="#cb3-16"></a>             Jakub Wisniewski and </span>
+<span id="cb3-17"><a href="#cb3-17"></a>             Przemyslaw Biecek},</span>
+<span id="cb3-18"><a href="#cb3-18"></a>  title   = {dalex: Responsible Machine Learning </span>
+<span id="cb3-19"><a href="#cb3-19"></a>             with Interactive Explainability and Fairness in Python},</span>
+<span id="cb3-20"><a href="#cb3-20"></a>  journal = {Journal of Machine Learning Research},</span>
+<span id="cb3-21"><a href="#cb3-21"></a>  year    = {2021},</span>
+<span id="cb3-22"><a href="#cb3-22"></a>  volume  = {22},</span>
+<span id="cb3-23"><a href="#cb3-23"></a>  number  = {214},</span>
+<span id="cb3-24"><a href="#cb3-24"></a>  pages   = {1-7},</span>
+<span id="cb3-25"><a href="#cb3-25"></a>  url     = {http://jmlr.org/papers/v22/20-1473.html}</span>
+<span id="cb3-26"><a href="#cb3-26"></a>}</span></code></pre></div>
 </div>
 <div id="why" class="section level2">
 <h2 class="hasAnchor">
