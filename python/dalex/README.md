@@ -19,7 +19,7 @@ The philosophy behind `dalex` explanations is described in the [Explanatory Mode
 
 ## Installation
 
-The `dalex` package is available [on PyPI](https://pypi.org/project/dalex/) and [conda-forge](https://anaconda.org/conda-forge/dalex).
+The `dalex` package is available on [PyPI](https://pypi.org/project/dalex/) and [conda-forge](https://anaconda.org/conda-forge/dalex).
 
 ```console
 pip install dalex -U
@@ -31,11 +31,9 @@ One can install optional dependencies for all additional features using `pip ins
 
 ### Resources: https://dalex.drwhy.ai/python
 
-[![http://python.drwhy.ai/](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-diagram.png)](http://python.drwhy.ai/)
-
 ### API reference: https://dalex.drwhy.ai/python/api
 
-[![](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-class.png)](http://python.drwhy.ai/)
+[![http://python.drwhy.ai/](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-diagram.png)](http://python.drwhy.ai/)
 
 ## Authors
 
@@ -53,17 +51,23 @@ We welcome contributions: [start by opening an issue on GitHub](https://github.c
 
 ## Citation
 
-If you use `dalex`, please cite [our paper](https://arxiv.org/abs/2012.14406):
+If you use `dalex`, please cite our [JMLR paper](https://www.jmlr.org/papers/v22/20-1473):
 
 ```html
-@article{dalex,
-  title={{dalex: Responsible Machine Learning with Interactive
-          Explainability and Fairness in Python}},
-  author={Hubert Baniecki and Wojciech Kretowicz and Piotr Piatyszek
-          and Jakub Wisniewski and Przemyslaw Biecek},
-  year={2020},
-  journal={arXiv:2012.14406},
-  url={https://arxiv.org/abs/2012.14406}
+@article{JMLR:v22:20-1473,
+  author  = {Hubert Baniecki and
+             Wojciech Kretowicz and
+             Piotr Piatyszek and 
+             Jakub Wisniewski and 
+             Przemyslaw Biecek},
+  title   = {dalex: Responsible Machine Learning 
+             with Interactive Explainability and Fairness in Python},
+  journal = {Journal of Machine Learning Research},
+  year    = {2021},
+  volume  = {22},
+  number  = {214},
+  pages   = {1-7},
+  url     = {http://jmlr.org/papers/v22/20-1473.html}
 }
 ```
 

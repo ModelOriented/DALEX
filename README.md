@@ -21,7 +21,9 @@ The `DALEX` package xrays any model and helps to explore and explain its behavio
 
 The philosophy behind `DALEX` explanations is described in the [Explanatory Model Analysis](https://pbiecek.github.io/ema/) e-book. The `DALEX` package is a part of [DrWhy.AI](http://DrWhy.AI) universe.
 
-If you work with `scikit-learn`, `keras`, `H2O`, `tidymodels`, `xgboost`, `mlr` or `mlr3`, you may be interested in the [DALEXtra](https://github.com/ModelOriented/DALEXtra) package. It is an extension pack for `DALEX` with easy to use connectors to models created in these libraries.
+If you work with `scikit-learn`, `keras`, `H2O`, `tidymodels`, `xgboost`, `mlr` or `mlr3` in R, you may be interested in the [DALEXtra](https://github.com/ModelOriented/DALEXtra) package, which is an extension of `DALEX` with easy to use `explain_*()` functions for models created in these libraries.
+
+**[Additional overview of the dalex Python package is available.](https://github.com/ModelOriented/DALEX/tree/master/python/dalex)**
 
 <p align="center">
 <a href="https://pbiecek.github.io/ema/introduction.html#bookstructure"><img src="https://github.com/ModelOriented/DALEX/raw/master/misc/DALEXpiramide.png" width="800"/></a>
@@ -29,16 +31,18 @@ If you work with `scikit-learn`, `keras`, `H2O`, `tidymodels`, `xgboost`, `mlr` 
 
 ## Installation
 
-The easiest way to get the **R** version of DALEX is to install it [from CRAN](https://cran.r-project.org/package=DALEX)
+The `DALEX` **R** package can be installed from [CRAN](https://cran.r-project.org/package=DALEX)
 
 ```r
 install.packages("DALEX")
 ```
 
-The **Python** version of dalex is available [on PyPI](https://pypi.org/project/dalex/)
+The `dalex` **Python** package is available on [PyPI](https://pypi.org/project/dalex/) and [conda-forge](https://anaconda.org/conda-forge/dalex)
 
 ```console
 pip install dalex -U
+
+conda install -c conda-forge dalex
 ```
 
 ## Learn more
@@ -86,6 +90,38 @@ In many applications we need to know, understand or prove how input variables ar
 * [Talk about DALEX at BayArea 2018](https://github.com/pbiecek/Talks/blob/master/2018/DALEX_BayArea.pdf)
 * [Talk about DALEX at PyData Warsaw 2018](https://github.com/pbiecek/Talks/blob/master/2018/DALEX_PyDataWarsaw2018.pdf)
 
+## Citation
+
+If you use `DALEX` in R or `dalex` in Python, please cite our JMLR papers:
+
+```html
+@article{JMLR:v19:18-416,
+  author  = {Przemyslaw Biecek},
+  title   = {DALEX: Explainers for Complex Predictive Models in R},
+  journal = {Journal of Machine Learning Research},
+  year    = {2018},
+  volume  = {19},
+  number  = {84},
+  pages   = {1-5},
+  url     = {http://jmlr.org/papers/v19/18-416.html}
+}
+
+@article{JMLR:v22:20-1473,
+  author  = {Hubert Baniecki and
+             Wojciech Kretowicz and
+             Piotr Piatyszek and 
+             Jakub Wisniewski and 
+             Przemyslaw Biecek},
+  title   = {dalex: Responsible Machine Learning 
+             with Interactive Explainability and Fairness in Python},
+  journal = {Journal of Machine Learning Research},
+  year    = {2021},
+  volume  = {22},
+  number  = {214},
+  pages   = {1-7},
+  url     = {http://jmlr.org/papers/v22/20-1473.html}
+}
+```
 
 ## Why
 
