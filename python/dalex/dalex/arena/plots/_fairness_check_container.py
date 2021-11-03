@@ -1,4 +1,3 @@
-import pandas as pd
 import numpy as np
 from pandas.api.types import is_object_dtype
 from .._plot_container import PlotContainer
@@ -14,6 +13,7 @@ class FairnessCheckContainer(PlotContainer):
         'plotCategory': 'Dataset Level',
         'requiredParams': ['model', 'variable']
     }
+    options_category = 'Fairness'
     options = {
         'cutoffs': { 'default': [x / 100 for x in range(5, 100, 5)], 'desc': 'List of tested cutoff levels' },
     }
@@ -26,6 +26,7 @@ class FairnessCheckContainer(PlotContainer):
         if not is_object_dtype(protected):
             self.set_message('Select categorical variable to check fairness')
             return
+
         if exp.model_type == 'classification':
             output_df = None
             for cutoff in self.arena.get_option(self.plot_type, 'cutoffs'):
@@ -41,7 +42,6 @@ class FairnessCheckContainer(PlotContainer):
                 output[subgroup] = {}
                 for (cutoff, y) in x.groupby('cutoff'):
                     output[subgroup][cutoff] = rm_nan(y['score'].to_dict())
-
             self.data = { 'subgroups': output }
 
         #regression

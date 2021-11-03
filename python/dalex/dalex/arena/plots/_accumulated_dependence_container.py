@@ -8,6 +8,7 @@ class AccumulatedDependenceContainer(PlotContainer):
         'plotCategory': 'Dataset Level',
         'requiredParams': ['model', 'variable']
     }
+    options_category = 'AccumulatedDependence'
     options = {
         'grid_type': { 'default': 'quantile', 'desc': 'grid type "quantile" or "uniform"'},
         'grid_points': { 'default': 101, 'desc': 'Maximum number of points for profile' },
@@ -27,9 +28,9 @@ class AccumulatedDependenceContainer(PlotContainer):
             variables=variable.variable,
             variable_type=variable_type,
             center=False,
-            grid_points=self.arena.get_option(self.plot_type, 'grid_points'),
-            variable_splits_type=self.arena.get_option(self.plot_type, 'grid_type'),
-            N=self.arena.get_option(self.plot_type, 'N'),
+            grid_points=self.get_option('grid_points'),
+            variable_splits_type=self.get_option('grid_type'),
+            N=self.get_option('N'),
             verbose=False
         )
         self.data = {

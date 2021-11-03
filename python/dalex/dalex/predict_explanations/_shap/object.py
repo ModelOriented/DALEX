@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from plotly.subplots import make_subplots
 
 from . import checks, plot, utils
@@ -64,7 +65,7 @@ class Shap(Explanation):
         self.path = _path
         self.keep_distributions = keep_distributions
         self.B = B
-        self.result = None
+        self.result = pd.DataFrame()
         self.yhats_distributions = None
         self.prediction = None
         self.intercept = None

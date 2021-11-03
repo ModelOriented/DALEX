@@ -47,15 +47,14 @@ def run_setup():
     # fixes warning https://github.com/pypa/setuptools/issues/2230
     from setuptools import setup, find_packages
 
-    test_requirements = []  # input dependencies for test, but not for user
-    test_requirements += get_optional_dependencies("dalex/_global_checks.py")
+    extras_require = get_optional_dependencies("dalex/_global_checks.py")
 
     setup(
         name="dalex",
         maintainer="Hubert Baniecki",
         maintainer_email="hbaniecki@gmail.com",
-        author="Hubert Baniecki, Wojciech Kretowicz, Przemyslaw Biecek et al.",
-        author_email="hbaniecki@gmail.com, wojtekkretowicz@gmail.com, przemyslaw.biecek@gmail.com",
+        author="Przemyslaw Biecek",
+        author_email="przemyslaw.biecek@gmail.com",
         version=get_version("dalex/__init__.py"),
         description="Responsible Machine Learning in Python",
         long_description=u"\n\n".join([readme, news]),
@@ -74,6 +73,7 @@ def run_setup():
             "Programming Language :: Python :: 3.6",
             "Programming Language :: Python :: 3.7",
             "Programming Language :: Python :: 3.8",
+            "Programming Language :: Python :: 3.9",
             "License :: OSI Approved",
             "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
             "Operating System :: OS Independent",
@@ -83,9 +83,10 @@ def run_setup():
             'pandas>=1.1.2',
             'numpy>=1.18.4',
             'plotly>=4.12.0',
-            'tqdm>=4.48.2'
+            'tqdm>=4.48.2',
+            'scipy>=1.5.4'
         ],
-        test_requirements=test_requirements,
+        extras_require={'full': extras_require},
         packages=find_packages(include=["dalex", "dalex.*"]),
         python_requires='>=3.6',
         include_package_data=True

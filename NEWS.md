@@ -1,3 +1,11 @@
+DALEX 2.3.0
+---------------------------------------------------------------
+* The `plot.model_performance_roc`, `loss_one_minus_auc` and `model_performance_auc` functions are rewritten to handle repeated predictions ([#442](https://github.com/ModelOriented/DALEX/issues/442))
+
+DALEX 2.2.2
+---------------------------------------------------------------
+* The `plot` function works for list of explanations (if possible) ([#424](https://github.com/ModelOriented/DALEX/issues/424))
+
 DALEX 2.2.1
 ---------------------------------------------------------------
 * Order of explainer labels in different plots is the same. To get to this point, orders in `plot.model_performance(..., geom = "histogram" & "boxplot")` are reversed  ([#400](https://github.com/ModelOriented/DALEX/issues/400))

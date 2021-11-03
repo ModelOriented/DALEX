@@ -24,7 +24,7 @@ def calculate_variable_importance(explainer,
         # Create number generator for each iteration
         ss = SeedSequence(random_state)
         generators = [default_rng(s) for s in ss.spawn(B)]
-        pool = mp.Pool(processes)
+        pool = mp.get_context('spawn').Pool(processes)
         result = pool.starmap_async(loss_after_permutation, [
             (explainer.data, explainer.y, explainer.model, explainer.predict_function, loss_function, variables, N, generators[i]) for
             i in range(B)]).get()
@@ -52,17 +52,17 @@ def calculate_variable_importance(explainer,
 def loss_after_permutation(data, y, model, predict, loss_function, variables, N, rng):
     if isinstance(N, int):
         N = min(N, data.shape[0])
-        sampled_rows = rng.choice(np.arange(N), N, replace=False)
+        sampled_rows = rng.choice(np.arange(data.shape[0]), N, replace=False)
         sampled_data = data.iloc[sampled_rows, :]
         observed = y[sampled_rows]
     else:
         sampled_data = data
         observed = y
-
+    
     # loss on the full model or when outcomes are permuted
     loss_full = loss_function(observed, predict(model, sampled_data))
 
-    sampled_rows2 = rng.choice(range(observed.shape[0]), observed.shape[0], False)
+    sampled_rows2 = rng.choice(range(observed.shape[0]), observed.shape[0], replace=False)
     loss_baseline = loss_function(observed[sampled_rows2], predict(model, sampled_data))
 
     loss_features = {}

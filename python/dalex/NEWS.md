@@ -1,28 +1,74 @@
 ## Changelog
 
-development
-----------------------------------------------------------------
+
+### v1.4.0 (09/09/2021)
+
+* added new `aspect` module, which will focus on groups of dependent variables [@krzyzinskim](https://github.com/krzyzinskim) & [@arturzolkowski](https://github.com/arturzolkowski) 
+* added new `scipy>=1.5.4` dependency 
 
 #### breaking changes
 
-* fixed concurrent random seeds when `processes>1` ([#392](https://github.com/ModelOriented/DALEX/issues/392)), which means that the results of parallel computation will vary between this and previous versions
+* improved the calculation of AUC, ROC plot ([#459](https://github.com/ModelOriented/DALEX/issues/459))
 
 #### fixes
 
-* `fairness_check` type plot generates ticks according to the x-axis range ([#409](https://github.com/ModelOriented/DALEX/issues/409))
-* `density` type plot in fairness in regression has different, more readable hoover - only for outliers ([#409](https://github.com/ModelOriented/DALEX/issues/409))
-* `BreakDown.plot()` wrongly displayed the "+all factors" bar when `max_vars < p` ([#401](https://github.com/ModelOriented/DALEX/issues/401))
-* `metric_scores` type plot in `GroupFairnessClassification` did not handle `NaN`'s ([#399](https://github.com/ModelOriented/DALEX/issues/399))
+* wrong yaxis labels in `VariableImportance.plot(split="variable")` ([#451](https://github.com/ModelOriented/DALEX/issues/451))
+* `repr_html()` didn't work for explanation objects before using the `fit` method ([#449](https://github.com/ModelOriented/DALEX/issues/449))
+
+#### features
+* added new `Aspect` object with the `predict_triplot`, `model_triplot`, `predict_parts`, `model_parts`, `get_aspects` methods
+* added new `PredictTriplot`, `ModelTriplot`, `PredictAspectImportance`, `ModelAspectImportance` objects with the `plot` method
+
+
+### v1.3.0 (17/07/2021)
 
 #### features 
 
-* Support for regression models in the `fairness` module. Added `GroupFairnessRegression` object, with the `plot` method having two types: `fairness_check` and `density`. `Explainer.model_fairness` method now depends on the `model_type` attribute. ([#391](https://github.com/ModelOriented/DALEX/issues/391))
+* added bias mitigation techniques (`resample`, `reweight`, `roc_pivot`) into the `fairness` module ([#432](https://github.com/ModelOriented/DALEX/issues/432))
+
+
+### v1.2.0 (31/05/2021)
+
+#### breaking changes
+
+* method `set_options` in Arena now takies `option_category` instead of `plot_type` (`SHAPValues` => `ShapleyValues`, `FeatureImportance` => `VariableImportance`) ([#420](https://github.com/ModelOriented/DALEX/pull/420))
+* methods using the `N` parameter now properly sample rows from `data`
+
+#### fixes
+
+* fixed wrong error value when no `predict_function` is found in `Explainer` ([77ca90d](https://github.com/ModelOriented/DALEX/commit/77ca90d))
+* set multiprocessing context to `'spawn'` ([#412](https://github.com/ModelOriented/DALEX/issues/412))
+* fixed bug in `metric_scores` plot that made only one subgroup appear on y-axis ([#416](https://github.com/ModelOriented/DALEX/issues/416)) 
+* added support for older keras models ([#415](https://github.com/ModelOriented/DALEX/issues/415))
+
+#### features
+
+* added a resource mechanism to Arena ([#419](https://github.com/ModelOriented/DALEX/issues/419))
+* added `ShapleyValuesImportance` and `ShapleyValuesDependence` plots to Arena ([#420](https://github.com/ModelOriented/DALEX/pull/420))
+* return `error` instead of `NaN` when AUC is calculated on observations from one class only ([#415](https://github.com/ModelOriented/DALEX/issues/415))
+
+
+### v1.1.0 (18/04/2021)
+
+#### breaking changes
+
+* fixed concurrent random seeds when `processes > 1` ([#392](https://github.com/ModelOriented/DALEX/issues/392)), which means that the results of parallel computation will vary between `v1.1.0` and previous versions
+
+#### fixes
+
+* `GroupFairnessX.plot(type='fairness_check')` generates ticks according to the x-axis range ([#409](https://github.com/ModelOriented/DALEX/issues/409))
+* `GroupFainressRegression.plot(type='density')` has a more readable hover - only for outliers ([#409](https://github.com/ModelOriented/DALEX/issues/409))
+* `BreakDown.plot()` wrongly displayed the "+all factors" bar when `max_vars < p` ([#401](https://github.com/ModelOriented/DALEX/issues/401))
+* `GroupFairnessClassification.plot(type='metric_scores')` did not handle `NaN`'s ([#399](https://github.com/ModelOriented/DALEX/issues/399))
+
+#### features 
+
+* Experimental support for regression models in the `fairness` module. Added `GroupFairnessRegression` object, with the `plot` method having two types: `fairness_check` and `density`. `Explainer.model_fairness` method now depends on the `model_type` attribute. ([#391](https://github.com/ModelOriented/DALEX/issues/391))
 * added `N` parameter to the `predict_parts` method which is `None` by default ([#402](https://github.com/ModelOriented/DALEX/issues/402))
-* `epsilon` is now an argument of `GroupFairnessClassification` object ([#397](https://github.com/ModelOriented/DALEX/issues/397))
+* `epsilon` is now an argument of the `GroupFairnessClassification` object ([#397](https://github.com/ModelOriented/DALEX/issues/397))
 
 
-v1.0.1 (19/02/2021)
-----------------------------------------------------------------
+### v1.0.1 (19/02/2021)
 
 #### fixes
 
@@ -33,8 +79,8 @@ v1.0.1 (19/02/2021)
 
 * added `ipython` to test dependencies
 
-v1.0.0 (29/12/2020)
-----------------------------------------------------------------
+
+### v1.0.0 (29/12/2020)
 
 #### breaking changes
 
@@ -63,8 +109,8 @@ These are summed up in ([#368](https://github.com/ModelOriented/DALEX/issues/368
 * updated the documentation, refactored code (import modules not functions, unify variable names in `object.py`, move utils funcitons from `checks.py` to `utils.py`, etc.)
 * added license notice next to data
 
-v0.4.1 (02/12/2020)
-----------------------------------------------------------------
+
+### v0.4.1 (02/12/2020)
 
 * added support for `h2o.estimators.*` ([#332](https://github.com/ModelOriented/DALEX/issues/332))
 * added `tensorflow.python.keras.engine.functional.Functional` to the `tensorflow` list
@@ -89,8 +135,8 @@ v0.4.1 (02/12/2020)
 
 * unify verbose output of `Explainer`
 
-v0.4.0 (17/11/2020)
-----------------------------------------------------------------
+
+### v0.4.0 (17/11/2020)
 
 * added new `arena` module, which adds the backend for Arena dashboard [@piotrpiatyszek](https://github.com/piotrpiatyszek)
 
@@ -103,8 +149,8 @@ v0.4.0 (17/11/2020)
 * new `fairness` plot types: `stacked`, `radar`, `performance_and_fairness`, `heatmap`, `ceteris_paribus_cutoff`
 * upgraded `fairness_check()`
 
-v0.3.0 (26/10/2020)
-----------------------------------------------------------------
+
+### v0.3.0 (26/10/2020)
 
 * added new `fairness` module, which will focus on bias detection, visualization and mitigation [@jakwisn](https://github.com/jakwisn)
 
@@ -122,8 +168,8 @@ v0.3.0 (26/10/2020)
 * added the `N=50000` argument to `ResidualDiagnostics.plot`, which samples observations from 
  the `result` parameter to omit performance issues when `smooth=True` ([#341](https://github.com/ModelOriented/DALEX/issues/341))
 
-dalex 0.2.2
-----------------------------------------------------------------
+
+### v0.2.2
 
 * added support for `tensorflow.python.keras.engine.sequential.Sequential` and `tensorflow.python.keras.engine.training.Model` ([#326](https://github.com/ModelOriented/DALEX/issues/326))
 * updated the `tqdm` dependency to `>=4.48.2`, `pandas` dependency to `>=1.1.2` and `numpy` dependency to `>=1.18.4`
@@ -147,8 +193,8 @@ dalex 0.2.2
 * wrong parameter name `title_x` changed to `y_title` in `CeterisParibus.plot` and `AggregatedProfiles.plot` ([#317](https://github.com/ModelOriented/DALEX/issues/317))
 * now warning the user in `Explainer` when `predict_function` returns an error or doesn't return `numpy.ndarray (1d)` ([#325](https://github.com/ModelOriented/DALEX/issues/325))
 
-dalex 0.2.1
-----------------------------------------------------------------
+
+### v0.2.1
 
 * updated the `pandas` dependency to `>=1.1.0`
 
@@ -194,8 +240,9 @@ dalex 0.2.1
 * use `Pipeline._final_estimator` to extract `model_class` of the actual model
 * use `model._estimator_type` to extract `model_type` if possible 
 
-dalex 0.2.0
-----------------------------------------------------------------
+
+### v0.2.0
+
 * major documentation update ([#270](https://github.com/ModelOriented/DALEX/issues/270))
 * unified the order of function parameters
 
@@ -234,8 +281,9 @@ dalex 0.2.0
 * `keep_raw_permutation` is now set to `False` instead of `None` in `model_parts`
 * `intercept` parameter in `model_profile` is now named `center`
 
-dalex 0.1.9
-----------------------------------------------------------------
+
+### v0.1.9
+
 * *feature:* added `random_state` parameter for `predict_parts(type='shap')` and `model_profile` for reproducible calculations
 * *fix:* fixed `random_state` parameter in `model_parts`
 * *feature:* multiprocessing added for: `model_profile`, `model_parts`, `predict_profile` and `predict_parts(type='shap')`, through the `processes` parameter
@@ -249,16 +297,18 @@ dalex 0.1.9
 * *fix:* number rounding in `predict_parts`, `model_parts` ([#245](https://github.com/ModelOriented/DALEX/issues/245))
 * *fix:* CP calculations for models that take only variables as an input
 
-dalex 0.1.8
-----------------------------------------------------------------
+
+### v0.1.8
+
 * *bugfix:* `variable_splits` parameter now works correctly in `predict_profile`
 * *bugfix:* fix baseline for 3+ models in `AggregatedProfiles.plot` ([#234](https://github.com/ModelOriented/DALEX/issues/234))
 * *printing:* now rounding numbers in `Explainer` messages
 * *fix:* minor checks fixes in `instance_level`
 * *bugfix:* `AggregatedProfiles.plot` now works with `groups`
 
-dalex 0.1.7
-----------------------------------------------------------------
+
+### v0.1.7
+
 * *feature:* parameter `N` in `model_profile` can be set to `None`, to select all observations
 * *input:* `groups` and `variable` parameters in `model_profile` can be: `str`, `list`, `numpy.ndarray`, `pandas.Series`
 * *fix:* `check_label` returned only a first letter
@@ -266,8 +316,9 @@ dalex 0.1.7
 `prepare_all_variables`, which caused an error in `model_profile` ([#214](https://github.com/ModelOriented/DALEX/issues/214))
 * *defaults:* change numpy data variable names from numbers to strings
 
-dalex 0.1.6
-----------------------------------------------------------------
+
+### v0.1.6
+
 * *fix:* change `short_name` encoding in `fifa` dataset (utf8->ascii)
 * *fix:* remove `scipy` dependency
 * *defaults:* default `loss_root_mean_square` in model parts changed to `rmse`
@@ -278,8 +329,9 @@ CeterisParibus` now work for multiple inputs
 more types of `new_observation.index`, but won't work for a `bolean` type
 ([#211](https://github.com/ModelOriented/DALEX/issues/211))
 
-dalex 0.1.5
-----------------------------------------------------------------
+
+### v0.1.5
+
 * *feature:* add `xgboost` package compatibility ([#188](https://github.com/ModelOriented/DALEX/issues/188))
 * *feature:* added `model_class` parameter to `Explainer` to handle wrapped
 models
@@ -294,8 +346,9 @@ models
 dataset](https://www.kaggle.com/stefanoleone992/fifa-20-complete-player-dataset)
 * *fix:* `CeterisParibus.plot` tooltip
 
-dalex 0.1.4
-----------------------------------------------------------------
+
+### v0.1.4
+
 * *feature:* new `Explainer.residual` method which uses
 `residual_function` to calculate `residuals`
 * *feature:* new `dump` and `dumps` methods for saving `Explainer` in a binary form;
@@ -309,8 +362,9 @@ dalex 0.1.4
 * *bugfix:* `Shap` by default uses `path='average'`, `sign` column is
 properly updated and bars in `plot` are sorted by `abs(contribution)`
 
-dalex 0.1.3
-----------------------------------------------------------------
+
+### v0.1.3
+
 * [release](https://medium.com/@ModelOriented/xai-in-python-with-dalex-4b173486aa92) of the `dalex` package
 * `Explainer` object with `predict`, `predict_parts`, `predict_profile`,
 `model_performance`, `model_parts` and `model_profile` methods

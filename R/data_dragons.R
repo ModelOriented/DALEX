@@ -1,8 +1,8 @@
 #' Dragon Data
 #'
-#' Datasets \code{dragons} and \code{dragons_test} are artificial, generated form the same ground truth model, 
-#' but with sometimes different data distridution.
-#' 
+#' Datasets \code{dragons} and \code{dragons_test} are artificial, generated form the same ground truth model,
+#' but with sometimes different data distribution.
+#'
 #' Values are generated in a way to:
 #' - have nonlinearity in year_of_birth and height
 #' - have concept drift in the test set
@@ -28,13 +28,13 @@ NULL
 
 
 # true_model <- function(model, data){
-#   return(abs(500 + 100 * (abs(data$year_of_birth - 1000) > 500) + 
+#   return(abs(500 + 100 * (abs(data$year_of_birth - 1000) > 500) +
 #                0.02 * (data$height - 50)^2 + 40 * data$scars + 20 * data$number_of_lost_teeth))
 # }
-# 
+#
 # N <- 2000
 # set.seed(756)
-# 
+#
 # year_of_birth <- round(runif(N, -2000, 1800)) # year, for negative -n = n + 1 BC
 # year_of_discovery <- sort(round(runif(N, 1700, 1800))) # year
 # height <- rgamma(N, 50) # yards
@@ -42,15 +42,15 @@ NULL
 # scars <- round(rexp(N, 0.1)) # number
 # number_of_lost_teeth <- round(runif(N, 0, 40)) # number
 # colour <- sample(c('red', 'blue', 'green', 'black'), N, replace=TRUE, p=c(0.5, 0.3, 0.18, 0.02))
-# life_length <- true_model(NULL, data.frame(year_of_birth, height, weight, 
-#                                            scars, colour, year_of_discovery, 
+# life_length <- true_model(NULL, data.frame(year_of_birth, height, weight,
+#                                            scars, colour, year_of_discovery,
 #                                            number_of_lost_teeth)) + rnorm(N, 0, 20)
-# dragons <- data.frame(year_of_birth, height, weight, scars, colour, 
+# dragons <- data.frame(year_of_birth, height, weight, scars, colour,
 #                  year_of_discovery, number_of_lost_teeth, life_length)
-# 
+#
 # N <- 1000
 # set.seed(1)
-# 
+#
 # year_of_birth <- round(runif(N, -2000, 2000)) # year, for negative -n = n + 1 BC
 # year_of_discovery <- sort(round(runif(N, 1800, 2000))) # year
 # colour <- sample(c('red', 'blue', 'green', 'black'), N, replace=TRUE, p=c(0.4, 0.3, 0.1, 0.2))
@@ -62,8 +62,8 @@ NULL
 # weight <- 1/4 * height + rexp(N, 1) # tons
 # scars <- round(rexp(N, 0.1)) # number
 # number_of_lost_teeth <- round(runif(N, 0, 40)) # number
-# life_length <- true_model(NULL, data.frame(year_of_birth, height, weight, 
-#                                            scars, colour, year_of_discovery, 
+# life_length <- true_model(NULL, data.frame(year_of_birth, height, weight,
+#                                            scars, colour, year_of_discovery,
 #                                            number_of_lost_teeth)) + rnorm(N, 0, 20)
-# dragons_test <- data.frame(year_of_birth, height, weight, scars, colour, 
+# dragons_test <- data.frame(year_of_birth, height, weight, scars, colour,
 #                       year_of_discovery, number_of_lost_teeth, life_length)

@@ -107,12 +107,12 @@ def get_json(arena):
     --------
     str
     """
-    arena.fill_cache()
+    arena.plots_manager.fill_cache()
     result = json.dumps({
         'version': '1.2.0',
         'availableParams': arena.list_available_params(),
         'paramsAttributes': arena.get_params_attributes(),
-        'data': list(map(lambda p: p.serialize(), arena.cache))
+        'data': list(map(lambda p: p.serialize(), arena.plots_manager.cache))
     }, default=convert)
     return result
 

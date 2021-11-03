@@ -40,7 +40,7 @@
 #' \item \code{model_info} named list contating basic information about model, like package, version of package and type.
 #' }
 #'
-#' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{http://ema.drwhy.ai/}
+#' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://ema.drwhy.ai/}
 #' @rdname explain
 #' @export
 #' @importFrom stats predict
@@ -64,6 +64,7 @@
 #' aps_lm <- explain(aps_lm_model4, data = apartments, label = "model_4v", y = apartments$m2.price,
 #'                                    predict_function = predict)
 #'
+#' \donttest{
 #' # user provided predict_function
 #' aps_ranger <- ranger::ranger(m2.price~., data = apartments, num.trees = 50)
 #' custom_predict <- function(X.model, newdata) {
@@ -100,7 +101,6 @@
 #' aps_lm_explainer4 <- explain(aps_lm_model4, data = apartments, label = "model_4v",
 #'                              model_info = model_info)
 #'
-#' \donttest{
 #' # simple function
 #' aps_fun <- function(x) 58*x$surface
 #' aps_fun_explainer <- explain(aps_fun, data = apartments, y = apartments$m2.price, label="sfun")
@@ -162,7 +162,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     } else {
       # Setting 0 as value of n if data is not present is necessary for future checks
       n <- 0
-      verbose_cat("  -> no data avaliable! (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
+      verbose_cat("  -> no data available! (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
     }
   } else {
     n <- nrow(data)

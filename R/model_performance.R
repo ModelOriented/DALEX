@@ -18,7 +18,7 @@
 #' \item \code{type} - character that specifies type of the task.
 #' }
 #'
-#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{http://ema.drwhy.ai/}
+#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://ema.drwhy.ai/}
 #' @importFrom stats median weighted.mean
 #' @export
 #' @examples
@@ -140,12 +140,10 @@ model_performance_mad <- function(predicted, observed) {
 }
 
 model_performance_auc <- function(predicted, observed) {
-  pred <- data.frame(fitted.values = predicted, y = observed)
-  pred_sorted <- pred[order(pred$fitted.values, decreasing = TRUE), ]
-
-  # assuming that y = 0/1 where 1 is the positive
-  TPR <- cumsum(pred_sorted$y)/sum(pred_sorted$y)
-  FPR <- cumsum(1-pred_sorted$y)/sum(1-pred_sorted$y)
+  tpr_tmp <- tapply(observed, predicted, sum)
+  TPR <- c(0,cumsum(rev(tpr_tmp)))/sum(observed)
+  fpr_tmp <- tapply(1 - observed, predicted, sum)
+  FPR <- c(0,cumsum(rev(fpr_tmp)))/sum(1 - observed)
 
   auc <- sum(diff(FPR)*(TPR[-1] + TPR[-length(TPR)])/2)
   auc

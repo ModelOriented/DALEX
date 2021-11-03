@@ -2,7 +2,7 @@
 #'
 #' This function calculates explanations on a dataset level set that explore model response as a function of selected variables.
 #' The explanations can be calulated as Partial Dependence Profile or  Accumulated Local Dependence Profile.
-#' Find information how to use this function here: \url{http://ema.drwhy.ai/partialDependenceProfiles.html}.
+#' Find information how to use this function here: \url{https://ema.drwhy.ai/partialDependenceProfiles.html}.
 #' The \code{variable_profile} function is a copy of \code{model_profile}.
 #'
 #' Underneath this function calls the \code{\link[ingredients]{partial_dependence}} or
@@ -22,7 +22,7 @@
 #' @return An object of the class \code{model_profile}.
 #' It's a data frame with calculated average model responses.
 #'
-#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{http://ema.drwhy.ai/}
+#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://ema.drwhy.ai/}
 #'
 #' @name model_profile
 #' @examples

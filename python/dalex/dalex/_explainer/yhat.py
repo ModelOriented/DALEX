@@ -16,7 +16,8 @@ def yhat_xgboost(m, d):
 
 
 def get_tf_yhat(model):
-    if not str(type(model)).startswith("<class 'tensorflow.python.keras.engine"):
+    if not (str(type(model)).startswith("<class 'tensorflow.python.keras.engine") or
+             str(type(model)).startswith("<class 'keras.engine")):
         return None
 
     if model.output_shape[1] == 1:
@@ -76,6 +77,9 @@ def get_predict_function_and_model_type(model, model_class):
         "tensorflow.python.keras.engine.sequential.Sequential": prep_tf,
         "tensorflow.python.keras.engine.training.Model": prep_tf,
         "tensorflow.python.keras.engine.functional.Functional": prep_tf,
+        "keras.engine.sequential.Sequential": prep_tf,
+        "keras.engine.training.Model": prep_tf,
+        "keras.engine.functional.Functional": prep_tf,
         "h2o.estimators.coxph.H2OCoxProportionalHazardsEstimator": prep_h2o,
         "h2o.estimators.deeplearning.H2ODeepLearningEstimator": prep_h2o,
         "h2o.estimators.gam.H2OGeneralizedAdditiveEstimator": prep_h2o,
@@ -89,7 +93,7 @@ def get_predict_function_and_model_type(model, model_class):
         "h2o.estimators.targetencoder.H2OTargetEncoderEstimator": prep_h2o,
         "h2o.estimators.xgboost.H2OXGBoostEstimator": prep_h2o
     }
-    
+
     if yhat_exception_dict.get(model_class, None) is not None:
         return yhat_exception_dict.get(model_class)
 

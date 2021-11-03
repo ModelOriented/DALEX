@@ -7,6 +7,7 @@ class BreakDownContainer(PlotContainer):
         'plotCategory': "Observation Level",
         'requiredParams': ["model", "observation"]
     }
+    options_category = 'BreakDown'
     options = {
     }
     def _fit(self, model, observation):

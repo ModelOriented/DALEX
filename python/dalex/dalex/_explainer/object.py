@@ -291,7 +291,7 @@ class Explainer:
             if isinstance(random_state, int):
                 np.random.seed(random_state)
             N = min(N, self.data.shape[0])
-            I = np.random.choice(np.arange(N), N, replace=False)
+            I = np.random.choice(np.arange(self.data.shape[0]), N, replace=False)
             from copy import deepcopy
             _data = deepcopy(self.data)
             self.data = self.data.iloc[I, :]
@@ -596,7 +596,7 @@ class Explainer:
                 if isinstance(random_state, int):
                     np.random.seed(random_state)
                 N = min(N, self.data.shape[0])
-                I = np.random.choice(np.arange(N), N, replace=False)
+                I = np.random.choice(np.arange(self.data.shape[0]), N, replace=False)
                 _new_observation = self.data.iloc[I, :]
             else:
                 _new_observation = self.data
@@ -697,7 +697,7 @@ class Explainer:
             if isinstance(random_state, int):
                 np.random.seed(random_state)
             N = min(N, self.data.shape[0])
-            I = np.random.choice(np.arange(N), N, replace=False)
+            I = np.random.choice(np.arange(self.data.shape[0]), N, replace=False)
             _y = self.y[I] if self.y is not None else self.y
             _new_observation = self.data.iloc[I, :]
         else:

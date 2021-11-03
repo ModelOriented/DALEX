@@ -38,7 +38,7 @@ class ModelPerformance(Explanation):
 
         self.cutoff = cutoff
         self.model_type = model_type
-        self.result = None
+        self.result = pd.DataFrame()
         self.residuals = None
 
     def _repr_html_(self):

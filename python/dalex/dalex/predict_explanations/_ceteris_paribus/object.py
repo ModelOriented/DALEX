@@ -75,7 +75,7 @@ class CeterisParibus(Explanation):
         self.variable_splits = variable_splits
         self.variable_splits_type = _variable_splits_type
         self.variable_splits_with_obs = variable_splits_with_obs
-        self.result = None
+        self.result = pd.DataFrame()
         self.new_observation = None
         self.processes = _processes
 

@@ -15,51 +15,59 @@ Unverified black box model is the path to the failure. Opaqueness leads to distr
 The `dalex` package xrays any model and helps to explore and explain its behaviour, helps to understand how complex models are working.
 The main `Explainer` object creates a wrapper around a predictive model. Wrapped models may then be explored and compared with a collection of model-level and predict-level explanations. Moreover, there are fairness methods and interactive exploration dashboards available to the user.
 
-The philosophy behind `dalex` explanations is described in the [Explanatory Model Analysis](https://pbiecek.github.io/ema/) e-book.
+The philosophy behind `dalex` explanations is described in the [Explanatory Model Analysis](https://pbiecek.github.io/ema/) book.
 
 ## Installation
 
-The `dalex` package is available [on PyPI](https://pypi.org/project/dalex/)
+The `dalex` package is available on [PyPI](https://pypi.org/project/dalex/) and [conda-forge](https://anaconda.org/conda-forge/dalex).
 
 ```console
 pip install dalex -U
+
+conda install -c conda-forge dalex
 ```
+
+One can install optional dependencies for all additional features using `pip install dalex[full]`.
 
 ### Resources: https://dalex.drwhy.ai/python
 
-![](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-diagram.png)
-
 ### API reference: https://dalex.drwhy.ai/python/api
 
-![](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-class.png)
+[![http://python.drwhy.ai/](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-diagram.png)](http://python.drwhy.ai/)
 
 ## Authors
 
-Main authors of the `dalex` package are:
+The authors of the `dalex` package are:
 
 * [Hubert Baniecki](https://github.com/hbaniecki)
 * [Wojciech Kretowicz](https://github.com/wojciechkretowicz)
-
-Under the supervision of [Przemyslaw Biecek](https://github.com/pbiecek).
-
-Other contributors:
-
 * [Piotr Piatyszek](https://github.com/piotrpiatyszek) maintains the `arena` module
-* [Jakub Wisnewski](https://github.com/jakwisn) maintains the `fairness` module
+* [Jakub Wisniewski](https://github.com/jakwisn) maintains the `fairness` module
+* [Mateusz Krzyzinski](https://github.com/krzyzinskim) maintains the `aspect` module
+* [Artur Zolkowski](https://github.com/arturzolkowski) maintains the `aspect` module
+* [Przemyslaw Biecek](https://github.com/pbiecek)
+
+We welcome contributions: [start by opening an issue on GitHub](https://github.com/ModelOriented/DALEX/issues/new).
 
 ## Citation
 
-If you use `dalex`, please cite [our paper](https://arxiv.org/abs/2012.14406):
+If you use `dalex`, please cite our [JMLR paper](https://www.jmlr.org/papers/v22/20-1473):
 
 ```html
-@article{dalex,
-  title={{dalex: Responsible Machine Learning with Interactive
-          Explainability and Fairness in Python}},
-  author={Hubert Baniecki and Wojciech Kretowicz and Piotr Piatyszek
-          and Jakub Wisniewski and Przemyslaw Biecek},
-  year={2020},
-  journal={arXiv:2012.14406},
-  url={https://arxiv.org/abs/2012.14406}
+@article{JMLR:v22:20-1473,
+  author  = {Hubert Baniecki and
+             Wojciech Kretowicz and
+             Piotr Piatyszek and 
+             Jakub Wisniewski and 
+             Przemyslaw Biecek},
+  title   = {dalex: Responsible Machine Learning 
+             with Interactive Explainability and Fairness in Python},
+  journal = {Journal of Machine Learning Research},
+  year    = {2021},
+  volume  = {22},
+  number  = {214},
+  pages   = {1-7},
+  url     = {http://jmlr.org/papers/v22/20-1473.html}
 }
 ```
 

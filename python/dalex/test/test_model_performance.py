@@ -67,9 +67,13 @@ class ModelPerformanceTestTitanic(unittest.TestCase):
 
         fig1 = case1.plot(title="test1", show=False)
         fig2 = case2.plot(case1, show=False)
+        fig3 = case1.plot(case2, geom="roc", show=False)
+        fig4 = case2.plot(case1, geom="lift", show=False)
 
         self.assertIsInstance(fig1, Figure)
         self.assertIsInstance(fig2, Figure)
+        self.assertIsInstance(fig3, Figure)
+        self.assertIsInstance(fig4, Figure)
 
 
 if __name__ == '__main__':

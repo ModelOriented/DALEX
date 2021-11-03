@@ -15,17 +15,21 @@ Unverified black box model is the path to the failure. Opaqueness leads to distr
 The `dalex` package xrays any model and helps to explore and explain its behaviour, helps to understand how complex models are working.
 The main `Explainer` object creates a wrapper around a predictive model. Wrapped models may then be explored and compared with a collection of model-level and predict-level explanations. Moreover, there are fairness methods and interactive exploration dashboards available to the user.
 
-The philosophy behind `dalex` explanations is described in the [Explanatory Model Analysis](https://pbiecek.github.io/ema/) e-book.
+The philosophy behind `dalex` explanations is described in the [Explanatory Model Analysis](https://pbiecek.github.io/ema/) book.
 
-![](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-diagram.png)
+[![](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-diagram.png)](http://python.drwhy.ai/)
 
 ## Installation
 
-The `dalex` package is available [on PyPI](https://pypi.org/project/dalex/)
+The `dalex` package is available on [PyPI](https://pypi.org/project/dalex/) and [conda-forge](https://anaconda.org/conda-forge/dalex).
 
 ```console
 pip install dalex -U
+
+conda install -c conda-forge dalex
 ```
+
+One can install optional dependencies for all additional features using `pip install dalex[full]`.
 
 ## Examples
 
@@ -35,6 +39,7 @@ pip install dalex -U
 * More explanations: [residuals, shap, lime](https://dalex.drwhy.ai/python-dalex-new.html)
 * Introduction to the [Fairness module in dalex](https://dalex.drwhy.ai/python-dalex-fairness.html)
 * Tutorial [on bias detection with dalex](https://dalex.drwhy.ai/python-dalex-fairness2.html)
+* Introduction to the [Aspect module in dalex](https://dalex.drwhy.ai/python-dalex-aspect.html)
 * Introduction to the [Arena module in dalex](https://dalex.drwhy.ai/python-dalex-arena.html)
 * Arena documentation: [Getting Started & Demos](https://arena.drwhy.ai/docs/guide/basic-concepts/)
 * Code in the form of [jupyter notebook](https://github.com/ModelOriented/DALEX-docs/tree/master/jupyter-notebooks)
@@ -49,29 +54,37 @@ This package uses [plotly](https://plotly.com/python/) to render the plots:
 
 ## Citation
 
-If you use `dalex`, please cite [our paper](https://arxiv.org/abs/2012.14406):
+If you use `dalex`, please cite our [JMLR paper](https://www.jmlr.org/papers/v22/20-1473):
 
 ```html
-@article{dalex,
-  title={{dalex: Responsible Machine Learning with Interactive
-          Explainability and Fairness in Python}},
-  author={Hubert Baniecki and Wojciech Kretowicz and Piotr Piatyszek
-          and Jakub Wisniewski and Przemyslaw Biecek},
-  year={2020},
-  journal={arXiv:2012.14406},
-  url={https://arxiv.org/abs/2012.14406}
+@article{JMLR:v22:20-1473,
+  author  = {Hubert Baniecki and
+             Wojciech Kretowicz and
+             Piotr Piatyszek and 
+             Jakub Wisniewski and 
+             Przemyslaw Biecek},
+  title   = {dalex: Responsible Machine Learning 
+             with Interactive Explainability and Fairness in Python},
+  journal = {Journal of Machine Learning Research},
+  year    = {2021},
+  volume  = {22},
+  number  = {214},
+  pages   = {1-7},
+  url     = {http://jmlr.org/papers/v22/20-1473.html}
 }
 ```
 
 ## Developer
 
-### Class diagram
+There is a detailed instruction on how to add native support for a [new model/framework](https://github.com/ModelOriented/DALEX-docs/blob/master/dalex/adding-new-model.md) into `dalex`, and how to add a [new explanation method](https://github.com/ModelOriented/DALEX-docs/blob/master/dalex/adding-new-explanation.md).
 
-![](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-class.png)
+### Class diagram (v1.4.0)
 
-### Folder structure
+[![](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-class.png)](http://python.drwhy.ai/)
 
-![](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-tree.png){ width=70% }
+### Folder structure (v1.3.0)
+
+[![](https://raw.githubusercontent.com/ModelOriented/DALEX-docs/master/dalex/dalex-tree.png)](http://python.drwhy.ai/){ width=70% }
 
 -------------------------------------------
 

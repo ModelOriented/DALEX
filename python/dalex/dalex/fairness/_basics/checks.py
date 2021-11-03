@@ -4,13 +4,7 @@ import pandas as pd
 from .exceptions import *
 from ..._explainer import helper
 
-
-def check_parameters(y, y_hat, protected, privileged, verbose):
-    if not len(y) == len(y_hat) == len(protected):
-        raise ParameterCheckError("protected and explainer attributes y, y_hat must have the same lengths")
-
-    if not isinstance(verbose, bool):
-        raise ParameterCheckError("verbose must be boolean, either False or True")
+def check_protected(protected, verbose):
 
     if not isinstance(protected, np.ndarray):
         # if is not numpy array check what type it is and change to np array
@@ -36,15 +30,18 @@ def check_parameters(y, y_hat, protected, privileged, verbose):
             protected = protected.astype(str)
         except:
             ParameterCheckError('Could not convert protected to String type')
+    return protected
 
-    if not isinstance(privileged, str):
-        try:
-            privileged = str(privileged)
-        except:
-            ParameterCheckError('Could not convert privileged to String')
+def check_parameters(y, y_hat, protected, privileged, verbose):
+    if not len(y) == len(y_hat) == len(protected):
+        raise ParameterCheckError("protected and explainer attributes y, y_hat must have the same lengths")
 
-    if privileged not in protected:
-        raise ParameterCheckError("privileged parameter must be in protected vector")
+    if not isinstance(verbose, bool):
+        raise ParameterCheckError("verbose must be boolean, either False or True")
+
+    protected = check_protected(protected, verbose)
+    privileged = check_privileged(privileged, protected, verbose)
+
 
     return y, y_hat, protected, privileged
 
@@ -93,3 +90,40 @@ def check_other_fairness_objects(fobject, other):
         raise FairnessObjectsDifferenceError(
             'Fairness labels are not unique and therefore objects cannot be plotted together'
         )
+
+def check_y(y, verbose = True):
+
+    if isinstance(y, pd.Series):
+        y = np.array(y)
+        helper.verbose_cat("Parameter 'y' was a pandas.Series. Converted to a numpy.ndarray.",
+                    verbose=verbose)
+    elif isinstance(y, pd.DataFrame):
+        if y.shape[1] != 1:
+            raise ValueError("'y' must be only one column")
+        y = y.to_numpy().flatten()
+        helper.verbose_cat("Parameter 'y' was a pandas.DataFrame. Converted to a numpy.ndarray.",
+                    verbose=verbose)
+    elif type(y).__name__ == "H2OFrame":  # can't import h2o
+        helper.verbose_cat("Parameter 'y' was a h2o.H2OFrame. Converted to a numpy.ndarray.",
+                    verbose=verbose)
+        y = y.as_data_frame().to_numpy().flatten()
+    elif isinstance(y, np.ndarray) and len(y.shape) != 1:
+        raise ValueError("'y' must have only one dimension")
+    elif not isinstance(y, np.ndarray):
+        raise TypeError("'y' must be a numpy.ndarray (1d) or pandas.Series")
+
+    return y
+
+
+def check_privileged(privileged, protected, verbose):
+
+    if not isinstance(privileged, str):
+        try:
+            privileged = str(privileged)
+        except:
+            ParameterCheckError('Could not convert privileged to String')
+
+    if privileged not in protected:
+        raise ParameterCheckError("privileged parameter must be in protected vector")
+
+    return privileged

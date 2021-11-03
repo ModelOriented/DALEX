@@ -32,9 +32,11 @@
 #' aps_lm_model4 <- lm(m2.price ~., data = apartments)
 #' model_info(aps_lm_model4)
 #'
+#' \donttest{
 #' library("ranger")
 #' model_regr_rf <- ranger::ranger(status~., data = HR, num.trees = 50, probability = TRUE)
 #' model_info(model_regr_rf, is_multiclass = TRUE)
+#' }
 #'
 model_info <- function(model, is_multiclass = FALSE, ...)
   UseMethod("model_info")

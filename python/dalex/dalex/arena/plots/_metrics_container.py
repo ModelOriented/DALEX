@@ -7,6 +7,7 @@ class MetricsContainer(PlotContainer):
         'plotCategory': "Model Performance",
         'requiredParams': ["model"]
     }
+    options_category = 'Metrics'
     options = {}
     def _fit(self, model):
         perf = model.explainer.model_performance().result

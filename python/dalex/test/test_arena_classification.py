@@ -54,7 +54,8 @@ class ArenaTestTitanic(unittest.TestCase):
 
         # This plots should be supported
         self.reference_plots = [ROCContainer, ShapleyValuesContainer, BreakDownContainer, CeterisParibusContainer,
-            FeatureImportanceContainer, PartialDependenceContainer, AccumulatedDependenceContainer, MetricsContainer, FairnessCheckContainer]
+            FeatureImportanceContainer, PartialDependenceContainer, AccumulatedDependenceContainer, MetricsContainer, FairnessCheckContainer,
+            ShapleyValuesDependenceContainer, ShapleyValuesVariableImportanceContainer]
 
     def test_supported_plots(self):
         arena = dx.Arena()
@@ -82,10 +83,11 @@ class ArenaTestTitanic(unittest.TestCase):
         arena = dx.Arena()
         arena.push_model(self.exp)
         arena.push_observations(self.X.iloc[[1],])
-        arena.fill_cache()
+        arena.set_option('DatasetShapleyValues', 'N', 10)
+        arena.plots_manager.fill_cache()
         for p in self.reference_plots:
             ref_counts = list(map(lambda param_type: len(arena.list_params(param_type)), p.info.get('requiredParams')))
-            count = np.sum([1 for plot in arena.cache if plot.__class__ == p])
+            count = np.sum([1 for plot in arena.plots_manager.cache if plot.__class__ == p])
             self.assertEqual(np.prod(ref_counts), count, msg="Count of " + str(p))
 
     def test_observation_attributes(self):

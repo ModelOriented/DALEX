@@ -54,11 +54,12 @@ def check_classification_parameters(y, y_hat, protected, privileged, verbose):
     return
 
 
-def check_epsilon(epsilon):
+def check_epsilon(epsilon, name = 'epsilon'):
     if not isinstance(epsilon, float):
-        raise ParameterCheckError("epsilon must be float")
+        raise ParameterCheckError(name + " must be float")
 
     if not 0 < epsilon < 1:
-        raise ParameterCheckError("epsilon must be in (0,1) range")
+        raise ParameterCheckError(name + " must be in (0,1) range")
 
     return epsilon
+

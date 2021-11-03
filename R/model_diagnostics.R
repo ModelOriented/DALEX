@@ -2,7 +2,7 @@
 #'
 #' This function performs model diagnostic of residuals.
 #' Residuals are calculated and plotted against predictions, true y values or selected variables.
-#' Find information how to use this function here: \url{http://ema.drwhy.ai/residualDiagnostic.html}.
+#' Find information how to use this function here: \url{https://ema.drwhy.ai/residualDiagnostic.html}.
 #'
 #' @param explainer a model to be explained, preprocessed by the \code{explain} function
 #' @param variables character - name of variables to be explained. Default \code{NULL} stands for all variables
@@ -11,7 +11,7 @@
 #' @return An object of the class \code{model_diagnostics}.
 #' It's a data frame with residuals and selected variables.
 #'
-#' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{http://ema.drwhy.ai/}
+#' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://ema.drwhy.ai/}
 #' @export
 #' @examples
 #' library(DALEX)

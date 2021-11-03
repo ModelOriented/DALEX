@@ -6,6 +6,7 @@
 #' @return an \code{ggplot2} object of the class \code{gg}.
 #'
 #' @examples
+#' \donttest{
 #' library("ranger")
 #' titanic_glm_model <- ranger(survived ~ gender + age + class + fare + sibsp + parch,
 #'                      data = titanic_imputed)
@@ -14,7 +15,6 @@
 #'                          y = titanic_imputed$survived)
 #' johny_d <- titanic_imputed[24, c("gender", "age", "class", "fare", "sibsp", "parch")]
 #'
-#' \donttest{
 #' pl <- predict_diagnostics(explainer_glm, johny_d, variables = NULL)
 #' plot(pl)
 #'

@@ -18,6 +18,7 @@ an \code{ggplot2} object of the class \code{gg}.
 Plot Instance Level Residual Diagnostics
 }
 \examples{
+\donttest{
 library("ranger")
 titanic_glm_model <- ranger(survived ~ gender + age + class + fare + sibsp + parch,
                      data = titanic_imputed)
@@ -26,7 +27,6 @@ explainer_glm <- explain(titanic_glm_model,
                          y = titanic_imputed$survived)
 johny_d <- titanic_imputed[24, c("gender", "age", "class", "fare", "sibsp", "parch")]
 
-\donttest{
 pl <- predict_diagnostics(explainer_glm, johny_d, variables = NULL)
 plot(pl)
 

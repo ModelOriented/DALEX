@@ -48,9 +48,10 @@ It's a data frame with calculated distribution of residuals.
 This function performs local diagnostic of residuals.
 For a single instance its neighbors are identified in the validation data.
 Residuals are calculated for neighbors and plotted against residuals for all data.
-Find information how to use this function here: \url{http://ema.drwhy.ai/localDiagnostics.html}.
+Find information how to use this function here: \url{https://ema.drwhy.ai/localDiagnostics.html}.
 }
 \examples{
+\donttest{
 library("ranger")
 titanic_glm_model <- ranger(survived ~ gender + age + class + fare + sibsp + parch,
                      data = titanic_imputed)
@@ -59,7 +60,6 @@ explainer_glm <- explain(titanic_glm_model,
                          y = titanic_imputed$survived)
 johny_d <- titanic_imputed[24, c("gender", "age", "class", "fare", "sibsp", "parch")]
 
-\donttest{
 id_johny <- predict_diagnostics(explainer_glm, johny_d, variables = NULL)
 id_johny
 plot(id_johny)
@@ -80,5 +80,5 @@ plot(id_johny)
 
 }
 \references{
-Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{http://ema.drwhy.ai/}
+Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://ema.drwhy.ai/}
 }
