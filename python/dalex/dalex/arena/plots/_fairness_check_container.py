@@ -23,31 +23,31 @@ class FairnessCheckContainer(PlotContainer):
         exp = model.explainer
         y_hat = exp.predict(exp.data) if exp.y_hat is None else exp.y_hat
         protected = exp.data[variable.variable]
-        if exp.model_type != 'classification':
-            self.set_message('Fairness plot is only available for classificators')
-            return
         if not is_object_dtype(protected):
             self.set_message('Select categorical variable to check fairness')
             return
+        if exp.model_type == 'classification':
+            output_df = None
+            for cutoff in self.arena.get_option(self.plot_type, 'cutoffs'):
+                cutoff_dict = checks.check_cutoff(protected, cutoff, False)
+                sub_confusion_matrix = utils.SubgroupConfusionMatrix(exp.y, y_hat, protected, cutoff_dict)
+                sub_confusion_matrix_metrics = utils.SubgroupConfusionMatrixMetrics(sub_confusion_matrix)
+                df = sub_confusion_matrix_metrics.to_vertical_DataFrame()
+                df['cutoff'] = cutoff
+                output_df = df if output_df is None else output_df.append(df)
 
-        output_df = None
-        for cutoff in self.arena.get_option(self.plot_type, 'cutoffs'):
-            cutoff_dict = checks.check_cutoff(protected, cutoff, False)
-            sub_confusion_matrix = utils.SubgroupConfusionMatrix(exp.y, y_hat, protected, cutoff_dict)
-            sub_confusion_matrix_metrics = utils.SubgroupConfusionMatrixMetrics(sub_confusion_matrix)
-            df = sub_confusion_matrix_metrics.to_vertical_DataFrame()
-            df['cutoff'] = cutoff
-            output_df = df if output_df is None else output_df.append(df)
+            output = {}
+            for (subgroup, x) in output_df.set_index('metric').groupby('subgroup'):
+                output[subgroup] = {}
+                for (cutoff, y) in x.groupby('cutoff'):
+                    output[subgroup][cutoff] = rm_nan(y['score'].to_dict())
 
-        output = {}
-        for (subgroup, x) in output_df.set_index('metric').groupby('subgroup'):
-            output[subgroup] = {}
-            for (cutoff, y) in x.groupby('cutoff'):
-                output[subgroup][cutoff] = rm_nan(y['score'].to_dict())
+            self.data = { 'subgroups': output }
 
-        self.data = { 'subgroups': output }
-
-    def test_arena(arena):
-        if type(arena).__name__ != 'Arena' or type(arena).__module__ != 'dalex.arena.object':
-            raise Exception('Invalid Arena argument')
-        return next((True for model in arena.get_params('model') if model.explainer.model_type == 'classification'), False)
+        #regression
+        else:
+            self.plot_component = 'RegressionFairness'
+            subgroups = np.unique(protected)
+            self.data = {}
+            for subgroup in subgroups:
+                self.data[subgroup] = exp.model_fairness(protected, subgroup).result.to_dict()
