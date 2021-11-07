@@ -2,6 +2,7 @@
 
 ### development
 
+* added fairness plot for regression models to `Arena` ([dalex/408](https://github.com/ModelOriented/DALEX/issues/408))
 * added new `facet_scales` parameter to `AP.plot` and `CP.plot`, which allows to free the y-axis with `facet_scales="free"` ([dalex/469](https://github.com/ModelOriented/DALEX/issues/469)); consistent with R ([DALEX/468](https://github.com/ModelOriented/DALEX/issues/468), [ingredients/#140](https://github.com/ModelOriented/ingredients/pull/140))
 * fixed `AP` and `CP` progress bars
 
