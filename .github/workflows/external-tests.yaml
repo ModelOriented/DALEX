@@ -11,6 +11,7 @@ on:
       - 'gh-actions'
       - 'githubactions'
     paths:
+      - '**external-tests.yaml'
       - '**.R'
       - '**.r'
       - '*DESCRIPTION'
@@ -97,7 +98,8 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_github("ModelOriented/ingredients")
           remotes::install_github("ModelOriented/iBreakDown")
-          remotes::install_cran(c("rcmdcheck", "glmnet", "parsnip", "ranger", "randomForest", "e1071", "caret", "gbm", "rms", "rpart", "kernlab"))
+          remotes::install_cran(c("rcmdcheck", "parsnip", "ranger", "randomForest", "e1071", "caret", "gbm", "rms", "rpart", "kernlab"))
+          remotes::instal_version("glmnet", version = "4.1-2", repos = "http://cran.us.r-project.org")
         shell: Rscript {0}
 
       - name: Test
