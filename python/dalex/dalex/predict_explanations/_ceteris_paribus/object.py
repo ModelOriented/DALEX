@@ -140,6 +140,7 @@ class CeterisParibus(Explanation):
              alpha=1,
              color="_label_",
              facet_ncol=2,
+             facet_scales="free_x",
              show_observations=True,
              title="Ceteris Paribus Profiles",
              y_title='prediction',
@@ -167,6 +168,8 @@ class CeterisParibus(Explanation):
             (default is `'_label_'`, which groups by models).
         facet_ncol : int, optional
             Number of columns on the plot grid (default is `2`).
+        facet_scales : {'free_x', 'free'}, optional
+            Set to `free` for free y-axis range (default is `'free_x'`).
         show_observations : bool, optional
             Show observation points (default is `True`).
         title : str, optional
@@ -389,6 +392,10 @@ class CeterisParibus(Explanation):
             fig = _theme.fig_update_bar_plot(fig, title, y_title, plot_height, 'closest')
             
         fig.update_layout(hoverlabel=dict(bgcolor='rgba(0,0,0,0.8)'))
+
+        if facet_scales == "free":
+            fig.update_yaxes(matches=None, range=None, showticklabels=True)
+
         if show:
             fig.show(config=_theme.get_default_config())
         else:

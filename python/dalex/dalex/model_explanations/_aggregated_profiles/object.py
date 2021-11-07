@@ -157,7 +157,8 @@ class AggregatedProfiles(Explanation):
              alpha=1,
              color='_label_',
              facet_ncol=2,
-             title="Aggregated Profiles",
+             facet_scales='free_x',
+             title='Aggregated Profiles',
              y_title='prediction',
              horizontal_spacing=0.05,
              vertical_spacing=None,
@@ -190,6 +191,8 @@ class AggregatedProfiles(Explanation):
             (default is `'_label_'`, which groups by models).
         facet_ncol : int, optional
             Number of columns on the plot grid (default is `2`).
+        facet_scales : {'free_x', 'free'}, optional
+            Set to `free` for free y-axis range (default is `'free_x'`).
         title : str, optional
             Title of the plot (default is `"Aggregated Profiles"`).
         y_title : str, optional
@@ -268,6 +271,7 @@ class AggregatedProfiles(Explanation):
                           facet_col_wrap=facet_ncol,
                           facet_row_spacing=vertical_spacing,
                           facet_col_spacing=horizontal_spacing,
+                          range_y=min_max,
                           template="none",
                           render_mode=render_mode,
                           color_discrete_sequence=_theme.get_default_colors(m, 'line')) \
@@ -276,8 +280,7 @@ class AggregatedProfiles(Explanation):
                                    'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
                                    'ticks': "outside", 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True}) \
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
-                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True,
-                                   'range': min_max})
+                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True})
 
             if geom == 'profiles' and self.raw_profiles is not None:
                 fig.update_traces(dict(line_width=2*size, opacity=1))
@@ -308,6 +311,7 @@ class AggregatedProfiles(Explanation):
                          facet_col_wrap=facet_ncol,
                          facet_row_spacing=vertical_spacing,
                          facet_col_spacing=horizontal_spacing,
+                         range_y=min_max,
                          template="none",
                          color_discrete_sequence=_theme.get_default_colors(m, 'line'),  # bar was forgotten
                          barmode='group')  \
@@ -315,14 +319,16 @@ class AggregatedProfiles(Explanation):
                                    'type': 'category', 'gridwidth': 2, 'automargin': True,  # autorange="reversed"
                                    'ticks': "outside", 'tickcolor': 'white', 'ticklen': 10, 'fixedrange': True}) \
                     .update_yaxes({'type': 'linear', 'gridwidth': 2, 'zeroline': False, 'automargin': True,
-                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True,
-                                   'range': min_max})
+                                   'ticks': 'outside', 'tickcolor': 'white', 'ticklen': 3, 'fixedrange': True})
 
             for _, bar in enumerate(fig.data):
                 fig.add_hline(y=bar.base[0], layer='below',
                               line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'})
 
         fig = _theme.fig_update_line_plot(fig, title, y_title, plot_height, hovermode)
+
+        if facet_scales == "free":
+            fig.update_yaxes(matches=None, range=None, showticklabels=True)
 
         if show:
             fig.show(config=_theme.get_default_config())

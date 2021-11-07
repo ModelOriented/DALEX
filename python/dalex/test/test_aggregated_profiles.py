@@ -120,10 +120,10 @@ class AggregatedProfilesTestTitanic(unittest.TestCase):
         case_3_models = self.exp3.model_profile(test_type, 100, verbose=False)
 
         fig1 = case1.plot(show=False, size=3, facet_ncol=1, title="test1", horizontal_spacing=0.2, vertical_spacing=0.2)
-        fig2 = case2.plot(show=False)
+        fig2 = case2.plot(show=False, geom="profiles", y_title="profiles")
         fig3 = case3.plot(case4, show=False)
         fig4 = case5.plot(case6, show=False)
-        fig5 = case7.plot(show=False)
+        fig5 = case7.plot(show=False, facet_scales="free")
         fig6 = case8.plot(case9, show=False)
         fig7 = case10.plot(show=False)
         fig8 = case11.plot(case12, show=False)
