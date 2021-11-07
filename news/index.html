@@ -171,7 +171,7 @@
 <h2 class="hasAnchor">
 <a href="#dalex-221" class="anchor"></a>DALEX 2.2.1</h2>
 <ul>
-<li>Order of explainer labels in different plots is the same. To get to this point, orders in <code><a href="../reference/plot.model_performance.html">plot.model_performance(..., geom = "histogram" &amp; "boxplot")</a></code> are reversed (<a href="https://github.com/ModelOriented/DALEX/issues/400"><a href='https://github.com/ModelOriented/DALEX/issues/400'>#400</a></a>)</li>
+<li>Order of explainer labels in different plots is the same. To get to this point, orders in <code>plot.model_performance(..., geom = "histogram" &amp; "boxplot")</code> are reversed (<a href="https://github.com/ModelOriented/DALEX/issues/400"><a href='https://github.com/ModelOriented/DALEX/issues/400'>#400</a></a>)</li>
 <li>Fixed multiclass explainer when data has one column (<a href="https://github.com/ModelOriented/DALEX/issues/405"><a href='https://github.com/ModelOriented/DALEX/issues/405'>#405</a></a>)</li>
 </ul>
 </div>
@@ -189,7 +189,7 @@
 <a href="#dalex-211" class="anchor"></a>DALEX 2.1.1</h2>
 <ul>
 <li>All encouters of <code>nieghbour(s)</code> (EN-spelling) were replaced with <code>neighbor(s)</code> (US-spelling) for the consistency and backword compatibility.</li>
-<li>Fixed bug when <code>predict_diagnostics</code> raised error if <code>neighbor</code> value was higer than <code><a href="https://rdrr.io/r/base/nrow.html">nrow(explainer$data)</a></code>.</li>
+<li>Fixed bug when <code>predict_diagnostics</code> raised error if <code>neighbor</code> value was higer than <code>nrow(explainer$data)</code>.</li>
 </ul>
 </div>
     <div id="dalex-210" class="section level2">
@@ -271,7 +271,7 @@
 <li>
 <code>lossFunction</code> argument is now deprecated in <code><a href="../reference/plot.model_performance.html">plot.model_performance()</a></code>. Use the <code>loss_function</code> argument.</li>
 <li>
-<code>model_profile</code> color changed to <code><a href="../reference/colors_discrete_drwhy.html">colors_discrete_drwhy(1)</a></code> which impacts the color of the line in <code>plot.model_profile</code>
+<code>model_profile</code> color changed to <code>colors_discrete_drwhy(1)</code> which impacts the color of the line in <code>plot.model_profile</code>
 </li>
 <li>
 <code>loss_name</code> attribute added to loss functions. It will be passed to plot function for objects created with <code>model_parts</code>.</li>

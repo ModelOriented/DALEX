@@ -187,26 +187,28 @@
     <p>updated explainer object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>aps_lm_model4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>m2.price</span> <span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>apartments</span><span class='op'>)</span>
-<span class='va'>aps_lm_explainer4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='explain.default.html'>explain</a></span><span class='op'>(</span><span class='va'>aps_lm_model4</span>, data <span class='op'>=</span> <span class='va'>apartments</span>, label <span class='op'>=</span> <span class='st'>"model_4v"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  model_4v 
-#&gt;   -&gt; data              :  1000  rows  6  cols 
-#&gt;   -&gt; target variable   :  not specified! ( <span style='color: #BB0000;'> WARNING </span> )
-#&gt;   -&gt; predict function  :  yhat.lm  will be used ( <span style='color: #BBBB00;'> default </span> )
-#&gt;   -&gt; predicted values  :  No value for predict function target column. ( <span style='color: #BBBB00;'> default </span> )
-#&gt;   -&gt; model_info        :  package stats , ver. 4.1.1 , task regression ( <span style='color: #BBBB00;'> default </span> ) 
-#&gt;   -&gt; model_info        :  Model info detected regression task but 'y' is a NULL .  ( <span style='color: #BB0000;'> WARNING </span> )
-#&gt;   -&gt; model_info        :  By deafult regressions tasks supports only numercical 'y' parameter. 
-#&gt;   -&gt; model_info        :  Consider changing to numerical vector.
-#&gt;   -&gt; model_info        :  Otherwise I will not be able to calculate residuals or loss function.
-#&gt;   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  
-#&gt;   -&gt; residual function :  difference between y and yhat ( <span style='color: #BBBB00;'> default </span> )
-#&gt;  <span style='color: #00BB00;'> A new explainer has been created! </span> </div><div class='input'><span class='va'>explainer</span> <span class='op'>&lt;-</span> <span class='fu'>update_data</span><span class='op'>(</span><span class='va'>aps_lm_explainer4</span>, data <span class='op'>=</span> <span class='va'>apartmentsTest</span>, y <span class='op'>=</span> <span class='va'>apartmentsTest</span><span class='op'>$</span><span class='va'>m2.price</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   -&gt; data              :  9000  rows  6  cols 
-#&gt;   -&gt; target variable   :  9000  values 
-#&gt;  <span style='color: #00BB00;'> An explainer has been updated! </span> </div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>aps_lm_model4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>m2.price</span> <span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>apartments</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>aps_lm_explainer4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='explain.default.html'>explain</a></span><span class='op'>(</span><span class='va'>aps_lm_model4</span>, data <span class='op'>=</span> <span class='va'>apartments</span>, label <span class='op'>=</span> <span class='st'>"model_4v"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Preparation of a new explainer is initiated</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; model label       :  model_4v </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; data              :  1000  rows  6  cols </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; target variable   :  not specified! ( <span style='color: #BB0000;'> WARNING </span> )</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; predict function  :  yhat.lm  will be used ( <span style='color: #BBBB00;'> default </span> )</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style='color: #BBBB00;'> default </span> )</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.1.2 , task regression ( <span style='color: #BBBB00;'> default </span> ) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; model_info        :  Model info detected regression task but 'y' is a NULL .  ( <span style='color: #BB0000;'> WARNING </span> )</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; model_info        :  By deafult regressions tasks supports only numercical 'y' parameter. </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; model_info        :  Consider changing to numerical vector.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; model_info        :  Otherwise I will not be able to calculate residuals or loss function.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style='color: #BBBB00;'> default </span> )</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  <span style='color: #00BB00;'> A new explainer has been created! </span> </span>
+<span class='r-in'><span class='va'>explainer</span> <span class='op'>&lt;-</span> <span class='fu'>update_data</span><span class='op'>(</span><span class='va'>aps_lm_explainer4</span>, data <span class='op'>=</span> <span class='va'>apartmentsTest</span>, y <span class='op'>=</span> <span class='va'>apartmentsTest</span><span class='op'>$</span><span class='va'>m2.price</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; data              :  9000  rows  6  cols </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; target variable   :  9000  values </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  <span style='color: #00BB00;'> An explainer has been updated! </span> </span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

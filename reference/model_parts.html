@@ -208,97 +208,106 @@ It's a data frame with calculated average response.</p>
     <p>Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. <a href='https://ema.drwhy.ai/'>https://ema.drwhy.ai/</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'># regression</span>
-
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/imbs-hl/ranger'>"ranger"</a></span><span class='op'>)</span>
-<span class='va'>apartments_ranger_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>m2.price</span><span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>apartments</span>, num.trees <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span>
-<span class='va'>explainer_ranger</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='explain.default.html'>explain</a></span><span class='op'>(</span><span class='va'>apartments_ranger_model</span>, data <span class='op'>=</span> <span class='va'>apartments</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>,
-                             y <span class='op'>=</span> <span class='va'>apartments</span><span class='op'>$</span><span class='va'>m2.price</span>, label <span class='op'>=</span> <span class='st'>"Ranger Apartments"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  Ranger Apartments 
-#&gt;   -&gt; data              :  1000  rows  5  cols 
-#&gt;   -&gt; target variable   :  1000  values 
-#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( <span style='color: #BBBB00;'> default </span> )
-#&gt;   -&gt; predicted values  :  No value for predict function target column. ( <span style='color: #BBBB00;'> default </span> )
-#&gt;   -&gt; model_info        :  package ranger , ver. 0.13.1 , task regression ( <span style='color: #BBBB00;'> default </span> ) 
-#&gt;   -&gt; predicted values  :  numerical, min =  1843.677 , mean =  3489.448 , max =  6223.559  
-#&gt;   -&gt; residual function :  difference between y and yhat ( <span style='color: #BBBB00;'> default </span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -458.813 , mean =  -2.429105 , max =  567.1183  
-#&gt;  <span style='color: #00BB00;'> A new explainer has been created! </span> </div><div class='input'><span class='va'>model_parts_ranger_aps</span> <span class='op'>&lt;-</span> <span class='fu'>model_parts</span><span class='op'>(</span><span class='va'>explainer_ranger</span>, type <span class='op'>=</span> <span class='st'>"raw"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>model_parts_ranger_aps</span>, <span class='fl'>8</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;            variable mean_dropout_loss             label
-#&gt; 1      _full_model_          147.5241 Ranger Apartments
-#&gt; 2          no.rooms          300.4211 Ranger Apartments
-#&gt; 3 construction.year          373.7602 Ranger Apartments
-#&gt; 4             floor          425.3204 Ranger Apartments
-#&gt; 5           surface          524.6415 Ranger Apartments
-#&gt; 6          district          791.7600 Ranger Apartments
-#&gt; 7        _baseline_         1204.7595 Ranger Apartments</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>model_parts_ranger_aps</span><span class='op'>)</span>
-</div><div class='img'><img src='model_parts-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># binary classification</span>
-
-<span class='va'>titanic_glm_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>survived</span><span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>titanic_imputed</span>, family <span class='op'>=</span> <span class='st'>"binomial"</span><span class='op'>)</span>
-<span class='va'>explainer_glm_titanic</span> <span class='op'>&lt;-</span> <span class='fu'><a href='explain.default.html'>explain</a></span><span class='op'>(</span><span class='va'>titanic_glm_model</span>, data <span class='op'>=</span> <span class='va'>titanic_imputed</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>8</span><span class='op'>]</span>,
-                         y <span class='op'>=</span> <span class='va'>titanic_imputed</span><span class='op'>$</span><span class='va'>survived</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span> )
-#&gt;   -&gt; data              :  2207  rows  7  cols 
-#&gt;   -&gt; target variable   :  2207  values 
-#&gt;   -&gt; predict function  :  yhat.glm  will be used ( <span style='color: #BBBB00;'> default </span> )
-#&gt;   -&gt; predicted values  :  No value for predict function target column. ( <span style='color: #BBBB00;'> default </span> )
-#&gt;   -&gt; model_info        :  package stats , ver. 4.1.1 , task classification ( <span style='color: #BBBB00;'> default </span> ) 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.008128381 , mean =  0.3221568 , max =  0.9731431  
-#&gt;   -&gt; residual function :  difference between y and yhat ( <span style='color: #BBBB00;'> default </span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.9628583 , mean =  -2.569729e-10 , max =  0.9663346  
-#&gt;  <span style='color: #00BB00;'> A new explainer has been created! </span> </div><div class='input'><span class='va'>logit</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>/</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>+</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>custom_loss</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>observed</span>, <span class='va'>predicted</span><span class='op'>)</span><span class='op'>{</span>
-   <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='op'>(</span><span class='va'>observed</span> <span class='op'>-</span> <span class='fu'>logit</span><span class='op'>(</span><span class='va'>predicted</span><span class='op'>)</span><span class='op'>)</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>)</span>
-<span class='op'>}</span>
-<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span><span class='op'>(</span><span class='va'>custom_loss</span>, <span class='st'>"loss_name"</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='st'>"Logit residuals"</span>
-<span class='va'>model_parts_glm_titanic</span> <span class='op'>&lt;-</span> <span class='fu'>model_parts</span><span class='op'>(</span><span class='va'>explainer_glm_titanic</span>, type <span class='op'>=</span> <span class='st'>"raw"</span>,
-                                       loss_function <span class='op'>=</span> <span class='va'>custom_loss</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>model_parts_glm_titanic</span>, <span class='fl'>8</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;       variable mean_dropout_loss label
-#&gt; 1 _full_model_          253.8955    lm
-#&gt; 2        parch          253.8816    lm
-#&gt; 3         fare          254.0323    lm
-#&gt; 4        sibsp          254.5451    lm
-#&gt; 5     embarked          254.9516    lm
-#&gt; 6          age          256.6132    lm
-#&gt; 7        class          263.5449    lm
-#&gt; 8       gender          277.5341    lm</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>model_parts_glm_titanic</span><span class='op'>)</span>
-</div><div class='img'><img src='model_parts-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># multilabel classification</span>
-
-<span class='va'>HR_ranger_model_HR</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>status</span><span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>HR</span>, num.trees <span class='op'>=</span> <span class='fl'>50</span>,
-                               probability <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='va'>explainer_ranger_HR</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='explain.default.html'>explain</a></span><span class='op'>(</span><span class='va'>HR_ranger_model_HR</span>, data <span class='op'>=</span> <span class='va'>HR</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>6</span><span class='op'>]</span>,
-                             y <span class='op'>=</span> <span class='va'>HR</span><span class='op'>$</span><span class='va'>status</span>, label <span class='op'>=</span> <span class='st'>"Ranger HR"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  Ranger HR 
-#&gt;   -&gt; data              :  7847  rows  5  cols 
-#&gt;   -&gt; target variable   :  7847  values 
-#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( <span style='color: #BBBB00;'> default </span> )
-#&gt;   -&gt; predicted values  :  No value for predict function target column. ( <span style='color: #BBBB00;'> default </span> )
-#&gt;   -&gt; model_info        :  package ranger , ver. 0.13.1 , task multiclass ( <span style='color: #BBBB00;'> default </span> ) 
-#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  ( <span style='color: #BBBB00;'> default </span> ) 
-#&gt;   -&gt; residual function :  difference between 1 and probability of true class ( <span style='color: #BBBB00;'> default </span> )
-#&gt;   -&gt; residuals         :  numerical, min =  0.001179166 , mean =  0.2803919 , max =  0.8955016  
-#&gt;  <span style='color: #00BB00;'> A new explainer has been created! </span> </div><div class='input'><span class='va'>model_parts_ranger_HR</span> <span class='op'>&lt;-</span> <span class='fu'>model_parts</span><span class='op'>(</span><span class='va'>explainer_ranger_HR</span>, type <span class='op'>=</span> <span class='st'>"raw"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>model_parts_ranger_HR</span>, <span class='fl'>8</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;       variable mean_dropout_loss     label
-#&gt; 1 _full_model_          380.3443 Ranger HR
-#&gt; 2       gender          548.1090 Ranger HR
-#&gt; 3          age          631.1497 Ranger HR
-#&gt; 4       salary          675.5411 Ranger HR
-#&gt; 5   evaluation          910.5031 Ranger HR
-#&gt; 6        hours         1212.7714 Ranger HR
-#&gt; 7   _baseline_         2081.9681 Ranger HR</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>model_parts_ranger_HR</span><span class='op'>)</span>
-</div><div class='img'><img src='model_parts-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># }</span>
-
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># \donttest{</span></span>
+<span class='r-in'><span class='co'># regression</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/imbs-hl/ranger'>"ranger"</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>apartments_ranger_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>m2.price</span><span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>apartments</span>, num.trees <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>explainer_ranger</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='explain.default.html'>explain</a></span><span class='op'>(</span><span class='va'>apartments_ranger_model</span>, data <span class='op'>=</span> <span class='va'>apartments</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>,</span>
+<span class='r-in'>                             y <span class='op'>=</span> <span class='va'>apartments</span><span class='op'>$</span><span class='va'>m2.price</span>, label <span class='op'>=</span> <span class='st'>"Ranger Apartments"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Preparation of a new explainer is initiated</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; model label       :  Ranger Apartments </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; data              :  1000  rows  5  cols </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; target variable   :  1000  values </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style='color: #BBBB00;'> default </span> )</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style='color: #BBBB00;'> default </span> )</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task regression ( <span style='color: #BBBB00;'> default </span> ) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; predicted values  :  numerical, min =  1843.677 , mean =  3489.448 , max =  6223.559  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style='color: #BBBB00;'> default </span> )</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; residuals         :  numerical, min =  -458.813 , mean =  -2.429105 , max =  567.1183  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  <span style='color: #00BB00;'> A new explainer has been created! </span> </span>
+<span class='r-in'><span class='va'>model_parts_ranger_aps</span> <span class='op'>&lt;-</span> <span class='fu'>model_parts</span><span class='op'>(</span><span class='va'>explainer_ranger</span>, type <span class='op'>=</span> <span class='st'>"raw"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>model_parts_ranger_aps</span>, <span class='fl'>8</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            variable mean_dropout_loss             label</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1      _full_model_          147.5241 Ranger Apartments</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2          no.rooms          300.4211 Ranger Apartments</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 construction.year          373.7602 Ranger Apartments</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4             floor          425.3204 Ranger Apartments</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5           surface          524.6415 Ranger Apartments</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6          district          791.7600 Ranger Apartments</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7        _baseline_         1204.7595 Ranger Apartments</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>model_parts_ranger_aps</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='model_parts-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># binary classification</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>titanic_glm_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>survived</span><span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>titanic_imputed</span>, family <span class='op'>=</span> <span class='st'>"binomial"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>explainer_glm_titanic</span> <span class='op'>&lt;-</span> <span class='fu'><a href='explain.default.html'>explain</a></span><span class='op'>(</span><span class='va'>titanic_glm_model</span>, data <span class='op'>=</span> <span class='va'>titanic_imputed</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>8</span><span class='op'>]</span>,</span>
+<span class='r-in'>                         y <span class='op'>=</span> <span class='va'>titanic_imputed</span><span class='op'>$</span><span class='va'>survived</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Preparation of a new explainer is initiated</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span> )</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; data              :  2207  rows  7  cols </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; target variable   :  2207  values </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; predict function  :  yhat.glm  will be used ( <span style='color: #BBBB00;'> default </span> )</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style='color: #BBBB00;'> default </span> )</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.1.2 , task classification ( <span style='color: #BBBB00;'> default </span> ) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.008128381 , mean =  0.3221568 , max =  0.9731431  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style='color: #BBBB00;'> default </span> )</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.9628583 , mean =  -2.569729e-10 , max =  0.9663346  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  <span style='color: #00BB00;'> A new explainer has been created! </span> </span>
+<span class='r-in'><span class='va'>logit</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>/</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>+</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>custom_loss</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>observed</span>, <span class='va'>predicted</span><span class='op'>)</span><span class='op'>{</span></span>
+<span class='r-in'>   <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='op'>(</span><span class='va'>observed</span> <span class='op'>-</span> <span class='fu'>logit</span><span class='op'>(</span><span class='va'>predicted</span><span class='op'>)</span><span class='op'>)</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span><span class='op'>(</span><span class='va'>custom_loss</span>, <span class='st'>"loss_name"</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='st'>"Logit residuals"</span></span>
+<span class='r-in'><span class='va'>model_parts_glm_titanic</span> <span class='op'>&lt;-</span> <span class='fu'>model_parts</span><span class='op'>(</span><span class='va'>explainer_glm_titanic</span>, type <span class='op'>=</span> <span class='st'>"raw"</span>,</span>
+<span class='r-in'>                                       loss_function <span class='op'>=</span> <span class='va'>custom_loss</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>model_parts_glm_titanic</span>, <span class='fl'>8</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       variable mean_dropout_loss label</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 _full_model_          253.8955    lm</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2        parch          253.8816    lm</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3         fare          254.0323    lm</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4        sibsp          254.5451    lm</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5     embarked          254.9516    lm</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6          age          256.6132    lm</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7        class          263.5449    lm</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8       gender          277.5341    lm</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>model_parts_glm_titanic</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='model_parts-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># multilabel classification</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>HR_ranger_model_HR</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>status</span><span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>HR</span>, num.trees <span class='op'>=</span> <span class='fl'>50</span>,</span>
+<span class='r-in'>                               probability <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>explainer_ranger_HR</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='explain.default.html'>explain</a></span><span class='op'>(</span><span class='va'>HR_ranger_model_HR</span>, data <span class='op'>=</span> <span class='va'>HR</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>6</span><span class='op'>]</span>,</span>
+<span class='r-in'>                             y <span class='op'>=</span> <span class='va'>HR</span><span class='op'>$</span><span class='va'>status</span>, label <span class='op'>=</span> <span class='st'>"Ranger HR"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Preparation of a new explainer is initiated</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; model label       :  Ranger HR </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; data              :  7847  rows  5  cols </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; target variable   :  7847  values </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style='color: #BBBB00;'> default </span> )</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style='color: #BBBB00;'> default </span> )</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task multiclass ( <span style='color: #BBBB00;'> default </span> ) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; predicted values  :  predict function returns multiple columns:  3  ( <span style='color: #BBBB00;'> default </span> ) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; residual function :  difference between 1 and probability of true class ( <span style='color: #BBBB00;'> default </span> )</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; residuals         :  numerical, min =  0.001179166 , mean =  0.2803919 , max =  0.8955016  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  <span style='color: #00BB00;'> A new explainer has been created! </span> </span>
+<span class='r-in'><span class='va'>model_parts_ranger_HR</span> <span class='op'>&lt;-</span> <span class='fu'>model_parts</span><span class='op'>(</span><span class='va'>explainer_ranger_HR</span>, type <span class='op'>=</span> <span class='st'>"raw"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>model_parts_ranger_HR</span>, <span class='fl'>8</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       variable mean_dropout_loss     label</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 _full_model_          380.3443 Ranger HR</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2       gender          548.1090 Ranger HR</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3          age          631.1497 Ranger HR</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4       salary          675.5411 Ranger HR</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5   evaluation          910.5031 Ranger HR</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6        hours         1212.7714 Ranger HR</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7   _baseline_         2081.9681 Ranger HR</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>model_parts_ranger_HR</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='model_parts-3.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># }</span></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
