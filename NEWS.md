@@ -1,6 +1,7 @@
 DALEX 2.3.0.9
 ---------------------------------------------------------------
 * Added explain/yhat support for `partykit` ([#438](https://github.com/ModelOriented/DALEX/issues/438))
+* `explain()` warns if target has more than two values for classification ([#418](https://github.com/ModelOriented/DALEX/issues/418))
 
 DALEX 2.3.0
 ---------------------------------------------------------------
