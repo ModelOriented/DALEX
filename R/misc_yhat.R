@@ -249,6 +249,23 @@ yhat.function <- function(X.model, newdata, ...) {
 
 #' @rdname yhat
 #' @export
+yhat.party <- function(X.model, newdata, ...) {
+  yres <- class(X.model$fitted$`(response)`)
+  if (yres[1] != "factor") {
+    response <- predict(X.model, newdata, ...)
+  } else {
+    response <- predict(X.model, newdata, ..., type = "prob")
+    if (!is.null(attr(X.model, "predict_function_target_column"))) {
+      response <- response[,attr(X.model, "predict_function_target_column")]
+    } else if (ncol(response) == 2 & is.null(attr(X.model, "predict_function_target_column"))) {
+      response <- response[, 2]
+    }
+  }
+  response
+}
+
+#' @rdname yhat
+#' @export
 yhat.default <- function(X.model, newdata, ...) {
   response <- predict(X.model, newdata, ...)
   # result is a vector

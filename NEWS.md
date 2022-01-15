@@ -1,3 +1,7 @@
+DALEX 2.3.0.9
+---------------------------------------------------------------
+* Added explain/yhat support for `partykit` ([#438](https://github.com/ModelOriented/DALEX/issues/438))
+
 DALEX 2.3.0
 ---------------------------------------------------------------
 * The `plot.model_performance_roc`, `loss_one_minus_auc` and `model_performance_auc` functions are rewritten to handle repeated predictions ([#442](https://github.com/ModelOriented/DALEX/issues/442))

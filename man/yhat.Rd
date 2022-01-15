@@ -15,6 +15,7 @@
 \alias{yhat.lrm}
 \alias{yhat.rpart}
 \alias{yhat.function}
+\alias{yhat.party}
 \alias{yhat.default}
 \title{Wrap Various Predict Functions}
 \usage{
@@ -45,6 +46,8 @@ yhat(X.model, newdata, ...)
 \method{yhat}{rpart}(X.model, newdata, ...)
 
 \method{yhat}{`function`}(X.model, newdata, ...)
+
+\method{yhat}{party}(X.model, newdata, ...)
 
 \method{yhat}{default}(X.model, newdata, ...)
 }
