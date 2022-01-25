@@ -49,20 +49,14 @@
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">DALEX</a>
         <div class="info">
-          <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
-           developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">2.3.0.9000</span>
+          <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy" class="external-link">DrWhy.AI</a>
+           developed by the <a href="https://mi2.mini.pw.edu.pl/" class="external-link">MI^2 DataLab</a> </span>
+          <span class="version version-default">2.3.0.9002</span>
         </div>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -85,7 +79,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
         <li>
-  <a href="https://github.com/ModelOriented/DALEX/">
+  <a href="https://github.com/ModelOriented/DALEX/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -104,224 +98,225 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>How to use multilabel classification and DALEX?</h1>
-                        <h4 class="author">Szymon Maksymiuk</h4>
+                        <h4 data-toc-skip class="author">Szymon Maksymiuk</h4>
             
-            <h4 class="date">2021-11-07</h4>
+            <h4 data-toc-skip class="date">2022-01-25</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/ModelOriented/DALEX/blob/master/vignettes/multilabel_classification.Rmd"><code>vignettes/multilabel_classification.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ModelOriented/DALEX/blob/HEAD/vignettes/multilabel_classification.Rmd" class="external-link"><code>vignettes/multilabel_classification.Rmd</code></a></small>
       <div class="hidden name"><code>multilabel_classification.Rmd</code></div>
 
     </div>
 
     
     
-<div id="data-for-hr-example" class="section level1">
-<h1 class="hasAnchor">
-<a href="#data-for-hr-example" class="anchor"></a>Data for HR example</h1>
+<div class="section level2">
+<h2 id="data-for-hr-example">Data for HR example<a class="anchor" aria-label="anchor" href="#data-for-hr-example"></a>
+</h2>
 <p>In the following vignette, we will walk through a multilabel classification example with <code>DALEX</code>. The purpose of this tutorial is that for some of <code>DALEX</code> functionalities binary classification is a default one, and therefore we need to put some self-made code to work here. All of the examples will be performed with <code>HR</code> dataset that is available in <code>DALEX</code>, it’s target column is <code>status</code> with three-level factor. For all cases our model will be <code>ranger</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://dalex.drwhy.ai">"DALEX"</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">HR</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">HR</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt;   gender      age    hours evaluation salary   status
-#&gt; 1   male 32.58267 41.88626          3      1    fired
-#&gt; 2 female 41.21104 36.34339          2      5    fired
-#&gt; 3   male 37.70516 36.81718          3      0    fired
-#&gt; 4 female 30.06051 38.96032          3      2    fired
-#&gt; 5   male 21.10283 62.15464          5      3 promoted
-#&gt; 6   male 40.11812 69.53973          2      0    fired</code></pre>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://dalex.drwhy.ai" class="external-link">"DALEX"</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">HR</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">HR</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">#&gt;   gender      age    hours evaluation salary   status</span>
+<span class="co">#&gt; 1   male 32.58267 41.88626          3      1    fired</span>
+<span class="co">#&gt; 2 female 41.21104 36.34339          2      5    fired</span>
+<span class="co">#&gt; 3   male 37.70516 36.81718          3      0    fired</span>
+<span class="co">#&gt; 4 female 30.06051 38.96032          3      2    fired</span>
+<span class="co">#&gt; 5   male 21.10283 62.15464          5      3 promoted</span>
+<span class="co">#&gt; 6   male 40.11812 69.53973          2      0    fired</span></code></pre>
 </div>
-<div id="creation-of-model-and-explainer" class="section level1">
-<h1 class="hasAnchor">
-<a href="#creation-of-model-and-explainer" class="anchor"></a>Creation of model and explainer</h1>
+<div class="section level2">
+<h2 id="creation-of-model-and-explainer">Creation of model and explainer<a class="anchor" aria-label="anchor" href="#creation-of-model-and-explainer"></a>
+</h2>
 <p>Ok, now it is time to create a model.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/imbs-hl/ranger">"ranger"</a></span><span class="op">)</span>
-<span class="va">model_HR_ranger</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html">ranger</a></span><span class="op">(</span><span class="va">status</span><span class="op">~</span><span class="va">.</span>,  data <span class="op">=</span> <span class="va">HR</span>, probability <span class="op">=</span> <span class="cn">TRUE</span>, num.trees <span class="op">=</span> <span class="fl">50</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/imbs-hl/ranger" class="external-link">"ranger"</a></span><span class="op">)</span>
+<span class="va">model_HR_ranger</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></span><span class="op">(</span><span class="va">status</span><span class="op">~</span><span class="va">.</span>,  data <span class="op">=</span> <span class="va">HR</span>, probability <span class="op">=</span> <span class="cn">TRUE</span>, num.trees <span class="op">=</span> <span class="fl">50</span><span class="op">)</span>
 <span class="va">model_HR_ranger</span></code></pre></div>
-<pre><code>#&gt; Ranger result
-#&gt; 
-#&gt; Call:
-#&gt;  ranger(status ~ ., data = HR, probability = TRUE, num.trees = 50) 
-#&gt; 
-#&gt; Type:                             Probability estimation 
-#&gt; Number of trees:                  50 
-#&gt; Sample size:                      7847 
-#&gt; Number of independent variables:  5 
-#&gt; Mtry:                             2 
-#&gt; Target node size:                 10 
-#&gt; Variable importance mode:         none 
-#&gt; Splitrule:                        gini 
-#&gt; OOB prediction error (Brier s.):  0.2173686</code></pre>
+<pre><code><span class="co">#&gt; Ranger result</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt;  ranger(status ~ ., data = HR, probability = TRUE, num.trees = 50) </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Type:                             Probability estimation </span>
+<span class="co">#&gt; Number of trees:                  50 </span>
+<span class="co">#&gt; Sample size:                      7847 </span>
+<span class="co">#&gt; Number of independent variables:  5 </span>
+<span class="co">#&gt; Mtry:                             2 </span>
+<span class="co">#&gt; Target node size:                 10 </span>
+<span class="co">#&gt; Variable importance mode:         none </span>
+<span class="co">#&gt; Splitrule:                        gini </span>
+<span class="co">#&gt; OOB prediction error (Brier s.):  0.2190324</span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://dalex.drwhy.ai">"DALEX"</a></span><span class="op">)</span>
-<span class="va">explain_HR_ranger</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.default.html">explain</a></span><span class="op">(</span><span class="va">model_HR_ranger</span>,
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://dalex.drwhy.ai" class="external-link">"DALEX"</a></span><span class="op">)</span>
+<span class="va">explain_HR_ranger</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span><span class="op">(</span><span class="va">model_HR_ranger</span>,
                               data <span class="op">=</span> <span class="va">HR</span><span class="op">[</span>,<span class="op">-</span><span class="fl">6</span><span class="op">]</span>,
                               y <span class="op">=</span> <span class="va">HR</span><span class="op">$</span><span class="va">status</span>,
                               label <span class="op">=</span> <span class="st">"Ranger Multilabel Classification"</span>,
                               colorize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  Ranger Multilabel Classification 
-#&gt;   -&gt; data              :  7847  rows  5  cols 
-#&gt;   -&gt; target variable   :  7847  values 
-#&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )
-#&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )
-#&gt;   -&gt; model_info        :  package ranger , ver. 0.13.1 , task multiclass (  default  ) 
-#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) 
-#&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  0.0004545455 , mean =  0.2781476 , max =  0.891161  
-#&gt;   A new explainer has been created!</code></pre>
+<pre><code><span class="co">#&gt; Preparation of a new explainer is initiated</span>
+<span class="co">#&gt;   -&gt; model label       :  Ranger Multilabel Classification </span>
+<span class="co">#&gt;   -&gt; data              :  7847  rows  5  cols </span>
+<span class="co">#&gt;   -&gt; target variable   :  7847  values </span>
+<span class="co">#&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )</span>
+<span class="co">#&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )</span>
+<span class="co">#&gt;   -&gt; model_info        :  package ranger , ver. 0.13.1 , task multiclass (  default  ) </span>
+<span class="co">#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) </span>
+<span class="co">#&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )</span>
+<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.280245 , max =  0.8874252  </span>
+<span class="co">#&gt;   A new explainer has been created!</span></code></pre>
 <p>The sixth column, that we have omitted during the creation of the explainer, stands for the target column (<code>status</code>). It is good practice not to put it in <code>data</code>. Keep in mind that the default <code>yhat</code> function for <code>ranger</code>, and for any other package that is supported by <code>DALEX</code>, enforces probability output. Therefore residuals cannot be standard <span class="math inline">\(y - \hat{y}\)</span>. Since <code>DALEX 1.2.2</code> in the case of multiclass classification one minus probability of the TRUE class is a standard residual function.</p>
 </div>
-<div id="model-parts" class="section level1">
-<h1 class="hasAnchor">
-<a href="#model-parts" class="anchor"></a>Model Parts</h1>
-<p>In order to use <code><a href="../reference/model_parts.html">model_parts()</a></code> (former <code><a href="../reference/model_parts.html">variable_importance()</a></code>) function it is necessary to switch default <code>loss_function</code> argument to one that handle multiple classes. <code>DALEX</code> has implemented one function like that and it is called <code><a href="../reference/loss_cross_entropy.html">loss_cross_entropy()</a></code>. To use it, <code>y</code> parameter passed to <code>explain</code> function should have exactly the same format as the target vector used for the training process (ie. the same number of levels and names of those levels).</p>
+<div class="section level2">
+<h2 id="model-parts">Model Parts<a class="anchor" aria-label="anchor" href="#model-parts"></a>
+</h2>
+<p>In order to use <code><a href="../reference/model_parts.html">model_parts()</a></code> (former <code><a href="../reference/model_parts.html">variable_importance()</a></code>) function it is necessary to switch default <code>loss_function</code> argument to one that handle multiple classes. <code>DALEX</code> has implemented one function like that and it is called <code><a href="../reference/loss_functions.html">loss_cross_entropy()</a></code>. To use it, <code>y</code> parameter passed to <code>explain</code> function should have exactly the same format as the target vector used for the training process (ie. the same number of levels and names of those levels).</p>
 <p>Also, we need probability outputs so there is no need to change the default <code>predict_function</code> parameter.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://dalex.drwhy.ai">"DALEX"</a></span><span class="op">)</span>
-<span class="va">explain_HR_ranger_new_y</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.default.html">explain</a></span><span class="op">(</span><span class="va">model_HR_ranger</span>,
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://dalex.drwhy.ai" class="external-link">"DALEX"</a></span><span class="op">)</span>
+<span class="va">explain_HR_ranger_new_y</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span><span class="op">(</span><span class="va">model_HR_ranger</span>,
                               data <span class="op">=</span> <span class="va">HR</span><span class="op">[</span>,<span class="op">-</span><span class="fl">6</span><span class="op">]</span>,
                               y <span class="op">=</span> <span class="va">HR</span><span class="op">$</span><span class="va">status</span>,
                               label <span class="op">=</span> <span class="st">"Ranger Multilabel Classification"</span>,
                               colorize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  Ranger Multilabel Classification 
-#&gt;   -&gt; data              :  7847  rows  5  cols 
-#&gt;   -&gt; target variable   :  7847  values 
-#&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )
-#&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )
-#&gt;   -&gt; model_info        :  package ranger , ver. 0.13.1 , task multiclass (  default  ) 
-#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) 
-#&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  0.0004545455 , mean =  0.2781476 , max =  0.891161  
-#&gt;   A new explainer has been created!</code></pre>
+<pre><code><span class="co">#&gt; Preparation of a new explainer is initiated</span>
+<span class="co">#&gt;   -&gt; model label       :  Ranger Multilabel Classification </span>
+<span class="co">#&gt;   -&gt; data              :  7847  rows  5  cols </span>
+<span class="co">#&gt;   -&gt; target variable   :  7847  values </span>
+<span class="co">#&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )</span>
+<span class="co">#&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )</span>
+<span class="co">#&gt;   -&gt; model_info        :  package ranger , ver. 0.13.1 , task multiclass (  default  ) </span>
+<span class="co">#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) </span>
+<span class="co">#&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )</span>
+<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.280245 , max =  0.8874252  </span>
+<span class="co">#&gt;   A new explainer has been created!</span></code></pre>
 <p>And now we can use <code><a href="../reference/model_parts.html">model_parts()</a></code></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_parts.html">model_parts</a></span><span class="op">(</span><span class="va">explain_HR_ranger_new_y</span>, loss_function <span class="op">=</span> <span class="va">loss_cross_entropy</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mp</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mp</span><span class="op">)</span></code></pre></div>
 <p><img src="multilabel_classification_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p>As we see above, we can enjoy perfectly fine variable importance plot.</p>
 </div>
-<div id="model-profile" class="section level1">
-<h1 class="hasAnchor">
-<a href="#model-profile" class="anchor"></a>Model Profile</h1>
+<div class="section level2">
+<h2 id="model-profile">Model Profile<a class="anchor" aria-label="anchor" href="#model-profile"></a>
+</h2>
 <p>There is no need for tricks in order to use <code><a href="../reference/model_profile.html">model_profile()</a></code> (former <code><a href="../reference/variable_effect.html">variable_effect()</a></code>). Our target will be one-hot-encoded, and all of the explanations will be performed for each of class separately.</p>
-<div id="partial_dependency" class="section level2">
-<h2 class="hasAnchor">
-<a href="#partial_dependency" class="anchor"></a>partial_dependency</h2>
+<div class="section level3">
+<h3 id="partial_dependency">partial_dependency<a class="anchor" aria-label="anchor" href="#partial_dependency"></a>
+</h3>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mp_p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_profile.html">model_profile</a></span><span class="op">(</span><span class="va">explain_HR_ranger</span>, variables <span class="op">=</span> <span class="st">"salary"</span>, type <span class="op">=</span> <span class="st">"partial"</span><span class="op">)</span>
 <span class="va">mp_p</span><span class="op">$</span><span class="va">color</span> <span class="op">&lt;-</span> <span class="st">"_label_"</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mp_p</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mp_p</span><span class="op">)</span></code></pre></div>
 <p><img src="multilabel_classification_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 </div>
-<div id="accumulated_dependency" class="section level2">
-<h2 class="hasAnchor">
-<a href="#accumulated_dependency" class="anchor"></a>accumulated_dependency</h2>
+<div class="section level3">
+<h3 id="accumulated_dependency">accumulated_dependency<a class="anchor" aria-label="anchor" href="#accumulated_dependency"></a>
+</h3>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mp_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_profile.html">model_profile</a></span><span class="op">(</span><span class="va">explain_HR_ranger</span>, variables <span class="op">=</span> <span class="st">"salary"</span>, type <span class="op">=</span> <span class="st">"accumulated"</span><span class="op">)</span>
 <span class="va">mp_a</span><span class="op">$</span><span class="va">color</span> <span class="op">=</span> <span class="st">"_label_"</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mp_a</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mp_a</span><span class="op">)</span></code></pre></div>
 <p><img src="multilabel_classification_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
 </div>
-<div id="instance-level-explanations" class="section level1">
-<h1 class="hasAnchor">
-<a href="#instance-level-explanations" class="anchor"></a>Instance level explanations</h1>
+<div class="section level2">
+<h2 id="instance-level-explanations">Instance level explanations<a class="anchor" aria-label="anchor" href="#instance-level-explanations"></a>
+</h2>
 <p>As above, <code><a href="../reference/predict_parts.html">predict_parts()</a></code> (former <code><a href="../reference/predict_parts.html">variable_attribution()</a></code>) works perfectly fine with multilabel classification and default explainer. Just like before, our target will be split into variables standing for each factor level and computations will be performed then.</p>
-<div id="break_down" class="section level2">
-<h2 class="hasAnchor">
-<a href="#break_down" class="anchor"></a>break_down</h2>
+<div class="section level3">
+<h3 id="break_down">break_down<a class="anchor" aria-label="anchor" href="#break_down"></a>
+</h3>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_parts.html">predict_parts</a></span><span class="op">(</span><span class="va">explain_HR_ranger</span>, <span class="va">HR</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span>, type <span class="op">=</span> <span class="st">"break_down"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">bd</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bd</span><span class="op">)</span></code></pre></div>
 <p><img src="multilabel_classification_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>
-<div id="shap" class="section level2">
-<h2 class="hasAnchor">
-<a href="#shap" class="anchor"></a>shap</h2>
+<div class="section level3">
+<h3 id="shap">shap<a class="anchor" aria-label="anchor" href="#shap"></a>
+</h3>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">shap</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_parts.html">predict_parts</a></span><span class="op">(</span><span class="va">explain_HR_ranger</span>, <span class="va">HR</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span>, type <span class="op">=</span> <span class="st">"shap"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">shap</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">shap</span><span class="op">)</span></code></pre></div>
 <p><img src="multilabel_classification_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 </div>
 </div>
-<div id="model_performance-and-predict_diagnostics" class="section level1">
-<h1 class="hasAnchor">
-<a href="#model_performance-and-predict_diagnostics" class="anchor"></a>model_performance and predict_diagnostics</h1>
+<div class="section level2">
+<h2 id="model_performance-and-predict_diagnostics">model_performance and predict_diagnostics<a class="anchor" aria-label="anchor" href="#model_performance-and-predict_diagnostics"></a>
+</h2>
 <p>The description of those two functions is merged into one paragraph because they require the same action to get them to work with multilabel classification. The most important thing here is to realize that both functions are based on residuals. Since <code>DALEX 1.2.2</code>, explain function recognizes if a model is a multiclass classification task and uses a dedicated residual function as default.</p>
-<div id="model-performance" class="section level2">
-<h2 class="hasAnchor">
-<a href="#model-performance" class="anchor"></a>Model Performance</h2>
+<div class="section level3">
+<h3 id="model-performance">Model Performance<a class="anchor" aria-label="anchor" href="#model-performance"></a>
+</h3>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">(</span><span class="va">mp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_performance.html">model_performance</a></span><span class="op">(</span><span class="va">explain_HR_ranger</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt; Measures for:  multiclass
-#&gt; micro_F1   : 0.8688671 
-#&gt; macro_F1   : 0.8670713 
-#&gt; w_macro_F1 : 0.8677878 
-#&gt; accuracy   : 0.8688671 
-#&gt; w_macro_auc: 0.9763136
-#&gt; 
-#&gt; Residuals:
-#&gt;           0%          10%          20%          30%          40%          50% 
-#&gt; 0.0004545455 0.0261701846 0.0603582809 0.1152305806 0.1746029460 0.2383948906 
-#&gt;          60%          70%          80%          90%         100% 
-#&gt; 0.3135506363 0.3982734551 0.4875008563 0.5959894512 0.8911609676</code></pre>
+<pre><code><span class="co">#&gt; Measures for:  multiclass</span>
+<span class="co">#&gt; micro_F1   : 0.8706512 </span>
+<span class="co">#&gt; macro_F1   : 0.8687873 </span>
+<span class="co">#&gt; w_macro_F1 : 0.8695486 </span>
+<span class="co">#&gt; accuracy   : 0.8706512 </span>
+<span class="co">#&gt; w_macro_auc: 0.9771467</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Residuals:</span>
+<span class="co">#&gt;         0%        10%        20%        30%        40%        50%        60% </span>
+<span class="co">#&gt; 0.00000000 0.02854384 0.06439686 0.11939909 0.18117038 0.24789674 0.31700874 </span>
+<span class="co">#&gt;        70%        80%        90%       100% </span>
+<span class="co">#&gt; 0.39543302 0.48738144 0.59188753 0.88742522</span></code></pre>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mp</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mp</span><span class="op">)</span></code></pre></div>
 <p><img src="multilabel_classification_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 </div>
-<div id="predict-diagnostics" class="section level2">
-<h2 class="hasAnchor">
-<a href="#predict-diagnostics" class="anchor"></a>Predict diagnostics</h2>
+<div class="section level3">
+<h3 id="predict-diagnostics">Predict diagnostics<a class="anchor" aria-label="anchor" href="#predict-diagnostics"></a>
+</h3>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pd_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_diagnostics.html">predict_diagnostics</a></span><span class="op">(</span><span class="va">explain_HR_ranger</span>, <span class="va">HR</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">pd_all</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pd_all</span><span class="op">)</span></code></pre></div>
 <p><img src="multilabel_classification_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pd_salary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_diagnostics.html">predict_diagnostics</a></span><span class="op">(</span><span class="va">explain_HR_ranger</span>, <span class="va">HR</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span>, variables <span class="op">=</span> <span class="st">"salary"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">pd_salary</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pd_salary</span><span class="op">)</span></code></pre></div>
 <p><img src="multilabel_classification_files/figure-html/unnamed-chunk-11-2.png" width="700"></p>
 </div>
 </div>
-<div id="session-info" class="section level1">
-<h1 class="hasAnchor">
-<a href="#session-info" class="anchor"></a>Session info</h1>
+<div class="section level2">
+<h2 id="session-info">Session info<a class="anchor" aria-label="anchor" href="#session-info"></a>
+</h2>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt; R version 4.1.2 (2021-11-01)
-#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)
-#&gt; Running under: macOS Catalina 10.15.7
-#&gt; 
-#&gt; Matrix products: default
-#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.0.dylib
-#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
-#&gt; 
-#&gt; locale:
-#&gt; [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
-#&gt; 
-#&gt; attached base packages:
-#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
-#&gt; 
-#&gt; other attached packages:
-#&gt; [1] ranger_0.13.1    DALEX_2.3.0.9000
-#&gt; 
-#&gt; loaded via a namespace (and not attached):
-#&gt;  [1] Rcpp_1.0.7        gower_0.2.2       highr_0.9         compiler_4.1.2   
-#&gt;  [5] pillar_1.6.4      jquerylib_0.1.4   ingredients_2.2.0 tools_4.1.2      
-#&gt;  [9] digest_0.6.28     lattice_0.20-45   evaluate_0.14     memoise_2.0.0    
-#&gt; [13] lifecycle_1.0.1   tibble_3.1.5      gtable_0.3.0      pkgconfig_2.0.3  
-#&gt; [17] rlang_0.4.12      Matrix_1.3-4      yaml_2.2.1        pkgdown_1.6.1    
-#&gt; [21] xfun_0.28         fastmap_1.1.0     dplyr_1.0.7       stringr_1.4.0    
-#&gt; [25] knitr_1.36        generics_0.1.1    desc_1.4.0        fs_1.5.0         
-#&gt; [29] vctrs_0.3.8       systemfonts_1.0.3 tidyselect_1.1.1  rprojroot_2.0.2  
-#&gt; [33] grid_4.1.2        glue_1.5.0        R6_2.5.1          textshaping_0.3.6
-#&gt; [37] fansi_0.5.0       iBreakDown_2.0.1  rmarkdown_2.11    farver_2.1.0     
-#&gt; [41] purrr_0.3.4       ggplot2_3.3.5     magrittr_2.0.1    scales_1.1.1     
-#&gt; [45] htmltools_0.5.2   ellipsis_0.3.2    colorspace_2.0-2  labeling_0.4.2   
-#&gt; [49] ragg_1.2.0        utf8_1.2.2        stringi_1.7.5     munsell_0.5.0    
-#&gt; [53] cachem_1.0.6      crayon_1.4.2</code></pre>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">#&gt; R version 4.1.2 (2021-11-01)</span>
+<span class="co">#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)</span>
+<span class="co">#&gt; Running under: macOS Big Sur 10.16</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Matrix products: default</span>
+<span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.0.dylib</span>
+<span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; locale:</span>
+<span class="co">#&gt; [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; attached base packages:</span>
+<span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; other attached packages:</span>
+<span class="co">#&gt; [1] ranger_0.13.1    DALEX_2.3.0.9002</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; loaded via a namespace (and not attached):</span>
+<span class="co">#&gt;  [1] tidyselect_1.1.1  xfun_0.29         bslib_0.3.1       purrr_0.3.4      </span>
+<span class="co">#&gt;  [5] lattice_0.20-45   colorspace_2.0-2  vctrs_0.3.8       generics_0.1.1   </span>
+<span class="co">#&gt;  [9] htmltools_0.5.2   yaml_2.2.1        utf8_1.2.2        rlang_0.4.12     </span>
+<span class="co">#&gt; [13] pkgdown_2.0.2     jquerylib_0.1.4   pillar_1.6.4      glue_1.6.1       </span>
+<span class="co">#&gt; [17] lifecycle_1.0.1   stringr_1.4.0     munsell_0.5.0     gtable_0.3.0     </span>
+<span class="co">#&gt; [21] ragg_1.2.1        memoise_2.0.1     evaluate_0.14     labeling_0.4.2   </span>
+<span class="co">#&gt; [25] knitr_1.37        fastmap_1.1.0     fansi_1.0.2       highr_0.9        </span>
+<span class="co">#&gt; [29] iBreakDown_2.0.1  Rcpp_1.0.8        scales_1.1.1      cachem_1.0.6     </span>
+<span class="co">#&gt; [33] desc_1.4.0        jsonlite_1.7.3    ingredients_2.2.0 farver_2.1.0     </span>
+<span class="co">#&gt; [37] systemfonts_1.0.3 fs_1.5.2          textshaping_0.3.6 ggplot2_3.3.5    </span>
+<span class="co">#&gt; [41] digest_0.6.29     stringi_1.7.6     dplyr_1.0.7       grid_4.1.2       </span>
+<span class="co">#&gt; [45] rprojroot_2.0.2   tools_4.1.2       magrittr_2.0.1    sass_0.4.0       </span>
+<span class="co">#&gt; [49] tibble_3.1.6      crayon_1.4.2      pkgconfig_2.0.3   ellipsis_0.3.2   </span>
+<span class="co">#&gt; [53] Matrix_1.3-4      gower_0.2.2       rmarkdown_2.11    R6_2.5.1         </span>
+<span class="co">#&gt; [57] compiler_4.1.2</span></code></pre>
 </div>
   </div>
 
@@ -336,11 +331,11 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Przemyslaw Biecek, Szymon Maksymiuk, Hubert Baniecki.</p>
+  <p>Developed by .</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a>.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>.</p>
 </div>
 
       </footer>
