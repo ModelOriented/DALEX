@@ -33,6 +33,8 @@ reference:
     - plot.predict_profile
     - print.model_performance
     - plot.model_performance
+    - print.model_parts
+    - plot.model_parts
     - print.model_profile
     - plot.model_profile
     - print.model_diagnostics
@@ -54,6 +56,7 @@ reference:
     - update_data
     - yhat
     - model_info
+    - plot.list
     - install_dependencies
     - colors_discrete_drwhy
     - colors_diverging_drwhy
