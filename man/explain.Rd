@@ -17,7 +17,7 @@ explain.default(
   label = NULL,
   verbose = TRUE,
   precalculate = TRUE,
-  colorize = TRUE,
+  colorize = !isTRUE(getOption("knitr.in.progress")),
   model_info = NULL,
   type = NULL
 )
@@ -34,7 +34,7 @@ explain(
   label = NULL,
   verbose = TRUE,
   precalculate = TRUE,
-  colorize = TRUE,
+  colorize = !isTRUE(getOption("knitr.in.progress")),
   model_info = NULL,
   type = NULL
 )
@@ -42,17 +42,17 @@ explain(
 \arguments{
 \item{model}{object - a model to be explained}
 
-\item{data}{data.frame or matrix - data which will be used to calculate the explanations. If not provided then will be extracted from the model. Data should be passed without target column (this shall be provided as the \code{y} argument). NOTE: If target variable is present in the \code{data}, some of the functionalities my not work properly.}
+\item{data}{data.frame or matrix - data which will be used to calculate the explanations. If not provided, then it will be extracted from the model. Data should be passed without a target column (this shall be provided as the \code{y} argument). NOTE: If the target variable is present in the \code{data}, some of the functionalities may not work properly.}
 
-\item{y}{numeric vector with outputs / scores. If provided then it shall have the same size as \code{data}}
+\item{y}{numeric vector with outputs/scores. If provided, then it shall have the same size as \code{data}}
 
-\item{predict_function}{function that takes two arguments: model and new data and returns numeric vector with predictions.   By default it is \code{yhat}.}
+\item{predict_function}{function that takes two arguments: model and new data and returns a numeric vector with predictions.   By default it is \code{yhat}.}
 
-\item{predict_function_target_column}{Character or numeric containing either column name or column number in the model prediction object of the class that should be considered as positive (ie. the class that is associated with probability 1). If NULL, the second column of the output will be taken for binary classification. For a multiclass classification setting that parameter cause switch to binary classification mode with 1 vs others probabilities.}
+\item{predict_function_target_column}{Character or numeric containing either column name or column number in the model prediction object of the class that should be considered as positive (i.e. the class that is associated with probability 1). If NULL, the second column of the output will be taken for binary classification. For a multiclass classification setting, that parameter cause switch to binary classification mode with one vs others probabilities.}
 
 \item{residual_function}{function that takes four arguments: model, data, target vector y and predict function (optionally). It should return a numeric vector with model residuals for given data. If not provided, response residuals (\eqn{y-\hat{y}}) are calculated. By default it is \code{residual_function_default}.}
 
-\item{weights}{numeric vector with sampling weights. By default it's \code{NULL}. If provided then it shall have the same length as \code{data}}
+\item{weights}{numeric vector with sampling weights. By default it's \code{NULL}. If provided, then it shall have the same length as \code{data}}
 
 \item{...}{other parameters}
 
@@ -63,16 +63,16 @@ explain(
 \item{precalculate}{logical. If TRUE (default) then \code{predicted_values} and \code{residual} are calculated when explainer is created.
 This will happen also if \code{verbose} is TRUE. Set both \code{verbose} and \code{precalculate} to FALSE to omit calculations.}
 
-\item{colorize}{logical. If TRUE (default) then \code{WARNINGS}, \code{ERRORS} and \code{NOTES} are colorized. Will work only in the R console.}
+\item{colorize}{logical. If TRUE (default) then \code{WARNINGS}, \code{ERRORS} and \code{NOTES} are colorized. Will work only in the R console. Now by default it is \code{FALSE} while knitting and \code{TRUE} otherwise.}
 
-\item{model_info}{a named list (\code{package}, \code{version}, \code{type}) containg information about model. If \code{NULL}, \code{DALEX} will seek for information on it's own.}
+\item{model_info}{a named list (\code{package}, \code{version}, \code{type}) containing information about model. If \code{NULL}, \code{DALEX} will seek for information on it's own.}
 
 \item{type}{type of a model, either \code{classification} or \code{regression}. If not specified then \code{type} will be extracted from \code{model_info}.}
 }
 \value{
 An object of the class \code{explainer}.
 
-It's a list with following fields:
+It's a list with the following fields:
 
 \itemize{
 \item \code{model} the explained model.
@@ -93,7 +93,7 @@ Black-box models may have very different structures.
 This function creates a unified representation of a model, which can be further processed by functions for explanations.
 }
 \details{
-Please NOTE, that the \code{model} is the only required argument.
+Please NOTE that the \code{model} is the only required argument.
 But some explanations may expect that other arguments will be provided too.
 }
 \examples{

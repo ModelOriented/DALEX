@@ -1,3 +1,7 @@
+DALEX 2.4.0
+---------------------------------------------------------------
+* Changed default in `explain(colorize=)` according to  ([#473](https://github.com/ModelOriented/DALEX/issues/473))
+
 DALEX 2.3.0.9
 ---------------------------------------------------------------
 * Added explain/yhat support for `partykit` ([#438](https://github.com/ModelOriented/DALEX/issues/438))

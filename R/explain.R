@@ -3,28 +3,28 @@
 #' Black-box models may have very different structures.
 #' This function creates a unified representation of a model, which can be further processed by functions for explanations.
 #'
-#' Please NOTE, that the \code{model} is the only required argument.
+#' Please NOTE that the \code{model} is the only required argument.
 #' But some explanations may expect that other arguments will be provided too.
 #'
 #' @param model object - a model to be explained
-#' @param data data.frame or matrix - data which will be used to calculate the explanations. If not provided then will be extracted from the model. Data should be passed without target column (this shall be provided as the \code{y} argument). NOTE: If target variable is present in the \code{data}, some of the functionalities my not work properly.
-#' @param y numeric vector with outputs / scores. If provided then it shall have the same size as \code{data}
-#' @param weights numeric vector with sampling weights. By default it's \code{NULL}. If provided then it shall have the same length as \code{data}
-#' @param predict_function function that takes two arguments: model and new data and returns numeric vector with predictions.   By default it is \code{yhat}.
-#' @param predict_function_target_column Character or numeric containing either column name or column number in the model prediction object of the class that should be considered as positive (ie. the class that is associated with probability 1). If NULL, the second column of the output will be taken for binary classification. For a multiclass classification setting that parameter cause switch to binary classification mode with 1 vs others probabilities.
+#' @param data data.frame or matrix - data which will be used to calculate the explanations. If not provided, then it will be extracted from the model. Data should be passed without a target column (this shall be provided as the \code{y} argument). NOTE: If the target variable is present in the \code{data}, some of the functionalities may not work properly.
+#' @param y numeric vector with outputs/scores. If provided, then it shall have the same size as \code{data}
+#' @param weights numeric vector with sampling weights. By default it's \code{NULL}. If provided, then it shall have the same length as \code{data}
+#' @param predict_function function that takes two arguments: model and new data and returns a numeric vector with predictions.   By default it is \code{yhat}.
+#' @param predict_function_target_column Character or numeric containing either column name or column number in the model prediction object of the class that should be considered as positive (i.e. the class that is associated with probability 1). If NULL, the second column of the output will be taken for binary classification. For a multiclass classification setting, that parameter cause switch to binary classification mode with one vs others probabilities.
 #' @param residual_function function that takes four arguments: model, data, target vector y and predict function (optionally). It should return a numeric vector with model residuals for given data. If not provided, response residuals (\eqn{y-\hat{y}}) are calculated. By default it is \code{residual_function_default}.
 #' @param ... other parameters
 #' @param label character - the name of the model. By default it's extracted from the 'class' attribute of the model
 #' @param verbose logical. If TRUE (default) then diagnostic messages will be printed
 #' @param precalculate logical. If TRUE (default) then \code{predicted_values} and \code{residual} are calculated when explainer is created.
 #' This will happen also if \code{verbose} is TRUE. Set both \code{verbose} and \code{precalculate} to FALSE to omit calculations.
-#' @param colorize logical. If TRUE (default) then \code{WARNINGS}, \code{ERRORS} and \code{NOTES} are colorized. Will work only in the R console.
-#' @param model_info a named list (\code{package}, \code{version}, \code{type}) containg information about model. If \code{NULL}, \code{DALEX} will seek for information on it's own.
+#' @param colorize logical. If TRUE (default) then \code{WARNINGS}, \code{ERRORS} and \code{NOTES} are colorized. Will work only in the R console. Now by default it is \code{FALSE} while knitting and \code{TRUE} otherwise.
+#' @param model_info a named list (\code{package}, \code{version}, \code{type}) containing information about model. If \code{NULL}, \code{DALEX} will seek for information on it's own.
 #' @param type type of a model, either \code{classification} or \code{regression}. If not specified then \code{type} will be extracted from \code{model_info}.
 #'
 #' @return An object of the class \code{explainer}.
 #'
-#' It's a list with following fields:
+#' It's a list with the following fields:
 #'
 #' \itemize{
 #' \item \code{model} the explained model.
@@ -127,7 +127,7 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
                             predict_function_target_column = NULL,
                             residual_function = NULL, weights = NULL, ...,
                             label = NULL, verbose = TRUE, precalculate = TRUE,
-                            colorize = TRUE, model_info = NULL, type = NULL) {
+                            colorize = !isTRUE(getOption('knitr.in.progress')), model_info = NULL, type = NULL) {
 
   verbose_cat("Preparation of a new explainer is initiated\n", verbose = verbose)
 
@@ -202,13 +202,13 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
     if (length(y) != n) {
       verbose_cat("  -> target variable   :  length of 'y' is different than number of rows in 'data' (",color_codes$red_start,"WARNING",color_codes$red_end,") \n", verbose = verbose)
     }
-### check removed due to https://github.com/ModelOriented/DALEX/issues/164
-#    if (!is.null(data)) {
-#      if (is_y_in_data(data, y)) {
-#        verbose_cat("  -> data              :  A column identical to the target variable `y` has been found in the `data`.  (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
-#        verbose_cat("  -> data              :  It is highly recommended to pass `data` without the target variable column\n", verbose = verbose)
-#      }
-#    }
+    ### check removed due to https://github.com/ModelOriented/DALEX/issues/164
+    #    if (!is.null(data)) {
+    #      if (is_y_in_data(data, y)) {
+    #        verbose_cat("  -> data              :  A column identical to the target variable `y` has been found in the `data`.  (",color_codes$red_start,"WARNING",color_codes$red_end,")\n", verbose = verbose)
+    #        verbose_cat("  -> data              :  It is highly recommended to pass `data` without the target variable column\n", verbose = verbose)
+    #      }
+    #    }
   }
 
 
