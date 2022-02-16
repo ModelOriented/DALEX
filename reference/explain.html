@@ -26,7 +26,7 @@ This function creates a unified representation of a model, which can be further 
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy" class="external-link">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/" class="external-link">MI^2 DataLab</a> </span>
-          <span class="version version-default">2.3.0.9002</span>
+          <span class="version version-default">2.4.0</span>
         </div>
       </div>
     </div>
@@ -88,7 +88,7 @@ This function creates a unified representation of a model, which can be further 
   label <span class="op">=</span> <span class="cn">NULL</span>,
   verbose <span class="op">=</span> <span class="cn">TRUE</span>,
   precalculate <span class="op">=</span> <span class="cn">TRUE</span>,
-  colorize <span class="op">=</span> <span class="cn">TRUE</span>,
+  colorize <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/Logic.html" class="external-link">isTRUE</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"knitr.in.progress"</span><span class="op">)</span><span class="op">)</span>,
   model_info <span class="op">=</span> <span class="cn">NULL</span>,
   type <span class="op">=</span> <span class="cn">NULL</span>
 <span class="op">)</span>
@@ -105,7 +105,7 @@ This function creates a unified representation of a model, which can be further 
   label <span class="op">=</span> <span class="cn">NULL</span>,
   verbose <span class="op">=</span> <span class="cn">TRUE</span>,
   precalculate <span class="op">=</span> <span class="cn">TRUE</span>,
-  colorize <span class="op">=</span> <span class="cn">TRUE</span>,
+  colorize <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/Logic.html" class="external-link">isTRUE</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"knitr.in.progress"</span><span class="op">)</span><span class="op">)</span>,
   model_info <span class="op">=</span> <span class="cn">NULL</span>,
   type <span class="op">=</span> <span class="cn">NULL</span>
 <span class="op">)</span></code></pre></div>
@@ -116,17 +116,17 @@ This function creates a unified representation of a model, which can be further 
     <dl><dt>model</dt>
 <dd><p>object - a model to be explained</p></dd>
 <dt>data</dt>
-<dd><p>data.frame or matrix - data which will be used to calculate the explanations. If not provided then will be extracted from the model. Data should be passed without target column (this shall be provided as the <code>y</code> argument). NOTE: If target variable is present in the <code>data</code>, some of the functionalities my not work properly.</p></dd>
+<dd><p>data.frame or matrix - data which will be used to calculate the explanations. If not provided, then it will be extracted from the model. Data should be passed without a target column (this shall be provided as the <code>y</code> argument). NOTE: If the target variable is present in the <code>data</code>, some of the functionalities may not work properly.</p></dd>
 <dt>y</dt>
-<dd><p>numeric vector with outputs / scores. If provided then it shall have the same size as <code>data</code></p></dd>
+<dd><p>numeric vector with outputs/scores. If provided, then it shall have the same size as <code>data</code></p></dd>
 <dt>predict_function</dt>
-<dd><p>function that takes two arguments: model and new data and returns numeric vector with predictions.   By default it is <code>yhat</code>.</p></dd>
+<dd><p>function that takes two arguments: model and new data and returns a numeric vector with predictions.   By default it is <code>yhat</code>.</p></dd>
 <dt>predict_function_target_column</dt>
-<dd><p>Character or numeric containing either column name or column number in the model prediction object of the class that should be considered as positive (ie. the class that is associated with probability 1). If NULL, the second column of the output will be taken for binary classification. For a multiclass classification setting that parameter cause switch to binary classification mode with 1 vs others probabilities.</p></dd>
+<dd><p>Character or numeric containing either column name or column number in the model prediction object of the class that should be considered as positive (i.e. the class that is associated with probability 1). If NULL, the second column of the output will be taken for binary classification. For a multiclass classification setting, that parameter cause switch to binary classification mode with one vs others probabilities.</p></dd>
 <dt>residual_function</dt>
 <dd><p>function that takes four arguments: model, data, target vector y and predict function (optionally). It should return a numeric vector with model residuals for given data. If not provided, response residuals (\(y-\hat{y}\)) are calculated. By default it is <code>residual_function_default</code>.</p></dd>
 <dt>weights</dt>
-<dd><p>numeric vector with sampling weights. By default it's <code>NULL</code>. If provided then it shall have the same length as <code>data</code></p></dd>
+<dd><p>numeric vector with sampling weights. By default it's <code>NULL</code>. If provided, then it shall have the same length as <code>data</code></p></dd>
 <dt>...</dt>
 <dd><p>other parameters</p></dd>
 <dt>label</dt>
@@ -137,16 +137,16 @@ This function creates a unified representation of a model, which can be further 
 <dd><p>logical. If TRUE (default) then <code>predicted_values</code> and <code>residual</code> are calculated when explainer is created.
 This will happen also if <code>verbose</code> is TRUE. Set both <code>verbose</code> and <code>precalculate</code> to FALSE to omit calculations.</p></dd>
 <dt>colorize</dt>
-<dd><p>logical. If TRUE (default) then <code>WARNINGS</code>, <code>ERRORS</code> and <code>NOTES</code> are colorized. Will work only in the R console.</p></dd>
+<dd><p>logical. If TRUE (default) then <code>WARNINGS</code>, <code>ERRORS</code> and <code>NOTES</code> are colorized. Will work only in the R console. Now by default it is <code>FALSE</code> while knitting and <code>TRUE</code> otherwise.</p></dd>
 <dt>model_info</dt>
-<dd><p>a named list (<code>package</code>, <code>version</code>, <code>type</code>) containg information about model. If <code>NULL</code>, <code>DALEX</code> will seek for information on it's own.</p></dd>
+<dd><p>a named list (<code>package</code>, <code>version</code>, <code>type</code>) containing information about model. If <code>NULL</code>, <code>DALEX</code> will seek for information on it's own.</p></dd>
 <dt>type</dt>
 <dd><p>type of a model, either <code>classification</code> or <code>regression</code>. If not specified then <code>type</code> will be extracted from <code>model_info</code>.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>An object of the class <code>explainer</code>.
-It's a list with following fields:</p><ul><li><p><code>model</code> the explained model.</p></li>
+It's a list with the following fields:</p><ul><li><p><code>model</code> the explained model.</p></li>
 <li><p><code>data</code> the dataset used for training.</p></li>
 <li><p><code>y</code> response for observations from <code>data</code>.</p></li>
 <li><p><code>weights</code> sample weights for <code>data</code>. <code>NULL</code> if weights are not specified.</p></li>
@@ -160,7 +160,7 @@ It's a list with following fields:</p><ul><li><p><code>model</code> the explaine
 </ul></div>
     <div id="details">
     <h2>Details</h2>
-    <p>Please NOTE, that the <code>model</code> is the only required argument.
+    <p>Please NOTE that the <code>model</code> is the only required argument.
 But some explanations may expect that other arguments will be provided too.</p>
     </div>
     <div id="references">
@@ -258,9 +258,9 @@ But some explanations may expect that other arguments will be provided too.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  custom_predict </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1864.618 , mean =  3489.559 , max =  6149.872  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1858.959 , mean =  3488.592 , max =  6234.341  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -547.7243 , mean =  -2.539961 , max =  664.1768  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -482.1063 , mean =  -1.573222 , max =  656.4997  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"></span>
 <span class="r-in"></span>
@@ -279,9 +279,9 @@ But some explanations may expect that other arguments will be provided too.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1857.543 , mean =  3489.577 , max =  6171.712  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1814.63 , mean =  3484.801 , max =  6199.01  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  custom_residual </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  0.2766667 , mean =  107.1588 , max =  635.481  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  0.019 , mean =  108.3763 , max =  615.444  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># binary classification</span></span>
@@ -296,9 +296,9 @@ But some explanations may expect that other arguments will be provided too.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task classification ( <span style="color: #BBBB00;"> default </span> ) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.01265229 , mean =  0.3235726 , max =  0.9951892  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.01687001 , mean =  0.3241957 , max =  0.9983069  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.8450008 , mean =  -0.001415864 , max =  0.9006758  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.7818494 , mean =  -0.002038941 , max =  0.888341  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># multiclass task</span></span>
@@ -315,7 +315,7 @@ But some explanations may expect that other arguments will be provided too.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task multiclass ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  predict function returns multiple columns:  3  ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between 1 and probability of true class ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  0.0009936244 , mean =  0.2788121 , max =  0.865131  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  0 , mean =  0.2806155 , max =  0.8954717  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># set model_info</span></span>
@@ -418,7 +418,7 @@ But some explanations may expect that other arguments will be provided too.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  By deafult regressions tasks supports only numercical 'y' parameter. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Consider changing to numerical vector.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Otherwise I will not be able to calculate residuals or loss function.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1899.599 , mean =  3488.956 , max =  6128.165  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1883.954 , mean =  3488.93 , max =  6190.384  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"><span class="va">aps_ranger_explainer4</span></span>
