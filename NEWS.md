@@ -1,6 +1,7 @@
 DALEX 2.4.0
 ---------------------------------------------------------------
 * Changed default in `explain(colorize=)` according to  ([#473](https://github.com/ModelOriented/DALEX/issues/473))
+* Added performance metrics for imbalanced data to `model_performance()`
 
 DALEX 2.3.0.9
 ---------------------------------------------------------------
