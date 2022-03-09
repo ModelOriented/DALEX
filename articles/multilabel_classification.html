@@ -146,7 +146,7 @@
 <span class="co">#&gt; Target node size:                 10 </span>
 <span class="co">#&gt; Variable importance mode:         none </span>
 <span class="co">#&gt; Splitrule:                        gini </span>
-<span class="co">#&gt; OOB prediction error (Brier s.):  0.2166917</span></code></pre>
+<span class="co">#&gt; OOB prediction error (Brier s.):  0.2182909</span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://modeloriented.github.io/DALEX" class="external-link">"DALEX"</a></span><span class="op">)</span>
 <span class="va">explain_HR_ranger</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span><span class="op">(</span><span class="va">model_HR_ranger</span>,
@@ -163,7 +163,7 @@
 <span class="co">#&gt;   -&gt; model_info        :  package ranger , ver. 0.13.1 , task multiclass (  default  ) </span>
 <span class="co">#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) </span>
 <span class="co">#&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )</span>
-<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.2788261 , max =  0.8778545  </span>
+<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.276623 , max =  0.8695625  </span>
 <span class="co">#&gt;   A new explainer has been created!</span></code></pre>
 <p>The sixth column, that we have omitted during the creation of the explainer, stands for the target column (<code>status</code>). It is good practice not to put it in <code>data</code>. Keep in mind that the default <code>yhat</code> function for <code>ranger</code>, and for any other package that is supported by <code>DALEX</code>, enforces probability output. Therefore residuals cannot be standard <span class="math inline">\(y - \hat{y}\)</span>. Since <code>DALEX 1.2.2</code> in the case of multiclass classification one minus probability of the TRUE class is a standard residual function.</p>
 </div>
@@ -188,7 +188,7 @@
 <span class="co">#&gt;   -&gt; model_info        :  package ranger , ver. 0.13.1 , task multiclass (  default  ) </span>
 <span class="co">#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) </span>
 <span class="co">#&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )</span>
-<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.2788261 , max =  0.8778545  </span>
+<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.276623 , max =  0.8695625  </span>
 <span class="co">#&gt;   A new explainer has been created!</span></code></pre>
 <p>And now we can use <code><a href="../reference/model_parts.html">model_parts()</a></code></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -251,17 +251,17 @@
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">(</span><span class="va">mp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_performance.html">model_performance</a></span><span class="op">(</span><span class="va">explain_HR_ranger</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">#&gt; Measures for:  multiclass</span>
-<span class="co">#&gt; micro_F1   : 0.8686122 </span>
-<span class="co">#&gt; macro_F1   : 0.8663693 </span>
-<span class="co">#&gt; w_macro_F1 : 0.8673185 </span>
-<span class="co">#&gt; accuracy   : 0.8686122 </span>
-<span class="co">#&gt; w_macro_auc: 0.9767823</span>
+<span class="co">#&gt; micro_F1   : 0.8716707 </span>
+<span class="co">#&gt; macro_F1   : 0.8701083 </span>
+<span class="co">#&gt; w_macro_F1 : 0.8707354 </span>
+<span class="co">#&gt; accuracy   : 0.8716707 </span>
+<span class="co">#&gt; w_macro_auc: 0.9779007</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Residuals:</span>
 <span class="co">#&gt;         0%        10%        20%        30%        40%        50%        60% </span>
-<span class="co">#&gt; 0.00000000 0.02514911 0.06031567 0.11854031 0.18100737 0.24441113 0.31437406 </span>
+<span class="co">#&gt; 0.00000000 0.02542002 0.05953197 0.11404168 0.17775054 0.24204495 0.31399155 </span>
 <span class="co">#&gt;        70%        80%        90%       100% </span>
-<span class="co">#&gt; 0.39237339 0.48437980 0.59597441 0.87785446</span></code></pre>
+<span class="co">#&gt; 0.39109081 0.48249790 0.59211871 0.86956253</span></code></pre>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mp</span><span class="op">)</span></code></pre></div>
 <p><img src="multilabel_classification_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>

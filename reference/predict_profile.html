@@ -190,9 +190,9 @@ It's a data frame with calculated average response.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  587.0879 , mean =  1370.145 , max =  3371.495  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  582.6417 , mean =  1369.424 , max =  3386.6  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -4864.089 , mean =  -1449.682 , max =  1028.008  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -4957.6 , mean =  -1448.962 , max =  1011.617  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"><span class="va">dragon_ranger_predict4</span> <span class="op">&lt;-</span> <span class="fu">predict_profile</span><span class="op">(</span><span class="va">dragon_ranger_explainer4</span>,</span>
 <span class="r-in">                                           new_observation <span class="op">=</span> <span class="va">new_dragon</span>,</span>
@@ -200,12 +200,12 @@ It's a data frame with calculated average response.</p>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dragon_ranger_predict4</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Top profiles    : </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     year_of_birth height weight scars number_of_lost_teeth   _yhat_</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        -1999.00     80   12.5     0                    5 892.1920</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.1      -1961.01     80   12.5     0                    5 881.4326</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.2      -1923.02     80   12.5     0                    5 877.5329</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.3      -1885.03     80   12.5     0                    5 877.5329</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.4      -1847.04     80   12.5     0                    5 877.5329</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.5      -1809.05     80   12.5     0                    5 877.5329</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        -1999.00     80   12.5     0                    5 887.9534</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.1      -1961.01     80   12.5     0                    5 877.8708</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.2      -1923.02     80   12.5     0                    5 875.4800</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.3      -1885.03     80   12.5     0                    5 872.9439</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.4      -1847.04     80   12.5     0                    5 872.9439</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.5      -1809.05     80   12.5     0                    5 873.1928</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           _vname_ _ids_      _label_</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   year_of_birth     1 model_ranger</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1.1 year_of_birth     1 model_ranger</span>
@@ -217,7 +217,7 @@ It's a data frame with calculated average response.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Top observations:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   year_of_birth height weight scars number_of_lost_teeth   _yhat_      _label_</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1           200     80   12.5     0                    5 847.5499 model_ranger</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1           200     80   12.5     0                    5 888.7159 model_ranger</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   _ids_</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1     1</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">dragon_ranger_predict4</span>,</span>
