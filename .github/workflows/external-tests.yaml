@@ -47,12 +47,12 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          # - {os: windows-latest, r: 'devel'} this won't work on the i386 architecture
+          - {os: windows-latest, r: 'devel'}
           - {os: windows-latest, r: '4.1'}
           - {os: windows-latest, r: '4.0'}
           - {os: windows-latest, r: '3.6'}
           - {os: macOS-latest,   r: '4.1'}
-          # - {os: macOS-latest,   r: '4.0'}
+          - {os: macOS-latest,   r: '4.0'}
           - {os: ubuntu-18.04, r: '4.1', vdiffr: true,  xref: true, rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
           - {os: ubuntu-18.04, r: '4.0', vdiffr: true,  xref: true, rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
           - {os: ubuntu-18.04, r: '3.6', vdiffr: true,  xref: true, rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
@@ -98,7 +98,7 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_github("ModelOriented/ingredients")
           remotes::install_github("ModelOriented/iBreakDown")
-          install.packages(c("rcmdcheck", "parsnip", "ranger", "randomForest", "e1071", "caret", "gbm", "rms", "rpart", "kernlab"))
+          install.packages(c("rcmdcheck", "parsnip", "ranger", "e1071", "caret", "gbm", "rms", "rpart", "kernlab"))
           remotes::install_version("glmnet", version = "4.1-2", repos = "http://cran.us.r-project.org")
         shell: Rscript {0}
 
