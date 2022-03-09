@@ -1,9 +1,10 @@
+DALEX (development)
+---------------------------------------------------------------
+* changed URLs in the DESCRIPTION as requested in ([#484](https://github.com/ModelOriented/DALEX/issues/484))
+
 DALEX 2.4.0
 ---------------------------------------------------------------
 * Changed default in `explain(colorize=)` according to  ([#473](https://github.com/ModelOriented/DALEX/issues/473))
-
-DALEX 2.3.0.9
----------------------------------------------------------------
 * Added explain/yhat support for `partykit` ([#438](https://github.com/ModelOriented/DALEX/issues/438))
 * `explain()` warns if target has more than two values for classification ([#418](https://github.com/ModelOriented/DALEX/issues/418))
 

@@ -1,6 +1,6 @@
 Package: DALEX
 Title: moDel Agnostic Language for Exploration and eXplanation
-Version: 2.4.0
+Version: 2.4.0.9000
 Authors@R: c(person("Przemyslaw", "Biecek", email = "przemyslaw.biecek@gmail.com", role = c("aut", "cre"), 
              comment = c(ORCID = "0000-0001-8423-1823")),
     person("Szymon", "Maksymiuk", role = "aut",
@@ -29,9 +29,9 @@ Imports:
   iBreakDown (>= 1.3.1),
   ingredients (>= 2.0)
 Suggests: 
-    gower,
-    ranger,
-    testthat,
-    methods
-URL: https://dalex.drwhy.ai,  https://github.com/ModelOriented/DALEX
+  gower,
+  ranger,
+  testthat,
+  methods
+URL: https://modeloriented.github.io/DALEX, https://dalex.drwhy.ai
 BugReports: https://github.com/ModelOriented/DALEX/issues
