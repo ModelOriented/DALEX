@@ -102,25 +102,25 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task classification ( <span style="color: #BBBB00;"> default </span> ) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.01635708 , mean =  0.3226432 , max =  0.9949583  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.02117829 , mean =  0.3230099 , max =  0.9953705  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.7805374 , mean =  -0.0004863954 , max =  0.8854201  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.8183508 , mean =  -0.0008530966 , max =  0.8842427  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"><span class="co"># resulting dataframe has predicted values and residuals</span></span>
 <span class="r-in"><span class="va">mp_ex_rn</span> <span class="op">&lt;-</span> <span class="fu"><a href="model_performance.html">model_performance</a></span><span class="op">(</span><span class="va">explainer_ranger</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">mp_ex_rn</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Measures for:  classification</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> recall     : 0.5879044 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> precision  : 0.8931624 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> f1         : 0.7090755 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> accuracy   : 0.8445854 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> auc        : 0.8965464</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> precision  : 0.9028078 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> f1         : 0.7120954 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> accuracy   : 0.8468509 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> auc        : 0.899499</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Residuals:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          0%         10%         20%         30%         40%         50% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -0.78053736 -0.24305451 -0.20865035 -0.18812476 -0.16804430 -0.12937662 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -0.81835080 -0.24826928 -0.20910892 -0.18694664 -0.16870409 -0.12571916 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         60%         70%         80%         90%        100% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -0.09662109  0.03005147  0.23468958  0.59134401  0.88542009 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -0.08814035  0.02482569  0.22668095  0.60667092  0.88424271 </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mp_ex_rn</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="print.model_performance-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"> <span class="co"># }</span></span>

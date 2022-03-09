@@ -118,23 +118,23 @@ It's a list with following fields:</p><ul><li><p><code>residuals</code> - data f
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1825.67 , mean =  3489.502 , max =  6195.774  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1875.413 , mean =  3491.496 , max =  6177.222  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -489.3463 , mean =  -2.482884 , max =  731.676  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -498.3527 , mean =  -4.477436 , max =  651.19  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"><span class="va">model_performance_ranger_aps</span> <span class="op">&lt;-</span> <span class="fu">model_performance</span><span class="op">(</span><span class="va">explainer_ranger_apartments</span> <span class="op">)</span></span>
 <span class="r-in"><span class="va">model_performance_ranger_aps</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Measures for:  regression</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mse        : 23900.62 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rmse       : 154.5983 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> r2         : 0.9708979 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mad        : 85.61076</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mse        : 22337.3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rmse       : 149.4567 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> r2         : 0.9728014 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mad        : 82.25516</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Residuals:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         0%        10%        20%        30%        40%        50%        60% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -489.34633 -171.77357 -116.67001  -76.62847  -52.29707  -23.16165    4.51380 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        70%        80%        90%       100% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   44.16443   99.98087  204.34261  731.67600 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          0%         10%         20%         30%         40%         50% </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -498.352667 -166.663053 -108.873276  -75.616276  -51.605505  -26.874000 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         60%         70%         80%         90%        100% </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    1.264267   38.411222   92.599778  191.469724  651.190000 </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_performance_ranger_aps</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="model_performance-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_performance_ranger_aps</span>, geom <span class="op">=</span> <span class="st">"boxplot"</span><span class="op">)</span></span>
@@ -194,22 +194,22 @@ It's a list with following fields:</p><ul><li><p><code>residuals</code> - data f
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task multiclass ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  predict function returns multiple columns:  3  ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between 1 and probability of true class ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  0 , mean =  0.2812233 , max =  0.8924176  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  0.0005734852 , mean =  0.2781901 , max =  0.9013271  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"><span class="va">model_performance_ranger_HR</span> <span class="op">&lt;-</span> <span class="fu">model_performance</span><span class="op">(</span><span class="va">explainer_ranger_HR</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">model_performance_ranger_HR</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Measures for:  multiclass</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> micro_F1   : 0.8695043 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> macro_F1   : 0.8672457 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> w_macro_F1 : 0.8682055 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> accuracy   : 0.8695043 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> w_macro_auc: 0.9762102</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> micro_F1   : 0.8692494 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> macro_F1   : 0.8671808 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> w_macro_F1 : 0.8680192 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> accuracy   : 0.8692494 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> w_macro_auc: 0.9763279</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Residuals:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         0%        10%        20%        30%        40%        50%        60% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.00000000 0.02545549 0.06224600 0.12101384 0.18106483 0.24592070 0.31993302 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        70%        80%        90%       100% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.39769958 0.48842221 0.59705458 0.89241758 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           0%          10%          20%          30%          40%          50% </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.0005734852 0.0256471099 0.0604143130 0.1161092873 0.1763830625 0.2417190476 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          60%          70%          80%          90%         100% </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.3121586012 0.3922273490 0.4865785284 0.5952831346 0.9013270967 </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_performance_ranger_HR</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="model_performance-7.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_performance_ranger_HR</span>, geom <span class="op">=</span> <span class="st">"boxplot"</span><span class="op">)</span></span>
