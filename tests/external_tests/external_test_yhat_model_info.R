@@ -164,9 +164,9 @@ test_that("caret", {
 
   library(caret)
 
-  caret_regr <- train(m2.price~., data = apartments_cut, method="rf", ntree = 50)
+  caret_regr <- train(m2.price~., data = apartments_cut, method="ranger", num.trees = 50)
   caret_regr_lm <- train(m2.price~., data = apartments_cut, method="lm")
-  caret_classif <- train(as.factor(survived)~., data = titanic_imputed_cut, method="rf", ntree = 50)
+  caret_classif <- train(as.factor(survived)~., data = titanic_imputed_cut, method="ranger", num.trees = 50)
 
   explainer_classif_caret <- explain(caret_classif, data = titanic_imputed_cut, y = titanic_imputed_cut$survived, verbose = FALSE)
   explainer_classif_caret_pos <- explain(caret_classif, data = titanic_imputed_cut, y = titanic_imputed_cut$survived, verbose = FALSE, predict_function_target_column = 1)
