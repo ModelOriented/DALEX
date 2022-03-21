@@ -98,6 +98,7 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_github("ModelOriented/ingredients")
           remotes::install_github("ModelOriented/iBreakDown")
+          install.packages("lava")
           install.packages(c("rcmdcheck", "parsnip", "ranger", "e1071", "caret", "gbm", "rms", "rpart", "kernlab"))
           remotes::install_version("glmnet", version = "4.1-2", repos = "http://cran.us.r-project.org")
         shell: Rscript {0}
