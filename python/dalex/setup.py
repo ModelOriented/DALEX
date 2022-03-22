@@ -80,11 +80,11 @@ def run_setup():
         ],
         install_requires=[
             'setuptools',
-            'pandas>=1.1.2',
-            'numpy>=1.18.4',
-            'plotly>=4.12.0',
+            'pandas>=1.2.5',
+            'numpy>=1.20.3',
+            'scipy>=1.6.3',
+            'plotly>=5.1.0',
             'tqdm>=4.61.2',
-            'scipy>=1.5.4'
         ],
         extras_require={'full': extras_require},
         packages=find_packages(include=["dalex", "dalex.*"]),
