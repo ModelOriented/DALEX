@@ -148,7 +148,7 @@
 <span class="co">#&gt; Target node size:                 1 </span>
 <span class="co">#&gt; Variable importance mode:         none </span>
 <span class="co">#&gt; Splitrule:                        gini </span>
-<span class="co">#&gt; OOB prediction error:             19.57 %</span></code></pre>
+<span class="co">#&gt; OOB prediction error:             18.85 %</span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="explainer-for-titanic-survival">Explainer for Titanic survival<a class="anchor" aria-label="anchor" href="#explainer-for-titanic-survival"></a>
@@ -168,9 +168,9 @@
 <span class="co">#&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )</span>
 <span class="co">#&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )</span>
 <span class="co">#&gt;   -&gt; model_info        :  package ranger , ver. 0.13.1 , task classification (  default  ) </span>
-<span class="co">#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.2102401 , max =  1  </span>
+<span class="co">#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.2143181 , max =  1  </span>
 <span class="co">#&gt;   -&gt; residual function :  difference between y and yhat (  default  )</span>
-<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  -1 , mean =  0.1119166 , max =  1  </span>
+<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  -1 , mean =  0.1064794 , max =  1  </span>
 <span class="co">#&gt;   A new explainer has been created!</span></code></pre>
 </div>
 <div class="section level2">
@@ -181,12 +181,12 @@
 <code class="sourceCode R"><span class="va">vi_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_parts.html">model_parts</a></span><span class="op">(</span><span class="va">explain_titanic_rf</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">vi_rf</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">#&gt;       variable mean_dropout_loss            label</span>
-<span class="co">#&gt; 1 _full_model_         0.2197284 Random Forest v7</span>
-<span class="co">#&gt; 2     survived         0.2189830 Random Forest v7</span>
-<span class="co">#&gt; 3        sibsp         0.2357533 Random Forest v7</span>
-<span class="co">#&gt; 4        parch         0.2361582 Random Forest v7</span>
-<span class="co">#&gt; 5     embarked         0.2433014 Random Forest v7</span>
-<span class="co">#&gt; 6         fare         0.2679125 Random Forest v7</span></code></pre>
+<span class="co">#&gt; 1 _full_model_         0.2092330 Random Forest v7</span>
+<span class="co">#&gt; 2     survived         0.2099980 Random Forest v7</span>
+<span class="co">#&gt; 3        parch         0.2242890 Random Forest v7</span>
+<span class="co">#&gt; 4        sibsp         0.2262631 Random Forest v7</span>
+<span class="co">#&gt; 5     embarked         0.2342759 Random Forest v7</span>
+<span class="co">#&gt; 6         fare         0.2547569 Random Forest v7</span></code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vi_rf</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
@@ -205,47 +205,47 @@
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">vr_age</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">#&gt; $cp_profiles</span>
 <span class="co">#&gt; Top profiles    : </span>
-<span class="co">#&gt;       gender        age class  embarked    fare sibsp parch survived _yhat_</span>
-<span class="co">#&gt; 696     male  0.1666667   2nd Cherbourg 41.1107     1     2        0      1</span>
-<span class="co">#&gt; 696.1   male  2.0000000   2nd Cherbourg 41.1107     1     2        0      1</span>
-<span class="co">#&gt; 696.2   male  4.0000000   2nd Cherbourg 41.1107     1     2        0      1</span>
-<span class="co">#&gt; 696.3   male  7.0000000   2nd Cherbourg 41.1107     1     2        0      1</span>
-<span class="co">#&gt; 696.4   male  9.0000000   2nd Cherbourg 41.1107     1     2        0      1</span>
-<span class="co">#&gt; 696.5   male 13.0000000   2nd Cherbourg 41.1107     1     2        0      0</span>
+<span class="co">#&gt;       gender        age class  embarked   fare sibsp parch survived _yhat_</span>
+<span class="co">#&gt; 497     male  0.1666667   3rd Cherbourg 7.0407     0     0        0      0</span>
+<span class="co">#&gt; 497.1   male  2.0000000   3rd Cherbourg 7.0407     0     0        0      0</span>
+<span class="co">#&gt; 497.2   male  4.0000000   3rd Cherbourg 7.0407     0     0        0      0</span>
+<span class="co">#&gt; 497.3   male  7.0000000   3rd Cherbourg 7.0407     0     0        0      0</span>
+<span class="co">#&gt; 497.4   male  9.0000000   3rd Cherbourg 7.0407     0     0        0      0</span>
+<span class="co">#&gt; 497.5   male 13.0000000   3rd Cherbourg 7.0407     0     0        0      0</span>
 <span class="co">#&gt;       _vname_ _ids_          _label_</span>
-<span class="co">#&gt; 696       age   696 Random Forest v7</span>
-<span class="co">#&gt; 696.1     age   696 Random Forest v7</span>
-<span class="co">#&gt; 696.2     age   696 Random Forest v7</span>
-<span class="co">#&gt; 696.3     age   696 Random Forest v7</span>
-<span class="co">#&gt; 696.4     age   696 Random Forest v7</span>
-<span class="co">#&gt; 696.5     age   696 Random Forest v7</span>
+<span class="co">#&gt; 497       age   497 Random Forest v7</span>
+<span class="co">#&gt; 497.1     age   497 Random Forest v7</span>
+<span class="co">#&gt; 497.2     age   497 Random Forest v7</span>
+<span class="co">#&gt; 497.3     age   497 Random Forest v7</span>
+<span class="co">#&gt; 497.4     age   497 Random Forest v7</span>
+<span class="co">#&gt; 497.5     age   497 Random Forest v7</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Top observations:</span>
 <span class="co">#&gt;      gender age            class    embarked    fare sibsp parch survived</span>
-<span class="co">#&gt; 696    male  25              2nd   Cherbourg 41.1107     1     2        0</span>
-<span class="co">#&gt; 903  female  22              3rd Southampton  7.1506     0     0        1</span>
-<span class="co">#&gt; 1799   male  31 victualling crew     Belfast  0.0000     0     0        1</span>
-<span class="co">#&gt; 1372   male  35 engineering crew     Belfast  0.0000     0     0        0</span>
-<span class="co">#&gt; 95     male  52              2nd Southampton 12.1006     0     0        0</span>
-<span class="co">#&gt; 1708   male  28        deck crew     Belfast  0.0000     0     0        0</span>
+<span class="co">#&gt; 497    male  35              3rd   Cherbourg  7.0407     0     0        0</span>
+<span class="co">#&gt; 48   female  36              2nd Southampton 26.0000     1     0        1</span>
+<span class="co">#&gt; 2047   male  37        deck crew Southampton  0.0000     0     0        0</span>
+<span class="co">#&gt; 1736   male  31 engineering crew Southampton  0.0000     0     0        1</span>
+<span class="co">#&gt; 202    male  33              1st Southampton  5.0000     0     0        0</span>
+<span class="co">#&gt; 1612   male  38 victualling crew     Belfast  0.0000     0     0        0</span>
 <span class="co">#&gt;      _yhat_          _label_ _ids_</span>
-<span class="co">#&gt; 696       0 Random Forest v7     1</span>
-<span class="co">#&gt; 903       1 Random Forest v7     2</span>
-<span class="co">#&gt; 1799      0 Random Forest v7     3</span>
-<span class="co">#&gt; 1372      0 Random Forest v7     4</span>
-<span class="co">#&gt; 95        0 Random Forest v7     5</span>
-<span class="co">#&gt; 1708      1 Random Forest v7     6</span>
+<span class="co">#&gt; 497       0 Random Forest v7     1</span>
+<span class="co">#&gt; 48        1 Random Forest v7     2</span>
+<span class="co">#&gt; 2047      0 Random Forest v7     3</span>
+<span class="co">#&gt; 1736      0 Random Forest v7     4</span>
+<span class="co">#&gt; 202       0 Random Forest v7     5</span>
+<span class="co">#&gt; 1612      0 Random Forest v7     6</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $agr_profiles</span>
 <span class="co">#&gt; Top profiles    : </span>
 <span class="co">#&gt;   _vname_          _label_        _x_ _yhat_ _ids_</span>
-<span class="co">#&gt; 1     age Random Forest v7  0.1666667   0.38     0</span>
-<span class="co">#&gt; 2     age Random Forest v7  2.0000000   0.52     0</span>
-<span class="co">#&gt; 3     age Random Forest v7  4.0000000   0.57     0</span>
-<span class="co">#&gt; 4     age Random Forest v7  7.0000000   0.40     0</span>
-<span class="co">#&gt; 5     age Random Forest v7  9.0000000   0.34     0</span>
-<span class="co">#&gt; 6     age Random Forest v7 13.0000000   0.20     0</span>
+<span class="co">#&gt; 1     age Random Forest v7  0.1666667   0.40     0</span>
+<span class="co">#&gt; 2     age Random Forest v7  2.0000000   0.53     0</span>
+<span class="co">#&gt; 3     age Random Forest v7  4.0000000   0.53     0</span>
+<span class="co">#&gt; 4     age Random Forest v7  7.0000000   0.46     0</span>
+<span class="co">#&gt; 5     age Random Forest v7  9.0000000   0.37     0</span>
+<span class="co">#&gt; 6     age Random Forest v7 13.0000000   0.29     0</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $color</span>
 <span class="co">#&gt; [1] "#4378bf"</span></code></pre>
@@ -352,9 +352,9 @@
 <span class="co">#&gt;   -&gt; predict function  :  function(m, x) predict(m, x, n.trees = 15000, type = "response") </span>
 <span class="co">#&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )</span>
 <span class="co">#&gt;   -&gt; model_info        :  package gbm , ver. 2.1.8 , task classification (  default  ) </span>
-<span class="co">#&gt;   -&gt; predicted values  :  numerical, min =  0.000671716 , mean =  0.3232934 , max =  0.9989882  </span>
+<span class="co">#&gt;   -&gt; predicted values  :  numerical, min =  0.0005736021 , mean =  0.3246751 , max =  0.9986135  </span>
 <span class="co">#&gt;   -&gt; residual function :  difference between y and yhat (  default  )</span>
-<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  -0.9650171 , mean =  -0.001136595 , max =  0.9920595  </span>
+<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  -0.9682646 , mean =  -0.002518328 , max =  0.9880309  </span>
 <span class="co">#&gt;   A new explainer has been created!</span></code></pre>
 </div>
 <div class="section level3">
@@ -376,9 +376,9 @@
 <span class="co">#&gt;   -&gt; predict function  :  yhat.svm  will be used (  default  )</span>
 <span class="co">#&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )</span>
 <span class="co">#&gt;   -&gt; model_info        :  package e1071 , ver. 1.7.9 , task classification (  default  ) </span>
-<span class="co">#&gt;   -&gt; predicted values  :  numerical, min =  0.08720898 , mean =  0.3239201 , max =  0.9633858  </span>
+<span class="co">#&gt;   -&gt; predicted values  :  numerical, min =  0.08754283 , mean =  0.3235032 , max =  0.9626519  </span>
 <span class="co">#&gt;   -&gt; residual function :  difference between y and yhat (  default  )</span>
-<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  -0.8676384 , mean =  -0.001763282 , max =  0.912791  </span>
+<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  -0.8659673 , mean =  -0.001346456 , max =  0.9124572  </span>
 <span class="co">#&gt;   A new explainer has been created!</span></code></pre>
 </div>
 <div class="section level3">
