@@ -70,7 +70,6 @@ def run_setup():
             "Topic :: Scientific/Engineering",
             "Topic :: Scientific/Engineering :: Artificial Intelligence",
             "Programming Language :: Python :: 3",
-            "Programming Language :: Python :: 3.6",
             "Programming Language :: Python :: 3.7",
             "Programming Language :: Python :: 3.8",
             "Programming Language :: Python :: 3.9",
@@ -89,7 +88,7 @@ def run_setup():
         ],
         extras_require={'full': extras_require},
         packages=find_packages(include=["dalex", "dalex.*"]),
-        python_requires='>=3.6',
+        python_requires='>=3.7',
         include_package_data=True
     )
 

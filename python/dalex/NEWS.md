@@ -2,9 +2,11 @@
 
 ### development 
 
+* increase the dependency from `python>=3.6` to `python>=3.7` (both `numpy>=1.22` and `pandas>=1.4` depend on `python>=3.8`)
+* increase the dependency to `tqdm>=4.61.2` due to errors with `pandas` https://github.com/tqdm/tqdm/issues/1199
 * https://github.com/ModelOriented/DALEX/issues/489
 * https://github.com/ModelOriented/DALEX/issues/491
-* increase `tqdm` dependency to `tqdm>=4.61.2` due to errors with `pandas` https://github.com/tqdm/tqdm/issues/1199
+
 
 ### v1.4.1 (2021-11-08)
 
