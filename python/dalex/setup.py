@@ -66,7 +66,7 @@ def run_setup():
             "Issue tracker": "https://github.com/ModelOriented/DALEX/issues",
         },
         classifiers=[
-            "Development Status :: 4 - Beta",
+            "Development Status :: 5 - Production/Stable",
             "Topic :: Scientific/Engineering",
             "Topic :: Scientific/Engineering :: Artificial Intelligence",
             "Programming Language :: Python :: 3",
@@ -74,6 +74,7 @@ def run_setup():
             "Programming Language :: Python :: 3.7",
             "Programming Language :: Python :: 3.8",
             "Programming Language :: Python :: 3.9",
+            "Programming Language :: Python :: 3.10",
             "License :: OSI Approved",
             "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
             "Operating System :: OS Independent",
