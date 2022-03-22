@@ -30,8 +30,8 @@ def auc(y_pred, y_true):
     fpr_temp = _df.assign(y_true=1-_df.y_true).groupby('y_pred').sum().reset_index().sort_values('y_pred', ascending=False)
 
     # assumes that y = 0/1 where 1 is the positive label
-    tpr = pd.Series([0]).append(tpr_temp.y_true.cumsum()) / _df.y_true.sum()
-    fpr = pd.Series([0]).append(fpr_temp.y_true.cumsum()) / (1 - _df.y_true).sum()
+    tpr = pd.concat([pd.Series([0]), tpr_temp.y_true.cumsum()]) / _df.y_true.sum()
+    fpr = pd.concat([pd.Series([0]), fpr_temp.y_true.cumsum()]) / (1 - _df.y_true).sum()
 
     _auc = (np.diff(fpr) * (tpr.iloc[1:].values + tpr.iloc[:-1].values) / 2).sum()
 

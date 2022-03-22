@@ -13,9 +13,9 @@ from ..._explainer import helper
 
 
 def plot_fairness_check(data, n_models, epsilon, title):
-    upper_bound = max([max(data.score[np.invert(np.isnan(data.score.to_numpy()))]), 1 / epsilon - 1])
+    upper_bound = max([max(data.score[np.invert(pd.isna(data.score))]), 1 / epsilon - 1])
     upper_bound = upper_bound * 1.05
-    lower_bound = min([min(data.score[np.invert(np.isnan(data.score.to_numpy()))]), epsilon - 1])
+    lower_bound = min([min(data.score[np.invert(pd.isna(data.score))]), epsilon - 1])
     lower_bound = lower_bound * 1.1
     upper_bound = round(upper_bound, 1)
 
@@ -35,7 +35,7 @@ def plot_fairness_check(data, n_models, epsilon, title):
     data = data.reset_index(drop=True)
 
     # for hover
-    data['dispx'] = np.round(data.score + 1, 3)
+    data['dispx'] = np.round(data.score.astype(float) + 1, 3)
     # make fig
     fig = px.bar(data,
                  y='subgroup_numeric',
@@ -173,7 +173,7 @@ def plot_fairness_check_clf(fobject,
         basic_checks.check_other_fairness_objects(fobject, other_objects)
         for other_obj in other_objects:
             other_data = utils._metric_ratios_2_df(other_obj)
-            data = data.append(other_data)
+            data = pd.concat([data, other_data])
             n += 1
 
     if epsilon is None:
@@ -223,7 +223,7 @@ def plot_fairness_check_reg(fobject,
             other_data = other_obj.result.unstack().reset_index()
             other_data.columns = ['metric', 'subgroup', 'score']
             other_data['label'] = other_obj.label
-            data = data.append(other_data)
+            data = pd.concat([data, other_data])
             n += 1
 
     data.score = data.score - 1
@@ -244,7 +244,7 @@ def plot_metric_scores(fobject,
         for other_obj in other_objects:
             other_data = other_obj._subgroup_confusion_matrix_metrics_object.to_vertical_DataFrame()
             other_data['label'] = np.repeat(other_obj.label, other_data.shape[0]).astype('U')
-            data = data.append(other_data)
+            data = pd.concat([data, other_data])
             n += 1
 
     # metric choosing and name change
@@ -636,7 +636,7 @@ def plot_ceteris_paribus_cutoff(fobject,
             parity_loss = parity_loss.loc[parity_loss.index.isin(metrics)]
             newdata = pd.DataFrame({'score': parity_loss, 'metric': parity_loss.index, 'cutoff': i / (grid_points - 1)})
             newdata = newdata.reset_index(drop=True)
-            data = data.append(newdata)
+            data = pd.concat([data, newdata])
 
         data = data.reset_index(drop=True)
 
@@ -703,7 +703,7 @@ def plot_density(fobject,
                                            'y_hat': y_hat,
                                            'subgroup': np.repeat(subgroup, len(y)),
                                            'model': np.repeat(obj.label, len(y))})
-            data = data.append(data_to_append)
+            data = pd.concat([data, data_to_append])
 
     fig = go.Figure()
 

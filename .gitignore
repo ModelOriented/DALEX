@@ -21,6 +21,8 @@ python/dalex/pdoc_template/*
 **venv/**
 *.ipynb
 
+**/build/**
+
 *.zip
 
 **/catboost_info/*

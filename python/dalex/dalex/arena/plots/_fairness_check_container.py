@@ -1,4 +1,6 @@
 import numpy as np
+import pandas as pd
+
 from pandas.api.types import is_object_dtype
 from .._plot_container import PlotContainer
 from dalex.fairness._group_fairness import utils, checks
@@ -35,7 +37,7 @@ class FairnessCheckContainer(PlotContainer):
                 sub_confusion_matrix_metrics = utils.SubgroupConfusionMatrixMetrics(sub_confusion_matrix)
                 df = sub_confusion_matrix_metrics.to_vertical_DataFrame()
                 df['cutoff'] = cutoff
-                output_df = df if output_df is None else output_df.append(df)
+                output_df = df if output_df is None else pd.concat([output_df, df])
 
             output = {}
             for (subgroup, x) in output_df.set_index('metric').groupby('subgroup'):

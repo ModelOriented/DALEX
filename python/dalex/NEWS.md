@@ -1,5 +1,11 @@
 ## Changelog
 
+### development 
+
+* https://github.com/ModelOriented/DALEX/issues/489
+* https://github.com/ModelOriented/DALEX/issues/491
+* increase `tqdm` dependency to `tqdm>=4.61.2` due to errors with pandas https://github.com/tqdm/tqdm/issues/1199
+
 ### v1.4.1 (2021-11-08)
 
 #### features

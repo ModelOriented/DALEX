@@ -51,7 +51,10 @@ def start_server(arena, host, port, disable_logs):
                     data = result['model'].explainer.data if not result['model'] is None else None
                     if data is None:
                         raise Exception('Custom observation requires model param')
-                    df = data.head(n=0).append({ k: v for k, v in obj.items() if k in data.columns }, ignore_index=True,).tail(n=1).reset_index(drop=True)
+                    df = pd.concat([
+                        data.head(n=0), 
+                        pd.DataFrame({ k: v for k, v in obj.items() if k in data.columns }, index=[0])
+                    ], ignore_index=True).tail(n=1).reset_index(drop=True)
                     param = ObservationParam(df, 0)
                     result[param_type] = param
                 except:

@@ -181,7 +181,8 @@ class GroupFairnessClassification(_FairnessObject):
         if type == 'fairness_check':
             fig = plot.plot_fairness_check_clf(self,
                                                other_objects=other_objects,
-                                               title=title, **kwargs)
+                                               title=title, 
+                                               **kwargs)
 
         elif type == "metric_scores":
             fig = plot.plot_metric_scores(self,

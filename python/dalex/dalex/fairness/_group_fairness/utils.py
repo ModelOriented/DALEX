@@ -87,7 +87,7 @@ class SubgroupConfusionMatrixMetrics:
                           'FNR': FNR, 'FPR': FPR, "FDR": FDR, 'FOR': FOR, 'ACC': ACC, 'STP': STP}
 
             for metric in cf_metrics.keys():
-                if not np.isnan(cf_metrics.get(metric)):
+                if not pd.isna(cf_metrics.get(metric)):
                     cf_metrics[metric] = round(cf_metrics.get(metric), 3)
 
             subgroup_confusion_matrix_metrics[sub] = deepcopy(cf_metrics)
@@ -103,7 +103,7 @@ class SubgroupConfusionMatrixMetrics:
             metric = metrics.get(subgroup)
             subgroup_vec = np.repeat(subgroup, len(metric))
             sub_df = pd.DataFrame({'metric': metric.keys(), 'subgroup': subgroup_vec, 'score': metric.values()})
-            data = data.append(sub_df)
+            data = pd.concat([data, sub_df])
         return data
 
     def to_horizontal_DataFrame(self) -> pd.DataFrame:
@@ -175,15 +175,15 @@ def _unwrap_parity_loss_data(fobject, other_objects, metrics, verbose):
             other_data['label'] = np.repeat(object.label, len(object.parity_loss))
             other_data['metric'] = other_data.index
             other_data = other_data.reset_index(drop=True)
-            data = data.append(other_data)
+            data = pd.concat([data, other_data])
 
     if len(metrics) > 1:
         data = data.loc[data.metric.isin(metrics), :]
     else:
         data = data.loc[data.metric == metrics[0]]
     # checking for nans
-    if any(np.isnan(data.score)):
-        models_with_nans = set(data.loc[np.isnan(data.score), :].label)
+    if any(pd.isna(data.score)):
+        models_with_nans = set(data.loc[pd.isna(data.score), :].label)
         helper.verbose_cat(f"Found NaNs in following models: {models_with_nans}", verbose)
 
     return data
@@ -320,13 +320,15 @@ def calculate_regression_measures(y, y_hat, protected, privileged):
                                   'separation': [r_sep],
                                   'sufficiency': [r_suf]})
 
-        data = data.append(to_append)
+        data = pd.concat([data, to_append])
 
     # append the scale
     to_append = pd.DataFrame({'subgroup': [privileged],
                               'independence': [1],
                               'separation': [1],
                               'sufficiency': [1]})
+    ## TODO: this should be uncommented but adds blanks to the plots
+    # data = pd.concat([data, to_append]) 
 
     data.index = data.subgroup
     data = data.iloc[:, 1:]
@@ -376,7 +378,7 @@ def universal_fairness_check(self, epsilon, verbose, num_for_not_fair, num_for_n
         f'\nRatios of metrics, based on \'{self.privileged}\'. Parameter \'epsilon\' was set to {epsilon}'
         f' and therefore metrics should be within ({epsilon}, {round(1 / epsilon, 3)})')
     print(metric_ratios.to_string())
-    if np.isnan(metric_ratios).sum().sum() > 0:
+    if pd.isna(metric_ratios).sum().sum() > 0:
         helper.verbose_cat(
             '\nWarning!\nTake into consideration that NaN\'s are present, consider checking \'metric_scores\' '
             'plot to see the difference', verbose=verbose)
