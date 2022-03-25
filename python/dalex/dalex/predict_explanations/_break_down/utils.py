@@ -210,19 +210,23 @@ def calculate_contributions_along_path(explainer,
     # extract values
     selected_values = selected.apply(lambda row: nice_pair(new_observation,
                                                            row['ind1'],
-                                                           row['ind2'] if not ind2_is_None else None),
+                                                           None if type == '1d' else row['ind2']),
                                      axis=1)
 
     # prepare values
     yhats = pd.concat(yhats) if keep_distributions else None
+    
     cumulative = np.hstack((baseline_yhat, yhats_mean, target_yhat))
     contribution = np.hstack((cumulative[0], np.diff(cumulative)))
     contribution[-1] = cumulative[-1]
+    
     result = {
         'variable_name': np.hstack(("intercept", selected.index, "")),
-        'variable_value': np.hstack(("1", selected_values, "")),
-        'variable': ["intercept"] + [' = '.join(pair) for pair in zip(selected.index, selected_values)] + [
-            'prediction'],
+        'variable_value': np.hstack(("", selected_values, "")),
+        'variable': 
+            ["intercept"] + 
+            [' = '.join(pair) for pair in zip(selected.index, selected_values)] + 
+            ['prediction'],
         'cumulative': cumulative,
         'contribution': contribution,
         'sign': np.sign(contribution),
