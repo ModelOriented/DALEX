@@ -9,6 +9,7 @@
 #' was executed withing \code{explain} function. DALEX will recognize subtype on it's own.
 #' @param ... - another arguments
 #'
+#' @details 
 #' Currently supported packages are:
 #' \itemize{
 #' \item class \code{cv.glmnet} and \code{glmnet} - models created with \pkg{glmnet} package
