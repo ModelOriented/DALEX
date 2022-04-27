@@ -1,8 +1,8 @@
 pandoc: 2.7.3
-pkgdown: 2.0.2
+pkgdown: 2.0.3
 pkgdown_sha: ~
 articles:
   multilabel_classification: multilabel_classification.html
   vignette_titanic: vignette_titanic.html
-last_built: 2022-03-22T11:39Z
+last_built: 2022-04-27T12:57Z
 
