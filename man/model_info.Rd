@@ -51,8 +51,17 @@ model_info(model, is_multiclass = FALSE, ...)
 \item{is_multiclass}{- if TRUE and task is classification, then multitask classification is set. Else is omitted. If \code{model_info}
 was executed withing \code{explain} function. DALEX will recognize subtype on it's own.}
 
-\item{...}{- another arguments
-
+\item{...}{- another arguments}
+}
+\value{
+A named list of class \code{model_info}
+}
+\description{
+This generic function let user extract base information about model. The function returns a named list of class \code{model_info} that
+contain about package of model, version and task type. For wrappers like \code{mlr} or \code{caret} both, package and wrapper inforamtion
+are stored
+}
+\details{
 Currently supported packages are:
 \itemize{
 \item class \code{cv.glmnet} and \code{glmnet} - models created with \pkg{glmnet} package
@@ -65,15 +74,7 @@ Currently supported packages are:
 \item class \code{svm} - support vector machines models created with the \pkg{e1071} package
 \item class \code{train} - models created with \pkg{caret} package
 \item class \code{gbm} - models created with \pkg{gbm} package
-}}
 }
-\value{
-A named list of class \code{model_info}
-}
-\description{
-This generic function let user extract base information about model. The function returns a named list of class \code{model_info} that
-contain about package of model, version and task type. For wrappers like \code{mlr} or \code{caret} both, package and wrapper inforamtion
-are stored
 }
 \examples{
 aps_lm_model4 <- lm(m2.price ~., data = apartments)
