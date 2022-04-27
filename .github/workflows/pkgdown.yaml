@@ -38,6 +38,7 @@ jobs:
         run: |
           install.packages("remotes")
           remotes::install_deps(dependencies = TRUE)
+          install.packages("future.apply")
           install.packages(c("rms", "gbm", "caret", "e1071"))
           install.packages("pkgdown")
           remotes::install_github("ModelOriented/DrWhyTemplate")
