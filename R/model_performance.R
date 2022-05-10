@@ -6,7 +6,7 @@
 #'
 #' @param explainer a model to be explained, preprocessed by the \code{\link{explain}} function
 #' @param ... other parameters
-#' @param cutoff a cutoff for classification models, needed for measures like recall, precision, ACC, F1, MCC, Brier score, balanced ACC, and log-loss. By default 0.5.
+#' @param cutoff a cutoff for classification models, needed for measures like recall, precision, ACC, F1, Matthews Correlation Coefficient, Brier score, balanced ACC, and log-loss. By default 0.5.
 #'
 #' @return An object of the class \code{model_performance}.
 #'
