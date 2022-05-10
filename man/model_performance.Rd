@@ -11,7 +11,7 @@ model_performance(explainer, ..., cutoff = 0.5)
 
 \item{...}{other parameters}
 
-\item{cutoff}{a cutoff for classification models, needed for measures like recall, precision, ACC, F1. By default 0.5.}
+\item{cutoff}{a cutoff for classification models, needed for measures like recall, precision, ACC, F1, Matthews Correlation Coefficient, Brier score, balanced ACC, and log-loss. By default 0.5.}
 }
 \value{
 An object of the class \code{model_performance}.
@@ -26,7 +26,7 @@ It's a list with following fields:
 }
 \description{
 Function \code{model_performance()} calculates various performance measures for classification and regression models.
-For classification models following measures are calculated: F1, accuracy, recall, precision and AUC.
+For classification models following measures are calculated: F1, accuracy, recall, precision and AUC, Matthews Correlation Coefficient, Brier score, balanced ACC, and log-loss.
 For regression models following measures are calculated: mean squared error, R squared, median absolute deviation.
 }
 \examples{

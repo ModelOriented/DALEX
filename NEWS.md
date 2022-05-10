@@ -2,6 +2,7 @@ DALEX (development)
 ---------------------------------------------------------------
 * changed URLs in the DESCRIPTION as requested in ([#484](https://github.com/ModelOriented/DALEX/issues/484))
 * Fix model_info documentation ([#498](https://github.com/ModelOriented/DALEX/issues/498))
+* The Matthews Correlation Coefficient, Brier score, balanced ACC, and log-loss metrics are added to `model_performance` function for imbalanced classification task.
 
 DALEX 2.4.0
 ---------------------------------------------------------------

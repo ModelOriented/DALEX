@@ -6,7 +6,7 @@
 #'
 #' @param explainer a model to be explained, preprocessed by the \code{\link{explain}} function
 #' @param ... other parameters
-#' @param cutoff a cutoff for classification models, needed for measures like recall, precision, ACC, F1. By default 0.5.
+#' @param cutoff a cutoff for classification models, needed for measures like recall, precision, ACC, F1, Matthews Correlation Coefficient, Brier score, balanced ACC, and log-loss. By default 0.5.
 #'
 #' @return An object of the class \code{model_performance}.
 #'
@@ -97,11 +97,15 @@ model_performance <- function(explainer, ..., cutoff = 0.5) {
     fn = sum((observed == 1) * (predicted < cutoff))
 
     measures <- list(
-      recall    = model_performance_recall(tp, fp, tn, fn),
-      precision = model_performance_precision(tp, fp, tn, fn),
-      f1        = model_performance_f1(tp, fp, tn, fn),
-      accuracy  = model_performance_accuracy(tp, fp, tn, fn),
-      auc       = model_performance_auc(predicted, observed)
+      recall      = model_performance_recall(tp, fp, tn, fn),
+      precision   = model_performance_precision(tp, fp, tn, fn),
+      f1          = model_performance_f1(tp, fp, tn, fn),
+      accuracy    = model_performance_accuracy(tp, fp, tn, fn),
+      auc         = model_performance_auc(predicted, observed),
+      mcc         = model_performance_mcc(tp, fp, tn, fn),
+      brier_score = model_performance_brier(predicted, observed),
+      log_loss    = model_performance_logloss(predicted, observed),
+      baccuracy   = model_performance_bacc(tp, fp, tn, fn)
     )
   } else if (type == "multiclass") {
     measures <- list(
@@ -166,6 +170,29 @@ model_performance_f1 <- function(tp, fp, tn, fn) {
 model_performance_accuracy <- function(tp, fp, tn, fn) {
   (tp + tn)/(tp + fp + tn + fn)
 }
+
+model_performance_baccuracy <- function(tp, fp, tn, fn) {
+  ((tp / (tp + fn)) + (tn / (tn + fp))) / 2
+}
+
+model_performance_logloss <- function(predicted, observed) {
+  predicted[which(predicted == 0)] <- 10^-15
+  predicted[which(predicted == 1)] <- 1-10^-15
+  -mean((observed * log(predicted) + (1 - observed) * log(1 - predicted)))
+}
+
+model_performance_brier <- function(predicted, observed) {
+  mean((predicted - observed) ^ 2)
+}
+
+model_performance_mcc <- function(tp, fp, tn, fn) {
+  tp <- as.numeric(tp)
+  fp <- as.numeric(fp)
+  tn <- as.numeric(tn)
+  fn <- as.numeric(fn)
+  ((tp *  tn) - (fp * fn)) / sqrt((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn))
+}
+
 
 model_performance_macro_f1 <- function(predicted, observed) {
   predicted_vectorized <- turn_probs_into_vector(predicted)
