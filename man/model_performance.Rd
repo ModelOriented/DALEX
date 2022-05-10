@@ -11,7 +11,7 @@ model_performance(explainer, ..., cutoff = 0.5)
 
 \item{...}{other parameters}
 
-\item{cutoff}{a cutoff for classification models, needed for measures like recall, precision, ACC, F1, MCC, Brier score, balanced ACC, and log-loss. By default 0.5.}
+\item{cutoff}{a cutoff for classification models, needed for measures like recall, precision, ACC, F1, Matthews Correlation Coefficient, Brier score, balanced ACC, and log-loss. By default 0.5.}
 }
 \value{
 An object of the class \code{model_performance}.
