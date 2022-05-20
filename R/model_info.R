@@ -9,7 +9,7 @@
 #' was executed withing \code{explain} function. DALEX will recognize subtype on it's own.
 #' @param ... - another arguments
 #'
-#' @details 
+#' @details
 #' Currently supported packages are:
 #' \itemize{
 #' \item class \code{cv.glmnet} and \code{glmnet} - models created with \pkg{glmnet} package
@@ -284,7 +284,7 @@ print.model_info <- function(x, ...) {
 
 get_pkg_ver_safe <- function(package) {
   ver <- try(as.character(utils::packageVersion(package)), silent = TRUE)
-  if (class(ver) == "try-error") {
+  if (inherits(ver, "try-error")) {
     ver <- "Unknown"
   }
   ver
