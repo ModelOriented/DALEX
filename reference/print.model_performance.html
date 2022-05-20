@@ -25,7 +25,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy" class="external-link">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/" class="external-link">MI^2 DataLab</a> </span>
-          <span class="version version-default">2.4.0.9001</span>
+          <span class="version version-default">2.4.1</span>
         </div>
       </div>
     </div>
@@ -102,25 +102,25 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task classification ( <span style="color: #BBBB00;"> default </span> ) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.01505897 , mean =  0.3224066 , max =  0.9980379  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.009974131 , mean =  0.3222834 , max =  0.9967901  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.8153192 , mean =  -0.0002498666 , max =  0.8849166  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.7965238 , mean =  -0.0001266162 , max =  0.8860013  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"><span class="co"># resulting dataframe has predicted values and residuals</span></span>
 <span class="r-in"><span class="va">mp_ex_rn</span> <span class="op">&lt;-</span> <span class="fu"><a href="model_performance.html">model_performance</a></span><span class="op">(</span><span class="va">explainer_ranger</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">mp_ex_rn</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Measures for:  classification</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> recall     : 0.6160338 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> precision  : 0.899384 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> f1         : 0.7312187 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> accuracy   : 0.8541006 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> auc        : 0.9003324</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> recall     : 0.6104079 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> precision  : 0.8948454 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> f1         : 0.7257525 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> accuracy   : 0.851382 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> auc        : 0.9016026</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Residuals:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          0%         10%         20%         30%         40%         50% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -0.81531915 -0.24682881 -0.20587732 -0.18140172 -0.15774641 -0.12711228 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -0.79652383 -0.25419824 -0.20390808 -0.18386799 -0.16727240 -0.12830595 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         60%         70%         80%         90%        100% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -0.09273925  0.02586511  0.21716612  0.60469252  0.88491657 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -0.09139930  0.02713419  0.23077411  0.58909540  0.88600130 </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mp_ex_rn</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="print.model_performance-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"> <span class="co"># }</span></span>
