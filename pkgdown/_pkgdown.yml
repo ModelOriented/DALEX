@@ -49,6 +49,7 @@ reference:
     - loss_accuracy
     - loss_root_mean_square
     - loss_sum_of_squares
+    - loss_yardstick
   - title: Supplementary functions
     desc: Shared functions for packages from the DrWhy.AI universe
     contents:
