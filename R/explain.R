@@ -330,13 +330,18 @@ explain.default <- function(model, data = NULL, y = NULL, predict_function = NUL
   # REPORT: checks for residual_function
   if (is.null(residual_function)) {
     # residual_function not specified
-    # try the default
-    if (!is.null(predict_function) & model_info$type != "multiclass") {
-      residual_function <- residual_function_default
-      verbose_cat("  -> residual function :  difference between y and yhat (",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
-    } else if (!is.null(predict_function) & model_info$type == "multiclass") {
-      residual_function <- residual_function_multiclass
-      verbose_cat("  -> residual function :  difference between 1 and probability of true class (",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
+
+    # if y_hat is not numeric, then do not calculate residuals
+    # calculate only if y_hat is NULL or numeric
+    if (is.null(y_hat) | is.numeric(y_hat)) {
+      # try the default
+      if (!is.null(predict_function) & model_info$type != "multiclass") {
+        residual_function <- residual_function_default
+        verbose_cat("  -> residual function :  difference between y and yhat (",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
+      } else if (!is.null(predict_function) & model_info$type == "multiclass") {
+        residual_function <- residual_function_multiclass
+        verbose_cat("  -> residual function :  difference between 1 and probability of true class (",color_codes$yellow_start,"default",color_codes$yellow_end,")\n", verbose = verbose)
+      }
     }
   } else {
     if (!"function" %in% class(residual_function)) {

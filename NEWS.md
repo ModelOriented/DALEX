@@ -1,7 +1,8 @@
-DALEX (development)
+DALEX 2.4.1
 ---------------------------------------------------------------
 * changed URLs in the DESCRIPTION as requested in ([#484](https://github.com/ModelOriented/DALEX/issues/484))
 * Fix model_info documentation ([#498](https://github.com/ModelOriented/DALEX/issues/498))
+* Support for yardstic metrics ([#495](https://github.com/ModelOriented/DALEX/issues/495))
 
 DALEX 2.4.0
 ---------------------------------------------------------------
