@@ -28,7 +28,7 @@ The variable_profile function is a copy of model_profile."><meta property="og:im
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy" class="external-link">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/" class="external-link">MI^2 DataLab</a> </span>
-          <span class="version version-default">2.4.1</span>
+          <span class="version version-default">2.4.2</span>
         </div>
       </div>
     </div>
@@ -47,6 +47,9 @@ The variable_profile function is a copy of model_profile."><meta property="og:im
     </li>
     <li>
       <a href="../articles/vignette_titanic.html">Survival on the RMS Titanic</a>
+    </li>
+    <li>
+      <a href="../articles/vignette_yardstick.html">How to use DALEX with the yardstick package?</a>
     </li>
   </ul></li>
 <li>
@@ -180,7 +183,7 @@ It's a data frame with calculated average model responses.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  By deafult classification tasks supports only numercical 'y' parameter. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Consider changing to numerical vector with 0 and 1 values.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Otherwise I will not be able to calculate residuals or loss function.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.01331818 , mean =  0.320509 , max =  0.998068  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.005555556 , mean =  0.3219889 , max =  0.995661  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"><span class="va">model_profile_ranger</span> <span class="op">&lt;-</span> <span class="fu">model_profile</span><span class="op">(</span><span class="va">explainer_ranger</span><span class="op">)</span></span>

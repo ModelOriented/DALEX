@@ -4,5 +4,6 @@ pkgdown_sha: ~
 articles:
   multilabel_classification: multilabel_classification.html
   vignette_titanic: vignette_titanic.html
-last_built: 2022-05-20T23:06Z
+  vignette_yardstick: vignette_yardstick.html
+last_built: 2022-05-21T18:48Z
 

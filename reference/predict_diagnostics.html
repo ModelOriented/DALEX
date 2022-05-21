@@ -28,7 +28,7 @@ Find information how to use this function here: https://ema.drwhy.ai/localDiagno
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy" class="external-link">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/" class="external-link">MI^2 DataLab</a> </span>
-          <span class="version version-default">2.4.1</span>
+          <span class="version version-default">2.4.2</span>
         </div>
       </div>
     </div>
@@ -47,6 +47,9 @@ Find information how to use this function here: https://ema.drwhy.ai/localDiagno
     </li>
     <li>
       <a href="../articles/vignette_titanic.html">Survival on the RMS Titanic</a>
+    </li>
+    <li>
+      <a href="../articles/vignette_yardstick.html">How to use DALEX with the yardstick package?</a>
     </li>
   </ul></li>
 <li>
@@ -144,9 +147,9 @@ It's a data frame with calculated distribution of residuals.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.006238627 , mean =  0.3221041 , max =  0.9962397  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.006908062 , mean =  0.321992 , max =  0.9939229  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.7795773 , mean =  5.26483e-05 , max =  0.8757497  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.7745264 , mean =  0.0001647964 , max =  0.8775109  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"><span class="va">johny_d</span> <span class="op">&lt;-</span> <span class="va">titanic_imputed</span><span class="op">[</span><span class="fl">24</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gender"</span>, <span class="st">"age"</span>, <span class="st">"class"</span>, <span class="st">"fare"</span>, <span class="st">"sibsp"</span>, <span class="st">"parch"</span><span class="op">)</span><span class="op">]</span></span>
 <span class="r-in"></span>
@@ -157,7 +160,7 @@ It's a data frame with calculated distribution of residuals.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Asymptotic two-sample Kolmogorov-Smirnov test</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  residuals_other and residuals_sel</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> D = 0.65263, p-value &lt; 2.2e-16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> D = 0.65309, p-value &lt; 2.2e-16</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: two-sided</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">id_johny</span><span class="op">)</span></span>
@@ -169,17 +172,17 @@ It's a data frame with calculated distribution of residuals.</p>
 <span class="r-in"><span class="va">id_johny</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Top profiles    : </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      gender        age class   fare sibsp parch    _yhat_ _vname_ _ids_ _label_</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24   female  0.1666667   1st 151.16     1     2 0.4674558     age    24  ranger</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24.1 female  2.0000000   1st 151.16     1     2 0.4543892     age    24  ranger</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24.2 female  4.0000000   1st 151.16     1     2 0.5193105     age    24  ranger</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24.3 female  7.0000000   1st 151.16     1     2 0.5332452     age    24  ranger</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24.4 female  9.0000000   1st 151.16     1     2 0.5979101     age    24  ranger</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24.5 female 13.0000000   1st 151.16     1     2 0.6885586     age    24  ranger</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24   female  0.1666667   1st 151.16     1     2 0.4538123     age    24  ranger</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24.1 female  2.0000000   1st 151.16     1     2 0.4383234     age    24  ranger</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24.2 female  4.0000000   1st 151.16     1     2 0.5022455     age    24  ranger</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24.3 female  7.0000000   1st 151.16     1     2 0.5123677     age    24  ranger</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24.4 female  9.0000000   1st 151.16     1     2 0.6037929     age    24  ranger</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24.5 female 13.0000000   1st 151.16     1     2 0.6706680     age    24  ranger</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Top observations:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    gender age class   fare sibsp parch    _yhat_ _label_ _ids_</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24 female   2   1st 151.16     1     2 0.4543892  ranger     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 female   2   1st 151.16     1     2 0.4383234  ranger     1</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">id_johny</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="predict_diagnostics-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
@@ -190,12 +193,12 @@ It's a data frame with calculated distribution of residuals.</p>
 <span class="r-in"><span class="va">id_johny</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Top profiles    : </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      gender age            class   fare sibsp parch    _yhat_ _vname_ _ids_</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24   female   2              1st 151.16     1     2 0.4543892   class    24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24.1 female   2              2nd 151.16     1     2 0.6250124   class    24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24.2 female   2              3rd 151.16     1     2 0.3327950   class    24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24.3 female   2        deck crew 151.16     1     2 0.3373292   class    24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24.4 female   2 engineering crew 151.16     1     2 0.3477584   class    24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24.5 female   2 restaurant staff 151.16     1     2 0.3556048   class    24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24   female   2              1st 151.16     1     2 0.4383234   class    24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24.1 female   2              2nd 151.16     1     2 0.6412749   class    24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24.2 female   2              3rd 151.16     1     2 0.3192801   class    24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24.3 female   2        deck crew 151.16     1     2 0.3212997   class    24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24.4 female   2 engineering crew 151.16     1     2 0.3493631   class    24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24.5 female   2 restaurant staff 151.16     1     2 0.3605796   class    24</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      _label_</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24    ranger</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24.1  ranger</span>
@@ -207,7 +210,7 @@ It's a data frame with calculated distribution of residuals.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Top observations:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    gender age class   fare sibsp parch    _yhat_ _label_ _ids_</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24 female   2   1st 151.16     1     2 0.4543892  ranger     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 female   2   1st 151.16     1     2 0.4383234  ranger     1</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">id_johny</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 'variable_type' changed to 'categorical' due to lack of numerical variables.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 'variable_type' changed to 'categorical' due to lack of numerical variables.</span>

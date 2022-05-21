@@ -26,7 +26,7 @@ This function creates a unified representation of a model, which can be further 
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy" class="external-link">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/" class="external-link">MI^2 DataLab</a> </span>
-          <span class="version version-default">2.4.1</span>
+          <span class="version version-default">2.4.2</span>
         </div>
       </div>
     </div>
@@ -45,6 +45,9 @@ This function creates a unified representation of a model, which can be further 
     </li>
     <li>
       <a href="../articles/vignette_titanic.html">Survival on the RMS Titanic</a>
+    </li>
+    <li>
+      <a href="../articles/vignette_yardstick.html">How to use DALEX with the yardstick package?</a>
     </li>
   </ul></li>
 <li>
@@ -258,9 +261,9 @@ But some explanations may expect that other arguments will be provided too.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  custom_predict </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1915.076 , mean =  3489.139 , max =  6212.019  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1900.15 , mean =  3489.099 , max =  6132.485  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -526.9877 , mean =  -2.119747 , max =  699.8517  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -499.9837 , mean =  -2.079948 , max =  729.4847  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"></span>
 <span class="r-in"></span>
@@ -279,9 +282,9 @@ But some explanations may expect that other arguments will be provided too.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1877.284 , mean =  3484.555 , max =  6208.581  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1861.093 , mean =  3491.466 , max =  6240.054  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  custom_residual </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  0.138 , mean =  112.6581 , max =  725.3333  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  0.02083333 , mean =  114.6484 , max =  742.2853  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># binary classification</span></span>
@@ -296,9 +299,9 @@ But some explanations may expect that other arguments will be provided too.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task classification ( <span style="color: #BBBB00;"> default </span> ) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.01949721 , mean =  0.3205651 , max =  0.9950687  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.01624892 , mean =  0.3212951 , max =  0.9991837  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.8036909 , mean =  0.001591647 , max =  0.8970701  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.7992809 , mean =  0.0008616968 , max =  0.9019738  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># multiclass task</span></span>
@@ -315,7 +318,7 @@ But some explanations may expect that other arguments will be provided too.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task multiclass ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  predict function returns multiple columns:  3  ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between 1 and probability of true class ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  0.0003157895 , mean =  0.2781348 , max =  0.88577  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  0.000625 , mean =  0.2809968 , max =  0.8865836  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># set model_info</span></span>
@@ -418,7 +421,7 @@ But some explanations may expect that other arguments will be provided too.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  By deafult regressions tasks supports only numercical 'y' parameter. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Consider changing to numerical vector.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Otherwise I will not be able to calculate residuals or loss function.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1894.214 , mean =  3486.72 , max =  6245.151  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1854.757 , mean =  3488.381 , max =  6234.263  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"><span class="va">aps_ranger_explainer4</span></span>

@@ -27,7 +27,7 @@ Find information how to use this function here: https://ema.drwhy.ai/residualDia
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy" class="external-link">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/" class="external-link">MI^2 DataLab</a> </span>
-          <span class="version version-default">2.4.1</span>
+          <span class="version version-default">2.4.2</span>
         </div>
       </div>
     </div>
@@ -46,6 +46,9 @@ Find information how to use this function here: https://ema.drwhy.ai/residualDia
     </li>
     <li>
       <a href="../articles/vignette_titanic.html">Survival on the RMS Titanic</a>
+    </li>
+    <li>
+      <a href="../articles/vignette_yardstick.html">How to use DALEX with the yardstick package?</a>
     </li>
   </ul></li>
 <li>
@@ -102,7 +105,7 @@ It's a data frame with residuals and selected variables.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://modeloriented.github.io/DALEX" class="external-link">DALEX</a></span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://modeloriented.github.io/DALEX/" class="external-link">DALEX</a></span><span class="op">)</span></span>
 <span class="r-in"><span class="va">apartments_lm_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">m2.price</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">apartments</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">explainer_lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="explain.html">explain</a></span><span class="op">(</span><span class="va">apartments_lm_model</span>,</span>
 <span class="r-in">                         data <span class="op">=</span> <span class="va">apartments</span>,</span>
@@ -160,9 +163,9 @@ It's a data frame with residuals and selected variables.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1895.586 , mean =  3488.015 , max =  6126.275  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1897.302 , mean =  3488.756 , max =  6171.456  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -411.4594 , mean =  -0.995599 , max =  622.2718  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -446.5653 , mean =  -1.736555 , max =  564.5512  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"><span class="va">diag_ranger</span> <span class="op">&lt;-</span> <span class="fu">model_diagnostics</span><span class="op">(</span><span class="va">explainer_ranger</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">diag_ranger</span></span>
@@ -175,20 +178,20 @@ It's a data frame with residuals and selected variables.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :6595   Max.   :2010      Max.   :150.00   Max.   :10.000  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     no.rooms           district         y            y_hat     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :1.00   Mokotow    :107   Min.   :1607   Min.   :1896  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.:2.00   Wola       :106   1st Qu.:2857   1st Qu.:2936  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Median :3.00   Ursus      :105   Median :3386   Median :3414  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :3.36   Ursynow    :103   Mean   :3487   Mean   :3488  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:4.00   Srodmiescie:100   3rd Qu.:4018   3rd Qu.:3958  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :6.00   Bemowo     : 98   Max.   :6595   Max.   :6126  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :1.00   Mokotow    :107   Min.   :1607   Min.   :1897  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.:2.00   Wola       :106   1st Qu.:2857   1st Qu.:2933  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Median :3.00   Ursus      :105   Median :3386   Median :3409  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :3.36   Ursynow    :103   Mean   :3487   Mean   :3489  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:4.00   Srodmiescie:100   3rd Qu.:4018   3rd Qu.:3951  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :6.00   Bemowo     : 98   Max.   :6595   Max.   :6171  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 (Other)    :381                                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    residuals         abs_residuals        label                ids        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :-411.4594   Min.   :  0.123   Length:1000        Min.   :   1.0  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.: -92.8640   1st Qu.: 38.796   Class :character   1st Qu.: 250.8  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Median : -26.3650   Median : 84.960   Mode  :character   Median : 500.5  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :  -0.9956   Mean   :111.277                      Mean   : 500.5  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:  65.5202   3rd Qu.:154.431                      3rd Qu.: 750.2  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   : 622.2718   Max.   :622.272                      Max.   :1000.0  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    residuals        abs_residuals         label                ids        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :-446.565   Min.   :  0.0269   Length:1000        Min.   :   1.0  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.: -87.695   1st Qu.: 38.2568   Class :character   1st Qu.: 250.8  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Median : -25.630   Median : 79.9436   Mode  :character   Median : 500.5  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :  -1.737   Mean   :104.2763                      Mean   : 500.5  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:  61.980   3rd Qu.:145.6643                      3rd Qu.: 750.2  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   : 564.551   Max.   :564.5512                      Max.   :1000.0  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                           </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">diag_ranger</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'</span>

@@ -32,7 +32,7 @@ Find information how to use the oscillations method here: https://ema.drwhy.ai/c
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy" class="external-link">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/" class="external-link">MI^2 DataLab</a> </span>
-          <span class="version version-default">2.4.1</span>
+          <span class="version version-default">2.4.2</span>
         </div>
       </div>
     </div>
@@ -51,6 +51,9 @@ Find information how to use the oscillations method here: https://ema.drwhy.ai/c
     </li>
     <li>
       <a href="../articles/vignette_titanic.html">Survival on the RMS Titanic</a>
+    </li>
+    <li>
+      <a href="../articles/vignette_yardstick.html">How to use DALEX with the yardstick package?</a>
     </li>
   </ul></li>
 <li>
@@ -160,7 +163,7 @@ It's a data frame with calculated average response.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://modeloriented.github.io/DALEX" class="external-link">DALEX</a></span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://modeloriented.github.io/DALEX/" class="external-link">DALEX</a></span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">new_dragon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span class="r-in">    year_of_birth <span class="op">=</span> <span class="fl">200</span>,</span>
@@ -219,20 +222,20 @@ It's a data frame with calculated average response.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  582.2283 , mean =  1370.048 , max =  3421.902  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  575.4516 , mean =  1369.811 , max =  3479.037  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -4950.664 , mean =  -1449.586 , max =  1050.237  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -5039.705 , mean =  -1449.348 , max =  1024.35  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">bd_ranger</span> <span class="op">&lt;-</span> <span class="fu">predict_parts_break_down</span><span class="op">(</span><span class="va">explainer_ranger</span>, new_observation <span class="op">=</span> <span class="va">new_dragon</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">bd_ranger</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                        contribution</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> model_ranger: intercept                    1370.048</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> model_ranger: scars = 0                    -345.403</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> model_ranger: number_of_lost_teeth = 5     -305.083</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> model_ranger: height = 80                   123.025</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> model_ranger: year_of_birth = 200             6.115</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> model_ranger: weight = 12.5                  -2.180</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> model_ranger: intercept                    1369.811</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> model_ranger: scars = 0                    -348.024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> model_ranger: number_of_lost_teeth = 5     -305.841</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> model_ranger: height = 80                    72.875</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> model_ranger: year_of_birth = 200             2.754</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> model_ranger: weight = 12.5                  -7.656</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bd_ranger</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="predict_parts-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="co"># }</span></span>

@@ -51,7 +51,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy" class="external-link">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/" class="external-link">MI^2 DataLab</a> </span>
-          <span class="version version-default">2.4.1</span>
+          <span class="version version-default">2.4.2</span>
         </div>
       </div>
     </div>
@@ -72,6 +72,9 @@
     </li>
     <li>
       <a href="../articles/vignette_titanic.html">Survival on the RMS Titanic</a>
+    </li>
+    <li>
+      <a href="../articles/vignette_yardstick.html">How to use DALEX with the yardstick package?</a>
     </li>
   </ul>
 </li>
@@ -100,7 +103,7 @@
       <h1 data-toc-skip>How to use multilabel classification and DALEX?</h1>
                         <h4 data-toc-skip class="author">Szymon Maksymiuk</h4>
             
-            <h4 data-toc-skip class="date">2022-05-20</h4>
+            <h4 data-toc-skip class="date">2022-05-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/DALEX/blob/HEAD/vignettes/multilabel_classification.Rmd" class="external-link"><code>vignettes/multilabel_classification.Rmd</code></a></small>
       <div class="hidden name"><code>multilabel_classification.Rmd</code></div>
@@ -114,7 +117,7 @@
 </h2>
 <p>In the following vignette, we will walk through a multilabel classification example with <code>DALEX</code>. The purpose of this tutorial is that for some of <code>DALEX</code> functionalities binary classification is a default one, and therefore we need to put some self-made code to work here. All of the examples will be performed with <code>HR</code> dataset that is available in <code>DALEX</code>, it’s target column is <code>status</code> with three-level factor. For all cases our model will be <code>ranger</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://modeloriented.github.io/DALEX" class="external-link">"DALEX"</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://modeloriented.github.io/DALEX/" class="external-link">"DALEX"</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">HR</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">HR</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">#&gt;   gender      age    hours evaluation salary   status</span>
@@ -146,9 +149,9 @@
 <span class="co">#&gt; Target node size:                 10 </span>
 <span class="co">#&gt; Variable importance mode:         none </span>
 <span class="co">#&gt; Splitrule:                        gini </span>
-<span class="co">#&gt; OOB prediction error (Brier s.):  0.2168473</span></code></pre>
+<span class="co">#&gt; OOB prediction error (Brier s.):  0.2172966</span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://modeloriented.github.io/DALEX" class="external-link">"DALEX"</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://modeloriented.github.io/DALEX/" class="external-link">"DALEX"</a></span><span class="op">)</span>
 <span class="va">explain_HR_ranger</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span><span class="op">(</span><span class="va">model_HR_ranger</span>,
                               data <span class="op">=</span> <span class="va">HR</span><span class="op">[</span>,<span class="op">-</span><span class="fl">6</span><span class="op">]</span>,
                               y <span class="op">=</span> <span class="va">HR</span><span class="op">$</span><span class="va">status</span>,
@@ -163,7 +166,7 @@
 <span class="co">#&gt;   -&gt; model_info        :  package ranger , ver. 0.13.1 , task multiclass (  default  ) </span>
 <span class="co">#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) </span>
 <span class="co">#&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )</span>
-<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0.001799186 , mean =  0.2812309 , max =  0.9215274  </span>
+<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.2786308 , max =  0.9013747  </span>
 <span class="co">#&gt;   A new explainer has been created!</span></code></pre>
 <p>The sixth column, that we have omitted during the creation of the explainer, stands for the target column (<code>status</code>). It is good practice not to put it in <code>data</code>. Keep in mind that the default <code>yhat</code> function for <code>ranger</code>, and for any other package that is supported by <code>DALEX</code>, enforces probability output. Therefore residuals cannot be standard <span class="math inline">\(y - \hat{y}\)</span>. Since <code>DALEX 1.2.2</code> in the case of multiclass classification one minus probability of the TRUE class is a standard residual function.</p>
 </div>
@@ -173,7 +176,7 @@
 <p>In order to use <code><a href="../reference/model_parts.html">model_parts()</a></code> (former <code><a href="../reference/model_parts.html">variable_importance()</a></code>) function it is necessary to switch default <code>loss_function</code> argument to one that handle multiple classes. <code>DALEX</code> has implemented one function like that and it is called <code><a href="../reference/loss_functions.html">loss_cross_entropy()</a></code>. To use it, <code>y</code> parameter passed to <code>explain</code> function should have exactly the same format as the target vector used for the training process (ie. the same number of levels and names of those levels).</p>
 <p>Also, we need probability outputs so there is no need to change the default <code>predict_function</code> parameter.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://modeloriented.github.io/DALEX" class="external-link">"DALEX"</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://modeloriented.github.io/DALEX/" class="external-link">"DALEX"</a></span><span class="op">)</span>
 <span class="va">explain_HR_ranger_new_y</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span><span class="op">(</span><span class="va">model_HR_ranger</span>,
                               data <span class="op">=</span> <span class="va">HR</span><span class="op">[</span>,<span class="op">-</span><span class="fl">6</span><span class="op">]</span>,
                               y <span class="op">=</span> <span class="va">HR</span><span class="op">$</span><span class="va">status</span>,
@@ -188,7 +191,7 @@
 <span class="co">#&gt;   -&gt; model_info        :  package ranger , ver. 0.13.1 , task multiclass (  default  ) </span>
 <span class="co">#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) </span>
 <span class="co">#&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )</span>
-<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0.001799186 , mean =  0.2812309 , max =  0.9215274  </span>
+<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.2786308 , max =  0.9013747  </span>
 <span class="co">#&gt;   A new explainer has been created!</span></code></pre>
 <p>And now we can use <code><a href="../reference/model_parts.html">model_parts()</a></code></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -251,17 +254,17 @@
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">(</span><span class="va">mp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_performance.html">model_performance</a></span><span class="op">(</span><span class="va">explain_HR_ranger</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">#&gt; Measures for:  multiclass</span>
-<span class="co">#&gt; micro_F1   : 0.8647891 </span>
-<span class="co">#&gt; macro_F1   : 0.8624794 </span>
-<span class="co">#&gt; w_macro_F1 : 0.8634307 </span>
-<span class="co">#&gt; accuracy   : 0.8647891 </span>
-<span class="co">#&gt; w_macro_auc: 0.9757365</span>
+<span class="co">#&gt; micro_F1   : 0.8688671 </span>
+<span class="co">#&gt; macro_F1   : 0.8667419 </span>
+<span class="co">#&gt; w_macro_F1 : 0.8676139 </span>
+<span class="co">#&gt; accuracy   : 0.8688671 </span>
+<span class="co">#&gt; w_macro_auc: 0.9772221</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Residuals:</span>
-<span class="co">#&gt;          0%         10%         20%         30%         40%         50% </span>
-<span class="co">#&gt; 0.001799186 0.026704854 0.059827397 0.119747887 0.180878293 0.247294623 </span>
-<span class="co">#&gt;         60%         70%         80%         90%        100% </span>
-<span class="co">#&gt; 0.320616844 0.398322954 0.488347943 0.597005510 0.921527381</span></code></pre>
+<span class="co">#&gt;         0%        10%        20%        30%        40%        50%        60% </span>
+<span class="co">#&gt; 0.00000000 0.02713480 0.06279364 0.11983368 0.17948819 0.24175103 0.31416006 </span>
+<span class="co">#&gt;        70%        80%        90%       100% </span>
+<span class="co">#&gt; 0.39407860 0.48467267 0.59374031 0.90137466</span></code></pre>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mp</span><span class="op">)</span></code></pre></div>
 <p><img src="multilabel_classification_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
@@ -299,7 +302,7 @@
 <span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt; [1] ranger_0.13.1 DALEX_2.4.1  </span>
+<span class="co">#&gt; [1] ranger_0.13.1 DALEX_2.4.2  </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
 <span class="co">#&gt;  [1] tidyselect_1.1.2  xfun_0.31         bslib_0.3.1       purrr_0.3.4      </span>
