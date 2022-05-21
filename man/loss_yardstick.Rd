@@ -2,12 +2,16 @@
 % Please edit documentation in R/misc_loss_functions.R
 \name{loss_yardstick}
 \alias{loss_yardstick}
-\title{Wrapper for Loss Functions from the Yarstick Package}
+\title{Wrapper for Loss Functions from the yardstick Package}
 \usage{
-loss_yardstick(loss)
+loss_yardstick(loss, reverse = FALSE, reference = 1)
 }
 \arguments{
 \item{loss}{loss function from the yardstick package}
+
+\item{reverse}{shall the metric be reversed? for loss metrics lower values are better. \code{reverse = TRUE} is useful for accuracy-like metrics}
+
+\item{reference}{if the metric is reverse then it is calculated as \code{reference - loss}. The default value is 1.}
 }
 \value{
 loss function that can be used in the model_parts function
@@ -22,45 +26,12 @@ must be guaranteed by the user.
 }
 \examples{
  \donttest{
- # Classification Metrics
- # y and y_hat are factors!!!
- library("yardstick")
-
- titanic_glm_model <- glm(survived~., data = titanic_imputed, family = "binomial")
- explainer_glm <- DALEX::explain(titanic_glm_model,
-                                 data = titanic_imputed[,-8],
-                                 y = factor(titanic_imputed$survived),
-                                 predict_function = function(m, x) {
-                                   factor((predict(m, x, type = "response") > 0.5) + 0)
-                                 })
-
-model_parts_accuracy <- model_parts(explainer_glm, type = "raw",
-                             loss_function = loss_yardstick(accuracy))
-plot(model_parts_accuracy)
-
-# Class Probability Metrics
-# y is a factor while y_hat is a numeric!!!
-
  titanic_glm_model <- glm(survived~., data = titanic_imputed, family = "binomial")
  explainer_glm <- DALEX::explain(titanic_glm_model,
                                  data = titanic_imputed[,-8],
                                  y = factor(titanic_imputed$survived))
-
-model_parts_accuracy <- model_parts(explainer_glm, type = "raw",
-                             loss_function = loss_yardstick(roc_auc))
-plot(model_parts_accuracy)
-
-# Regression Metrics
-# y and y_hat are numeric!!!
-
-library("ranger")
-apartments_ranger <- ranger(m2.price~., data = apartments, num.trees = 50)
-explainer_ranger  <- DALEX::explain(apartments_ranger, data = apartments[,-1],
-                                    y = apartments$m2.price, label = "Ranger Apartments")
-model_parts_ranger <- model_parts(explainer_ranger, type = "raw",
-                       loss_function = loss_yardstick(rsq))
-plot(model_parts_ranger)
-
+ # See the 'How to use DALEX with the yardstick package' vignette
+ # which explains this model with measures implemented in the 'yardstick' package
 }
 
 }

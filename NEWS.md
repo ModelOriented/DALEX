@@ -1,3 +1,8 @@
+DALEX 2.4.2
+---------------------------------------------------------------
+* removed the `yardstick` dependency
+* new vignette added 'How to use DALEX with the yardstick package?'
+
 DALEX 2.4.1
 ---------------------------------------------------------------
 * changed URLs in the DESCRIPTION as requested in ([#484](https://github.com/ModelOriented/DALEX/issues/484))

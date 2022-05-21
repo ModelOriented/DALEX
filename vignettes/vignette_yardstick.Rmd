@@ -1,0 +1,200 @@
+---
+title: "How to use DALEX with the yardstick package?"
+author: "Przemyslaw Biecek"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_document
+vignette: >
+  %\VignetteIndexEntry{How to use DALEX with the yardstick package?}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = FALSE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+# Intro
+
+[yardstick](https://yardstick.tidymodels.org/reference/index.html) is a package that offers many measures for evaluating model performance. It is based on the `tidymodels`/`tidyverse` philosophy, the performance is calculated by functions working on the data.frame with the results of the model.
+
+[DALEX](https://dalex.drwhy.ai/) uses model performance measures to assess the importance of variables (in the model_parts function). These are typically calculated based on loss functions (functions with prefix `loss`) that are working on two vectors - the score from the model and the true target variable.
+
+Although these packages have a slightly different philosophy of operation, you can use the measures available in yardstick when working with `DALEX.` Below is information on how to use the `loss_yardstick` function to do this.
+
+
+# Prepare a classification model
+
+The `yardstick` package supports both classification models and regression models. We will start our example with a classification model for the titanic data - the probability of surviving this disaster.
+
+The following instruction trains a classification model.
+
+```{r}
+library("DALEX")
+library("yardstick")
+titanic_glm <- glm(survived~., data = titanic_imputed, family = "binomial")
+``` 
+
+## Class Probability Metrics
+
+The Class Probability Metrics in the `yardstick` package assume that the true value is a `factor` and the model returns a numerical score. So let's prepare an `explainer` that has `factor` as `y` and the `predict_function` returns the probability of the target class (default behaviour).
+
+**NOTE**: Performance measures will be calculated on data supplied in the explainer. Put here the test data!
+
+```{r, results='hide'}
+explainer_glm <- DALEX::explain(titanic_glm,
+                        data = titanic_imputed[,-8],
+                        y = factor(titanic_imputed$survived))
+```
+
+To make functions from the `yardstick` compatible with `DALEX` we must use the `loss_yardstick` adapter.
+In the example below we use the `roc_auc` function (area under the receiver operator curve). 
+The `yardstick::` prefix is not necessary, but we put it here to show explicitly where the functions you use are located.
+
+**NOTE**: we set `yardstick.event_first = FALSE` as the model predicts probability of `survived = 1`.
+
+```{r}
+options(yardstick.event_first = FALSE)
+
+glm_auc <- model_parts(explainer_glm, type = "raw",
+                  loss_function = loss_yardstick(yardstick::roc_auc))
+glm_auc
+plot(glm_auc)
+```
+
+In a similar way, we can use the `pr_auc` function (area under the precision recall curve).
+
+```{r}
+glm_prauc <- model_parts(explainer_glm, type = "raw",
+                  loss_function = loss_yardstick(yardstick::pr_auc))
+glm_prauc
+plot(glm_prauc)
+```
+
+
+## Classification Metrics
+
+The Classification Metrics in the `yardstick` package assume that the true value is a `factor` and the model returns a `factor` variable. 
+
+This is different behavior than for most explanations in DALEX, because when explaining predictions we typically operate on class membership probabilities. If we want to use Classification Metrics we need to provide a predict function that returns classes instead of probabilities.
+
+So let's prepare an `explainer` that has `factor` as `y` and the `predict_function` returns classes.
+
+```{r, results='hide'}
+explainer_glm <- DALEX::explain(titanic_glm,
+                        data = titanic_imputed[,-8],
+                        y = factor(titanic_imputed$survived),
+                        predict_function = function(m,x) {
+                              factor(as.numeric(predict(m, x, type = "response") > 0.5), 
+                                     levels = c("0", "1"))
+                        })
+```
+
+
+Again, let's use the `loss_yardstick` adapter.
+In the example below we use the `accuracy` function. 
+
+```{r}
+glm_accuracy <- model_parts(explainer_glm, type = "raw",
+                    loss_function = loss_yardstick(yardstick::accuracy))
+glm_accuracy
+plot(glm_accuracy)
+```
+
+In a similar way, we can use the `bal_accuracy` function (balanced accuracy).
+
+```{r}
+glm_bal_accuracy <- model_parts(explainer_glm, type = "raw",
+                    loss_function = loss_yardstick(yardstick::bal_accuracy))
+glm_bal_accuracy
+plot(glm_bal_accuracy)
+```
+
+
+## Calculate performance on whole dataset
+
+By default the performance is calculated on `N = 1000` randomly selected observations (to speed up the calculations).
+Set `N = NULL` to use the whole dataset.
+
+
+```{r}
+glm_1accuracy <- model_parts(explainer_glm, 
+                    loss_function = loss_yardstick(accuracy, reverse = TRUE),
+                    N = NULL)
+plot(glm_1accuracy)
+```
+
+
+## The lower the better?
+
+For the loss function, the smaller the values the better the model.
+Therefore, the importance of variables is often calculated as `loss(perturbed) - loss(original)`.
+
+But many model performance functions have the opposite characteristic, the higher they are the better (e.g. `AUC`, `accuracy`, etc). To maintain a consistent analysis pipeline it is convenient to invert such functions, e.g. by converting to `1- AUC` or `1 - accuracy`.
+
+To do it, just add the `reverse = TRUE` argument.
+
+
+```{r}
+glm_1accuracy <- model_parts(explainer_glm, 
+                    loss_function = loss_yardstick(accuracy, reverse = TRUE))
+glm_1accuracy
+plot(glm_1accuracy)
+```
+
+
+# Prepare a regression model
+
+The following instruction trains a regression model.
+
+```{r}
+library("ranger")
+apartments_ranger <- ranger(m2.price~., data = apartments, num.trees = 50)
+``` 
+
+## Regression Metrics
+
+The Regression Metrics in the `yardstick` package assume that the true value is a `numeric` variable and the model returns a `numeric` score. 
+
+
+```{r}
+explainer_ranger  <- DALEX::explain(apartments_ranger, data = apartments[,-1],
+                             y = apartments$m2.price, label = "Ranger Apartments")
+```
+
+To make functions from the `yardstick` compatible with `DALEX` we must use the `loss_yardstick` adapter.
+In the example below we use the `rmse` function (root mean squared error). 
+
+
+```{r}
+ranger_rmse <- model_parts(explainer_ranger, type = "raw",
+                      loss_function = loss_yardstick(rmse))
+ranger_rmse
+plot(ranger_rmse)
+```
+
+And one more example for `rsq` function (R squared). 
+
+```{r}
+ranger_rsq <- model_parts(explainer_ranger, type = "raw",
+                      loss_function = loss_yardstick(rsq))
+ranger_rsq
+plot(ranger_rsq)
+```
+
+
+# Summary
+
+I hope that using the `yardstick` package at `DALEX` will now be easy and enjoyable.
+If you would like to share your experience with this package, please create an issue at https://github.com/ModelOriented/DALEX/issues.
+
+
+# Session info
+
+```{r}
+sessionInfo()
+```
