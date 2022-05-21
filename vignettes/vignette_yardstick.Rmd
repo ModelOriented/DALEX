@@ -115,20 +115,6 @@ plot(glm_bal_accuracy)
 ```
 
 
-## Calculate performance on whole dataset
-
-By default the performance is calculated on `N = 1000` randomly selected observations (to speed up the calculations).
-Set `N = NULL` to use the whole dataset.
-
-
-```{r}
-glm_1accuracy <- model_parts(explainer_glm, 
-                    loss_function = loss_yardstick(accuracy, reverse = TRUE),
-                    N = NULL)
-plot(glm_1accuracy)
-```
-
-
 ## The lower the better?
 
 For the loss function, the smaller the values the better the model.
@@ -145,6 +131,21 @@ glm_1accuracy <- model_parts(explainer_glm,
 glm_1accuracy
 plot(glm_1accuracy)
 ```
+
+
+## Calculate performance on whole dataset
+
+By default the performance is calculated on `N = 1000` randomly selected observations (to speed up the calculations).
+Set `N = NULL` to use the whole dataset.
+
+
+```{r}
+glm_1accuracy <- model_parts(explainer_glm, 
+                    loss_function = loss_yardstick(accuracy, reverse = TRUE),
+                    N = NULL)
+plot(glm_1accuracy)
+```
+
 
 
 # Prepare a regression model
