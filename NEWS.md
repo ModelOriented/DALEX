@@ -2,7 +2,8 @@ DALEX 2.4.2
 ---------------------------------------------------------------
 * removed the `yardstick` dependency
 * new vignette added 'How to use DALEX with the yardstick package?'
-* new datasets from World Happiness Report: `happiness_test` and `happiness_train`
+* new datasets from World Happiness Report: `happiness_test` and `happiness_train` ([#513](https://github.com/ModelOriented/DALEX/issues/513))
+* new datasets from COVID morality: `covid_summer` and `covid_spring` ([#513](https://github.com/ModelOriented/DALEX/issues/513))
 
 DALEX 2.4.1
 ---------------------------------------------------------------
