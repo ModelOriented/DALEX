@@ -2,6 +2,7 @@ DALEX 2.4.2
 ---------------------------------------------------------------
 * removed the `yardstick` dependency
 * new vignette added 'How to use DALEX with the yardstick package?'
+* new datasets from World Happiness Report: `happiness_test` and `happiness_train`
 
 DALEX 2.4.1
 ---------------------------------------------------------------
