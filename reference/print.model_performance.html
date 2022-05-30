@@ -105,25 +105,25 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task classification ( <span style="color: #BBBB00;"> default </span> ) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.0152801 , mean =  0.3224883 , max =  0.9962428  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.01190014 , mean =  0.3235978 , max =  0.9939425  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.8187323 , mean =  -0.0003314898 , max =  0.9048565  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.7809119 , mean =  -0.001441023 , max =  0.8969013  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"><span class="co"># resulting dataframe has predicted values and residuals</span></span>
 <span class="r-in"><span class="va">mp_ex_rn</span> <span class="op">&lt;-</span> <span class="fu"><a href="model_performance.html">model_performance</a></span><span class="op">(</span><span class="va">explainer_ranger</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">mp_ex_rn</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Measures for:  classification</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> recall     : 0.5893108 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> precision  : 0.8991416 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> f1         : 0.7119796 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> accuracy   : 0.8463978 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> auc        : 0.9001496</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> recall     : 0.5822785 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> precision  : 0.9019608 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> f1         : 0.7076923 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> accuracy   : 0.8450385 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> auc        : 0.8967584</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Residuals:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          0%         10%         20%         30%         40%         50% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -0.81873229 -0.25453476 -0.20686670 -0.18718732 -0.16335987 -0.12556999 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -0.78091191 -0.24322590 -0.20969873 -0.18882844 -0.17190418 -0.13159361 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         60%         70%         80%         90%        100% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -0.08714949  0.02660874  0.23916494  0.58644529  0.90485655 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -0.09450265  0.03558291  0.23027893  0.60108205  0.89690135 </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mp_ex_rn</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="print.model_performance-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"> <span class="co"># }</span></span>

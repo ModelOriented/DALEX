@@ -103,7 +103,7 @@
       <h1 data-toc-skip>How to use multilabel classification and DALEX?</h1>
                         <h4 data-toc-skip class="author">Szymon Maksymiuk</h4>
             
-            <h4 data-toc-skip class="date">2022-05-21</h4>
+            <h4 data-toc-skip class="date">2022-05-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/DALEX/blob/HEAD/vignettes/multilabel_classification.Rmd" class="external-link"><code>vignettes/multilabel_classification.Rmd</code></a></small>
       <div class="hidden name"><code>multilabel_classification.Rmd</code></div>
@@ -149,7 +149,7 @@
 <span class="co">#&gt; Target node size:                 10 </span>
 <span class="co">#&gt; Variable importance mode:         none </span>
 <span class="co">#&gt; Splitrule:                        gini </span>
-<span class="co">#&gt; OOB prediction error (Brier s.):  0.2172966</span></code></pre>
+<span class="co">#&gt; OOB prediction error (Brier s.):  0.2191381</span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://modeloriented.github.io/DALEX/" class="external-link">"DALEX"</a></span><span class="op">)</span>
 <span class="va">explain_HR_ranger</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span><span class="op">(</span><span class="va">model_HR_ranger</span>,
@@ -166,7 +166,7 @@
 <span class="co">#&gt;   -&gt; model_info        :  package ranger , ver. 0.13.1 , task multiclass (  default  ) </span>
 <span class="co">#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) </span>
 <span class="co">#&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )</span>
-<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.2786308 , max =  0.9013747  </span>
+<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0.0003592814 , mean =  0.2780555 , max =  0.9159042  </span>
 <span class="co">#&gt;   A new explainer has been created!</span></code></pre>
 <p>The sixth column, that we have omitted during the creation of the explainer, stands for the target column (<code>status</code>). It is good practice not to put it in <code>data</code>. Keep in mind that the default <code>yhat</code> function for <code>ranger</code>, and for any other package that is supported by <code>DALEX</code>, enforces probability output. Therefore residuals cannot be standard <span class="math inline">\(y - \hat{y}\)</span>. Since <code>DALEX 1.2.2</code> in the case of multiclass classification one minus probability of the TRUE class is a standard residual function.</p>
 </div>
@@ -191,7 +191,7 @@
 <span class="co">#&gt;   -&gt; model_info        :  package ranger , ver. 0.13.1 , task multiclass (  default  ) </span>
 <span class="co">#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) </span>
 <span class="co">#&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )</span>
-<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.2786308 , max =  0.9013747  </span>
+<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0.0003592814 , mean =  0.2780555 , max =  0.9159042  </span>
 <span class="co">#&gt;   A new explainer has been created!</span></code></pre>
 <p>And now we can use <code><a href="../reference/model_parts.html">model_parts()</a></code></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -254,17 +254,17 @@
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">(</span><span class="va">mp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_performance.html">model_performance</a></span><span class="op">(</span><span class="va">explain_HR_ranger</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">#&gt; Measures for:  multiclass</span>
-<span class="co">#&gt; micro_F1   : 0.8688671 </span>
-<span class="co">#&gt; macro_F1   : 0.8667419 </span>
-<span class="co">#&gt; w_macro_F1 : 0.8676139 </span>
-<span class="co">#&gt; accuracy   : 0.8688671 </span>
-<span class="co">#&gt; w_macro_auc: 0.9772221</span>
+<span class="co">#&gt; micro_F1   : 0.8723079 </span>
+<span class="co">#&gt; macro_F1   : 0.8705093 </span>
+<span class="co">#&gt; w_macro_F1 : 0.8712316 </span>
+<span class="co">#&gt; accuracy   : 0.8723079 </span>
+<span class="co">#&gt; w_macro_auc: 0.9775054</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Residuals:</span>
-<span class="co">#&gt;         0%        10%        20%        30%        40%        50%        60% </span>
-<span class="co">#&gt; 0.00000000 0.02713480 0.06279364 0.11983368 0.17948819 0.24175103 0.31416006 </span>
-<span class="co">#&gt;        70%        80%        90%       100% </span>
-<span class="co">#&gt; 0.39407860 0.48467267 0.59374031 0.90137466</span></code></pre>
+<span class="co">#&gt;           0%          10%          20%          30%          40%          50% </span>
+<span class="co">#&gt; 0.0003592814 0.0256239680 0.0637994775 0.1191176206 0.1788694372 0.2424623686 </span>
+<span class="co">#&gt;          60%          70%          80%          90%         100% </span>
+<span class="co">#&gt; 0.3140720277 0.3948660939 0.4849714337 0.5883631715 0.9159041861</span></code></pre>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mp</span><span class="op">)</span></code></pre></div>
 <p><img src="multilabel_classification_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
