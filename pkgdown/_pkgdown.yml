@@ -68,10 +68,12 @@ reference:
   - title: Datasets
     desc: Datasets used in Examples and Vignettes
     contents:
-    - fifa
     - apartments
+    - covid
+    - dragons
+    - fifa
+    - happiness
+    - HR
     - titanic
     - titanic_imputed
-    - dragons
-    - HR
 
