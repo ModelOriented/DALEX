@@ -119,6 +119,7 @@ loss_yardstick <- function(loss, reverse = FALSE, reference = 1) {
   } else {
     custom_loss <- function(observed, predicted) {
       df <- data.frame(observed, predicted)
+      colnames(df) <- c("observed", "predicted")
       loss(df, observed, predicted)$.estimate
     }
     attr(custom_loss, "loss_name") <- deparse(substitute(loss))
