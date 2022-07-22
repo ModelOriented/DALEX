@@ -51,7 +51,7 @@ We welcome contributions: [start by opening an issue on GitHub](https://github.c
 
 ## Citation
 
-If you use `dalex`, please cite our [JMLR paper](https://www.jmlr.org/papers/v22/20-1473):
+If you use `dalex`, please cite our [JMLR paper](https://jmlr.org/papers/v22/20-1473.html):
 
 ```html
 @article{JMLR:v22:20-1473,
