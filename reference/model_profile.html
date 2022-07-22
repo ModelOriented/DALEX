@@ -83,56 +83,75 @@ The <code>variable_profile</code> function is a copy of <code>model_profile</cod
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">model_profile</span><span class="op">(</span>
-  <span class="va">explainer</span>,
-  variables <span class="op">=</span> <span class="cn">NULL</span>,
-  N <span class="op">=</span> <span class="fl">100</span>,
-  <span class="va">...</span>,
-  groups <span class="op">=</span> <span class="cn">NULL</span>,
-  k <span class="op">=</span> <span class="cn">NULL</span>,
-  center <span class="op">=</span> <span class="cn">TRUE</span>,
-  type <span class="op">=</span> <span class="st">"partial"</span>
-<span class="op">)</span>
-
-<span class="fu">variable_profile</span><span class="op">(</span>
-  <span class="va">explainer</span>,
-  variables <span class="op">=</span> <span class="cn">NULL</span>,
-  N <span class="op">=</span> <span class="fl">100</span>,
-  <span class="va">...</span>,
-  groups <span class="op">=</span> <span class="cn">NULL</span>,
-  k <span class="op">=</span> <span class="cn">NULL</span>,
-  center <span class="op">=</span> <span class="cn">TRUE</span>,
-  type <span class="op">=</span> <span class="st">"partial"</span>
-<span class="op">)</span>
-
-<span class="fu">single_variable</span><span class="op">(</span><span class="va">explainer</span>, <span class="va">variable</span>, type <span class="op">=</span> <span class="st">"pdp"</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">model_profile</span><span class="op">(</span></span>
+<span>  <span class="va">explainer</span>,</span>
+<span>  variables <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  N <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  groups <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  k <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  center <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"partial"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">variable_profile</span><span class="op">(</span></span>
+<span>  <span class="va">explainer</span>,</span>
+<span>  variables <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  N <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  groups <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  k <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  center <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"partial"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">single_variable</span><span class="op">(</span><span class="va">explainer</span>, <span class="va">variable</span>, type <span class="op">=</span> <span class="st">"pdp"</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>explainer</dt>
 <dd><p>a model to be explained, preprocessed by the <code>explain</code> function</p></dd>
+
+
 <dt>variables</dt>
 <dd><p>character - names of variables to be explained</p></dd>
+
+
 <dt>N</dt>
 <dd><p>number of observations used for calculation of aggregated profiles. By default <code>100</code>. Use <code>NULL</code> to use all observations.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>other parameters that will be passed to <code><a href="https://ModelOriented.github.io/ingredients/reference/aggregate_profiles.html" class="external-link">ingredients::aggregate_profiles</a></code></p></dd>
+
+
 <dt>groups</dt>
 <dd><p>a variable name that will be used for grouping.
 By default <code>NULL</code> which means that no groups shall be calculated</p></dd>
+
+
 <dt>k</dt>
 <dd><p>number of clusters for the hclust function (for clustered profiles)</p></dd>
+
+
 <dt>center</dt>
 <dd><p>shall profiles be centered before clustering</p></dd>
+
+
 <dt>type</dt>
 <dd><p>the type of variable profile. Either <code>partial</code>, <code>conditional</code> or <code>accumulated</code>.</p></dd>
+
+
 <dt>variable</dt>
 <dd><p>deprecated, use variables instead</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An object of the class <code>model_profile</code>.
+    
+
+<p>An object of the class <code>model_profile</code>.
 It's a data frame with calculated average model responses.</p>
     </div>
     <div id="details">
@@ -147,15 +166,15 @@ It's a data frame with calculated average model responses.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">titanic_glm_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">survived</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">explainer_glm</span> <span class="op">&lt;-</span> <span class="fu"><a href="explain.html">explain</a></span><span class="op">(</span><span class="va">titanic_glm_model</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">titanic_glm_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">survived</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">explainer_glm</span> <span class="op">&lt;-</span> <span class="fu"><a href="explain.html">explain</a></span><span class="op">(</span><span class="va">titanic_glm_model</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Preparation of a new explainer is initiated</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model label       :  lm  ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; data              :  2207  rows  8  cols </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; target variable   :  not specified! ( <span style="color: #BB0000;"> WARNING </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.glm  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.0 , task classification ( <span style="color: #BBBB00;"> default </span> ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.1 , task classification ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Model info detected classification task but 'y' is a NULL .  ( <span style="color: #BB0000;"> WARNING </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  By deafult classification tasks supports only numercical 'y' parameter. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Consider changing to numerical vector with 0 and 1 values.</span>
@@ -163,56 +182,56 @@ It's a data frame with calculated average model responses.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.008128381 , mean =  0.3221568 , max =  0.9731431  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
-<span class="r-in"><span class="va">model_profile_glm_fare</span> <span class="op">&lt;-</span> <span class="fu">model_profile</span><span class="op">(</span><span class="va">explainer_glm</span>, <span class="st">"fare"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_profile_glm_fare</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">model_profile_glm_fare</span> <span class="op">&lt;-</span> <span class="fu">model_profile</span><span class="op">(</span><span class="va">explainer_glm</span>, <span class="st">"fare"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_profile_glm_fare</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_profile-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/imbs-hl/ranger" class="external-link">"ranger"</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="va">titanic_ranger_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></span><span class="op">(</span><span class="va">survived</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, num.trees <span class="op">=</span> <span class="fl">50</span>,</span>
-<span class="r-in">                               probability <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">explainer_ranger</span>  <span class="op">&lt;-</span> <span class="fu"><a href="explain.html">explain</a></span><span class="op">(</span><span class="va">titanic_ranger_model</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/imbs-hl/ranger" class="external-link">"ranger"</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">titanic_ranger_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></span><span class="op">(</span><span class="va">survived</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, num.trees <span class="op">=</span> <span class="fl">50</span>,</span></span>
+<span class="r-in"><span>                               probability <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">explainer_ranger</span>  <span class="op">&lt;-</span> <span class="fu"><a href="explain.html">explain</a></span><span class="op">(</span><span class="va">titanic_ranger_model</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Preparation of a new explainer is initiated</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model label       :  ranger  ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; data              :  2207  rows  8  cols </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; target variable   :  not specified! ( <span style="color: #BB0000;"> WARNING </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task classification ( <span style="color: #BBBB00;"> default </span> ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.14.1 , task classification ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Model info detected classification task but 'y' is a NULL .  ( <span style="color: #BB0000;"> WARNING </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  By deafult classification tasks supports only numercical 'y' parameter. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Consider changing to numerical vector with 0 and 1 values.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Otherwise I will not be able to calculate residuals or loss function.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.009422316 , mean =  0.3229748 , max =  0.9974613  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.003333333 , mean =  0.323075 , max =  0.9989873  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
-<span class="r-in"><span class="va">model_profile_ranger</span> <span class="op">&lt;-</span> <span class="fu">model_profile</span><span class="op">(</span><span class="va">explainer_ranger</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_profile_ranger</span>, geom <span class="op">=</span> <span class="st">"profiles"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">model_profile_ranger</span> <span class="op">&lt;-</span> <span class="fu">model_profile</span><span class="op">(</span><span class="va">explainer_ranger</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_profile_ranger</span>, geom <span class="op">=</span> <span class="st">"profiles"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_profile-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">model_profile_ranger_1</span> <span class="op">&lt;-</span> <span class="fu">model_profile</span><span class="op">(</span><span class="va">explainer_ranger</span>, type <span class="op">=</span> <span class="st">"partial"</span>,</span>
-<span class="r-in">                                        variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"fare"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_profile_ranger_1</span> , variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"fare"</span><span class="op">)</span>, geom <span class="op">=</span> <span class="st">"points"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">model_profile_ranger_1</span> <span class="op">&lt;-</span> <span class="fu">model_profile</span><span class="op">(</span><span class="va">explainer_ranger</span>, type <span class="op">=</span> <span class="st">"partial"</span>,</span></span>
+<span class="r-in"><span>                                        variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"fare"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_profile_ranger_1</span> , variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"fare"</span><span class="op">)</span>, geom <span class="op">=</span> <span class="st">"points"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_profile-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">model_profile_ranger_2</span>  <span class="op">&lt;-</span> <span class="fu">model_profile</span><span class="op">(</span><span class="va">explainer_ranger</span>, type <span class="op">=</span> <span class="st">"partial"</span>, k <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_profile_ranger_2</span> , geom <span class="op">=</span> <span class="st">"profiles"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">model_profile_ranger_2</span>  <span class="op">&lt;-</span> <span class="fu">model_profile</span><span class="op">(</span><span class="va">explainer_ranger</span>, type <span class="op">=</span> <span class="st">"partial"</span>, k <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_profile_ranger_2</span> , geom <span class="op">=</span> <span class="st">"profiles"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_profile-4.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">model_profile_ranger_3</span>  <span class="op">&lt;-</span> <span class="fu">model_profile</span><span class="op">(</span><span class="va">explainer_ranger</span>, type <span class="op">=</span> <span class="st">"partial"</span>, groups <span class="op">=</span> <span class="st">"gender"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_profile_ranger_3</span> , geom <span class="op">=</span> <span class="st">"profiles"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">model_profile_ranger_3</span>  <span class="op">&lt;-</span> <span class="fu">model_profile</span><span class="op">(</span><span class="va">explainer_ranger</span>, type <span class="op">=</span> <span class="st">"partial"</span>, groups <span class="op">=</span> <span class="st">"gender"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_profile_ranger_3</span> , geom <span class="op">=</span> <span class="st">"profiles"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_profile-5.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">model_profile_ranger_4</span>  <span class="op">&lt;-</span> <span class="fu">model_profile</span><span class="op">(</span><span class="va">explainer_ranger</span>, type <span class="op">=</span> <span class="st">"accumulated"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_profile_ranger_4</span> , geom <span class="op">=</span> <span class="st">"profiles"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">model_profile_ranger_4</span>  <span class="op">&lt;-</span> <span class="fu">model_profile</span><span class="op">(</span><span class="va">explainer_ranger</span>, type <span class="op">=</span> <span class="st">"accumulated"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_profile_ranger_4</span> , geom <span class="op">=</span> <span class="st">"profiles"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_profile-6.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Multiple profiles</span></span>
-<span class="r-in"><span class="va">model_profile_ranger_fare</span> <span class="op">&lt;-</span> <span class="fu">model_profile</span><span class="op">(</span><span class="va">explainer_ranger</span>, <span class="st">"fare"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_profile_ranger_fare</span>, <span class="va">model_profile_glm_fare</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Multiple profiles</span></span></span>
+<span class="r-in"><span><span class="va">model_profile_ranger_fare</span> <span class="op">&lt;-</span> <span class="fu">model_profile</span><span class="op">(</span><span class="va">explainer_ranger</span>, <span class="st">"fare"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_profile_ranger_fare</span>, <span class="va">model_profile_glm_fare</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_profile-7.png" alt="" width="700" height="433"></span>
-<span class="r-in"> <span class="co"># }</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

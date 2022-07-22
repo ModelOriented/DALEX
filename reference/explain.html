@@ -79,77 +79,111 @@ This function creates a unified representation of a model, which can be further 
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">explain.default</span><span class="op">(</span>
-  <span class="va">model</span>,
-  data <span class="op">=</span> <span class="cn">NULL</span>,
-  y <span class="op">=</span> <span class="cn">NULL</span>,
-  predict_function <span class="op">=</span> <span class="cn">NULL</span>,
-  predict_function_target_column <span class="op">=</span> <span class="cn">NULL</span>,
-  residual_function <span class="op">=</span> <span class="cn">NULL</span>,
-  weights <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>,
-  label <span class="op">=</span> <span class="cn">NULL</span>,
-  verbose <span class="op">=</span> <span class="cn">TRUE</span>,
-  precalculate <span class="op">=</span> <span class="cn">TRUE</span>,
-  colorize <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/Logic.html" class="external-link">isTRUE</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"knitr.in.progress"</span><span class="op">)</span><span class="op">)</span>,
-  model_info <span class="op">=</span> <span class="cn">NULL</span>,
-  type <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span>
-
-<span class="fu">explain</span><span class="op">(</span>
-  <span class="va">model</span>,
-  data <span class="op">=</span> <span class="cn">NULL</span>,
-  y <span class="op">=</span> <span class="cn">NULL</span>,
-  predict_function <span class="op">=</span> <span class="cn">NULL</span>,
-  predict_function_target_column <span class="op">=</span> <span class="cn">NULL</span>,
-  residual_function <span class="op">=</span> <span class="cn">NULL</span>,
-  weights <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>,
-  label <span class="op">=</span> <span class="cn">NULL</span>,
-  verbose <span class="op">=</span> <span class="cn">TRUE</span>,
-  precalculate <span class="op">=</span> <span class="cn">TRUE</span>,
-  colorize <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/Logic.html" class="external-link">isTRUE</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"knitr.in.progress"</span><span class="op">)</span><span class="op">)</span>,
-  model_info <span class="op">=</span> <span class="cn">NULL</span>,
-  type <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">explain.default</span><span class="op">(</span></span>
+<span>  <span class="va">model</span>,</span>
+<span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  y <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  predict_function <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  predict_function_target_column <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  residual_function <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  label <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  precalculate <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  colorize <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/Logic.html" class="external-link">isTRUE</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"knitr.in.progress"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  model_info <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  type <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">explain</span><span class="op">(</span></span>
+<span>  <span class="va">model</span>,</span>
+<span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  y <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  predict_function <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  predict_function_target_column <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  residual_function <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  label <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  precalculate <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  colorize <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/Logic.html" class="external-link">isTRUE</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"knitr.in.progress"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  model_info <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  type <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>model</dt>
 <dd><p>object - a model to be explained</p></dd>
+
+
 <dt>data</dt>
 <dd><p>data.frame or matrix - data which will be used to calculate the explanations. If not provided, then it will be extracted from the model. Data should be passed without a target column (this shall be provided as the <code>y</code> argument). NOTE: If the target variable is present in the <code>data</code>, some of the functionalities may not work properly.</p></dd>
+
+
 <dt>y</dt>
 <dd><p>numeric vector with outputs/scores. If provided, then it shall have the same size as <code>data</code></p></dd>
+
+
 <dt>predict_function</dt>
 <dd><p>function that takes two arguments: model and new data and returns a numeric vector with predictions.   By default it is <code>yhat</code>.</p></dd>
+
+
 <dt>predict_function_target_column</dt>
 <dd><p>Character or numeric containing either column name or column number in the model prediction object of the class that should be considered as positive (i.e. the class that is associated with probability 1). If NULL, the second column of the output will be taken for binary classification. For a multiclass classification setting, that parameter cause switch to binary classification mode with one vs others probabilities.</p></dd>
+
+
 <dt>residual_function</dt>
 <dd><p>function that takes four arguments: model, data, target vector y and predict function (optionally). It should return a numeric vector with model residuals for given data. If not provided, response residuals (\(y-\hat{y}\)) are calculated. By default it is <code>residual_function_default</code>.</p></dd>
+
+
 <dt>weights</dt>
 <dd><p>numeric vector with sampling weights. By default it's <code>NULL</code>. If provided, then it shall have the same length as <code>data</code></p></dd>
+
+
 <dt>...</dt>
 <dd><p>other parameters</p></dd>
+
+
 <dt>label</dt>
 <dd><p>character - the name of the model. By default it's extracted from the 'class' attribute of the model</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>logical. If TRUE (default) then diagnostic messages will be printed</p></dd>
+
+
 <dt>precalculate</dt>
 <dd><p>logical. If TRUE (default) then <code>predicted_values</code> and <code>residual</code> are calculated when explainer is created.
 This will happen also if <code>verbose</code> is TRUE. Set both <code>verbose</code> and <code>precalculate</code> to FALSE to omit calculations.</p></dd>
+
+
 <dt>colorize</dt>
 <dd><p>logical. If TRUE (default) then <code>WARNINGS</code>, <code>ERRORS</code> and <code>NOTES</code> are colorized. Will work only in the R console. Now by default it is <code>FALSE</code> while knitting and <code>TRUE</code> otherwise.</p></dd>
+
+
 <dt>model_info</dt>
 <dd><p>a named list (<code>package</code>, <code>version</code>, <code>type</code>) containing information about model. If <code>NULL</code>, <code>DALEX</code> will seek for information on it's own.</p></dd>
+
+
 <dt>type</dt>
 <dd><p>type of a model, either <code>classification</code> or <code>regression</code>. If not specified then <code>type</code> will be extracted from <code>model_info</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An object of the class <code>explainer</code>.
-It's a list with the following fields:</p><ul><li><p><code>model</code> the explained model.</p></li>
+    
+
+<p>An object of the class <code>explainer</code>.</p>
+
+
+<p>It's a list with the following fields:</p>
+
+
+<ul><li><p><code>model</code> the explained model.</p></li>
 <li><p><code>data</code> the dataset used for training.</p></li>
 <li><p><code>y</code> response for observations from <code>data</code>.</p></li>
 <li><p><code>weights</code> sample weights for <code>data</code>. <code>NULL</code> if weights are not specified.</p></li>
@@ -173,16 +207,16 @@ But some explanations may expect that other arguments will be provided too.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># simple explainer for regression problem</span></span>
-<span class="r-in"><span class="va">aps_lm_model4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">m2.price</span> <span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">apartments</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">aps_lm_explainer4</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_lm_model4</span>, data <span class="op">=</span> <span class="va">apartments</span>, label <span class="op">=</span> <span class="st">"model_4v"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># simple explainer for regression problem</span></span></span>
+<span class="r-in"><span><span class="va">aps_lm_model4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">m2.price</span> <span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">apartments</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">aps_lm_explainer4</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_lm_model4</span>, data <span class="op">=</span> <span class="va">apartments</span>, label <span class="op">=</span> <span class="st">"model_4v"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Preparation of a new explainer is initiated</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model label       :  model_4v </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; data              :  1000  rows  6  cols </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; target variable   :  not specified! ( <span style="color: #BB0000;"> WARNING </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.lm  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.0 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Model info detected regression task but 'y' is a NULL .  ( <span style="color: #BB0000;"> WARNING </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  By deafult regressions tasks supports only numercical 'y' parameter. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Consider changing to numerical vector.</span>
@@ -190,24 +224,24 @@ But some explanations may expect that other arguments will be provided too.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
-<span class="r-in"><span class="va">aps_lm_explainer4</span></span>
+<span class="r-in"><span><span class="va">aps_lm_explainer4</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model label:  model_4v </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model class:  lm </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Data head  :</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   m2.price construction.year surface floor no.rooms    district</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1     5897              1953      25     3        1 Srodmiescie</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2     1818              1992     143     9        5     Bielany</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># various parameters for the explain function</span></span>
-<span class="r-in"><span class="co"># all defaults</span></span>
-<span class="r-in"><span class="va">aps_lm</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_lm_model4</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># various parameters for the explain function</span></span></span>
+<span class="r-in"><span><span class="co"># all defaults</span></span></span>
+<span class="r-in"><span><span class="va">aps_lm</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_lm_model4</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Preparation of a new explainer is initiated</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model label       :  lm  ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; data              :  1000  rows  6  cols <span style="color: #BBBB00;"> extracted from the model </span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; target variable   :  not specified! ( <span style="color: #BB0000;"> WARNING </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.lm  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.0 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Model info detected regression task but 'y' is a NULL .  ( <span style="color: #BB0000;"> WARNING </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  By deafult regressions tasks supports only numercical 'y' parameter. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Consider changing to numerical vector.</span>
@@ -215,117 +249,117 @@ But some explanations may expect that other arguments will be provided too.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># silent execution</span></span>
-<span class="r-in"><span class="va">aps_lm</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_lm_model4</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># set target variable</span></span>
-<span class="r-in"><span class="va">aps_lm</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_lm_model4</span>, data <span class="op">=</span> <span class="va">apartments</span>, label <span class="op">=</span> <span class="st">"model_4v"</span>, y <span class="op">=</span> <span class="va">apartments</span><span class="op">$</span><span class="va">m2.price</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># silent execution</span></span></span>
+<span class="r-in"><span><span class="va">aps_lm</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_lm_model4</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># set target variable</span></span></span>
+<span class="r-in"><span><span class="va">aps_lm</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_lm_model4</span>, data <span class="op">=</span> <span class="va">apartments</span>, label <span class="op">=</span> <span class="st">"model_4v"</span>, y <span class="op">=</span> <span class="va">apartments</span><span class="op">$</span><span class="va">m2.price</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Preparation of a new explainer is initiated</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model label       :  model_4v </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; data              :  1000  rows  6  cols </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; target variable   :  1000  values </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.lm  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.0 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -247.4728 , mean =  2.093656e-14 , max =  469.0023  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
-<span class="r-in"><span class="va">aps_lm</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_lm_model4</span>, data <span class="op">=</span> <span class="va">apartments</span>, label <span class="op">=</span> <span class="st">"model_4v"</span>, y <span class="op">=</span> <span class="va">apartments</span><span class="op">$</span><span class="va">m2.price</span>,</span>
-<span class="r-in">                                   predict_function <span class="op">=</span> <span class="va">predict</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">aps_lm</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_lm_model4</span>, data <span class="op">=</span> <span class="va">apartments</span>, label <span class="op">=</span> <span class="st">"model_4v"</span>, y <span class="op">=</span> <span class="va">apartments</span><span class="op">$</span><span class="va">m2.price</span>,</span></span>
+<span class="r-in"><span>                                   predict_function <span class="op">=</span> <span class="va">predict</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Preparation of a new explainer is initiated</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model label       :  model_4v </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; data              :  1000  rows  6  cols </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; target variable   :  1000  values </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  predict </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.0 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -247.4728 , mean =  2.093656e-14 , max =  469.0023  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="co"># user provided predict_function</span></span>
-<span class="r-in"><span class="va">aps_ranger</span> <span class="op">&lt;-</span> <span class="fu">ranger</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></span><span class="op">(</span><span class="va">m2.price</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">apartments</span>, num.trees <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">custom_predict</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span><span class="op">)</span><span class="op">$</span><span class="va">predictions</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="va">aps_ranger_exp</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_ranger</span>, data <span class="op">=</span> <span class="va">apartments</span>, y <span class="op">=</span> <span class="va">apartments</span><span class="op">$</span><span class="va">m2.price</span>,</span>
-<span class="r-in">                          predict_function <span class="op">=</span> <span class="va">custom_predict</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># user provided predict_function</span></span></span>
+<span class="r-in"><span><span class="va">aps_ranger</span> <span class="op">&lt;-</span> <span class="fu">ranger</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></span><span class="op">(</span><span class="va">m2.price</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">apartments</span>, num.trees <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">custom_predict</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span><span class="op">)</span><span class="op">$</span><span class="va">predictions</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="va">aps_ranger_exp</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_ranger</span>, data <span class="op">=</span> <span class="va">apartments</span>, y <span class="op">=</span> <span class="va">apartments</span><span class="op">$</span><span class="va">m2.price</span>,</span></span>
+<span class="r-in"><span>                          predict_function <span class="op">=</span> <span class="va">custom_predict</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Preparation of a new explainer is initiated</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model label       :  ranger  ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; data              :  1000  rows  6  cols </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; target variable   :  1000  values </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  custom_predict </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1852.853 , mean =  3486.849 , max =  6202.85  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.14.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1858.749 , mean =  3492.538 , max =  6153.247  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -409.1427 , mean =  0.1699477 , max =  734.6538  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -532.994 , mean =  -5.519327 , max =  705.633  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># user provided residual_function</span></span>
-<span class="r-in"><span class="va">aps_ranger</span> <span class="op">&lt;-</span> <span class="fu">ranger</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></span><span class="op">(</span><span class="va">m2.price</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">apartments</span>, num.trees <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">custom_residual</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">y</span>, <span class="va">predict_function</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">y</span> <span class="op">-</span> <span class="fu">predict_function</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="va">aps_ranger_exp</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_ranger</span>, data <span class="op">=</span> <span class="va">apartments</span>,</span>
-<span class="r-in">                          y <span class="op">=</span> <span class="va">apartments</span><span class="op">$</span><span class="va">m2.price</span>,</span>
-<span class="r-in">                          residual_function <span class="op">=</span> <span class="va">custom_residual</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># user provided residual_function</span></span></span>
+<span class="r-in"><span><span class="va">aps_ranger</span> <span class="op">&lt;-</span> <span class="fu">ranger</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></span><span class="op">(</span><span class="va">m2.price</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">apartments</span>, num.trees <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">custom_residual</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">y</span>, <span class="va">predict_function</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">y</span> <span class="op">-</span> <span class="fu">predict_function</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="va">aps_ranger_exp</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_ranger</span>, data <span class="op">=</span> <span class="va">apartments</span>,</span></span>
+<span class="r-in"><span>                          y <span class="op">=</span> <span class="va">apartments</span><span class="op">$</span><span class="va">m2.price</span>,</span></span>
+<span class="r-in"><span>                          residual_function <span class="op">=</span> <span class="va">custom_residual</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Preparation of a new explainer is initiated</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model label       :  ranger  ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; data              :  1000  rows  6  cols </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; target variable   :  1000  values </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1767.014 , mean =  3490.11 , max =  6203.234  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.14.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1802.966 , mean =  3490.65 , max =  6332.731  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  custom_residual </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  0.5207778 , mean =  122.1699 , max =  687.4676  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  0.029 , mean =  107.0206 , max =  636.5603  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># binary classification</span></span>
-<span class="r-in"><span class="va">titanic_ranger</span> <span class="op">&lt;-</span> <span class="fu">ranger</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">survived</span><span class="op">)</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, num.trees <span class="op">=</span> <span class="fl">50</span>,</span>
-<span class="r-in">                                 probability <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># keep in mind that for binary classification y parameter has to be numeric  with 0 and 1 values</span></span>
-<span class="r-in"><span class="va">titanic_ranger_exp</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">titanic_ranger</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, y <span class="op">=</span> <span class="va">titanic_imputed</span><span class="op">$</span><span class="va">survived</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># binary classification</span></span></span>
+<span class="r-in"><span><span class="va">titanic_ranger</span> <span class="op">&lt;-</span> <span class="fu">ranger</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">survived</span><span class="op">)</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, num.trees <span class="op">=</span> <span class="fl">50</span>,</span></span>
+<span class="r-in"><span>                                 probability <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># keep in mind that for binary classification y parameter has to be numeric  with 0 and 1 values</span></span></span>
+<span class="r-in"><span><span class="va">titanic_ranger_exp</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">titanic_ranger</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, y <span class="op">=</span> <span class="va">titanic_imputed</span><span class="op">$</span><span class="va">survived</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Preparation of a new explainer is initiated</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model label       :  ranger  ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; data              :  2207  rows  8  cols </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; target variable   :  2207  values </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task classification ( <span style="color: #BBBB00;"> default </span> ) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.004404951 , mean =  0.3215195 , max =  0.9943994  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.14.1 , task classification ( <span style="color: #BBBB00;"> default </span> ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.001978535 , mean =  0.3225911 , max =  0.997673  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.7888087 , mean =  0.0006372823 , max =  0.8937129  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.8173422 , mean =  -0.0004343275 , max =  0.9010446  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># multiclass task</span></span>
-<span class="r-in"><span class="va">hr_ranger</span> <span class="op">&lt;-</span> <span class="fu">ranger</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></span><span class="op">(</span><span class="va">status</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">HR</span>, num.trees <span class="op">=</span> <span class="fl">50</span>, probability <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># keep in mind that for multiclass y parameter has to be a factor,</span></span>
-<span class="r-in"><span class="co"># with same levels as in training data</span></span>
-<span class="r-in"><span class="va">hr_ranger_exp</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">hr_ranger</span>, data <span class="op">=</span> <span class="va">HR</span>, y <span class="op">=</span> <span class="va">HR</span><span class="op">$</span><span class="va">status</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># multiclass task</span></span></span>
+<span class="r-in"><span><span class="va">hr_ranger</span> <span class="op">&lt;-</span> <span class="fu">ranger</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></span><span class="op">(</span><span class="va">status</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">HR</span>, num.trees <span class="op">=</span> <span class="fl">50</span>, probability <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># keep in mind that for multiclass y parameter has to be a factor,</span></span></span>
+<span class="r-in"><span><span class="co"># with same levels as in training data</span></span></span>
+<span class="r-in"><span><span class="va">hr_ranger_exp</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">hr_ranger</span>, data <span class="op">=</span> <span class="va">HR</span>, y <span class="op">=</span> <span class="va">HR</span><span class="op">$</span><span class="va">status</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Preparation of a new explainer is initiated</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model label       :  ranger  ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; data              :  7847  rows  6  cols </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; target variable   :  7847  values </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task multiclass ( <span style="color: #BBBB00;"> default </span> ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.14.1 , task multiclass ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  predict function returns multiple columns:  3  ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between 1 and probability of true class ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  0 , mean =  0.2769848 , max =  0.8967554  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  0 , mean =  0.2782998 , max =  0.8868675  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># set model_info</span></span>
-<span class="r-in"><span class="va">model_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"stats"</span>, ver <span class="op">=</span> <span class="st">"3.6.2"</span>, type <span class="op">=</span> <span class="st">"regression"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">aps_lm_model4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">m2.price</span> <span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">apartments</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">aps_lm_explainer4</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_lm_model4</span>, data <span class="op">=</span> <span class="va">apartments</span>, label <span class="op">=</span> <span class="st">"model_4v"</span>,</span>
-<span class="r-in">                             model_info <span class="op">=</span> <span class="va">model_info</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># set model_info</span></span></span>
+<span class="r-in"><span><span class="va">model_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"stats"</span>, ver <span class="op">=</span> <span class="st">"3.6.2"</span>, type <span class="op">=</span> <span class="st">"regression"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">aps_lm_model4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">m2.price</span> <span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">apartments</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">aps_lm_explainer4</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_lm_model4</span>, data <span class="op">=</span> <span class="va">apartments</span>, label <span class="op">=</span> <span class="st">"model_4v"</span>,</span></span>
+<span class="r-in"><span>                             model_info <span class="op">=</span> <span class="va">model_info</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Preparation of a new explainer is initiated</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model label       :  model_4v </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; data              :  1000  rows  6  cols </span>
@@ -340,10 +374,10 @@ But some explanations may expect that other arguments will be provided too.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># simple function</span></span>
-<span class="r-in"><span class="va">aps_fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fl">58</span><span class="op">*</span><span class="va">x</span><span class="op">$</span><span class="va">surface</span></span>
-<span class="r-in"><span class="va">aps_fun_explainer</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_fun</span>, data <span class="op">=</span> <span class="va">apartments</span>, y <span class="op">=</span> <span class="va">apartments</span><span class="op">$</span><span class="va">m2.price</span>, label<span class="op">=</span><span class="st">"sfun"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># simple function</span></span></span>
+<span class="r-in"><span><span class="va">aps_fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fl">58</span><span class="op">*</span><span class="va">x</span><span class="op">$</span><span class="va">surface</span></span></span>
+<span class="r-in"><span><span class="va">aps_fun_explainer</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_fun</span>, data <span class="op">=</span> <span class="va">apartments</span>, y <span class="op">=</span> <span class="va">apartments</span><span class="op">$</span><span class="va">m2.price</span>, label<span class="op">=</span><span class="st">"sfun"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Preparation of a new explainer is initiated</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model label       :  sfun </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; data              :  1000  rows  6  cols </span>
@@ -355,7 +389,7 @@ But some explanations may expect that other arguments will be provided too.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -7035 , mean =  -1477.201 , max =  4855  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
-<span class="r-in"><span class="fu"><a href="model_performance.html">model_performance</a></span><span class="op">(</span><span class="va">aps_fun_explainer</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="model_performance.html">model_performance</a></span><span class="op">(</span><span class="va">aps_fun_explainer</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Measures for:  regression</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mse        : 9836605 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rmse       : 3136.336 </span>
@@ -367,12 +401,12 @@ But some explanations may expect that other arguments will be provided too.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -7035.0 -5258.6 -4232.4 -3362.9 -2474.8 -1479.5  -507.6   294.2  1283.2  2156.5 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    100% </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  4855.0 </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># set model_info</span></span>
-<span class="r-in"><span class="va">model_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"stats"</span>, ver <span class="op">=</span> <span class="st">"3.6.2"</span>, type <span class="op">=</span> <span class="st">"regression"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">aps_lm_model4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">m2.price</span> <span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">apartments</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">aps_lm_explainer4</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_lm_model4</span>, data <span class="op">=</span> <span class="va">apartments</span>, label <span class="op">=</span> <span class="st">"model_4v"</span>,</span>
-<span class="r-in">                             model_info <span class="op">=</span> <span class="va">model_info</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># set model_info</span></span></span>
+<span class="r-in"><span><span class="va">model_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"stats"</span>, ver <span class="op">=</span> <span class="st">"3.6.2"</span>, type <span class="op">=</span> <span class="st">"regression"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">aps_lm_model4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">m2.price</span> <span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">apartments</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">aps_lm_explainer4</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_lm_model4</span>, data <span class="op">=</span> <span class="va">apartments</span>, label <span class="op">=</span> <span class="st">"model_4v"</span>,</span></span>
+<span class="r-in"><span>                             model_info <span class="op">=</span> <span class="va">model_info</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Preparation of a new explainer is initiated</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model label       :  model_4v </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; data              :  1000  rows  6  cols </span>
@@ -387,9 +421,9 @@ But some explanations may expect that other arguments will be provided too.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">aps_lm_explainer4</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_lm_model4</span>, data <span class="op">=</span> <span class="va">apartments</span>, label <span class="op">=</span> <span class="st">"model_4v"</span>,</span>
-<span class="r-in">                             weights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">apartments</span><span class="op">$</span><span class="va">construction.year</span> <span class="op">&gt;</span> <span class="fl">2000</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">aps_lm_explainer4</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_lm_model4</span>, data <span class="op">=</span> <span class="va">apartments</span>, label <span class="op">=</span> <span class="st">"model_4v"</span>,</span></span>
+<span class="r-in"><span>                             weights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">apartments</span><span class="op">$</span><span class="va">construction.year</span> <span class="op">&gt;</span> <span class="fl">2000</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Preparation of a new explainer is initiated</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model label       :  model_4v </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; data              :  1000  rows  6  cols </span>
@@ -397,7 +431,7 @@ But some explanations may expect that other arguments will be provided too.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; sampling weights  :  1000  values ( <span style="color: #BBBB00;"> note that not all explanations handle weights </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.lm  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.0 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Model info detected regression task but 'y' is a NULL .  ( <span style="color: #BB0000;"> WARNING </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  By deafult regressions tasks supports only numercical 'y' parameter. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Consider changing to numerical vector.</span>
@@ -405,34 +439,34 @@ But some explanations may expect that other arguments will be provided too.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1781.848 , mean =  3487.019 , max =  6176.032  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># more complex model</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/imbs-hl/ranger" class="external-link">"ranger"</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="va">aps_ranger_model4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></span><span class="op">(</span><span class="va">m2.price</span> <span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">apartments</span>, num.trees <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">aps_ranger_explainer4</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_ranger_model4</span>, data <span class="op">=</span> <span class="va">apartments</span>, label <span class="op">=</span> <span class="st">"model_ranger"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># more complex model</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/imbs-hl/ranger" class="external-link">"ranger"</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">aps_ranger_model4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></span><span class="op">(</span><span class="va">m2.price</span> <span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">apartments</span>, num.trees <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">aps_ranger_explainer4</span> <span class="op">&lt;-</span> <span class="fu">explain</span><span class="op">(</span><span class="va">aps_ranger_model4</span>, data <span class="op">=</span> <span class="va">apartments</span>, label <span class="op">=</span> <span class="st">"model_ranger"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Preparation of a new explainer is initiated</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model label       :  model_ranger </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; data              :  1000  rows  6  cols </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; target variable   :  not specified! ( <span style="color: #BB0000;"> WARNING </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.14.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Model info detected regression task but 'y' is a NULL .  ( <span style="color: #BB0000;"> WARNING </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  By deafult regressions tasks supports only numercical 'y' parameter. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Consider changing to numerical vector.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Otherwise I will not be able to calculate residuals or loss function.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1911.773 , mean =  3490.055 , max =  6166.536  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1888.87 , mean =  3487.082 , max =  6182.201  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
-<span class="r-in"><span class="va">aps_ranger_explainer4</span></span>
+<span class="r-in"><span><span class="va">aps_ranger_explainer4</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model label:  model_ranger </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model class:  ranger </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Data head  :</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   m2.price construction.year surface floor no.rooms    district</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1     5897              1953      25     3        1 Srodmiescie</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2     1818              1992     143     9        5     Bielany</span>
-<span class="r-in"> <span class="co"># }</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

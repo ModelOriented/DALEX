@@ -85,66 +85,73 @@ not classes itself.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for lm</span>
-<span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for randomForest</span>
-<span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for svm</span>
-<span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for gbm</span>
-<span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for glm</span>
-<span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for cv.glmnet</span>
-<span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for glmnet</span>
-<span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for ranger</span>
-<span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for model_fit</span>
-<span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for train</span>
-<span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for lrm</span>
-<span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for rpart</span>
-<span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for `function`</span>
-<span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for party</span>
-<span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for default</span>
-<span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for lm</span></span>
+<span><span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for randomForest</span></span>
+<span><span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for svm</span></span>
+<span><span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for gbm</span></span>
+<span><span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for glm</span></span>
+<span><span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for cv.glmnet</span></span>
+<span><span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for glmnet</span></span>
+<span><span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for ranger</span></span>
+<span><span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for model_fit</span></span>
+<span><span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for train</span></span>
+<span><span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for lrm</span></span>
+<span><span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for rpart</span></span>
+<span><span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for `function`</span></span>
+<span><span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for party</span></span>
+<span><span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for default</span></span>
+<span><span class="fu">yhat</span><span class="op">(</span><span class="va">X.model</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>X.model</dt>
 <dd><p>object - a model to be explained</p></dd>
+
+
 <dt>newdata</dt>
 <dd><p>data.frame or matrix - observations for prediction</p></dd>
+
+
 <dt>...</dt>
 <dd><p>other parameters that will be passed to the predict function</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An numeric matrix of predictions</p>
+    
+
+<p>An numeric matrix of predictions</p>
     </div>
     <div id="details">
     <h2>Details</h2>

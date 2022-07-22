@@ -81,22 +81,34 @@ For regression models following measures are calculated: mean squared error, R s
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">model_performance</span><span class="op">(</span><span class="va">explainer</span>, <span class="va">...</span>, cutoff <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">model_performance</span><span class="op">(</span><span class="va">explainer</span>, <span class="va">...</span>, cutoff <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>explainer</dt>
 <dd><p>a model to be explained, preprocessed by the <code><a href="explain.html">explain</a></code> function</p></dd>
+
+
 <dt>...</dt>
 <dd><p>other parameters</p></dd>
+
+
 <dt>cutoff</dt>
 <dd><p>a cutoff for classification models, needed for measures like recall, precision, ACC, F1. By default 0.5.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An object of the class <code>model_performance</code>.
-It's a list with following fields:</p><ul><li><p><code>residuals</code> - data frame that contains residuals for each observation</p></li>
+    
+
+<p>An object of the class <code>model_performance</code>.</p>
+
+
+<p>It's a list with following fields:</p>
+
+
+<ul><li><p><code>residuals</code> - data frame that contains residuals for each observation</p></li>
 <li><p><code>measures</code> - list with calculated measures that are dedicated for the task, whether it is regression, binary classification or multiclass classification.</p></li>
 <li><p><code>type</code> - character that specifies type of the task.</p></li>
 </ul></div>
@@ -107,62 +119,62 @@ It's a list with following fields:</p><ul><li><p><code>residuals</code> - data f
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="co"># regression</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/imbs-hl/ranger" class="external-link">"ranger"</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="va">apartments_ranger_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></span><span class="op">(</span><span class="va">m2.price</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">apartments</span>, num.trees <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">explainer_ranger_apartments</span>  <span class="op">&lt;-</span> <span class="fu"><a href="explain.html">explain</a></span><span class="op">(</span><span class="va">apartments_ranger_model</span>, data <span class="op">=</span> <span class="va">apartments</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span>,</span>
-<span class="r-in">                             y <span class="op">=</span> <span class="va">apartments</span><span class="op">$</span><span class="va">m2.price</span>, label <span class="op">=</span> <span class="st">"Ranger Apartments"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># regression</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/imbs-hl/ranger" class="external-link">"ranger"</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">apartments_ranger_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></span><span class="op">(</span><span class="va">m2.price</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">apartments</span>, num.trees <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">explainer_ranger_apartments</span>  <span class="op">&lt;-</span> <span class="fu"><a href="explain.html">explain</a></span><span class="op">(</span><span class="va">apartments_ranger_model</span>, data <span class="op">=</span> <span class="va">apartments</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>                             y <span class="op">=</span> <span class="va">apartments</span><span class="op">$</span><span class="va">m2.price</span>, label <span class="op">=</span> <span class="st">"Ranger Apartments"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Preparation of a new explainer is initiated</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model label       :  Ranger Apartments </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; data              :  1000  rows  5  cols </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; target variable   :  1000  values </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1865.444 , mean =  3484.319 , max =  6217.39  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.14.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1873.154 , mean =  3490.524 , max =  6138.319  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -468.8547 , mean =  2.699806 , max =  698.9569  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -439.5815 , mean =  -3.505149 , max =  626.902  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
-<span class="r-in"><span class="va">model_performance_ranger_aps</span> <span class="op">&lt;-</span> <span class="fu">model_performance</span><span class="op">(</span><span class="va">explainer_ranger_apartments</span> <span class="op">)</span></span>
-<span class="r-in"><span class="va">model_performance_ranger_aps</span></span>
+<span class="r-in"><span><span class="va">model_performance_ranger_aps</span> <span class="op">&lt;-</span> <span class="fu">model_performance</span><span class="op">(</span><span class="va">explainer_ranger_apartments</span> <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">model_performance_ranger_aps</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Measures for:  regression</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mse        : 25560.84 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rmse       : 159.8776 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> r2         : 0.9688764 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mad        : 88.434</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mse        : 22776.57 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rmse       : 150.9191 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> r2         : 0.9722666 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mad        : 87.4515</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Residuals:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          0%         10%         20%         30%         40%         50% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -468.854667 -171.795833 -109.736057  -76.242600  -48.189733  -20.000778 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -439.581500 -167.152286 -112.586152  -81.040000  -51.547133  -27.876733 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         60%         70%         80%         90%        100% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    6.559571   50.244400  119.265878  213.357500  698.956857 </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_performance_ranger_aps</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2.477267   41.890100  101.744327  193.254483  626.902048 </span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_performance_ranger_aps</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_performance-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_performance_ranger_aps</span>, geom <span class="op">=</span> <span class="st">"boxplot"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_performance_ranger_aps</span>, geom <span class="op">=</span> <span class="st">"boxplot"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_performance-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_performance_ranger_aps</span>, geom <span class="op">=</span> <span class="st">"histogram"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_performance_ranger_aps</span>, geom <span class="op">=</span> <span class="st">"histogram"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_performance-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># binary classification</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">titanic_glm_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">survived</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">explainer_glm_titanic</span> <span class="op">&lt;-</span> <span class="fu"><a href="explain.html">explain</a></span><span class="op">(</span><span class="va">titanic_glm_model</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span><span class="op">[</span>,<span class="op">-</span><span class="fl">8</span><span class="op">]</span>,</span>
-<span class="r-in">                         y <span class="op">=</span> <span class="va">titanic_imputed</span><span class="op">$</span><span class="va">survived</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># binary classification</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">titanic_glm_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">survived</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">explainer_glm_titanic</span> <span class="op">&lt;-</span> <span class="fu"><a href="explain.html">explain</a></span><span class="op">(</span><span class="va">titanic_glm_model</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span><span class="op">[</span>,<span class="op">-</span><span class="fl">8</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>                         y <span class="op">=</span> <span class="va">titanic_imputed</span><span class="op">$</span><span class="va">survived</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Preparation of a new explainer is initiated</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model label       :  lm  ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; data              :  2207  rows  7  cols </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; target variable   :  2207  values </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.glm  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.0 , task classification ( <span style="color: #BBBB00;"> default </span> ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.1 , task classification ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.008128381 , mean =  0.3221568 , max =  0.9731431  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.9628583 , mean =  -2.569729e-10 , max =  0.9663346  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
-<span class="r-in"><span class="va">model_performance_glm_titanic</span> <span class="op">&lt;-</span> <span class="fu">model_performance</span><span class="op">(</span><span class="va">explainer_glm_titanic</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">model_performance_glm_titanic</span></span>
+<span class="r-in"><span><span class="va">model_performance_glm_titanic</span> <span class="op">&lt;-</span> <span class="fu">model_performance</span><span class="op">(</span><span class="va">explainer_glm_titanic</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">model_performance_glm_titanic</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Measures for:  classification</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> recall     : 0.5738397 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> precision  : 0.7472527 </span>
@@ -175,53 +187,53 @@ It's a list with following fields:</p><ul><li><p><code>residuals</code> - data f
 <span class="r-out co"><span class="r-pr">#&gt;</span> -0.96285832 -0.32240247 -0.23986439 -0.19544185 -0.14842925 -0.11460334 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         60%         70%         80%         90%        100% </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -0.06940964  0.06185475  0.29607060  0.72120412  0.96633458 </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_performance_glm_titanic</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_performance_glm_titanic</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_performance-4.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_performance_glm_titanic</span>, geom <span class="op">=</span> <span class="st">"boxplot"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_performance_glm_titanic</span>, geom <span class="op">=</span> <span class="st">"boxplot"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_performance-5.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_performance_glm_titanic</span>, geom <span class="op">=</span> <span class="st">"histogram"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_performance_glm_titanic</span>, geom <span class="op">=</span> <span class="st">"histogram"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_performance-6.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># multilabel classification</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">HR_ranger_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></span><span class="op">(</span><span class="va">status</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">HR</span>, num.trees <span class="op">=</span> <span class="fl">50</span>,</span>
-<span class="r-in">                               probability <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">explainer_ranger_HR</span>  <span class="op">&lt;-</span> <span class="fu"><a href="explain.html">explain</a></span><span class="op">(</span><span class="va">HR_ranger_model</span>, data <span class="op">=</span> <span class="va">HR</span><span class="op">[</span>,<span class="op">-</span><span class="fl">6</span><span class="op">]</span>,</span>
-<span class="r-in">                             y <span class="op">=</span> <span class="va">HR</span><span class="op">$</span><span class="va">status</span>, label <span class="op">=</span> <span class="st">"Ranger HR"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># multilabel classification</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">HR_ranger_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></span><span class="op">(</span><span class="va">status</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">HR</span>, num.trees <span class="op">=</span> <span class="fl">50</span>,</span></span>
+<span class="r-in"><span>                               probability <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">explainer_ranger_HR</span>  <span class="op">&lt;-</span> <span class="fu"><a href="explain.html">explain</a></span><span class="op">(</span><span class="va">HR_ranger_model</span>, data <span class="op">=</span> <span class="va">HR</span><span class="op">[</span>,<span class="op">-</span><span class="fl">6</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>                             y <span class="op">=</span> <span class="va">HR</span><span class="op">$</span><span class="va">status</span>, label <span class="op">=</span> <span class="st">"Ranger HR"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Preparation of a new explainer is initiated</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model label       :  Ranger HR </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; data              :  7847  rows  5  cols </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; target variable   :  7847  values </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task multiclass ( <span style="color: #BBBB00;"> default </span> ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.14.1 , task multiclass ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  predict function returns multiple columns:  3  ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between 1 and probability of true class ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  0 , mean =  0.2776126 , max =  0.8865809  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  0.0007305936 , mean =  0.2781768 , max =  0.8793748  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
-<span class="r-in"><span class="va">model_performance_ranger_HR</span> <span class="op">&lt;-</span> <span class="fu">model_performance</span><span class="op">(</span><span class="va">explainer_ranger_HR</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">model_performance_ranger_HR</span></span>
+<span class="r-in"><span><span class="va">model_performance_ranger_HR</span> <span class="op">&lt;-</span> <span class="fu">model_performance</span><span class="op">(</span><span class="va">explainer_ranger_HR</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">model_performance_ranger_HR</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Measures for:  multiclass</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> micro_F1   : 0.8705238 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> macro_F1   : 0.868362 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> w_macro_F1 : 0.8692675 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> accuracy   : 0.8705238 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> w_macro_auc: 0.9766928</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> micro_F1   : 0.8707786 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> macro_F1   : 0.8688302 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> w_macro_F1 : 0.8696341 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> accuracy   : 0.8707786 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> w_macro_auc: 0.976885</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Residuals:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         0%        10%        20%        30%        40%        50%        60% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.00000000 0.02718289 0.06008699 0.11447652 0.17562038 0.24113497 0.31336344 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        70%        80%        90%       100% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.39284791 0.48235278 0.59861138 0.88658087 </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_performance_ranger_HR</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           0%          10%          20%          30%          40%          50% </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.0007305936 0.0288148974 0.0630679690 0.1171041442 0.1766142449 0.2413865657 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          60%          70%          80%          90%         100% </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.3122321085 0.3953603551 0.4857028889 0.5970345045 0.8793748150 </span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_performance_ranger_HR</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_performance-7.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_performance_ranger_HR</span>, geom <span class="op">=</span> <span class="st">"boxplot"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_performance_ranger_HR</span>, geom <span class="op">=</span> <span class="st">"boxplot"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_performance-8.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_performance_ranger_HR</span>, geom <span class="op">=</span> <span class="st">"histogram"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_performance_ranger_HR</span>, geom <span class="op">=</span> <span class="st">"histogram"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_performance-9.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

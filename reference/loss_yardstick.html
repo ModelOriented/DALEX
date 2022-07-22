@@ -87,37 +87,44 @@ must be guaranteed by the user.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">loss_yardstick</span><span class="op">(</span><span class="va">loss</span>, reverse <span class="op">=</span> <span class="cn">FALSE</span>, reference <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">loss_yardstick</span><span class="op">(</span><span class="va">loss</span>, reverse <span class="op">=</span> <span class="cn">FALSE</span>, reference <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>loss</dt>
 <dd><p>loss function from the yardstick package</p></dd>
+
+
 <dt>reverse</dt>
 <dd><p>shall the metric be reversed? for loss metrics lower values are better. <code>reverse = TRUE</code> is useful for accuracy-like metrics</p></dd>
+
+
 <dt>reference</dt>
 <dd><p>if the metric is reverse then it is calculated as <code>reference - loss</code>. The default value is 1.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>loss function that can be used in the model_parts function</p>
+    
+
+<p>loss function that can be used in the model_parts function</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"> <span class="co"># \donttest{</span></span>
-<span class="r-in"> <span class="va">titanic_glm_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">survived</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span></span>
-<span class="r-in"> <span class="va">explainer_glm</span> <span class="op">&lt;-</span> <span class="fu">DALEX</span><span class="fu">::</span><span class="fu"><a href="explain.html">explain</a></span><span class="op">(</span><span class="va">titanic_glm_model</span>,</span>
-<span class="r-in">                                 data <span class="op">=</span> <span class="va">titanic_imputed</span><span class="op">[</span>,<span class="op">-</span><span class="fl">8</span><span class="op">]</span>,</span>
-<span class="r-in">                                 y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">titanic_imputed</span><span class="op">$</span><span class="va">survived</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span> <span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span> <span class="va">titanic_glm_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">survived</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="va">explainer_glm</span> <span class="op">&lt;-</span> <span class="fu">DALEX</span><span class="fu">::</span><span class="fu"><a href="explain.html">explain</a></span><span class="op">(</span><span class="va">titanic_glm_model</span>,</span></span>
+<span class="r-in"><span>                                 data <span class="op">=</span> <span class="va">titanic_imputed</span><span class="op">[</span>,<span class="op">-</span><span class="fl">8</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>                                 y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">titanic_imputed</span><span class="op">$</span><span class="va">survived</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Preparation of a new explainer is initiated</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model label       :  lm  ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; data              :  2207  rows  7  cols </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; target variable   :  2207  values </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.glm  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.0 , task classification ( <span style="color: #BBBB00;"> default </span> ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.1 , task classification ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Model info detected classification task but 'y' is a factor .  ( <span style="color: #BB0000;"> WARNING </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  By deafult classification tasks supports only numercical 'y' parameter. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Consider changing to numerical vector with 0 and 1 values.</span>
@@ -127,10 +134,10 @@ must be guaranteed by the user.</p>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>‘-’ not meaningful for factors</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  NA , mean =  NA , max =  NA  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
-<span class="r-in"> <span class="co"># See the 'How to use DALEX with the yardstick package' vignette</span></span>
-<span class="r-in"> <span class="co"># which explains this model with measures implemented in the 'yardstick' package</span></span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span> <span class="co"># See the 'How to use DALEX with the yardstick package' vignette</span></span></span>
+<span class="r-in"><span> <span class="co"># which explains this model with measures implemented in the 'yardstick' package</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

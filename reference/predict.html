@@ -77,41 +77,52 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for explainer</span>
-<span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">object</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">model_prediction</span><span class="op">(</span><span class="va">explainer</span>, <span class="va">new_data</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for explainer</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">object</span>, <span class="va">newdata</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">model_prediction</span><span class="op">(</span><span class="va">explainer</span>, <span class="va">new_data</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>object</dt>
 <dd><p>a model to be explained, object of the class <code>explainer</code></p></dd>
+
+
 <dt>newdata</dt>
 <dd><p>data.frame or matrix - observations for prediction</p></dd>
+
+
 <dt>...</dt>
 <dd><p>other parameters that will be passed to the predict function</p></dd>
+
+
 <dt>explainer</dt>
 <dd><p>a model to be explained, object of the class <code>explainer</code></p></dd>
+
+
 <dt>new_data</dt>
 <dd><p>data.frame or matrix - observations for prediction</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An numeric matrix of predictions</p>
+    
+
+<p>An numeric matrix of predictions</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">HR_glm_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">status</span> <span class="op">==</span> <span class="st">"fired"</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">HR</span>, family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">explainer_glm</span> <span class="op">&lt;-</span> <span class="fu"><a href="explain.html">explain</a></span><span class="op">(</span><span class="va">HR_glm_model</span>, data <span class="op">=</span> <span class="va">HR</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">HR_glm_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">status</span> <span class="op">==</span> <span class="st">"fired"</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">HR</span>, family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">explainer_glm</span> <span class="op">&lt;-</span> <span class="fu"><a href="explain.html">explain</a></span><span class="op">(</span><span class="va">HR_glm_model</span>, data <span class="op">=</span> <span class="va">HR</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Preparation of a new explainer is initiated</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model label       :  lm  ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; data              :  7847  rows  6  cols </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; target variable   :  not specified! ( <span style="color: #BB0000;"> WARNING </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.glm  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.0 , task classification ( <span style="color: #BBBB00;"> default </span> ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.1 , task classification ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Model info detected classification task but 'y' is a NULL .  ( <span style="color: #BB0000;"> WARNING </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  By deafult classification tasks supports only numercical 'y' parameter. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Consider changing to numerical vector with 0 and 1 values.</span>
@@ -119,21 +130,21 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.00861694 , mean =  0.3638333 , max =  0.7822214  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">explainer_glm</span>, <span class="va">HR</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,<span class="op">]</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">explainer_glm</span>, <span class="va">HR</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,<span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         1         2         3 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0.5139357 0.7384469 0.6412859 </span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/imbs-hl/ranger" class="external-link">"ranger"</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="va">HR_ranger_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></span><span class="op">(</span><span class="va">status</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">HR</span>, num.trees <span class="op">=</span> <span class="fl">50</span>, probability <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">explainer_ranger</span>  <span class="op">&lt;-</span> <span class="fu"><a href="explain.html">explain</a></span><span class="op">(</span><span class="va">HR_ranger_model</span>, data <span class="op">=</span> <span class="va">HR</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/imbs-hl/ranger" class="external-link">"ranger"</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">HR_ranger_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></span><span class="op">(</span><span class="va">status</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">HR</span>, num.trees <span class="op">=</span> <span class="fl">50</span>, probability <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">explainer_ranger</span>  <span class="op">&lt;-</span> <span class="fu"><a href="explain.html">explain</a></span><span class="op">(</span><span class="va">HR_ranger_model</span>, data <span class="op">=</span> <span class="va">HR</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Preparation of a new explainer is initiated</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model label       :  ranger  ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; data              :  7847  rows  6  cols </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; target variable   :  not specified! ( <span style="color: #BB0000;"> WARNING </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task multiclass ( <span style="color: #BBBB00;"> default </span> ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.14.1 , task multiclass ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Model info detected multiclass task but 'y' is a NULL .  ( <span style="color: #BB0000;"> WARNING </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  By deafult multiclass tasks supports only factor 'y' parameter. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  Consider changing to a factor vector with true class names.</span>
@@ -141,18 +152,18 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  predict function returns multiple columns:  3  ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between 1 and probability of true class ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">explainer_ranger</span>, <span class="va">HR</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,<span class="op">]</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          fired         ok     promoted</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.7522023 0.24726349 0.0005342027</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.9565495 0.04024214 0.0032083585</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.9764428 0.02167755 0.0018796713</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">model_prediction</span><span class="op">(</span><span class="va">explainer_ranger</span>, <span class="va">HR</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,<span class="op">]</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          fired         ok     promoted</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.7522023 0.24726349 0.0005342027</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.9565495 0.04024214 0.0032083585</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.9764428 0.02167755 0.0018796713</span>
-<span class="r-in"> <span class="co"># }</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">explainer_ranger</span>, <span class="va">HR</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,<span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          fired         ok    promoted</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.6931320 0.30135487 0.005513138</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.9488095 0.04575181 0.005438720</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.9319190 0.05610157 0.011979440</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">model_prediction</span><span class="op">(</span><span class="va">explainer_ranger</span>, <span class="va">HR</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,<span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          fired         ok    promoted</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.6931320 0.30135487 0.005513138</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.9488095 0.04575181 0.005438720</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.9319190 0.05610157 0.011979440</span>
+<span class="r-in"><span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>

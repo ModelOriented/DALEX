@@ -103,7 +103,7 @@
       <h1 data-toc-skip>Survival on the RMS Titanic</h1>
                         <h4 data-toc-skip class="author">Przemyslaw Biecek</h4>
             
-            <h4 data-toc-skip class="date">2022-05-30</h4>
+            <h4 data-toc-skip class="date">2022-07-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/DALEX/blob/HEAD/vignettes/vignette_titanic.Rmd" class="external-link"><code>vignettes/vignette_titanic.Rmd</code></a></small>
       <div class="hidden name"><code>vignette_titanic.Rmd</code></div>
@@ -117,81 +117,81 @@
 </h2>
 <p>Let’s see an example for <code>DALEX</code> package for classification models for the survival problem for Titanic dataset. Here we are using a dataset <code>titanic</code> available in the <code>DALEX</code> package. Note that this data was copied from the <code>stablelearner</code> package.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://modeloriented.github.io/DALEX/" class="external-link">"DALEX"</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">titanic_imputed</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">#&gt;   gender age class    embarked  fare sibsp parch survived</span>
-<span class="co">#&gt; 1   male  42   3rd Southampton  7.11     0     0        0</span>
-<span class="co">#&gt; 2   male  13   3rd Southampton 20.05     0     2        0</span>
-<span class="co">#&gt; 3   male  16   3rd Southampton 20.05     1     1        0</span>
-<span class="co">#&gt; 4 female  39   3rd Southampton 20.05     1     1        1</span>
-<span class="co">#&gt; 5 female  16   3rd Southampton  7.13     0     0        1</span>
-<span class="co">#&gt; 6   male  25   3rd Southampton  7.13     0     0        1</span></code></pre>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://modeloriented.github.io/DALEX/" class="external-link">"DALEX"</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">titanic_imputed</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt;   gender age class    embarked  fare sibsp parch survived</span></span>
+<span><span class="co">#&gt; 1   male  42   3rd Southampton  7.11     0     0        0</span></span>
+<span><span class="co">#&gt; 2   male  13   3rd Southampton 20.05     0     2        0</span></span>
+<span><span class="co">#&gt; 3   male  16   3rd Southampton 20.05     1     1        0</span></span>
+<span><span class="co">#&gt; 4 female  39   3rd Southampton 20.05     1     1        1</span></span>
+<span><span class="co">#&gt; 5 female  16   3rd Southampton  7.13     0     0        1</span></span>
+<span><span class="co">#&gt; 6   male  25   3rd Southampton  7.13     0     0        1</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="model-for-titanic-survival">Model for Titanic survival<a class="anchor" aria-label="anchor" href="#model-for-titanic-survival"></a>
 </h2>
 <p>Ok, not it’s time to create a model. Let’s use the Random Forest model.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># prepare model</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/imbs-hl/ranger" class="external-link">"ranger"</a></span><span class="op">)</span>
-<span class="va">model_titanic_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></span><span class="op">(</span><span class="va">survived</span> <span class="op">~</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="va">class</span> <span class="op">+</span> <span class="va">embarked</span> <span class="op">+</span>
-                                   <span class="va">fare</span> <span class="op">+</span> <span class="va">sibsp</span> <span class="op">+</span> <span class="va">parch</span>,  data <span class="op">=</span> <span class="va">titanic_imputed</span>,
-                           classification <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="va">model_titanic_rf</span></code></pre></div>
-<pre><code><span class="co">#&gt; Ranger result</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Call:</span>
-<span class="co">#&gt;  ranger(survived ~ gender + age + class + embarked + fare + sibsp +      parch, data = titanic_imputed, classification = TRUE) </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Type:                             Classification </span>
-<span class="co">#&gt; Number of trees:                  500 </span>
-<span class="co">#&gt; Sample size:                      2207 </span>
-<span class="co">#&gt; Number of independent variables:  7 </span>
-<span class="co">#&gt; Mtry:                             2 </span>
-<span class="co">#&gt; Target node size:                 1 </span>
-<span class="co">#&gt; Variable importance mode:         none </span>
-<span class="co">#&gt; Splitrule:                        gini </span>
-<span class="co">#&gt; OOB prediction error:             19.62 %</span></code></pre>
+<code class="sourceCode R"><span><span class="co"># prepare model</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/imbs-hl/ranger" class="external-link">"ranger"</a></span><span class="op">)</span></span>
+<span><span class="va">model_titanic_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></span><span class="op">(</span><span class="va">survived</span> <span class="op">~</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="va">class</span> <span class="op">+</span> <span class="va">embarked</span> <span class="op">+</span></span>
+<span>                                   <span class="va">fare</span> <span class="op">+</span> <span class="va">sibsp</span> <span class="op">+</span> <span class="va">parch</span>,  data <span class="op">=</span> <span class="va">titanic_imputed</span>,</span>
+<span>                           classification <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">model_titanic_rf</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; Ranger result</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt;  ranger(survived ~ gender + age + class + embarked + fare + sibsp +      parch, data = titanic_imputed, classification = TRUE) </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Type:                             Classification </span></span>
+<span><span class="co">#&gt; Number of trees:                  500 </span></span>
+<span><span class="co">#&gt; Sample size:                      2207 </span></span>
+<span><span class="co">#&gt; Number of independent variables:  7 </span></span>
+<span><span class="co">#&gt; Mtry:                             2 </span></span>
+<span><span class="co">#&gt; Target node size:                 1 </span></span>
+<span><span class="co">#&gt; Variable importance mode:         none </span></span>
+<span><span class="co">#&gt; Splitrule:                        gini </span></span>
+<span><span class="co">#&gt; OOB prediction error:             19.48 %</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="explainer-for-titanic-survival">Explainer for Titanic survival<a class="anchor" aria-label="anchor" href="#explainer-for-titanic-survival"></a>
 </h2>
 <p>The third step (it’s optional but useful) is to create a <code>DALEX</code> explainer for the random forest model.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://modeloriented.github.io/DALEX/" class="external-link">"DALEX"</a></span><span class="op">)</span>
-<span class="va">explain_titanic_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span><span class="op">(</span><span class="va">model_titanic_rf</span>, 
-                      data <span class="op">=</span> <span class="va">titanic_imputed</span>,
-                      y <span class="op">=</span> <span class="va">titanic_imputed</span><span class="op">$</span><span class="va">survived</span>, 
-                      label <span class="op">=</span> <span class="st">"Random Forest v7"</span>,
-                      colorize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">#&gt; Preparation of a new explainer is initiated</span>
-<span class="co">#&gt;   -&gt; model label       :  Random Forest v7 </span>
-<span class="co">#&gt;   -&gt; data              :  2207  rows  8  cols </span>
-<span class="co">#&gt;   -&gt; target variable   :  2207  values </span>
-<span class="co">#&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )</span>
-<span class="co">#&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )</span>
-<span class="co">#&gt;   -&gt; model_info        :  package ranger , ver. 0.13.1 , task classification (  default  ) </span>
-<span class="co">#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.2125057 , max =  1  </span>
-<span class="co">#&gt;   -&gt; residual function :  difference between y and yhat (  default  )</span>
-<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  -1 , mean =  0.109198 , max =  1  </span>
-<span class="co">#&gt;   A new explainer has been created!</span></code></pre>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://modeloriented.github.io/DALEX/" class="external-link">"DALEX"</a></span><span class="op">)</span></span>
+<span><span class="va">explain_titanic_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span><span class="op">(</span><span class="va">model_titanic_rf</span>, </span>
+<span>                      data <span class="op">=</span> <span class="va">titanic_imputed</span>,</span>
+<span>                      y <span class="op">=</span> <span class="va">titanic_imputed</span><span class="op">$</span><span class="va">survived</span>, </span>
+<span>                      label <span class="op">=</span> <span class="st">"Random Forest v7"</span>,</span>
+<span>                      colorize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; Preparation of a new explainer is initiated</span></span>
+<span><span class="co">#&gt;   -&gt; model label       :  Random Forest v7 </span></span>
+<span><span class="co">#&gt;   -&gt; data              :  2207  rows  8  cols </span></span>
+<span><span class="co">#&gt;   -&gt; target variable   :  2207  values </span></span>
+<span><span class="co">#&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )</span></span>
+<span><span class="co">#&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )</span></span>
+<span><span class="co">#&gt;   -&gt; model_info        :  package ranger , ver. 0.14.1 , task classification (  default  ) </span></span>
+<span><span class="co">#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.2115995 , max =  1  </span></span>
+<span><span class="co">#&gt;   -&gt; residual function :  difference between y and yhat (  default  )</span></span>
+<span><span class="co">#&gt;   -&gt; residuals         :  numerical, min =  -1 , mean =  0.1105573 , max =  1  </span></span>
+<span><span class="co">#&gt;   A new explainer has been created!</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="variable-importance-plots">Variable importance plots<a class="anchor" aria-label="anchor" href="#variable-importance-plots"></a>
 </h2>
 <p>Use the <code><a href="../reference/model_parts.html">variable_importance()</a></code> explainer to present the importance of particular features. Note that <code>type = "difference"</code> normalizes dropouts, and now they all start in 0.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">vi_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_parts.html">model_parts</a></span><span class="op">(</span><span class="va">explain_titanic_rf</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">vi_rf</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">#&gt;       variable mean_dropout_loss            label</span>
-<span class="co">#&gt; 1 _full_model_         0.2196807 Random Forest v7</span>
-<span class="co">#&gt; 2     survived         0.2195273 Random Forest v7</span>
-<span class="co">#&gt; 3        parch         0.2313809 Random Forest v7</span>
-<span class="co">#&gt; 4        sibsp         0.2355892 Random Forest v7</span>
-<span class="co">#&gt; 5     embarked         0.2407891 Random Forest v7</span>
-<span class="co">#&gt; 6         fare         0.2616360 Random Forest v7</span></code></pre>
+<code class="sourceCode R"><span><span class="va">vi_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_parts.html">model_parts</a></span><span class="op">(</span><span class="va">explain_titanic_rf</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">vi_rf</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt;       variable mean_dropout_loss            label</span></span>
+<span><span class="co">#&gt; 1 _full_model_         0.2164642 Random Forest v7</span></span>
+<span><span class="co">#&gt; 2     survived         0.2163117 Random Forest v7</span></span>
+<span><span class="co">#&gt; 3        parch         0.2317505 Random Forest v7</span></span>
+<span><span class="co">#&gt; 4        sibsp         0.2318910 Random Forest v7</span></span>
+<span><span class="co">#&gt; 5     embarked         0.2420218 Random Forest v7</span></span>
+<span><span class="co">#&gt; 6         fare         0.2590352 Random Forest v7</span></span></code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vi_rf</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vi_rf</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
 <div class="section level2">
@@ -204,56 +204,56 @@
 </h3>
 <p>Kids 5 years old and younger have a much higher survival probability.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">vr_age</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_profile.html">model_profile</a></span><span class="op">(</span><span class="va">explain_titanic_rf</span>, variables <span class="op">=</span>  <span class="st">"age"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">vr_age</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">#&gt; $cp_profiles</span>
-<span class="co">#&gt; Top profiles    : </span>
-<span class="co">#&gt;        gender        age            class    embarked fare sibsp parch survived</span>
-<span class="co">#&gt; 2176     male  0.1666667 victualling crew Southampton    0     0     0        1</span>
-<span class="co">#&gt; 2176.1   male  2.0000000 victualling crew Southampton    0     0     0        1</span>
-<span class="co">#&gt; 2176.2   male  4.0000000 victualling crew Southampton    0     0     0        1</span>
-<span class="co">#&gt; 2176.3   male  7.0000000 victualling crew Southampton    0     0     0        1</span>
-<span class="co">#&gt; 2176.4   male  9.0000000 victualling crew Southampton    0     0     0        1</span>
-<span class="co">#&gt; 2176.5   male 13.0000000 victualling crew Southampton    0     0     0        1</span>
-<span class="co">#&gt;        _yhat_ _vname_ _ids_          _label_</span>
-<span class="co">#&gt; 2176        0     age  2176 Random Forest v7</span>
-<span class="co">#&gt; 2176.1      0     age  2176 Random Forest v7</span>
-<span class="co">#&gt; 2176.2      0     age  2176 Random Forest v7</span>
-<span class="co">#&gt; 2176.3      0     age  2176 Random Forest v7</span>
-<span class="co">#&gt; 2176.4      0     age  2176 Random Forest v7</span>
-<span class="co">#&gt; 2176.5      0     age  2176 Random Forest v7</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Top observations:</span>
-<span class="co">#&gt;      gender age            class    embarked    fare sibsp parch survived</span>
-<span class="co">#&gt; 2176   male  37 victualling crew Southampton  0.0000     0     0        1</span>
-<span class="co">#&gt; 1085   male  24              3rd Southampton  8.0100     0     0        0</span>
-<span class="co">#&gt; 697  female  22              2nd   Cherbourg 41.1107     1     2        1</span>
-<span class="co">#&gt; 1588   male  52 engineering crew Southampton  0.0000     0     0        1</span>
-<span class="co">#&gt; 1318   male  25              3rd   Cherbourg  7.0406     0     0        1</span>
-<span class="co">#&gt; 2164   male  30        deck crew     Belfast  0.0000     0     0        1</span>
-<span class="co">#&gt;      _yhat_          _label_ _ids_</span>
-<span class="co">#&gt; 2176      0 Random Forest v7     1</span>
-<span class="co">#&gt; 1085      0 Random Forest v7     2</span>
-<span class="co">#&gt; 697       1 Random Forest v7     3</span>
-<span class="co">#&gt; 1588      0 Random Forest v7     4</span>
-<span class="co">#&gt; 1318      0 Random Forest v7     5</span>
-<span class="co">#&gt; 2164      1 Random Forest v7     6</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $agr_profiles</span>
-<span class="co">#&gt; Top profiles    : </span>
-<span class="co">#&gt;   _vname_          _label_        _x_ _yhat_ _ids_</span>
-<span class="co">#&gt; 1     age Random Forest v7  0.1666667   0.50     0</span>
-<span class="co">#&gt; 2     age Random Forest v7  2.0000000   0.57     0</span>
-<span class="co">#&gt; 3     age Random Forest v7  4.0000000   0.55     0</span>
-<span class="co">#&gt; 4     age Random Forest v7  7.0000000   0.53     0</span>
-<span class="co">#&gt; 5     age Random Forest v7  9.0000000   0.45     0</span>
-<span class="co">#&gt; 6     age Random Forest v7 13.0000000   0.26     0</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $color</span>
-<span class="co">#&gt; [1] "#4378bf"</span></code></pre>
+<code class="sourceCode R"><span><span class="va">vr_age</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_profile.html">model_profile</a></span><span class="op">(</span><span class="va">explain_titanic_rf</span>, variables <span class="op">=</span>  <span class="st">"age"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">vr_age</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; $cp_profiles</span></span>
+<span><span class="co">#&gt; Top profiles    : </span></span>
+<span><span class="co">#&gt;       gender        age class    embarked fare sibsp parch survived _yhat_</span></span>
+<span><span class="co">#&gt; 250     male  0.1666667   2nd Southampton 10.1     0     0        1      1</span></span>
+<span><span class="co">#&gt; 250.1   male  2.0000000   2nd Southampton 10.1     0     0        1      1</span></span>
+<span><span class="co">#&gt; 250.2   male  4.0000000   2nd Southampton 10.1     0     0        1      1</span></span>
+<span><span class="co">#&gt; 250.3   male  7.0000000   2nd Southampton 10.1     0     0        1      1</span></span>
+<span><span class="co">#&gt; 250.4   male  9.0000000   2nd Southampton 10.1     0     0        1      0</span></span>
+<span><span class="co">#&gt; 250.5   male 13.0000000   2nd Southampton 10.1     0     0        1      0</span></span>
+<span><span class="co">#&gt;       _vname_ _ids_          _label_</span></span>
+<span><span class="co">#&gt; 250       age   250 Random Forest v7</span></span>
+<span><span class="co">#&gt; 250.1     age   250 Random Forest v7</span></span>
+<span><span class="co">#&gt; 250.2     age   250 Random Forest v7</span></span>
+<span><span class="co">#&gt; 250.3     age   250 Random Forest v7</span></span>
+<span><span class="co">#&gt; 250.4     age   250 Random Forest v7</span></span>
+<span><span class="co">#&gt; 250.5     age   250 Random Forest v7</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Top observations:</span></span>
+<span><span class="co">#&gt;      gender age            class    embarked    fare sibsp parch survived</span></span>
+<span><span class="co">#&gt; 250    male  25              2nd Southampton 10.1000     0     0        1</span></span>
+<span><span class="co">#&gt; 894    male  60              3rd Southampton  6.0409     0     0        0</span></span>
+<span><span class="co">#&gt; 1355   male  42 victualling crew     Belfast  0.0000     0     0        0</span></span>
+<span><span class="co">#&gt; 1967   male  20 victualling crew Southampton  0.0000     0     0        1</span></span>
+<span><span class="co">#&gt; 1483   male  29 victualling crew Southampton  0.0000     0     0        0</span></span>
+<span><span class="co">#&gt; 782    male  55              1st Southampton 51.1703     0     0        0</span></span>
+<span><span class="co">#&gt;      _yhat_          _label_ _ids_</span></span>
+<span><span class="co">#&gt; 250       0 Random Forest v7     1</span></span>
+<span><span class="co">#&gt; 894       0 Random Forest v7     2</span></span>
+<span><span class="co">#&gt; 1355      0 Random Forest v7     3</span></span>
+<span><span class="co">#&gt; 1967      0 Random Forest v7     4</span></span>
+<span><span class="co">#&gt; 1483      0 Random Forest v7     5</span></span>
+<span><span class="co">#&gt; 782       0 Random Forest v7     6</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $agr_profiles</span></span>
+<span><span class="co">#&gt; Top profiles    : </span></span>
+<span><span class="co">#&gt;   _vname_          _label_        _x_ _yhat_ _ids_</span></span>
+<span><span class="co">#&gt; 1     age Random Forest v7  0.1666667   0.46     0</span></span>
+<span><span class="co">#&gt; 2     age Random Forest v7  2.0000000   0.50     0</span></span>
+<span><span class="co">#&gt; 3     age Random Forest v7  4.0000000   0.53     0</span></span>
+<span><span class="co">#&gt; 4     age Random Forest v7  7.0000000   0.43     0</span></span>
+<span><span class="co">#&gt; 5     age Random Forest v7  9.0000000   0.37     0</span></span>
+<span><span class="co">#&gt; 6     age Random Forest v7 13.0000000   0.25     0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $color</span></span>
+<span><span class="co">#&gt; [1] "#4378bf"</span></span></code></pre>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vr_age</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vr_age</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
 <div class="section level3">
@@ -261,8 +261,8 @@
 </h3>
 <p>Passengers in the first-class have much higher survival probability.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">vr_class</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_profile.html">model_profile</a></span><span class="op">(</span><span class="va">explain_titanic_rf</span>, variables <span class="op">=</span>  <span class="st">"class"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vr_class</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">vr_class</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_profile.html">model_profile</a></span><span class="op">(</span><span class="va">explain_titanic_rf</span>, variables <span class="op">=</span>  <span class="st">"class"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vr_class</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 </div>
 <div class="section level3">
@@ -270,8 +270,8 @@
 </h3>
 <p>Very cheap tickets are linked with lower chances.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">vr_fare</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_profile.html">variable_profile</a></span><span class="op">(</span><span class="va">explain_titanic_rf</span>, variables <span class="op">=</span>  <span class="st">"fare"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vr_fare</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">vr_fare</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_profile.html">variable_profile</a></span><span class="op">(</span><span class="va">explain_titanic_rf</span>, variables <span class="op">=</span>  <span class="st">"fare"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vr_fare</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
 <div class="section level3">
@@ -279,8 +279,8 @@
 </h3>
 <p>Passengers that embarked from C have the highest survival.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">vr_embarked</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_profile.html">model_profile</a></span><span class="op">(</span><span class="va">explain_titanic_rf</span>, variables <span class="op">=</span>  <span class="st">"embarked"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vr_embarked</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">vr_embarked</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_profile.html">model_profile</a></span><span class="op">(</span><span class="va">explain_titanic_rf</span>, variables <span class="op">=</span>  <span class="st">"embarked"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vr_embarked</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>
 </div>
@@ -289,18 +289,18 @@
 </h2>
 <p>Let’s see break-down explanation for model predictions for 8 years old male from 1st class that embarked from port C.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">new_passanger</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>
-  class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="st">"1st"</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1st"</span>, <span class="st">"2nd"</span>, <span class="st">"3rd"</span>, <span class="st">"deck crew"</span>, <span class="st">"engineering crew"</span>, <span class="st">"restaurant staff"</span>, <span class="st">"victualling crew"</span><span class="op">)</span><span class="op">)</span>,
-  gender <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="st">"male"</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"female"</span>, <span class="st">"male"</span><span class="op">)</span><span class="op">)</span>,
-  age <span class="op">=</span> <span class="fl">8</span>,
-  sibsp <span class="op">=</span> <span class="fl">0</span>,
-  parch <span class="op">=</span> <span class="fl">0</span>,
-  fare <span class="op">=</span> <span class="fl">72</span>,
-  embarked <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="st">"Southampton"</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Belfast"</span>, <span class="st">"Cherbourg"</span>, <span class="st">"Queenstown"</span>, <span class="st">"Southampton"</span><span class="op">)</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="va">sp_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_parts.html">predict_parts</a></span><span class="op">(</span><span class="va">explain_titanic_rf</span>, <span class="va">new_passanger</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sp_rf</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">new_passanger</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="st">"1st"</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1st"</span>, <span class="st">"2nd"</span>, <span class="st">"3rd"</span>, <span class="st">"deck crew"</span>, <span class="st">"engineering crew"</span>, <span class="st">"restaurant staff"</span>, <span class="st">"victualling crew"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  gender <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="st">"male"</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"female"</span>, <span class="st">"male"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  age <span class="op">=</span> <span class="fl">8</span>,</span>
+<span>  sibsp <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  parch <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  fare <span class="op">=</span> <span class="fl">72</span>,</span>
+<span>  embarked <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="st">"Southampton"</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Belfast"</span>, <span class="st">"Cherbourg"</span>, <span class="st">"Queenstown"</span>, <span class="st">"Southampton"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sp_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_parts.html">predict_parts</a></span><span class="op">(</span><span class="va">explain_titanic_rf</span>, <span class="va">new_passanger</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sp_rf</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 <p>It looks like the most important feature for this passenger is <code>age</code> and <code>sex</code>. After all his odds for survival are higher than for the average passenger. Mainly because of the young age and despite being a male.</p>
 </div>
@@ -312,129 +312,129 @@
 <h3 id="logistic-regression">Logistic regression<a class="anchor" aria-label="anchor" href="#logistic-regression"></a>
 </h3>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://hbiostat.org/R/rms/" class="external-link">"rms"</a></span><span class="op">)</span>
-<span class="va">model_titanic_lmr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rms/man/lrm.html" class="external-link">lrm</a></span><span class="op">(</span><span class="va">survived</span> <span class="op">~</span> <span class="va">class</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/rms/man/rms.trans.html" class="external-link">rcs</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span> <span class="op">+</span> <span class="va">sibsp</span> <span class="op">+</span>
-                   <span class="va">parch</span> <span class="op">+</span> <span class="va">fare</span> <span class="op">+</span> <span class="va">embarked</span>, <span class="va">titanic_imputed</span><span class="op">)</span>
-<span class="va">explain_titanic_lmr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span><span class="op">(</span><span class="va">model_titanic_lmr</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, 
-                   y <span class="op">=</span> <span class="va">titanic_imputed</span><span class="op">$</span><span class="va">survived</span>, 
-                   predict_function <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">m</span>,<span class="va">x</span><span class="op">)</span> 
-                            <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">m</span>, <span class="va">x</span>, type <span class="op">=</span> <span class="st">"fitted"</span><span class="op">)</span>,
-                   label <span class="op">=</span> <span class="st">"Logistic regression"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">#&gt; Preparation of a new explainer is initiated</span>
-<span class="co">#&gt;   -&gt; model label       :  Logistic regression </span>
-<span class="co">#&gt;   -&gt; data              :  2207  rows  8  cols </span>
-<span class="co">#&gt;   -&gt; target variable   :  2207  values </span>
-<span class="co">#&gt;   -&gt; predict function  :  function(m, x) predict(m, x, type = "fitted") </span>
-<span class="co">#&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )</span>
-<span class="co">#&gt;   -&gt; model_info        :  package rms , ver. 6.3.0 , task classification (  default  ) </span>
-<span class="co">#&gt;   -&gt; predicted values  :  numerical, min =  0.002671631 , mean =  0.3221568 , max =  0.9845724  </span>
-<span class="co">#&gt;   -&gt; residual function :  difference between y and yhat (  default  )</span>
-<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  -0.9845724 , mean =  -2.491758e-09 , max =  0.9715125  </span>
-<span class="co">#&gt;   A new explainer has been created!</span></code></pre>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://hbiostat.org/R/rms/" class="external-link">"rms"</a></span><span class="op">)</span></span>
+<span><span class="va">model_titanic_lmr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rms/man/lrm.html" class="external-link">lrm</a></span><span class="op">(</span><span class="va">survived</span> <span class="op">~</span> <span class="va">class</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/rms/man/rms.trans.html" class="external-link">rcs</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span> <span class="op">+</span> <span class="va">sibsp</span> <span class="op">+</span></span>
+<span>                   <span class="va">parch</span> <span class="op">+</span> <span class="va">fare</span> <span class="op">+</span> <span class="va">embarked</span>, <span class="va">titanic_imputed</span><span class="op">)</span></span>
+<span><span class="va">explain_titanic_lmr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span><span class="op">(</span><span class="va">model_titanic_lmr</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, </span>
+<span>                   y <span class="op">=</span> <span class="va">titanic_imputed</span><span class="op">$</span><span class="va">survived</span>, </span>
+<span>                   predict_function <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">m</span>,<span class="va">x</span><span class="op">)</span> </span>
+<span>                            <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">m</span>, <span class="va">x</span>, type <span class="op">=</span> <span class="st">"fitted"</span><span class="op">)</span>,</span>
+<span>                   label <span class="op">=</span> <span class="st">"Logistic regression"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; Preparation of a new explainer is initiated</span></span>
+<span><span class="co">#&gt;   -&gt; model label       :  Logistic regression </span></span>
+<span><span class="co">#&gt;   -&gt; data              :  2207  rows  8  cols </span></span>
+<span><span class="co">#&gt;   -&gt; target variable   :  2207  values </span></span>
+<span><span class="co">#&gt;   -&gt; predict function  :  function(m, x) predict(m, x, type = "fitted") </span></span>
+<span><span class="co">#&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )</span></span>
+<span><span class="co">#&gt;   -&gt; model_info        :  package rms , ver. 6.3.0 , task classification (  default  ) </span></span>
+<span><span class="co">#&gt;   -&gt; predicted values  :  numerical, min =  0.002671631 , mean =  0.3221568 , max =  0.9845724  </span></span>
+<span><span class="co">#&gt;   -&gt; residual function :  difference between y and yhat (  default  )</span></span>
+<span><span class="co">#&gt;   -&gt; residuals         :  numerical, min =  -0.9845724 , mean =  -2.491758e-09 , max =  0.9715125  </span></span>
+<span><span class="co">#&gt;   A new explainer has been created!</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="generalized-boosted-models-gbm">Generalized Boosted Models (GBM)<a class="anchor" aria-label="anchor" href="#generalized-boosted-models-gbm"></a>
 </h3>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/gbm-developers/gbm" class="external-link">"gbm"</a></span><span class="op">)</span>
-<span class="va">model_titanic_gbm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gbm/man/gbm.html" class="external-link">gbm</a></span><span class="op">(</span><span class="va">survived</span>  <span class="op">~</span> <span class="va">class</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="va">sibsp</span> <span class="op">+</span>
-                     <span class="va">parch</span> <span class="op">+</span> <span class="va">fare</span> <span class="op">+</span> <span class="va">embarked</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, 
-                     n.trees <span class="op">=</span> <span class="fl">15000</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">#&gt; Distribution not specified, assuming bernoulli ...</span></code></pre>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/gbm-developers/gbm" class="external-link">"gbm"</a></span><span class="op">)</span></span>
+<span><span class="va">model_titanic_gbm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gbm/man/gbm.html" class="external-link">gbm</a></span><span class="op">(</span><span class="va">survived</span>  <span class="op">~</span> <span class="va">class</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="va">sibsp</span> <span class="op">+</span></span>
+<span>                     <span class="va">parch</span> <span class="op">+</span> <span class="va">fare</span> <span class="op">+</span> <span class="va">embarked</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, </span>
+<span>                     n.trees <span class="op">=</span> <span class="fl">15000</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; Distribution not specified, assuming bernoulli ...</span></span></code></pre>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">explain_titanic_gbm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span><span class="op">(</span><span class="va">model_titanic_gbm</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, 
-                       y <span class="op">=</span> <span class="va">titanic_imputed</span><span class="op">$</span><span class="va">survived</span>, 
-                       predict_function <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">m</span>,<span class="va">x</span><span class="op">)</span> 
-                            <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">m</span>, <span class="va">x</span>, n.trees <span class="op">=</span> <span class="fl">15000</span>, type <span class="op">=</span> <span class="st">"response"</span><span class="op">)</span>,
-                       label <span class="op">=</span> <span class="st">"Generalized Boosted Models"</span>,
-                       colorize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">#&gt; Preparation of a new explainer is initiated</span>
-<span class="co">#&gt;   -&gt; model label       :  Generalized Boosted Models </span>
-<span class="co">#&gt;   -&gt; data              :  2207  rows  8  cols </span>
-<span class="co">#&gt;   -&gt; target variable   :  2207  values </span>
-<span class="co">#&gt;   -&gt; predict function  :  function(m, x) predict(m, x, n.trees = 15000, type = "response") </span>
-<span class="co">#&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )</span>
-<span class="co">#&gt;   -&gt; model_info        :  package gbm , ver. 2.1.8 , task classification (  default  ) </span>
-<span class="co">#&gt;   -&gt; predicted values  :  numerical, min =  0.0003676045 , mean =  0.322508 , max =  0.9988893  </span>
-<span class="co">#&gt;   -&gt; residual function :  difference between y and yhat (  default  )</span>
-<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  -0.9733579 , mean =  -0.0003512234 , max =  0.9935587  </span>
-<span class="co">#&gt;   A new explainer has been created!</span></code></pre>
+<code class="sourceCode R"><span><span class="va">explain_titanic_gbm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span><span class="op">(</span><span class="va">model_titanic_gbm</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, </span>
+<span>                       y <span class="op">=</span> <span class="va">titanic_imputed</span><span class="op">$</span><span class="va">survived</span>, </span>
+<span>                       predict_function <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">m</span>,<span class="va">x</span><span class="op">)</span> </span>
+<span>                            <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">m</span>, <span class="va">x</span>, n.trees <span class="op">=</span> <span class="fl">15000</span>, type <span class="op">=</span> <span class="st">"response"</span><span class="op">)</span>,</span>
+<span>                       label <span class="op">=</span> <span class="st">"Generalized Boosted Models"</span>,</span>
+<span>                       colorize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; Preparation of a new explainer is initiated</span></span>
+<span><span class="co">#&gt;   -&gt; model label       :  Generalized Boosted Models </span></span>
+<span><span class="co">#&gt;   -&gt; data              :  2207  rows  8  cols </span></span>
+<span><span class="co">#&gt;   -&gt; target variable   :  2207  values </span></span>
+<span><span class="co">#&gt;   -&gt; predict function  :  function(m, x) predict(m, x, n.trees = 15000, type = "response") </span></span>
+<span><span class="co">#&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )</span></span>
+<span><span class="co">#&gt;   -&gt; model_info        :  package gbm , ver. 2.1.8 , task classification (  default  ) </span></span>
+<span><span class="co">#&gt;   -&gt; predicted values  :  numerical, min =  0.0003139595 , mean =  0.3198601 , max =  0.9985196  </span></span>
+<span><span class="co">#&gt;   -&gt; residual function :  difference between y and yhat (  default  )</span></span>
+<span><span class="co">#&gt;   -&gt; residuals         :  numerical, min =  -0.9480522 , mean =  0.002296703 , max =  0.9915331  </span></span>
+<span><span class="co">#&gt;   A new explainer has been created!</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="support-vector-machines-svm">Support Vector Machines (SVM)<a class="anchor" aria-label="anchor" href="#support-vector-machines-svm"></a>
 </h3>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"e1071"</span><span class="op">)</span>
-<span class="va">model_titanic_svm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/e1071/man/svm.html" class="external-link">svm</a></span><span class="op">(</span><span class="va">survived</span> <span class="op">~</span> <span class="va">class</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="va">sibsp</span> <span class="op">+</span>
-                     <span class="va">parch</span> <span class="op">+</span> <span class="va">fare</span> <span class="op">+</span> <span class="va">embarked</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, 
-             type <span class="op">=</span> <span class="st">"C-classification"</span>, probability <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="va">explain_titanic_svm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span><span class="op">(</span><span class="va">model_titanic_svm</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, 
-                       y <span class="op">=</span> <span class="va">titanic_imputed</span><span class="op">$</span><span class="va">survived</span>, 
-                       label <span class="op">=</span> <span class="st">"Support Vector Machines"</span>,
-                       colorize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">#&gt; Preparation of a new explainer is initiated</span>
-<span class="co">#&gt;   -&gt; model label       :  Support Vector Machines </span>
-<span class="co">#&gt;   -&gt; data              :  2207  rows  8  cols </span>
-<span class="co">#&gt;   -&gt; target variable   :  2207  values </span>
-<span class="co">#&gt;   -&gt; predict function  :  yhat.svm  will be used (  default  )</span>
-<span class="co">#&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )</span>
-<span class="co">#&gt;   -&gt; model_info        :  package e1071 , ver. 1.7.9 , task classification (  default  ) </span>
-<span class="co">#&gt;   -&gt; predicted values  :  numerical, min =  0.08777627 , mean =  0.3242606 , max =  0.9630266  </span>
-<span class="co">#&gt;   -&gt; residual function :  difference between y and yhat (  default  )</span>
-<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  -0.8669627 , mean =  -0.002103817 , max =  0.9122237  </span>
-<span class="co">#&gt;   A new explainer has been created!</span></code></pre>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"e1071"</span><span class="op">)</span></span>
+<span><span class="va">model_titanic_svm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/e1071/man/svm.html" class="external-link">svm</a></span><span class="op">(</span><span class="va">survived</span> <span class="op">~</span> <span class="va">class</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="va">sibsp</span> <span class="op">+</span></span>
+<span>                     <span class="va">parch</span> <span class="op">+</span> <span class="va">fare</span> <span class="op">+</span> <span class="va">embarked</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, </span>
+<span>             type <span class="op">=</span> <span class="st">"C-classification"</span>, probability <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">explain_titanic_svm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span><span class="op">(</span><span class="va">model_titanic_svm</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, </span>
+<span>                       y <span class="op">=</span> <span class="va">titanic_imputed</span><span class="op">$</span><span class="va">survived</span>, </span>
+<span>                       label <span class="op">=</span> <span class="st">"Support Vector Machines"</span>,</span>
+<span>                       colorize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; Preparation of a new explainer is initiated</span></span>
+<span><span class="co">#&gt;   -&gt; model label       :  Support Vector Machines </span></span>
+<span><span class="co">#&gt;   -&gt; data              :  2207  rows  8  cols </span></span>
+<span><span class="co">#&gt;   -&gt; target variable   :  2207  values </span></span>
+<span><span class="co">#&gt;   -&gt; predict function  :  yhat.svm  will be used (  default  )</span></span>
+<span><span class="co">#&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )</span></span>
+<span><span class="co">#&gt;   -&gt; model_info        :  package e1071 , ver. 1.7.11 , task classification (  default  ) </span></span>
+<span><span class="co">#&gt;   -&gt; predicted values  :  numerical, min =  0.08818577 , mean =  0.325697 , max =  0.9637669  </span></span>
+<span><span class="co">#&gt;   -&gt; residual function :  difference between y and yhat (  default  )</span></span>
+<span><span class="co">#&gt;   -&gt; residuals         :  numerical, min =  -0.8689184 , mean =  -0.003540271 , max =  0.9118142  </span></span>
+<span><span class="co">#&gt;   A new explainer has been created!</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="k-nearest-neighbors-knn">k-Nearest Neighbors (kNN)<a class="anchor" aria-label="anchor" href="#k-nearest-neighbors-knn"></a>
 </h3>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/topepo/caret/" class="external-link">"caret"</a></span><span class="op">)</span>
-<span class="va">model_titanic_knn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/caret/man/knn3.html" class="external-link">knn3</a></span><span class="op">(</span><span class="va">survived</span> <span class="op">~</span> <span class="va">class</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="va">sibsp</span> <span class="op">+</span>
-                     <span class="va">parch</span> <span class="op">+</span> <span class="va">fare</span> <span class="op">+</span> <span class="va">embarked</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, k <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>
-<span class="va">explain_titanic_knn</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span><span class="op">(</span><span class="va">model_titanic_knn</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, 
-                       y <span class="op">=</span> <span class="va">titanic_imputed</span><span class="op">$</span><span class="va">survived</span>, 
-                       predict_function <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">m</span>,<span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">m</span>, <span class="va">x</span><span class="op">)</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>,
-                       label <span class="op">=</span> <span class="st">"k-Nearest Neighbors"</span>,
-                       colorize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">#&gt; Preparation of a new explainer is initiated</span>
-<span class="co">#&gt;   -&gt; model label       :  k-Nearest Neighbors </span>
-<span class="co">#&gt;   -&gt; data              :  2207  rows  8  cols </span>
-<span class="co">#&gt;   -&gt; target variable   :  2207  values </span>
-<span class="co">#&gt;   -&gt; predict function  :  function(m, x) predict(m, x)[, 2] </span>
-<span class="co">#&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )</span>
-<span class="co">#&gt;   -&gt; model_info        :  package Model of class: knn3 package unrecognized , ver. Unknown , task regression (  default  ) </span>
-<span class="co">#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.3061413 , max =  1  </span>
-<span class="co">#&gt;   -&gt; residual function :  difference between y and yhat (  default  )</span>
-<span class="co">#&gt;   -&gt; residuals         :  numerical, min =  -0.8333333 , mean =  0.01601551 , max =  0.9285714  </span>
-<span class="co">#&gt;   A new explainer has been created!</span></code></pre>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/topepo/caret/" class="external-link">"caret"</a></span><span class="op">)</span></span>
+<span><span class="va">model_titanic_knn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/caret/man/knn3.html" class="external-link">knn3</a></span><span class="op">(</span><span class="va">survived</span> <span class="op">~</span> <span class="va">class</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="va">sibsp</span> <span class="op">+</span></span>
+<span>                     <span class="va">parch</span> <span class="op">+</span> <span class="va">fare</span> <span class="op">+</span> <span class="va">embarked</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, k <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="va">explain_titanic_knn</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span><span class="op">(</span><span class="va">model_titanic_knn</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, </span>
+<span>                       y <span class="op">=</span> <span class="va">titanic_imputed</span><span class="op">$</span><span class="va">survived</span>, </span>
+<span>                       predict_function <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">m</span>,<span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">m</span>, <span class="va">x</span><span class="op">)</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>,</span>
+<span>                       label <span class="op">=</span> <span class="st">"k-Nearest Neighbors"</span>,</span>
+<span>                       colorize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; Preparation of a new explainer is initiated</span></span>
+<span><span class="co">#&gt;   -&gt; model label       :  k-Nearest Neighbors </span></span>
+<span><span class="co">#&gt;   -&gt; data              :  2207  rows  8  cols </span></span>
+<span><span class="co">#&gt;   -&gt; target variable   :  2207  values </span></span>
+<span><span class="co">#&gt;   -&gt; predict function  :  function(m, x) predict(m, x)[, 2] </span></span>
+<span><span class="co">#&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )</span></span>
+<span><span class="co">#&gt;   -&gt; model_info        :  package Model of class: knn3 package unrecognized , ver. Unknown , task regression (  default  ) </span></span>
+<span><span class="co">#&gt;   -&gt; predicted values  :  numerical, min =  0 , mean =  0.3061413 , max =  1  </span></span>
+<span><span class="co">#&gt;   -&gt; residual function :  difference between y and yhat (  default  )</span></span>
+<span><span class="co">#&gt;   -&gt; residuals         :  numerical, min =  -0.8333333 , mean =  0.01601551 , max =  0.9285714  </span></span>
+<span><span class="co">#&gt;   A new explainer has been created!</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="variable-performance">Variable performance<a class="anchor" aria-label="anchor" href="#variable-performance"></a>
 </h3>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">vi_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_parts.html">model_parts</a></span><span class="op">(</span><span class="va">explain_titanic_rf</span><span class="op">)</span>
-<span class="va">vi_lmr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_parts.html">model_parts</a></span><span class="op">(</span><span class="va">explain_titanic_lmr</span><span class="op">)</span>
-<span class="va">vi_gbm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_parts.html">model_parts</a></span><span class="op">(</span><span class="va">explain_titanic_gbm</span><span class="op">)</span>
-<span class="va">vi_svm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_parts.html">model_parts</a></span><span class="op">(</span><span class="va">explain_titanic_svm</span><span class="op">)</span>
-<span class="va">vi_knn</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_parts.html">model_parts</a></span><span class="op">(</span><span class="va">explain_titanic_knn</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vi_rf</span>, <span class="va">vi_lmr</span>, <span class="va">vi_gbm</span>, <span class="va">vi_svm</span>, <span class="va">vi_knn</span>, bar_width <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">vi_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_parts.html">model_parts</a></span><span class="op">(</span><span class="va">explain_titanic_rf</span><span class="op">)</span></span>
+<span><span class="va">vi_lmr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_parts.html">model_parts</a></span><span class="op">(</span><span class="va">explain_titanic_lmr</span><span class="op">)</span></span>
+<span><span class="va">vi_gbm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_parts.html">model_parts</a></span><span class="op">(</span><span class="va">explain_titanic_gbm</span><span class="op">)</span></span>
+<span><span class="va">vi_svm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_parts.html">model_parts</a></span><span class="op">(</span><span class="va">explain_titanic_svm</span><span class="op">)</span></span>
+<span><span class="va">vi_knn</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_parts.html">model_parts</a></span><span class="op">(</span><span class="va">explain_titanic_knn</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vi_rf</span>, <span class="va">vi_lmr</span>, <span class="va">vi_gbm</span>, <span class="va">vi_svm</span>, <span class="va">vi_knn</span>, bar_width <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-14-1.png" width="480"></p>
 </div>
 <div class="section level3">
 <h3 id="single-variable">Single variable<a class="anchor" aria-label="anchor" href="#single-variable"></a>
 </h3>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">vr_age_rf</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_profile.html">model_profile</a></span><span class="op">(</span><span class="va">explain_titanic_rf</span>, variables <span class="op">=</span> <span class="st">"age"</span><span class="op">)</span>
-<span class="va">vr_age_lmr</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_profile.html">model_profile</a></span><span class="op">(</span><span class="va">explain_titanic_lmr</span>, variables <span class="op">=</span> <span class="st">"age"</span><span class="op">)</span>
-<span class="va">vr_age_gbm</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_profile.html">model_profile</a></span><span class="op">(</span><span class="va">explain_titanic_gbm</span>, variables <span class="op">=</span> <span class="st">"age"</span><span class="op">)</span>
-<span class="va">vr_age_svm</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_profile.html">model_profile</a></span><span class="op">(</span><span class="va">explain_titanic_svm</span>, variables <span class="op">=</span> <span class="st">"age"</span><span class="op">)</span>
-<span class="va">vr_age_knn</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_profile.html">model_profile</a></span><span class="op">(</span><span class="va">explain_titanic_knn</span>, variables <span class="op">=</span> <span class="st">"age"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vr_age_rf</span><span class="op">$</span><span class="va">agr_profiles</span>, 
-     <span class="va">vr_age_lmr</span><span class="op">$</span><span class="va">agr_profiles</span>, 
-     <span class="va">vr_age_gbm</span><span class="op">$</span><span class="va">agr_profiles</span>, 
-     <span class="va">vr_age_svm</span><span class="op">$</span><span class="va">agr_profiles</span>, 
-     <span class="va">vr_age_knn</span><span class="op">$</span><span class="va">agr_profiles</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">vr_age_rf</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_profile.html">model_profile</a></span><span class="op">(</span><span class="va">explain_titanic_rf</span>, variables <span class="op">=</span> <span class="st">"age"</span><span class="op">)</span></span>
+<span><span class="va">vr_age_lmr</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_profile.html">model_profile</a></span><span class="op">(</span><span class="va">explain_titanic_lmr</span>, variables <span class="op">=</span> <span class="st">"age"</span><span class="op">)</span></span>
+<span><span class="va">vr_age_gbm</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_profile.html">model_profile</a></span><span class="op">(</span><span class="va">explain_titanic_gbm</span>, variables <span class="op">=</span> <span class="st">"age"</span><span class="op">)</span></span>
+<span><span class="va">vr_age_svm</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_profile.html">model_profile</a></span><span class="op">(</span><span class="va">explain_titanic_svm</span>, variables <span class="op">=</span> <span class="st">"age"</span><span class="op">)</span></span>
+<span><span class="va">vr_age_knn</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_profile.html">model_profile</a></span><span class="op">(</span><span class="va">explain_titanic_knn</span>, variables <span class="op">=</span> <span class="st">"age"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vr_age_rf</span><span class="op">$</span><span class="va">agr_profiles</span>, </span>
+<span>     <span class="va">vr_age_lmr</span><span class="op">$</span><span class="va">agr_profiles</span>, </span>
+<span>     <span class="va">vr_age_gbm</span><span class="op">$</span><span class="va">agr_profiles</span>, </span>
+<span>     <span class="va">vr_age_svm</span><span class="op">$</span><span class="va">agr_profiles</span>, </span>
+<span>     <span class="va">vr_age_knn</span><span class="op">$</span><span class="va">agr_profiles</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-15-1.png" width="768"></p>
 </div>
 </div>
@@ -442,87 +442,87 @@
 <h2 id="instance-level-explanations-1">Instance level explanations<a class="anchor" aria-label="anchor" href="#instance-level-explanations-1"></a>
 </h2>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sp_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_parts.html">predict_parts</a></span><span class="op">(</span><span class="va">explain_titanic_rf</span>, <span class="va">new_passanger</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sp_rf</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">sp_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_parts.html">predict_parts</a></span><span class="op">(</span><span class="va">explain_titanic_rf</span>, <span class="va">new_passanger</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sp_rf</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-16-1.png" width="576"></p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sp_lmr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_parts.html">predict_parts</a></span><span class="op">(</span><span class="va">explain_titanic_lmr</span>, <span class="va">new_passanger</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sp_lmr</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">sp_lmr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_parts.html">predict_parts</a></span><span class="op">(</span><span class="va">explain_titanic_lmr</span>, <span class="va">new_passanger</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sp_lmr</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-16-2.png" width="576"></p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sp_gbm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_parts.html">predict_parts</a></span><span class="op">(</span><span class="va">explain_titanic_gbm</span>, <span class="va">new_passanger</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sp_gbm</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">sp_gbm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_parts.html">predict_parts</a></span><span class="op">(</span><span class="va">explain_titanic_gbm</span>, <span class="va">new_passanger</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sp_gbm</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-16-3.png" width="576"></p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sp_svm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_parts.html">predict_parts</a></span><span class="op">(</span><span class="va">explain_titanic_svm</span>, <span class="va">new_passanger</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sp_svm</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">sp_svm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_parts.html">predict_parts</a></span><span class="op">(</span><span class="va">explain_titanic_svm</span>, <span class="va">new_passanger</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sp_svm</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-16-4.png" width="576"></p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sp_knn</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_parts.html">predict_parts</a></span><span class="op">(</span><span class="va">explain_titanic_knn</span>, <span class="va">new_passanger</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sp_knn</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">sp_knn</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_parts.html">predict_parts</a></span><span class="op">(</span><span class="va">explain_titanic_knn</span>, <span class="va">new_passanger</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sp_knn</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vignette_titanic_files/figure-html/unnamed-chunk-16-5.png" width="576"></p>
 </div>
 <div class="section level2">
 <h2 id="session-info">Session info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h2>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">#&gt; R version 4.2.0 (2022-04-22)</span>
-<span class="co">#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)</span>
-<span class="co">#&gt; Running under: macOS Big Sur/Monterey 10.16</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Matrix products: default</span>
-<span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib</span>
-<span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; locale:</span>
-<span class="co">#&gt; [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; attached base packages:</span>
-<span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt;  [1] caret_6.0-92    e1071_1.7-9     gbm_2.1.8       rms_6.3-0      </span>
-<span class="co">#&gt;  [5] SparseM_1.81    Hmisc_4.7-0     ggplot2_3.3.6   Formula_1.2-4  </span>
-<span class="co">#&gt;  [9] survival_3.3-1  lattice_0.20-45 ranger_0.13.1   DALEX_2.4.2    </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; loaded via a namespace (and not attached):</span>
-<span class="co">#&gt;   [1] TH.data_1.1-1        colorspace_2.0-3     ellipsis_0.3.2      </span>
-<span class="co">#&gt;   [4] class_7.3-20         rprojroot_2.0.3      htmlTable_2.4.0     </span>
-<span class="co">#&gt;   [7] base64enc_0.1-3      fs_1.5.2             rstudioapi_0.13     </span>
-<span class="co">#&gt;  [10] proxy_0.4-26         listenv_0.8.0        farver_2.1.0        </span>
-<span class="co">#&gt;  [13] MatrixModels_0.5-0   prodlim_2019.11.13   fansi_1.0.3         </span>
-<span class="co">#&gt;  [16] mvtnorm_1.1-3        lubridate_1.8.0      iBreakDown_2.0.1    </span>
-<span class="co">#&gt;  [19] codetools_0.2-18     splines_4.2.0        cachem_1.0.6        </span>
-<span class="co">#&gt;  [22] knitr_1.39           jsonlite_1.8.0       pROC_1.18.0         </span>
-<span class="co">#&gt;  [25] cluster_2.1.3        png_0.1-7            compiler_4.2.0      </span>
-<span class="co">#&gt;  [28] backports_1.4.1      Matrix_1.4-1         fastmap_1.1.0       </span>
-<span class="co">#&gt;  [31] cli_3.3.0            htmltools_0.5.2      quantreg_5.93       </span>
-<span class="co">#&gt;  [34] tools_4.2.0          gtable_0.3.0         glue_1.6.2          </span>
-<span class="co">#&gt;  [37] reshape2_1.4.4       dplyr_1.0.9          Rcpp_1.0.8.3        </span>
-<span class="co">#&gt;  [40] jquerylib_0.1.4      pkgdown_2.0.3        vctrs_0.4.1         </span>
-<span class="co">#&gt;  [43] nlme_3.1-157         iterators_1.0.14     timeDate_3043.102   </span>
-<span class="co">#&gt;  [46] xfun_0.31            gower_1.0.0          stringr_1.4.0       </span>
-<span class="co">#&gt;  [49] globals_0.15.0       lifecycle_1.0.1      future_1.26.1       </span>
-<span class="co">#&gt;  [52] polspline_1.1.20     MASS_7.3-56          zoo_1.8-10          </span>
-<span class="co">#&gt;  [55] scales_1.2.0         ipred_0.9-12         ragg_1.2.2          </span>
-<span class="co">#&gt;  [58] parallel_4.2.0       sandwich_3.0-1       RColorBrewer_1.1-3  </span>
-<span class="co">#&gt;  [61] yaml_2.3.5           memoise_2.0.1        gridExtra_2.3       </span>
-<span class="co">#&gt;  [64] sass_0.4.1           rpart_4.1.16         latticeExtra_0.6-29 </span>
-<span class="co">#&gt;  [67] stringi_1.7.6        highr_0.9            desc_1.4.1          </span>
-<span class="co">#&gt;  [70] foreach_1.5.2        checkmate_2.1.0      hardhat_0.2.0       </span>
-<span class="co">#&gt;  [73] lava_1.6.10          rlang_1.0.2          pkgconfig_2.0.3     </span>
-<span class="co">#&gt;  [76] systemfonts_1.0.4    evaluate_0.15        purrr_0.3.4         </span>
-<span class="co">#&gt;  [79] recipes_0.2.0        htmlwidgets_1.5.4    labeling_0.4.2      </span>
-<span class="co">#&gt;  [82] tidyselect_1.1.2     parallelly_1.31.1    plyr_1.8.7          </span>
-<span class="co">#&gt;  [85] magrittr_2.0.3       R6_2.5.1             generics_0.1.2      </span>
-<span class="co">#&gt;  [88] multcomp_1.4-19      pillar_1.7.0         foreign_0.8-82      </span>
-<span class="co">#&gt;  [91] withr_2.5.0          nnet_7.3-17          tibble_3.1.7        </span>
-<span class="co">#&gt;  [94] future.apply_1.9.0   crayon_1.5.1         utf8_1.2.2          </span>
-<span class="co">#&gt;  [97] rmarkdown_2.14       jpeg_0.1-9           ingredients_2.2.0   </span>
-<span class="co">#&gt; [100] grid_4.2.0           data.table_1.14.2    ModelMetrics_1.2.2.2</span>
-<span class="co">#&gt; [103] digest_0.6.29        textshaping_0.3.6    stats4_4.2.0        </span>
-<span class="co">#&gt; [106] munsell_0.5.0        bslib_0.3.1</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; R version 4.2.1 (2022-06-23)</span></span>
+<span><span class="co">#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)</span></span>
+<span><span class="co">#&gt; Running under: macOS Big Sur ... 10.16</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Matrix products: default</span></span>
+<span><span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib</span></span>
+<span><span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; locale:</span></span>
+<span><span class="co">#&gt; [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attached base packages:</span></span>
+<span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; other attached packages:</span></span>
+<span><span class="co">#&gt;  [1] caret_6.0-92    e1071_1.7-11    gbm_2.1.8       rms_6.3-0      </span></span>
+<span><span class="co">#&gt;  [5] SparseM_1.81    Hmisc_4.7-0     ggplot2_3.3.6   Formula_1.2-4  </span></span>
+<span><span class="co">#&gt;  [9] survival_3.3-1  lattice_0.20-45 ranger_0.14.1   DALEX_2.4.2    </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
+<span><span class="co">#&gt;   [1] TH.data_1.1-1        colorspace_2.0-3     deldir_1.0-6        </span></span>
+<span><span class="co">#&gt;   [4] class_7.3-20         rprojroot_2.0.3      htmlTable_2.4.1     </span></span>
+<span><span class="co">#&gt;   [7] base64enc_0.1-3      fs_1.5.2             rstudioapi_0.13     </span></span>
+<span><span class="co">#&gt;  [10] proxy_0.4-27         listenv_0.8.0        farver_2.1.1        </span></span>
+<span><span class="co">#&gt;  [13] MatrixModels_0.5-0   prodlim_2019.11.13   fansi_1.0.3         </span></span>
+<span><span class="co">#&gt;  [16] mvtnorm_1.1-3        lubridate_1.8.0      iBreakDown_2.0.1    </span></span>
+<span><span class="co">#&gt;  [19] codetools_0.2-18     splines_4.2.1        cachem_1.0.6        </span></span>
+<span><span class="co">#&gt;  [22] knitr_1.39           jsonlite_1.8.0       pROC_1.18.0         </span></span>
+<span><span class="co">#&gt;  [25] cluster_2.1.3        png_0.1-7            compiler_4.2.1      </span></span>
+<span><span class="co">#&gt;  [28] backports_1.4.1      Matrix_1.4-1         fastmap_1.1.0       </span></span>
+<span><span class="co">#&gt;  [31] cli_3.3.0            htmltools_0.5.3      quantreg_5.94       </span></span>
+<span><span class="co">#&gt;  [34] tools_4.2.1          gtable_0.3.0         glue_1.6.2          </span></span>
+<span><span class="co">#&gt;  [37] reshape2_1.4.4       dplyr_1.0.9          Rcpp_1.0.9          </span></span>
+<span><span class="co">#&gt;  [40] jquerylib_0.1.4      pkgdown_2.0.6        vctrs_0.4.1         </span></span>
+<span><span class="co">#&gt;  [43] nlme_3.1-157         iterators_1.0.14     timeDate_4021.104   </span></span>
+<span><span class="co">#&gt;  [46] xfun_0.31            gower_1.0.0          stringr_1.4.0       </span></span>
+<span><span class="co">#&gt;  [49] globals_0.15.1       lifecycle_1.0.1      future_1.26.1       </span></span>
+<span><span class="co">#&gt;  [52] polspline_1.1.20     MASS_7.3-57          zoo_1.8-10          </span></span>
+<span><span class="co">#&gt;  [55] scales_1.2.0         ipred_0.9-13         ragg_1.2.2          </span></span>
+<span><span class="co">#&gt;  [58] parallel_4.2.1       sandwich_3.0-2       RColorBrewer_1.1-3  </span></span>
+<span><span class="co">#&gt;  [61] yaml_2.3.5           memoise_2.0.1        gridExtra_2.3       </span></span>
+<span><span class="co">#&gt;  [64] sass_0.4.2           rpart_4.1.16         latticeExtra_0.6-30 </span></span>
+<span><span class="co">#&gt;  [67] stringi_1.7.8        highr_0.9            desc_1.4.1          </span></span>
+<span><span class="co">#&gt;  [70] foreach_1.5.2        checkmate_2.1.0      hardhat_1.2.0       </span></span>
+<span><span class="co">#&gt;  [73] lava_1.6.10          rlang_1.0.4          pkgconfig_2.0.3     </span></span>
+<span><span class="co">#&gt;  [76] systemfonts_1.0.4    evaluate_0.15        purrr_0.3.4         </span></span>
+<span><span class="co">#&gt;  [79] recipes_1.0.1        htmlwidgets_1.5.4    labeling_0.4.2      </span></span>
+<span><span class="co">#&gt;  [82] tidyselect_1.1.2     parallelly_1.32.1    plyr_1.8.7          </span></span>
+<span><span class="co">#&gt;  [85] magrittr_2.0.3       R6_2.5.1             generics_0.1.3      </span></span>
+<span><span class="co">#&gt;  [88] multcomp_1.4-19      pillar_1.8.0         foreign_0.8-82      </span></span>
+<span><span class="co">#&gt;  [91] withr_2.5.0          nnet_7.3-17          tibble_3.1.8        </span></span>
+<span><span class="co">#&gt;  [94] future.apply_1.9.0   interp_1.1-3         utf8_1.2.2          </span></span>
+<span><span class="co">#&gt;  [97] rmarkdown_2.14       jpeg_0.1-9           ingredients_2.2.0   </span></span>
+<span><span class="co">#&gt; [100] grid_4.2.1           data.table_1.14.2    ModelMetrics_1.2.2.2</span></span>
+<span><span class="co">#&gt; [103] digest_0.6.29        textshaping_0.3.6    stats4_4.2.1        </span></span>
+<span><span class="co">#&gt; [106] munsell_0.5.0        bslib_0.4.0</span></span></code></pre>
 </div>
   </div>
 
