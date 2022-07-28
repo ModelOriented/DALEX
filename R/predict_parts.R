@@ -1,6 +1,6 @@
 #' Instance Level Parts of the Model Predictions
 #'
-#' Instance Level Variable Attributions as Break Down, SHAP or Oscillations explanations.
+#' Instance Level Variable Attributions as Break Down, SHAP, aggregated SHAP or Oscillations explanations.
 #' Model prediction is decomposed into parts that are attributed for particular variables.
 #' From DALEX version 1.0 this function calls the \code{\link[iBreakDown]{break_down}} or
 #' \code{\link[iBreakDown:break_down_uncertainty]{shap}} functions from the \code{iBreakDown} package or
@@ -8,6 +8,7 @@
 #' Find information how to use the \code{break_down} method here: \url{https://ema.drwhy.ai/breakDown.html}.
 #' Find information how to use the \code{shap} method here: \url{https://ema.drwhy.ai/shapley.html}.
 #' Find information how to use the \code{oscillations} method here: \url{https://ema.drwhy.ai/ceterisParibusOscillations.html}.
+#' aSHAP method provides explanations for a set of observations based on SHAP.
 #'
 #' @param explainer a model to be explained, preprocessed by the \code{explain} function
 #' @param new_observation a new observation for which predictions need to be explained
@@ -16,7 +17,7 @@
 #' @param variables names of variables for which splits shall be calculated. Will be passed to \code{\link[ingredients]{ceteris_paribus}}.
 #' @param N the maximum number of observations used for calculation of attributions. By default NULL (use all) or 500 (for oscillations).
 #' @param variable_splits_type how variable grids shall be calculated? Will be passed to \code{\link[ingredients]{ceteris_paribus}}.
-#' @param type the type of variable attributions. Either \code{shap}, \code{oscillations}, \code{oscillations_uni},
+#' @param type the type of variable attributions. Either \code{shap}, \code{aggregated_shap}, \code{oscillations}, \code{oscillations_uni},
 #' \code{oscillations_emp}, \code{break_down} or \code{break_down_interactions}.
 #'
 #' @return Depending on the \code{type} there are different classes of the resulting object.
@@ -82,7 +83,8 @@ predict_parts <- function(explainer, new_observation, ..., N = if(substr(type, 1
           "oscillations"            = predict_parts_oscillations(explainer, new_observation, ...),
           "oscillations_uni"        = predict_parts_oscillations_uni(explainer, new_observation, ...),
           "oscillations_emp"        = predict_parts_oscillations_emp(explainer, new_observation, ...),
-          stop("The type argument shall be either 'shap' or 'break_down' or 'break_down_interactions' or 'oscillations' or 'oscillations_uni' or 'oscillations_emp'")
+          "shap_aggregated"         = predict_parts_shap_aggregated(explainer, new_observation, ...),
+          stop("The type argument shall be either 'shap' or 'break_down' or 'break_down_interactions' or 'oscillations' or 'oscillations_uni' or 'oscillations_emp' or 'shap_aggregated'")
   )
 }
 
@@ -181,6 +183,20 @@ predict_parts_shap <- function(explainer, new_observation, ...) {
                           new_observation = new_observation,
                           ...)
   class(res) <- c('predict_parts', class(res))
+  res
+}
+
+#' @name predict_parts
+#' @export
+predict_parts_shap_aggregated <- function(explainer, new_observations, ...) {
+  test_explainer(explainer, has_data = TRUE, function_name = "predict_parts_shap_aggregated")
+  
+  res <- shap_aggregated(explainer,
+                         new_observations = new_observations,
+                         ...)
+  
+  class(res) <- c('predict_parts', class(res))
+  
   res
 }
 
