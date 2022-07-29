@@ -42,7 +42,7 @@
 #'      vnames = c("average","+ male","+ young","+ cheap ticket", "+ other factors", "final"))
 #'
 #' @export
-plot.shap_aggregated <- function(x, ..., shift_contributions = 0.05, add_contributions = TRUE, max_features = 10, title = "Aggregated SHAP waterfall plot") {
+plot.shap_aggregated <- function(x, ..., shift_contributions = 0.05, add_contributions = TRUE, max_features = 10, title = "Aggregated SHAP") {
   x <- select_only_k_features(x, k = max_features)
   aggregate <- x[[1]]
   raw <- x[[2]]
