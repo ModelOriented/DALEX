@@ -1,6 +1,7 @@
 context("Check predict_parts() function")
 
 new_apartments <- apartments_test[1001, -1]
+new_apartments_set <- apartments_test[999:1001, -1]
 
 test_that("data not provided",{
   expect_error(predict_parts(explainer_wo_data, type = "break_down"))
@@ -30,6 +31,8 @@ test_that("Output format",{
   pp_ranger_shap <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "shap")
   pp_lm_agg_shap <- predict_parts(explainer_regr_lm, new_observation = new_apartments, type = "shap_aggregated")
   pp_ranger_agg_shap <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "shap_aggregated")
+  pp_lm_agg_shap_set <- predict_parts(explainer_regr_lm, new_observation = new_apartments_set, type = "shap_aggregated")
+  pp_ranger_agg_shap_set <- predict_parts(explainer_regr_ranger, new_observation = new_apartments_set, type = "shap_aggregated")
 
   pp_lm_osc <- predict_parts(explainer_regr_lm, new_observation = new_apartments, type = "oscillations")
   pp_ranger_osc <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "oscillations")
@@ -47,6 +50,8 @@ test_that("Output format",{
   expect_is(pp_ranger_shap, c("shap", 'predict_parts'))
   expect_is(pp_lm_agg_shap, c("shap_aggregated", 'predict_parts'))
   expect_is(pp_ranger_agg_shap, c("shap_aggregated", 'predict_parts'))
+  expect_is(pp_lm_agg_shap_set, c("shap_aggregated", 'predict_parts'))
+  expect_is(pp_ranger_agg_shap_set, c("shap_aggregated", 'predict_parts'))
   expect_is(pp_lm_osc, c("oscillations", 'predict_parts'))
   expect_is(pp_ranger_osc, c("oscillations", 'predict_parts'))
   expect_is(pp_lm_osc_uni, c("oscillations_uni", 'predict_parts'))
@@ -64,6 +69,8 @@ test_that("Output format - plot",{
   pp_ranger_shap <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "shap")
   pp_lm_agg_shap <- predict_parts(explainer_regr_lm, new_observation = new_apartments, type = "shap_aggregated")
   pp_ranger_agg_shap <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "shap_aggregated")
+  pp_lm_agg_shap_set <- predict_parts(explainer_regr_lm, new_observation = new_apartments_set, type = "shap_aggregated")
+  pp_ranger_agg_shap_set <- predict_parts(explainer_regr_ranger, new_observation = new_apartments_set, type = "shap_aggregated")
 
   pp_lm_osc <- predict_parts(explainer_regr_lm, new_observation = new_apartments, type = "oscillations")
   pp_ranger_osc <- predict_parts(explainer_regr_ranger, new_observation = new_apartments, type = "oscillations")
@@ -80,6 +87,8 @@ test_that("Output format - plot",{
   expect_is(plot(pp_ranger_shap, pp_lm_shap), "gg")
   expect_is(plot(pp_lm_agg_shap), "gg")
   expect_is(plot(pp_ranger_agg_shap), "gg")
+  expect_is(plot(pp_lm_agg_shap_set), "gg")
+  expect_is(plot(pp_ranger_agg_shap_set), "gg")
   expect_is(plot(pp_lm_osc), "gg")
   expect_is(plot(pp_ranger_osc), "gg")
   expect_is(plot(pp_lm_osc_uni), "gg")
@@ -99,6 +108,8 @@ test_that("Output format",{
   va_ranger_shap <- variable_attribution(explainer_regr_ranger, new_observation = new_apartments, type = "shap")
   va_lm_agg_shap <- variable_attribution(explainer_regr_lm, new_observation = new_apartments, type = "shap_aggregated")
   va_ranger_agg_shap <- variable_attribution(explainer_regr_ranger, new_observation = new_apartments, type = "shap_aggregated")
+  va_lm_agg_shap_set <- variable_attribution(explainer_regr_lm, new_observation = new_apartments_set, type = "shap_aggregated")
+  va_ranger_agg_shap_set <- variable_attribution(explainer_regr_ranger, new_observation = new_apartments_set, type = "shap_aggregated")
 
   expect_is(va_lm_break_down, c("break_down", 'predict_parts'))
   expect_is(va_ranger_break_down, c("break_down", 'predict_parts'))
@@ -108,6 +119,8 @@ test_that("Output format",{
   expect_is(va_ranger_shap, c("shap", 'predict_parts'))
   expect_is(va_lm_agg_shap, c("shap_aggregated", 'predict_parts'))
   expect_is(va_ranger_agg_shap, c("shap_aggregated", 'predict_parts'))
+  expect_is(va_lm_agg_shap_set, c("shap_aggregated", 'predict_parts'))
+  expect_is(va_ranger_agg_shap_set, c("shap_aggregated", 'predict_parts'))
 })
 
 test_that("Output format - plot",{
@@ -119,6 +132,8 @@ test_that("Output format - plot",{
   va_ranger_shap <- variable_attribution(explainer_regr_ranger, new_observation = new_apartments, type = "shap")
   va_lm_agg_shap <- variable_attribution(explainer_regr_lm, new_observation = new_apartments, type = "shap_aggregated")
   va_ranger_agg_shap <- variable_attribution(explainer_regr_ranger, new_observation = new_apartments, type = "shap_aggregated")
+  va_lm_agg_shap_set <- variable_attribution(explainer_regr_lm, new_observation = new_apartments_set, type = "shap_aggregated")
+  va_ranger_agg_shap_set <- variable_attribution(explainer_regr_ranger, new_observation = new_apartments_set, type = "shap_aggregated")
 
   expect_is(plot(va_ranger_break_down), "gg")
   expect_is(plot(va_ranger_break_down, va_lm_break_down), "gg")
@@ -128,6 +143,8 @@ test_that("Output format - plot",{
   expect_is(plot(va_ranger_shap, va_lm_shap), "gg")
   expect_is(plot(va_lm_agg_shap), "gg")
   expect_is(plot(va_ranger_agg_shap), "gg")
+  expect_is(plot(va_lm_agg_shap_set), "gg")
+  expect_is(plot(va_ranger_agg_shap_set), "gg")
 })
 
 test_that("Output format - plot with subset",{
@@ -137,8 +154,10 @@ test_that("Output format - plot with subset",{
   va_ranger_ibreak_down <- variable_attribution(explainer_regr_ranger, new_observation = new_apartments, type = "break_down_interactions", N = 200)
   va_lm_shap <- variable_attribution(explainer_regr_lm, new_observation = new_apartments, type = "shap", N = 200)
   va_ranger_shap <- variable_attribution(explainer_regr_ranger, new_observation = new_apartments, type = "shap", N = 200)
-  va_lm_agg_shap <- variable_attribution(explainer_regr_lm, new_observation = new_apartments, type = "shap_aggregated")
-  va_ranger_agg_shap <- variable_attribution(explainer_regr_ranger, new_observation = new_apartments, type = "shap_aggregated")
+  va_lm_agg_shap <- variable_attribution(explainer_regr_lm, new_observation = new_apartments, type = "shap_aggregated", N=200)
+  va_ranger_agg_shap <- variable_attribution(explainer_regr_ranger, new_observation = new_apartments, type = "shap_aggregated", N=200)
+  va_lm_agg_shap_set <- variable_attribution(explainer_regr_lm, new_observation = new_apartments_set, type = "shap_aggregated", N=200)
+  va_ranger_agg_shap_set <- variable_attribution(explainer_regr_ranger, new_observation = new_apartments_set, type = "shap_aggregated", N=200)
 
   expect_is(plot(va_ranger_break_down), "gg")
   expect_is(plot(va_ranger_break_down, va_lm_break_down), "gg")
@@ -148,4 +167,6 @@ test_that("Output format - plot with subset",{
   expect_is(plot(va_ranger_shap, va_lm_shap), "gg")
   expect_is(plot(va_lm_agg_shap), "gg")
   expect_is(plot(va_ranger_agg_shap), "gg")
+  expect_is(plot(va_lm_agg_shap_set), "gg")
+  expect_is(plot(va_ranger_agg_shap_set), "gg")
 })
