@@ -1,3 +1,7 @@
+DALEX 2.4.3
+---------------------------------------------------------------
+* added implementation of aSHAP (aggregated SHAP) and waterfall plot ([#519](https://github.com/ModelOriented/DALEX/issues/519))
+
 DALEX 2.4.2
 ---------------------------------------------------------------
 * removed the `yardstick` dependency
