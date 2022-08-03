@@ -43,6 +43,7 @@ shap_aggregated <- function(explainer, new_observations, order = NULL, B = 25, .
 
   ret <- aggregate(ret_raw$contribution, list(ret_raw$variable_name, ret_raw$label), FUN=mean)
   colnames(ret) <- c('variable', 'label', 'contribution')
+  ret$variable <- as.character(ret$variable)
   rownames(ret) <- ret$variable
 
   data_preds <- predict(explainer, explainer$data)
