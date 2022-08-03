@@ -43,8 +43,11 @@ shap_aggregated <- function(explainer, new_observations, order = NULL, B = 25, .
   colnames(ret) <- c('variable', 'label', 'contribution')
   rownames(ret) <- ret$variable   
   
+  data_preds <- predict(explainer, explainer$data)
+  mean_prediction <- mean(data_preds)
+  
   if(is.null(order)) {
-    ret <- ret[calculate_order(explainer, new_observations, predict),]
+    ret <- ret[calculate_order(explainer, mean_prediction, new_observations, predict),]
   } else {
     ret <- ret[order,]
   }
@@ -52,7 +55,6 @@ shap_aggregated <- function(explainer, new_observations, order = NULL, B = 25, .
   ret$position <- (nrow(ret) + 1):2
   ret$sign <- ifelse(ret$contribution >= 0, "1", "-1")
   
-  mean_prediction <- mean(predict(explainer, explainer$data))
   ret <- rbind(ret, data.frame(variable = "intercept",
                                label = explainer$label,
                                contribution = mean_prediction,
@@ -60,7 +62,8 @@ shap_aggregated <- function(explainer, new_observations, order = NULL, B = 25, .
                                sign = "X"), 
                make.row.names=FALSE)
   
-  mean_subset <- mean(predict(explainer, new_observations))
+  subset_preds <- predict(explainer, new_observations)
+  mean_subset <- mean(subset_preds)
   ret <- rbind(ret, data.frame(variable = "prediction",
                                label = explainer$label,
                                contribution = mean_subset,
@@ -79,8 +82,8 @@ shap_aggregated <- function(explainer, new_observations, order = NULL, B = 25, .
   
   ret$variable_value <- '' # column for consistency    
   
-  predictions_new <- data.frame(contribution = predict(explainer, new_observations), variable_name='prediction', label=ret$label[1])
-  predictions_old <- data.frame(contribution = predict(explainer, explainer$data), variable_name='intercept', label=ret$label[1])
+  predictions_new <- data.frame(contribution = subset_preds, variable_name='prediction', label=ret$label[1])
+  predictions_old <- data.frame(contribution = data_preds, variable_name='intercept', label=ret$label[1])
   ret_raw <- rbind(ret_raw, predictions_new, predictions_old)    
   
   out <- list(aggregated = ret, raw = ret_raw)
@@ -139,8 +142,7 @@ generate_average_observation <- function(subset) {
   do.call("cbind", outs)[,colnames(subset)]
 }
 
-calculate_order <- function(x, new_data, predict_function) {
-  mean_prediction <- mean(predict_function(x, x$data))
+calculate_order <- function(x, mean_prediction, new_data, predict_function) {
   baseline_yhat <- mean_prediction
   
   generated_obs <- generate_average_observation(new_data)
