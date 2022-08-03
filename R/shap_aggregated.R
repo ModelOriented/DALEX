@@ -32,6 +32,8 @@
 shap_aggregated <- function(explainer, new_observations, order = NULL, B = 25, ...) {
   ret_raw <- data.frame(contribution = c(), variable_name = c(), label = c())
 
+  new_observations <- new_observations[,colnames(explainer$data)]
+
   for(i in 1:nrow(new_observations)){
     new_obs <- new_observations[i,]
     shap_vals <- iBreakDown::shap(explainer, new_observation = new_obs, B = B, ...)
