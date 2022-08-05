@@ -32,8 +32,6 @@
 shap_aggregated <- function(explainer, new_observations, order = NULL, B = 25, ...) {
   ret_raw <- data.frame(contribution = c(), variable_name = c(), label = c())
 
-  new_observations <- new_observations[,colnames(explainer$data)]
-
   for(i in 1:nrow(new_observations)){
     new_obs <- new_observations[i,]
     shap_vals <- iBreakDown::shap(explainer, new_observation = new_obs, B = B, ...)
@@ -41,34 +39,48 @@ shap_aggregated <- function(explainer, new_observations, order = NULL, B = 25, .
     ret_raw <- rbind(ret_raw, shap_vals)
   }
 
+  data_preds <- predict(explainer, explainer$data)
+  mean_prediction <- mean(data_preds)
+
+  subset_preds <- predict(explainer, new_observations)
+  mean_subset <- mean(subset_preds)
+
+  if(is.null(order)) {
+    order <- calculate_order(explainer, mean_prediction, new_observations, predict)
+  }
+
+  ret <- raw_to_aggregated(ret_raw, mean_prediction, mean_subset, order, explainer$label)
+
+  predictions_new <- data.frame(contribution = subset_preds, variable_name='prediction', label=ret$label[1])
+  predictions_old <- data.frame(contribution = data_preds, variable_name='intercept', label=ret$label[1])
+  ret_raw <- rbind(ret_raw, predictions_new, predictions_old)
+
+  out <- list(aggregated = ret, raw = ret_raw)
+  class(out) <- c('shap_aggregated', class(out))
+
+  out
+}
+
+raw_to_aggregated <- function(ret_raw, mean_prediction, mean_subset, order, label){
   ret <- aggregate(ret_raw$contribution, list(ret_raw$variable_name, ret_raw$label), FUN=mean)
   colnames(ret) <- c('variable', 'label', 'contribution')
   ret$variable <- as.character(ret$variable)
   rownames(ret) <- ret$variable
 
-  data_preds <- predict(explainer, explainer$data)
-  mean_prediction <- mean(data_preds)
-
-  if(is.null(order)) {
-    ret <- ret[calculate_order(explainer, mean_prediction, new_observations, predict),]
-  } else {
-    ret <- ret[order,]
-  }
+  ret <- ret[order,]
 
   ret$position <- (nrow(ret) + 1):2
   ret$sign <- ifelse(ret$contribution >= 0, "1", "-1")
 
   ret <- rbind(ret, data.frame(variable = "intercept",
-                               label = explainer$label,
+                               label = label,
                                contribution = mean_prediction,
                                position = max(ret$position) + 1,
                                sign = "X"),
                make.row.names=FALSE)
 
-  subset_preds <- predict(explainer, new_observations)
-  mean_subset <- mean(subset_preds)
   ret <- rbind(ret, data.frame(variable = "prediction",
-                               label = explainer$label,
+                               label = label,
                                contribution = mean_subset,
                                position = 1,
                                sign = "X"),
@@ -85,14 +97,7 @@ shap_aggregated <- function(explainer, new_observations, order = NULL, B = 25, .
 
   ret$variable_value <- '' # column for consistency
 
-  predictions_new <- data.frame(contribution = subset_preds, variable_name='prediction', label=ret$label[1])
-  predictions_old <- data.frame(contribution = data_preds, variable_name='intercept', label=ret$label[1])
-  ret_raw <- rbind(ret_raw, predictions_new, predictions_old)
-
-  out <- list(aggregated = ret, raw = ret_raw)
-  class(out) <- c('shap_aggregated', class(out))
-
-  out
+  ret
 }
 
 call_order_func <- function(...) {
@@ -114,10 +119,19 @@ calculate_1d_changes <- function(model, new_observation, data, predict_function)
 }
 
 generate_average_observation <- function(subset) {
+  # do not take average of integer columns
+
+  is_numeric_not_int <- function(...){is.numeric(...) & !is.integer(...)}
   # takes average
-  numeric_cols <- unlist(lapply(subset, is.numeric))
+  numeric_cols <- unlist(lapply(subset, is_numeric_not_int))
   numeric_cols <- names(numeric_cols[numeric_cols == TRUE])
-  df_numeric <- t(as.data.frame(colMeans(subset[,numeric_cols])))
+  if(length(numeric_cols) == 1){
+    df_numeric <- data.frame(tmp = mean(subset[,numeric_cols]))
+    colnames(df_numeric) <- numeric_cols[1]
+  } else {
+    df_numeric <- t(as.data.frame(colMeans(subset[,numeric_cols])))
+  }
+
 
   # takes most frequent one
   factor_cols <- unlist(lapply(subset, is.factor))
@@ -128,7 +142,7 @@ generate_average_observation <- function(subset) {
   colnames(df_factory) <- factor_cols
 
   # also takes most frequent one
-  other_cols <- unlist(lapply(subset, function(x){(!is.numeric(x)) & (!is.factor(x))}))
+  other_cols <- unlist(lapply(subset, function(x){(!is_numeric_not_int(x)) & (!is.factor(x))}))
   other_cols <- names(other_cols[other_cols == TRUE])
   df_others <- as.data.frame(lapply(other_cols, function(col) {
     tab <- table(subset[,col])
