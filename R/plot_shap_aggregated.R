@@ -117,7 +117,7 @@ select_only_k_features <- function(input, k = 10) {
                            label = names(remainings))
     #
     x <- rbind(x_keep, x_others, x_prediction)
-    y$variable_name <- factor(ifelse(y$variable_name %in% variables_remove, "+ all other factors", as.character(y$variable_name)), levels = levels(x$variable))
+    y$variable_name <- factor(ifelse(y$variable_name %in% variables_remove, "+ all other factors", as.character(y$variable_name)), levels = levels(x$variable_name))
   }
 
   list(aggregated = x, raw = y)
