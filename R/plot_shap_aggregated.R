@@ -47,50 +47,50 @@ plot.shap_aggregated <- function(x, ..., shift_contributions = 0.05, add_contrib
   aggregate <- x[[1]]
   raw <- x[[2]]
   class(aggregate) <- c('break_down', class(aggregate))
-  
+
   # ret has at least 3 columns: first and last are intercept and prediction
   aggregate$mean_boxplot <- c(0, aggregate$cumulative[1:(nrow(aggregate)-2)], 0)
   raw <- merge(x = as.data.frame(aggregate[,c('variable', 'position', 'mean_boxplot')]), y = raw, by.x = "variable", by.y = "variable_name", all.y = TRUE)
-  
+
   # max_features = max_features + 1 because we have one more class already - "+ all other features"
   p <- plot(aggregate, ..., add_contributions = FALSE, max_features = max_features + 1, title = title)
-  
-  p <- p + geom_boxplot(data = raw, 
-                        aes(y = contribution + mean_boxplot, 
-                            x = position + 0.5, 
-                            group = position, 
-                            fill = "#371ea3", 
+
+  p <- p + geom_boxplot(data = raw,
+                        aes(y = contribution + mean_boxplot,
+                            x = position + 0.5,
+                            group = position,
+                            fill = "#371ea3",
                             xmin = min(contribution) - 0.85,
-                            xmax = max(contribution) + 0.85), 
-                        color = "#371ea3", 
+                            xmax = max(contribution) + 0.85),
+                        color = "#371ea3",
                         fill = "#371ea3",
                         width = 0.15)
-  
+
   if (add_contributions) {
     aggregate$right_side <- pmax(aggregate$cumulative,  aggregate$cumulative - aggregate$contribution)
     drange <- diff(range(aggregate$cumulative))
-    
+
     p <- p + geom_text(aes(y = right_side),
                        vjust = -1,
                        nudge_y = drange*shift_contributions,
                        hjust = -0.2,
                        color = "#371ea3")
   }
-  
-  
+
+
   p
 }
 
 select_only_k_features <- function(input, k = 10) {
   x <- input[[1]]
   y <- input[[2]]
-  
+
   # filter-out redundant rows
   contribution_sum <- tapply(x$contribution, x$variable_name, function(contribution) sum(abs(contribution), na.rm = TRUE))
   contribution_ordered_vars <- names(sort(contribution_sum[!(names(contribution_sum) %in% c("", "intercept"))]))
   variables_keep <- tail(contribution_ordered_vars, k)
   variables_remove <- setdiff(contribution_ordered_vars, variables_keep)
-  
+
   if (length(variables_remove) > 0) {
     x_remove   <- x[x$variable_name %in% variables_remove,]
     x_keep     <- x[!(x$variable_name %in% c(variables_remove, "")),]
@@ -117,8 +117,8 @@ select_only_k_features <- function(input, k = 10) {
                            label = names(remainings))
     #
     x <- rbind(x_keep, x_others, x_prediction)
-    y$variable_name <- factor(ifelse(y$variable %in% variables_remove, "+ all other factors", as.character(y$variable)), levels = levels(x$variable))
+    y$variable_name <- factor(ifelse(y$variable_name %in% variables_remove, "+ all other factors", as.character(y$variable_name)), levels = levels(x$variable_name))
   }
-  
+
   list(aggregated = x, raw = y)
 }
