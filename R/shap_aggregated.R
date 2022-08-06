@@ -119,10 +119,11 @@ calculate_1d_changes <- function(model, new_observation, data, predict_function)
 }
 
 generate_average_observation <- function(subset) {
-  # do not take average of integer columns
+  is_numeric_not_int <- function(...){(is.numeric(...) & !is.integer(...)) | is.complex(...)}
 
-  is_numeric_not_int <- function(...){is.numeric(...) & !is.integer(...)}
-  # takes average
+  # takes average / median of columns
+
+  # (numeric not integer) or complex
   numeric_cols <- unlist(lapply(subset, is_numeric_not_int))
   numeric_cols <- names(numeric_cols[numeric_cols == TRUE])
   if(length(numeric_cols) == 1){
@@ -132,8 +133,29 @@ generate_average_observation <- function(subset) {
     df_numeric <- t(as.data.frame(colMeans(subset[,numeric_cols])))
   }
 
+  # integer
+  int_cols <- unlist(lapply(subset, is.integer))
+  int_cols <- names(int_cols[int_cols == TRUE])
+  df_int <- as.data.frame(lapply(int_cols, function(col) {
+    tab <- table(subset[,col])
+    tab_val <- attr(tab, 'dimnames')[[1]]
+    tab_val <- tab_val[which.max(tab)]
+    as.integer(tab_val)
+  }), stringsAsFactors = FALSE)
+  colnames(df_int) <- int_cols
 
-  # takes most frequent one
+  # logical
+  logical_cols <- unlist(lapply(subset, is.logical))
+  logical_cols <- names(logical_cols[logical_cols == TRUE])
+  df_logical <- as.data.frame(lapply(logical_cols, function(col) {
+    tab <- table(subset[,col])
+    tab_val <- attr(tab, 'dimnames')[[1]]
+    tab_val <- tab_val[which.max(tab)]
+    as.logical(tab_val)
+  }), stringsAsFactors = FALSE)
+  colnames(df_logical) <- logical_cols
+
+  # factors
   factor_cols <- unlist(lapply(subset, is.factor))
   factor_cols <- names(factor_cols[factor_cols == TRUE])
   df_factory <- as.data.frame(lapply(factor_cols, function(col) {
@@ -141,8 +163,8 @@ generate_average_observation <- function(subset) {
   }))
   colnames(df_factory) <- factor_cols
 
-  # also takes most frequent one
-  other_cols <- unlist(lapply(subset, function(x){(!is_numeric_not_int(x)) & (!is.factor(x))}))
+  # character
+  other_cols <- unlist(lapply(subset, is.character))
   other_cols <- names(other_cols[other_cols == TRUE])
   df_others <- as.data.frame(lapply(other_cols, function(col) {
     tab <- table(subset[,col])
@@ -153,6 +175,8 @@ generate_average_observation <- function(subset) {
 
   outs <- list()
   if(!ncol(df_numeric) == 0){outs <- append(list(df_numeric), outs)}
+  if(!ncol(df_int) == 0){outs <- append(list(df_int), outs)}
+  if(!ncol(df_logical) == 0){outs <- append(list(df_logical), outs)}
   if(!ncol(df_factory) == 0){outs <- append(list(df_factory), outs)}
   if(!ncol(df_others) == 0){outs <- append(list(df_others), outs)}
 
