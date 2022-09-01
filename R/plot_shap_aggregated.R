@@ -7,6 +7,7 @@
 #' @param max_features maximal number of features to be included in the plot. default value is \code{10}.
 #' @param min_max a range of OX axis. By default \code{NA}, therefore it will be extracted from the contributions of \code{x}. But it can be set to some constants, useful if these plots are to be used for comparisons.
 #' @param add_contributions if \code{TRUE}, variable contributions will be added to the plot
+#' @param add_boxplots if \code{TRUE}, boxplots of SHAP will be shown
 #' @param shift_contributions number describing how much labels should be shifted to the right, as a fraction of range. By default equal to \code{0.05}.
 #' @param vcolors If \code{NA} (default), DrWhy colors are used.
 #' @param vnames a character vector, if specified then will be used as labels on OY axis. By default NULL
@@ -42,7 +43,7 @@
 #'      vnames = c("average","+ male","+ young","+ cheap ticket", "+ other factors", "final"))
 #'
 #' @export
-plot.shap_aggregated <- function(x, ..., shift_contributions = 0.05, add_contributions = TRUE, max_features = 10, title = "Aggregated SHAP") {
+plot.shap_aggregated <- function(x, ..., shift_contributions = 0.05, add_contributions = TRUE, add_boxplots = TRUE, max_features = 10, title = "Aggregated SHAP") {
   x <- select_only_k_features(x, k = max_features)
   aggregate <- x[[1]]
   raw <- x[[2]]
@@ -55,16 +56,18 @@ plot.shap_aggregated <- function(x, ..., shift_contributions = 0.05, add_contrib
   # max_features = max_features + 1 because we have one more class already - "+ all other features"
   p <- plot(aggregate, ..., add_contributions = FALSE, max_features = max_features + 1, title = title)
 
-  p <- p + geom_boxplot(data = raw,
-                        aes(y = contribution + mean_boxplot,
-                            x = position + 0.5,
-                            group = position,
-                            fill = "#371ea3",
-                            xmin = min(contribution) - 0.85,
-                            xmax = max(contribution) + 0.85),
-                        color = "#371ea3",
-                        fill = "#371ea3",
-                        width = 0.15)
+  if(add_boxplots){
+    p <- p + geom_boxplot(data = raw,
+                          aes(y = contribution + mean_boxplot,
+                              x = position + 0.5,
+                              group = position,
+                              fill = "#371ea3",
+                              xmin = min(contribution) - 0.85,
+                              xmax = max(contribution) + 0.85),
+                          color = "#371ea3",
+                          fill = "#371ea3",
+                          width = 0.15)
+  }
 
   if (add_contributions) {
     aggregate$right_side <- pmax(aggregate$cumulative,  aggregate$cumulative - aggregate$contribution)
