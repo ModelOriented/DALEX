@@ -12,6 +12,7 @@ def convert(o):
 
 def start_server(arena, host, port, disable_logs):
     from flask import Flask, request, abort, Response
+    from werkzeug.serving import ThreadedWSGIServer
     from flask_cors import CORS
     import requests
 
