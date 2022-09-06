@@ -12,6 +12,7 @@ def convert(o):
 
 def start_server(arena, host, port, disable_logs):
     from flask import Flask, request, abort, Response
+    from werkzeug.serving import ThreadedWSGIServer
     from flask_cors import CORS
     import requests
 
@@ -19,6 +20,7 @@ def start_server(arena, host, port, disable_logs):
     cli.show_server_banner = lambda *x: None
     app = Flask(__name__)
     CORS(app)
+    wsgi_server = ThreadedWSGIServer(host=host, port=port, app=app)
     shutdown_token = str(random.randrange(2<<63))
     
     log = logging.getLogger('werkzeug')
@@ -73,10 +75,7 @@ def start_server(arena, host, port, disable_logs):
             if request.args.get('token') != shutdown_token:
                 abort(403)
                 return
-            shutdown = request.environ.get('werkzeug.server.shutdown')
-            if shutdown is None:
-                raise Exception('Failed to stop the server.')
-            shutdown()
+            wsgi_server.shutdown()
             return ''
         params, custom_params = get_params(request)
         if not arena.enable_custom_params and custom_params:
@@ -97,4 +96,4 @@ def start_server(arena, host, port, disable_logs):
         result = arena.get_param_attributes(param_type, param_label)
         return Response(json.dumps(result, default=convert), content_type='application/json')
 
-    app.run(host=host, port=port)
+    wsgi_server.serve_forever()

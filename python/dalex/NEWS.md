@@ -9,6 +9,8 @@
 * https://github.com/ModelOriented/DALEX/issues/489
 * https://github.com/ModelOriented/DALEX/issues/491
 * fixed iBreakDown plot y-axis labels https://github.com/ModelOriented/DALEX/issues/493
+* Use cleaner and still supported API to stop Arena's werkzeug server https://github.com/ModelOriented/DALEX/issues/518
+
 
 ### v1.4.1 (2021-11-08)
 
