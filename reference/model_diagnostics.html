@@ -170,9 +170,9 @@ It's a data frame with residuals and selected variables.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.14.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1869.411 , mean =  3487.529 , max =  6145.477  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1864.258 , mean =  3488.536 , max =  6170.706  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -452.8694 , mean =  -0.5099401 , max =  601.2291  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -409.72 , mean =  -1.517071 , max =  563.6262  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"><span><span class="va">diag_ranger</span> <span class="op">&lt;-</span> <span class="fu">model_diagnostics</span><span class="op">(</span><span class="va">explainer_ranger</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">diag_ranger</span></span></span>
@@ -185,21 +185,21 @@ It's a data frame with residuals and selected variables.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :6595   Max.   :2010      Max.   :150.00   Max.   :10.000  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     no.rooms           district         y            y_hat     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :1.00   Mokotow    :107   Min.   :1607   Min.   :1869  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.:2.00   Wola       :106   1st Qu.:2857   1st Qu.:2931  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Median :3.00   Ursus      :105   Median :3386   Median :3415  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :3.36   Ursynow    :103   Mean   :3487   Mean   :3488  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:4.00   Srodmiescie:100   3rd Qu.:4018   3rd Qu.:3945  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :6.00   Bemowo     : 98   Max.   :6595   Max.   :6145  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :1.00   Mokotow    :107   Min.   :1607   Min.   :1864  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.:2.00   Wola       :106   1st Qu.:2857   1st Qu.:2939  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Median :3.00   Ursus      :105   Median :3386   Median :3422  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :3.36   Ursynow    :103   Mean   :3487   Mean   :3489  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:4.00   Srodmiescie:100   3rd Qu.:4018   3rd Qu.:3944  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :6.00   Bemowo     : 98   Max.   :6595   Max.   :6171  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 (Other)    :381                                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    residuals         abs_residuals         label                ids        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :-452.8694   Min.   :  0.0391   Length:1000        Min.   :   1.0  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.: -90.7335   1st Qu.: 37.7351   Class :character   1st Qu.: 250.8  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Median : -25.4379   Median : 81.7645   Mode  :character   Median : 500.5  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :  -0.5099   Mean   :106.7828                      Mean   : 500.5  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:  61.3521   3rd Qu.:148.2948                      3rd Qu.: 750.2  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   : 601.2291   Max.   :601.2291                      Max.   :1000.0  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    residuals        abs_residuals        label                ids        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :-409.720   Min.   :  0.106   Length:1000        Min.   :   1.0  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.: -90.750   1st Qu.: 39.285   Class :character   1st Qu.: 250.8  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Median : -23.450   Median : 81.991   Mode  :character   Median : 500.5  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :  -1.517   Mean   :107.750                      Mean   : 500.5  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:  61.491   3rd Qu.:151.735                      3rd Qu.: 750.2  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   : 563.626   Max.   :563.626                      Max.   :1000.0  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                          </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">diag_ranger</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'</span>
 <span class="r-plt img"><img src="model_diagnostics-2.png" alt="" width="700" height="433"></span>

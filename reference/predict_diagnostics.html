@@ -162,9 +162,9 @@ It's a data frame with calculated distribution of residuals.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.14.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.008566247 , mean =  0.3222171 , max =  0.9962902  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.005023579 , mean =  0.3219006 , max =  0.9965273  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.7783393 , mean =  -6.036071e-05 , max =  0.8790318  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.8054882 , mean =  0.0002561737 , max =  0.8765955  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"><span><span class="va">johny_d</span> <span class="op">&lt;-</span> <span class="va">titanic_imputed</span><span class="op">[</span><span class="fl">24</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gender"</span>, <span class="st">"age"</span>, <span class="st">"class"</span>, <span class="st">"fare"</span>, <span class="st">"sibsp"</span>, <span class="st">"parch"</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-in"><span></span></span>
@@ -187,17 +187,17 @@ It's a data frame with calculated distribution of residuals.</p>
 <span class="r-in"><span><span class="va">id_johny</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Top profiles    : </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      gender        age class   fare sibsp parch    _yhat_ _vname_ _ids_ _label_</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24   female  0.1666667   1st 151.16     1     2 0.4988123     age    24  ranger</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24.1 female  2.0000000   1st 151.16     1     2 0.4750457     age    24  ranger</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24.2 female  4.0000000   1st 151.16     1     2 0.5412615     age    24  ranger</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24.3 female  7.0000000   1st 151.16     1     2 0.5342425     age    24  ranger</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24.4 female  9.0000000   1st 151.16     1     2 0.6221106     age    24  ranger</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24.5 female 13.0000000   1st 151.16     1     2 0.6718093     age    24  ranger</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24   female  0.1666667   1st 151.16     1     2 0.4918515     age    24  ranger</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24.1 female  2.0000000   1st 151.16     1     2 0.4736225     age    24  ranger</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24.2 female  4.0000000   1st 151.16     1     2 0.5497697     age    24  ranger</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24.3 female  7.0000000   1st 151.16     1     2 0.5439364     age    24  ranger</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24.4 female  9.0000000   1st 151.16     1     2 0.6193646     age    24  ranger</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24.5 female 13.0000000   1st 151.16     1     2 0.6849253     age    24  ranger</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Top observations:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    gender age class   fare sibsp parch    _yhat_ _label_ _ids_</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24 female   2   1st 151.16     1     2 0.4750457  ranger     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 female   2   1st 151.16     1     2 0.4736225  ranger     1</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">id_johny</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="predict_diagnostics-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
@@ -208,12 +208,12 @@ It's a data frame with calculated distribution of residuals.</p>
 <span class="r-in"><span><span class="va">id_johny</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Top profiles    : </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      gender age            class   fare sibsp parch    _yhat_ _vname_ _ids_</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24   female   2              1st 151.16     1     2 0.4750457   class    24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24.1 female   2              2nd 151.16     1     2 0.6254367   class    24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24.2 female   2              3rd 151.16     1     2 0.3249431   class    24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24.3 female   2        deck crew 151.16     1     2 0.3251625   class    24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24.4 female   2 engineering crew 151.16     1     2 0.3616909   class    24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24.5 female   2 restaurant staff 151.16     1     2 0.3646941   class    24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24   female   2              1st 151.16     1     2 0.4736225   class    24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24.1 female   2              2nd 151.16     1     2 0.6111259   class    24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24.2 female   2              3rd 151.16     1     2 0.2828225   class    24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24.3 female   2        deck crew 151.16     1     2 0.2861046   class    24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24.4 female   2 engineering crew 151.16     1     2 0.3098335   class    24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24.5 female   2 restaurant staff 151.16     1     2 0.3068274   class    24</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      _label_</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24    ranger</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24.1  ranger</span>
@@ -225,7 +225,7 @@ It's a data frame with calculated distribution of residuals.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Top observations:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    gender age class   fare sibsp parch    _yhat_ _label_ _ids_</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24 female   2   1st 151.16     1     2 0.4750457  ranger     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 female   2   1st 151.16     1     2 0.4736225  ranger     1</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">id_johny</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 'variable_type' changed to 'categorical' due to lack of numerical variables.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 'variable_type' changed to 'categorical' due to lack of numerical variables.</span>
