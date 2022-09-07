@@ -1,15 +1,16 @@
 ## Changelog
 
-### development 
 
-* *this should mark a beta -> stable release*
-* increase the dependencies to `pandas>=1.2.5`, `numpy>=1.20.3`, `scipy>=1.6.3`, and `plotly>=5.1.0`
-* increase the dependency from `python>=3.6` to `python>=3.7` (at this moment, both `numpy` and `pandas` depend on `python>=3.8`)
-* increase the dependency to `tqdm>=4.61.2` due to errors with `pandas` https://github.com/tqdm/tqdm/issues/1199
-* https://github.com/ModelOriented/DALEX/issues/489
-* https://github.com/ModelOriented/DALEX/issues/491
-* fixed iBreakDown plot y-axis labels https://github.com/ModelOriented/DALEX/issues/493
-* Use cleaner and still supported API to stop Arena's werkzeug server https://github.com/ModelOriented/DALEX/issues/518
+### development
+
+*This release consists of mostly maintenance updates, and after a year marks the Beta -> Stable release.*
+
+* increase the dependency from `python>=3.6` to `python>=3.7` (at this moment, both `numpy` and `pandas` depend on `python>=3.8`), and add `python>=3.10` to CI
+* increase the dependencies to `pandas>=1.2.5`, `numpy>=1.20.3` ([#526](https://github.com/ModelOriented/DALEX/issues/526)), `scipy>=1.6.3`, `plotly>=5.1.0`, and `tqdm>=4.61.2` due to errors with `pandas` (see [tqdm/#1199](https://github.com/tqdm/tqdm/issues/1199)) 
+* remove the use of `pd.Series.append()` ([#489](https://github.com/ModelOriented/DALEX/issues/489))
+* remove the use of `np.isnan` causing error in `dalex.fairness` ([#491](https://github.com/ModelOriented/DALEX/issues/491))
+* fix iBreakDown plot y-axis labels ([#493](https://github.com/ModelOriented/DALEX/issues/493))
+* stop the Arena's `werkzeug` server using a clearner and still supported API ([#518](https://github.com/ModelOriented/DALEX/issues/518)) 
 
 
 ### v1.4.1 (2021-11-08)
@@ -22,6 +23,7 @@
 #### fixes
 
 * fixed `AP` and `CP` progress bars
+
 
 ### v1.4.0 (2021-09-09)
 
