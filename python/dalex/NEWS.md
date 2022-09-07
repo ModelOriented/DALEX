@@ -1,9 +1,9 @@
 ## Changelog
 
 
-### development
+### v1.5.0 (2022-09-07)
 
-*This release consists of mostly maintenance updates, and after a year marks the Beta -> Stable release.*
+*This release consists of mostly maintenance updates and, after a year, marks the Beta -> Stable release.*
 
 * increase the dependency from `python>=3.6` to `python>=3.7` (at this moment, both `numpy` and `pandas` depend on `python>=3.8`), and add `python>=3.10` to CI
 * increase the dependencies to `pandas>=1.2.5`, `numpy>=1.20.3` ([#526](https://github.com/ModelOriented/DALEX/issues/526)), `scipy>=1.6.3`, `plotly>=5.1.0`, and `tqdm>=4.61.2` due to errors with `pandas` (see [tqdm/#1199](https://github.com/tqdm/tqdm/issues/1199)) 
