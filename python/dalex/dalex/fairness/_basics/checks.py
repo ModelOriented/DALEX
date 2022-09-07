@@ -24,7 +24,7 @@ def check_protected(protected, verbose):
         else:
             ParameterCheckError("unsupported protected type provided. Please convert protected to flat np.ndarray")
 
-    if protected.dtype.type is not np.str_:
+    if protected.dtype.type is not str:
         try:
             helper.verbose_cat("protected array is not string type, converting to string ", verbose)
             protected = protected.astype(str)

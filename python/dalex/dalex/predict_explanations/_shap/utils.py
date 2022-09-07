@@ -117,7 +117,7 @@ def nice_pair(df, i1, i2):
 
 
 def nice_format(x):
-    return str(x) if isinstance(x, (str, np.str_)) else str(float(signif(x)))
+    return str(x) if isinstance(x, str) else str(float(signif(x)))
 
 
 #:# https://stackoverflow.com/a/59888924

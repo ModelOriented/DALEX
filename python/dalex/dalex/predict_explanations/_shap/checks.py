@@ -56,7 +56,7 @@ def check_path(path):
             return path
 
     path_ = np.array(path)
-    if not isinstance(path_[0], np.integer):
+    if not isinstance(path_[0], int):
         raise TypeError('if path is array-like, then must be array of integers')
 
     return path_

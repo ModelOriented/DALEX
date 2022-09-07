@@ -142,7 +142,7 @@ def create_ordered_path(feature_path,
             feature_path = feature_path.iloc[np.argsort(feature_path['adiff_norm'])[::-1], :]
         else:
             feature_path = feature_path.iloc[np.argsort(feature_path['diff'])[::-1], :]
-    elif np.issubdtype(order.dtype, np.integer):
+    elif np.issubdtype(order.dtype, int):
         # case when permutation
         feature_path = feature_path.iloc[order, :]
 
@@ -243,7 +243,7 @@ def nice_pair(df, i1, i2):
 
 
 def nice_format(x):
-    return str(x) if isinstance(x, (str, np.str_)) else str(float(signif(x)))
+    return str(x) if isinstance(x, str) else str(float(signif(x)))
 
 
 #:# https://stackoverflow.com/a/59888924
