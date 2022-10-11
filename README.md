@@ -142,4 +142,4 @@ The other way is to use approximated explainers – techniques that find only ap
 
 ## Acknowledgments
 
-Work on this package was financially supported by the `NCN Opus grant 2016/21/B/ST6/02176` and `NCN Opus grant 2017/27/B/ST6/0130`.
+Work on this package was financially supported by the `NCN Opus grant 2016/21/B/ST6/02176` and `NCN Opus grant 2017/27/B/ST6/01306`.
