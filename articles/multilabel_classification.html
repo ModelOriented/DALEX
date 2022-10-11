@@ -103,7 +103,7 @@
       <h1 data-toc-skip>How to use multilabel classification and DALEX?</h1>
                         <h4 data-toc-skip class="author">Szymon Maksymiuk</h4>
             
-            <h4 data-toc-skip class="date">2022-09-07</h4>
+            <h4 data-toc-skip class="date">2022-10-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/DALEX/blob/HEAD/vignettes/multilabel_classification.Rmd" class="external-link"><code>vignettes/multilabel_classification.Rmd</code></a></small>
       <div class="hidden name"><code>multilabel_classification.Rmd</code></div>
@@ -149,7 +149,7 @@
 <span><span class="co">#&gt; Target node size:                 10 </span></span>
 <span><span class="co">#&gt; Variable importance mode:         none </span></span>
 <span><span class="co">#&gt; Splitrule:                        gini </span></span>
-<span><span class="co">#&gt; OOB prediction error (Brier s.):  0.2171241</span></span></code></pre>
+<span><span class="co">#&gt; OOB prediction error (Brier s.):  0.2184273</span></span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://modeloriented.github.io/DALEX/" class="external-link">"DALEX"</a></span><span class="op">)</span></span>
 <span><span class="va">explain_HR_ranger</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span><span class="op">(</span><span class="va">model_HR_ranger</span>,</span>
@@ -166,7 +166,7 @@
 <span><span class="co">#&gt;   -&gt; model_info        :  package ranger , ver. 0.14.1 , task multiclass (  default  ) </span></span>
 <span><span class="co">#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) </span></span>
 <span><span class="co">#&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )</span></span>
-<span><span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.279573 , max =  0.8751125  </span></span>
+<span><span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.2774268 , max =  0.8793524  </span></span>
 <span><span class="co">#&gt;   A new explainer has been created!</span></span></code></pre>
 <p>The sixth column, that we have omitted during the creation of the explainer, stands for the target column (<code>status</code>). It is good practice not to put it in <code>data</code>. Keep in mind that the default <code>yhat</code> function for <code>ranger</code>, and for any other package that is supported by <code>DALEX</code>, enforces probability output. Therefore residuals cannot be standard <span class="math inline">\(y - \hat{y}\)</span>. Since <code>DALEX 1.2.2</code> in the case of multiclass classification one minus probability of the TRUE class is a standard residual function.</p>
 </div>
@@ -191,7 +191,7 @@
 <span><span class="co">#&gt;   -&gt; model_info        :  package ranger , ver. 0.14.1 , task multiclass (  default  ) </span></span>
 <span><span class="co">#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) </span></span>
 <span><span class="co">#&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )</span></span>
-<span><span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.279573 , max =  0.8751125  </span></span>
+<span><span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.2774268 , max =  0.8793524  </span></span>
 <span><span class="co">#&gt;   A new explainer has been created!</span></span></code></pre>
 <p>And now we can use <code><a href="../reference/model_parts.html">model_parts()</a></code></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -254,17 +254,17 @@
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">mp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_performance.html">model_performance</a></span><span class="op">(</span><span class="va">explain_HR_ranger</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; Measures for:  multiclass</span></span>
-<span><span class="co">#&gt; micro_F1   : 0.8682299 </span></span>
-<span><span class="co">#&gt; macro_F1   : 0.8661586 </span></span>
-<span><span class="co">#&gt; w_macro_F1 : 0.8670394 </span></span>
-<span><span class="co">#&gt; accuracy   : 0.8682299 </span></span>
-<span><span class="co">#&gt; w_macro_auc: 0.9761675</span></span>
+<span><span class="co">#&gt; micro_F1   : 0.8709061 </span></span>
+<span><span class="co">#&gt; macro_F1   : 0.8689522 </span></span>
+<span><span class="co">#&gt; w_macro_F1 : 0.8697479 </span></span>
+<span><span class="co">#&gt; accuracy   : 0.8709061 </span></span>
+<span><span class="co">#&gt; w_macro_auc: 0.9775149</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Residuals:</span></span>
 <span><span class="co">#&gt;         0%        10%        20%        30%        40%        50%        60% </span></span>
-<span><span class="co">#&gt; 0.00000000 0.02242375 0.05805545 0.12072752 0.18352940 0.24719785 0.31529251 </span></span>
+<span><span class="co">#&gt; 0.00000000 0.02724317 0.06351454 0.11833033 0.17734854 0.23779937 0.31133712 </span></span>
 <span><span class="co">#&gt;        70%        80%        90%       100% </span></span>
-<span><span class="co">#&gt; 0.39415311 0.48400602 0.59696375 0.87511254</span></span></code></pre>
+<span><span class="co">#&gt; 0.39088448 0.48414504 0.59128347 0.87935238</span></span></code></pre>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mp</span><span class="op">)</span></span></code></pre></div>
 <p><img src="multilabel_classification_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
@@ -305,20 +305,20 @@
 <span><span class="co">#&gt; [1] ranger_0.14.1 DALEX_2.4.2  </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
-<span><span class="co">#&gt;  [1] tidyselect_1.1.2  xfun_0.32         bslib_0.4.0       purrr_0.3.4      </span></span>
-<span><span class="co">#&gt;  [5] lattice_0.20-45   colorspace_2.0-3  vctrs_0.4.1       generics_0.1.3   </span></span>
-<span><span class="co">#&gt;  [9] htmltools_0.5.3   yaml_2.3.5        utf8_1.2.2        rlang_1.0.5      </span></span>
+<span><span class="co">#&gt;  [1] tidyselect_1.2.0  xfun_0.33         bslib_0.4.0       purrr_0.3.5      </span></span>
+<span><span class="co">#&gt;  [5] lattice_0.20-45   colorspace_2.0-3  vctrs_0.4.2       generics_0.1.3   </span></span>
+<span><span class="co">#&gt;  [9] htmltools_0.5.3   yaml_2.3.5        utf8_1.2.2        rlang_1.0.6      </span></span>
 <span><span class="co">#&gt; [13] pkgdown_2.0.6     jquerylib_0.1.4   pillar_1.8.1      glue_1.6.2       </span></span>
-<span><span class="co">#&gt; [17] lifecycle_1.0.1   stringr_1.4.1     munsell_0.5.0     gtable_0.3.1     </span></span>
-<span><span class="co">#&gt; [21] ragg_1.2.2        memoise_2.0.1     evaluate_0.16     labeling_0.4.2   </span></span>
+<span><span class="co">#&gt; [17] lifecycle_1.0.3   stringr_1.4.1     munsell_0.5.0     gtable_0.3.1     </span></span>
+<span><span class="co">#&gt; [21] ragg_1.2.3        memoise_2.0.1     evaluate_0.17     labeling_0.4.2   </span></span>
 <span><span class="co">#&gt; [25] knitr_1.40        fastmap_1.1.0     fansi_1.0.3       highr_0.9        </span></span>
 <span><span class="co">#&gt; [29] iBreakDown_2.0.1  Rcpp_1.0.9        scales_1.2.1      cachem_1.0.6     </span></span>
-<span><span class="co">#&gt; [33] desc_1.4.1        jsonlite_1.8.0    ingredients_2.2.0 farver_2.1.1     </span></span>
+<span><span class="co">#&gt; [33] desc_1.4.2        jsonlite_1.8.2    ingredients_2.2.0 farver_2.1.1     </span></span>
 <span><span class="co">#&gt; [37] systemfonts_1.0.4 fs_1.5.2          textshaping_0.3.6 ggplot2_3.3.6    </span></span>
 <span><span class="co">#&gt; [41] digest_0.6.29     stringi_1.7.8     dplyr_1.0.10      grid_4.2.1       </span></span>
-<span><span class="co">#&gt; [45] rprojroot_2.0.3   cli_3.3.0         tools_4.2.1       magrittr_2.0.3   </span></span>
-<span><span class="co">#&gt; [49] sass_0.4.2        tibble_3.1.8      pkgconfig_2.0.3   Matrix_1.4-1     </span></span>
-<span><span class="co">#&gt; [53] gower_1.0.0       rmarkdown_2.16    R6_2.5.1          compiler_4.2.1</span></span></code></pre>
+<span><span class="co">#&gt; [45] rprojroot_2.0.3   cli_3.4.1         tools_4.2.1       magrittr_2.0.3   </span></span>
+<span><span class="co">#&gt; [49] sass_0.4.2        tibble_3.1.8      pkgconfig_2.0.3   Matrix_1.5-1     </span></span>
+<span><span class="co">#&gt; [53] gower_1.0.0       rmarkdown_2.17    R6_2.5.1          compiler_4.2.1</span></span></code></pre>
 </div>
   </div>
 
