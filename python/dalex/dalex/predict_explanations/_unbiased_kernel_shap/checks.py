@@ -5,16 +5,14 @@ from warnings import warn
 import numpy as np
 import pandas as pd
 
-from ..._explainer import Explainer
 
-
-def check_columns_in_new_observation(new_observation: pd.DataFrame, explainer: Explainer) -> None:
+def check_columns_in_new_observation(new_observation: pd.DataFrame, explainer) -> None:
     if not set(new_observation.columns).issubset(explainer.data):
         raise ValueError("Columns in the new observation do not match these in training dataset.")
 
 
 def check_new_observation(
-    new_observation: Union[np.ndarray, pd.Series], explainer: Explainer
+    new_observation: Union[np.ndarray, pd.Series], explainer
 ) -> pd.DataFrame:
     new_observation_ = deepcopy(new_observation)
     if isinstance(new_observation_, pd.Series):

@@ -3,11 +3,8 @@ from typing import Optional, Tuple
 import numpy as np
 import pandas as pd
 
-from ..._explainer import Explainer
-
-
 def unbiased_kernel_shap(
-    explainer: Explainer,
+    explainer,
     new_observation: pd.DataFrame,
     keep_distributions: bool,
     n_samples: int,
@@ -17,7 +14,7 @@ def unbiased_kernel_shap(
     raise NotImplementedError
 
 
-def calculate_yhats_distributions(explainer: Explainer) -> pd.DataFrame:
+def calculate_yhats_distributions(explainer) -> pd.DataFrame:
     data_yhat = explainer.predict(explainer.data)
 
     return pd.DataFrame(
