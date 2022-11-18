@@ -39,10 +39,14 @@ def auc(y_pred, y_true):
 
 
 def recall(tp, fp, tn, fn):
+    if tp + fn == 0:
+        raise ZeroDivisionError
     return tp / (tp + fn)
 
 
 def precision(tp, fp, tn, fn):
+    if tp + fp == 0:
+        raise ZeroDivisionError
     return tp / (tp + fp)
 
 
