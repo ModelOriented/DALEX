@@ -1,5 +1,5 @@
 from copy import deepcopy
-from typing import Union
+from typing import Optional, Union
 from warnings import warn
 
 import numpy as np
@@ -11,9 +11,7 @@ def check_columns_in_new_observation(new_observation: pd.DataFrame, explainer) -
         raise ValueError("Columns in the new observation do not match these in training dataset.")
 
 
-def check_new_observation(
-    new_observation: Union[np.ndarray, pd.Series], explainer
-) -> pd.DataFrame:
+def check_new_observation(new_observation: Union[np.ndarray, pd.Series], explainer) -> pd.DataFrame:
     new_observation_ = deepcopy(new_observation)
     if isinstance(new_observation_, pd.Series):
         new_observation_ = new_observation_.to_frame().T
@@ -63,7 +61,7 @@ def check_processes(processes: int) -> int:
         return processes
 
 
-def check_random_state(random_state: int) -> int:
+def check_random_state(random_state: Optional[int]) -> int:
     if random_state is None:
         random_state = np.random.randint()
     np.random.seed(random_state)
