@@ -103,7 +103,7 @@ def unbiased_kernel_shap(
     """returns shap values result, prediction, intercept and optionally yhats_distributions"""
 
     num_features = new_observation.shape[1]
-    eval_feature_subsets = partial(
+    eval_feature_subsets: Callable[[np.ndarray], np.ndarray] = partial(
         predict_on_subsets,
         observation=new_observation,
         data=explainer.data,
@@ -111,8 +111,7 @@ def unbiased_kernel_shap(
     )
 
     welford_state = WelfordState()
-    # TODO: is it better to take mean prediction or prediction on mean values?
-    null_prediction = eval_feature_subsets(np.zeros((1, num_features), dtype=bool))
+    null_prediction = eval_feature_subsets(np.zeros((1, num_features), dtype=bool))[0]
     # only one new_observation allowed
     full_prediction = explainer.predict(new_observation)[0]
 
