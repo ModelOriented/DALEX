@@ -89,8 +89,10 @@ class UnbiasedKernelShap(Explanation):
         None
         """
 
+        checks.check_dtypes(explainer.data)
         _new_observation = checks.check_new_observation(new_observation, explainer)
         checks.check_columns_in_new_observation(_new_observation, explainer)
+        _new_observation = checks.check_dtypes(new_observation)
         (
             self.result,
             self.prediction,

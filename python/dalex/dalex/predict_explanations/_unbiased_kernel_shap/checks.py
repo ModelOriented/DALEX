@@ -5,13 +5,28 @@ from warnings import warn
 import numpy as np
 import pandas as pd
 
+from .protocol import Explainer
 
-def check_columns_in_new_observation(new_observation: pd.DataFrame, explainer) -> None:
-    if not set(new_observation.columns).issubset(explainer.data):
+
+def check_columns_in_new_observation(new_observation: pd.DataFrame, explainer: Explainer) -> None:
+    if not set(new_observation.columns).issubset(explainer.data.columns):
         raise ValueError("Columns in the new observation do not match these in training dataset.")
 
 
-def check_new_observation(new_observation: Union[np.ndarray, pd.Series], explainer) -> pd.DataFrame:
+def check_dtypes(data: pd.DataFrame) -> pd.DataFrame:
+    """also returns DataFrame with casted types"""
+    result_observation = data.copy()
+    for column in result_observation.columns:
+        try:
+            result_observation[column] = result_observation[column].astype(float)
+        except Exception as e:  # TODO add reasonable exception type
+            raise TypeError(f"All types must be numerical. {column} is not.")
+    return result_observation
+
+
+def check_new_observation(
+    new_observation: Union[np.ndarray, pd.Series], explainer: Explainer
+) -> pd.DataFrame:
     new_observation_ = deepcopy(new_observation)
     if isinstance(new_observation_, pd.Series):
         new_observation_ = new_observation_.to_frame().T
