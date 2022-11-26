@@ -24,7 +24,7 @@ def calculate_A(num_features: int) -> np.ndarray:
 
 
 def sample_subsets(num_samples: int, num_features: int) -> np.ndarray:
-    """Sample (num_samples x num_features) 0-1 matrix
+    """Sample (`num_samples` x `num_features`) True/False matrix
     representing which feature we take into account."""
 
     # TODO: i dont think these weights are correct
@@ -48,17 +48,33 @@ def predict_on_subsets(
     observation: pd.DataFrame,
     data: pd.DataFrame,
     predict_function: Callable[[np.ndarray], np.ndarray],
+    approx_samples: int = 20,
 ) -> np.ndarray:
-    """Make predictions on ussing different subsets of features
-    feature_subsets is a (num_samples x num_features) 0-1 matrix
-    we mask non-present features with the mean across the data"""
-    num_samples, _ = feature_subsets.shape
-    feature_means = data.mean(axis=0)
+    """Make predictions using different subsets of features
+    feature_subsets is a (`num_samples` x `num_features`) True/False matrix
 
-    masked_observations = np.repeat(observation, repeats=num_samples, axis=0)
-    masked_observations[~feature_subsets] = feature_means
-    predictions = predict_function(masked_observations)
-    return predictions
+    for absent features we take the average prediction over `approx_samples`
+    random observations from data
+    for present features we set them as they are"""
+
+    approx_samples = min(approx_samples, len(data))
+    num_samples, num_features = feature_subsets.shape
+    # TODO: maybe better to work with the different set of observations?
+    data_sample = data.sample(n=approx_samples, replace=False).values
+
+    # observarion_wide.shape == `approx_samples` x `num_samples` x `num_features`
+    observation_wide = np.repeat(data_sample[None, :, :], repeats=num_samples, axis=0).swapaxes(
+        0, 1
+    )
+    for feature in range(num_features):
+        observation_feature_value = observation.iloc[0, feature]
+        observation_wide[:, feature_subsets[:, feature], feature] = observation_feature_value
+
+    predictions = predict_function(observation_wide.reshape(-1, num_features)).reshape(
+        approx_samples, num_samples
+    )
+    predictions_approx = predictions.mean(0)
+    return predictions_approx
 
 
 def calculate_exact_result(
