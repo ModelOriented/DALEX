@@ -59,7 +59,23 @@ class UnbiasedShapUtils(unittest.TestCase):
         self.assertTrue(np.allclose(b_sample, expected_result))
 
     def test_calculate_exact_result(self):
-        ...
+        """let
+        model: lambda arr: arr.max(axis=1)
+        data: [2, 3], [0, 1]
+        our observation: [3, 4]"""
+        expected_shap_values = np.array([0.5, 1.5])
+
+        A = utils.calculate_A(2)
+        full_prediction = 4
+        null_prediction = 2
+        S = np.array([[1, 0], [0, 1]], dtype=bool)
+        S_predictions = np.array([3, 4])
+        b_sample = utils.calculate_b_sample(S, S_predictions, null_prediction)
+        b_cov = np.cov(b_sample.T)
+        shap_values, std = utils.calculate_exact_result(
+            A, b_sample.mean(axis=0), full_prediction, null_prediction, b_cov, 2
+        )
+        self.assertTrue(np.allclose(expected_shap_values, shap_values))
 
 
 class UnbiasedShapWelford(unittest.TestCase):
