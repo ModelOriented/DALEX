@@ -77,9 +77,11 @@ class UnbiasedShapWelford(unittest.TestCase):
                 ]
             )
         )
+        count, b, b_sum_squares = welford_state
         mean, var = welford_state.stats
         self.assertTrue(np.allclose(mean, np.array([2, 1, 2])))
         self.assertTrue(np.allclose(var, np.array([1, 0, 16])))
+        self.assertTrue(np.allclose(b_sum_squares, np.array([2, 0, 32])))
 
 
 if __name__ == "__main__":
