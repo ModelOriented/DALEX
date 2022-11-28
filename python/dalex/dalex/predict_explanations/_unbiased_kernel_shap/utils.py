@@ -23,6 +23,13 @@ def calculate_A(num_features: int) -> np.ndarray:
     return A
 
 
+def calculate_b_sample(
+    S: np.ndarray, S_predictions: np.ndarray, null_prediction: float
+) -> np.ndarray:
+    """given S - True/False matrix and its predictions calculate sample bs"""
+    return S.astype(float) * (S_predictions - null_prediction)[:, None]
+
+
 def sample_subsets(num_samples: int, num_features: int) -> np.ndarray:
     """Sample (`num_samples` x `num_features`) True/False matrix
     representing which feature we take into account."""
@@ -122,11 +129,7 @@ def unbiased_kernel_shap(
         if paired_sampling:
             raise NotImplementedError
         else:
-            # TODO: not readable
-            # (A.T * (B - C)[:, np.newaxis].T).T == A * (B - C)[None, :]
-            b_sample = (
-                S.astype(float).T * (eval_feature_subsets(S) - null_prediction)[:, np.newaxis].T
-            ).T
+            b_sample = calculate_b_sample(S, eval_feature_subsets(S), null_prediction)
 
         welford_state.update(observations=b_sample)
         count, b, b_sum_squares = welford_state

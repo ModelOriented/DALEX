@@ -33,6 +33,20 @@ class UnbiasedShapUtils(unittest.TestCase):
         self.assertEqual(subsets_predictions.shape, (feature_subsets.shape[0],))
         self.assertTrue(np.allclose(subsets_predictions, expected_output))
 
+    def test_calculate_b_sample(self):
+        S = np.array(
+            [
+                [1, 0, 1],
+                [1, 1, 0],
+            ],
+            dtype=bool,
+        )
+        S_predictions = np.array([2, 3])
+        null_prediction = -7
+        expected_result = np.array([[9, 0, 9], [10, 10, 0]])
+        b_sample = utils.calculate_b_sample(S, S_predictions, null_prediction)
+        self.assertTrue(np.allclose(b_sample, expected_result))
+
     def test_calculate_exact_result(self):
         ...
 
