@@ -10,8 +10,19 @@ class UnbiasedShapUtils(unittest.TestCase):
         ...
 
     def test_calculate_A(self):
-        A = utils.calculate_A(69)
-        self.assertEqual(A.shape, (69, 69))
+        A2 = utils.calculate_A(2)
+        expected_A2 = np.eye(2) * 0.5
+        A3 = utils.calculate_A(3)
+        p = 1 / (3 * 2 * (1 / 2 + 1 / 2))
+        expected_A3 = np.array(
+            [
+                [0.5, p, p],
+                [p, 0.5, p],
+                [p, p, 0.5],
+            ]
+        )
+        self.assertTrue(np.allclose(A2, expected_A2))
+        self.assertTrue(np.allclose(A3, expected_A3))
 
     def test_sample_subsets(self):
         subsets = utils.sample_subsets(1337, 42)

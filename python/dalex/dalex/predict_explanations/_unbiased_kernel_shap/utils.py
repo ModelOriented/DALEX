@@ -11,15 +11,11 @@ from .welford import WelfordState
 def calculate_A(num_features: int) -> np.ndarray:
     """Calculate A parameter's exact form.
     from: https://github.com/iancovert/shapley-regression/blob/master/shapreg/shapley_unbiased.py"""
-    # TODO: refactor, it's not readable
-    p_coaccur = (
-        np.sum((np.arange(2, num_features) - 1) / (num_features - np.arange(2, num_features)))
-    ) / (
-        num_features
-        * (num_features - 1)
-        * np.sum(1 / (np.arange(1, num_features) * (num_features - np.arange(1, num_features))))
+    d = num_features
+    p_coaccur = (np.sum((np.arange(2, d) - 1) / (d - np.arange(2, d)))) / (
+        d * (d - 1) * np.sum(1 / (np.arange(1, d) * (d - np.arange(1, d))))
     )
-    A = np.eye(num_features) * 0.5 + (1 - np.eye(num_features)) * p_coaccur
+    A = np.eye(d) * 0.5 + (1 - np.eye(d)) * p_coaccur
     return A
 
 
