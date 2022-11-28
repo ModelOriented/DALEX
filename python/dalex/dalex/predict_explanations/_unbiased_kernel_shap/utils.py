@@ -9,8 +9,7 @@ from .welford import WelfordState
 
 
 def calculate_A(num_features: int) -> np.ndarray:
-    """Calculate A parameter's exact form.
-    from: https://github.com/iancovert/shapley-regression/blob/master/shapreg/shapley_unbiased.py"""
+    """Calculate A parameter's exact form."""
     d = num_features
     p_coaccur = (np.sum((np.arange(2, d) - 1) / (d - np.arange(2, d)))) / (
         d * (d - 1) * np.sum(1 / (np.arange(1, d) * (d - np.arange(1, d))))
@@ -42,7 +41,7 @@ def sample_subsets(num_samples: int, num_features: int) -> np.ndarray:
     num_included = np.random.choice(num_features - 1, size=num_samples, p=weights) + 1
     for row, num in zip(S, num_included):
         inds = np.random.choice(num_features, size=num, replace=False)
-        row[inds] = 1
+        row[inds] = 1 
     return S
 
 
@@ -62,6 +61,7 @@ def predict_on_subsets(
 
     approx_samples = min(approx_samples, len(data))
     num_samples, num_features = feature_subsets.shape
+
     # TODO: maybe better to work with the different set of observations?
     data_sample = data.sample(n=approx_samples, replace=False).values
 
@@ -82,15 +82,44 @@ def predict_on_subsets(
 
 def calculate_exact_result(
     A: np.ndarray,
-    b: float,
+    b: np.ndarray,
     full_prediction: float,
-    b_sum_squares: float,
+    null_prediction: float,
+    b_sum_squares: np.ndarray,
     num_observations: int,
 ) -> Tuple[np.ndarray, float]:
     """Calculate the regression coefficients and uncertainty estimates.
     A - 2d matrix
-    b - 1d vector"""
-    ...
+    b - 1d vector
+    from: https://github.com/iancovert/shapley-regression/blob/master/shapreg/shapley_unbiased.py"""
+
+    _, num_features = A.shape
+    assert num_features == b.shape
+
+    A_inv = np.linalg.solve(A, np.ones(num_features))
+    # TODO: they do not use null prediction for some reason
+    betas = A_inv @ (b - ((A_inv @ b).sum() - full_prediction + null_prediction) / A_inv.sum())
+
+    # Calculate variance.
+    try:
+        # Symmetrize, rescale and swap axes.
+        b_sum_squares = 0.5 * (b_sum_squares + b_sum_squares.swapaxes(0, 1))
+        b_cov = b_sum_squares / (num_observations**2)
+        b_cov = b_cov.swapaxes(0, 2)  # TODO: wtf?
+
+        # Use Cholesky decomposition to calculate variance.
+        cholesky = np.linalg.cholesky(b_cov)
+        L = np.linalg.solve(A, cholesky) + np.matmul(np.outer(A_inv, A_inv), cholesky) / A_inv.sum()
+
+        beta_cov = np.matmul(L, np.moveaxis(L, -2, -1))
+        var = np.diagonal(beta_cov, offset=0, axis1=-2, axis2=-1)
+        std = var**0.5
+        std = std.T  # TODO ???
+    except np.linalg.LinAlgError:
+        # b_cov likely is not PSD due to insufficient samples.
+        std = np.ones(num_features) * np.nan
+
+    return betas, std
 
 
 def unbiased_kernel_shap(
@@ -129,7 +158,9 @@ def unbiased_kernel_shap(
 
         welford_state.update(observations=b_sample)
         count, b, b_sum_squares = welford_state
-        shap_values, std = calculate_exact_result(A, b, full_prediction, b_sum_squares, count)
+        shap_values, std = calculate_exact_result(
+            A, b, full_prediction, null_prediction, b_sum_squares, count
+        )
 
     shap_result = wrap_shap_result(
         shap_values, new_observation, explainer.data.columns, explainer.label
