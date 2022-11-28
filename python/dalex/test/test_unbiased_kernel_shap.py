@@ -68,20 +68,30 @@ class UnbiasedShapWelford(unittest.TestCase):
 
     def test_update(self):
         welford_state = welford.WelfordState()
-        welford_state.update(
-            np.array(
-                [
-                    [1, 1, -2],
-                    [2, 1, 2],
-                    [3, 1, 6],
-                ]
-            )
+        Z = np.array(
+            [
+                [1, 1, -2],
+                [2, 1, 2],
+                [3, 1, 6],
+            ]
         )
-        count, b, b_sum_squares = welford_state
-        mean, var = welford_state.stats
+        welford_state.update(Z)
+        mean, cov = welford_state.stats
         self.assertTrue(np.allclose(mean, np.array([2, 1, 2])))
-        self.assertTrue(np.allclose(var, np.array([1, 0, 16])))
-        self.assertTrue(np.allclose(b_sum_squares, np.array([2, 0, 32])))
+        self.assertTrue(np.allclose(cov, np.cov(Z.T)))
+
+    def test_batching(self):
+        ws1 = welford.WelfordState()
+        ws2 = welford.WelfordState()
+        Z = np.random.randn(13, 42)
+        ws1.update(Z)
+        for z in Z:
+            ws2.update(z[None, :])
+
+        mean1, cov1 = ws1.stats
+        mean2, cov2 = ws2.stats
+        self.assertTrue(np.allclose(mean1, mean2))
+        self.assertTrue(np.allclose(cov1, cov2))
 
 
 if __name__ == "__main__":
