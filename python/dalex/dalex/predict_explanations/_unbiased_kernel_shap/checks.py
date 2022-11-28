@@ -19,8 +19,8 @@ def check_dtypes(data: pd.DataFrame) -> pd.DataFrame:
     for column in result_observation.columns:
         try:
             result_observation[column] = result_observation[column].astype(float)
-        except Exception as e:  # TODO add reasonable exception type
-            raise TypeError(f"All types must be numerical. {column} is not.")
+        except ValueError as e:
+            raise TypeError(f"All types must be numerical. {column} is not.") from e
     return result_observation
 
 
