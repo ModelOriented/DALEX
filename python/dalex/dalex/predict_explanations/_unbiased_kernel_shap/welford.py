@@ -1,5 +1,5 @@
 from dataclasses import astuple, dataclass
-from typing import Tuple
+from typing import Tuple, Union
 
 import numpy as np
 
@@ -9,20 +9,20 @@ class WelfordState:
     """From Welford's algorithm"""
 
     count: int = 0
-    mean: float = 0.0
-    M2: float = 0.0
+    mean: Union[float, np.ndarray] = 0.0
+    M2: Union[float, np.ndarray] = 0.0
 
     def __iter__(self):
         return iter(astuple(self))
 
     def update(self, observations: np.ndarray) -> None:
-        self.count += observations.size
+        self.count += observations.shape[0]
         delta = observations - self.mean
         self.mean += np.sum(delta, axis=0) / self.count
         delta2 = observations - self.mean
-        self.M2 += np.sum(delta * delta2)
+        self.M2 += np.sum(delta * delta2, axis=0)
 
     @property
-    def stats(self) -> Tuple[float, float]:
-        """returns mean and std"""
+    def stats(self) -> Tuple[np.ndarray, np.ndarray]:
+        """returns mean and sample variance"""
         return self.mean, self.M2 / (self.count - 1)

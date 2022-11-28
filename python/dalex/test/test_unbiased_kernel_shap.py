@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 import pandas as pd
-from dalex.predict_explanations._unbiased_kernel_shap import utils
+from dalex.predict_explanations._unbiased_kernel_shap import utils, welford
 
 
 class UnbiasedShapUtils(unittest.TestCase):
@@ -35,6 +35,26 @@ class UnbiasedShapUtils(unittest.TestCase):
 
     def test_calculate_exact_result(self):
         ...
+
+
+class UnbiasedShapWelford(unittest.TestCase):
+    def setUp(self):
+        ...
+
+    def test_update(self):
+        welford_state = welford.WelfordState()
+        welford_state.update(
+            np.array(
+                [
+                    [1, 1, -2],
+                    [2, 1, 2],
+                    [3, 1, 6],
+                ]
+            )
+        )
+        mean, var = welford_state.stats
+        self.assertTrue(np.allclose(mean, np.array([2, 1, 2])))
+        self.assertTrue(np.allclose(var, np.array([1, 0, 16])))
 
 
 if __name__ == "__main__":
