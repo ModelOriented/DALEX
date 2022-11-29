@@ -2,7 +2,7 @@ import numpy as np
 
 from dalex.model_explanations import ModelPerformance, VariableImportance, \
     AggregatedProfiles, ResidualDiagnostics
-from dalex.predict_explanations import BreakDown, Shap, CeterisParibus
+from dalex.predict_explanations import BreakDown, Shap, CeterisParibus, UnbiasedKernelShap
 from dalex.wrappers import ShapWrapper
 from dalex.fairness import GroupFairnessClassification, GroupFairnessRegression
 
@@ -210,7 +210,7 @@ class Explainer:
 
     def predict_parts(self,
                       new_observation,
-                      type=('break_down_interactions', 'break_down', 'shap', 'shap_wrapper'),
+                      type=('break_down_interactions', 'break_down', 'shap', 'shap_wrapper', 'unbiased_kernel_shap'),
                       order=None,
                       interaction_preference=1,
                       path="average",
@@ -282,7 +282,7 @@ class Explainer:
 
         checks.check_data_again(self.data)
 
-        types = ('break_down_interactions', 'break_down', 'shap', 'shap_wrapper')
+        types = ('break_down_interactions', 'break_down', 'shap', 'shap_wrapper', 'unbiased_kernel_shap')
         _type = checks.check_method_type(type, types)
 
         if isinstance(N, int):
@@ -314,6 +314,12 @@ class Explainer:
         elif _type == 'shap_wrapper':
             _global_checks.global_check_import('shap', 'SHAP explanations')
             _predict_parts = ShapWrapper('predict_parts')
+        elif _type == 'unbiased_kernel_shap':
+            _predict_parts = UnbiasedKernelShap(
+                keep_distributions=keep_distributions,
+                processes=processes,
+                random_state=random_state
+            )
         else:
             raise TypeError("Wrong type parameter.")
 
