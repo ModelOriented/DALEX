@@ -101,11 +101,12 @@ class UnbiasedKernelShap(Explanation):
         ) = utils.unbiased_kernel_shap(
             explainer,
             _new_observation,
-            self.path,
-            self.keep_distributions,
-            self.B,
-            self.processes,
-            self.random_state,
+            self.n_samples,
+            #self.path,
+            #self.keep_distributions,
+            #self.B,
+            #self.processes,
+            #self.random_state,
         )
 
     def plot(
