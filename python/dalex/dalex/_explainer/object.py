@@ -220,6 +220,7 @@ class Explainer:
                       label=None,
                       processes=1,
                       random_state=None,
+                      n_samples=25,
                       **kwargs):
         """Calculate predict-level variable attributions as Break Down, Shapley Values or Shap Values
 
@@ -318,7 +319,8 @@ class Explainer:
             _predict_parts = UnbiasedKernelShap(
                 keep_distributions=keep_distributions,
                 processes=processes,
-                random_state=random_state
+                random_state=random_state,
+                n_samples=n_samples
             )
         else:
             raise TypeError("Wrong type parameter.")
