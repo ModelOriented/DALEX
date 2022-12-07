@@ -14,7 +14,7 @@ class VariableImportance(Explanation):
     -----------
     loss_function : {'rmse', '1-auc', 'mse', 'mae', 'mad'} or function, optional
         If string, then such loss function will be used to assess variable importance
-        (default is `'rmse'` or `'1-auc', depends on `model_type` attribute).
+        (default is `'rmse'` or `'1-auc'`, depends on `model_type` attribute).
     type : {'variable_importance', 'ratio', 'difference'}, optional
         Type of transformation that will be applied to dropout loss.
     N : int, optional
