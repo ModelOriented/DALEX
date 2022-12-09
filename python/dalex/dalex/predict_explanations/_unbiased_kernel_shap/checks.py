@@ -78,7 +78,7 @@ def check_processes(processes: int) -> int:
 
 def check_random_state(random_state: Optional[int]) -> int:
     if random_state is None:
-        random_state = np.random.randint()
+        random_state = np.random.randint(1_000_000)
     np.random.seed(random_state)
 
     return random_state
