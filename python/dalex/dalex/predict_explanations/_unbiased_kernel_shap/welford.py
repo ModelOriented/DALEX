@@ -17,10 +17,10 @@ class WelfordState:
 
     def update(self, observations: np.ndarray) -> None:
         self.count += observations.shape[0]
-        delta = observations - self.mean # n x D
-        self.mean += np.sum(delta, axis=0) / self.count # D
-        delta2 = observations - self.mean # n x D
-        self.M2 += np.sum(delta[:, :, None] * delta2[:, None, :], axis=0) # D x D
+        delta = observations - self.mean  # n x D
+        self.mean += np.sum(delta, axis=0) / self.count  # D
+        delta2 = observations - self.mean  # n x D
+        self.M2 += np.sum(delta[:, :, None] * delta2[:, None, :], axis=0)  # D x D
 
     @property
     def stats(self) -> Tuple[np.ndarray, np.ndarray]:

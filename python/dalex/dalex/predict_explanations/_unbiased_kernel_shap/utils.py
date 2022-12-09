@@ -157,9 +157,9 @@ def wrap_shap_result(
     variable_names: List[str],
     label: str,
 ) -> pd.DataFrame:
-    new_observation_f = new_observation.loc[0, variable_names].apply(nice_format)
-    variable_values = new_observation.loc[0, variable_names].values
-    return pd.DataFrame(
+    new_observation_f = new_observation.iloc[0][variable_names].apply(nice_format)
+    variable_values = new_observation.iloc[0][variable_names].values
+    return pd.DataFrame.from_dict(
         {
             "variable": [" = ".join(pair) for pair in zip(variable_names, new_observation_f)],
             "contribution": shap_values,
