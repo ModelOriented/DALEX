@@ -163,39 +163,29 @@ class UnbiasedKernelShap(Explanation):
         if objects is None:
             n = 1
             _result_list = [
-                self.result.loc[
-                    self.result["B"] == 0,
-                ].copy()
+                self.result.copy()
             ]
             _intercept_list = [self.intercept]
             _prediction_list = [self.prediction]
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             n = 2
             _result_list = [
-                self.result.loc[
-                    self.result["B"] == 0,
-                ].copy(),
-                objects.result.loc[
-                    objects.result["B"] == 0,
-                ].copy(),
+                self.result.copy(),
+                objects.result.copy(),
             ]
             _intercept_list = [self.intercept, objects.intercept]
             _prediction_list = [self.prediction, objects.prediction]
         elif isinstance(objects, (list, tuple)):  # objects as tuple or array
             n = len(objects) + 1
             _result_list = [
-                self.result.loc[
-                    self.result["B"] == 0,
-                ].copy()
+                self.result.copy()
             ]
             _intercept_list = [self.intercept]
             _prediction_list = [self.prediction]
             for ob in objects:
                 _global_checks.global_check_object_class(ob, self.__class__)
                 _result_list += [
-                    ob.result.loc[
-                        ob.result["B"] == 0,
-                    ].copy()
+                    ob.result.copy()
                 ]
                 _intercept_list += [ob.intercept]
                 _prediction_list += [ob.prediction]
