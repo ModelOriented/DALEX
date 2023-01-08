@@ -47,8 +47,28 @@ attr(loss_root_mean_square, "loss_name") <- "Root mean square error (RMSE)"
 #' @rdname loss_functions
 #' @export
 loss_accuracy <-  function(observed, predicted, na.rm = TRUE)
-  mean(observed == predicted, na.rm = na.rm)
+  mean(observed == predicted, na.rm = na.rm) # this works for classes not probabilities
 attr(loss_accuracy, "loss_name") <- "Accuracy"
+
+#' @rdname loss_functions
+#' @export
+loss_one_minus_accuracy <-  function(observed, predicted, cutoff = 0.5, na.rm = TRUE) {
+  tp = sum((observed == 1) * (predicted >= cutoff), na.rm = na.rm)
+  fp = sum((observed == 0) * (predicted >= cutoff), na.rm = na.rm)
+  tn = sum((observed == 0) * (predicted < cutoff), na.rm = na.rm)
+  fn = sum((observed == 1) * (predicted < cutoff), na.rm = na.rm)
+
+  acc <- (tp + tn)/(tp + fp + tn + fn)
+
+  1 - acc
+}
+attr(loss_one_minus_accuracy, "loss_name") <- "One minus Accuracy"
+
+#' @rdname loss_functions
+#' @export
+get_loss_one_minus_accuracy <- function(cutoff = 0.5, na.rm = TRUE) {
+  function(o, p) loss_one_minus_accuracy(o, p, cutoff = cutoff, na.rm = na.rm)
+}
 
 #' @rdname loss_functions
 #' @export
@@ -64,9 +84,10 @@ loss_one_minus_auc <- function(observed, predicted){
 }
 attr(loss_one_minus_auc, "loss_name") <- "One minus AUC"
 
+
 #' @rdname loss_functions
 #' @export
-loss_default <- function(x) {
+get_loss_default <- function(x) {
   # explainer is an explainer or type of an explainer
   if ("explainer" %in% class(x))  x <- x$model_info$type
   switch (x,
@@ -77,6 +98,11 @@ loss_default <- function(x) {
   )
 }
 
+#' @export
+loss_default <- function(x) {
+  warn("`loss_default()` is deprecated; use `get_loss_default()` instead.")
+  get_loss_default(x)
+}
 
 
 
@@ -89,7 +115,7 @@ loss_default <- function(x) {
 #' understood by DALEX. Type compatibility for y-values and for predictions
 #' must be guaranteed by the user.
 #'
-#' @param loss loss function from the yardstick package
+#' @param loss loss function from the \code{yardstick} package
 #' @param reverse shall the metric be reversed? for loss metrics lower values are better. \code{reverse = TRUE} is useful for accuracy-like metrics
 #' @param reference if the metric is reverse then it is calculated as \code{reference - loss}. The default value is 1.
 #'
@@ -106,9 +132,9 @@ loss_default <- function(x) {
 #'  # which explains this model with measures implemented in the 'yardstick' package
 #' }
 #'
-#' @rdname loss_yardstick
+#' @rdname get_loss_yardstick
 #' @export
-loss_yardstick <- function(loss, reverse = FALSE, reference = 1) {
+get_loss_yardstick <- function(loss, reverse = FALSE, reference = 1) {
   # wrapper for yardstick loss functions
   if (reverse) {
     custom_loss <- function(observed, predicted) {
@@ -128,4 +154,9 @@ loss_yardstick <- function(loss, reverse = FALSE, reference = 1) {
   custom_loss
 }
 
+#' @export
+loss_yardstick <- function(loss, reverse = FALSE, reference = 1) {
+  warn("`loss_yardstick()` is deprecated; use `get_loss_yardstick()` instead.")
+  get_loss_yardstick(loss = loss, reverse = referese, reference = reference)
+}
 
