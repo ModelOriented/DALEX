@@ -45,7 +45,6 @@
 #' @export
 #' @importFrom stats predict
 #' @importFrom utils head tail installed.packages methods
-#' @importFrom rlang warn
 #'
 #' @examples
 #' # simple explainer for regression problem

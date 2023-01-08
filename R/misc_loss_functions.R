@@ -100,7 +100,7 @@ get_loss_default <- function(x) {
 
 #' @export
 loss_default <- function(x) {
-  warn("`loss_default()` is deprecated; use `get_loss_default()` instead.")
+  warning("`loss_default()` is deprecated; use `get_loss_default()` instead.")
   get_loss_default(x)
 }
 
@@ -156,7 +156,7 @@ get_loss_yardstick <- function(loss, reverse = FALSE, reference = 1) {
 
 #' @export
 loss_yardstick <- function(loss, reverse = FALSE, reference = 1) {
-  warn("`loss_yardstick()` is deprecated; use `get_loss_yardstick()` instead.")
+  warning("`loss_yardstick()` is deprecated; use `get_loss_yardstick()` instead.")
   get_loss_yardstick(loss = loss, reverse = reverse, reference = reference)
 }
 
