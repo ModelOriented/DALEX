@@ -6,7 +6,9 @@
 \alias{loss_root_mean_square}
 \alias{loss_accuracy}
 \alias{loss_one_minus_auc}
-\alias{loss_default}
+\alias{loss_one_minus_accuracy}
+\alias{get_loss_one_minus_accuracy}
+\alias{get_loss_default}
 \title{Calculate Loss Functions}
 \usage{
 loss_cross_entropy(observed, predicted, p_min = 1e-04, na.rm = TRUE)
@@ -17,9 +19,13 @@ loss_root_mean_square(observed, predicted, na.rm = TRUE)
 
 loss_accuracy(observed, predicted, na.rm = TRUE)
 
+loss_one_minus_accuracy(observed, predicted, cutoff = 0.5, na.rm = TRUE)
+
+get_loss_one_minus_accuracy(cutoff = 0.5, na.rm = TRUE)
+
 loss_one_minus_auc(observed, predicted)
 
-loss_default(x)
+get_loss_default(x)
 }
 \arguments{
 \item{observed}{observed scores or labels, these are supplied as explainer specific \code{y}}

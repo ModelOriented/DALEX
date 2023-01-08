@@ -157,6 +157,6 @@ get_loss_yardstick <- function(loss, reverse = FALSE, reference = 1) {
 #' @export
 loss_yardstick <- function(loss, reverse = FALSE, reference = 1) {
   warn("`loss_yardstick()` is deprecated; use `get_loss_yardstick()` instead.")
-  get_loss_yardstick(loss = loss, reverse = referese, reference = reference)
+  get_loss_yardstick(loss = loss, reverse = reverse, reference = reference)
 }
 

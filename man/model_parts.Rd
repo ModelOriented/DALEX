@@ -8,7 +8,7 @@
 \usage{
 model_parts(
   explainer,
-  loss_function = loss_default(explainer$model_info$type),
+  loss_function = get_loss_default(explainer$model_info$type),
   ...,
   type = "variable_importance",
   N = n_sample,
@@ -18,7 +18,7 @@ model_parts(
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the \code{explain} function}
 
-\item{loss_function}{a function that will be used to assess variable importance. By default it is 1-AUC for classification, cross entropy for multilabel classification and RMSE for regression. Custom, user-made loss function should accept two obligatory parameters (observed, predicted), where \code{observed} states for actual values of the target, while \code{predicted} for predicted values. If attribute "loss_accuracy" is associated with function object, then it will be plotted as name of the loss function.}
+\item{loss_function}{a function that will be used to assess variable importance. By default it is 1-AUC for classification, cross entropy for multilabel classification and RMSE for regression. Custom, user-made loss function should accept two obligatory parameters (observed, predicted), where \code{observed} states for actual values of the target, while \code{predicted} for predicted values. If attribute \code{loss_name} is associated with function object, then it will be plotted as name of the loss function.}
 
 \item{...}{other parameters}
 
