@@ -101,6 +101,13 @@ def calculate_depend_matrix(
                 "You have passed wrong callable in depend_method argument. "
                 "'depend_method' is the callable to use for calculating dependency matrix."
             )
+    
+    # if there is a non-varying column in data, there will be NaN values in the 'depend_matrix'.
+    # replace NaN values on the diagonal with 1 and others with 0. 
+    depend_matrix[depend_matrix.isnull()] = 0
+    for i in range(depend_matrix.shape[0]):
+        depend_matrix.iloc[i,i] = 1
+    
     return depend_matrix
 
 
