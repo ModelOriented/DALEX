@@ -113,7 +113,7 @@
 <div class="section level1">
 <div class="page-header"><h1 id="model-agnostic-language-for-exploration-and-explanation-">moDel Agnostic Language for Exploration and eXplanation <img src="reference/figures/logo.png" align="right" width="150"><a class="anchor" aria-label="anchor" href="#model-agnostic-language-for-exploration-and-explanation-"></a>
 </h1></div>
-
+<p><a href="https://github.com/ModelOriented/DALEX/actions?query=workflow%3AR-CMD-check" class="external-link"><img src="https://github.com/ModelOriented/DALEX/workflows/R-CMD-check/badge.svg" alt="R build status"></a> <a href="https://codecov.io/github/ModelOriented/DALEX?branch=master" class="external-link"><img src="https://img.shields.io/codecov/c/github/ModelOriented/DALEX/master.svg" alt="Coverage Status"></a> <a href="https://cran.r-project.org/package=DALEX" class="external-link"><img src="http://www.r-pkg.org/badges/version/DALEX" alt="CRAN_Status_Badge"></a> <a href="http://cranlogs.r-pkg.org/badges/grand-total/DALEX" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/grand-total/DALEX?color=orange" alt="Total Downloads"></a> <a href="http://drwhy.ai/#BackBone" class="external-link"><img src="https://img.shields.io/badge/DrWhy-BackBone-373589" alt="DrWhy-eXtrAI"></a></p>
 <p><a href="https://github.com/ModelOriented/DALEX/actions?query=workflow%3APython-check" class="external-link"><img src="https://github.com/ModelOriented/DALEX/workflows/Python-check/badge.svg" alt="Python-check"></a> <a href="https://pypi.org/project/dalex/" class="external-link"><img src="https://img.shields.io/pypi/pyversions/dalex.svg" alt="Supported Python versions"></a> <a href="https://badge.fury.io/py/dalex" class="external-link"><img src="https://badge.fury.io/py/dalex.svg" alt="PyPI version"></a> <a href="https://pepy.tech/project/dalex" class="external-link"><img src="https://pepy.tech/badge/dalex" alt="Downloads"></a></p>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
@@ -123,7 +123,9 @@
 <p>The philosophy behind <code>DALEX</code> explanations is described in the <a href="https://pbiecek.github.io/ema/" class="external-link">Explanatory Model Analysis</a> e-book. The <code>DALEX</code> package is a part of <a href="http://DrWhy.AI" class="external-link">DrWhy.AI</a> universe.</p>
 <p>If you work with <code>scikit-learn</code>, <code>keras</code>, <code>H2O</code>, <code>tidymodels</code>, <code>xgboost</code>, <code>mlr</code> or <code>mlr3</code> in R, you may be interested in the <a href="https://github.com/ModelOriented/DALEXtra" class="external-link">DALEXtra</a> package, which is an extension of <code>DALEX</code> with easy to use <code>explain_*()</code> functions for models created in these libraries.</p>
 <p><strong><a href="https://github.com/ModelOriented/DALEX/tree/master/python/dalex" class="external-link">Additional overview of the dalex Python package is available.</a></strong></p>
-<p align="center"><a href="https://pbiecek.github.io/ema/introduction.html#bookstructure" class="external-link"><img src="https://github.com/ModelOriented/DALEX/raw/master/misc/DALEXpiramide.png" width="800"></a></p>
+<p align="center">
+<a href="https://pbiecek.github.io/ema/introduction.html#bookstructure" class="external-link"><img src="https://github.com/ModelOriented/DALEX/raw/master/misc/DALEXpiramide.png" width="800"></a>
+</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -141,12 +143,16 @@ conda install -c conda-forge dalex</code></pre>
 </h2>
 <p>Machine Learning models are widely used and have various applications in classification or regression tasks. Due to increasing computational power, availability of new data sources and new methods, ML models are more and more complex. Models created with techniques like boosting, bagging of neural networks are true black boxes. It is hard to trace the link between input variables and model outcomes. They are use because of high performance, but lack of interpretability is one of their weakest sides.</p>
 <p>In many applications we need to know, understand or prove how input variables are used in the model and what impact do they have on final model prediction. <code>DALEX</code> is a set of tools that help to understand how complex models are working.</p>
-<p align="center"><a href="https://github.com/ModelOriented/DALEX/raw/master/misc/cheatsheet_local_explainers.png" class="external-link"><img src="https://github.com/ModelOriented/DALEX/raw/master/misc/cheatsheet_local_explainers.png" width="500"></a></p>
+<p align="center">
+<a href="https://github.com/ModelOriented/DALEX/raw/master/misc/cheatsheet_local_explainers.png" class="external-link"><img src="https://github.com/ModelOriented/DALEX/raw/master/misc/cheatsheet_local_explainers.png" width="500"></a>
+</p>
 </div>
 <div class="section level2">
 <h2 id="resources">Resources<a class="anchor" aria-label="anchor" href="#resources"></a>
 </h2>
-<ul><li><a href="https://pbiecek.github.io/ema/" class="external-link">Gentle introduction to DALEX with examples in R and Python</a></li></ul>
+<ul>
+<li><a href="https://pbiecek.github.io/ema/" class="external-link">Gentle introduction to DALEX with examples in R and Python</a></li>
+</ul>
 <div class="section level3">
 <h3 id="r-package">R package<a class="anchor" aria-label="anchor" href="#r-package"></a>
 </h3>
@@ -205,32 +211,32 @@ conda install -c conda-forge dalex</code></pre>
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
 <p>If you use <code>DALEX</code> in R or <code>dalex</code> in Python, please cite our JMLR papers:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1"></a>@article{JMLR:v19:18-416,</span>
-<span id="cb3-2"><a href="#cb3-2"></a>  author  = {Przemyslaw Biecek},</span>
-<span id="cb3-3"><a href="#cb3-3"></a>  title   = {DALEX: Explainers for Complex Predictive Models in R},</span>
-<span id="cb3-4"><a href="#cb3-4"></a>  journal = {Journal of Machine Learning Research},</span>
-<span id="cb3-5"><a href="#cb3-5"></a>  year    = {2018},</span>
-<span id="cb3-6"><a href="#cb3-6"></a>  volume  = {19},</span>
-<span id="cb3-7"><a href="#cb3-7"></a>  number  = {84},</span>
-<span id="cb3-8"><a href="#cb3-8"></a>  pages   = {1-5},</span>
-<span id="cb3-9"><a href="#cb3-9"></a>  url     = {http://jmlr.org/papers/v19/18-416.html}</span>
-<span id="cb3-10"><a href="#cb3-10"></a>}</span>
-<span id="cb3-11"><a href="#cb3-11"></a></span>
-<span id="cb3-12"><a href="#cb3-12"></a>@article{JMLR:v22:20-1473,</span>
-<span id="cb3-13"><a href="#cb3-13"></a>  author  = {Hubert Baniecki and</span>
-<span id="cb3-14"><a href="#cb3-14"></a>             Wojciech Kretowicz and</span>
-<span id="cb3-15"><a href="#cb3-15"></a>             Piotr Piatyszek and </span>
-<span id="cb3-16"><a href="#cb3-16"></a>             Jakub Wisniewski and </span>
-<span id="cb3-17"><a href="#cb3-17"></a>             Przemyslaw Biecek},</span>
-<span id="cb3-18"><a href="#cb3-18"></a>  title   = {dalex: Responsible Machine Learning </span>
-<span id="cb3-19"><a href="#cb3-19"></a>             with Interactive Explainability and Fairness in Python},</span>
-<span id="cb3-20"><a href="#cb3-20"></a>  journal = {Journal of Machine Learning Research},</span>
-<span id="cb3-21"><a href="#cb3-21"></a>  year    = {2021},</span>
-<span id="cb3-22"><a href="#cb3-22"></a>  volume  = {22},</span>
-<span id="cb3-23"><a href="#cb3-23"></a>  number  = {214},</span>
-<span id="cb3-24"><a href="#cb3-24"></a>  pages   = {1-7},</span>
-<span id="cb3-25"><a href="#cb3-25"></a>  url     = {http://jmlr.org/papers/v22/20-1473.html}</span>
-<span id="cb3-26"><a href="#cb3-26"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>@article{JMLR:v19:18-416,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  author  = {Przemyslaw Biecek},</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  title   = {DALEX: Explainers for Complex Predictive Models in R},</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  journal = {Journal of Machine Learning Research},</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  year    = {2018},</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  volume  = {19},</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  number  = {84},</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  pages   = {1-5},</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  url     = {http://jmlr.org/papers/v19/18-416.html}</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>@article{JMLR:v22:20-1473,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  author  = {Hubert Baniecki and</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>             Wojciech Kretowicz and</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>             Piotr Piatyszek and </span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>             Jakub Wisniewski and </span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>             Przemyslaw Biecek},</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  title   = {dalex: Responsible Machine Learning </span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>             with Interactive Explainability and Fairness in Python},</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  journal = {Journal of Machine Learning Research},</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  year    = {2021},</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  volume  = {22},</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  number  = {214},</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  pages   = {1-7},</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  url     = {http://jmlr.org/papers/v22/20-1473.html}</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="why">Why<a class="anchor" aria-label="anchor" href="#why"></a>
@@ -296,16 +302,7 @@ conda install -c conda-forge dalex</code></pre>
 </ul>
 </div>
 
-<div class="dev-status">
-<h2 data-toc-skip>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://github.com/ModelOriented/DALEX/actions?query=workflow%3AR-CMD-check" class="external-link"><img src="https://github.com/ModelOriented/DALEX/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
-<li><a href="https://codecov.io/github/ModelOriented/DALEX?branch=master" class="external-link"><img src="https://img.shields.io/codecov/c/github/ModelOriented/DALEX/master.svg" alt="Coverage Status"></a></li>
-<li><a href="https://cran.r-project.org/package=DALEX" class="external-link"><img src="http://www.r-pkg.org/badges/version/DALEX" alt="CRAN_Status_Badge"></a></li>
-<li><a href="http://cranlogs.r-pkg.org/badges/grand-total/DALEX" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/grand-total/DALEX?color=orange" alt="Total Downloads"></a></li>
-<li><a href="http://drwhy.ai/#BackBone" class="external-link"><img src="https://img.shields.io/badge/DrWhy-BackBone-373589" alt="DrWhy-eXtrAI"></a></li>
-</ul>
-</div>
+
 
   </div>
 </div>

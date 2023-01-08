@@ -97,13 +97,15 @@
 
       
 
-      </header><script src="multilabel_classification_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>How to use multilabel classification and DALEX?</h1>
-                        <h4 data-toc-skip class="author">Szymon Maksymiuk</h4>
+      <h1 data-toc-skip>How to use multilabel classification and
+DALEX?</h1>
+                        <h4 data-toc-skip class="author">Szymon
+Maksymiuk</h4>
             
-            <h4 data-toc-skip class="date">2022-10-11</h4>
+            <h4 data-toc-skip class="date">2023-01-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/DALEX/blob/HEAD/vignettes/multilabel_classification.Rmd" class="external-link"><code>vignettes/multilabel_classification.Rmd</code></a></small>
       <div class="hidden name"><code>multilabel_classification.Rmd</code></div>
@@ -115,7 +117,14 @@
 <div class="section level2">
 <h2 id="data-for-hr-example">Data for HR example<a class="anchor" aria-label="anchor" href="#data-for-hr-example"></a>
 </h2>
-<p>In the following vignette, we will walk through a multilabel classification example with <code>DALEX</code>. The purpose of this tutorial is that for some of <code>DALEX</code> functionalities binary classification is a default one, and therefore we need to put some self-made code to work here. All of the examples will be performed with <code>HR</code> dataset that is available in <code>DALEX</code>, it’s target column is <code>status</code> with three-level factor. For all cases our model will be <code>ranger</code>.</p>
+<p>In the following vignette, we will walk through a multilabel
+classification example with <code>DALEX</code>. The purpose of this
+tutorial is that for some of <code>DALEX</code> functionalities binary
+classification is a default one, and therefore we need to put some
+self-made code to work here. All of the examples will be performed with
+<code>HR</code> dataset that is available in <code>DALEX</code>, it’s
+target column is <code>status</code> with three-level factor. For all
+cases our model will be <code>ranger</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://modeloriented.github.io/DALEX/" class="external-link">"DALEX"</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">HR</span><span class="op">)</span></span>
@@ -149,7 +158,7 @@
 <span><span class="co">#&gt; Target node size:                 10 </span></span>
 <span><span class="co">#&gt; Variable importance mode:         none </span></span>
 <span><span class="co">#&gt; Splitrule:                        gini </span></span>
-<span><span class="co">#&gt; OOB prediction error (Brier s.):  0.2184273</span></span></code></pre>
+<span><span class="co">#&gt; OOB prediction error (Brier s.):  0.2161743</span></span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://modeloriented.github.io/DALEX/" class="external-link">"DALEX"</a></span><span class="op">)</span></span>
 <span><span class="va">explain_HR_ranger</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span><span class="op">(</span><span class="va">model_HR_ranger</span>,</span>
@@ -166,15 +175,30 @@
 <span><span class="co">#&gt;   -&gt; model_info        :  package ranger , ver. 0.14.1 , task multiclass (  default  ) </span></span>
 <span><span class="co">#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) </span></span>
 <span><span class="co">#&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )</span></span>
-<span><span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.2774268 , max =  0.8793524  </span></span>
+<span><span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0.0002919708 , mean =  0.2760689 , max =  0.884388  </span></span>
 <span><span class="co">#&gt;   A new explainer has been created!</span></span></code></pre>
-<p>The sixth column, that we have omitted during the creation of the explainer, stands for the target column (<code>status</code>). It is good practice not to put it in <code>data</code>. Keep in mind that the default <code>yhat</code> function for <code>ranger</code>, and for any other package that is supported by <code>DALEX</code>, enforces probability output. Therefore residuals cannot be standard <span class="math inline">\(y - \hat{y}\)</span>. Since <code>DALEX 1.2.2</code> in the case of multiclass classification one minus probability of the TRUE class is a standard residual function.</p>
+<p>The sixth column, that we have omitted during the creation of the
+explainer, stands for the target column (<code>status</code>). It is
+good practice not to put it in <code>data</code>. Keep in mind that the
+default <code>yhat</code> function for <code>ranger</code>, and for any
+other package that is supported by <code>DALEX</code>, enforces
+probability output. Therefore residuals cannot be standard <span class="math inline">\(y - \hat{y}\)</span>. Since
+<code>DALEX 1.2.2</code> in the case of multiclass classification one
+minus probability of the TRUE class is a standard residual function.</p>
 </div>
 <div class="section level2">
 <h2 id="model-parts">Model Parts<a class="anchor" aria-label="anchor" href="#model-parts"></a>
 </h2>
-<p>In order to use <code><a href="../reference/model_parts.html">model_parts()</a></code> (former <code><a href="../reference/model_parts.html">variable_importance()</a></code>) function it is necessary to switch default <code>loss_function</code> argument to one that handle multiple classes. <code>DALEX</code> has implemented one function like that and it is called <code><a href="../reference/loss_functions.html">loss_cross_entropy()</a></code>. To use it, <code>y</code> parameter passed to <code>explain</code> function should have exactly the same format as the target vector used for the training process (ie. the same number of levels and names of those levels).</p>
-<p>Also, we need probability outputs so there is no need to change the default <code>predict_function</code> parameter.</p>
+<p>In order to use <code><a href="../reference/model_parts.html">model_parts()</a></code> (former
+<code><a href="../reference/model_parts.html">variable_importance()</a></code>) function it is necessary to switch
+default <code>loss_function</code> argument to one that handle multiple
+classes. <code>DALEX</code> has implemented one function like that and
+it is called <code><a href="../reference/loss_functions.html">loss_cross_entropy()</a></code>. To use it,
+<code>y</code> parameter passed to <code>explain</code> function should
+have exactly the same format as the target vector used for the training
+process (ie. the same number of levels and names of those levels).</p>
+<p>Also, we need probability outputs so there is no need to change the
+default <code>predict_function</code> parameter.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://modeloriented.github.io/DALEX/" class="external-link">"DALEX"</a></span><span class="op">)</span></span>
 <span><span class="va">explain_HR_ranger_new_y</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span><span class="op">(</span><span class="va">model_HR_ranger</span>,</span>
@@ -191,19 +215,23 @@
 <span><span class="co">#&gt;   -&gt; model_info        :  package ranger , ver. 0.14.1 , task multiclass (  default  ) </span></span>
 <span><span class="co">#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) </span></span>
 <span><span class="co">#&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )</span></span>
-<span><span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0 , mean =  0.2774268 , max =  0.8793524  </span></span>
+<span><span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0.0002919708 , mean =  0.2760689 , max =  0.884388  </span></span>
 <span><span class="co">#&gt;   A new explainer has been created!</span></span></code></pre>
 <p>And now we can use <code><a href="../reference/model_parts.html">model_parts()</a></code></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_parts.html">model_parts</a></span><span class="op">(</span><span class="va">explain_HR_ranger_new_y</span>, loss_function <span class="op">=</span> <span class="va">loss_cross_entropy</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mp</span><span class="op">)</span></span></code></pre></div>
 <p><img src="multilabel_classification_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
-<p>As we see above, we can enjoy perfectly fine variable importance plot.</p>
+<p>As we see above, we can enjoy perfectly fine variable importance
+plot.</p>
 </div>
 <div class="section level2">
 <h2 id="model-profile">Model Profile<a class="anchor" aria-label="anchor" href="#model-profile"></a>
 </h2>
-<p>There is no need for tricks in order to use <code><a href="../reference/model_profile.html">model_profile()</a></code> (former <code><a href="../reference/variable_effect.html">variable_effect()</a></code>). Our target will be one-hot-encoded, and all of the explanations will be performed for each of class separately.</p>
+<p>There is no need for tricks in order to use
+<code><a href="../reference/model_profile.html">model_profile()</a></code> (former <code><a href="../reference/variable_effect.html">variable_effect()</a></code>).
+Our target will be one-hot-encoded, and all of the explanations will be
+performed for each of class separately.</p>
 <div class="section level3">
 <h3 id="partial_dependency">partial_dependency<a class="anchor" aria-label="anchor" href="#partial_dependency"></a>
 </h3>
@@ -226,7 +254,11 @@
 <div class="section level2">
 <h2 id="instance-level-explanations">Instance level explanations<a class="anchor" aria-label="anchor" href="#instance-level-explanations"></a>
 </h2>
-<p>As above, <code><a href="../reference/predict_parts.html">predict_parts()</a></code> (former <code><a href="../reference/predict_parts.html">variable_attribution()</a></code>) works perfectly fine with multilabel classification and default explainer. Just like before, our target will be split into variables standing for each factor level and computations will be performed then.</p>
+<p>As above, <code><a href="../reference/predict_parts.html">predict_parts()</a></code> (former
+<code><a href="../reference/predict_parts.html">variable_attribution()</a></code>) works perfectly fine with
+multilabel classification and default explainer. Just like before, our
+target will be split into variables standing for each factor level and
+computations will be performed then.</p>
 <div class="section level3">
 <h3 id="break_down">break_down<a class="anchor" aria-label="anchor" href="#break_down"></a>
 </h3>
@@ -247,24 +279,29 @@
 <div class="section level2">
 <h2 id="model_performance-and-predict_diagnostics">model_performance and predict_diagnostics<a class="anchor" aria-label="anchor" href="#model_performance-and-predict_diagnostics"></a>
 </h2>
-<p>The description of those two functions is merged into one paragraph because they require the same action to get them to work with multilabel classification. The most important thing here is to realize that both functions are based on residuals. Since <code>DALEX 1.2.2</code>, explain function recognizes if a model is a multiclass classification task and uses a dedicated residual function as default.</p>
+<p>The description of those two functions is merged into one paragraph
+because they require the same action to get them to work with multilabel
+classification. The most important thing here is to realize that both
+functions are based on residuals. Since <code>DALEX 1.2.2</code>,
+explain function recognizes if a model is a multiclass classification
+task and uses a dedicated residual function as default.</p>
 <div class="section level3">
 <h3 id="model-performance">Model Performance<a class="anchor" aria-label="anchor" href="#model-performance"></a>
 </h3>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">mp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_performance.html">model_performance</a></span><span class="op">(</span><span class="va">explain_HR_ranger</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; Measures for:  multiclass</span></span>
-<span><span class="co">#&gt; micro_F1   : 0.8709061 </span></span>
-<span><span class="co">#&gt; macro_F1   : 0.8689522 </span></span>
-<span><span class="co">#&gt; w_macro_F1 : 0.8697479 </span></span>
-<span><span class="co">#&gt; accuracy   : 0.8709061 </span></span>
-<span><span class="co">#&gt; w_macro_auc: 0.9775149</span></span>
+<span><span class="co">#&gt; micro_F1   : 0.8701415 </span></span>
+<span><span class="co">#&gt; macro_F1   : 0.8681684 </span></span>
+<span><span class="co">#&gt; w_macro_F1 : 0.869006 </span></span>
+<span><span class="co">#&gt; accuracy   : 0.8701415 </span></span>
+<span><span class="co">#&gt; w_macro_auc: 0.9767311</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Residuals:</span></span>
-<span><span class="co">#&gt;         0%        10%        20%        30%        40%        50%        60% </span></span>
-<span><span class="co">#&gt; 0.00000000 0.02724317 0.06351454 0.11833033 0.17734854 0.23779937 0.31133712 </span></span>
-<span><span class="co">#&gt;        70%        80%        90%       100% </span></span>
-<span><span class="co">#&gt; 0.39088448 0.48414504 0.59128347 0.87935238</span></span></code></pre>
+<span><span class="co">#&gt;           0%          10%          20%          30%          40%          50% </span></span>
+<span><span class="co">#&gt; 0.0002919708 0.0233944759 0.0572072739 0.1155250018 0.1758859454 0.2383446316 </span></span>
+<span><span class="co">#&gt;          60%          70%          80%          90%         100% </span></span>
+<span><span class="co">#&gt; 0.3089638779 0.3906580306 0.4851568436 0.5976116593 0.8843880456</span></span></code></pre>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mp</span><span class="op">)</span></span></code></pre></div>
 <p><img src="multilabel_classification_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
@@ -287,7 +324,7 @@
 </h2>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; R version 4.2.1 (2022-06-23)</span></span>
+<pre><code><span><span class="co">#&gt; R version 4.2.2 (2022-10-31)</span></span>
 <span><span class="co">#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)</span></span>
 <span><span class="co">#&gt; Running under: macOS Big Sur ... 10.16</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -305,20 +342,21 @@
 <span><span class="co">#&gt; [1] ranger_0.14.1 DALEX_2.4.2  </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
-<span><span class="co">#&gt;  [1] tidyselect_1.2.0  xfun_0.33         bslib_0.4.0       purrr_0.3.5      </span></span>
-<span><span class="co">#&gt;  [5] lattice_0.20-45   colorspace_2.0-3  vctrs_0.4.2       generics_0.1.3   </span></span>
-<span><span class="co">#&gt;  [9] htmltools_0.5.3   yaml_2.3.5        utf8_1.2.2        rlang_1.0.6      </span></span>
-<span><span class="co">#&gt; [13] pkgdown_2.0.6     jquerylib_0.1.4   pillar_1.8.1      glue_1.6.2       </span></span>
-<span><span class="co">#&gt; [17] lifecycle_1.0.3   stringr_1.4.1     munsell_0.5.0     gtable_0.3.1     </span></span>
-<span><span class="co">#&gt; [21] ragg_1.2.3        memoise_2.0.1     evaluate_0.17     labeling_0.4.2   </span></span>
-<span><span class="co">#&gt; [25] knitr_1.40        fastmap_1.1.0     fansi_1.0.3       highr_0.9        </span></span>
-<span><span class="co">#&gt; [29] iBreakDown_2.0.1  Rcpp_1.0.9        scales_1.2.1      cachem_1.0.6     </span></span>
-<span><span class="co">#&gt; [33] desc_1.4.2        jsonlite_1.8.2    ingredients_2.2.0 farver_2.1.1     </span></span>
-<span><span class="co">#&gt; [37] systemfonts_1.0.4 fs_1.5.2          textshaping_0.3.6 ggplot2_3.3.6    </span></span>
-<span><span class="co">#&gt; [41] digest_0.6.29     stringi_1.7.8     dplyr_1.0.10      grid_4.2.1       </span></span>
-<span><span class="co">#&gt; [45] rprojroot_2.0.3   cli_3.4.1         tools_4.2.1       magrittr_2.0.3   </span></span>
-<span><span class="co">#&gt; [49] sass_0.4.2        tibble_3.1.8      pkgconfig_2.0.3   Matrix_1.5-1     </span></span>
-<span><span class="co">#&gt; [53] gower_1.0.0       rmarkdown_2.17    R6_2.5.1          compiler_4.2.1</span></span></code></pre>
+<span><span class="co">#&gt;  [1] tidyselect_1.2.0  xfun_0.36         bslib_0.4.2       purrr_1.0.0      </span></span>
+<span><span class="co">#&gt;  [5] lattice_0.20-45   colorspace_2.0-3  vctrs_0.5.1       generics_0.1.3   </span></span>
+<span><span class="co">#&gt;  [9] htmltools_0.5.4   yaml_2.3.6        utf8_1.2.2        rlang_1.0.6      </span></span>
+<span><span class="co">#&gt; [13] pkgdown_2.0.7     jquerylib_0.1.4   pillar_1.8.1      glue_1.6.2       </span></span>
+<span><span class="co">#&gt; [17] withr_2.5.0       lifecycle_1.0.3   stringr_1.5.0     munsell_0.5.0    </span></span>
+<span><span class="co">#&gt; [21] gtable_0.3.1      ragg_1.2.4        memoise_2.0.1     evaluate_0.19    </span></span>
+<span><span class="co">#&gt; [25] labeling_0.4.2    knitr_1.41        fastmap_1.1.0     fansi_1.0.3      </span></span>
+<span><span class="co">#&gt; [29] highr_0.10        iBreakDown_2.0.1  Rcpp_1.0.9        scales_1.2.1     </span></span>
+<span><span class="co">#&gt; [33] cachem_1.0.6      desc_1.4.2        jsonlite_1.8.4    ingredients_2.2.0</span></span>
+<span><span class="co">#&gt; [37] farver_2.1.1      systemfonts_1.0.4 fs_1.5.2          textshaping_0.3.6</span></span>
+<span><span class="co">#&gt; [41] ggplot2_3.4.0     digest_0.6.31     stringi_1.7.8     dplyr_1.0.10     </span></span>
+<span><span class="co">#&gt; [45] grid_4.2.2        rprojroot_2.0.3   cli_3.5.0         tools_4.2.2      </span></span>
+<span><span class="co">#&gt; [49] magrittr_2.0.3    sass_0.4.4        tibble_3.1.8      pkgconfig_2.0.3  </span></span>
+<span><span class="co">#&gt; [53] Matrix_1.5-1      gower_1.0.1       rmarkdown_2.19    R6_2.5.1         </span></span>
+<span><span class="co">#&gt; [57] compiler_4.2.2</span></span></code></pre>
 </div>
   </div>
 
