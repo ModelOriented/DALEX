@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import warnings
 
 from . import checks
 from .. import _global_checks
@@ -104,6 +105,7 @@ def calculate_depend_matrix(
     
     # if there is a non-varying column in data, there will be NaN values in the 'depend_matrix'.
     # replace NaN values on the diagonal with 1 and others with 0. 
+    warnings.warn("There were NaNs in `depend_matrix`. This is possibly because there is a feature in the data with only one unique value. Replacing NaN values on the diagonal with 1 and others with 0.")
     depend_matrix[depend_matrix.isnull()] = 0
     for i in range(depend_matrix.shape[0]):
         depend_matrix.iloc[i,i] = 1
