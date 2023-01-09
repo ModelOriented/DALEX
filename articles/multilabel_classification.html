@@ -105,7 +105,7 @@ DALEX?</h1>
                         <h4 data-toc-skip class="author">Szymon
 Maksymiuk</h4>
             
-            <h4 data-toc-skip class="date">2023-01-08</h4>
+            <h4 data-toc-skip class="date">2023-01-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/DALEX/blob/HEAD/vignettes/multilabel_classification.Rmd" class="external-link"><code>vignettes/multilabel_classification.Rmd</code></a></small>
       <div class="hidden name"><code>multilabel_classification.Rmd</code></div>
@@ -158,7 +158,7 @@ cases our model will be <code>ranger</code>.</p>
 <span><span class="co">#&gt; Target node size:                 10 </span></span>
 <span><span class="co">#&gt; Variable importance mode:         none </span></span>
 <span><span class="co">#&gt; Splitrule:                        gini </span></span>
-<span><span class="co">#&gt; OOB prediction error (Brier s.):  0.2170354</span></span></code></pre>
+<span><span class="co">#&gt; OOB prediction error (Brier s.):  0.2184194</span></span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://modeloriented.github.io/DALEX/" class="external-link">"DALEX"</a></span><span class="op">)</span></span>
 <span><span class="va">explain_HR_ranger</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span><span class="op">(</span><span class="va">model_HR_ranger</span>,</span>
@@ -175,7 +175,7 @@ cases our model will be <code>ranger</code>.</p>
 <span><span class="co">#&gt;   -&gt; model_info        :  package ranger , ver. 0.14.1 , task multiclass (  default  ) </span></span>
 <span><span class="co">#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) </span></span>
 <span><span class="co">#&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )</span></span>
-<span><span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0.0007353889 , mean =  0.2758697 , max =  0.8975996  </span></span>
+<span><span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0.001469889 , mean =  0.2804043 , max =  0.867105  </span></span>
 <span><span class="co">#&gt;   A new explainer has been created!</span></span></code></pre>
 <p>The sixth column, that we have omitted during the creation of the
 explainer, stands for the target column (<code>status</code>). It is
@@ -215,7 +215,7 @@ default <code>predict_function</code> parameter.</p>
 <span><span class="co">#&gt;   -&gt; model_info        :  package ranger , ver. 0.14.1 , task multiclass (  default  ) </span></span>
 <span><span class="co">#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) </span></span>
 <span><span class="co">#&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )</span></span>
-<span><span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0.0007353889 , mean =  0.2758697 , max =  0.8975996  </span></span>
+<span><span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0.001469889 , mean =  0.2804043 , max =  0.867105  </span></span>
 <span><span class="co">#&gt;   A new explainer has been created!</span></span></code></pre>
 <p>And now we can use <code><a href="../reference/model_parts.html">model_parts()</a></code></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -291,17 +291,17 @@ task and uses a dedicated residual function as default.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">mp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_performance.html">model_performance</a></span><span class="op">(</span><span class="va">explain_HR_ranger</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; Measures for:  multiclass</span></span>
-<span><span class="co">#&gt; micro_F1   : 0.8703963 </span></span>
-<span><span class="co">#&gt; macro_F1   : 0.868598 </span></span>
-<span><span class="co">#&gt; w_macro_F1 : 0.8693171 </span></span>
-<span><span class="co">#&gt; accuracy   : 0.8703963 </span></span>
-<span><span class="co">#&gt; w_macro_auc: 0.9775431</span></span>
+<span><span class="co">#&gt; micro_F1   : 0.8724353 </span></span>
+<span><span class="co">#&gt; macro_F1   : 0.8707984 </span></span>
+<span><span class="co">#&gt; w_macro_F1 : 0.8714625 </span></span>
+<span><span class="co">#&gt; accuracy   : 0.8724353 </span></span>
+<span><span class="co">#&gt; w_macro_auc: 0.9768918</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Residuals:</span></span>
-<span><span class="co">#&gt;           0%          10%          20%          30%          40%          50% </span></span>
-<span><span class="co">#&gt; 0.0007353889 0.0247940913 0.0600906372 0.1168327746 0.1740223320 0.2385160850 </span></span>
-<span><span class="co">#&gt;          60%          70%          80%          90%         100% </span></span>
-<span><span class="co">#&gt; 0.3086985679 0.3895061392 0.4824560149 0.5928581662 0.8975995946</span></span></code></pre>
+<span><span class="co">#&gt;          0%         10%         20%         30%         40%         50% </span></span>
+<span><span class="co">#&gt; 0.001469889 0.026580268 0.066161727 0.121555495 0.182177741 0.246128370 </span></span>
+<span><span class="co">#&gt;         60%         70%         80%         90%        100% </span></span>
+<span><span class="co">#&gt; 0.318053777 0.396097436 0.484381223 0.594644781 0.867104977</span></span></code></pre>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mp</span><span class="op">)</span></span></code></pre></div>
 <p><img src="multilabel_classification_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
