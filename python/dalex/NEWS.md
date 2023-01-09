@@ -3,6 +3,7 @@
 ### development 
 
 * Add `ZeroDivisionError` to precision and recall functions ([#532](https://github.com/ModelOriented/DALEX/pull/532))
+* Add a warning to `calculate_depend_matrix()` when there is a variable with only one value ([#537](https://github.com/ModelOriented/DALEX/issues/537))
 
 ### v1.5.0 (2022-09-07)
 
