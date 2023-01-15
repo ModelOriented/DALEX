@@ -50,7 +50,7 @@
         <a class="navbar-brand" href="../index.html">DALEX</a>
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy" class="external-link">DrWhy.AI</a>
-           developed by the <a href="https://mi2.mini.pw.edu.pl/" class="external-link">MI^2 DataLab</a> </span>
+           developed by the <a href="https://mi2.ai/" class="external-link">MI^2.AI</a> </span>
           <span class="version version-default">2.4.3</span>
         </div>
       </div>
@@ -175,15 +175,15 @@ probability of <code>survived = 1</code>.</p>
 <span>                  loss_function <span class="op">=</span> <span class="fu"><a href="../reference/loss_yardstick.html">loss_yardstick</a></span><span class="op">(</span><span class="fu">yardstick</span><span class="fu">::</span><span class="va"><a href="https://yardstick.tidymodels.org/reference/roc_auc.html" class="external-link">roc_auc</a></span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">glm_auc</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt;       variable mean_dropout_loss label</span></span>
-<span><span class="co">#&gt; 1 _full_model_         0.8157319    lm</span></span>
-<span><span class="co">#&gt; 2       gender         0.6282403    lm</span></span>
-<span><span class="co">#&gt; 3        class         0.7165363    lm</span></span>
-<span><span class="co">#&gt; 4          age         0.7853721    lm</span></span>
-<span><span class="co">#&gt; 5        sibsp         0.8071852    lm</span></span>
-<span><span class="co">#&gt; 6     embarked         0.8082117    lm</span></span>
-<span><span class="co">#&gt; 7         fare         0.8158187    lm</span></span>
-<span><span class="co">#&gt; 8        parch         0.8158395    lm</span></span>
-<span><span class="co">#&gt; 9   _baseline_         0.4960066    lm</span></span></code></pre>
+<span><span class="co">#&gt; 1 _full_model_         0.8132324    lm</span></span>
+<span><span class="co">#&gt; 2       gender         0.6244161    lm</span></span>
+<span><span class="co">#&gt; 3        class         0.7082768    lm</span></span>
+<span><span class="co">#&gt; 4          age         0.7879708    lm</span></span>
+<span><span class="co">#&gt; 5        sibsp         0.8007687    lm</span></span>
+<span><span class="co">#&gt; 6     embarked         0.8079273    lm</span></span>
+<span><span class="co">#&gt; 7        parch         0.8132836    lm</span></span>
+<span><span class="co">#&gt; 8         fare         0.8134492    lm</span></span>
+<span><span class="co">#&gt; 9   _baseline_         0.4864489    lm</span></span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">glm_auc</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vignette_yardstick_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
@@ -194,15 +194,15 @@ under the precision recall curve).</p>
 <span>                  loss_function <span class="op">=</span> <span class="fu"><a href="../reference/loss_yardstick.html">loss_yardstick</a></span><span class="op">(</span><span class="fu">yardstick</span><span class="fu">::</span><span class="va"><a href="https://yardstick.tidymodels.org/reference/pr_auc.html" class="external-link">pr_auc</a></span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">glm_prauc</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt;       variable mean_dropout_loss label</span></span>
-<span><span class="co">#&gt; 1 _full_model_         0.7419696    lm</span></span>
-<span><span class="co">#&gt; 2       gender         0.4225631    lm</span></span>
-<span><span class="co">#&gt; 3        class         0.5852196    lm</span></span>
-<span><span class="co">#&gt; 4          age         0.7175528    lm</span></span>
-<span><span class="co">#&gt; 5        sibsp         0.7303247    lm</span></span>
-<span><span class="co">#&gt; 6     embarked         0.7321694    lm</span></span>
-<span><span class="co">#&gt; 7         fare         0.7415039    lm</span></span>
-<span><span class="co">#&gt; 8        parch         0.7420663    lm</span></span>
-<span><span class="co">#&gt; 9   _baseline_         0.3362745    lm</span></span></code></pre>
+<span><span class="co">#&gt; 1 _full_model_         0.7459412    lm</span></span>
+<span><span class="co">#&gt; 2       gender         0.4152267    lm</span></span>
+<span><span class="co">#&gt; 3        class         0.5921950    lm</span></span>
+<span><span class="co">#&gt; 4          age         0.7156267    lm</span></span>
+<span><span class="co">#&gt; 5        sibsp         0.7313490    lm</span></span>
+<span><span class="co">#&gt; 6     embarked         0.7365417    lm</span></span>
+<span><span class="co">#&gt; 7         fare         0.7450987    lm</span></span>
+<span><span class="co">#&gt; 8        parch         0.7459458    lm</span></span>
+<span><span class="co">#&gt; 9   _baseline_         0.3194830    lm</span></span></code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">glm_prauc</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vignette_yardstick_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
@@ -236,15 +236,15 @@ example below we use the <code>accuracy</code> function.</p>
 <span>                    loss_function <span class="op">=</span> <span class="fu"><a href="../reference/loss_yardstick.html">loss_yardstick</a></span><span class="op">(</span><span class="fu">yardstick</span><span class="fu">::</span><span class="va"><a href="https://yardstick.tidymodels.org/reference/accuracy.html" class="external-link">accuracy</a></span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">glm_accuracy</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt;       variable mean_dropout_loss label</span></span>
-<span><span class="co">#&gt; 1 _full_model_            0.8012    lm</span></span>
-<span><span class="co">#&gt; 2       gender            0.6354    lm</span></span>
-<span><span class="co">#&gt; 3        class            0.7463    lm</span></span>
-<span><span class="co">#&gt; 4          age            0.7823    lm</span></span>
-<span><span class="co">#&gt; 5        sibsp            0.7960    lm</span></span>
+<span><span class="co">#&gt; 1 _full_model_            0.8044    lm</span></span>
+<span><span class="co">#&gt; 2       gender            0.6478    lm</span></span>
+<span><span class="co">#&gt; 3        class            0.7441    lm</span></span>
+<span><span class="co">#&gt; 4          age            0.7881    lm</span></span>
+<span><span class="co">#&gt; 5        sibsp            0.7991    lm</span></span>
 <span><span class="co">#&gt; 6     embarked            0.7999    lm</span></span>
-<span><span class="co">#&gt; 7         fare            0.8008    lm</span></span>
-<span><span class="co">#&gt; 8        parch            0.8009    lm</span></span>
-<span><span class="co">#&gt; 9   _baseline_            0.5864    lm</span></span></code></pre>
+<span><span class="co">#&gt; 7        parch            0.8041    lm</span></span>
+<span><span class="co">#&gt; 8         fare            0.8044    lm</span></span>
+<span><span class="co">#&gt; 9   _baseline_            0.5960    lm</span></span></code></pre>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">glm_accuracy</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vignette_yardstick_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
@@ -255,15 +255,15 @@ example below we use the <code>accuracy</code> function.</p>
 <span>                    loss_function <span class="op">=</span> <span class="fu"><a href="../reference/loss_yardstick.html">loss_yardstick</a></span><span class="op">(</span><span class="fu">yardstick</span><span class="fu">::</span><span class="va"><a href="https://yardstick.tidymodels.org/reference/bal_accuracy.html" class="external-link">bal_accuracy</a></span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">glm_bal_accuracy</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt;       variable mean_dropout_loss label</span></span>
-<span><span class="co">#&gt; 1 _full_model_         0.7434376    lm</span></span>
-<span><span class="co">#&gt; 2       gender         0.5606106    lm</span></span>
-<span><span class="co">#&gt; 3        class         0.6756500    lm</span></span>
-<span><span class="co">#&gt; 4          age         0.7261611    lm</span></span>
-<span><span class="co">#&gt; 5     embarked         0.7373538    lm</span></span>
-<span><span class="co">#&gt; 6        sibsp         0.7407965    lm</span></span>
-<span><span class="co">#&gt; 7        parch         0.7429973    lm</span></span>
-<span><span class="co">#&gt; 8         fare         0.7434445    lm</span></span>
-<span><span class="co">#&gt; 9   _baseline_         0.4948335    lm</span></span></code></pre>
+<span><span class="co">#&gt; 1 _full_model_         0.7410752    lm</span></span>
+<span><span class="co">#&gt; 2       gender         0.5640860    lm</span></span>
+<span><span class="co">#&gt; 3        class         0.6755331    lm</span></span>
+<span><span class="co">#&gt; 4          age         0.7258308    lm</span></span>
+<span><span class="co">#&gt; 5     embarked         0.7355469    lm</span></span>
+<span><span class="co">#&gt; 6        sibsp         0.7384696    lm</span></span>
+<span><span class="co">#&gt; 7        parch         0.7409973    lm</span></span>
+<span><span class="co">#&gt; 8         fare         0.7417726    lm</span></span>
+<span><span class="co">#&gt; 9   _baseline_         0.4998335    lm</span></span></code></pre>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">glm_bal_accuracy</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vignette_yardstick_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
@@ -285,15 +285,15 @@ it is convenient to invert such functions, e.g. by converting to
 <span>                    loss_function <span class="op">=</span> <span class="fu"><a href="../reference/loss_yardstick.html">loss_yardstick</a></span><span class="op">(</span><span class="va">accuracy</span>, reverse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">glm_1accuracy</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt;       variable mean_dropout_loss label</span></span>
-<span><span class="co">#&gt; 1 _full_model_            0.1970    lm</span></span>
-<span><span class="co">#&gt; 2         fare            0.1970    lm</span></span>
-<span><span class="co">#&gt; 3        parch            0.1973    lm</span></span>
-<span><span class="co">#&gt; 4     embarked            0.1990    lm</span></span>
-<span><span class="co">#&gt; 5        sibsp            0.2022    lm</span></span>
-<span><span class="co">#&gt; 6          age            0.2158    lm</span></span>
-<span><span class="co">#&gt; 7        class            0.2527    lm</span></span>
-<span><span class="co">#&gt; 8       gender            0.3506    lm</span></span>
-<span><span class="co">#&gt; 9   _baseline_            0.4130    lm</span></span></code></pre>
+<span><span class="co">#&gt; 1 _full_model_            0.2004    lm</span></span>
+<span><span class="co">#&gt; 2     embarked            0.1994    lm</span></span>
+<span><span class="co">#&gt; 3         fare            0.1998    lm</span></span>
+<span><span class="co">#&gt; 4        parch            0.2005    lm</span></span>
+<span><span class="co">#&gt; 5        sibsp            0.2054    lm</span></span>
+<span><span class="co">#&gt; 6          age            0.2171    lm</span></span>
+<span><span class="co">#&gt; 7        class            0.2568    lm</span></span>
+<span><span class="co">#&gt; 8       gender            0.3565    lm</span></span>
+<span><span class="co">#&gt; 9   _baseline_            0.4062    lm</span></span></code></pre>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">glm_1accuracy</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vignette_yardstick_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
@@ -335,9 +335,9 @@ returns a <code>numeric</code> score.</p>
 <span><span class="co">#&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )</span></span>
 <span><span class="co">#&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )</span></span>
 <span><span class="co">#&gt;   -&gt; model_info        :  package ranger , ver. 0.14.1 , task regression (  default  ) </span></span>
-<span><span class="co">#&gt;   -&gt; predicted values  :  numerical, min =  1860.564 , mean =  3487.197 , max =  6150.555  </span></span>
+<span><span class="co">#&gt;   -&gt; predicted values  :  numerical, min =  1762.187 , mean =  3487.253 , max =  6227.871  </span></span>
 <span><span class="co">#&gt;   -&gt; residual function :  difference between y and yhat (  default  )</span></span>
-<span><span class="co">#&gt;   -&gt; residuals         :  numerical, min =  -380.974 , mean =  -0.1781234 , max =  571.5127  </span></span>
+<span><span class="co">#&gt;   -&gt; residuals         :  numerical, min =  -470.3407 , mean =  -0.234249 , max =  519.3613  </span></span>
 <span><span class="co">#&gt;   A new explainer has been created!</span></span></code></pre>
 <p>To make functions from the <code>yardstick</code> compatible with
 <code>DALEX</code> we must use the <code>loss_yardstick</code> adapter.
@@ -348,13 +348,13 @@ squared error).</p>
 <span>                      loss_function <span class="op">=</span> <span class="fu"><a href="../reference/loss_yardstick.html">loss_yardstick</a></span><span class="op">(</span><span class="va">rmse</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">ranger_rmse</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt;            variable mean_dropout_loss             label</span></span>
-<span><span class="co">#&gt; 1      _full_model_          148.6029 Ranger Apartments</span></span>
-<span><span class="co">#&gt; 2          no.rooms          267.8108 Ranger Apartments</span></span>
-<span><span class="co">#&gt; 3 construction.year          383.3184 Ranger Apartments</span></span>
-<span><span class="co">#&gt; 4             floor          435.3444 Ranger Apartments</span></span>
-<span><span class="co">#&gt; 5           surface          549.8746 Ranger Apartments</span></span>
-<span><span class="co">#&gt; 6          district          781.2672 Ranger Apartments</span></span>
-<span><span class="co">#&gt; 7        _baseline_         1208.9975 Ranger Apartments</span></span></code></pre>
+<span><span class="co">#&gt; 1      _full_model_          140.4782 Ranger Apartments</span></span>
+<span><span class="co">#&gt; 2          no.rooms          281.8749 Ranger Apartments</span></span>
+<span><span class="co">#&gt; 3 construction.year          368.5735 Ranger Apartments</span></span>
+<span><span class="co">#&gt; 4             floor          427.6698 Ranger Apartments</span></span>
+<span><span class="co">#&gt; 5           surface          531.4152 Ranger Apartments</span></span>
+<span><span class="co">#&gt; 6          district          791.1941 Ranger Apartments</span></span>
+<span><span class="co">#&gt; 7        _baseline_         1213.0421 Ranger Apartments</span></span></code></pre>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ranger_rmse</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vignette_yardstick_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
@@ -364,13 +364,13 @@ squared error).</p>
 <span>                      loss_function <span class="op">=</span> <span class="fu"><a href="../reference/loss_yardstick.html">loss_yardstick</a></span><span class="op">(</span><span class="va">rsq</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">ranger_rsq</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt;            variable mean_dropout_loss             label</span></span>
-<span><span class="co">#&gt; 1      _full_model_      0.9832874070 Ranger Apartments</span></span>
-<span><span class="co">#&gt; 2          district      0.3237649439 Ranger Apartments</span></span>
-<span><span class="co">#&gt; 3           surface      0.6393533946 Ranger Apartments</span></span>
-<span><span class="co">#&gt; 4             floor      0.7697993548 Ranger Apartments</span></span>
-<span><span class="co">#&gt; 5 construction.year      0.8263546893 Ranger Apartments</span></span>
-<span><span class="co">#&gt; 6          no.rooms      0.9486890084 Ranger Apartments</span></span>
-<span><span class="co">#&gt; 7        _baseline_      0.0007642534 Ranger Apartments</span></span></code></pre>
+<span><span class="co">#&gt; 1      _full_model_      0.9856508769 Ranger Apartments</span></span>
+<span><span class="co">#&gt; 2          district      0.3021768547 Ranger Apartments</span></span>
+<span><span class="co">#&gt; 3           surface      0.6661792876 Ranger Apartments</span></span>
+<span><span class="co">#&gt; 4             floor      0.7842994416 Ranger Apartments</span></span>
+<span><span class="co">#&gt; 5 construction.year      0.8415002466 Ranger Apartments</span></span>
+<span><span class="co">#&gt; 6          no.rooms      0.9407415362 Ranger Apartments</span></span>
+<span><span class="co">#&gt; 7        _baseline_      0.0009475485 Ranger Apartments</span></span></code></pre>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ranger_rsq</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vignette_yardstick_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
@@ -414,7 +414,7 @@ share your experience with this package, please create an issue at <a href="http
 <span><span class="co">#&gt; [21] gtable_0.3.1      ragg_1.2.5        memoise_2.0.1     evaluate_0.19    </span></span>
 <span><span class="co">#&gt; [25] labeling_0.4.2    knitr_1.41        fastmap_1.1.0     fansi_1.0.3      </span></span>
 <span><span class="co">#&gt; [29] highr_0.10        Rcpp_1.0.9        scales_1.2.1      cachem_1.0.6     </span></span>
-<span><span class="co">#&gt; [33] desc_1.4.2        jsonlite_1.8.4    ingredients_2.2.0 farver_2.1.1     </span></span>
+<span><span class="co">#&gt; [33] desc_1.4.2        jsonlite_1.8.4    ingredients_2.3.0 farver_2.1.1     </span></span>
 <span><span class="co">#&gt; [37] systemfonts_1.0.4 fs_1.5.2          textshaping_0.3.6 ggplot2_3.4.0    </span></span>
 <span><span class="co">#&gt; [41] digest_0.6.31     stringi_1.7.12    dplyr_1.0.10      grid_4.2.2       </span></span>
 <span><span class="co">#&gt; [45] rprojroot_2.0.3   cli_3.6.0         tools_4.2.2       magrittr_2.0.3   </span></span>

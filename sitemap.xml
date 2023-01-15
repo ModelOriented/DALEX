@@ -106,6 +106,9 @@
     <loc>/reference/plot.predict_profile.html</loc>
   </url>
   <url>
+    <loc>/reference/plot.shap_aggregated.html</loc>
+  </url>
+  <url>
     <loc>/reference/predict.html</loc>
   </url>
   <url>
@@ -137,6 +140,12 @@
   </url>
   <url>
     <loc>/reference/print.predict_diagnostics.html</loc>
+  </url>
+  <url>
+    <loc>/reference/shap_aggregated.html</loc>
+  </url>
+  <url>
+    <loc>/reference/theme_dalex.html</loc>
   </url>
   <url>
     <loc>/reference/theme_drwhy.html</loc>

@@ -50,7 +50,7 @@
         <a class="navbar-brand" href="../index.html">DALEX</a>
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy" class="external-link">DrWhy.AI</a>
-           developed by the <a href="https://mi2.mini.pw.edu.pl/" class="external-link">MI^2 DataLab</a> </span>
+           developed by the <a href="https://mi2.ai/" class="external-link">MI^2.AI</a> </span>
           <span class="version version-default">2.4.3</span>
         </div>
       </div>
@@ -158,7 +158,7 @@ cases our model will be <code>ranger</code>.</p>
 <span><span class="co">#&gt; Target node size:                 10 </span></span>
 <span><span class="co">#&gt; Variable importance mode:         none </span></span>
 <span><span class="co">#&gt; Splitrule:                        gini </span></span>
-<span><span class="co">#&gt; OOB prediction error (Brier s.):  0.215999</span></span></code></pre>
+<span><span class="co">#&gt; OOB prediction error (Brier s.):  0.2171254</span></span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://modeloriented.github.io/DALEX/" class="external-link">"DALEX"</a></span><span class="op">)</span></span>
 <span><span class="va">explain_HR_ranger</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explain.html">explain</a></span><span class="op">(</span><span class="va">model_HR_ranger</span>,</span>
@@ -175,7 +175,7 @@ cases our model will be <code>ranger</code>.</p>
 <span><span class="co">#&gt;   -&gt; model_info        :  package ranger , ver. 0.14.1 , task multiclass (  default  ) </span></span>
 <span><span class="co">#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) </span></span>
 <span><span class="co">#&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )</span></span>
-<span><span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0.0007278139 , mean =  0.2794747 , max =  0.8912293  </span></span>
+<span><span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0.0009756098 , mean =  0.2798839 , max =  0.8915421  </span></span>
 <span><span class="co">#&gt;   A new explainer has been created!</span></span></code></pre>
 <p>The sixth column, that we have omitted during the creation of the
 explainer, stands for the target column (<code>status</code>). It is
@@ -215,7 +215,7 @@ default <code>predict_function</code> parameter.</p>
 <span><span class="co">#&gt;   -&gt; model_info        :  package ranger , ver. 0.14.1 , task multiclass (  default  ) </span></span>
 <span><span class="co">#&gt;   -&gt; predicted values  :  predict function returns multiple columns:  3  (  default  ) </span></span>
 <span><span class="co">#&gt;   -&gt; residual function :  difference between 1 and probability of true class (  default  )</span></span>
-<span><span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0.0007278139 , mean =  0.2794747 , max =  0.8912293  </span></span>
+<span><span class="co">#&gt;   -&gt; residuals         :  numerical, min =  0.0009756098 , mean =  0.2798839 , max =  0.8915421  </span></span>
 <span><span class="co">#&gt;   A new explainer has been created!</span></span></code></pre>
 <p>And now we can use <code><a href="../reference/model_parts.html">model_parts()</a></code></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -291,17 +291,17 @@ task and uses a dedicated residual function as default.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">mp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_performance.html">model_performance</a></span><span class="op">(</span><span class="va">explain_HR_ranger</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; Measures for:  multiclass</span></span>
-<span><span class="co">#&gt; micro_F1   : 0.8692494 </span></span>
-<span><span class="co">#&gt; macro_F1   : 0.8671464 </span></span>
-<span><span class="co">#&gt; w_macro_F1 : 0.8680072 </span></span>
-<span><span class="co">#&gt; accuracy   : 0.8692494 </span></span>
-<span><span class="co">#&gt; w_macro_auc: 0.9766962</span></span>
+<span><span class="co">#&gt; micro_F1   : 0.8683573 </span></span>
+<span><span class="co">#&gt; macro_F1   : 0.8665525 </span></span>
+<span><span class="co">#&gt; w_macro_F1 : 0.8672851 </span></span>
+<span><span class="co">#&gt; accuracy   : 0.8683573 </span></span>
+<span><span class="co">#&gt; w_macro_auc: 0.9765851</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Residuals:</span></span>
 <span><span class="co">#&gt;           0%          10%          20%          30%          40%          50% </span></span>
-<span><span class="co">#&gt; 0.0007278139 0.0298494417 0.0634988354 0.1148707372 0.1812658542 0.2444953301 </span></span>
+<span><span class="co">#&gt; 0.0009756098 0.0261300973 0.0641130042 0.1203141138 0.1841415164 0.2476803236 </span></span>
 <span><span class="co">#&gt;          60%          70%          80%          90%         100% </span></span>
-<span><span class="co">#&gt; 0.3152737264 0.3947338759 0.4841243414 0.5953781543 0.8912293263</span></span></code></pre>
+<span><span class="co">#&gt; 0.3142996699 0.3951890433 0.4823731216 0.5952005585 0.8915421080</span></span></code></pre>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mp</span><span class="op">)</span></span></code></pre></div>
 <p><img src="multilabel_classification_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
@@ -350,7 +350,7 @@ task and uses a dedicated residual function as default.</p>
 <span><span class="co">#&gt; [21] gtable_0.3.1      ragg_1.2.5        memoise_2.0.1     evaluate_0.19    </span></span>
 <span><span class="co">#&gt; [25] labeling_0.4.2    knitr_1.41        fastmap_1.1.0     fansi_1.0.3      </span></span>
 <span><span class="co">#&gt; [29] highr_0.10        iBreakDown_2.0.1  Rcpp_1.0.9        scales_1.2.1     </span></span>
-<span><span class="co">#&gt; [33] cachem_1.0.6      desc_1.4.2        jsonlite_1.8.4    ingredients_2.2.0</span></span>
+<span><span class="co">#&gt; [33] cachem_1.0.6      desc_1.4.2        jsonlite_1.8.4    ingredients_2.3.0</span></span>
 <span><span class="co">#&gt; [37] farver_2.1.1      systemfonts_1.0.4 fs_1.5.2          textshaping_0.3.6</span></span>
 <span><span class="co">#&gt; [41] ggplot2_3.4.0     digest_0.6.31     stringi_1.7.12    dplyr_1.0.10     </span></span>
 <span><span class="co">#&gt; [45] grid_4.2.2        rprojroot_2.0.3   cli_3.6.0         tools_4.2.2      </span></span>
