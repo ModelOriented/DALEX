@@ -148,6 +148,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.8898433 , mean =  4.198546e-13 , max =  0.8448637  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="va">bd_glm</span> <span class="op">&lt;-</span> <span class="fu"><a href="shap_aggregated.html">shap_aggregated</a></span><span class="op">(</span><span class="va">explain_titanic_glm</span>, <span class="va">titanic_imputed</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">bd_glm</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $aggregated</span>
@@ -207,6 +208,7 @@
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bd_glm</span>, max_features <span class="op">=</span> <span class="fl">3</span>,</span></span>
 <span class="r-in"><span>     vnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"average"</span>,<span class="st">"+ male"</span>,<span class="st">"+ young"</span>,<span class="st">"+ cheap ticket"</span>, <span class="st">"+ other factors"</span>, <span class="st">"final"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.shap_aggregated-3.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
