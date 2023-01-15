@@ -44,7 +44,7 @@ plot.predict_diagnostics <- function(x, ...) {
       scale_y_continuous("") +
       scale_x_discrete("residuals", labels = as.character(cut_points)) +
       scale_fill_manual("", values = colors_diverging_drwhy()) +
-      theme_drwhy() + theme(legend.position = "top") +
+      theme_default_dalex() + theme(legend.position = "top") +
       ggtitle("Distribution of residuals",
               paste0("Difference between distributions: D ", signif(statistic, 3),
                      " p.value ", signif(p.value, 3)))

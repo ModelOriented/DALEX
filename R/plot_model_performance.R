@@ -101,7 +101,7 @@ plot.model_performance_ecdf <- function(df, nlabels) {
   label <- name <- NULL
   ggplot(df, aes(abs(diff), color = label)) +
     stat_ecdf(geom = "step") +
-    theme_drwhy() +
+    theme_default_dalex() +
     scale_color_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
     xlab(expression(group("|", residual, "|"))) +
     scale_y_continuous(breaks = seq(0,1,0.1),
@@ -116,7 +116,7 @@ plot.model_performance_boxplot <- function(df, show_outliers, loss_function, nla
   pl <- ggplot(df, aes(x = label, y = abs(diff), fill = label)) +
     stat_boxplot(alpha = 0.4, coef = 1000) +
     stat_summary(fun = loss_function, geom = "point", shape = 20, size=10, color="red", fill="red") +
-    theme_drwhy_vertical() +
+    theme_vertical_default_dalex() +
     scale_fill_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
     ylab("") +
     scale_x_discrete("", limits = rev(levels(df$label))) + # added to fix https://github.com/ModelOriented/DALEX/issues/400
@@ -146,7 +146,7 @@ plot.model_performance_histogram <- function(df, nlabels) {
   ggplot(df, aes(diff, fill = label)) +
     geom_histogram(bins = 100) +
     facet_wrap(~label, ncol = 1) +
-    theme_drwhy() + xlab("residuals") + theme(legend.position = "none") +
+    theme_default_dalex() + xlab("residuals") + theme(legend.position = "none") +
     scale_fill_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
     ggtitle("Histogram for residuals")
 
@@ -168,7 +168,7 @@ plot.model_performance_prc <- function(df, nlabels) {
   precis <- recall <- label <- NULL
   ggplot(prcdf, aes(x = recall, y = precis, color = label)) +
     geom_line() +
-    theme_drwhy() +
+    theme_default_dalex() +
     scale_color_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
     scale_x_continuous("Recall", limits = c(0, 1), expand = c(0, 0)) +
     scale_y_continuous("Precision", limits = c(0, 1), expand = c(0, 0)) +
@@ -195,7 +195,7 @@ plot.model_performance_roc <- function(df, nlabels) {
   ggplot(rocdf, aes(x = fpr, y = tpr, color = label)) +
     geom_abline(slope = 1, intercept = 0, color = "grey", lty = 2) +
     geom_line() +
-    theme_drwhy() +
+    theme_default_dalex() +
     scale_color_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
     scale_x_continuous("False positive rate", limits = c(0, 1), expand = c(0, 0)) +
     scale_y_continuous("True positive rate", limits = c(0, 1), expand = c(0, 0)) +
@@ -220,7 +220,7 @@ plot.model_performance_gain <- function(df, nlabels) {
   ggplot(rocdf, aes(x = pr, y = lift, color = label)) +
     geom_abline(slope = max_lift, intercept = 0, color = "grey", lty = 2) +
     geom_line() +
-    theme_drwhy() +
+    theme_default_dalex() +
     scale_color_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
     scale_x_continuous("Positive rate", limits = c(0, 1), expand = c(0, 0)) +
     scale_y_continuous("True positive rate",  expand = c(0, 0)) +
@@ -246,7 +246,7 @@ plot.model_performance_lift <- function(df, nlabels) {
   ggplot(rocdf, aes(x = pr, y = lift/max_lift, color = label)) +
     geom_abline(slope = 0, intercept = 1, color = "grey", lty = 2) +
     geom_line() +
-    theme_drwhy() +
+    theme_default_dalex() +
     scale_color_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
     scale_x_continuous("Positive rate", limits = c(0, 1), expand = c(0, 0)) +
     scale_y_continuous("Lift",  expand = c(0, 0)) +
