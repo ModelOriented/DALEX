@@ -23,9 +23,11 @@
 #'                            y = titanic_imputed$survived,
 #'                            label = "glm")
 #'
+#' \donttest{
 #' bd_glm <- shap_aggregated(explain_titanic_glm, titanic_imputed[1:10, ])
 #' bd_glm
 #' plot(bd_glm, max_features = 3)
+#' }
 #' @export
 shap_aggregated <- function(explainer, new_observations, order = NULL, B = 25, ...) {
   ret_raw <- data.frame(contribution = c(), variable_name = c(), label = c())

@@ -25,12 +25,14 @@
 #'                            y = titanic_imputed$survived,
 #'                            label = "glm")
 #'
+#' \donttest{
 #' bd_glm <- shap_aggregated(explain_titanic_glm, titanic_imputed[1:10, ])
 #' bd_glm
 #' plot(bd_glm)
 #' plot(bd_glm, max_features = 3)
 #' plot(bd_glm, max_features = 3,
 #'      vnames = c("average","+ male","+ young","+ cheap ticket", "+ other factors", "final"))
+#' }
 #'
 #' @export
 plot.shap_aggregated <- function(x, ..., shift_contributions = 0.05, add_contributions = TRUE, add_boxplots = TRUE, max_features = 10, title = "Aggregated SHAP") {

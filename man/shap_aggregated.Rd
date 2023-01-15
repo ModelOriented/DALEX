@@ -33,9 +33,11 @@ explain_titanic_glm <- explain(model_titanic_glm,
                            y = titanic_imputed$survived,
                            label = "glm")
 
+\donttest{
 bd_glm <- shap_aggregated(explain_titanic_glm, titanic_imputed[1:10, ])
 bd_glm
 plot(bd_glm, max_features = 3)
+}
 }
 \references{
 Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://ema.drwhy.ai}
