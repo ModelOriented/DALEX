@@ -27,7 +27,7 @@ list with current default themes
 Default Theme for DALEX plots
 }
 \examples{
-set_theme_dalex("ema")
+old <- set_theme_dalex("ema")
 \donttest{
 library("ranger")
 apartments_ranger_model <- ranger(m2.price~., data = apartments, num.trees = 50)
@@ -37,11 +37,13 @@ model_parts_ranger_aps <- model_parts(explainer_ranger, type = "raw")
 head(model_parts_ranger_aps, 8)
 plot(model_parts_ranger_aps)
 
-set_theme_dalex(ggplot2::theme_void(), ggplot2::theme_void())
+old <- set_theme_dalex(ggplot2::theme_void(), ggplot2::theme_void())
 plot(model_parts_ranger_aps)
 
-set_theme_dalex("drwhy")
-set_theme_dalex(ggplot2::theme_void(), ggplot2::theme_void())
+old <- set_theme_dalex("drwhy")
+plot(model_parts_ranger_aps)
+old <- set_theme_dalex(ggplot2::theme_void(), ggplot2::theme_void())
+plot(model_parts_ranger_aps)
 }
 
 }

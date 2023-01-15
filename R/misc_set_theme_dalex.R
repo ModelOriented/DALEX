@@ -4,7 +4,7 @@
 #' @param default_theme_vertical object - string ("drwhy" or "ema") or an object of ggplot theme class. Will be applied by default by DALEX to all vertical plots
 #' @return list with current default themes
 #' @examples
-#' set_theme_dalex("ema")
+#' old <- set_theme_dalex("ema")
 #' \donttest{
 #' library("ranger")
 #' apartments_ranger_model <- ranger(m2.price~., data = apartments, num.trees = 50)
@@ -14,11 +14,13 @@
 #' head(model_parts_ranger_aps, 8)
 #' plot(model_parts_ranger_aps)
 #'
-#' set_theme_dalex(ggplot2::theme_void(), ggplot2::theme_void())
+#' old <- set_theme_dalex(ggplot2::theme_void(), ggplot2::theme_void())
 #' plot(model_parts_ranger_aps)
 #'
-#' set_theme_dalex("drwhy")
-#' set_theme_dalex(ggplot2::theme_void(), ggplot2::theme_void())
+#' old <- set_theme_dalex("drwhy")
+#' plot(model_parts_ranger_aps)
+#' old <- set_theme_dalex(ggplot2::theme_void(), ggplot2::theme_void())
+#' plot(model_parts_ranger_aps)
 #'}
 #'
 #' @export
