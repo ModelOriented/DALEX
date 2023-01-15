@@ -2,18 +2,16 @@
 #'
 #' This function works in a similar way to shap function from \code{iBreakDown} but it calculates explanations for a set of observation and then aggregates them.
 #'
-#' @param x an explainer created with function \code{\link[DALEX]{explain}} or a model.
-#' @param data validation dataset, will be extracted from \code{x} if it is an explainer.
-#' @param predict_function predict function, will be extracted from \code{x} if it is an explainer.
+#' @param explainer a model to be explained, preprocessed by the \code{explain} function
 #' @param new_observations a set of new observations with columns that correspond to variables used in the model.
 #' @param order if not \code{NULL}, then it will be a fixed order of variables. It can be a numeric vector or vector with names of variables.
-#' @param ... other parameters.
-#' @param label name of the model. By default it's extracted from the 'class' attribute of the model.
+#' @param ... other parameters like \code{label}, \code{predict_function}, \code{data}, \code{x}
+#' @param B number of random paths
 #'
 #' @return an object of the \code{shap_aggregated} class.
 #'
 #' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://ema.drwhy.ai}
-#'
+#' @importFrom stats aggregate
 #'
 #' @examples
 #' library("DALEX")

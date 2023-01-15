@@ -9,6 +9,7 @@
 \alias{predict_parts_oscillations_uni}
 \alias{predict_parts_oscillations_emp}
 \alias{predict_parts_break_down_interactions}
+\alias{predict_parts_shap_aggregated}
 \alias{variable_attribution}
 \title{Instance Level Parts of the Model Predictions}
 \usage{
@@ -43,6 +44,8 @@ predict_parts_break_down_interactions(explainer, new_observation, ...)
 
 predict_parts_shap(explainer, new_observation, ...)
 
+predict_parts_shap_aggregated(explainer, new_observation, ...)
+
 variable_attribution(
   explainer,
   new_observation,
@@ -60,7 +63,7 @@ variable_attribution(
 
 \item{N}{the maximum number of observations used for calculation of attributions. By default NULL (use all) or 500 (for oscillations).}
 
-\item{type}{the type of variable attributions. Either \code{shap}, \code{oscillations}, \code{oscillations_uni},
+\item{type}{the type of variable attributions. Either \code{shap}, \code{aggregated_shap}, \code{oscillations}, \code{oscillations_uni},
 \code{oscillations_emp}, \code{break_down} or \code{break_down_interactions}.}
 
 \item{variable_splits_type}{how variable grids shall be calculated? Will be passed to \code{\link[ingredients]{ceteris_paribus}}.}
@@ -74,7 +77,7 @@ Depending on the \code{type} there are different classes of the resulting object
 It's a data frame with calculated average response.
 }
 \description{
-Instance Level Variable Attributions as Break Down, SHAP or Oscillations explanations.
+Instance Level Variable Attributions as Break Down, SHAP, aggregated SHAP or Oscillations explanations.
 Model prediction is decomposed into parts that are attributed for particular variables.
 From DALEX version 1.0 this function calls the \code{\link[iBreakDown]{break_down}} or
 \code{\link[iBreakDown:break_down_uncertainty]{shap}} functions from the \code{iBreakDown} package or
@@ -82,6 +85,7 @@ From DALEX version 1.0 this function calls the \code{\link[iBreakDown]{break_dow
 Find information how to use the \code{break_down} method here: \url{https://ema.drwhy.ai/breakDown.html}.
 Find information how to use the \code{shap} method here: \url{https://ema.drwhy.ai/shapley.html}.
 Find information how to use the \code{oscillations} method here: \url{https://ema.drwhy.ai/ceterisParibusOscillations.html}.
+aSHAP method provides explanations for a set of observations based on SHAP.
 }
 \examples{
 library(DALEX)

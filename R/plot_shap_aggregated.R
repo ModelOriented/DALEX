@@ -3,22 +3,12 @@
 #' Displays a waterfall aggregated shap plot for objects of \code{shap_aggregated} class.
 #'
 #' @param x an explanation object created with function \code{\link[DALEX]{explain}}.
-#' @param ... other parameters.
-#' @param max_features maximal number of features to be included in the plot. default value is \code{10}.
-#' @param min_max a range of OX axis. By default \code{NA}, therefore it will be extracted from the contributions of \code{x}. But it can be set to some constants, useful if these plots are to be used for comparisons.
+#' @param ... other parameters like \code{vcolors}, \code{vnames}, \code{min_max}, \code{digits}, \code{rounding_function}, \code{baseline}, \code{subtitle}, \code{baseline}, \code{max_vars}.
+#' @param max_features  maximal number of features to be included in the plot. default value is \code{10}.
 #' @param add_contributions if \code{TRUE}, variable contributions will be added to the plot
 #' @param add_boxplots if \code{TRUE}, boxplots of SHAP will be shown
 #' @param shift_contributions number describing how much labels should be shifted to the right, as a fraction of range. By default equal to \code{0.05}.
-#' @param vcolors If \code{NA} (default), DrWhy colors are used.
-#' @param vnames a character vector, if specified then will be used as labels on OY axis. By default NULL
-#' @param digits number of decimal places (\code{\link{round}}) or significant digits (\code{\link{signif}}) to be used.
-#' See the \code{rounding_function} argument.
-#' @param rounding_function a function to be used for rounding numbers.
-#' This should be \code{\link{signif}} which keeps a specified number of significant digits or \code{\link{round}} (which is default) to have the same precision for all components.
-#' @param baseline if numeric then veritical line starts in \code{baseline}.
 #' @param title a character. Plot title. By default \code{"Break Down profile"}.
-#' @param subtitle a character. Plot subtitle. By default \code{""}.
-#' @param max_vars alias for the \code{max_features} parameter.
 #'
 #' @return a \code{ggplot2} object.
 #'
@@ -48,6 +38,9 @@ plot.shap_aggregated <- function(x, ..., shift_contributions = 0.05, add_contrib
   aggregate <- x[[1]]
   raw <- x[[2]]
   class(aggregate) <- c('break_down', class(aggregate))
+
+  # keep names to avoid errors during the check()
+  right_side <- position <- mean_boxplot <- contribution <- NULL
 
   # ret has at least 3 columns: first and last are intercept and prediction
   aggregate$mean_boxplot <- c(0, aggregate$cumulative[1:(nrow(aggregate)-2)], 0)
@@ -79,7 +72,6 @@ plot.shap_aggregated <- function(x, ..., shift_contributions = 0.05, add_contrib
                        hjust = -0.2,
                        color = "#371ea3")
   }
-
 
   p
 }

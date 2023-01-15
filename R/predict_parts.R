@@ -188,15 +188,15 @@ predict_parts_shap <- function(explainer, new_observation, ...) {
 
 #' @name predict_parts
 #' @export
-predict_parts_shap_aggregated <- function(explainer, new_observations, ...) {
+predict_parts_shap_aggregated <- function(explainer, new_observation, ...) {
   test_explainer(explainer, has_data = TRUE, function_name = "predict_parts_shap_aggregated")
-  
+
   res <- shap_aggregated(explainer,
-                         new_observations = new_observations,
+                         new_observations = new_observation,
                          ...)
-  
+
   class(res) <- c('predict_parts', class(res))
-  
+
   res
 }
 

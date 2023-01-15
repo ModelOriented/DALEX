@@ -35,6 +35,7 @@ reference:
     - print.model_performance
     - plot.model_performance
     - plot.model_parts
+    - plot.shap_aggregated
     - print.model_profile
     - plot.model_profile
     - print.model_diagnostics
@@ -62,8 +63,12 @@ reference:
     - colors_discrete_drwhy
     - colors_diverging_drwhy
     - colors_breakdown_drwhy
+    - set_theme_dalex
     - theme_drwhy
     - theme_drwhy_vertical
+    - theme_ema
+    - theme_ema_vertical
+    - shap_aggregated
     - variable_effect
   - title: Datasets
     desc: Datasets used in Examples and Vignettes
