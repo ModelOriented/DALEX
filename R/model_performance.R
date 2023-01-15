@@ -109,7 +109,8 @@ model_performance <- function(explainer, ..., cutoff = 0.5) {
       macro_F1 = model_performance_macro_f1(predicted, observed),
       w_macro_F1 = model_performance_weighted_macro_f1(predicted, observed),
       accuracy = model_performance_accuracy_multi(predicted, observed),
-      w_macro_auc = model_performance_weighted_macro_auc(predicted, observed)
+      w_macro_auc = model_performance_weighted_macro_auc(predicted, observed),
+      cross_entropy = loss_cross_entropy(predicted = predicted, observed = observed)
     )
   } else {
     stop("`explainer$model_info$type` should be one of ['regression', 'classification', 'multiclass'] - pass `model_info = list(type = $type$)` to the `explain` function. Submit an issue on https://github.com/ModelOriented/DALEX/issues if you think that this model should be covered by default.")

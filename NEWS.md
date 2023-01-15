@@ -2,6 +2,7 @@ DALEX 2.4.3
 ---------------------------------------------------------------
 * added implementation of aSHAP (aggregated SHAP) and waterfall plot ([#519](https://github.com/ModelOriented/DALEX/issues/519))
 * adding a new system for default color schemes ([#541](https://github.com/ModelOriented/DALEX/issues/541))
+* added `cross_entropy` as model performance measure to multilabel settings [#542](https://github.com/ModelOriented/DALEX/issues/542)
 
 DALEX 2.4.2
 ---------------------------------------------------------------
