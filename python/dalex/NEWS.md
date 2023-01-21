@@ -1,5 +1,8 @@
 ## Changelog
 
+### development 
+
+* Add `ZeroDivisionError` to precision and recall functions ([#532](https://github.com/ModelOriented/DALEX/pull/532))
 
 ### v1.5.0 (2022-09-07)
 
