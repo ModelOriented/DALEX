@@ -35,7 +35,7 @@ class UnbiasedShapUtils(unittest.TestCase):
         predict_function = lambda arr: arr.max(axis=1)
 
         subsets_predictions = utils.predict_on_subsets(
-            feature_subsets, observation, data, predict_function, len(data)
+            feature_subsets, observation, data, predict_function
         )
         expected_output = np.array(
             [np.mean([0, 2, 3, 4, 6]), np.mean([2, 2, 3, 3, 6]), np.mean([1, 2, 2, 4, 1]), 2]

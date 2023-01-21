@@ -50,7 +50,6 @@ def predict_on_subsets(
     observation: pd.DataFrame,
     data: pd.DataFrame,
     predict_function: Callable[[np.ndarray], np.ndarray],
-    approx_samples: int = 20,
 ) -> np.ndarray:
     """Make predictions using different subsets of features
     feature_subsets is a (`num_samples` x `num_features`) True/False matrix
@@ -59,22 +58,16 @@ def predict_on_subsets(
     random observations from data
     for present features we set them as they are"""
 
-    approx_samples = min(approx_samples, len(data))
     num_samples, num_features = feature_subsets.shape
 
-    # TODO: maybe better to work with the different set of observations?
-    data_sample = data.sample(n=approx_samples, replace=False).values
-
     # observarion_wide.shape == `approx_samples` x `num_samples` x `num_features`
-    observation_wide = np.repeat(data_sample[None, :, :], repeats=num_samples, axis=0).swapaxes(
-        0, 1
-    )
+    observation_wide = np.repeat(data[None, :, :], repeats=num_samples, axis=0).swapaxes(0, 1)
     for feature in range(num_features):
         observation_feature_value = observation.iloc[0, feature]
         observation_wide[:, feature_subsets[:, feature], feature] = observation_feature_value
 
     predictions = predict_function(observation_wide.reshape(-1, num_features)).reshape(
-        approx_samples, num_samples
+        -1, num_samples
     )
     predictions_approx = predictions.mean(0)
     return predictions_approx
