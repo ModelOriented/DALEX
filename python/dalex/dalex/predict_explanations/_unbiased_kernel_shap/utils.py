@@ -61,7 +61,7 @@ def predict_on_subsets(
     num_samples, num_features = feature_subsets.shape
 
     # observarion_wide.shape == `approx_samples` x `num_samples` x `num_features`
-    observation_wide = np.repeat(data[None, :, :], repeats=num_samples, axis=0).swapaxes(0, 1)
+    observation_wide = np.repeat(data.values[None, :, :], repeats=num_samples, axis=0).swapaxes(0, 1)
     for feature in range(num_features):
         observation_feature_value = observation.iloc[0, feature]
         observation_wide[:, feature_subsets[:, feature], feature] = observation_feature_value
