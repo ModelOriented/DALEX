@@ -103,7 +103,7 @@ def unbiased_kernel_shap(
     new_observation: pd.DataFrame,
     # keep_distributions: bool,
     n_samples: int,
-    batch_size: int = 512,
+    batch_size: int = 10,
     # processes: int,
     # random_state: int,
     paired_sampling: bool = False,
