@@ -24,6 +24,8 @@ In the following vignette, we will walk through a multilabel classification exam
 
 ```{r}
 library("DALEX")
+old_theme = set_theme_dalex("ema") 
+
 data(HR)
 head(HR)
 ```

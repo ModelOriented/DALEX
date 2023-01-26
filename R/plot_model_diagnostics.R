@@ -39,7 +39,7 @@ plot.model_diagnostics <- function(x, ..., variable = "y_hat", yvariable = "resi
 
    pl <- ggplot(all_models, aes_string(x = variable, y = yvariable, color = "label", group = "label")) +
     geom_point(size = 0.1) +
-    theme_drwhy() +
+    theme_default_dalex() +
     scale_color_manual(name = "Model", values = colors_discrete_drwhy(nlabels))
 
    # add smooth
