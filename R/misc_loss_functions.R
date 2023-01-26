@@ -99,7 +99,7 @@ get_loss_default <- function(x) {
   )
 }
 
-#' @noRd
+#' @rdname loss_functions
 #' @export
 loss_default <- function(x) {
   warning("`loss_default()` is deprecated; use `get_loss_default()` instead.")
@@ -156,7 +156,7 @@ get_loss_yardstick <- function(loss, reverse = FALSE, reference = 1) {
   custom_loss
 }
 
-#' @noRd
+#' @rdname loss_functions
 #' @export
 loss_yardstick <- function(loss, reverse = FALSE, reference = 1) {
   warning("`loss_yardstick()` is deprecated; use `get_loss_yardstick()` instead.")
