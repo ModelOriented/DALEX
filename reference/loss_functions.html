@@ -25,7 +25,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy" class="external-link">DrWhy.AI</a>
            developed by the <a href="https://mi2.ai/" class="external-link">MI^2.AI</a> </span>
-          <span class="version version-default">2.4.3</span>
+          <span class="version version-default">2.5.0</span>
         </div>
       </div>
     </div>
@@ -85,7 +85,13 @@
 <span></span>
 <span><span class="fu">loss_accuracy</span><span class="op">(</span><span class="va">observed</span>, <span class="va">predicted</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">loss_one_minus_accuracy</span><span class="op">(</span><span class="va">observed</span>, <span class="va">predicted</span>, cutoff <span class="op">=</span> <span class="fl">0.5</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">get_loss_one_minus_accuracy</span><span class="op">(</span>cutoff <span class="op">=</span> <span class="fl">0.5</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">loss_one_minus_auc</span><span class="op">(</span><span class="va">observed</span>, <span class="va">predicted</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">get_loss_default</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">loss_default</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -108,6 +114,10 @@
 <dd><p>logical, should missing values be removed?</p></dd>
 
 
+<dt>cutoff</dt>
+<dd><p>classification threshold for the accuracy loss functions</p></dd>
+
+
 <dt>x</dt>
 <dd><p>either an explainer or type of the model. One of "regression", "classification", "multiclass".</p></dd>
 
@@ -126,11 +136,11 @@
 <span class="r-in"><span><span class="va">titanic_ranger_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></span><span class="op">(</span><span class="va">survived</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">titanic_imputed</span>, num.trees <span class="op">=</span> <span class="fl">50</span>,</span></span>
 <span class="r-in"><span>                               probability <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">loss_one_minus_auc</span><span class="op">(</span><span class="va">titanic_imputed</span><span class="op">$</span><span class="va">survived</span>, <span class="fu"><a href="yhat.html">yhat</a></span><span class="op">(</span><span class="va">titanic_ranger_model</span>, <span class="va">titanic_imputed</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1070628</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1050095</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">HR_ranger_model_multi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html" class="external-link">ranger</a></span><span class="op">(</span><span class="va">status</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">HR</span>, num.trees <span class="op">=</span> <span class="fl">50</span>, probability <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">loss_cross_entropy</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">HR</span><span class="op">$</span><span class="va">status</span><span class="op">)</span>, <span class="fu"><a href="yhat.html">yhat</a></span><span class="op">(</span><span class="va">HR_ranger_model_multi</span>, <span class="va">HR</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2971.486</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2960.559</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="co"># }</span></span></span>
 </code></pre></div>
