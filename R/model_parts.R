@@ -4,7 +4,7 @@
 #' Find information how to use this function here: \url{https://ema.drwhy.ai/featureImportance.html}.
 #'
 #' @param explainer a model to be explained, preprocessed by the \code{explain} function
-#' @param loss_function a function that will be used to assess variable importance. By default it is 1-AUC for classification, cross entropy for multilabel classification and RMSE for regression. Custom, user-made loss function should accept two obligatory parameters (observed, predicted), where \code{observed} states for actual values of the target, while \code{predicted} for predicted values. If attribute "loss_accuracy" is associated with function object, then it will be plotted as name of the loss function.
+#' @param loss_function a function that will be used to assess variable importance. By default it is 1-AUC for classification, cross entropy for multilabel classification and RMSE for regression. Custom, user-made loss function should accept two obligatory parameters (observed, predicted), where \code{observed} states for actual values of the target, while \code{predicted} for predicted values. If attribute \code{loss_name} is associated with function object, then it will be plotted as name of the loss function.
 #' @param ... other parameters
 #' @param type character, type of transformation that should be applied for dropout loss. \code{variable_importance} and \code{raw} results raw drop lossess, \code{ratio} returns \code{drop_loss/drop_loss_full_model} while \code{difference} returns \code{drop_loss - drop_loss_full_model}
 #' @param N number of observations that should be sampled for calculation of variable importance. If \code{NULL} then variable importance will be calculated on whole dataset (no sampling).
@@ -60,7 +60,7 @@
 #'}
 #'
 model_parts <- function(explainer,
-                              loss_function = loss_default(explainer$model_info$type),
+                              loss_function = get_loss_default(explainer$model_info$type),
                               ...,
                               type = "variable_importance",
                               N = n_sample,

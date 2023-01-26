@@ -6,6 +6,9 @@
 \alias{loss_root_mean_square}
 \alias{loss_accuracy}
 \alias{loss_one_minus_auc}
+\alias{loss_one_minus_accuracy}
+\alias{get_loss_one_minus_accuracy}
+\alias{get_loss_default}
 \alias{loss_default}
 \title{Calculate Loss Functions}
 \usage{
@@ -17,7 +20,13 @@ loss_root_mean_square(observed, predicted, na.rm = TRUE)
 
 loss_accuracy(observed, predicted, na.rm = TRUE)
 
+loss_one_minus_accuracy(observed, predicted, cutoff = 0.5, na.rm = TRUE)
+
+get_loss_one_minus_accuracy(cutoff = 0.5, na.rm = TRUE)
+
 loss_one_minus_auc(observed, predicted)
+
+get_loss_default(x)
 
 loss_default(x)
 }
@@ -29,6 +38,8 @@ loss_default(x)
 \item{p_min}{for cross entropy, minimal value for probability to make sure that \code{log} will not explode}
 
 \item{na.rm}{logical, should missing values be removed?}
+
+\item{cutoff}{classification threshold for the accuracy loss functions}
 
 \item{x}{either an explainer or type of the model. One of "regression", "classification", "multiclass".}
 }

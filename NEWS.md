@@ -1,3 +1,8 @@
+DALEX 2.5.0
+---------------------------------------------------------------
+* breaking change: change the name of `loss_yardstick()` to `get_loss_yardstick()` and `loss_default()` to `get_loss_default()` 
+* add `loss_one_minus_accuracy()` and `get_loss_one_minus_accuracy()` ([#535](https://github.com/ModelOriented/DALEX/issues/535))
+
 DALEX 2.4.3
 ---------------------------------------------------------------
 * added implementation of aSHAP (aggregated SHAP) and waterfall plot ([#519](https://github.com/ModelOriented/DALEX/issues/519))

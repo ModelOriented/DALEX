@@ -1,6 +1,6 @@
 Package: DALEX
 Title: moDel Agnostic Language for Exploration and eXplanation
-Version: 2.4.3
+Version: 2.5.0
 Authors@R: c(person("Przemyslaw", "Biecek", email = "przemyslaw.biecek@gmail.com", role = c("aut", "cre"), 
              comment = c(ORCID = "0000-0001-8423-1823")),
     person("Szymon", "Maksymiuk", role = "aut",
@@ -18,7 +18,7 @@ Description: Any unverified black box model is the path to failure. Opaqueness l
   as well as a level of the whole dataset.
   All model explainers are model agnostic and can be compared across different models.
   DALEX package is the cornerstone for 'DrWhy.AI' universe of packages for visual model exploration.
-  Find more details in (Biecek 2018) <arXiv:1806.08915>.
+  Find more details in (Biecek 2018) <https://jmlr.org/papers/v19/18-416.html>.
 License: GPL
 Encoding: UTF-8
 LazyData: true
