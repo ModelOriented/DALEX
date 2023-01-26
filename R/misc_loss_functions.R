@@ -3,6 +3,7 @@
 #' @param predicted predicted scores, either vector of matrix, these are returned from the model specific \code{predict_function()}
 #' @param observed observed scores or labels, these are supplied as explainer specific \code{y}
 #' @param p_min for cross entropy, minimal value for probability to make sure that \code{log} will not explode
+#' @param cutoff classification threshold for the accuracy loss functions
 #' @param na.rm logical, should missing values be removed?
 #' @param x either an explainer or type of the model. One of "regression", "classification", "multiclass".
 #'
@@ -98,6 +99,7 @@ get_loss_default <- function(x) {
   )
 }
 
+#' @noRd
 #' @export
 loss_default <- function(x) {
   warning("`loss_default()` is deprecated; use `get_loss_default()` instead.")
@@ -154,6 +156,7 @@ get_loss_yardstick <- function(loss, reverse = FALSE, reference = 1) {
   custom_loss
 }
 
+#' @noRd
 #' @export
 loss_yardstick <- function(loss, reverse = FALSE, reference = 1) {
   warning("`loss_yardstick()` is deprecated; use `get_loss_yardstick()` instead.")

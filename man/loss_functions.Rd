@@ -36,6 +36,8 @@ get_loss_default(x)
 
 \item{na.rm}{logical, should missing values be removed?}
 
+\item{cutoff}{classification threshold for the accuracy loss functions}
+
 \item{x}{either an explainer or type of the model. One of "regression", "classification", "multiclass".}
 }
 \value{
