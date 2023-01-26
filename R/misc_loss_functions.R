@@ -156,7 +156,7 @@ get_loss_yardstick <- function(loss, reverse = FALSE, reference = 1) {
   custom_loss
 }
 
-#' @rdname loss_functions
+#' @rdname get_loss_yardstick
 #' @export
 loss_yardstick <- function(loss, reverse = FALSE, reference = 1) {
   warning("`loss_yardstick()` is deprecated; use `get_loss_yardstick()` instead.")

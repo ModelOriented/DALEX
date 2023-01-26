@@ -10,7 +10,6 @@
 \alias{get_loss_one_minus_accuracy}
 \alias{get_loss_default}
 \alias{loss_default}
-\alias{loss_yardstick}
 \title{Calculate Loss Functions}
 \usage{
 loss_cross_entropy(observed, predicted, p_min = 1e-04, na.rm = TRUE)
@@ -30,8 +29,6 @@ loss_one_minus_auc(observed, predicted)
 get_loss_default(x)
 
 loss_default(x)
-
-loss_yardstick(loss, reverse = FALSE, reference = 1)
 }
 \arguments{
 \item{observed}{observed scores or labels, these are supplied as explainer specific \code{y}}

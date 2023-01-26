@@ -2,9 +2,12 @@
 % Please edit documentation in R/misc_loss_functions.R
 \name{get_loss_yardstick}
 \alias{get_loss_yardstick}
+\alias{loss_yardstick}
 \title{Wrapper for Loss Functions from the yardstick Package}
 \usage{
 get_loss_yardstick(loss, reverse = FALSE, reference = 1)
+
+loss_yardstick(loss, reverse = FALSE, reference = 1)
 }
 \arguments{
 \item{loss}{loss function from the \code{yardstick} package}
