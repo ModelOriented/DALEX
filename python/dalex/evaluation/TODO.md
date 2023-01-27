@@ -25,3 +25,12 @@
 
 ### dataset
 - wymyslić/znaleźć spoko syntetyczny dataset
+
+# NEW - reszte jebać xd
+
+## edek
+- naklepać `scripts.run_explanation_experiments`
+- uruchomić `scripts.run_many_experiments` i zapisać wyniki tak, żeby nie było ich za mało
+
+## kuchar
+- zrobić analize
