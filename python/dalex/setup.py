@@ -87,10 +87,8 @@ def run_setup():
             'tqdm>=4.61.2',
         ],
         extras_require={'full': extras_require},
-        packages=find_packages(
-            exclude=["dalex.evaluation"],
-            include=["dalex", "dalex.*", "dalex.evaluation.src.*"],
-        ),        python_requires='>=3.7',
+        packages=find_packages(include=["dalex", "dalex.*"]),
+        python_requires='>=3.7',
         include_package_data=True
     )
 
