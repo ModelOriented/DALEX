@@ -2,7 +2,7 @@ from typing import Tuple
 
 import pandas as pd
 
-from evaluation.models import Model
+from models import Model
 
 
 def run_experiment(

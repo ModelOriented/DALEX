@@ -1,12 +1,23 @@
 import pandas as pd
+from typing import Tuple
 
-from evaluation.config import DATA_DIR, DATASETS
+from config import DATA_DIR, DATASETS
 
 
-def load_dataset(dataset_name: str) -> pd.DataFrame:
+def load_dataset(dataset_name: str) -> Tuple[pd.DataFrame, pd.Series]:
     if dataset_name not in DATASETS:
         raise ValueError
-    # TODO
+    elif dataset_name == "housing":
+        df = pd.read_csv(DATA_DIR / "input/kc_house_data.csv").dropna()
+        X = df[["bedrooms", "bathrooms", "sqft_living", "sqft_lot", "floors", \
+                            "grade", "sqft_above", "sqft_basement", "yr_built"]]
+        y = df["price"]
+    elif dataset_name == "cancer":
+        df = pd.read_csv(DATA_DIR / "input/cancer_reg.csv", encoding='latin-1', error_bad_lines=False).dropna()
+        X = df.drop("TARGET_deathRate", axis=1)
+        y = df["TARGET_deathRate"]
+
+    return X, y
 
 
 def load_complete_results(name: str) -> pd.DataFrame:

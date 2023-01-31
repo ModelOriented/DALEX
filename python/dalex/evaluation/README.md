@@ -11,6 +11,6 @@ python evaluation/src/evaluation/scripts.py run-many-experiments \
     --models xgboost,svm \
     --methods exact,kernel,unbiased \
     --datasets housing,... \
-    --n_runs 50,100,500,1000,5000,... \
-    --n_samples ...,... 
+    --n_runs 5000 \
+    --n_samples 30,100,200,300,400,500 
 ```
