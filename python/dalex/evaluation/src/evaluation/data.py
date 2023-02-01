@@ -13,8 +13,8 @@ def load_dataset(dataset_name: str) -> Tuple[pd.DataFrame, pd.Series]:
                             "grade", "sqft_above", "sqft_basement", "yr_built"]]
         y = df["price"]
     elif dataset_name == "cancer":
-        df = pd.read_csv(DATA_DIR / "input/cancer_reg.csv", encoding='latin-1', error_bad_lines=False).dropna()
-        X = df.drop("TARGET_deathRate", axis=1)
+        df = pd.read_csv(DATA_DIR / "input/cancer_reg_org.csv", encoding='latin-1').dropna()
+        X = df.drop(["TARGET_deathRate", "binnedInc", "Geography"], axis=1)
         y = df["TARGET_deathRate"]
 
     return X, y

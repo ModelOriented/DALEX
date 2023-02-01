@@ -30,7 +30,7 @@ def run_explanation_experiments(
     """run experiments, get results and runtime and either return time (of explanations only)
     and the dataframe or save df it in `DATA_DIR` folder"""
     X, y = load_dataset(dataset)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=290, shuffle=True, random_state=446519)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=300, shuffle=True, random_state=446519)
 
     my_model = create_model(model)
     my_model.fit(X_train, y_train)
