@@ -210,17 +210,19 @@ class BreakDown(Explanation):
                 m = max_vars + 3
 
             if baseline is None:
-                baseline = _result.iloc[0, _result.columns.get_loc("cumulative")]
+                prediction_baseline = _result.iloc[0, _result.columns.get_loc("cumulative")]
+            else: 
+                prediction_baseline = baseline
 
-            df = plot.prepare_data_for_break_down_plot(_result, baseline, max_vars, rounding_function, digits)
+            df = plot.prepare_data_for_break_down_plot(_result, prediction_baseline, max_vars, rounding_function, digits)
 
             measure = ["relative"] * m
             measure[m - 1] = "total"
 
             fig.add_shape(
                 type='line',
-                x0=baseline,
-                x1=baseline,
+                x0=prediction_baseline,
+                x1=prediction_baseline,
                 y0=-1,
                 y1=m,
                 yref="paper",
@@ -240,7 +242,7 @@ class BreakDown(Explanation):
                 decreasing={"marker": {"color": vcolors[-1]}},
                 increasing={"marker": {"color": vcolors[1]}},
                 totals={"marker": {"color": vcolors[0]}},
-                base=baseline,
+                base=prediction_baseline,
                 hovertext=df['tooltip_text'].tolist(),
                 hoverinfo='text+delta',
                 hoverlabel={'bgcolor': 'rgba(0,0,0,0.8)'},

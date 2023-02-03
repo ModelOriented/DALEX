@@ -216,15 +216,18 @@ class Shap(Explanation):
                 m = max_vars + 1
 
             if baseline is None:
-                baseline = _intercept_list[i]
+                prediction_baseline = _intercept_list[i]
+            else: 
+                prediction_baseline = baseline
+
             prediction = _prediction_list[i]
 
-            df = plot.prepare_data_for_shap_plot(_result, baseline, prediction, max_vars, rounding_function, digits)
+            df = plot.prepare_data_for_shap_plot(_result, prediction_baseline, prediction, max_vars, rounding_function, digits)
 
             fig.add_shape(
                 type='line',
-                x0=baseline,
-                x1=baseline,
+                x0=prediction_baseline,
+                x1=prediction_baseline,
                 y0=-1,
                 y1=m,
                 yref="paper",
@@ -240,7 +243,7 @@ class Shap(Explanation):
                 textposition="outside",
                 text=df['label_text'].tolist(),
                 marker_color=[vcolors[int(c)] for c in df['sign'].tolist()],
-                base=baseline,
+                base=prediction_baseline,
                 hovertext=df['tooltip_text'].tolist(),
                 hoverinfo='text',
                 hoverlabel={'bgcolor': 'rgba(0,0,0,0.8)'},
@@ -259,7 +262,7 @@ class Shap(Explanation):
             plot_height += m * bar_width + (m + 1) * bar_width / 4
 
             if min_max is None:
-                cum = df.contribution.values + baseline
+                cum = df.contribution.values + prediction_baseline
                 min_max_margin = cum.ptp() * 0.15
                 temp_min_max[0] = np.min([temp_min_max[0], cum.min() - min_max_margin])
                 temp_min_max[1] = np.max([temp_min_max[1], cum.max() + min_max_margin])
