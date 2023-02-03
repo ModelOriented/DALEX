@@ -1,8 +1,7 @@
 from typing import Tuple
 
 import pandas as pd
-
-from models import Model
+from evaluation.models import Model
 
 
 def run_experiment(
