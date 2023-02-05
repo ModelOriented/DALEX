@@ -1,23 +1,22 @@
 import pandas as pd
-from typing_extensions import Protocol
-from sklearn.svm import SVR
+from evaluation.config import RANDOM_STATE
 from sklearn.ensemble import GradientBoostingRegressor
-
-from config import MODELS, RANDOM_STATE
+from sklearn.svm import SVR
+from typing_extensions import Protocol
 
 
 class Model(Protocol):
-    def fit(X: pd.DataFrame, y: pd.Series) -> "Model":
-        self.fit(X, y)
+    def fit(self, X: pd.DataFrame, y: pd.Series) -> "Model":
+        ...
 
-    def predict(X: pd.DataFrame) -> pd.Series:
-        return pd.Series(self.predict(X))
+    def predict(self, X: pd.DataFrame) -> pd.Series:
+        ...
 
 
 def create_model(model: str) -> Model:
-    if model not in MODELS:
-        raise ValueError
-    elif model == "svm":
-        return SVR(kernel='linear')
+    if model == "svm":
+        return SVR(kernel="linear")
     elif model == "xgboost":
         return GradientBoostingRegressor(random_state=RANDOM_STATE)
+    else:
+        raise ValueError(f"model {model} not supported")
