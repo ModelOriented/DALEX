@@ -60,15 +60,15 @@ def run_explanation_experiments(
         elif method == "kernel":
             start = time.time()
             shap_values = explainer.shap_values(X_test.iloc[observation_id:observation_id+1],\
-                                                nsamples=n_samples)
+                                                nsamples=n_samples)[0]
             measured_time += time.time() - start
         elif method == "exact":
             start = time.time()
-            shap_values = explainer(X_test.iloc[observation_id:observation_id+1]).values
+            shap_values = explainer(X_test.iloc[observation_id:observation_id+1]).values[0]
             measured_time += time.time() - start
 
-        row = shap_values.tolist().append([run_idx, model, method, dataset, observation_id, n_samples])
-        temp_df = pd.DataFrame(row, columns=result_columns)
+        row = shap_values.tolist() + [run_idx, model, method, dataset, observation_id, n_samples]
+        temp_df = pd.DataFrame([row], columns=result_columns)
 
         shap_results = shap_results.append(temp_df, ignore_index=True)
 
@@ -117,7 +117,7 @@ def run_many_experiments(
 
     for name, dfs in results.items():
         df = pd.concat(dfs)
-        df.to_parquet(DATA_DIR / "estimates" / f"{dataset}_samples{observation_ids.replace(',','_')}_all.parquet")
+        df.to_parquet(DATA_DIR / "estimates" / f"{name}_samples{observation_ids.replace(',','_')}_all.parquet")
     pd.DataFrame(
         data=times, columns=["model", "method", "dataset", "n_runs", "observation_ids", "n_sample", "time"]
     ).to_parquet(DATA_DIR / "estimates" / f"{dataset}_samples{observation_ids.replace(',','_')}_times_all.parquet")
