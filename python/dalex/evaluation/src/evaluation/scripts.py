@@ -143,15 +143,11 @@ def run_many_experiments(
 
     for name, dfs in results.items():
         df = pd.concat(dfs)
-<<<<<<< HEAD
-        df.to_parquet(DATA_DIR / "estimates" / f"{name}_samples{observation_ids.replace(',','_')}_all.parquet")
-=======
         df.to_parquet(
             DATA_DIR
             / "estimates"
             / f"{dataset}_samples{observation_ids.replace(',','_')}_all.parquet"
         )
->>>>>>> 3b5f810325dd7d69df46f02a804dc2977069ff30
     pd.DataFrame(
         data=times,
         columns=[
