@@ -4,6 +4,7 @@
 
 * Add `ZeroDivisionError` to precision and recall functions ([#532](https://github.com/ModelOriented/DALEX/pull/532))
 * Add a warning to `calculate_depend_matrix()` when there is a variable with only one value ([#537](https://github.com/ModelOriented/DALEX/issues/537))
+* Fix baseline positions in the subplots of the predict parts explanations: BreakDown, Shap ([#545](https://github.com/ModelOriented/DALEX/pull/545))
 
 ### v1.5.0 (2022-09-07)
 
