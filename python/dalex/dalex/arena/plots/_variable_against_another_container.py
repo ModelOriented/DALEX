@@ -19,10 +19,10 @@ class VariableAgainstAnotherContainer(PlotContainer):
     }
 
     def _fit(self, dataset, variable):
-        variable_column_first = dataset.dataset.loc[:, variable]
+        variable_column_first = dataset.dataset.loc[:, variable.variable]
         data = {}
         for variable_another in dataset.dataset.columns:    
-            if variable == variable_another:
+            if variable.variable == variable_another:
                 continue
             variable_column_another = dataset.dataset.loc[:, variable_another]
             # scatter plot for two numeric variables
@@ -33,12 +33,12 @@ class VariableAgainstAnotherContainer(PlotContainer):
                 ids = np.random.choice(variable_column_first.size, size=n_points, replace=False) 
                 data[variable_another] = {
                     'type': 'scatter', 
-                    'first': variable_column_first[ids].tolist(), 
-                    'secondary': variable_column_another[ids].tolist()
+                    'first': variable_column_first.iloc[ids].tolist(), 
+                    'secondary': variable_column_another.iloc[ids].tolist()
                 }
             elif pd.api.types.is_numeric_dtype(variable_column_first):
                 # boxplots of the first variable
-                data_boxplot = {}
+                data_boxplot = []
                 for value_another in variable_column_another.unique():
                     variable_column_first_filtered = variable_column_first[variable_column_another == value_another]
                     quantiles = np.nanquantile(variable_column_first_filtered, [0.25, 0.5, 0.75])
@@ -46,7 +46,7 @@ class VariableAgainstAnotherContainer(PlotContainer):
                     # lower, upper fences
                     lf = max(quantiles[0] - (1.5 * iqr), np.nanmin(variable_column_first_filtered))
                     uf = min(quantiles[2] + (1.5 * iqr), np.nanmax(variable_column_first_filtered))
-                    data_boxplot[value_another] = {
+                    data_boxplot += [{
                         'q1': quantiles[0],
                         'q3': quantiles[2],
                         'mean': np.nanmean(variable_column_first_filtered),
@@ -55,7 +55,7 @@ class VariableAgainstAnotherContainer(PlotContainer):
                         'uf': uf,
                         'outliers': variable_column_first_filtered[(variable_column_first_filtered > uf) |\
                                                                    (variable_column_first_filtered < lf)].tolist()
-                    }
+                    }]
                 data[variable_another] = {
                     'type': 'boxplots', 
                     'first': data_boxplot, 
@@ -64,7 +64,7 @@ class VariableAgainstAnotherContainer(PlotContainer):
                 }
             elif pd.api.types.is_numeric_dtype(variable_column_another):
                 # boxplots of another variable
-                data_boxplot = {}
+                data_boxplot = []
                 for value_first in variable_column_first.unique():
                     variable_column_another_filtered = variable_column_another[variable_column_first == value_first]
                     quantiles = np.nanquantile(variable_column_another_filtered, [0.25, 0.5, 0.75])
@@ -72,7 +72,7 @@ class VariableAgainstAnotherContainer(PlotContainer):
                     # lower, upper fences
                     lf = max(quantiles[0] - (1.5 * iqr), np.nanmin(variable_column_another_filtered))
                     uf = min(quantiles[2] + (1.5 * iqr), np.nanmax(variable_column_another_filtered))
-                    data_boxplot[value_another] = {
+                    data_boxplot += [{
                         'q1': quantiles[0],
                         'q3': quantiles[2],
                         'mean': np.nanmean(variable_column_another_filtered),
@@ -81,7 +81,7 @@ class VariableAgainstAnotherContainer(PlotContainer):
                         'uf': uf,
                         'outliers': variable_column_another_filtered[(variable_column_another_filtered > uf) |\
                                                                     (variable_column_another_filtered < lf)].tolist()
-                    }
+                    }]
                 data[variable_another] = {
                     'type': 'boxplots', 
                     'first': variable_column_first.unique().tolist(), 

@@ -16,7 +16,7 @@ class VariableDistributionContainer(PlotContainer):
     }
 
     def _fit(self, dataset, variable):
-        variable_column = dataset.dataset.loc[:, variable]
+        variable_column = dataset.dataset.loc[:, variable.variable]
         if pd.api.types.is_numeric_dtype(variable_column):
             bins = self.get_option('vd_bins')
             data = {}
@@ -32,6 +32,7 @@ class VariableDistributionContainer(PlotContainer):
                     'density': (counts / counts.sum()).tolist(),
                     'counts': counts.tolist()
                 }
+            self.data = data
             self.plot_component = "DistributionHistogram"
         else:
             counts = variable_column.value_counts()
