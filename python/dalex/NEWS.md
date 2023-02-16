@@ -1,11 +1,12 @@
 ## Changelog
 
-### development 
+### v1.6.0 (2023-02-16) 
 
 * Add `ZeroDivisionError` to precision and recall functions ([#532](https://github.com/ModelOriented/DALEX/pull/532))
 * Add a warning to `calculate_depend_matrix()` when there is a variable with only one value ([#537](https://github.com/ModelOriented/DALEX/issues/537))
 * Fix missing EDA plots in (Python) Arena ([#544](https://github.com/ModelOriented/DALEX/issues/544))
 * Fix baseline positions in the subplots of the predict parts explanations: BreakDown, Shap ([#545](https://github.com/ModelOriented/DALEX/pull/545))
+
 
 ### v1.5.0 (2022-09-07)
 
