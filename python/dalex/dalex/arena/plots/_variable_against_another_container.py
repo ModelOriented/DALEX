@@ -93,7 +93,7 @@ class VariableAgainstAnotherContainer(PlotContainer):
                 tab = pd.crosstab(variable_column_first, variable_column_another)
                 data[variable_another] = {
                     'type': 'table',
-                    'counts': {i: val[1].tolist() for i, val in enumerate(tab.items())},
+                    'counts': tab.values.tolist(),
                     'first': tab.index.tolist(),
                     'secondary': tab.columns.tolist()
                 }
