@@ -12,7 +12,7 @@ class VariableAgainstAnotherContainer(PlotContainer):
     }
     options_category = 'VariableAgainstAnother'
     options = {
-        'vaa_points_number': {
+        'points_number': {
             'default': 150, 
             'desc': 'Maximum sample size to visualize in the variable against another scatter plot'
         }
@@ -29,7 +29,7 @@ class VariableAgainstAnotherContainer(PlotContainer):
             if pd.api.types.is_numeric_dtype(variable_column_first) and\
                 pd.api.types.is_numeric_dtype(variable_column_another):
                 # sample a subset of points
-                n_points = min(self.get_option('vaa_points_number'), variable_column_first.size)
+                n_points = min(self.get_option('points_number'), variable_column_first.size)
                 ids = np.random.choice(variable_column_first.size, size=n_points, replace=False) 
                 data[variable_another] = {
                     'type': 'scatter', 

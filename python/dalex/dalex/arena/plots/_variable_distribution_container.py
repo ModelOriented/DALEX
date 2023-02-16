@@ -11,14 +11,16 @@ class VariableDistributionContainer(PlotContainer):
     }
     options_category = 'VariableDistribution'
     options = {
-        'vd_bins': {'default': list(range(5, 41, 5)), 
-                    'desc': 'List of available bin counts for the variable distribution plot'}
+        'bins': {
+            'default': list(range(5, 41, 5)),
+            'desc': 'List of available bin counts for the variable distribution plot'
+        }
     }
 
     def _fit(self, dataset, variable):
         variable_column = dataset.dataset.loc[:, variable.variable]
         if pd.api.types.is_numeric_dtype(variable_column):
-            bins = self.get_option('vd_bins')
+            bins = self.get_option('bins')
             data = {}
             # get histogram for each bin number
             for bin in bins:
