@@ -9,6 +9,7 @@ from ._roc_container import ROCContainer
 from ._fairness_check_container import FairnessCheckContainer
 from ._shapley_values_dependence_container import ShapleyValuesDependenceContainer
 from ._shapley_values_variable_importance_container import ShapleyValuesVariableImportanceContainer
+from ._variable_against_another_container import VariableAgainstAnotherContainer
 from ._variable_distribution_container import VariableDistributionContainer
 
 __all__ = [
@@ -23,5 +24,6 @@ __all__ = [
     'FairnessCheckContainer',
     'ShapleyValuesDependenceContainer',
     'ShapleyValuesVariableImportanceContainer',
+    'VariableAgainstAnotherContainer',
     'VariableDistributionContainer'
 ]

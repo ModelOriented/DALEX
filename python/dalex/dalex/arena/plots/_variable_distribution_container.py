@@ -12,7 +12,7 @@ class VariableDistributionContainer(PlotContainer):
     options_category = 'VariableDistribution'
     options = {
         'vd_bins': {'default': list(range(5, 41, 5)), 
-                    'desc': 'List of available bin counts for the variable distribution plot'},
+                    'desc': 'List of available bin counts for the variable distribution plot'}
     }
 
     def _fit(self, dataset, variable):

@@ -56,7 +56,7 @@ class ArenaTestTitanic(unittest.TestCase):
         self.reference_plots = [ROCContainer, ShapleyValuesContainer, BreakDownContainer, CeterisParibusContainer,
             FeatureImportanceContainer, PartialDependenceContainer, AccumulatedDependenceContainer, MetricsContainer, 
             FairnessCheckContainer, ShapleyValuesDependenceContainer, ShapleyValuesVariableImportanceContainer,
-            VariableDistributionContainer]
+            VariableAgainstAnotherContainer, VariableDistributionContainer]
 
     def test_supported_plots(self):
         arena = dx.Arena()
