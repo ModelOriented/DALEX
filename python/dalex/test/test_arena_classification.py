@@ -54,8 +54,9 @@ class ArenaTestTitanic(unittest.TestCase):
 
         # This plots should be supported
         self.reference_plots = [ROCContainer, ShapleyValuesContainer, BreakDownContainer, CeterisParibusContainer,
-            FeatureImportanceContainer, PartialDependenceContainer, AccumulatedDependenceContainer, MetricsContainer, FairnessCheckContainer,
-            ShapleyValuesDependenceContainer, ShapleyValuesVariableImportanceContainer]
+            FeatureImportanceContainer, PartialDependenceContainer, AccumulatedDependenceContainer, MetricsContainer, 
+            FairnessCheckContainer, ShapleyValuesDependenceContainer, ShapleyValuesVariableImportanceContainer,
+            VariableAgainstAnotherContainer, VariableDistributionContainer]
 
     def test_supported_plots(self):
         arena = dx.Arena()
