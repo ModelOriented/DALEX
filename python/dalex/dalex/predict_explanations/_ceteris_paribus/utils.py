@@ -98,7 +98,7 @@ def single_variable_profile(predict,
     :return: ceteris paribus profile for one variable
     """
     # remember ids of selected points
-    ids = np.repeat(data.index, split_points.shape[0])
+    ids = np.repeat(data.index.values, split_points.shape[0])
     new_data = data.loc[ids, :]
     original = new_data.loc[:, variable].copy()
     new_data.loc[:, variable] = np.tile(split_points, data.shape[0])
