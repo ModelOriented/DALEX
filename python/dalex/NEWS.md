@@ -1,5 +1,9 @@
 ## Changelog
 
+### development
+
+* Fix an error occuring in `predict_profile()` when a DataFrame has MultiIndex in `pandas >= 1.3.0` ([#550](https://github.com/ModelOriented/DALEX/pull/550))
+
 ### v1.6.0 (2023-02-16) 
 
 * Add `ZeroDivisionError` to precision and recall functions ([#532](https://github.com/ModelOriented/DALEX/pull/532))
