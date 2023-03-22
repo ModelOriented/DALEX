@@ -4,10 +4,12 @@
 #' Model prediction is decomposed into parts that are attributed for particular variables.
 #' From DALEX version 1.0 this function calls the \code{\link[iBreakDown]{break_down}} or
 #' \code{\link[iBreakDown:break_down_uncertainty]{shap}} functions from the \code{iBreakDown} package or
-#' \code{\link[ingredients:ceteris_paribus]{ceteris_paribus}} from the \code{ingredients} package.
+#' \code{\link[ingredients:ceteris_paribus]{ceteris_paribus}} from the \code{ingredients} package or
+#' \code{\link[kernelshap:kernelshap]{kernelshap}} from the \code{kernelshap} package.
 #' Find information how to use the \code{break_down} method here: \url{https://ema.drwhy.ai/breakDown.html}.
 #' Find information how to use the \code{shap} method here: \url{https://ema.drwhy.ai/shapley.html}.
 #' Find information how to use the \code{oscillations} method here: \url{https://ema.drwhy.ai/ceterisParibusOscillations.html}.
+#' Find information how to use the \code{kernelshap} method here: \url{https://modeloriented.github.io/kernelshap/}
 #' aSHAP method provides explanations for a set of observations based on SHAP.
 #'
 #' @param explainer a model to be explained, preprocessed by the \code{explain} function
@@ -18,7 +20,7 @@
 #' @param N the maximum number of observations used for calculation of attributions. By default NULL (use all) or 500 (for oscillations).
 #' @param variable_splits_type how variable grids shall be calculated? Will be passed to \code{\link[ingredients]{ceteris_paribus}}.
 #' @param type the type of variable attributions. Either \code{shap}, \code{aggregated_shap}, \code{oscillations}, \code{oscillations_uni},
-#' \code{oscillations_emp}, \code{break_down} or \code{break_down_interactions}.
+#' \code{oscillations_emp}, \code{break_down}, \code{break_down_interactions}, \code{kernel_shap}, \code{kernel_shap_break_down} or \code{kernel_shap_aggregated}.
 #'
 #' @return Depending on the \code{type} there are different classes of the resulting object.
 #' It's a data frame with calculated average response.
@@ -84,7 +86,11 @@ predict_parts <- function(explainer, new_observation, ..., N = if(substr(type, 1
           "oscillations_uni"        = predict_parts_oscillations_uni(explainer, new_observation, ...),
           "oscillations_emp"        = predict_parts_oscillations_emp(explainer, new_observation, ...),
           "shap_aggregated"         = predict_parts_shap_aggregated(explainer, new_observation, ...),
-          stop("The type argument shall be either 'shap' or 'break_down' or 'break_down_interactions' or 'oscillations' or 'oscillations_uni' or 'oscillations_emp' or 'shap_aggregated'")
+          "kernel_shap"             = predict_parts_kernel_shap(explainer, new_observation, ...),
+          "kernel_shap_break_down"  = predict_parts_kernel_shap_break_down(explainer, new_observation, ...),
+          "kernel_shap_aggregated"  = predict_parts_kernel_shap_aggreagted(explainer, new_observation, ...),
+          stop("The type argument shall be either 'shap' or 'break_down' or 'break_down_interactions' or 'oscillations' or 'oscillations_uni' or 'oscillations_emp' or 'shap_aggregated'
+               or 'kernel_shap' or 'kernel_shap_break_down' or 'kernel_shap_aggregated'")
   )
 }
 
@@ -193,10 +199,51 @@ predict_parts_shap_aggregated <- function(explainer, new_observation, ...) {
 
   res <- shap_aggregated(explainer,
                          new_observations = new_observation,
+                         kernelshap = FALSE,
                          ...)
-
   class(res) <- c('predict_parts', class(res))
+  res
+}
 
+#' @name predict_parts
+#' @export
+predict_parts_kernel_shap <- function(explainer, new_observation, ...) {
+  test_explainer(explainer, has_data = TRUE, function_name = "kernel_shap")
+  ks <- kernelshap::kernelshap(
+    object = explainer$model,
+    X = new_observation,
+    bg_X = explainer$data,
+    pred_fun = explainer$predict_function,
+    verbose = FALSE,
+    ...,
+  )
+
+  res <- kernelshap_to_shap(ks, new_observation, explainer, agg=FALSE)
+  class(res) <- c('predict_parts', 'kernel_shap', 'shap', 'break_down_uncertainty', 'data.frame')
+  res
+}
+
+#' @name predict_parts
+#' @export
+predict_parts_kernel_shap_break_down <- function(explainer, new_observation, ...){
+  test_explainer(explainer, has_data = TRUE, function_name = "kernel_shap_break_down")
+  shaps <- predict_parts_kernel_shap(explainer, new_observation, ...)
+  ret <- transform_shap_to_break_down(shaps, explainer$label,
+                                      attr(shaps, 'intercept'), attr(shaps, 'prediction'),
+                                      order_of_variables=NULL, agg=FALSE)
+  class(ret) <- c('predict_parts', 'break_down', 'break_down_kernel_shap', 'data.frame')
+  ret
+}
+
+#' @name predict_parts
+#' @export
+predict_parts_kernel_shap_aggreagted <- function(explainer, new_observation, ...){
+  test_explainer(explainer, has_data = TRUE, function_name = "kernel_shap_break_down")
+  res <- shap_aggregated(explainer,
+                         new_observations = new_observation,
+                         kernelshap = TRUE,
+                         ...)
+  class(res) <- c('predict_parts', class(res))
   res
 }
 

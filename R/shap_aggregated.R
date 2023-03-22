@@ -6,7 +6,8 @@
 #' @param new_observations a set of new observations with columns that correspond to variables used in the model.
 #' @param order if not \code{NULL}, then it will be a fixed order of variables. It can be a numeric vector or vector with names of variables.
 #' @param ... other parameters like \code{label}, \code{predict_function}, \code{data}, \code{x}
-#' @param B number of random paths
+#' @param B number of random paths; works only if kernelshap=FALSE
+#' @param kernelshap indicates whether the kernelshap method should be used
 #'
 #' @return an object of the \code{shap_aggregated} class.
 #'
@@ -29,14 +30,27 @@
 #' plot(bd_glm, max_features = 3)
 #' }
 #' @export
-shap_aggregated <- function(explainer, new_observations, order = NULL, B = 25, ...) {
+shap_aggregated <- function(explainer, new_observations, order = NULL, B = 25, kernelshap = FALSE, ...) {
   ret_raw <- data.frame(contribution = c(), variable_name = c(), label = c())
 
-  for(i in 1:nrow(new_observations)){
-    new_obs <- new_observations[i,]
-    shap_vals <- iBreakDown::shap(explainer, new_observation = new_obs, B = B, ...)
-    shap_vals <- shap_vals[shap_vals$B != 0, c('contribution', 'variable_name', 'label')]
-    ret_raw <- rbind(ret_raw, shap_vals)
+  if(kernelshap) {
+    ks <- kernelshap::kernelshap(
+      object = explainer$model,
+      X = new_observations,
+      bg_X = explainer$data,
+      pred_fun = explainer$predict_function,
+      verbose = FALSE,
+      ...,
+    )
+    res <- kernelshap_to_shap(ks, new_observations, explainer, agg=TRUE)
+    ret_raw <- res[ ,c('contribution', 'variable_name', 'label')]
+  } else {
+    for(i in 1:nrow(new_observations)){
+      new_obs <- new_observations[i,]
+      shap_vals <- iBreakDown::shap(explainer, new_observation = new_obs, B = B, ...)
+      shap_vals <- shap_vals[shap_vals$B != 0, c('contribution', 'variable_name', 'label')]
+      ret_raw <- rbind(ret_raw, shap_vals)
+    }
   }
 
   data_preds <- predict(explainer, explainer$data)
@@ -64,44 +78,10 @@ shap_aggregated <- function(explainer, new_observations, order = NULL, B = 25, .
 raw_to_aggregated <- function(ret_raw, mean_prediction, mean_subset, order, label){
   ret <- aggregate(ret_raw$contribution, list(ret_raw$variable_name, ret_raw$label), FUN=mean)
   colnames(ret) <- c('variable', 'label', 'contribution')
-  ret$variable <- as.character(ret$variable)
-  rownames(ret) <- ret$variable
-
-  ret <- ret[order,]
-
-  ret$position <- (nrow(ret) + 1):2
-  ret$sign <- ifelse(ret$contribution >= 0, "1", "-1")
-
-  ret <- rbind(ret, data.frame(variable = "intercept",
-                               label = label,
-                               contribution = mean_prediction,
-                               position = max(ret$position) + 1,
-                               sign = "X"),
-               make.row.names=FALSE)
-
-  ret <- rbind(ret, data.frame(variable = "prediction",
-                               label = label,
-                               contribution = mean_subset,
-                               position = 1,
-                               sign = "X"),
-               make.row.names=FALSE)
-
-  ret <- ret[call_order_func(ret$position, decreasing = TRUE), ]
-
-  ret$cumulative <- cumsum(ret$contribution)
-  ret$cumulative[nrow(ret)] <- ret$contribution[nrow(ret)]
-
   ret$variable_name <- ret$variable
-  ret$variable_name <- factor(ret$variable_name, levels=c(ret$variable_name, ''))
-  ret$variable_name[nrow(ret)] <- ''
-
-  ret$variable_value <- '' # column for consistency
-
+  ret <- transform_shap_to_break_down(ret, label, mean_subset, mean_prediction, order, agg=TRUE)
+  class(ret) <- c('data.frame')
   ret
-}
-
-call_order_func <- function(...) {
-  order(...)
 }
 
 calculate_1d_changes <- function(model, new_observation, data, predict_function) {

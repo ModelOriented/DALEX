@@ -4,7 +4,14 @@
 \alias{shap_aggregated}
 \title{SHAP aggregated values}
 \usage{
-shap_aggregated(explainer, new_observations, order = NULL, B = 25, ...)
+shap_aggregated(
+  explainer,
+  new_observations,
+  order = NULL,
+  B = 25,
+  kernelshap = FALSE,
+  ...
+)
 }
 \arguments{
 \item{explainer}{a model to be explained, preprocessed by the \code{explain} function}
@@ -13,7 +20,9 @@ shap_aggregated(explainer, new_observations, order = NULL, B = 25, ...)
 
 \item{order}{if not \code{NULL}, then it will be a fixed order of variables. It can be a numeric vector or vector with names of variables.}
 
-\item{B}{number of random paths}
+\item{B}{number of random paths; works only if kernelshap=FALSE}
+
+\item{kernelshap}{indicates whether the kernelshap method should be used}
 
 \item{...}{other parameters like \code{label}, \code{predict_function}, \code{data}, \code{x}}
 }
