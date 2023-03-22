@@ -1,3 +1,7 @@
+DALEX 2.5.1
+---------------------------------------------------------------
+* adding the support for calculating kernel SHAP values via `predict_parts()` function
+
 DALEX 2.5.0
 ---------------------------------------------------------------
 * breaking change: change the name of `loss_yardstick()` to `get_loss_yardstick()` and `loss_default()` to `get_loss_default()` 
