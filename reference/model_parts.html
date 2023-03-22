@@ -25,8 +25,8 @@ Find information how to use this function here: https://ema.drwhy.ai/featureImpo
         <a class="navbar-brand" href="../index.html">DALEX</a>
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy" class="external-link">DrWhy.AI</a>
-           developed by the <a href="https://mi2.ai/" class="external-link">MI^2.AI</a> </span>
-          <span class="version version-default">2.5.0</span>
+           developed by the <a href="https://mi2.ai/" class="external-link">MI².AI</a> </span>
+          <span class="version version-default">2.5.1</span>
         </div>
       </div>
     </div>
@@ -143,20 +143,20 @@ It's a data frame with calculated average response.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.14.1 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1837.004 , mean =  3486.379 , max =  6159.872  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  1857.692 , mean =  3489.773 , max =  6106.26  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -364.6103 , mean =  0.6403575 , max =  717.6847  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -529.2233 , mean =  -2.75412 , max =  642.7184  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"><span><span class="va">model_parts_ranger_aps</span> <span class="op">&lt;-</span> <span class="fu">model_parts</span><span class="op">(</span><span class="va">explainer_ranger</span>, type <span class="op">=</span> <span class="st">"raw"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">model_parts_ranger_aps</span>, <span class="fl">8</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            variable mean_dropout_loss             label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      _full_model_          144.2141 Ranger Apartments</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2          no.rooms          308.4393 Ranger Apartments</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 construction.year          374.0448 Ranger Apartments</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4             floor          429.6278 Ranger Apartments</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5           surface          504.0410 Ranger Apartments</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6          district          794.8164 Ranger Apartments</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7        _baseline_         1217.9270 Ranger Apartments</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      _full_model_          149.7069 Ranger Apartments</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2          no.rooms          313.7524 Ranger Apartments</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 construction.year          383.5655 Ranger Apartments</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4             floor          434.3652 Ranger Apartments</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5           surface          515.0340 Ranger Apartments</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6          district          779.1501 Ranger Apartments</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7        _baseline_         1207.7232 Ranger Apartments</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_parts_ranger_aps</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_parts-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
@@ -171,7 +171,7 @@ It's a data frame with calculated average response.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; target variable   :  2207  values </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.glm  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.2 , task classification ( <span style="color: #BBBB00;"> default </span> ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.3 , task classification ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.008128381 , mean =  0.3221568 , max =  0.9731431  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.9628583 , mean =  -2.569729e-10 , max =  0.9663346  </span>
@@ -185,14 +185,14 @@ It's a data frame with calculated average response.</p>
 <span class="r-in"><span>                                       loss_function <span class="op">=</span> <span class="va">custom_loss</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">model_parts_glm_titanic</span>, <span class="fl">8</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       variable mean_dropout_loss label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 _full_model_          253.8757    lm</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        parch          253.8573    lm</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3         fare          254.0228    lm</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        sibsp          254.4592    lm</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5     embarked          254.9332    lm</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6          age          256.2321    lm</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7        class          263.4168    lm</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8       gender          277.7571    lm</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 _full_model_          255.4630    lm</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        parch          255.4495    lm</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3         fare          255.5823    lm</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4        sibsp          255.8662    lm</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5     embarked          256.5655    lm</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6          age          258.1096    lm</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7        class          265.1385    lm</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8       gender          279.1046    lm</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_parts_glm_titanic</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_parts-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
@@ -211,18 +211,18 @@ It's a data frame with calculated average response.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.14.1 , task multiclass ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  predict function returns multiple columns:  3  ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between 1 and probability of true class ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  0.0002531646 , mean =  0.2773236 , max =  0.8705234  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  0.0007937051 , mean =  0.2787164 , max =  0.8958841  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"><span><span class="va">model_parts_ranger_HR</span> <span class="op">&lt;-</span> <span class="fu">model_parts</span><span class="op">(</span><span class="va">explainer_ranger_HR</span>, type <span class="op">=</span> <span class="st">"raw"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">model_parts_ranger_HR</span>, <span class="fl">8</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       variable mean_dropout_loss     label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 _full_model_          377.2385 Ranger HR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       gender          553.7981 Ranger HR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3          age          640.7794 Ranger HR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       salary          696.6425 Ranger HR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   evaluation          884.8644 Ranger HR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6        hours         1210.7229 Ranger HR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7   _baseline_         2122.7942 Ranger HR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 _full_model_          382.4245 Ranger HR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       gender          553.2105 Ranger HR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3          age          634.5485 Ranger HR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4       salary          691.8257 Ranger HR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   evaluation          887.5965 Ranger HR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6        hours         1209.9855 Ranger HR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   _baseline_         2104.0365 Ranger HR</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_parts_ranger_HR</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_parts-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
@@ -238,11 +238,11 @@ It's a data frame with calculated average response.</p>
 
 
       <footer><div class="copyright">
-  <p>Developed by .</p>
+  <p></p><p>Developed by Przemyslaw Biecek, Szymon Maksymiuk, Hubert Baniecki.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

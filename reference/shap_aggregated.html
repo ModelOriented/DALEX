@@ -24,8 +24,8 @@
         <a class="navbar-brand" href="../index.html">DALEX</a>
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy" class="external-link">DrWhy.AI</a>
-           developed by the <a href="https://mi2.ai/" class="external-link">MI^2.AI</a> </span>
-          <span class="version version-default">2.5.0</span>
+           developed by the <a href="https://mi2.ai/" class="external-link">MI².AI</a> </span>
+          <span class="version version-default">2.5.1</span>
         </div>
       </div>
     </div>
@@ -77,7 +77,14 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">shap_aggregated</span><span class="op">(</span><span class="va">explainer</span>, <span class="va">new_observations</span>, order <span class="op">=</span> <span class="cn">NULL</span>, B <span class="op">=</span> <span class="fl">25</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">shap_aggregated</span><span class="op">(</span></span>
+<span>  <span class="va">explainer</span>,</span>
+<span>  <span class="va">new_observations</span>,</span>
+<span>  order <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  B <span class="op">=</span> <span class="fl">25</span>,</span>
+<span>  kernelshap <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -95,7 +102,11 @@
 
 
 <dt>B</dt>
-<dd><p>number of random paths</p></dd>
+<dd><p>number of random paths; works only if kernelshap=FALSE</p></dd>
+
+
+<dt>kernelshap</dt>
+<dd><p>indicates whether the kernelshap method should be used</p></dd>
 
 
 <dt>...</dt>
@@ -129,7 +140,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; target variable   :  2207  values </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.glm  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.2 , task classification ( <span style="color: #BBBB00;"> default </span> ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.3 , task classification ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.1490412 , mean =  0.3221568 , max =  0.9878987  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.8898433 , mean =  4.198546e-13 , max =  0.8448637  </span>
@@ -140,16 +151,16 @@
 <span class="r-in"><span><span class="va">bd_glm</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $aggregated</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      variable label contribution position sign cumulative variable_name</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9   intercept   glm  0.322156774       10    X  0.3221568     intercept</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1         age   glm  0.006195355        9    1  0.3283521           age</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2      gender   glm  0.038938300        8    1  0.3672904        gender</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       class   glm  0.000000000        7    1  0.3672904         class</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    embarked   glm  0.000000000        6    1  0.3672904      embarked</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5        fare   glm -0.006521638        5   -1  0.3607688          fare</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       parch   glm  0.000000000        4    1  0.3607688         parch</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7       sibsp   glm  0.000000000        3    1  0.3607688         sibsp</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8    survived   glm  0.000000000        2    1  0.3607688      survived</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 prediction   glm  0.360768791        1    X  0.3607688              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   intercept   glm  0.360768791       10    X  0.3607688     intercept</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1         age   glm  0.006195355        9    1  0.3669641           age</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      gender   glm  0.038938300        8    1  0.4059024         class</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       class   glm  0.000000000        7    1  0.4059024      embarked</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    embarked   glm  0.000000000        6    1  0.4059024          fare</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5        fare   glm -0.006521638        5   -1  0.3993808        gender</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6       parch   glm  0.000000000        4    1  0.3993808         parch</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7       sibsp   glm  0.000000000        3    1  0.3993808         sibsp</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8    survived   glm  0.000000000        2    1  0.3993808      survived</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 prediction   glm  0.322156774        1    X  0.3221568              </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    variable_value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                </span>
@@ -189,6 +200,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "shap_aggregated" "list"           </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bd_glm</span>, max_features <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 260 rows containing missing values (`stat_boxplot()`).</span>
 <span class="r-plt img"><img src="shap_aggregated-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
@@ -201,11 +213,11 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by .</p>
+  <p></p><p>Developed by Przemyslaw Biecek, Szymon Maksymiuk, Hubert Baniecki.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

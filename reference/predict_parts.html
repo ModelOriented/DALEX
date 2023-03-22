@@ -3,10 +3,12 @@
 Model prediction is decomposed into parts that are attributed for particular variables.
 From DALEX version 1.0 this function calls the break_down or
 shap functions from the iBreakDown package or
-ceteris_paribus from the ingredients package.
+ceteris_paribus from the ingredients package or
+kernelshap from the kernelshap package.
 Find information how to use the break_down method here: https://ema.drwhy.ai/breakDown.html.
 Find information how to use the shap method here: https://ema.drwhy.ai/shapley.html.
 Find information how to use the oscillations method here: https://ema.drwhy.ai/ceterisParibusOscillations.html.
+Find information how to use the kernelshap method here: https://modeloriented.github.io/kernelshap/
 aSHAP method provides explanations for a set of observations based on SHAP."><meta property="og:image" content="/logo.png"><meta name="robots" content="noindex"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -32,8 +34,8 @@ aSHAP method provides explanations for a set of observations based on SHAP."><me
         <a class="navbar-brand" href="../index.html">DALEX</a>
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy" class="external-link">DrWhy.AI</a>
-           developed by the <a href="https://mi2.ai/" class="external-link">MI^2.AI</a> </span>
-          <span class="version version-default">2.5.0</span>
+           developed by the <a href="https://mi2.ai/" class="external-link">MI².AI</a> </span>
+          <span class="version version-default">2.5.1</span>
         </div>
       </div>
     </div>
@@ -85,10 +87,12 @@ aSHAP method provides explanations for a set of observations based on SHAP."><me
 Model prediction is decomposed into parts that are attributed for particular variables.
 From DALEX version 1.0 this function calls the <code><a href="https://ModelOriented.github.io/iBreakDown/reference/break_down.html" class="external-link">break_down</a></code> or
 <code><a href="https://ModelOriented.github.io/iBreakDown/reference/break_down_uncertainty.html" class="external-link">shap</a></code> functions from the <code>iBreakDown</code> package or
-<code><a href="https://ModelOriented.github.io/ingredients/reference/ceteris_paribus.html" class="external-link">ceteris_paribus</a></code> from the <code>ingredients</code> package.
+<code><a href="https://ModelOriented.github.io/ingredients/reference/ceteris_paribus.html" class="external-link">ceteris_paribus</a></code> from the <code>ingredients</code> package or
+<code><a href="https://rdrr.io/pkg/kernelshap/man/kernelshap.html" class="external-link">kernelshap</a></code> from the <code>kernelshap</code> package.
 Find information how to use the <code>break_down</code> method here: <a href="https://ema.drwhy.ai/breakDown.html" class="external-link">https://ema.drwhy.ai/breakDown.html</a>.
 Find information how to use the <code>shap</code> method here: <a href="https://ema.drwhy.ai/shapley.html" class="external-link">https://ema.drwhy.ai/shapley.html</a>.
 Find information how to use the <code>oscillations</code> method here: <a href="https://ema.drwhy.ai/ceterisParibusOscillations.html" class="external-link">https://ema.drwhy.ai/ceterisParibusOscillations.html</a>.
+Find information how to use the <code>kernelshap</code> method here: <a href="https://modeloriented.github.io/kernelshap/" class="external-link">https://modeloriented.github.io/kernelshap/</a>
 aSHAP method provides explanations for a set of observations based on SHAP.</p>
     </div>
 
@@ -126,6 +130,12 @@ aSHAP method provides explanations for a set of observations based on SHAP.</p>
 <span></span>
 <span><span class="fu">predict_parts_shap_aggregated</span><span class="op">(</span><span class="va">explainer</span>, <span class="va">new_observation</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">predict_parts_kernel_shap</span><span class="op">(</span><span class="va">explainer</span>, <span class="va">new_observation</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">predict_parts_kernel_shap_break_down</span><span class="op">(</span><span class="va">explainer</span>, <span class="va">new_observation</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">predict_parts_kernel_shap_aggreagted</span><span class="op">(</span><span class="va">explainer</span>, <span class="va">new_observation</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">variable_attribution</span><span class="op">(</span></span>
 <span>  <span class="va">explainer</span>,</span>
 <span>  <span class="va">new_observation</span>,</span>
@@ -155,7 +165,7 @@ aSHAP method provides explanations for a set of observations based on SHAP.</p>
 
 <dt>type</dt>
 <dd><p>the type of variable attributions. Either <code>shap</code>, <code>aggregated_shap</code>, <code>oscillations</code>, <code>oscillations_uni</code>,
-<code>oscillations_emp</code>, <code>break_down</code> or <code>break_down_interactions</code>.</p></dd>
+<code>oscillations_emp</code>, <code>break_down</code>, <code>break_down_interactions</code>, <code>kernel_shap</code>, <code>kernel_shap_break_down</code> or <code>kernel_shap_aggregated</code>.</p></dd>
 
 
 <dt>variable_splits_type</dt>
@@ -208,7 +218,7 @@ It's a data frame with calculated average response.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; target variable   :  2000  values </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.lm  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.2 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.2.3 , task regression ( <span style="color: #BBBB00;"> default </span> ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  541.1056 , mean =  1370.986 , max =  3928.189  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -5421.316 , mean =  -1450.523 , max =  1176.912  </span>
@@ -271,11 +281,11 @@ It's a data frame with calculated average response.</p>
 
 
       <footer><div class="copyright">
-  <p>Developed by .</p>
+  <p></p><p>Developed by Przemyslaw Biecek, Szymon Maksymiuk, Hubert Baniecki.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
