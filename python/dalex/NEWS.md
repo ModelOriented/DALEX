@@ -3,6 +3,9 @@
 ### development
 
 * Fix an error occuring in `predict_profile()` when a DataFrame has MultiIndex in `pandas >= 1.3.0` ([#550](https://github.com/ModelOriented/DALEX/pull/550))
+* Fix gaussian `norm()` calculation in `model_profile()` from `pi*sqrt(2)` to `sqrt(2*pi)`
+* Potential fix for a warning (future error) between `prepare_numerical_categorical()` and `prepare_x()` with `pandas == 2.1.0`
+
 
 ### v1.6.0 (2023-02-16) 
 

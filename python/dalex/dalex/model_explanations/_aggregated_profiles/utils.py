@@ -99,7 +99,7 @@ def split_over_variables_and_labels(split_profile, type, groups, span):
 
 
 def norm(x, loc, scale):
-    return np.exp(-1 * ((x - loc) / scale) ** 2 / 2) / np.pi / np.sqrt(2) / scale
+    return np.exp(-1 * ((x - loc) / scale) ** 2 / 2) / np.sqrt(2 * np.pi) / scale
 
 
 def prepare_numerical_categorical(all_profiles, variables, variable_type):
@@ -122,7 +122,7 @@ def prepare_numerical_categorical(all_profiles, variables, variable_type):
         if vnames.shape[0] == 0:
             raise ValueError("There are no numerical variables")
 
-        all_profiles['_x_'] = 0
+        all_profiles['_x_'] = 0.0
 
     else:
         vnames = all_variables[~is_numeric]
