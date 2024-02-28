@@ -1,8 +1,8 @@
 # check functions for Explainer.__init__
 import numpy as np
 import pandas as pd
+import warnings
 from copy import deepcopy
-from warnings import warn
 
 from .helper import verbose_cat, is_y_in_data, get_model_info
 from .yhat import get_predict_function_and_model_type
@@ -199,7 +199,9 @@ def check_predict_function_and_model_type(predict_function, model_type,
         # check if predict_function accepts arrays
         try:
             data_values = data.values[[0]]
-            predict_function(model, data_values)
+            with warnings.catch_warnings():
+                warnings.simplefilter('ignore') # ignore warnings about feature names in scikit-learn
+                predict_function(model, data_values)
             model_info_['arrays_accepted'] = True
             verbose_cat("  -> predict function  : Accepts pandas.DataFrame and numpy.ndarray.",
                         verbose=verbose)
@@ -219,11 +221,11 @@ def check_predict_function_and_model_type(predict_function, model_type,
                 # verbose_cat("  -> predicted values  : the predict_function returns an error when executed \n",
                 #             verbose=verbose)
 
-                warn("\n  -> predicted values  : 'predict_function' returns an Error when executed: \n" +
+                warnings.warn("\n  -> predicted values  : 'predict_function' returns an Error when executed: \n" +
                      str(error), stacklevel=2)
 
             if not isinstance(y_hat, np.ndarray) or y_hat.shape != (data.shape[0], ):
-                warn("\n  -> predicted values  : 'predict_function' must return numpy.ndarray (1d)", stacklevel=2)
+                warnings.warn("\n  -> predicted values  : 'predict_function' must return numpy.ndarray (1d)", stacklevel=2)
 
     if model_type is None:
         # model_type not specified

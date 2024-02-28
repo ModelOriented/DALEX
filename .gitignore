@@ -1,3 +1,6 @@
+.vscode/settings.json
+**.DS_Store
+
 .Rproj.user
 .Rhistory
 .RData

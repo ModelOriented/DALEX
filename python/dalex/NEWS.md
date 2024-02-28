@@ -1,10 +1,14 @@
 ## Changelog
 
-### development
 
-* Fix an error occuring in `predict_profile()` when a DataFrame has MultiIndex in `pandas >= 1.3.0` ([#550](https://github.com/ModelOriented/DALEX/pull/550))
+### v1.6.1 (2024-02-28)
+
+* Added `keras.src.models.sequential.Sequential` to classes with a known `predict_function`; it should fix changes in `keras==3.0.0` and `tensorflow==2.16.0`
+* Turn off `verbose` in the predict method of tensorflow/keras models that [changed](https://stackoverflow.com/a/73244830) in `tensorflow>=2.9.0`
+* Fix an error occuring in `predict_profile()` when a DataFrame has MultiIndex in `pandas>=1.3.0` ([#550](https://github.com/ModelOriented/DALEX/pull/550))
 * Fix gaussian `norm()` calculation in `model_profile()` from `pi*sqrt(2)` to `sqrt(2*pi)`
-* Potential fix for a warning (future error) between `prepare_numerical_categorical()` and `prepare_x()` with `pandas == 2.1.0`
+* Fix a warning (future error) between `prepare_numerical_categorical()` and `prepare_x()` with `pandas==2.1.0`
+* Fix a warning (future error) concerning the default value of `numeric_only` in `pandas.DataFrame.corr()` in `dalex.aspect.calculate_assoc_matrix()`
 
 
 ### v1.6.0 (2023-02-16) 

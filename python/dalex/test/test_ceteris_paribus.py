@@ -90,15 +90,15 @@ class CeterisParibusTestTitanic(unittest.TestCase):
 
     def test_calculate_variable_profile(self):
         splits = utils.calculate_variable_split(self.X, ['age', 'gender'], 121)
-        vp = utils.calculate_variable_profile(self.exp.predict_function, self.exp.model, self.X.iloc[[0], :], splits, 1)
+        vp = utils.calculate_variable_profile(self.exp.predict_function, self.exp.model, self.X.iloc[[0], :], splits, 1, verbose=False)
         self.assertIsInstance(vp, pd.DataFrame)
 
         splits = utils.calculate_variable_split(self.X, ['gender'], 5)
-        vp = utils.calculate_variable_profile(self.exp.predict_function, self.exp.model, self.X.iloc[[0], :], splits, 1)
+        vp = utils.calculate_variable_profile(self.exp.predict_function, self.exp.model, self.X.iloc[[0], :], splits, 1, verbose=False)
         self.assertIsInstance(vp, pd.DataFrame)
 
         splits = utils.calculate_variable_split(self.X, self.X.columns, 15)
-        vp = utils.calculate_variable_profile(self.exp.predict_function, self.exp.model, self.X.iloc[[0], :], splits, 2)
+        vp = utils.calculate_variable_profile(self.exp.predict_function, self.exp.model, self.X.iloc[[0], :], splits, 2, verbose=False)
         self.assertIsInstance(vp, pd.DataFrame)
 
     def test_calculate_ceteris_paribus(self):

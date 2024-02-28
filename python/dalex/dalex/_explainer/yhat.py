@@ -17,7 +17,8 @@ def yhat_xgboost(m, d):
 
 def get_tf_yhat(model):
     if not (str(type(model)).startswith("<class 'tensorflow.python.keras.engine") or
-             str(type(model)).startswith("<class 'keras.engine")):
+             str(type(model)).startswith("<class 'keras.engine") or
+             str(type(model)).startswith("<class 'keras.src.models")):
         return None
 
     if model.output_shape[1] == 1:
@@ -30,11 +31,11 @@ def get_tf_yhat(model):
 
 
 def yhat_tf_regression(m, d):
-    return m.predict(np.array(d)).reshape(-1, )
+    return m.predict(np.array(d), verbose=0).reshape(-1, )
 
 
 def yhat_tf_classification(m, d):
-    return m.predict(np.array(d))[:, 1]
+    return m.predict(np.array(d), verbose=0)[:, 1]
 
 
 def get_h2o_yhat(model):
@@ -80,6 +81,7 @@ def get_predict_function_and_model_type(model, model_class):
         "keras.engine.sequential.Sequential": prep_tf,
         "keras.engine.training.Model": prep_tf,
         "keras.engine.functional.Functional": prep_tf,
+        "keras.src.models.sequential.Sequential": prep_tf,
         "h2o.estimators.coxph.H2OCoxProportionalHazardsEstimator": prep_h2o,
         "h2o.estimators.deeplearning.H2ODeepLearningEstimator": prep_h2o,
         "h2o.estimators.gam.H2OGeneralizedAdditiveEstimator": prep_h2o,

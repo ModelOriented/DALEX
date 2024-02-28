@@ -76,8 +76,8 @@ class ModelDiagnosticsTestTitanic(unittest.TestCase):
         self.assertIsInstance(case3, dx.model_explanations.ResidualDiagnostics)
 
         fig1 = case1.plot(title="test1", variable="fare", N=1000, show=False)
-        fig2 = case2.plot(case3, variable="sibsp", yvariable="abs_residuals",  N=None, show=False)
-        fig3 = case2.plot(smooth=False, line_width=6, marker_size=1, variable="age", show=False)
+        fig2 = case2.plot(case3, variable="age", yvariable="abs_residuals",  N=None, show=False)
+        fig3 = case2.plot(smooth=False, line_width=6, marker_size=1, variable="sibsp", show=False)
 
         self.assertIsInstance(fig1, Figure)
         self.assertIsInstance(fig2, Figure)

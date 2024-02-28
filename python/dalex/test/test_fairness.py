@@ -1,9 +1,9 @@
 import unittest
-from copy import deepcopy
+from copy import copy, deepcopy
+import warnings
 
 import numpy as np
 import pandas as pd
-from copy import copy
 from plotly.graph_objs import Figure
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
@@ -61,7 +61,7 @@ class FairnessTest(unittest.TestCase):
         reg = DecisionTreeRegressor()
         reg.fit(data2, target)
 
-        self.exp_reg = dx.Explainer(reg, data2, target)
+        self.exp_reg = dx.Explainer(reg, data2, target, verbose=False)
         self.mgf_reg = self.exp_reg.model_fairness(self.protected_reg, 'A')
 
     def test_fairness_check(self):
@@ -160,7 +160,9 @@ class FairnessTest(unittest.TestCase):
         b = list(scf_metrics.subgroup_confusion_matrix_metrics.get('b').values())
         a = list(scf_metrics.subgroup_confusion_matrix_metrics.get('a').values())
 
-        ratio = np.array(b) / np.array(a)
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore') # ignore warning about division by zero
+            ratio = np.array(b) / np.array(a)
         ratio[np.isinf(ratio)] = np.nan
         ratio[ratio == 0] = np.nan
 
