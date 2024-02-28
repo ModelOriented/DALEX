@@ -13,7 +13,7 @@ def check_variables(variables, explainer, variable_splits):
     variables_ = deepcopy(variables)
     if variable_splits is not None:
         variables_ = variable_splits.keys()
-        warnings.warn("Variables taken from variables_splits")
+        warnings.warn("Parameter `variable_splits` overrides `variables`. Variables taken from `variables_splits.keys()`.")
     elif variables_ is not None and isinstance(variables_, (list, np.ndarray, pd.Series)):
         if not set(variables_).issubset(explainer.data.columns):
             raise ValueError('Invalid variable names')

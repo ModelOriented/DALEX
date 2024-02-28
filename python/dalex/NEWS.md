@@ -1,29 +1,31 @@
 ## Changelog
 
 
-### v1.6.1 (2024-02-28)
+### v1.7.0 (2024-02-28)
 
-* Added `keras.src.models.sequential.Sequential` to classes with a known `predict_function`; it should fix changes in `keras==3.0.0` and `tensorflow==2.16.0`
-* Turn off `verbose` in the predict method of tensorflow/keras models that [changed](https://stackoverflow.com/a/73244830) in `tensorflow>=2.9.0`
-* Fix an error occuring in `predict_profile()` when a DataFrame has MultiIndex in `pandas>=1.3.0` ([#550](https://github.com/ModelOriented/DALEX/pull/550))
-* Fix gaussian `norm()` calculation in `model_profile()` from `pi*sqrt(2)` to `sqrt(2*pi)`
-* Fix a warning (future error) between `prepare_numerical_categorical()` and `prepare_x()` with `pandas==2.1.0`
-* Fix a warning (future error) concerning the default value of `numeric_only` in `pandas.DataFrame.corr()` in `dalex.aspect.calculate_assoc_matrix()`
+* increase the dependencies to `python>=3.8`, `pandas>=1.5.0`, `numpy>=1.23.3` and add `python==3.11` to CI
+* added `keras.src.models.sequential.Sequential` to classes with a known `predict_function`; it should fix changes in `keras==3.0.0` and `tensorflow==2.16.0`
+* turn off `verbose` in the predict method of tensorflow/keras models that [changed](https://stackoverflow.com/a/73244830) in `tensorflow>=2.9.0`
+* update the warning occurring when specifying `variable_splits` ([#558](https://github.com/ModelOriented/DALEX/pull/558))
+* fix an error occuring in `predict_profile()` when a DataFrame has MultiIndex in `pandas>=1.3.0` ([#550](https://github.com/ModelOriented/DALEX/pull/550))
+* fix gaussian `norm()` calculation in `model_profile()` from `pi*sqrt(2)` to `sqrt(2*pi)`
+* fix a warning (future error) between `prepare_numerical_categorical()` and `prepare_x()` with `pandas==2.1.0`
+* fix a warning (future error) concerning the default value of `numeric_only` in `pandas.DataFrame.corr()` in `dalex.aspect.calculate_assoc_matrix()`
 
 
 ### v1.6.0 (2023-02-16) 
 
-* Add `ZeroDivisionError` to precision and recall functions ([#532](https://github.com/ModelOriented/DALEX/pull/532))
-* Add a warning to `calculate_depend_matrix()` when there is a variable with only one value ([#537](https://github.com/ModelOriented/DALEX/issues/537))
-* Fix missing EDA plots in (Python) Arena ([#544](https://github.com/ModelOriented/DALEX/issues/544))
-* Fix baseline positions in the subplots of the predict parts explanations: BreakDown, Shap ([#545](https://github.com/ModelOriented/DALEX/pull/545))
+* add `ZeroDivisionError` to precision and recall functions ([#532](https://github.com/ModelOriented/DALEX/pull/532))
+* add a warning to `calculate_depend_matrix()` when there is a variable with only one value ([#537](https://github.com/ModelOriented/DALEX/issues/537))
+* fix missing EDA plots in (Python) Arena ([#544](https://github.com/ModelOriented/DALEX/issues/544))
+* fix baseline positions in the subplots of the predict parts explanations: BreakDown, Shap ([#545](https://github.com/ModelOriented/DALEX/pull/545))
 
 
 ### v1.5.0 (2022-09-07)
 
 *This release consists of mostly maintenance updates and, after a year, marks the Beta -> Stable release.*
 
-* increase the dependency from `python>=3.6` to `python>=3.7` (at this moment, both `numpy` and `pandas` depend on `python>=3.8`), and add `python>=3.10` to CI
+* increase the dependency from `python>=3.6` to `python>=3.7` (at this moment, both `numpy` and `pandas` depend on `python>=3.8`), and add `python==3.10` to CI
 * increase the dependencies to `pandas>=1.2.5`, `numpy>=1.20.3` ([#526](https://github.com/ModelOriented/DALEX/issues/526)), `scipy>=1.6.3`, `plotly>=5.1.0`, and `tqdm>=4.61.2` due to errors with `pandas` (see [tqdm/#1199](https://github.com/tqdm/tqdm/issues/1199)) 
 * remove the use of `pd.Series.append()` ([#489](https://github.com/ModelOriented/DALEX/issues/489))
 * remove the use of `np.isnan` causing error in `dalex.fairness` ([#491](https://github.com/ModelOriented/DALEX/issues/491))
