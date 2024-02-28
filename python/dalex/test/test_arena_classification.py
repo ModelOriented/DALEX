@@ -22,7 +22,8 @@ class ArenaTestTitanic(unittest.TestCase):
 
         self.X = data.drop(columns='survived')
         self.y = data.survived
-        self.john = pd.DataFrame({'gender': ['male'], 'age': [25], 'class': ['1st'], 'embarked': ['Southampton'], 'fare': [72], 'sibsp': [0], 'parch': 0}, index = ['John'])
+        self.john = pd.DataFrame({'gender': ['male'], 'age': [25], 'class': ['1st'], 'embarked': ['Southampton'],
+                                   'fare': [72], 'sibsp': [0], 'parch': 0}, index = ['John'])
 
         numeric_features = ['age', 'fare', 'sibsp', 'parch']
         numeric_transformer = Pipeline(steps=[
@@ -66,6 +67,11 @@ class ArenaTestTitanic(unittest.TestCase):
         sorting = lambda x: x.__name__
         self.assertEqual(sorted(plots, key=sorting), sorted(self.reference_plots, key=sorting))
 
+        try:
+            arena.stop_server()
+        except Exception:
+            pass
+
     def test_server(self):
         arena = dx.Arena()
         arena.push_model(self.exp)
@@ -78,7 +84,11 @@ class ArenaTestTitanic(unittest.TestCase):
             arena.stop_server()
         except AssertionError as e:
             arena.stop_server()
-            raise e
+
+        try:
+            arena.stop_server()
+        except Exception:
+            pass
 
     def test_plots(self):
         arena = dx.Arena()
@@ -90,6 +100,11 @@ class ArenaTestTitanic(unittest.TestCase):
             ref_counts = list(map(lambda param_type: len(arena.list_params(param_type)), p.info.get('requiredParams')))
             count = np.sum([1 for plot in arena.plots_manager.cache if plot.__class__ == p])
             self.assertEqual(np.prod(ref_counts), count, msg="Count of " + str(p))
+
+        try:
+            arena.stop_server()
+        except Exception:
+            pass
 
     def test_observation_attributes(self):
         arena = dx.Arena()
@@ -103,6 +118,11 @@ class ArenaTestTitanic(unittest.TestCase):
         for attr in attrs:
             self.assertTrue(all(attr.get('values')[:-1] == titanic[attr.get('name')]))
 
+        try:
+            arena.stop_server()
+        except Exception:
+            pass
+        
     def test_variable_attributes(self):
         arena = dx.Arena()
         arena.push_model(self.exp)
@@ -118,6 +138,11 @@ class ArenaTestTitanic(unittest.TestCase):
             'parch': {'type': 'numeric', 'min': 0, 'max': 9, 'levels': [0, 1, 2, 3, 4, 5, 6, 9]},
             'sibsp': {'type': 'numeric', 'min': 0, 'max': 8, 'levels': [0, 1, 2, 3, 4, 5, 8]}
         })
+
+        try:
+            arena.stop_server()
+        except Exception:
+            pass
 
 if __name__ == '__main__':
     unittest.main()

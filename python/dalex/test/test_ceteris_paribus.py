@@ -184,7 +184,7 @@ class CeterisParibusTestTitanic(unittest.TestCase):
         fig3 = case1.plot(case2, variables="age", show=False)
         fig4 = case2.plot(variables="gender", show=False)
         fig5 = case1.plot(case3, size=1, color="gender", facet_ncol=1, show_observations=False,
-                          title="title", horizontal_spacing=0.2, vertical_spacing=0.2,
+                          title="title", horizontal_spacing=0.2, vertical_spacing=0.15,
                           show=False)
         fig6 = case2.plot(variables=["gender"], show=False)
         fig7 = case2.plot(variables=["gender", 'class'], show=False)
