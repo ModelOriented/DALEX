@@ -55,9 +55,11 @@ def loss_after_permutation(data, y, weights, model, predict, loss_function, vari
         sampled_rows = rng.choice(np.arange(data.shape[0]), N, replace=False)
         sampled_data = data.iloc[sampled_rows, :]
         observed = y[sampled_rows]
+        sample_weights = weights[sampled_rows] if weights is not None else None
     else:
         sampled_data = data
         observed = y
+        sample_weights = weights
     
     # loss on the full model or when outcomes are permuted
     loss_full = loss_function(observed, predict(model, sampled_data))
