@@ -18,7 +18,7 @@ def calculate_variable_importance(explainer,
     if processes == 1:
         result = [None] * B
         for i in range(B):
-            result[i] = loss_after_permutation(explainer.data, explainer.y, explainer.model, explainer.predict_function,
+            result[i] = loss_after_permutation(explainer.data, explainer.y, explainer.weights, explainer.model, explainer.predict_function,
                                                loss_function, variables, N, np.random)
     else:
         # Create number generator for each iteration
@@ -26,7 +26,7 @@ def calculate_variable_importance(explainer,
         generators = [default_rng(s) for s in ss.spawn(B)]
         pool = mp.get_context('spawn').Pool(processes)
         result = pool.starmap_async(loss_after_permutation, [
-            (explainer.data, explainer.y, explainer.model, explainer.predict_function, loss_function, variables, N, generators[i]) for
+            (explainer.data, explainer.y, explainer.weights, explainer.model, explainer.predict_function, loss_function, variables, N, generators[i]) for
             i in range(B)]).get()
         pool.close()
 
@@ -49,7 +49,7 @@ def calculate_variable_importance(explainer,
     return result, raw_permutations
 
 
-def loss_after_permutation(data, y, model, predict, loss_function, variables, N, rng):
+def loss_after_permutation(data, y, weights, model, predict, loss_function, variables, N, rng):
     if isinstance(N, int):
         N = min(N, data.shape[0])
         sampled_rows = rng.choice(np.arange(data.shape[0]), N, replace=False)
