@@ -95,7 +95,7 @@ def calculate_loss(loss_function, observed, predicted, sample_weights=None):
     if supports_weight:
         return loss_function(observed, predicted, sample_weight=sample_weights)
     else:
-        if sample_weights:
+        if sample_weights is not None:
             warnings.warn(
                 f"Loss function {loss_function.__name__} does not take sample weights. Calculating unweighted loss."
             )
