@@ -62,10 +62,11 @@ def loss_after_permutation(data, y, weights, model, predict, loss_function, vari
         sample_weights = weights
     
     # loss on the full model or when outcomes are permuted
-    loss_full = loss_function(observed, predict(model, sampled_data))
+    loss_full = calculate_loss(loss_function, observed, predict(model, sampled_data), sample_weights)
 
     sampled_rows2 = rng.choice(range(observed.shape[0]), observed.shape[0], replace=False)
-    loss_baseline = loss_function(observed[sampled_rows2], predict(model, sampled_data))
+    sample_weights_rows2 = sample_weights[sampled_rows2] if sample_weights is not None else None
+    loss_baseline = calculate_loss(loss_function, observed[sampled_rows2], predict(model, sampled_data), sample_weights_rows2)
 
     loss_features = {}
     for variables_set_key in variables:
@@ -76,7 +77,7 @@ def loss_after_permutation(data, y, weights, model, predict, loss_function, vari
 
         predicted = predict(model, ndf)
 
-        loss_features[variables_set_key] = loss_function(observed, predicted)
+        loss_features[variables_set_key] = calculate_loss(loss_function, observed, predicted, sample_weights)
 
     loss_features['_full_model_'] = loss_full
     loss_features['_baseline_'] = loss_baseline
