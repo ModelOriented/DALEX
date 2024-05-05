@@ -122,7 +122,14 @@ class ShapWrapper(Explanation):
             else:
                 base_value = self.shap_explainer.expected_value
 
-            shap_values = self.result[1] if isinstance(self.result, list) else self.result
+            if isinstance(self.result, list):
+                shap_values = self.result[1] 
+            elif isinstance(self.result, np.ndarray):
+                if len(self.result.shape) == 3:
+                    shap_values = self.result[:, :, 1]
+                else:
+                    shap_values = self.result
+
             force_plot(base_value=base_value,
                        shap_values=shap_values,
                        features=self.new_observation.values,

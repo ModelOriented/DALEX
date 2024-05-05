@@ -3,6 +3,7 @@
 ### development
 
 * added a way to pass `sample_weight` to loss functions in `model_parts()` (variable importance) using `weights` from `dx.Explainer` ([#563](https://github.com/ModelOriented/DALEX/issues/563))
+* fixed the visualization of `shap_wrapper` for `shap==0.45.0`
 
 ### v1.7.0 (2024-02-28)
 
