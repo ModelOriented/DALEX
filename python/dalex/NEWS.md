@@ -1,5 +1,8 @@
 ## Changelog
 
+### development
+
+* added a way to pass `sample_weight` to loss functions in `model_parts()` (variable importance) using `weights` from `dx.Explainer` ([#563](https://github.com/ModelOriented/DALEX/issues/563))
 
 ### v1.7.0 (2024-02-28)
 

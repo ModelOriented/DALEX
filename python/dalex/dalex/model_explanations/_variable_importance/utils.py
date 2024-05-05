@@ -57,18 +57,18 @@ def loss_after_permutation(data, y, weights, model, predict, loss_function, vari
         sampled_rows = rng.choice(np.arange(data.shape[0]), N, replace=False)
         sampled_data = data.iloc[sampled_rows, :]
         observed = y[sampled_rows]
-        sample_weights = weights[sampled_rows] if weights is not None else None
+        sample_weight = weights[sampled_rows] if weights is not None else None
     else:
         sampled_data = data
         observed = y
-        sample_weights = weights
+        sample_weight = weights
     
     # loss on the full model or when outcomes are permuted
-    loss_full = calculate_loss(loss_function, observed, predict(model, sampled_data), sample_weights)
+    loss_full = calculate_loss(loss_function, observed, predict(model, sampled_data), sample_weight)
 
     sampled_rows2 = rng.choice(range(observed.shape[0]), observed.shape[0], replace=False)
-    sample_weights_rows2 = sample_weights[sampled_rows2] if sample_weights is not None else None
-    loss_baseline = calculate_loss(loss_function, observed[sampled_rows2], predict(model, sampled_data), sample_weights_rows2)
+    sample_weight_rows2 = sample_weight[sampled_rows2] if sample_weight is not None else None
+    loss_baseline = calculate_loss(loss_function, observed[sampled_rows2], predict(model, sampled_data), sample_weight_rows2)
 
     loss_features = {}
     for variables_set_key in variables:
@@ -79,7 +79,7 @@ def loss_after_permutation(data, y, weights, model, predict, loss_function, vari
 
         predicted = predict(model, ndf)
 
-        loss_features[variables_set_key] = calculate_loss(loss_function, observed, predicted, sample_weights)
+        loss_features[variables_set_key] = calculate_loss(loss_function, observed, predicted, sample_weight)
 
     loss_features['_full_model_'] = loss_full
     loss_features['_baseline_'] = loss_baseline
@@ -87,16 +87,14 @@ def loss_after_permutation(data, y, weights, model, predict, loss_function, vari
     return pd.DataFrame(loss_features, index=[0])
 
 
-def calculate_loss(loss_function, observed, predicted, sample_weights=None):
+def calculate_loss(loss_function, observed, predicted, sample_weight=None):
     # Determine if loss function accepts 'sample_weight'
     loss_args = inspect.signature(loss_function).parameters
     supports_weight = "sample_weight" in loss_args
 
     if supports_weight:
-        return loss_function(observed, predicted, sample_weight=sample_weights)
+        return loss_function(observed, predicted, sample_weight=sample_weight)
     else:
-        if sample_weights is not None:
-            warnings.warn(
-                f"Loss function `{loss_function.__name__}` does not have `sample_weight` argument. Calculating unweighted loss."
-            )
+        if sample_weight is not None:
+            raise UserWarning(f"Loss function `{loss_function.__name__}` does not have `sample_weight` argument. Calculating unweighted loss.")
         return loss_function(observed, predicted)

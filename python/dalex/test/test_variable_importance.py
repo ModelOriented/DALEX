@@ -55,28 +55,35 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
         variables = {}
         for col in self.X.columns:
             variables[col] = col
-        lap = utils.loss_after_permutation(self.X, self.y, self.exp.model, self.exp.predict_function, rmse,
+        lap = utils.loss_after_permutation(self.X, self.y, None, self.exp.model, self.exp.predict_function, rmse,
                                            variables, 100, np.random)
         self.assertIsInstance(lap, pd.DataFrame)
         self.assertTrue(np.isin(np.array(['_full_model_', '_baseline_']),
                                 lap.columns).all(), np.random)
+        
+        with self.assertRaises(UserWarning):
+            lap = utils.loss_after_permutation(self.X, self.y, self.y, self.exp.model, self.exp.predict_function, rmse,
+                                            variables, 100, np.random)
+            self.assertIsInstance(lap, pd.DataFrame)
+            self.assertTrue(np.isin(np.array(['_full_model_', '_baseline_']),
+                                    lap.columns).all(), np.random)
 
         variables = {'age': 'age', 'embarked': 'embarked'}
-        lap = utils.loss_after_permutation(self.X, self.y, self.exp.model, self.exp.predict_function, mad,
+        lap = utils.loss_after_permutation(self.X, self.y, None, self.exp.model, self.exp.predict_function, mad,
                                            variables, 10, np.random)
         self.assertIsInstance(lap, pd.DataFrame)
         self.assertTrue(np.isin(np.array(['_full_model_', '_baseline_']),
                                 lap.columns).all())
 
         variables = {'embarked': 'embarked'}
-        lap = utils.loss_after_permutation(self.X, self.y, self.exp.model, self.exp.predict_function, mae,
+        lap = utils.loss_after_permutation(self.X, self.y, None, self.exp.model, self.exp.predict_function, mae,
                                            variables, None, np.random)
         self.assertIsInstance(lap, pd.DataFrame)
         self.assertTrue(np.isin(np.array(['_full_model_', '_baseline_']),
                                 lap.columns).all())
 
         variables = {'age': 'age'}
-        lap = utils.loss_after_permutation(self.X, self.y, self.exp.model, self.exp.predict_function, rmse,
+        lap = utils.loss_after_permutation(self.X, self.y, None, self.exp.model, self.exp.predict_function, rmse,
                                            variables, None, np.random)
         self.assertIsInstance(lap, pd.DataFrame)
         self.assertTrue(np.isin(np.array(['_full_model_', '_baseline_']),
@@ -84,7 +91,7 @@ class FeatureImportanceTestTitanic(unittest.TestCase):
 
         variables = {'personal': ['gender', 'age', 'sibsp', 'parch'],
                      'wealth': ['class', 'fare']}
-        lap = utils.loss_after_permutation(self.X, self.y, self.exp.model, self.exp.predict_function, mae,
+        lap = utils.loss_after_permutation(self.X, self.y, None, self.exp.model, self.exp.predict_function, mae,
                                            variables, None, np.random)
         self.assertIsInstance(lap, pd.DataFrame)
         self.assertTrue(np.isin(np.array(['_full_model_', '_baseline_']),
