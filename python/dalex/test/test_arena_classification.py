@@ -1,4 +1,5 @@
 import unittest
+import sys
 
 from plotly.graph_objs import Figure
 from sklearn.compose import ColumnTransformer
@@ -59,6 +60,7 @@ class ArenaTestTitanic(unittest.TestCase):
             FairnessCheckContainer, ShapleyValuesDependenceContainer, ShapleyValuesVariableImportanceContainer,
             VariableAgainstAnotherContainer, VariableDistributionContainer]
 
+    @unittest.skipIf(sys.platform.startswith("win"), "requires Windows")
     def test_supported_plots(self):
         arena = dx.Arena()
         arena.push_model(self.exp)
@@ -72,6 +74,7 @@ class ArenaTestTitanic(unittest.TestCase):
         except Exception:
             pass
 
+    @unittest.skipIf(sys.platform.startswith("win"), "requires Windows")
     def test_server(self):
         arena = dx.Arena()
         arena.push_model(self.exp)
@@ -90,6 +93,7 @@ class ArenaTestTitanic(unittest.TestCase):
         except Exception:
             pass
 
+    @unittest.skipIf(sys.platform.startswith("win"), "requires Windows")
     def test_plots(self):
         arena = dx.Arena()
         arena.push_model(self.exp)
@@ -106,6 +110,7 @@ class ArenaTestTitanic(unittest.TestCase):
         except Exception:
             pass
 
+    @unittest.skipIf(sys.platform.startswith("win"), "requires Windows")
     def test_observation_attributes(self):
         arena = dx.Arena()
         arena.push_model(self.exp)
@@ -123,6 +128,7 @@ class ArenaTestTitanic(unittest.TestCase):
         except Exception:
             pass
         
+    @unittest.skipIf(sys.platform.startswith("win"), "requires Windows")
     def test_variable_attributes(self):
         arena = dx.Arena()
         arena.push_model(self.exp)
