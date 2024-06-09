@@ -1,3 +1,7 @@
+DALEX 2.5.2
+---------------------------------------------------------------
+* Fix wrong row order in the `plot.model_performance` ([#49](https://github.com/ModelOriented/DALEX/issues/49))
+
 DALEX 2.5.1
 ---------------------------------------------------------------
 * adding the support for calculating kernel SHAP values via `predict_parts()` function

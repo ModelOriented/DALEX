@@ -80,6 +80,9 @@ plot.model_performance <- function(x, ..., geom = "ecdf", show_outliers = 0, ptl
   }
 
   df$label <- reorder(df$label, df$diff, loss_function)
+  # Sort df based on the label's levels to make sure downstream functions relying
+  # on the rows order work appropriately
+  df <- df[order(df$label), ]
   if (ptlabel == "name") {
     df$name <- NULL
     df$name <- rownames(df)
