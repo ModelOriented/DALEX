@@ -35,6 +35,9 @@ An object of the class \code{model_performance}.
 \description{
 Plot Dataset Level Model Performance Explanations
 }
+\details{
+Whenever multiple explainers are provided using ellipsis, they are sorted based on their labels levels.
+}
 \examples{
  \donttest{
 library("ranger")

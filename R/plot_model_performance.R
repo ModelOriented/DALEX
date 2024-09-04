@@ -8,6 +8,9 @@
 #' @param show_outliers number of largest residuals to be presented (only when geom = boxplot).
 #' @param ptlabel either \code{"name"} or \code{"index"} determines the naming convention of the outliers
 #'
+#' @details
+#' Whenever multiple explainers are provided using ellipsis, they are sorted based on their labels levels.
+#' 
 #' @return An object of the class \code{model_performance}.
 #'
 #' @export
