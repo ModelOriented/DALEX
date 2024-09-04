@@ -1,6 +1,6 @@
 Package: DALEX
 Title: moDel Agnostic Language for Exploration and eXplanation
-Version: 2.5.1
+Version: 2.5.2
 Authors@R: c(person("Przemyslaw", "Biecek", email = "przemyslaw.biecek@gmail.com", role = c("aut", "cre"), 
              comment = c(ORCID = "0000-0001-8423-1823")),
     person("Szymon", "Maksymiuk", role = "aut",
@@ -22,7 +22,7 @@ Description: Any unverified black box model is the path to failure. Opaqueness l
 License: GPL
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Depends: R (>= 3.5)
 Imports: 
   ggplot2,
