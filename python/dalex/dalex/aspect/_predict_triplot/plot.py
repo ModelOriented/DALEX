@@ -240,7 +240,7 @@ def plot_single_aspects_importance(
     )
 
     temp_min_max = [np.Inf, -np.Inf]
-    min_max_margin = _result.importance.values.ptp() * 0.15
+    min_max_margin = np.ptp(_result.importance.values) * 0.15
     temp_min_max[0] = np.min(
         [temp_min_max[0], _result.importance.values.min() - min_max_margin]
     )

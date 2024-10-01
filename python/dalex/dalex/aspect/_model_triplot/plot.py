@@ -149,7 +149,7 @@ def plot_single_aspects_importance(
     )
 
     temp_min_max = [np.Inf, -np.Inf]
-    min_max_margin = _result.dropout_loss.values.ptp() * 0.15
+    min_max_margin = np.ptp(_result.dropout_loss.values) * 0.15
     temp_min_max[0] = np.min(
         [temp_min_max[0], baseline - min_max_margin]
     )

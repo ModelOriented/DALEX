@@ -262,7 +262,7 @@ class CeterisParibus(Explanation):
 
         #  calculate y axis range to allow for fixedrange True
         dl = _result_df['_yhat_'].to_numpy()
-        min_max_margin = dl.ptp() * 0.10
+        min_max_margin = np.ptp(dl) * 0.10
         min_max = [dl.min() - min_max_margin, dl.max() + min_max_margin]
 
         # create _x_

@@ -246,7 +246,7 @@ class ModelAspectImportance(VariableImportance):
         dl = _result_df.loc[
             _result_df.aspect_name != "_baseline_", "dropout_loss"
         ].to_numpy()
-        min_max_margin = dl.ptp() * 0.15
+        min_max_margin = np.ptp(dl) * 0.15
         min_max = [dl.min() - min_max_margin, dl.max() + min_max_margin]
 
         # take out full model

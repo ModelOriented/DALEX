@@ -404,7 +404,7 @@ class PredictAspectImportance(Explanation):
 
             if min_max is None:
                 cum = _result.importance.values + baseline
-                min_max_margin =  cum.ptp() * 0.15 
+                min_max_margin =  np.ptp(cum) * 0.15 
                 temp_min_max[0] = np.min(
                     [
                         temp_min_max[0],
