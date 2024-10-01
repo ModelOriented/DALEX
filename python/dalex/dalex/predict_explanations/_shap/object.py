@@ -205,7 +205,7 @@ class Shap(Explanation):
             vcolors = _theme.get_break_down_colors()
 
         if min_max is None:
-            temp_min_max = [np.Inf, -np.Inf]
+            temp_min_max = [np.inf, -np.inf]
         else:
             temp_min_max = min_max
 
