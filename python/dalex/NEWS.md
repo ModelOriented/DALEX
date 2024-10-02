@@ -1,5 +1,9 @@
 ## Changelog
 
+### development
+
+...
+
 ### v1.7.1 (2024-10-02)
 
 * `numpy>=2.0.0` compatibility: replace instances of `x.ptp()` with `np.ptp(x)` and `np.Inf` with `np.inf` ([#571](https://github.com/ModelOriented/DALEX/issues/571))
