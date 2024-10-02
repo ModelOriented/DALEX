@@ -2,7 +2,7 @@
 
 ### v1.7.1 (2024-10-02)
 
-* Numpy>=2.0.0 compatibility: replace instances of `x.ptp()` with `np.ptp(x)` and `np.Inf` with `np.inf` ([#571](https://github.com/ModelOriented/DALEX/issues/571))
+* `numpy>=2.0.0` compatibility: replace instances of `x.ptp()` with `np.ptp(x)` and `np.Inf` with `np.inf` ([#571](https://github.com/ModelOriented/DALEX/issues/571))
 * added a way to pass `sample_weight` to loss functions in `model_parts()` (variable importance) using `weights` from `dx.Explainer` ([#563](https://github.com/ModelOriented/DALEX/issues/563))
 * fixed the visualization of `shap_wrapper` for `shap==0.45.0`
 
