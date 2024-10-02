@@ -199,7 +199,7 @@ class BreakDown(Explanation):
             vcolors = _theme.get_break_down_colors()
 
         if min_max is None:
-            temp_min_max = [np.Inf, -np.Inf]
+            temp_min_max = [np.inf, -np.inf]
         else:
             temp_min_max = min_max
 
@@ -256,7 +256,7 @@ class BreakDown(Explanation):
 
             if min_max is None:
                 cum = df.cumulative.values
-                min_max_margin = cum.ptp() * 0.15
+                min_max_margin = np.ptp(cum) * 0.15
                 temp_min_max[0] = np.min([temp_min_max[0], cum.min() - min_max_margin])
                 temp_min_max[1] = np.max([temp_min_max[1], cum.max() + min_max_margin])
 

@@ -231,7 +231,7 @@ class ModelTriplot(Explanation):
         fig.data[0]["y"] = y_vals
 
         ## triplot
-        min_x_imp, max_x_imp = np.Inf, -np.Inf
+        min_x_imp, max_x_imp = np.inf, -np.inf
         for data in hierarchical_importance_dendrogram_plot["data"][::-1]:
             data["xaxis"] = "x2"
             data["hoverinfo"] = "text"
@@ -241,7 +241,7 @@ class ModelTriplot(Explanation):
             max_x_imp = np.max([max_x_imp, np.max(data["x"])])
         min_max_margin_imp = (max_x_imp - min_x_imp) * 0.15
 
-        min_x_clust, max_x_clust = np.Inf, -np.Inf
+        min_x_clust, max_x_clust = np.inf, -np.inf
         for data in hierarchical_clustering_dendrogram_plot["data"]:
             data["xaxis"] = "x3"
             data["hoverinfo"] = "text"

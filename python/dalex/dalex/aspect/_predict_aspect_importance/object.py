@@ -306,7 +306,7 @@ class PredictAspectImportance(Explanation):
             vcolors = _theme.get_aspect_importance_colors()
 
         if min_max is None:
-            temp_min_max = [np.Inf, -np.Inf]
+            temp_min_max = [np.inf, -np.inf]
         else:
             temp_min_max = min_max
 
@@ -404,7 +404,7 @@ class PredictAspectImportance(Explanation):
 
             if min_max is None:
                 cum = _result.importance.values + baseline
-                min_max_margin =  cum.ptp() * 0.15 
+                min_max_margin =  np.ptp(cum) * 0.15 
                 temp_min_max[0] = np.min(
                     [
                         temp_min_max[0],
