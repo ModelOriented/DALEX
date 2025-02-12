@@ -4,6 +4,10 @@
 
 ...
 
+### v1.7.2 (2025-02-12)
+
+* temporarily restrict the `plotly` dependency to `<6.0.0`, fixing compatibility issues with the new version, e.g. `titlefont` is now `title_font` ([#573](https://github.com/ModelOriented/DALEX/issues/573) contributed by [@lionelkusch](https://github.com/lionelkusch))
+
 ### v1.7.1 (2024-10-02)
 
 * `numpy>=2.0.0` compatibility: replace instances of `x.ptp()` with `np.ptp(x)` and `np.Inf` with `np.inf` ([#571](https://github.com/ModelOriented/DALEX/issues/571))
