@@ -84,7 +84,7 @@ def run_setup():
             'pandas>=1.5.3',
             'numpy>=1.23.3',
             'scipy>=1.6.3',
-            'plotly>=5.1.0',
+            'plotly>=5.1.0,<6.0.0',
             'tqdm>=4.61.2',
         ],
         extras_require={'full': extras_require},
