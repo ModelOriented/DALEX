@@ -8,6 +8,9 @@
 #' @param show_outliers number of largest residuals to be presented (only when geom = boxplot).
 #' @param ptlabel either \code{"name"} or \code{"index"} determines the naming convention of the outliers
 #'
+#' @details
+#' Whenever multiple explainers are provided using ellipsis, they are sorted based on their labels levels.
+#' 
 #' @return An object of the class \code{model_performance}.
 #'
 #' @export
@@ -80,6 +83,9 @@ plot.model_performance <- function(x, ..., geom = "ecdf", show_outliers = 0, ptl
   }
 
   df$label <- reorder(df$label, df$diff, loss_function)
+  # Sort df based on the label's levels to make sure downstream functions relying
+  # on the rows order work appropriately
+  df <- df[order(df$label), ]
   if (ptlabel == "name") {
     df$name <- NULL
     df$name <- rownames(df)
