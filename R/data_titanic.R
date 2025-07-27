@@ -42,7 +42,7 @@
 #' @source This dataset was copied from the \code{stablelearner} package and went through few variable
 #' transformations. The complete list of persons on the RMS titanic was downloaded from
 #' \url{https://www.encyclopedia-titanica.org} on April 5, 2016. The  information given
-#' in \code{sibsp} and \code{parch} was adopoted from a data set obtained from \url{https://biostat.app.vumc.org/wiki/Main/DataSets}.
+#' in \code{sibsp} and \code{parch} was adopoted from a data set obtained from \code{Kaggle}.
 #' @usage
 #' data(titanic)
 #' data(titanic_imputed)

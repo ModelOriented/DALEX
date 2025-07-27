@@ -8,14 +8,14 @@
 #'
 #' \subsection{aggregates}{
 #' \itemize{
-#'  \item{\code{color}}{ a character. Either name of a color, or hex code for a color,
+#'  \item{\code{color} --  a character. Either name of a color, or hex code for a color,
 #'   or \code{_label_} if models shall be colored, or \code{_ids_} if instances shall be colored}
-#'  \item{\code{size}}{ a numeric. Size of lines to be plotted}
-#'  \item{\code{alpha}}{ a numeric between \code{0} and \code{1}. Opacity of lines}
-#'  \item{\code{facet_ncol}}{ number of columns for the \code{\link[ggplot2]{facet_wrap}}}
-#'  \item{\code{variables}}{ if not \code{NULL} then only \code{variables} will be presented}
-#'  \item{\code{title}}{ a character. Partial and accumulated dependence explainers have deafult value.}
-#'  \item{\code{subtitle}}{ a character. If \code{NULL} value will be dependent on model usage.}
+#'  \item{\code{size} --  a numeric. Size of lines to be plotted}
+#'  \item{\code{alpha} --  a numeric between \code{0} and \code{1}. Opacity of lines}
+#'  \item{\code{facet_ncol} --  number of columns for the \code{\link[ggplot2]{facet_wrap}}}
+#'  \item{\code{variables} --  if not \code{NULL} then only \code{variables} will be presented}
+#'  \item{\code{title} --  a character. Partial and accumulated dependence explainers have deafult value.}
+#'  \item{\code{subtitle} --  a character. If \code{NULL} value will be dependent on model usage.}
 #' }
 #' }
 #'
@@ -63,6 +63,7 @@ plot.model_profile <- function(x, ..., geom = "aggregates") {
   )
 }
 
+#' @export
 plot.model_profile_aggregates <- function(x, ...) {
 #  plot(x$agr_profiles, ..., color = x$color)
   # fix for https://github.com/ModelOriented/DALEX/issues/237
@@ -73,11 +74,13 @@ plot.model_profile_aggregates <- function(x, ...) {
   do.call(plot, tmp)
 }
 
+#' @export
 plot.model_profile_profiles <- function(x, ...) {
   plot(x$cp_profiles, ..., size = 0.5, color = "grey") +
     ingredients::show_aggregated_profiles(x$agr_profiles, ..., size = 2, color = x$color)
 }
 
+#' @export
 plot.model_profile_points <- function(x, ...) {
   plot(x$cp_profiles, ..., color = "grey", size = 0.5) +
     ingredients::show_aggregated_profiles(x$agr_profiles, ..., size = 2, color = x$color) +

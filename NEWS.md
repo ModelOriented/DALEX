@@ -1,3 +1,7 @@
+DALEX 2.5.2
+---------------------------------------------------------------
+* fixed NOTE during `devtools::document()` such as `S3 method plot.... needs @export or @exportS3method tag.`
+
 DALEX 2.5.1
 ---------------------------------------------------------------
 * adding the support for calculating kernel SHAP values via `predict_parts()` function

@@ -10,7 +10,7 @@
 two data frames with total 781 rows, 7 columns ech and rownames
 }
 \source{
-World Happiness Report data \url{https://worldhappiness.report/}
+World Happiness Report data
 }
 \usage{
 data(happiness_train)
@@ -18,7 +18,7 @@ data(happiness_test)
 }
 \description{
 The \code{happiness_train} and \code{happiness_test} datasets are generated
-based on the "World Happiness Report" at Kaggle \url{https://www.kaggle.com/datasets/unsdsn/world-happiness}.
+based on the "World Happiness Report".
 }
 \details{
 It contains data for 781 countries and 7 variables. These are:

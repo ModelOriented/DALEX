@@ -54,6 +54,7 @@
 #' plot(mp_ranger, mp_glm, mp_lm, geom = "boxplot", show_outliers = 1)
 #' }
 #'
+#' @export
 #
 plot.model_performance <- function(x, ..., geom = "ecdf", show_outliers = 0, ptlabel = "name", lossFunction = loss_function, loss_function = function(x) sqrt(mean(x^2))) {
   if (!(ptlabel %in% c("name", "index"))){
@@ -96,10 +97,10 @@ plot.model_performance <- function(x, ..., geom = "ecdf", show_outliers = 0, ptl
   )
 }
 
-
-plot.model_performance_ecdf <- function(df, nlabels) {
+#' @export
+plot.model_performance_ecdf <- function(x, nlabels, ...) {
   label <- name <- NULL
-  ggplot(df, aes(abs(diff), color = label)) +
+  ggplot(x, aes(abs(diff), color = label)) +
     stat_ecdf(geom = "step") +
     theme_default_dalex() +
     scale_color_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
@@ -111,23 +112,24 @@ plot.model_performance_ecdf <- function(df, nlabels) {
     ggtitle(expression(paste("Reverse cumulative distribution of ", group("|", residual, "|"))))
 }
 
-plot.model_performance_boxplot <- function(df, show_outliers, loss_function, nlabels) {
+#' @export
+plot.model_performance_boxplot <- function(x, show_outliers, loss_function, nlabels, ...) {
   label <- name <- NULL
-  pl <- ggplot(df, aes(x = label, y = abs(diff), fill = label)) +
+  pl <- ggplot(x, aes(x = label, y = abs(diff), fill = label)) +
     stat_boxplot(alpha = 0.4, coef = 1000) +
     stat_summary(fun = loss_function, geom = "point", shape = 20, size=10, color="red", fill="red") +
     theme_vertical_default_dalex() +
     scale_fill_manual(name = "Model", values = colors_discrete_drwhy(nlabels)) +
     ylab("") +
-    scale_x_discrete("", limits = rev(levels(df$label))) + # added to fix https://github.com/ModelOriented/DALEX/issues/400
+    scale_x_discrete("", limits = rev(levels(x$label))) + # added to fix https://github.com/ModelOriented/DALEX/issues/400
     ggtitle(
       expression(paste("Boxplots of ", group("|", residual, "|"))),
       "Red dot stands for root mean square of residuals"
     ) +
     coord_flip()
   if (show_outliers > 0) {
-    df$rank <- unlist(tapply(-abs(df$diff), df$label, rank, ties.method = "min"))
-    df_small <- df[df$rank <= show_outliers,]
+    x$rank <- unlist(tapply(-abs(x$diff), x$label, rank, ties.method = "min"))
+    df_small <- x[x$rank <= show_outliers,]
     pl <- pl +
       geom_point(data = df_small) +
       geom_text(data = df_small,
@@ -137,13 +139,14 @@ plot.model_performance_boxplot <- function(df, show_outliers, loss_function, nla
   pl
 }
 
-plot.model_performance_histogram <- function(df, nlabels) {
+#' @export
+plot.model_performance_histogram <- function(x, nlabels, ...) {
   diff <- label <- NULL
   # commented to keep it consistent with other plots
   # see: https://github.com/ModelOriented/DALEX/issues/400
   # if (length(levels(df$label)) > 1) levels(df$label) <- rev(levels(df$label))
 
-  ggplot(df, aes(diff, fill = label)) +
+  ggplot(x, aes(diff, fill = label)) +
     geom_histogram(bins = 100) +
     facet_wrap(~label, ncol = 1) +
     theme_default_dalex() + xlab("residuals") + theme(legend.position = "none") +
@@ -153,8 +156,9 @@ plot.model_performance_histogram <- function(df, nlabels) {
 }
 
 # precision-recall curve
-plot.model_performance_prc <- function(df, nlabels) {
-  dfl <- split(df, factor(df$label))
+#' @export
+plot.model_performance_prc <- function(x, nlabels, ...) {
+  dfl <- split(x, factor(x$label))
   prcdfl <- lapply(dfl, function(df) {
     pred_sorted <- df[order(df$predicted, decreasing = TRUE), ]
 
@@ -178,8 +182,9 @@ plot.model_performance_prc <- function(df, nlabels) {
 }
 
 # receiver operating characteristic
-plot.model_performance_roc <- function(df, nlabels) {
-  dfl <- split(df, factor(df$label))
+#' @export
+plot.model_performance_roc <- function(x, nlabels, ...) {
+  dfl <- split(x, factor(x$label))
   rocdfl <- lapply(dfl, function(df) {
     # assuming that y = 0/1 where 1 is the positive
     tpr_tmp <- tapply(df$observed, df$predicted, sum)
@@ -203,8 +208,9 @@ plot.model_performance_roc <- function(df, nlabels) {
     ggtitle("Receiver Operator Characteristic")
 }
 
-plot.model_performance_gain <- function(df, nlabels) {
-  dfl <- split(df, factor(df$label))
+#' @export
+plot.model_performance_gain <- function(x, nlabels, ...) {
+  dfl <- split(x, factor(x$label))
   rocdfl <- lapply(dfl, function(df) {
     pred_sorted <- df[order(df$predicted, decreasing = TRUE), ]
 
@@ -214,7 +220,7 @@ plot.model_performance_gain <- function(df, nlabels) {
     data.frame(lift = lift, pr = pr, label = df$label[1])
   })
   rocdf <- do.call(rbind, rocdfl)
-  max_lift <- sum(df$observed)/nrow(df)
+  max_lift <- sum(x$observed)/nrow(x)
 
   pr <- lift <- label <- NULL
   ggplot(rocdf, aes(x = pr, y = lift, color = label)) +
@@ -228,9 +234,9 @@ plot.model_performance_gain <- function(df, nlabels) {
 
 }
 
-
-plot.model_performance_lift <- function(df, nlabels) {
-  dfl <- split(df, factor(df$label))
+#' @export
+plot.model_performance_lift <- function(x, nlabels, ...) {
+  dfl <- split(x, factor(x$label))
   rocdfl <- lapply(dfl, function(df) {
     pred_sorted <- df[order(df$predicted, decreasing = TRUE), ]
 
@@ -240,7 +246,7 @@ plot.model_performance_lift <- function(df, nlabels) {
     data.frame(lift = lift/pr, pr = pr, label = df$label[1])
   })
   rocdf <- do.call(rbind, rocdfl)
-  max_lift <- sum(df$observed)/nrow(df)
+  max_lift <- sum(x$observed)/nrow(x)
 
   pr <- lift <- label <- NULL
   ggplot(rocdf, aes(x = pr, y = lift/max_lift, color = label)) +

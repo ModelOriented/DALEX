@@ -1,7 +1,7 @@
 #' World Happiness Report data
 #'
 #' The \code{happiness_train} and \code{happiness_test} datasets are generated
-#' based on the "World Happiness Report" at Kaggle \url{https://www.kaggle.com/datasets/unsdsn/world-happiness}.
+#' based on the "World Happiness Report".
 #'
 #' It contains data for 781 countries and 7 variables. These are:
 #' \itemize{
@@ -19,7 +19,7 @@
 #' @name happiness
 #' @aliases happiness_test happiness_train
 #'
-#' @source World Happiness Report data \url{https://worldhappiness.report/}
+#' @source World Happiness Report data
 #' @usage
 #' data(happiness_train)
 #' data(happiness_test)
