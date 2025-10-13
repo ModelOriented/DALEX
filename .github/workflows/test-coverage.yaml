@@ -39,7 +39,7 @@ jobs:
     strategy:
       matrix:
         config:
-          - r: '4.0.1'
+          - r: '4.1.0'
             http-user-agent: 'github-actions'
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -64,8 +64,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: macOS-r-4.0-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys:  macOS-r-4.0-1-
+          key: macOS-r-4.1.0-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys:  macOS-r-4.1.0-
 
       - name: Install dependencies
         run: |
