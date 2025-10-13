@@ -12,6 +12,11 @@ name: pkgdown
 jobs:
   pkgdown:
     runs-on: macOS-latest
+    strategy:
+      matrix:
+        config:
+          - r: '4.0.1'
+            http-user-agent: 'github-actions'
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:

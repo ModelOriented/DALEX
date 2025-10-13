@@ -36,6 +36,11 @@ name: test-coverage
 jobs:
   test-coverage:
     runs-on: macOS-latest
+    strategy:
+      matrix:
+        config:
+          - r: '4.0.1'
+            http-user-agent: 'github-actions'
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
