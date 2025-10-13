@@ -18,8 +18,8 @@ theme_drwhy <- function() {
           plot.subtitle = element_text(color = "#371ea3", hjust = 0),
           axis.text = element_text(color = "#371ea3", size = 10),
           strip.text = element_text(color = "#371ea3", size = 12, hjust = 0),
-          panel.grid.major.y = element_line(color = "grey90", size = 0.5, linetype = 1),
-          panel.grid.minor.y = element_line(color = "grey90", size = 0.5,  linetype = 1),
+          panel.grid.major.y = element_line(color = "grey90", linewidth = 0.5, linetype = 1),
+          panel.grid.minor.y = element_line(color = "grey90", linewidth = 0.5,  linetype = 1),
           panel.grid.minor.x = element_blank(),
           panel.grid.major.x = element_blank())
 
@@ -58,8 +58,8 @@ theme_drwhy_vertical <- function() {
           axis.title = element_text(color = "#371ea3"),
           axis.text = element_text(color = "#371ea3", size = 10),
           strip.text = element_text(color = "#371ea3", size = 12, hjust = 0),
-          panel.grid.major.x = element_line(color = "grey90", size = 0.5, linetype = 1),
-          panel.grid.minor.x = element_line(color = "grey90", size = 0.5,  linetype = 1),
+          panel.grid.major.x = element_line(color = "grey90", linewidth = 0.5, linetype = 1),
+          panel.grid.minor.x = element_line(color = "grey90", linewidth = 0.5,  linetype = 1),
           panel.grid.minor.y = element_blank(),
           panel.grid.major.y = element_blank())
 }

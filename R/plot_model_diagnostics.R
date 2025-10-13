@@ -48,7 +48,7 @@ plot.model_diagnostics <- function(x, ..., variable = "y_hat", yvariable = "resi
 
    # add hline
    if (yvariable == "residuals")
-     pl <- pl + geom_hline(yintercept = 0, color = "grey", lty = 2, size = 1)
+     pl <- pl + geom_hline(yintercept = 0, color = "grey", lty = 2, linewidth = 1)
 
     pl + ggtitle("Model diagnostics", paste0(variable, " against ", yvariable))
 }
