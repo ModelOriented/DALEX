@@ -32,7 +32,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Cache R packages
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ${{ env.R_LIBS_USER }}
           key: macOS-r-4.0-1-${{ hashFiles('.github/depends.Rds') }}

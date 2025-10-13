@@ -1,3 +1,8 @@
+DALEX (development)
+---------------------------------------------------------------
+* [@mayer79](https://github.com/mayer79) fixed the use of the deprecated `size` argument in `ggplot2` version 4, which is now called `linewidth` ([#576](https://github.com/ModelOriented/DALEX/issues/576))
+
+
 DALEX 2.5.2
 ---------------------------------------------------------------
 * fixed NOTE during `devtools::document()` such as `S3 method plot.... needs @export or @exportS3method tag.`
