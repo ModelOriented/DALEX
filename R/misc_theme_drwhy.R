@@ -4,7 +4,7 @@
 #' @export
 #' @rdname theme_drwhy
 theme_drwhy <- function() {
-    theme_bw(base_line_size = 0) %+replace%
+    theme_bw(base_line_size = 1) %+replace%
     theme(axis.ticks = element_blank(), legend.background = element_blank(),
           legend.key = element_blank(), panel.background = element_blank(),
           panel.border = element_blank(), strip.background = element_blank(),
@@ -44,7 +44,7 @@ theme_ema <- function() {
 #' @export
 #' @rdname theme_drwhy
 theme_drwhy_vertical <- function() {
-  theme_bw(base_line_size = 0) %+replace%
+  theme_bw(base_line_size = 1) %+replace%
     theme(axis.ticks = element_blank(), legend.background = element_blank(),
           legend.key = element_blank(), panel.background = element_blank(),
           panel.border = element_blank(), strip.background = element_blank(),
