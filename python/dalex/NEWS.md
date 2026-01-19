@@ -1,8 +1,10 @@
 ## Changelog
 
-### development
+### v1.8.0 (2026-01-19)
 
-...
+* remove the `pkg_resources` dependency breaking `dalex` ([#579](https://github.com/ModelOriented/DALEX/issues/579))
+* increase the dependency to `python>=3.9` and add `python==3.13` to CI
+* increase the `plotly` dependency to `>=6.0.0` and fix compatibility issues with the new version, e.g. `titlefont` is now `title_font` ([#573](https://github.com/ModelOriented/DALEX/issues/573))
 
 ### v1.7.2 (2025-02-12)
 

@@ -194,7 +194,7 @@ def _fairness_theme(title):
             'template': 'plotly_white',
             'title_x': 0.5,
             'title_y': 0.99,
-            'titlefont': {'size': 25},
+            'title_font': {'size': 25},
             'font': {'color': "#371ea3"},
             'margin': {'t': 78, 'b': 71, 'r': 30}}
 
