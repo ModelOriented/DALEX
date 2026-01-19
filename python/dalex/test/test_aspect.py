@@ -1,4 +1,8 @@
 import unittest
+try:
+    import ppscore
+except ImportError:
+    raise unittest.SkipTest("`ppscore` not installed")
 
 import numpy as np
 import pandas as pd
