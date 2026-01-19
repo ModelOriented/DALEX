@@ -26,9 +26,9 @@ OPTIONAL_DEPENDENCIES = {
     'flask_cors': '3.0.8',
     'requests': '2.24.0',
     'kaleido': '0.2.1',
-    'ppscore': '1.2.0',
     'ipywidgets': '7.6.3'
 }
+    # 'ppscore': '1.3.0',
 # WARNING
 # WARNING
 

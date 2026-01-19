@@ -39,8 +39,7 @@ def get_optional_dependencies(rel_path):
     od_dict = ast.literal_eval(to_parse)
     od_list = [f"{k}>={v}" for k, v in od_dict.items()]
     # remove artificial dependency used in test_global.py
-    if 'dalex' in od_list:
-        del od_list['dalex']
+    del od_list[0]
     return od_list
 
 def run_setup():
@@ -83,7 +82,7 @@ def run_setup():
             'setuptools',
             'packaging',
             'pandas>=1.5.3',
-            'numpy>=1.23.3',
+            'numpy>=1.23.5',
             'scipy>=1.6.3',
             'plotly>=6.0.0',
             'tqdm>=4.61.2',
