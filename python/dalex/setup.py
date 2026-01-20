@@ -81,7 +81,7 @@ def run_setup():
         install_requires=[
             'setuptools',
             'packaging',
-            'pandas>=1.5.3',
+            'pandas>=1.5.3,<3.0.0',
             'numpy>=1.23.5',
             'scipy>=1.6.3',
             'plotly>=6.0.0',
