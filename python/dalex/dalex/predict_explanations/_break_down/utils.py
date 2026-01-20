@@ -121,7 +121,7 @@ def calculate_2d_changes(explainer,
 
         yhats = explainer.predict(current_data)
         average_yhats[i] = yhats.mean()
-        average_yhats_norm[i] = average_yhats[i] - diffs_1d[inds.iloc[i, 0]] - diffs_1d.iloc[inds.iloc[i, 1]]
+        average_yhats_norm[i] = average_yhats[i] - diffs_1d.iloc[inds.iloc[i, 0]] - diffs_1d.iloc[inds.iloc[i, 1]]
 
     columns = explainer.data.columns
     average_yhats = pd.Series(average_yhats)

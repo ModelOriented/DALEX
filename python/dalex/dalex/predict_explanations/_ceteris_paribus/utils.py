@@ -97,6 +97,8 @@ def single_variable_profile(predict,
     ids = np.repeat(data.index.values, split_points.shape[0])
     new_data = data.loc[ids, :]
     original = new_data.loc[:, variable].copy()
+    if pd.api.types.is_numeric_dtype(new_data[variable]):
+        new_data[variable] = new_data[variable].astype('float')
     new_data.loc[:, variable] = np.tile(split_points, data.shape[0])
 
     yhat = predict(model, new_data)

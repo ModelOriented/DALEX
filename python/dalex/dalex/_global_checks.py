@@ -1,5 +1,6 @@
-import pkg_resources
 from importlib import import_module
+from importlib.metadata import version, PackageNotFoundError
+from packaging.version import parse
 from re import search
 
 # WARNING: below code is parsed by setup.py
@@ -25,9 +26,9 @@ OPTIONAL_DEPENDENCIES = {
     'flask_cors': '3.0.8',
     'requests': '2.24.0',
     'kaleido': '0.2.1',
-    'ppscore': '1.2.0',
     'ipywidgets': '7.6.3'
 }
+    # 'ppscore': '1.3.0',
 # WARNING
 # WARNING
 
@@ -41,13 +42,13 @@ def global_check_import(name=None, functionality=None):
             else:
                 import_module(name)
 
-            installed_version = pkg_resources.parse_version(pkg_resources.get_distribution(name).version)
-            needed_version = pkg_resources.parse_version(OPTIONAL_DEPENDENCIES[name])
+            installed_version = parse(version(name))
+            needed_version = parse(OPTIONAL_DEPENDENCIES[name])
             if installed_version < needed_version:
                 raise ImportWarning("Outdated version of optional dependency '" + name + "'. " +
                                     ("Update '" + name + "' for " + functionality + ". ") if functionality else "" +
                                     "Use pip or conda to update '" + name + "' to avoid potential errors.")
-        except ImportError:
+        except (ImportError, PackageNotFoundError):
             raise ImportError("Missing optional dependency '" + name + "'. " +
                               ("Install '" + name + "' for " + functionality + ". ") if functionality else "" +
                               "Use pip or conda to install '" + name + "'.")

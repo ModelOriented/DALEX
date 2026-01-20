@@ -15,7 +15,7 @@ def aggregate_profiles(all_profiles, mean_prediction, type, groups, center, span
         aggregated_profiles = \
             all_profiles. \
                 loc[:, ["_vname_", "_label_", "_x_", "_yhat_", "_ids_", "_original_"] + groups]. \
-                groupby(['_vname_', '_label_']). \
+                groupby(['_vname_', '_label_'])[["_x_", "_yhat_", "_ids_", "_original_"] + groups]. \
                 progress_apply(lambda split_profile: split_over_variables_and_labels(split_profile.copy(deep=True),
                                                                                      type, groups, span)). \
                 reset_index(level=[0, 1])  # remove level_2
@@ -83,7 +83,7 @@ def split_over_variables_and_labels(split_profile, type, groups, span):
 
     par_profile = split_profile.groupby(['_x_'] + groups, sort=False). \
         apply(lambda point: (point['_yhat_'] * point['_w_']).sum() / point['_w_'].sum() \
-        if point['_w_'].sum() != 0 else 0)
+        if point['_w_'].sum() != 0 else 0, include_groups=False)
 
     par_profile.name = '_yhat_'
     par_profile = par_profile.reset_index()

@@ -13,5 +13,5 @@ def is_y_in_data(data, y):
 
 
 def get_model_info(model):
-    model_package = re.search("(?<=<class ').*?(?=\.)", str(type(model)))[0]
+    model_package = re.search(r"(?<=<class ').*?(?=\.)", str(type(model)))[0]
     return {'model_package': model_package}

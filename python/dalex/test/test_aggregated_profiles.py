@@ -74,8 +74,8 @@ class AggregatedProfilesTestTitanic(unittest.TestCase):
         self.assertIsInstance(fig1, Figure)
         self.assertIsInstance(fig2, Figure)
 
-        test1 = case1.result.groupby('_vname_').apply(lambda x: x['_yhat_'].abs().min()).tolist()
-        test2 = case2.result.groupby('_vname_').apply(lambda x: x['_yhat_'].abs().min()).tolist()
+        test1 = case1.result.groupby('_vname_')['_yhat_'].apply(lambda x: x.abs().min()).tolist()
+        test2 = case2.result.groupby('_vname_')['_yhat_'].apply(lambda x: x.abs().min()).tolist()
 
         self.assertListEqual(test1, np.zeros(len(test1)).tolist())
         self.assertListEqual(test2, np.zeros(len(test2)).tolist())
