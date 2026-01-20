@@ -1,8 +1,4 @@
 import unittest
-try:
-    import ppscore
-except ImportError:
-    raise unittest.SkipTest("`ppscore` not installed")
 
 import numpy as np
 import pandas as pd
@@ -23,6 +19,7 @@ from dalex.aspect._model_triplot.object import ModelTriplot
 from dalex.aspect._predict_triplot.object import PredictTriplot
 from dalex.aspect._model_aspect_importance.object import ModelAspectImportance
 
+@unittest.skip("Skipping test to avoid problems with `ppscore` versioning and dependencies.")
 class AspectTestTitanic(unittest.TestCase):
     def setUp(self):
         data = dx.datasets.load_titanic()
@@ -449,6 +446,7 @@ class AspectTestTitanic(unittest.TestCase):
         self.assertIsInstance(fig8, HBox)
 
 
+@unittest.skip("Skipping test to avoid problems with `ppscore` versioning and dependencies.")
 class AspectTestFifa(unittest.TestCase):
     def setUp(self):
         data = dx.datasets.load_fifa()

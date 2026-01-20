@@ -1,6 +1,6 @@
 ## Changelog
 
-### v1.8.0 (2026-01-19)
+### v1.8.0 (2026-01-20)
 
 * substitute the deprecated `pkg_resources` dependency that breaks `dalex` ([#579](https://github.com/ModelOriented/DALEX/issues/579))
 * remove the `ppscore` optional dependency used by the `aspect` module from `dalex[full]` as it imposes `pandas<2.0.0`
