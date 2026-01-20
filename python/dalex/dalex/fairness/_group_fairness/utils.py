@@ -96,14 +96,14 @@ class SubgroupConfusionMatrixMetrics:
 
     def to_vertical_DataFrame(self) -> pd.DataFrame:
 
-        columns = ['metric', 'subgroup', 'score']
-        data = pd.DataFrame(columns=columns)
+        df_list = []
         metrics = self.subgroup_confusion_matrix_metrics
         for subgroup in metrics.keys():
             metric = metrics.get(subgroup)
             subgroup_vec = np.repeat(subgroup, len(metric))
             sub_df = pd.DataFrame({'metric': metric.keys(), 'subgroup': subgroup_vec, 'score': metric.values()})
-            data = pd.concat([data, sub_df])
+            df_list.append(sub_df)
+        data = pd.concat(df_list, ignore_index=True)
         return data
 
     def to_horizontal_DataFrame(self) -> pd.DataFrame:
@@ -286,8 +286,7 @@ def calculate_regression_measures(y, y_hat, protected, privileged):
     unique_protected = np.unique(protected)
     unique_unprivileged = unique_protected[unique_protected != privileged]
 
-    data = pd.DataFrame(columns=['subgroup', 'independence', 'separation', 'sufficiency'])
-
+    data_list = []
     for unprivileged in unique_unprivileged:
         # filter elements
         array_elements = np.isin(protected, [privileged, unprivileged])
@@ -319,8 +318,12 @@ def calculate_regression_measures(y, y_hat, protected, privileged):
                                   'independence': [r_ind],
                                   'separation': [r_sep],
                                   'sufficiency': [r_suf]})
+        data_list.append(to_append)
 
-        data = pd.concat([data, to_append])
+    if data_list:
+        data = pd.concat(data_list, ignore_index=True)
+    else:
+        data = pd.DataFrame(columns=['subgroup', 'independence', 'separation', 'sufficiency'])
 
     # append the scale
     to_append = pd.DataFrame({'subgroup': [privileged],

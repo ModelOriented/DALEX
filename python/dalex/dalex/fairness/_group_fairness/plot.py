@@ -328,7 +328,7 @@ def plot_metric_scores(fobject,
     for metric in data.metric.unique():
         for label in data.label.unique():
             x = float(privileged_data.loc[(privileged_data.metric == metric) &
-                                          (privileged_data.label == label), :].score)
+                                          (privileged_data.label == label), :].score.iloc[0])
             if np.isnan(x):
                 lines_nan = True
                 continue
@@ -336,12 +336,12 @@ def plot_metric_scores(fobject,
             for subgroup in data.subgroup.unique():
                 y = float(data.loc[(data.metric == metric) &
                                    (data.label == label) &
-                                   (data.subgroup == subgroup)].subgroup_numeric)
+                                   (data.subgroup == subgroup)].subgroup_numeric.iloc[0])
                 # horizontal
 
                 x0 = float(data.loc[(data.metric == metric) &
                                     (data.label == label) &
-                                    (data.subgroup == subgroup)].score)
+                                    (data.subgroup == subgroup)].score.iloc[0])
 
                 if np.isnan(x0):
                     lines_nan = True
@@ -691,7 +691,7 @@ def plot_ceteris_paribus_cutoff(fobject,
 def plot_density(fobject,
                  other_objects,
                  title):
-    data = pd.DataFrame(columns=['y', 'y_hat', 'subgroup', 'model'])
+    data_list = []
     objects = [fobject]
     if other_objects is not None:
         for other_obj in other_objects:
@@ -703,7 +703,9 @@ def plot_density(fobject,
                                            'y_hat': y_hat,
                                            'subgroup': np.repeat(subgroup, len(y)),
                                            'model': np.repeat(obj.label, len(y))})
-            data = pd.concat([data, data_to_append])
+            data_list.append(data_to_append)
+
+    data = pd.concat(data_list)
 
     fig = go.Figure()
 

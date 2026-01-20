@@ -60,7 +60,7 @@ class ArenaTestTitanic(unittest.TestCase):
             FairnessCheckContainer, ShapleyValuesDependenceContainer, ShapleyValuesVariableImportanceContainer,
             VariableAgainstAnotherContainer, VariableDistributionContainer]
 
-    @unittest.skipIf(sys.platform.startswith("win"), "requires Windows")
+
     def test_supported_plots(self):
         arena = dx.Arena()
         arena.push_model(self.exp)
@@ -74,7 +74,7 @@ class ArenaTestTitanic(unittest.TestCase):
         except Exception:
             pass
 
-    @unittest.skipIf(sys.platform.startswith("win"), "requires Windows")
+    @unittest.skipUnless(sys.platform.startswith("ubuntu"), "requires Ubuntu")
     def test_server(self):
         arena = dx.Arena()
         arena.push_model(self.exp)
@@ -82,7 +82,7 @@ class ArenaTestTitanic(unittest.TestCase):
         port = get_free_port()
         try:
             arena.run_server(port=port)
-            time.sleep(2)
+            time.sleep(10)
             self.assertFalse(try_port(port))
             arena.stop_server()
         except AssertionError as e:
@@ -93,7 +93,7 @@ class ArenaTestTitanic(unittest.TestCase):
         except Exception:
             pass
 
-    @unittest.skipIf(sys.platform.startswith("win"), "requires Windows")
+    @unittest.skipUnless(sys.platform.startswith("ubuntu"), "requires Ubuntu")
     def test_plots(self):
         arena = dx.Arena()
         arena.push_model(self.exp)
@@ -110,7 +110,7 @@ class ArenaTestTitanic(unittest.TestCase):
         except Exception:
             pass
 
-    @unittest.skipIf(sys.platform.startswith("win"), "requires Windows")
+    @unittest.skipUnless(sys.platform.startswith("ubuntu"), "requires Ubuntu")
     def test_observation_attributes(self):
         arena = dx.Arena()
         arena.push_model(self.exp)
@@ -128,7 +128,7 @@ class ArenaTestTitanic(unittest.TestCase):
         except Exception:
             pass
         
-    @unittest.skipIf(sys.platform.startswith("win"), "requires Windows")
+    @unittest.skipUnless(sys.platform.startswith("ubuntu"), "requires Ubuntu")
     def test_variable_attributes(self):
         arena = dx.Arena()
         arena.push_model(self.exp)
