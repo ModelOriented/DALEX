@@ -9,7 +9,7 @@ from .arena.object import Arena
 from .aspect import Aspect
 
 
-__version__ = '1.8.0'
+__version__ = '1.8.0.9000'
 
 __all__ = [
   "Arena",

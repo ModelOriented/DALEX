@@ -1,5 +1,9 @@
 ## Changelog
 
+### development
+
+...
+
 ### v1.8.0 (2026-01-20)
 
 * substitute the deprecated `pkg_resources` dependency that breaks `dalex` ([#579](https://github.com/ModelOriented/DALEX/issues/579))
