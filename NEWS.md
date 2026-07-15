@@ -1,7 +1,10 @@
-DALEX (development)
+DALEX 2.5.4
+---------------------------------------------------------------
+* fixed R-devel warning by replacing the deprecated `structure(*, .Names = )` with `structure(*, names = )` in `model_performance()` and `model_profile()`/`variable_profile()` (R-devel r90216 deprecates the compact `.Names`/`.Dim`/`.Label` attribute names in `structure()`)
+
+DALEX 2.5.3
 ---------------------------------------------------------------
 * [@mayer79](https://github.com/mayer79) fixed the use of the deprecated `size` argument in `ggplot2` version 4, which is now called `linewidth` ([#576](https://github.com/ModelOriented/DALEX/issues/576))
-
 
 DALEX 2.5.2
 ---------------------------------------------------------------

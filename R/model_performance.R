@@ -119,7 +119,7 @@ model_performance <- function(explainer, ..., cutoff = 0.5) {
   residuals$label <- explainer$label
 
   structure(list(residuals, measures, type),
-            .Names = c("residuals", "measures", "type"),
+            names = c("residuals", "measures", "type"),
             class = "model_performance")
 }
 

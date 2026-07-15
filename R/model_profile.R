@@ -98,7 +98,7 @@ model_profile <- function(explainer, variables = NULL, N = 100, ..., groups = NU
 
   structure(
     list(cp_profiles, agr_profiles, color),
-    .Names = c("cp_profiles", "agr_profiles", "color"),
+    names = c("cp_profiles", "agr_profiles", "color"),
     class = "model_profile")
 
 }
