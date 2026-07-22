@@ -21,6 +21,19 @@ test_that("Output format - plot",{
   expect_is(plot(lm_rd), "gg")
 })
 
+test_that("Plot does not use deprecated aes_string() (#582)", {
+  # Same root cause as plot.model_diagnostics(): the histogram branch of
+  # plot.predict_diagnostics() (used when variables = NULL) also called the
+  # deprecated aes_string(). See test_model_diagnostics.R for why this is
+  # checked structurally instead of via expect_no_warning() (lifecycle
+  # deprecation warnings only fire once per R session).
+  plot_fun_src <- deparse(body(getS3method("plot", "predict_diagnostics")))
+  expect_false(any(grepl("aes_string", plot_fun_src, fixed = TRUE)))
+
+  ranger_rd_hist <- predict_diagnostics(explainer_classif_ranger, new_observation = titanic_imputed[1, -8], variables = NULL)
+  expect_is(plot(ranger_rd_hist), "gg")
+})
+
 
 #:# alias
 

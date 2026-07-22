@@ -39,7 +39,7 @@ plot.predict_diagnostics <- function(x, ...) {
     statistic <- x$test$statistic
     cut_points <- x$cut_points
 
-    pl <- ggplot(df, aes_string("Var1", "Freq", fill = "direction")) +
+    pl <- ggplot(df, aes(x = .data[["Var1"]], y = .data[["Freq"]], fill = .data[["direction"]])) +
       geom_col() +
       scale_y_continuous("") +
       scale_x_discrete("residuals", labels = as.character(cut_points)) +
