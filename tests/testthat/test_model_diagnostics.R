@@ -49,6 +49,25 @@ test_that("Print",{
   expect_error(print(diag_ranger_3), NA)
 })
 
+test_that("Plot does not use deprecated aes_string() (#582)", {
+  # ggplot2 >= 3.0.0 hard-deprecates aes_string(); plot.model_diagnostics()
+  # used to call it directly, which raised a `lifecycle::deprecate_warn()`
+  # every time a diagnostics plot was drawn (see reprex in issue #582).
+  #
+  # We check this structurally (source no longer references aes_string())
+  # rather than by capturing the warning at call time, because lifecycle
+  # warnings are only emitted once per R session: whichever test runs
+  # plot.model_diagnostics() first "uses up" the warning for the rest of
+  # the session/suite, which would make a warning-capturing test silently
+  # pass regardless of whether the bug is actually fixed.
+  plot_fun_src <- deparse(body(getS3method("plot", "model_diagnostics")))
+  expect_false(any(grepl("aes_string", plot_fun_src, fixed = TRUE)))
+
+  # the plot itself must still work and produce a ggplot object
+  expect_is(plot(diag_ranger_1), "gg")
+  expect_is(plot(diag_ranger_1, diag_lm, variable = "construction.year"), "gg")
+})
+
 explainer_array <- explainer_ranger
 explainer_array$y_hat <- as.array(explainer_array$y_hat)
 
