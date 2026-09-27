@@ -1,6 +1,8 @@
 import unittest
 from copy import copy, deepcopy
 import warnings
+import io
+from contextlib import redirect_stdout
 
 import numpy as np
 import pandas as pd
@@ -200,6 +202,40 @@ class FairnessTest(unittest.TestCase):
                                                        verbose=False,
                                                        label=exp.label)
         self.assertIsInstance(gfco, dx.fairness.GroupFairnessClassification)
+
+    def test_fairness_check_masked_ratio(self):
+        # issue #585: a subgroup ratio of exactly 0 or inf is masked to NaN by
+        # calculate_ratio() (so calculate_parity_loss()'s log stays finite),
+        # and universal_fairness_check() used to read that NaN as "within
+        # bounds" instead of the most extreme disparity a metric can show.
+        # 'sub' never predicts positive (y_hat all below cutoff): TPR, FPR and
+        # STP ratios are exactly 0 (masked to NaN in gfc.result), PPV is
+        # genuinely 0/0 (NaN already in gfc.metric_scores, before masking),
+        # and ACC is close enough to 'priv' to stay unflagged on its own.
+        y_true = np.array([1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0])
+        y_hat = np.array([0.9, 0.8, 0.3, 0.6, 0.2, 0.7, 0.1, 0.4,
+                           0.1, 0.2, 0.1, 0.2, 0.3, 0.4, 0.1, 0.2])
+        protected = np.array(['priv'] * 8 + ['sub'] * 8)
+
+        gfc = dx.fairness.GroupFairnessClassification(y=y_true, y_hat=y_hat, protected=protected,
+                                                       privileged='priv', verbose=False, label='t')
+
+        self.assertTrue(np.isnan(gfc.metric_scores.loc['sub', 'PPV']))
+        for metric in ['TPR', 'FPR', 'STP']:
+            self.assertEqual(gfc.metric_scores.loc['sub', metric], 0)
+            self.assertTrue(np.isnan(gfc.result.loc['sub', metric]))
+
+        buffer = io.StringIO()
+        with redirect_stdout(buffer):
+            gfc.fairness_check(epsilon=0.8, verbose=False)
+        output = buffer.getvalue()
+
+        self.assertNotIn('No bias was detected', output)
+        self.assertIn('Bias detected', output)
+        for metric in ['TPR', 'FPR', 'STP']:
+            self.assertIn(metric, output.split('Ratios of metrics')[0])
+        self.assertNotIn('PPV', output.split('Ratios of metrics')[0])
+
 
     def test_GroupFairnessRegression(self):
         exp = self.exp_reg

@@ -355,7 +355,24 @@ def universal_fairness_check(self, epsilon, verbose, num_for_not_fair, num_for_n
     subgroups_without_privileged = subgroups[subgroups != self.privileged]
     metric_ratios = metric_ratios.loc[subgroups_without_privileged, metrics]
 
-    metrics_exceeded = ((metric_ratios > 1 / epsilon) | (epsilon > metric_ratios)).apply(sum, 0)
+    # calculate_ratio() masks a ratio that is exactly 0 or inf to NaN (so
+    # calculate_parity_loss()'s log stays finite), which then reads as "within
+    # bounds" below -- the most extreme disparity a metric can show is silently
+    # treated as no disparity at all. Only GroupFairnessClassification stores
+    # the raw (unratio'd) scores this needs; GroupFairnessRegression's ratios
+    # come from calculate_regression_measures(), which has no such masking.
+    if hasattr(self, 'metric_scores'):
+        raw = self.metric_scores.loc[subgroups_without_privileged, metrics]
+        privileged_raw = self.metric_scores.loc[self.privileged, metrics]
+        with np.errstate(divide='ignore', invalid='ignore'):
+            unmasked_ratio = raw / privileged_raw
+        # A ratio that is NaN here because both groups scored 0 (0/0) is
+        # genuinely undefined -- unmasked_ratio is NaN too, and it stays excluded.
+        masked_disparity = metric_ratios.isna() & ~unmasked_ratio.isna()
+    else:
+        masked_disparity = False
+
+    metrics_exceeded = (((metric_ratios > 1 / epsilon) | (epsilon > metric_ratios)) | masked_disparity).apply(sum, 0)
 
     names_of_exceeded_metrics = list(metrics_exceeded.index[metrics_exceeded != 0])
     if len(names_of_exceeded_metrics) >= num_for_not_fair:
