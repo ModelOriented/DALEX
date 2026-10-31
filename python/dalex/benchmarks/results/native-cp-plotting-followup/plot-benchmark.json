@@ -1,0 +1,1977 @@
+{
+  "scope": "plotting only, identical precomputed results; no fitting or training",
+  "reference_revision": "4818d9fa644a9fe5769a28de3b4469297d2bafa1",
+  "current_revision": "8ab8ac12c5fe661ce0fadcee38176759f978e2ef",
+  "threads": {
+    "polars": "8",
+    "blas": "1"
+  },
+  "trials": [
+    {
+      "family": "ceteris-paribus",
+      "backend": "pandas",
+      "elapsed_seconds": 0.49731860001338646,
+      "rss_baseline_mib": 202.328125,
+      "rss_peak_mib": 217.63671875,
+      "rss_increase_mib": 15.30859375,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [
+        "_compatibility_new_observation",
+        "_compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 0,
+      "version": "reference"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "pandas",
+      "elapsed_seconds": 0.4333196999505162,
+      "rss_baseline_mib": 200.68359375,
+      "rss_peak_mib": 216.25390625,
+      "rss_increase_mib": 15.5703125,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 0,
+      "version": "current"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "pandas",
+      "elapsed_seconds": 0.44559770001797006,
+      "rss_baseline_mib": 200.2421875,
+      "rss_peak_mib": 216.54296875,
+      "rss_increase_mib": 16.30078125,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 1,
+      "version": "current"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "pandas",
+      "elapsed_seconds": 0.505521500017494,
+      "rss_baseline_mib": 201.22265625,
+      "rss_peak_mib": 216.37890625,
+      "rss_increase_mib": 15.15625,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [
+        "_compatibility_new_observation",
+        "_compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 1,
+      "version": "reference"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "pandas",
+      "elapsed_seconds": 0.5094727000105195,
+      "rss_baseline_mib": 200.625,
+      "rss_peak_mib": 217.96484375,
+      "rss_increase_mib": 17.33984375,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [
+        "_compatibility_new_observation",
+        "_compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 2,
+      "version": "reference"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "pandas",
+      "elapsed_seconds": 0.4218285999959335,
+      "rss_baseline_mib": 201.72265625,
+      "rss_peak_mib": 216.8359375,
+      "rss_increase_mib": 15.11328125,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 2,
+      "version": "current"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "pandas",
+      "elapsed_seconds": 0.42517010000301525,
+      "rss_baseline_mib": 201.453125,
+      "rss_peak_mib": 216.8671875,
+      "rss_increase_mib": 15.4140625,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 3,
+      "version": "current"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "pandas",
+      "elapsed_seconds": 0.5180613999837078,
+      "rss_baseline_mib": 199.2109375,
+      "rss_peak_mib": 217.35546875,
+      "rss_increase_mib": 18.14453125,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [
+        "_compatibility_new_observation",
+        "_compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 3,
+      "version": "reference"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "pandas",
+      "elapsed_seconds": 0.4886228999821469,
+      "rss_baseline_mib": 200.19921875,
+      "rss_peak_mib": 216.8828125,
+      "rss_increase_mib": 16.68359375,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [
+        "_compatibility_new_observation",
+        "_compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 4,
+      "version": "reference"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "pandas",
+      "elapsed_seconds": 0.4046875000349246,
+      "rss_baseline_mib": 200.046875,
+      "rss_peak_mib": 216.2890625,
+      "rss_increase_mib": 16.2421875,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 4,
+      "version": "current"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "polars",
+      "elapsed_seconds": 0.4937972000334412,
+      "rss_baseline_mib": 206.2421875,
+      "rss_peak_mib": 221.140625,
+      "rss_increase_mib": 14.8984375,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [
+        "_compatibility_new_observation",
+        "_compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 0,
+      "version": "reference"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "polars",
+      "elapsed_seconds": 0.34536540001863614,
+      "rss_baseline_mib": 213.6796875,
+      "rss_peak_mib": 227.48046875,
+      "rss_increase_mib": 13.80078125,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 0,
+      "version": "current"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "polars",
+      "elapsed_seconds": 0.3400046000024304,
+      "rss_baseline_mib": 214.28125,
+      "rss_peak_mib": 227.41796875,
+      "rss_increase_mib": 13.13671875,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 1,
+      "version": "current"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "polars",
+      "elapsed_seconds": 0.5062541000079364,
+      "rss_baseline_mib": 206.25390625,
+      "rss_peak_mib": 221.7734375,
+      "rss_increase_mib": 15.51953125,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [
+        "_compatibility_new_observation",
+        "_compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 1,
+      "version": "reference"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "polars",
+      "elapsed_seconds": 0.5007223000284284,
+      "rss_baseline_mib": 204.79296875,
+      "rss_peak_mib": 221.62109375,
+      "rss_increase_mib": 16.828125,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [
+        "_compatibility_new_observation",
+        "_compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 2,
+      "version": "reference"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "polars",
+      "elapsed_seconds": 0.32502109999768436,
+      "rss_baseline_mib": 214.97265625,
+      "rss_peak_mib": 228.12109375,
+      "rss_increase_mib": 13.1484375,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 2,
+      "version": "current"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "polars",
+      "elapsed_seconds": 0.3543927000137046,
+      "rss_baseline_mib": 214.6484375,
+      "rss_peak_mib": 227.3046875,
+      "rss_increase_mib": 12.65625,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 3,
+      "version": "current"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "polars",
+      "elapsed_seconds": 0.5311551000340842,
+      "rss_baseline_mib": 204.078125,
+      "rss_peak_mib": 221.2890625,
+      "rss_increase_mib": 17.2109375,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [
+        "_compatibility_new_observation",
+        "_compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 3,
+      "version": "reference"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "polars",
+      "elapsed_seconds": 0.49925160000566393,
+      "rss_baseline_mib": 206.8125,
+      "rss_peak_mib": 222.20703125,
+      "rss_increase_mib": 15.39453125,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [
+        "_compatibility_new_observation",
+        "_compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 4,
+      "version": "reference"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "polars",
+      "elapsed_seconds": 0.3354609999805689,
+      "rss_baseline_mib": 215.09375,
+      "rss_peak_mib": 227.41796875,
+      "rss_increase_mib": 12.32421875,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 4,
+      "version": "current"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "pyarrow",
+      "elapsed_seconds": 0.4912575000198558,
+      "rss_baseline_mib": 203.0859375,
+      "rss_peak_mib": 219.14453125,
+      "rss_increase_mib": 16.05859375,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [
+        "_compatibility_new_observation",
+        "_compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 0,
+      "version": "reference"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "pyarrow",
+      "elapsed_seconds": 0.35862339998129755,
+      "rss_baseline_mib": 213.08203125,
+      "rss_peak_mib": 226.5859375,
+      "rss_increase_mib": 13.50390625,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 0,
+      "version": "current"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "pyarrow",
+      "elapsed_seconds": 0.34784250002121553,
+      "rss_baseline_mib": 212.3203125,
+      "rss_peak_mib": 225.796875,
+      "rss_increase_mib": 13.4765625,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 1,
+      "version": "current"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "pyarrow",
+      "elapsed_seconds": 0.48058219999074936,
+      "rss_baseline_mib": 203.50390625,
+      "rss_peak_mib": 219.4765625,
+      "rss_increase_mib": 15.97265625,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [
+        "_compatibility_new_observation",
+        "_compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 1,
+      "version": "reference"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "pyarrow",
+      "elapsed_seconds": 0.5190375000238419,
+      "rss_baseline_mib": 203.96484375,
+      "rss_peak_mib": 220.0859375,
+      "rss_increase_mib": 16.12109375,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [
+        "_compatibility_new_observation",
+        "_compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 2,
+      "version": "reference"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "pyarrow",
+      "elapsed_seconds": 0.34767679998185486,
+      "rss_baseline_mib": 212.68359375,
+      "rss_peak_mib": 226.171875,
+      "rss_increase_mib": 13.48828125,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 2,
+      "version": "current"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "pyarrow",
+      "elapsed_seconds": 0.34374809998553246,
+      "rss_baseline_mib": 211.734375,
+      "rss_peak_mib": 226.01953125,
+      "rss_increase_mib": 14.28515625,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 3,
+      "version": "current"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "pyarrow",
+      "elapsed_seconds": 0.48870839999290183,
+      "rss_baseline_mib": 202.95703125,
+      "rss_peak_mib": 220.19921875,
+      "rss_increase_mib": 17.2421875,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [
+        "_compatibility_new_observation",
+        "_compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 3,
+      "version": "reference"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "pyarrow",
+      "elapsed_seconds": 0.5083588000270538,
+      "rss_baseline_mib": 202.3984375,
+      "rss_peak_mib": 219.23828125,
+      "rss_increase_mib": 16.83984375,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [
+        "_compatibility_new_observation",
+        "_compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 4,
+      "version": "reference"
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "pyarrow",
+      "elapsed_seconds": 0.3510717999888584,
+      "rss_baseline_mib": 212.64453125,
+      "rss_peak_mib": 225.85546875,
+      "rss_increase_mib": 13.2109375,
+      "figure_sha256": "dfb7633dd63f1fa5e82a505110d1792c177e2205e1ebd76a8687ee4cf02adf4e",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 4,
+      "version": "current"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pandas",
+      "elapsed_seconds": 0.6623193999985233,
+      "rss_baseline_mib": 203.046875,
+      "rss_peak_mib": 233.4375,
+      "rss_increase_mib": 30.390625,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [
+        "raw_profiles._compatibility_new_observation",
+        "raw_profiles._compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 0,
+      "version": "reference"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pandas",
+      "elapsed_seconds": 0.6070704000303522,
+      "rss_baseline_mib": 202.26953125,
+      "rss_peak_mib": 232.93359375,
+      "rss_increase_mib": 30.6640625,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 0,
+      "version": "current"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pandas",
+      "elapsed_seconds": 0.6101029000128619,
+      "rss_baseline_mib": 203.078125,
+      "rss_peak_mib": 232.89453125,
+      "rss_increase_mib": 29.81640625,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 1,
+      "version": "current"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pandas",
+      "elapsed_seconds": 0.7110766000114381,
+      "rss_baseline_mib": 203.75390625,
+      "rss_peak_mib": 233.09765625,
+      "rss_increase_mib": 29.34375,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [
+        "raw_profiles._compatibility_new_observation",
+        "raw_profiles._compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 1,
+      "version": "reference"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pandas",
+      "elapsed_seconds": 0.6875371999922208,
+      "rss_baseline_mib": 200.94140625,
+      "rss_peak_mib": 233.64453125,
+      "rss_increase_mib": 32.703125,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [
+        "raw_profiles._compatibility_new_observation",
+        "raw_profiles._compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 2,
+      "version": "reference"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pandas",
+      "elapsed_seconds": 0.6552717000013217,
+      "rss_baseline_mib": 202.34765625,
+      "rss_peak_mib": 232.7265625,
+      "rss_increase_mib": 30.37890625,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 2,
+      "version": "current"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pandas",
+      "elapsed_seconds": 0.5922563000349328,
+      "rss_baseline_mib": 202.53125,
+      "rss_peak_mib": 232.56640625,
+      "rss_increase_mib": 30.03515625,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 3,
+      "version": "current"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pandas",
+      "elapsed_seconds": 0.6655730999773368,
+      "rss_baseline_mib": 204.15234375,
+      "rss_peak_mib": 233.74609375,
+      "rss_increase_mib": 29.59375,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [
+        "raw_profiles._compatibility_new_observation",
+        "raw_profiles._compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 3,
+      "version": "reference"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pandas",
+      "elapsed_seconds": 0.6885834000422619,
+      "rss_baseline_mib": 199.96484375,
+      "rss_peak_mib": 233.51953125,
+      "rss_increase_mib": 33.5546875,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [
+        "raw_profiles._compatibility_new_observation",
+        "raw_profiles._compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 4,
+      "version": "reference"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pandas",
+      "elapsed_seconds": 0.5685323000070639,
+      "rss_baseline_mib": 202.13671875,
+      "rss_peak_mib": 232.79296875,
+      "rss_increase_mib": 30.65625,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 4,
+      "version": "current"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "polars",
+      "elapsed_seconds": 0.6464974000118673,
+      "rss_baseline_mib": 208.56640625,
+      "rss_peak_mib": 241.96484375,
+      "rss_increase_mib": 33.3984375,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [
+        "raw_profiles._compatibility_new_observation",
+        "raw_profiles._compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 0,
+      "version": "reference"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "polars",
+      "elapsed_seconds": 0.4887599000358023,
+      "rss_baseline_mib": 213.890625,
+      "rss_peak_mib": 244.58203125,
+      "rss_increase_mib": 30.69140625,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 0,
+      "version": "current"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "polars",
+      "elapsed_seconds": 0.5849465999635868,
+      "rss_baseline_mib": 214.05859375,
+      "rss_peak_mib": 245.4140625,
+      "rss_increase_mib": 31.35546875,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 1,
+      "version": "current"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "polars",
+      "elapsed_seconds": 0.6532267000293359,
+      "rss_baseline_mib": 211.36328125,
+      "rss_peak_mib": 241.96875,
+      "rss_increase_mib": 30.60546875,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [
+        "raw_profiles._compatibility_new_observation",
+        "raw_profiles._compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 1,
+      "version": "reference"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "polars",
+      "elapsed_seconds": 0.6473614000133239,
+      "rss_baseline_mib": 212.91015625,
+      "rss_peak_mib": 242.31640625,
+      "rss_increase_mib": 29.40625,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [
+        "raw_profiles._compatibility_new_observation",
+        "raw_profiles._compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 2,
+      "version": "reference"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "polars",
+      "elapsed_seconds": 0.5204110000049695,
+      "rss_baseline_mib": 213.91796875,
+      "rss_peak_mib": 245.37890625,
+      "rss_increase_mib": 31.4609375,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 2,
+      "version": "current"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "polars",
+      "elapsed_seconds": 0.5097183999605477,
+      "rss_baseline_mib": 213.34375,
+      "rss_peak_mib": 245.88671875,
+      "rss_increase_mib": 32.54296875,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 3,
+      "version": "current"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "polars",
+      "elapsed_seconds": 0.6676097000017762,
+      "rss_baseline_mib": 209.13671875,
+      "rss_peak_mib": 242.5859375,
+      "rss_increase_mib": 33.44921875,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [
+        "raw_profiles._compatibility_new_observation",
+        "raw_profiles._compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 3,
+      "version": "reference"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "polars",
+      "elapsed_seconds": 0.6457370999851264,
+      "rss_baseline_mib": 212.5703125,
+      "rss_peak_mib": 242.12109375,
+      "rss_increase_mib": 29.55078125,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [
+        "raw_profiles._compatibility_new_observation",
+        "raw_profiles._compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 4,
+      "version": "reference"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "polars",
+      "elapsed_seconds": 0.5111802999745123,
+      "rss_baseline_mib": 215.08984375,
+      "rss_peak_mib": 244.89453125,
+      "rss_increase_mib": 29.8046875,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 4,
+      "version": "current"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pyarrow",
+      "elapsed_seconds": 0.6616419000201859,
+      "rss_baseline_mib": 206.6328125,
+      "rss_peak_mib": 235.93359375,
+      "rss_increase_mib": 29.30078125,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [
+        "raw_profiles._compatibility_new_observation",
+        "raw_profiles._compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 0,
+      "version": "reference"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pyarrow",
+      "elapsed_seconds": 0.5073555000126362,
+      "rss_baseline_mib": 211.796875,
+      "rss_peak_mib": 243.43359375,
+      "rss_increase_mib": 31.63671875,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 0,
+      "version": "current"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pyarrow",
+      "elapsed_seconds": 0.555148100014776,
+      "rss_baseline_mib": 211.8984375,
+      "rss_peak_mib": 243.76953125,
+      "rss_increase_mib": 31.87109375,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 1,
+      "version": "current"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pyarrow",
+      "elapsed_seconds": 0.6609067999524996,
+      "rss_baseline_mib": 206.109375,
+      "rss_peak_mib": 236.0234375,
+      "rss_increase_mib": 29.9140625,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [
+        "raw_profiles._compatibility_new_observation",
+        "raw_profiles._compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 1,
+      "version": "reference"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pyarrow",
+      "elapsed_seconds": 0.6741431999835186,
+      "rss_baseline_mib": 203.90625,
+      "rss_peak_mib": 236.359375,
+      "rss_increase_mib": 32.453125,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [
+        "raw_profiles._compatibility_new_observation",
+        "raw_profiles._compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 2,
+      "version": "reference"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pyarrow",
+      "elapsed_seconds": 0.7423297999775968,
+      "rss_baseline_mib": 211.09765625,
+      "rss_peak_mib": 237.06640625,
+      "rss_increase_mib": 25.96875,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 2,
+      "version": "current"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pyarrow",
+      "elapsed_seconds": 0.5246968999854289,
+      "rss_baseline_mib": 211.3828125,
+      "rss_peak_mib": 243.03125,
+      "rss_increase_mib": 31.6484375,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 3,
+      "version": "current"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pyarrow",
+      "elapsed_seconds": 0.6663683999795467,
+      "rss_baseline_mib": 205.7109375,
+      "rss_peak_mib": 236.78125,
+      "rss_increase_mib": 31.0703125,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [
+        "raw_profiles._compatibility_new_observation",
+        "raw_profiles._compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 3,
+      "version": "reference"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pyarrow",
+      "elapsed_seconds": 0.687041400000453,
+      "rss_baseline_mib": 204.12890625,
+      "rss_peak_mib": 236.3046875,
+      "rss_increase_mib": 32.17578125,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [
+        "raw_profiles._compatibility_new_observation",
+        "raw_profiles._compatibility_result"
+      ],
+      "source": {
+        "python_modules": 132,
+        "python_source_sha256": "22dca5874b55e8d01121cdd118593f3d52533d2ee28a0ff651d5d8f53daf7f7d",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 4,
+      "version": "reference"
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pyarrow",
+      "elapsed_seconds": 0.4977826999966055,
+      "rss_baseline_mib": 211.87109375,
+      "rss_peak_mib": 242.78515625,
+      "rss_increase_mib": 30.9140625,
+      "figure_sha256": "de6e0943c04528e5285f7159041c057d8d07c631e2023ee2cb6887e41244f046",
+      "materialized_compatibility_tables": [],
+      "source": {
+        "python_modules": 133,
+        "python_source_sha256": "802a8ee6f3f4755563369bc771a128bad8c92bc964defdd42b8b76a14aa4b738",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0"
+      },
+      "trial": 4,
+      "version": "current"
+    }
+  ],
+  "summaries": [
+    {
+      "family": "ceteris-paribus",
+      "backend": "pandas",
+      "version": "reference",
+      "elapsed_seconds": {
+        "median": 0.505521500017494,
+        "q25": 0.49731860001338646,
+        "q75": 0.5094727000105195,
+        "min": 0.4886228999821469,
+        "max": 0.5180613999837078
+      },
+      "rss_baseline_mib": {
+        "median": 200.625,
+        "q25": 200.19921875,
+        "q75": 201.22265625,
+        "min": 199.2109375,
+        "max": 202.328125
+      },
+      "rss_peak_mib": {
+        "median": 217.35546875,
+        "q25": 216.8828125,
+        "q75": 217.63671875,
+        "min": 216.37890625,
+        "max": 217.96484375
+      },
+      "rss_increase_mib": {
+        "median": 16.68359375,
+        "q25": 15.30859375,
+        "q75": 17.33984375,
+        "min": 15.15625,
+        "max": 18.14453125
+      }
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "pandas",
+      "version": "current",
+      "elapsed_seconds": {
+        "median": 0.42517010000301525,
+        "q25": 0.4218285999959335,
+        "q75": 0.4333196999505162,
+        "min": 0.4046875000349246,
+        "max": 0.44559770001797006
+      },
+      "rss_baseline_mib": {
+        "median": 200.68359375,
+        "q25": 200.2421875,
+        "q75": 201.453125,
+        "min": 200.046875,
+        "max": 201.72265625
+      },
+      "rss_peak_mib": {
+        "median": 216.54296875,
+        "q25": 216.2890625,
+        "q75": 216.8359375,
+        "min": 216.25390625,
+        "max": 216.8671875
+      },
+      "rss_increase_mib": {
+        "median": 15.5703125,
+        "q25": 15.4140625,
+        "q75": 16.2421875,
+        "min": 15.11328125,
+        "max": 16.30078125
+      }
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "polars",
+      "version": "reference",
+      "elapsed_seconds": {
+        "median": 0.5007223000284284,
+        "q25": 0.49925160000566393,
+        "q75": 0.5062541000079364,
+        "min": 0.4937972000334412,
+        "max": 0.5311551000340842
+      },
+      "rss_baseline_mib": {
+        "median": 206.2421875,
+        "q25": 204.79296875,
+        "q75": 206.25390625,
+        "min": 204.078125,
+        "max": 206.8125
+      },
+      "rss_peak_mib": {
+        "median": 221.62109375,
+        "q25": 221.2890625,
+        "q75": 221.7734375,
+        "min": 221.140625,
+        "max": 222.20703125
+      },
+      "rss_increase_mib": {
+        "median": 15.51953125,
+        "q25": 15.39453125,
+        "q75": 16.828125,
+        "min": 14.8984375,
+        "max": 17.2109375
+      }
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "polars",
+      "version": "current",
+      "elapsed_seconds": {
+        "median": 0.3400046000024304,
+        "q25": 0.3354609999805689,
+        "q75": 0.34536540001863614,
+        "min": 0.32502109999768436,
+        "max": 0.3543927000137046
+      },
+      "rss_baseline_mib": {
+        "median": 214.6484375,
+        "q25": 214.28125,
+        "q75": 214.97265625,
+        "min": 213.6796875,
+        "max": 215.09375
+      },
+      "rss_peak_mib": {
+        "median": 227.41796875,
+        "q25": 227.41796875,
+        "q75": 227.48046875,
+        "min": 227.3046875,
+        "max": 228.12109375
+      },
+      "rss_increase_mib": {
+        "median": 13.13671875,
+        "q25": 12.65625,
+        "q75": 13.1484375,
+        "min": 12.32421875,
+        "max": 13.80078125
+      }
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "pyarrow",
+      "version": "reference",
+      "elapsed_seconds": {
+        "median": 0.4912575000198558,
+        "q25": 0.48870839999290183,
+        "q75": 0.5083588000270538,
+        "min": 0.48058219999074936,
+        "max": 0.5190375000238419
+      },
+      "rss_baseline_mib": {
+        "median": 203.0859375,
+        "q25": 202.95703125,
+        "q75": 203.50390625,
+        "min": 202.3984375,
+        "max": 203.96484375
+      },
+      "rss_peak_mib": {
+        "median": 219.4765625,
+        "q25": 219.23828125,
+        "q75": 220.0859375,
+        "min": 219.14453125,
+        "max": 220.19921875
+      },
+      "rss_increase_mib": {
+        "median": 16.12109375,
+        "q25": 16.05859375,
+        "q75": 16.83984375,
+        "min": 15.97265625,
+        "max": 17.2421875
+      }
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "pyarrow",
+      "version": "current",
+      "elapsed_seconds": {
+        "median": 0.34784250002121553,
+        "q25": 0.34767679998185486,
+        "q75": 0.3510717999888584,
+        "min": 0.34374809998553246,
+        "max": 0.35862339998129755
+      },
+      "rss_baseline_mib": {
+        "median": 212.64453125,
+        "q25": 212.3203125,
+        "q75": 212.68359375,
+        "min": 211.734375,
+        "max": 213.08203125
+      },
+      "rss_peak_mib": {
+        "median": 226.01953125,
+        "q25": 225.85546875,
+        "q75": 226.171875,
+        "min": 225.796875,
+        "max": 226.5859375
+      },
+      "rss_increase_mib": {
+        "median": 13.48828125,
+        "q25": 13.4765625,
+        "q75": 13.50390625,
+        "min": 13.2109375,
+        "max": 14.28515625
+      }
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pandas",
+      "version": "reference",
+      "elapsed_seconds": {
+        "median": 0.6875371999922208,
+        "q25": 0.6655730999773368,
+        "q75": 0.6885834000422619,
+        "min": 0.6623193999985233,
+        "max": 0.7110766000114381
+      },
+      "rss_baseline_mib": {
+        "median": 203.046875,
+        "q25": 200.94140625,
+        "q75": 203.75390625,
+        "min": 199.96484375,
+        "max": 204.15234375
+      },
+      "rss_peak_mib": {
+        "median": 233.51953125,
+        "q25": 233.4375,
+        "q75": 233.64453125,
+        "min": 233.09765625,
+        "max": 233.74609375
+      },
+      "rss_increase_mib": {
+        "median": 30.390625,
+        "q25": 29.59375,
+        "q75": 32.703125,
+        "min": 29.34375,
+        "max": 33.5546875
+      }
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pandas",
+      "version": "current",
+      "elapsed_seconds": {
+        "median": 0.6070704000303522,
+        "q25": 0.5922563000349328,
+        "q75": 0.6101029000128619,
+        "min": 0.5685323000070639,
+        "max": 0.6552717000013217
+      },
+      "rss_baseline_mib": {
+        "median": 202.34765625,
+        "q25": 202.26953125,
+        "q75": 202.53125,
+        "min": 202.13671875,
+        "max": 203.078125
+      },
+      "rss_peak_mib": {
+        "median": 232.79296875,
+        "q25": 232.7265625,
+        "q75": 232.89453125,
+        "min": 232.56640625,
+        "max": 232.93359375
+      },
+      "rss_increase_mib": {
+        "median": 30.37890625,
+        "q25": 30.03515625,
+        "q75": 30.65625,
+        "min": 29.81640625,
+        "max": 30.6640625
+      }
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "polars",
+      "version": "reference",
+      "elapsed_seconds": {
+        "median": 0.6473614000133239,
+        "q25": 0.6464974000118673,
+        "q75": 0.6532267000293359,
+        "min": 0.6457370999851264,
+        "max": 0.6676097000017762
+      },
+      "rss_baseline_mib": {
+        "median": 211.36328125,
+        "q25": 209.13671875,
+        "q75": 212.5703125,
+        "min": 208.56640625,
+        "max": 212.91015625
+      },
+      "rss_peak_mib": {
+        "median": 242.12109375,
+        "q25": 241.96875,
+        "q75": 242.31640625,
+        "min": 241.96484375,
+        "max": 242.5859375
+      },
+      "rss_increase_mib": {
+        "median": 30.60546875,
+        "q25": 29.55078125,
+        "q75": 33.3984375,
+        "min": 29.40625,
+        "max": 33.44921875
+      }
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "polars",
+      "version": "current",
+      "elapsed_seconds": {
+        "median": 0.5111802999745123,
+        "q25": 0.5097183999605477,
+        "q75": 0.5204110000049695,
+        "min": 0.4887599000358023,
+        "max": 0.5849465999635868
+      },
+      "rss_baseline_mib": {
+        "median": 213.91796875,
+        "q25": 213.890625,
+        "q75": 214.05859375,
+        "min": 213.34375,
+        "max": 215.08984375
+      },
+      "rss_peak_mib": {
+        "median": 245.37890625,
+        "q25": 244.89453125,
+        "q75": 245.4140625,
+        "min": 244.58203125,
+        "max": 245.88671875
+      },
+      "rss_increase_mib": {
+        "median": 31.35546875,
+        "q25": 30.69140625,
+        "q75": 31.4609375,
+        "min": 29.8046875,
+        "max": 32.54296875
+      }
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pyarrow",
+      "version": "reference",
+      "elapsed_seconds": {
+        "median": 0.6663683999795467,
+        "q25": 0.6616419000201859,
+        "q75": 0.6741431999835186,
+        "min": 0.6609067999524996,
+        "max": 0.687041400000453
+      },
+      "rss_baseline_mib": {
+        "median": 205.7109375,
+        "q25": 204.12890625,
+        "q75": 206.109375,
+        "min": 203.90625,
+        "max": 206.6328125
+      },
+      "rss_peak_mib": {
+        "median": 236.3046875,
+        "q25": 236.0234375,
+        "q75": 236.359375,
+        "min": 235.93359375,
+        "max": 236.78125
+      },
+      "rss_increase_mib": {
+        "median": 31.0703125,
+        "q25": 29.9140625,
+        "q75": 32.17578125,
+        "min": 29.30078125,
+        "max": 32.453125
+      }
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pyarrow",
+      "version": "current",
+      "elapsed_seconds": {
+        "median": 0.5246968999854289,
+        "q25": 0.5073555000126362,
+        "q75": 0.555148100014776,
+        "min": 0.4977826999966055,
+        "max": 0.7423297999775968
+      },
+      "rss_baseline_mib": {
+        "median": 211.796875,
+        "q25": 211.3828125,
+        "q75": 211.87109375,
+        "min": 211.09765625,
+        "max": 211.8984375
+      },
+      "rss_peak_mib": {
+        "median": 243.03125,
+        "q25": 242.78515625,
+        "q75": 243.43359375,
+        "min": 237.06640625,
+        "max": 243.76953125
+      },
+      "rss_increase_mib": {
+        "median": 31.63671875,
+        "q25": 30.9140625,
+        "q75": 31.6484375,
+        "min": 25.96875,
+        "max": 31.87109375
+      }
+    }
+  ],
+  "figure_parity": [
+    {
+      "family": "ceteris-paribus",
+      "backend": "pandas",
+      "passed": true,
+      "trials": 5
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "polars",
+      "passed": true,
+      "trials": 5
+    },
+    {
+      "family": "ceteris-paribus",
+      "backend": "pyarrow",
+      "passed": true,
+      "trials": 5
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pandas",
+      "passed": true,
+      "trials": 5
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "polars",
+      "passed": true,
+      "trials": 5
+    },
+    {
+      "family": "profiles-overlay",
+      "backend": "pyarrow",
+      "passed": true,
+      "trials": 5
+    }
+  ]
+}

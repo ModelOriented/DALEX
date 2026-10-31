@@ -4,6 +4,7 @@ import pandas as pd
 import warnings
 from copy import deepcopy
 
+from .._dataframe import as_eager_dataframe, as_numpy_vector, take_rows, to_numpy, NativePredictFunction, NativeResidualFunction
 from .helper import verbose_cat, is_y_in_data, get_model_info
 from .yhat import get_predict_function_and_model_type
 
@@ -18,12 +19,13 @@ def check_data(data, model, verbose):
             data.columns = data.columns.astype(str)
         elif type(data).__name__ == "H2OFrame":  # can't import h2o
             verbose_cat("  -> data              : h2o.H2OFrame converted to pandas.DataFrame. Column types are saved in the model.", verbose=verbose)
-            model._column_types = data.types  # pandas attribute 'attrs' is experimental and may break in future versions        
+            model._column_types = data.types  # pandas attribute 'attrs' is experimental and may break in future versions
             data = data.as_data_frame()
         elif not isinstance(data, pd.DataFrame):
-            raise TypeError("'data' must be pandas.DataFrame or numpy.ndarray")
+            as_eager_dataframe(data)  # validate backend without changing it
 
-        if data.index.unique().shape[0] != data.shape[0]:
+        # Only pandas exposes a user-defined index; Polars/Arrow use row positions.
+        if isinstance(data, pd.DataFrame) and not data.index.is_unique:
             raise ValueError("'data' index is not unique")
 
         verbose_cat("  -> data              : " + str(data.shape[0]) + " rows " + str(data.shape[1]) + " cols",
@@ -33,11 +35,11 @@ def check_data(data, model, verbose):
 
 
 def check_method_data(data):
-    if not isinstance(data, (pd.DataFrame, np.ndarray)):
-        raise TypeError("'data' has to be pandas.DataFrame or numpy.ndarray")
-
-    if isinstance(data, np.ndarray) and data.ndim != 2:
-        raise ValueError("'data' must have 2 dimensions")
+    if isinstance(data, np.ndarray):
+        if data.ndim != 2:
+            raise ValueError("'data' must have 2 dimensions")
+    elif not isinstance(data, pd.DataFrame):
+        as_eager_dataframe(data)
 
 
 def check_data_again(data):
@@ -66,7 +68,7 @@ def check_y(y, data, verbose):
         elif isinstance(y, np.ndarray) and len(y.shape) != 1:
             raise ValueError("'y' must have only one dimension")
         elif not isinstance(y, np.ndarray):
-            raise TypeError("'y' must be a numpy.ndarray (1d) or pandas.Series")
+            y = as_numpy_vector(y, "y")
         
         verbose_cat("  -> target variable   : " + str(y.shape[0]) + " values", verbose=verbose)
 
@@ -83,7 +85,7 @@ def check_y(y, data, verbose):
                 verbose_cat("  -> target variable   : Length of 'y' is different than the number of rows in 'data'.",
                             verbose=verbose)
 
-            if is_y_in_data(data, y):
+            if verbose and is_y_in_data(data, y):
                 verbose_cat(
                     "  -> data              : A column identical to the target variable" +
                     " `y` has been found in the `data`.",
@@ -120,7 +122,7 @@ def check_weights(weights, data, verbose):
         elif isinstance(weights, np.ndarray) and len(weights.shape) != 1:
             raise TypeError("'weights' must have only one dimension")
         elif not isinstance(weights, np.ndarray):
-            raise TypeError("'weights' must be a numpy.ndarray (1d) or pandas.Series")
+            weights = as_numpy_vector(weights, "weights")
 
         verbose_cat("  -> sampling weights  : " + str(weights.shape[0]) + " values", verbose=verbose)
 
@@ -194,11 +196,16 @@ def check_predict_function_and_model_type(predict_function, model_type,
         model_info_['predict_function_default'] = False
         verbose_cat("  -> predict function  : " + str(predict_function) + " will be used", verbose=verbose)
 
+    if data is not None and not isinstance(data, pd.DataFrame) and not isinstance(predict_function, NativePredictFunction):
+        predict_function = NativePredictFunction(predict_function)
+
     y_hat = None
     if data is not None:
         # check if predict_function accepts arrays
         try:
-            data_values = data.values[[0]]
+            if not isinstance(data, pd.DataFrame):
+                raise TypeError("Native dataframe predictors are not probed with NumPy")
+            data_values = to_numpy(take_rows(data, [0]))
             with warnings.catch_warnings():
                 warnings.simplefilter('ignore') # ignore warnings about feature names in scikit-learn
                 predict_function(model, data_values)
@@ -257,6 +264,9 @@ def check_residual_function(residual_function, predict_function, model, data, y,
         verbose_cat("  -> residual function : " + str(residual_function), verbose=verbose)
         model_info['residual_function_default'] = False
 
+    if data is not None and not isinstance(data, pd.DataFrame) and not isinstance(residual_function, NativeResidualFunction):
+        residual_function = NativeResidualFunction(residual_function)
+
     # if data is specified then we may test residual_function
     residuals = None
     if data is not None and y is not None and (verbose or precalculate):
@@ -307,8 +317,8 @@ def check_method_type(type, types, aliases=None):
 def check_if_local_and_lambda(to_dump):
     import re
 
-    pred_func = str(to_dump.predict_function)
-    res_func = str(to_dump.residual_function)
+    pred_func = str(getattr(to_dump.predict_function, "function", to_dump.predict_function))
+    res_func = str(getattr(to_dump.residual_function, "function", to_dump.residual_function))
 
     is_local = "<locals>"
     is_lambda = "<lambda>"

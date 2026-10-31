@@ -1,0 +1,119 @@
+{
+  "source_commit": "6154f7e1b494be3b78a717408634e5e1bec1871c",
+  "run_url": "https://github.com/brunocarlin/DALEX/actions/runs/40590297658",
+  "regular_jobs": [
+    {
+      "job": "tests-3.10-macos-latest",
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "22",
+      "tests": "156",
+      "time": "315.731",
+      "timestamp": "2026-10-27T21:53:35.025289+00:00",
+      "hostname": "sat12-bq149-b802fbc5-fd62-4f2b-a41b-45ec6ea241d2-7EECAE0D55E5.local"
+    },
+    {
+      "job": "tests-3.10-ubuntu-latest",
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "22",
+      "tests": "156",
+      "time": "309.669",
+      "timestamp": "2026-10-27T21:53:05.358212+00:00",
+      "hostname": "runnervm48cm3"
+    },
+    {
+      "job": "tests-3.11-macos-latest",
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "22",
+      "tests": "156",
+      "time": "302.817",
+      "timestamp": "2026-10-27T21:53:50.846335+00:00",
+      "hostname": "sjc22-bt151-277db0d2-11dd-4c0e-84c9-781410a07849-3AD160112A94.local"
+    },
+    {
+      "job": "tests-3.11-ubuntu-latest",
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "22",
+      "tests": "156",
+      "time": "295.094",
+      "timestamp": "2026-10-27T21:52:58.933506+00:00",
+      "hostname": "runnervm48cm3"
+    },
+    {
+      "job": "tests-3.12-macos-latest",
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "22",
+      "tests": "156",
+      "time": "291.093",
+      "timestamp": "2026-10-27T21:53:29.374495+00:00",
+      "hostname": "iad20-gt1020-e6dd34dc-ec1a-4baf-947d-8cdc59bd6cbb-0626B88CD25A.local"
+    },
+    {
+      "job": "tests-3.12-ubuntu-latest",
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "22",
+      "tests": "156",
+      "time": "303.029",
+      "timestamp": "2026-10-27T21:53:05.236797+00:00",
+      "hostname": "runnervmtai0g"
+    },
+    {
+      "job": "tests-3.13-macos-latest",
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "22",
+      "tests": "156",
+      "time": "254.858",
+      "timestamp": "2026-10-27T21:53:32.944662+00:00",
+      "hostname": "iad20-gt1017-0c9d42fb-ebe9-483b-8f1b-ad5bf3e2831d-FECAAEFFEF5E.local"
+    },
+    {
+      "job": "tests-3.13-ubuntu-latest",
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "22",
+      "tests": "156",
+      "time": "288.190",
+      "timestamp": "2026-10-27T21:53:07.587018+00:00",
+      "hostname": "runnervmtai0g"
+    },
+    {
+      "job": "tests-3.14-macos-latest",
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "22",
+      "tests": "156",
+      "time": "251.057",
+      "timestamp": "2026-10-27T21:53:23.768606+00:00",
+      "hostname": "iad20-gt1021-2a40ec4d-8466-4523-b247-a90d7244b192-4A2BC9650AC9.local"
+    },
+    {
+      "job": "tests-3.14-ubuntu-latest",
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "22",
+      "tests": "156",
+      "time": "224.182",
+      "timestamp": "2026-10-27T21:53:15.376808+00:00",
+      "hostname": "runnervmtai0g"
+    }
+  ],
+  "minimum_pandas_pps": "success",
+  "backend_benchmark": "success",
+  "experimental_python314t": "dependency installation failed; post-import GIL state and tests unverified"
+}

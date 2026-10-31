@@ -1,3 +1,4 @@
+import narwhals.stable.v2 as nw
 from .._plot_container import PlotContainer
 
 class BreakDownContainer(PlotContainer):
@@ -15,11 +16,11 @@ class BreakDownContainer(PlotContainer):
         if row is None:
             self.set_message('Observation is not valid for given model.')
             return
-        bd = model.explainer.predict_parts(row, type='break_down').result
+        bd = nw.from_native(model.explainer.predict_parts(row, type='break_down').result_as(), eager_only=True)
         self.data = {
-            'variables': bd[1:-1].variable_name.tolist(),
-            'variables_value': bd[1:-1].variable_value.tolist(),
-            'contribution': bd[1:-1].contribution.tolist(),
-            'intercept': bd.contribution[0],
-            'prediction': bd.cumulative.tail(1).iloc[0]
+            'variables': bd['variable_name'][1:-1].to_list(),
+            'variables_value': bd['variable_value'][1:-1].to_list(),
+            'contribution': bd['contribution'][1:-1].to_list(),
+            'intercept': bd['contribution'][0],
+            'prediction': bd['cumulative'][-1]
         }

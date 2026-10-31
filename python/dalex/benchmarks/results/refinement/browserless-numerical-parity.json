@@ -1,0 +1,36 @@
+{
+  "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+  "reference_root": "unmodified upstream 77ea3ad9580a3b68aaa94d8dca75d11bd527848f:python/dalex",
+  "numeric_outputs_compared": 23,
+  "tolerance": {
+    "rtol": 1e-12,
+    "atol": 1e-12
+  },
+  "max_absolute_error_by_output": {
+    "prediction": 0.0,
+    "residual": 0.0,
+    "performance": 0.0,
+    "diagnostics": 0.0,
+    "importance_variable_importance": 0.0,
+    "permutations_variable_importance": 0.0,
+    "importance_ratio": 0.0,
+    "permutations_ratio": 0.0,
+    "importance_difference": 0.0,
+    "permutations_difference": 0.0,
+    "break_down": 0.0,
+    "break_down_interactions": 0.0,
+    "shap": 0.0,
+    "cp": 0.0,
+    "partial": 0.0,
+    "accumulated": 0.0,
+    "conditional": 0.0,
+    "kernel_wrapper": 0.0,
+    "aspect_default": 0.0,
+    "aspect_shap": 0.0,
+    "model_aspect": 0.0,
+    "predict_triplot": 0.0,
+    "model_triplot": 0.0
+  },
+  "passed": true,
+  "source_library_git_tree": "cbfb93d0a86a8e18d7919df1281a28a88ac5b9d2"
+}

@@ -2,3 +2,9 @@ docs/* linguist-documentation
 man/* linguist-documentation
 misc/* linguist-documentation
 pkgdown/* linguist-documentation
+python/dalex/benchmarks/results/*.json linguist-generated=true
+python/dalex/benchmarks/results/refinement/*.json linguist-generated=true
+python/dalex/benchmarks/results/**/*.json linguist-generated=true
+python/dalex/benchmarks/results/**/*.xml linguist-generated=true
+# Retained evidence is byte-addressed; preserve its original checksums on Windows.
+python/dalex/benchmarks/results/final-refinement/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

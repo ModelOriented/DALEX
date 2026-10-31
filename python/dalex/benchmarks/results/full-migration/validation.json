@@ -1,0 +1,434 @@
+{
+  "source_commit": "080f946b4bb3f53134957875d8e7b3fbd854d71c",
+  "library_git_tree": "512d02f10fe29440d8ecfc2aea8fece9ebff634b",
+  "local_junit": {
+    "primary": {
+      "tests": 1233,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 18,
+      "passed": 1215,
+      "skip_reasons": {
+        "Legacy PPS suite requires DALEX_TEST_PPS=1 and compatible optional dependencies.": 18
+      }
+    },
+    "minimum_polars_narwhals": {
+      "tests": 1233,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 18,
+      "passed": 1215,
+      "skip_reasons": {
+        "Legacy PPS suite requires DALEX_TEST_PPS=1 and compatible optional dependencies.": 18
+      }
+    },
+    "pandas_nightly": {
+      "tests": 1233,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 18,
+      "passed": 1215,
+      "skip_reasons": {
+        "Legacy PPS suite requires DALEX_TEST_PPS=1 and compatible optional dependencies.": 18
+      }
+    },
+    "wheel_integration": {
+      "tests": 252,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 252,
+      "skip_reasons": {}
+    },
+    "pandas3_minimum_narwhals_selected": {
+      "tests": 469,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 469,
+      "skip_reasons": {}
+    }
+  },
+  "wheel": {
+    "source_commit": "080f946b4bb3f53134957875d8e7b3fbd854d71c",
+    "wheel": "D:\\CodexScratch\\DALEXNarwhals-20261030\\validation-checkout\\.local-dist\\full-native-wheel\\dalex-1.8.0.9000-py3-none-any.whl",
+    "wheel_sha256": "a33e123719beab81959289fc344b33f26e3382faff5f80f125e54e5e5f95fc64",
+    "extracted_install_path": "D:\\CodexScratch\\DALEXNarwhals-20261030\\validation-checkout\\.local-dist\\full-native-wheel-extracted",
+    "returncode": 0
+  },
+  "maximum_upstream_absolute_error": 4.440892098500626e-16,
+  "local_validation_checkout": "D:\\CodexScratch\\DALEXNarwhals-20261030\\validation-checkout",
+  "source_python_identity": {
+    "python_modules": 131,
+    "python_source_sha256": "a06cae644c9ed0b5df77fb70f80aeaa5c1ee8c34edcf31b9caba32f328c4f31d",
+    "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+  },
+  "wheel_python_identity": {
+    "python_modules": 131,
+    "python_source_sha256": "a06cae644c9ed0b5df77fb70f80aeaa5c1ee8c34edcf31b9caba32f328c4f31d",
+    "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+  },
+  "ci": {
+    "run_id": 41141134799,
+    "url": "https://github.com/brunocarlin/DALEX/actions/runs/41141134799",
+    "head": "080f946b4bb3f53134957875d8e7b3fbd854d71c",
+    "jobs": [
+      {
+        "name": "backend-benchmark (sklearn-numpy)",
+        "conclusion": "success",
+        "url": "https://github.com/brunocarlin/DALEX/actions/runs/41141134799/job/124355384178"
+      },
+      {
+        "name": "minimum-pandas",
+        "conclusion": "success",
+        "url": "https://github.com/brunocarlin/DALEX/actions/runs/41141134799/job/124355384241"
+      },
+      {
+        "name": "Python 3.12 / ubuntu-latest / pandas <3",
+        "conclusion": "success",
+        "url": "https://github.com/brunocarlin/DALEX/actions/runs/41141134799/job/124355384248"
+      },
+      {
+        "name": "Upstream pandas numerical and pickle compatibility / Python 3.14",
+        "conclusion": "success",
+        "url": "https://github.com/brunocarlin/DALEX/actions/runs/41141134799/job/124355384259"
+      },
+      {
+        "name": "Python 3.14t / ubuntu-latest / GIL disabled",
+        "conclusion": "success",
+        "url": "https://github.com/brunocarlin/DALEX/actions/runs/41141134799/job/124355384305"
+      },
+      {
+        "name": "Python 3.14 / Polars 1.0 / Narwhals 2.0",
+        "conclusion": "success",
+        "url": "https://github.com/brunocarlin/DALEX/actions/runs/41141134799/job/124355384308"
+      },
+      {
+        "name": "backend-benchmark (sklearn-native)",
+        "conclusion": "success",
+        "url": "https://github.com/brunocarlin/DALEX/actions/runs/41141134799/job/124355384356"
+      },
+      {
+        "name": "Python 3.13 / macos-latest / pandas <3",
+        "conclusion": "success",
+        "url": "https://github.com/brunocarlin/DALEX/actions/runs/41141134799/job/124355384387"
+      },
+      {
+        "name": "backend-benchmark (lightgbm-native)",
+        "conclusion": "success",
+        "url": "https://github.com/brunocarlin/DALEX/actions/runs/41141134799/job/124355384452"
+      },
+      {
+        "name": "Python 3.14 / ubuntu-latest / pandas <3",
+        "conclusion": "success",
+        "url": "https://github.com/brunocarlin/DALEX/actions/runs/41141134799/job/124355384473"
+      },
+      {
+        "name": "Neural SHAP / tensorflow / Python 3.13",
+        "conclusion": "success",
+        "url": "https://github.com/brunocarlin/DALEX/actions/runs/41141134799/job/124355384476"
+      },
+      {
+        "name": "Neural SHAP / torch / Python 3.14",
+        "conclusion": "success",
+        "url": "https://github.com/brunocarlin/DALEX/actions/runs/41141134799/job/124355384487"
+      },
+      {
+        "name": "Python 3.11 / ubuntu-latest / pandas <3",
+        "conclusion": "success",
+        "url": "https://github.com/brunocarlin/DALEX/actions/runs/41141134799/job/124355384532"
+      },
+      {
+        "name": "Python 3.13 / ubuntu-latest / pandas <3",
+        "conclusion": "success",
+        "url": "https://github.com/brunocarlin/DALEX/actions/runs/41141134799/job/124355384543"
+      },
+      {
+        "name": "Python 3.14 / windows-latest / pandas <3",
+        "conclusion": "success",
+        "url": "https://github.com/brunocarlin/DALEX/actions/runs/41141134799/job/124355384563"
+      },
+      {
+        "name": "Python 3.14 / ubuntu-latest / pandas >=3,<4",
+        "conclusion": "success",
+        "url": "https://github.com/brunocarlin/DALEX/actions/runs/41141134799/job/124355384565"
+      },
+      {
+        "name": "Python 3.10 / ubuntu-latest / pandas <3",
+        "conclusion": "success",
+        "url": "https://github.com/brunocarlin/DALEX/actions/runs/41141134799/job/124355384636"
+      },
+      {
+        "name": "Python 3.11 / macos-latest / pandas <3",
+        "conclusion": "success",
+        "url": "https://github.com/brunocarlin/DALEX/actions/runs/41141134799/job/124355384643"
+      },
+      {
+        "name": "Python 3.10 / macos-latest / pandas <3",
+        "conclusion": "success",
+        "url": "https://github.com/brunocarlin/DALEX/actions/runs/41141134799/job/124355384665"
+      },
+      {
+        "name": "Python 3.14 / macos-latest / pandas <3",
+        "conclusion": "success",
+        "url": "https://github.com/brunocarlin/DALEX/actions/runs/41141134799/job/124355384692"
+      },
+      {
+        "name": "Python 3.12 / macos-latest / pandas <3",
+        "conclusion": "success",
+        "url": "https://github.com/brunocarlin/DALEX/actions/runs/41141134799/job/124355384749"
+      }
+    ],
+    "junit": {
+      "minimum-pandas\\legacy-pps-tests.xml": {
+        "tests": 18,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 18,
+        "skip_reasons": {}
+      },
+      "minimum-pandas\\minimum-pandas.xml": {
+        "tests": 1233,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18,
+        "passed": 1215,
+        "skip_reasons": {
+          "Legacy PPS suite requires DALEX_TEST_PPS=1 and compatible optional dependencies.": 18
+        }
+      },
+      "minimum-polars\\minimum-polars.xml": {
+        "tests": 1233,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18,
+        "passed": 1215,
+        "skip_reasons": {
+          "Legacy PPS suite requires DALEX_TEST_PPS=1 and compatible optional dependencies.": 18
+        }
+      },
+      "neural-tensorflow\\neural-tests.xml": {
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 8,
+        "skip_reasons": {}
+      },
+      "neural-torch\\neural-tests.xml": {
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 8,
+        "skip_reasons": {}
+      },
+      "tests-3.10-macos-latest-pandas2\\test-results.xml": {
+        "tests": 1233,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18,
+        "passed": 1215,
+        "skip_reasons": {
+          "Legacy PPS suite requires DALEX_TEST_PPS=1 and compatible optional dependencies.": 18
+        }
+      },
+      "tests-3.10-ubuntu-latest-pandas2\\test-results.xml": {
+        "tests": 1233,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18,
+        "passed": 1215,
+        "skip_reasons": {
+          "Legacy PPS suite requires DALEX_TEST_PPS=1 and compatible optional dependencies.": 18
+        }
+      },
+      "tests-3.11-macos-latest-pandas2\\test-results.xml": {
+        "tests": 1233,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18,
+        "passed": 1215,
+        "skip_reasons": {
+          "Legacy PPS suite requires DALEX_TEST_PPS=1 and compatible optional dependencies.": 18
+        }
+      },
+      "tests-3.11-ubuntu-latest-pandas2\\test-results.xml": {
+        "tests": 1233,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18,
+        "passed": 1215,
+        "skip_reasons": {
+          "Legacy PPS suite requires DALEX_TEST_PPS=1 and compatible optional dependencies.": 18
+        }
+      },
+      "tests-3.12-macos-latest-pandas2\\test-results.xml": {
+        "tests": 1233,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18,
+        "passed": 1215,
+        "skip_reasons": {
+          "Legacy PPS suite requires DALEX_TEST_PPS=1 and compatible optional dependencies.": 18
+        }
+      },
+      "tests-3.12-ubuntu-latest-pandas2\\test-results.xml": {
+        "tests": 1233,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18,
+        "passed": 1215,
+        "skip_reasons": {
+          "Legacy PPS suite requires DALEX_TEST_PPS=1 and compatible optional dependencies.": 18
+        }
+      },
+      "tests-3.13-macos-latest-pandas2\\test-results.xml": {
+        "tests": 1233,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18,
+        "passed": 1215,
+        "skip_reasons": {
+          "Legacy PPS suite requires DALEX_TEST_PPS=1 and compatible optional dependencies.": 18
+        }
+      },
+      "tests-3.13-ubuntu-latest-pandas2\\test-results.xml": {
+        "tests": 1233,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18,
+        "passed": 1215,
+        "skip_reasons": {
+          "Legacy PPS suite requires DALEX_TEST_PPS=1 and compatible optional dependencies.": 18
+        }
+      },
+      "tests-3.14-macos-latest-pandas2\\test-results.xml": {
+        "tests": 1233,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18,
+        "passed": 1215,
+        "skip_reasons": {
+          "Legacy PPS suite requires DALEX_TEST_PPS=1 and compatible optional dependencies.": 18
+        }
+      },
+      "tests-3.14-ubuntu-latest-pandas2\\test-results.xml": {
+        "tests": 1233,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18,
+        "passed": 1215,
+        "skip_reasons": {
+          "Legacy PPS suite requires DALEX_TEST_PPS=1 and compatible optional dependencies.": 18
+        }
+      },
+      "tests-3.14-ubuntu-latest-pandas3\\test-results.xml": {
+        "tests": 1233,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18,
+        "passed": 1215,
+        "skip_reasons": {
+          "Legacy PPS suite requires DALEX_TEST_PPS=1 and compatible optional dependencies.": 18
+        }
+      },
+      "tests-3.14-windows-latest-pandas2\\test-results.xml": {
+        "tests": 1233,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18,
+        "passed": 1215,
+        "skip_reasons": {
+          "Legacy PPS suite requires DALEX_TEST_PPS=1 and compatible optional dependencies.": 18
+        }
+      },
+      "tests-3.14t-ubuntu-latest\\test-results.xml": {
+        "tests": 1233,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18,
+        "passed": 1215,
+        "skip_reasons": {
+          "Legacy PPS suite requires DALEX_TEST_PPS=1 and compatible optional dependencies.": 18
+        }
+      }
+    },
+    "upstream_parity": {
+      "python": "3.14.9 (main, Oct 21 2026, 14:50:29) [GCC 13.3.0]",
+      "reference_root": "/home/runner/work/DALEX/DALEX/legacy-reference/python/dalex",
+      "numeric_outputs_compared": 27,
+      "tolerance": {
+        "rtol": 1e-12,
+        "atol": 1e-12
+      },
+      "max_absolute_error_by_output": {
+        "prediction": 0.0,
+        "residual": 0.0,
+        "performance": 0.0,
+        "diagnostics": 0.0,
+        "importance_variable_importance": 0.0,
+        "permutations_variable_importance": 0.0,
+        "importance_ratio": 0.0,
+        "permutations_ratio": 0.0,
+        "importance_difference": 0.0,
+        "permutations_difference": 0.0,
+        "break_down": 0.0,
+        "break_down_interactions": 0.0,
+        "shap": 0.0,
+        "cp": 0.0,
+        "partial": 0.0,
+        "accumulated": 4.440892098500626e-16,
+        "conditional": 8.881784197001252e-16,
+        "kernel_wrapper": 0.0,
+        "aspect_default": 2.7755575615628914e-17,
+        "aspect_shap": 2.7755575615628914e-17,
+        "model_aspect": 0.0,
+        "predict_triplot": 0.0,
+        "model_triplot": 1.1102230246251565e-16,
+        "fairness_regression": 0.0,
+        "fairness_classification": 0.0,
+        "fairness_scores": 0.0,
+        "fairness_parity_loss": 0.0
+      },
+      "passed": true
+    },
+    "upstream_pickles": {
+      "passed": true,
+      "reference_root": "/home/runner/work/DALEX/DALEX/legacy-reference/python/dalex",
+      "objects_loaded": 15,
+      "legacy_tables_compared": 13,
+      "legacy_cp_aggregation": true,
+      "legacy_aspect_groups_and_plot": true,
+      "python": "3.14.9 (main, Oct 21 2026, 14:50:29) [GCC 13.3.0]",
+      "pandas": "2.3.3"
+    },
+    "benchmark_reports": 6,
+    "benchmark_max_error": {
+      "dalex-narwhals-benchmark-lightgbm-native\\dalex-narwhals-benchmark-warm.json": 0.0,
+      "dalex-narwhals-benchmark-lightgbm-native\\dalex-narwhals-benchmark.json": 0.0,
+      "dalex-narwhals-benchmark-sklearn-native\\dalex-narwhals-benchmark-warm.json": 0.0,
+      "dalex-narwhals-benchmark-sklearn-native\\dalex-narwhals-benchmark.json": 0.0,
+      "dalex-narwhals-benchmark-sklearn-numpy\\dalex-narwhals-benchmark-warm.json": 0.0,
+      "dalex-narwhals-benchmark-sklearn-numpy\\dalex-narwhals-benchmark.json": 0.0
+    }
+  },
+  "legacy_pickles": {
+    "passed": true,
+    "reference_root": "C:\\Users\\bruno\\Documents\\ChatGPT\\dalex improvements\\DALEX\\.local-dist\\upstream\\python\\dalex",
+    "objects_loaded": 15,
+    "legacy_tables_compared": 13,
+    "legacy_cp_aggregation": true,
+    "legacy_aspect_groups_and_plot": true,
+    "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+    "pandas": "2.3.3"
+  },
+  "free_threaded": {
+    "imports_checked": 21,
+    "forced_gil_enabled": false,
+    "automatic_gil_fallback": [
+      "shap"
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "normalization": "CRLF to LF",
+  "sha256": {
+    "ci-validation.json": "79f9ceada866de818f928ae613c6e07f732157c732c5be05e7c2ef7a31e6d4da",
+    "local-validation.json": "94c2fa04585b2fa7c9db05f6068dfce93a2b996d1a619082047b3654c788b7dc",
+    "upstream-numerical.json": "bc1e94d184028eaa9e6182500ac4e8536f458244d4bdce4ca48ff9ebe63d9552",
+    "upstream-pickles.json": "7f06dfc26df41467fec0cad047429ccfe3a07e55534963d71309b3e0a803f557",
+    "upstream-plots.json": "9678dfd0a015f96156a846f1afcbd4c30efb139e5d3f9f23fe0c6fe57b3cfc5f"
+  }
+}

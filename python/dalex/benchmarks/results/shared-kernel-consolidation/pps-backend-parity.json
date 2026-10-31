@@ -1,0 +1,12 @@
+{
+  "pandas": "1.5.3",
+  "ppscore": "1.3.0",
+  "backends": [
+    "pandas",
+    "polars",
+    "pyarrow"
+  ],
+  "native_matrix_storage": true,
+  "passed": true,
+  "max_absolute_difference": 0.0
+}

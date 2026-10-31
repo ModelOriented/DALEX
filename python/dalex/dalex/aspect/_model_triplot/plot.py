@@ -1,4 +1,6 @@
+from .._plotting import as_plot_data, ordered
 import numpy as np
+from ..plot import copy_dendrogram
 import plotly.graph_objects as go
 from copy import deepcopy 
 
@@ -12,9 +14,11 @@ def plot_model_hierarchical_importance(
     digits,
     change
 ):
-    dendrogram_hierarchical_importance = go.Figure(dendrogram_hierarchical_correlation)
+    dendrogram_hierarchical_importance = copy_dendrogram(dendrogram_hierarchical_correlation)
+    hierarchical_importance_data = as_plot_data(hierarchical_importance_data)
+    hierarchical_rows = hierarchical_importance_data.rows()
     importance_dict = {}
-    max_imp = max(hierarchical_importance_data["dropout_loss_change"]) if change else max(hierarchical_importance_data["dropout_loss"])
+    max_imp = max(hierarchical_importance_data.frame["dropout_loss_change"].to_numpy()) if change else max(hierarchical_importance_data.frame["dropout_loss"].to_numpy())
 
     tick_dict = dict(
         zip(
@@ -32,9 +36,9 @@ def plot_model_hierarchical_importance(
         aspects_vars_before.append((tick_dict[scatter.y[1]], tick_dict[scatter.y[2]]))
 
     updated = []
-    for i, row in hierarchical_importance_data.iterrows():
+    for i, row in enumerate(hierarchical_rows):
         dendro_mask = np.array(
-            [set(row.variable_names) == set(el) for el in aspects_dendro_order]
+            [set(row['variable_names']) == set(el) for el in aspects_dendro_order]
         )
         if dendro_mask.any():
             k = np.flatnonzero(dendro_mask == True)[0]
@@ -68,8 +72,8 @@ def plot_model_hierarchical_importance(
             scatter.x[3] = importance_dict[tuple(vars_before[1])]
 
     dendrogram_hierarchical_importance.update_xaxes(
-        range=[0, max(hierarchical_importance_data["dropout_loss_change"]) * 1.05] if change 
-                else [0, max(hierarchical_importance_data["dropout_loss"]) * 1.05],
+        range=[0, max(hierarchical_importance_data.frame["dropout_loss_change"].to_numpy()) * 1.05] if change
+                else [0, max(hierarchical_importance_data.frame["dropout_loss"].to_numpy()) * 1.05],
         visible=False,
         showticklabels=False,
     )
@@ -80,18 +84,13 @@ def plot_single_aspects_importance(
     result_dataframe, order, rounding_function, digits, vcolors
 ):
     fig = go.Figure()
-    _result = deepcopy(result_dataframe)
-    baseline = _result.iloc[0].dropout_loss - _result.iloc[0].dropout_loss_change
-    sorter = dict(zip(order, range(len(order))))
-    _result["order"] = _result["variable_names"].map(sorter)
-    _result = _result.sort_values(["order"], ascending=True).reset_index(drop=True)
-    _result = _result.drop("order", axis=1)
-    _result.loc[:, "dropout_loss_change"] = rounding_function(
-                _result.loc[:, "dropout_loss_change"], digits
-            )
-
-    _result["tooltip_text"] = _result.apply(tooltip_text_single, args=(rounding_function, digits), axis=1)
-    _result["label_text"] = _global_utils.convert_float_to_str(_result.dropout_loss_change, "+")
+    original = as_plot_data(result_dataframe)
+    baseline = original.frame['dropout_loss'][0] - original.frame['dropout_loss_change'][0]
+    _data = ordered(original, order).rounded('dropout_loss_change', rounding_function, digits)
+    _rows = _data.rows()
+    _result = _data.frame
+    tooltip = [tooltip_text_single(row, rounding_function, digits) for row in _rows]
+    labels = _global_utils.convert_float_to_str(_result['dropout_loss_change'].to_numpy(), '+')
 
     if vcolors is None:
         vcolors = _theme.get_default_colors(1, 'bar')[0]
@@ -109,14 +108,14 @@ def plot_single_aspects_importance(
 
     fig.add_bar(
         orientation="h",
-        y=_result["variable_names"].tolist(),
-        x=_result["dropout_loss_change"].tolist(),
+        y=[row['variable_names'] for row in _rows],
+        x=_result["dropout_loss_change"].to_list(),
         base=baseline,
         textposition="outside",
-        text=_result["label_text"].tolist(),
+        text=labels,
         textfont_color=["#371ea3"] * len(order),
         marker_color=vcolors,
-        hovertext=_result["tooltip_text"].tolist(),
+        hovertext=tooltip,
         hoverinfo="text",
         hoverlabel={"bgcolor": "rgba(0,0,0,0.8)"},
         showlegend=False,
@@ -149,12 +148,12 @@ def plot_single_aspects_importance(
     )
 
     temp_min_max = [np.inf, -np.inf]
-    min_max_margin = np.ptp(_result.dropout_loss.values) * 0.15
+    min_max_margin = np.ptp(_result['dropout_loss'].to_numpy()) * 0.15
     temp_min_max[0] = np.min(
         [temp_min_max[0], baseline - min_max_margin]
     )
     temp_min_max[1] = np.max(
-        [temp_min_max[1], _result.dropout_loss.values.max() + min_max_margin]
+        [temp_min_max[1], _result['dropout_loss'].to_numpy().max() + min_max_margin]
     )
 
     fig.update_xaxes({"range": temp_min_max})
@@ -169,14 +168,15 @@ def plot_single_aspects_importance(
 
 
 def add_text_to_model_importance_dendrogram(fig, hierarchical_importance_data):
-    res_fig = go.Figure(fig)
+    hierarchical_importance_data = as_plot_data(hierarchical_importance_data)
+    res_fig = copy_dendrogram(fig)
     for scatter in res_fig.data:
-        k = np.where(hierarchical_importance_data["dropout_loss"] == scatter.x[1])[0][0]
+        k = np.where(hierarchical_importance_data.frame["dropout_loss"].to_numpy() == scatter.x[1])[0][0]
         x_cord = scatter.x[1]
         y_cord = np.mean(scatter.y[1:3])
         scatter.x = np.insert(scatter.x, 2, x_cord)
         scatter.y = np.insert(scatter.y, 2, y_cord)
-        label = "{0:.2f}".format(hierarchical_importance_data["dropout_loss_change"][k])
+        label = "{0:.2f}".format(hierarchical_importance_data.frame["dropout_loss_change"].to_numpy()[k])
         scatter.mode = "lines+text"
         scatter["text"] = [None, None, label, None, None]
         scatter["textposition"] = "middle left"
@@ -186,48 +186,48 @@ def add_text_to_model_importance_dendrogram(fig, hierarchical_importance_data):
 
 def tooltip_text(row, rounding_function, digits):
 
-    if row.dropout_loss_change > 0:
+    if row['dropout_loss_change'] > 0:
         dropout_loss_change_string = "+" + str(
-            rounding_function(row.dropout_loss_change, digits)
+            rounding_function(row['dropout_loss_change'], digits)
         )
     else:
         dropout_loss_change_string = str(
-            rounding_function(row.dropout_loss_change, digits)
+            rounding_function(row['dropout_loss_change'], digits)
         )
     return (
-        f"Min abs depend: {rounding_function(row.min_depend, digits)}<br>"
+        f"Min abs depend: {rounding_function(row['min_depend'], digits)}<br>"
         + "(between variables: "
-        + ", ".join(row.vars_min_depend)
+        + ", ".join(row['vars_min_depend'])
         + ")<br>"
-        + f"Drop-out loss: {rounding_function(row.dropout_loss, digits)}<br>"
+        + f"Drop-out loss: {rounding_function(row['dropout_loss'], digits)}<br>"
         + "Drop-out loss change: "
         + dropout_loss_change_string
         + "<br>"
         + "Variables:<br>"
-        + "<br>".join(row.variable_names)
+        + "<br>".join(row['variable_names'])
     )
 
 
 def tooltip_text_single(row, rounding_function, digits):
-    if row.dropout_loss_change > 0:
+    if row['dropout_loss_change'] > 0:
         key_word = "+"
     else:
         key_word = "-"
     return (
         "Drop-out loss: "
-        + str(rounding_function(row.dropout_loss, digits))
+        + str(rounding_function(row['dropout_loss'], digits))
         + "<br>"
         + "Drop-out loss change: "
         + key_word
-        + str(rounding_function(np.abs(row.dropout_loss_change), digits))
+        + str(rounding_function(np.abs(row['dropout_loss_change']), digits))
         + "<br>"
         + "Variable: "
-        + str(row.variable_names)
+        + str(row['variable_names'])
     )
 
 
 def add_text_to_dendrogram(fig, updated_dendro_traces, rounding_function, digits, type="clustering"):
-    res_fig = go.Figure(fig)
+    res_fig = copy_dendrogram(fig)
     for i, scatter in enumerate(res_fig.data):
         if i in updated_dendro_traces:
             x_cord = scatter.x[1]
@@ -267,12 +267,13 @@ def _add_between_points(
 
 def _add_points_on_dendrogram_traces(fig):
     k = len(fig.data)
-    range_x2 = fig.full_figure_for_development(warn=False).layout.xaxis2.range
-    range_x2_len = range_x2[1] - range_x2[0]
-    range_x3 = fig.full_figure_for_development(warn=False).layout.xaxis3.range
-    range_x3_len = range_x3[1] - range_x3[0]
-    range_y = fig.full_figure_for_development(warn=False).layout.yaxis.range
-    range_y_len = range_y[1] - range_y[0]
+    # Only hover-point density depends on these spans. All added points remain
+    # on existing straight segments, so resolving browser defaults is unnecessary.
+    range_x2_len = _global_utils.finite_range_length(fig.layout.xaxis2.range)
+    range_x3_len = _global_utils.finite_range_length(fig.layout.xaxis3.range)
+    range_y_len = _global_utils.finite_range_length([
+        value for trace in fig.data if trace.y is not None for value in trace.y
+    ])
     middle_point = [None] * k
     for i in range(1, k):
         if i < ((k - 1) / 2 + 1):

@@ -1,0 +1,30 @@
+{
+  "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+  "primary": {
+    "pandas": "2.3.3",
+    "polars": "2.1.0",
+    "narwhals": "2.28.0",
+    "numpy": "2.5.4",
+    "pyarrow": "26.0.0",
+    "scikit-learn": "1.9.1",
+    "lightgbm": "4.7.0",
+    "shap": "0.54.1"
+  },
+  "overrides": {
+    "polars1": {
+      "polars": "1.0.0"
+    },
+    "narwhals2": {
+      "narwhals": "2.0.0"
+    },
+    "pandas-next": {
+      "pandas": "3.2.0.dev0+455.g34825d8624"
+    },
+    "sklearn17": {
+      "scikit-learn": "1.7.2"
+    },
+    "sklearn18": {
+      "scikit-learn": "1.8.0"
+    }
+  }
+}

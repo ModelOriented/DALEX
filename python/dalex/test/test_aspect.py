@@ -1,4 +1,5 @@
 import unittest
+import os
 
 import numpy as np
 import pandas as pd
@@ -19,7 +20,8 @@ from dalex.aspect._model_triplot.object import ModelTriplot
 from dalex.aspect._predict_triplot.object import PredictTriplot
 from dalex.aspect._model_aspect_importance.object import ModelAspectImportance
 
-@unittest.skip("Skipping test to avoid problems with `ppscore` versioning and dependencies.")
+@unittest.skipUnless(os.environ.get("DALEX_TEST_PPS") == "1",
+                     "Legacy PPS suite requires DALEX_TEST_PPS=1 and compatible optional dependencies.")
 class AspectTestTitanic(unittest.TestCase):
     def setUp(self):
         data = dx.datasets.load_titanic()
@@ -446,11 +448,12 @@ class AspectTestTitanic(unittest.TestCase):
         self.assertIsInstance(fig8, HBox)
 
 
-@unittest.skip("Skipping test to avoid problems with `ppscore` versioning and dependencies.")
+@unittest.skipUnless(os.environ.get("DALEX_TEST_PPS") == "1",
+                     "Legacy PPS suite requires DALEX_TEST_PPS=1 and compatible optional dependencies.")
 class AspectTestFifa(unittest.TestCase):
     def setUp(self):
         data = dx.datasets.load_fifa()
-        data = data.sample(int(len(data)*0.2))
+        data = data.sample(int(len(data)*0.2), random_state=123)
         data = data.loc[:,['value_eur', 'age', 'attacking_short_passing', 'skill_dribbling', 'skill_ball_control', 'skill_long_passing', 'movement_acceleration', 'movement_reactions', 'mentality_vision', 'mentality_penalties','mentality_composure', 'defending_marking', 'defending_standing_tackle',
        'defending_sliding_tackle','power_jumping', 'power_stamina', 'power_strength']]
 

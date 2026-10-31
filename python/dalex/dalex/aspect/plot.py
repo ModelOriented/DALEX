@@ -1,6 +1,22 @@
 import numpy as np
 from plotly.figure_factory import create_dendrogram
 import plotly.graph_objects as go
+from .._global_utils import finite_range_length
+
+
+def copy_dendrogram(fig):
+    """Restore numeric coordinates after Plotly's typed-array serialization."""
+    import base64
+    result = go.Figure(fig)
+    def numeric(values):
+        if isinstance(values, dict) and 'bdata' in values and 'dtype' in values:
+            return np.frombuffer(base64.b64decode(values['bdata']), dtype=values['dtype']).copy()
+        return values
+    for trace in result.data:
+        trace.x = numeric(trace.x)
+        trace.y = numeric(trace.y)
+    result.layout.yaxis.tickvals = numeric(result.layout.yaxis.tickvals)
+    return result
 
 def plot_dendrogram(linkage_matrix, labels=None):
     fig = create_dendrogram(
@@ -43,7 +59,17 @@ def plot_dendrogram(linkage_matrix, labels=None):
 
 
 def add_text_and_tooltips_to_dendrogram(fig, _dendrogram_aspects_ordered, rounding_function, digits):
-    res_fig = go.Figure(fig)
+    from .._explanation import IndexedTable
+    from ._plotting import as_plot_data
+    source = _dendrogram_aspects_ordered
+    if isinstance(source, IndexedTable):
+        source = source.data
+    data = as_plot_data(source)
+    rows = data.rows()
+    # Pandas scalar callbacks keep their historical scalar types. Native
+    # backends need only the small numerical column, not a pandas publication.
+    numbers = data.frame['min_depend'].to_native() if data.pandas_rounding else data.frame['min_depend'].to_numpy()
+    res_fig = copy_dendrogram(fig)
     corner_scatters = [] # scatters with depend=0
     for i, scatter in enumerate(res_fig.data):
         # 0 ---- 1
@@ -58,7 +84,8 @@ def add_text_and_tooltips_to_dendrogram(fig, _dendrogram_aspects_ordered, roundi
         scatter.y = np.insert(scatter.y, 2, y_cord)
 
         # add text labels and tooltips
-        min_depend_val_rounded = str(rounding_function(_dendrogram_aspects_ordered.iloc[i].min_depend, digits))
+        minimum = numbers.iloc[i] if data.pandas_rounding else numbers[i]
+        min_depend_val_rounded = str(rounding_function(minimum, digits))
         if x_cord != 1:
             scatter.mode = "text+lines"
             scatter["text"] = [None, None, str(rounding_function(1-x_cord, digits)), None, None]
@@ -67,15 +94,15 @@ def add_text_and_tooltips_to_dendrogram(fig, _dendrogram_aspects_ordered, roundi
             scatter.hoverlabel = {"bgcolor": "rgba(0,0,0,0.8)"}
             scatter.hovertext = (
                 "Min depend value: " + min_depend_val_rounded
-                + "<br>(between variables: " + ", ".join(_dendrogram_aspects_ordered.iloc[i].vars_min_depend) + ")"
-                + "<br>Variables:<br>" + "<br>".join(_dendrogram_aspects_ordered.iloc[i].variable_names)
+                + "<br>(between variables: " + ", ".join(rows[i]['vars_min_depend']) + ")"
+                + "<br>Variables:<br>" + "<br>".join(rows[i]['variable_names'])
             )
         else:
             scatter.hoverlabel = {"bgcolor": "rgba(0,0,0,0.8)"}
             scatter.hovertext = (
                 "Min depend value: " + min_depend_val_rounded
-                +  "<br>(between variables: " + ", ".join(_dendrogram_aspects_ordered.iloc[-1].vars_min_depend) + ")"
-                + "<br>Variables:<br>" + "<br>".join(_dendrogram_aspects_ordered.iloc[-1].variable_names)
+                +  "<br>(between variables: " + ", ".join(rows[-1]['vars_min_depend']) + ")"
+                + "<br>Variables:<br>" + "<br>".join(rows[-1]['variable_names'])
             )
             corner_scatters.append(scatter)
 
@@ -118,11 +145,12 @@ def _add_between_points(
 def _add_points_on_dendrogram_traces(fig):
     # add points to all traces in dendrogram 
     k = len(fig.data)
-    # get global range of axis
-    range_x = fig.full_figure_for_development(warn=False).layout.xaxis.range
-    range_x_len = range_x[1] - range_x[0]
-    range_y = fig.full_figure_for_development(warn=False).layout.yaxis.range
-    range_y_len = range_y[1] - range_y[0]
+    # Hover interpolation needs coordinate spans, not a browser-rendered
+    # figure. This also handles constant panels without a zero denominator.
+    range_x_len = finite_range_length(fig.layout.xaxis.range or [
+        value for trace in fig.data if trace.x is not None for value in trace.x])
+    range_y_len = finite_range_length(fig.layout.yaxis.range or [
+        value for trace in fig.data if trace.y is not None for value in trace.y])
     for i in range(k):
         arr_text = fig.data[i]["text"]
         inserted_points = 0

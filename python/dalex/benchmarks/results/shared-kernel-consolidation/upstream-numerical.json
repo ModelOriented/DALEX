@@ -1,0 +1,46 @@
+{
+  "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+  "reference_root": "C:\\Users\\bruno\\Documents\\ChatGPT\\dalex improvements\\DALEX\\.local-dist\\upstream\\python\\dalex",
+  "current_source": {
+    "python_modules": 135,
+    "python_source_sha256": "f235a1468429e225ff5ac6f4895f9ab6a09003ed35882c871d2bfbe1c73ba22b",
+    "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+  },
+  "numeric_outputs_compared": 29,
+  "tolerance": {
+    "rtol": 1e-12,
+    "atol": 1e-12
+  },
+  "max_absolute_error_by_output": {
+    "prediction": 0.0,
+    "residual": 0.0,
+    "performance": 0.0,
+    "diagnostics": 0.0,
+    "importance_variable_importance": 0.0,
+    "permutations_variable_importance": 0.0,
+    "importance_ratio": 0.0,
+    "permutations_ratio": 0.0,
+    "importance_difference": 0.0,
+    "permutations_difference": 0.0,
+    "break_down": 0.0,
+    "break_down_interactions": 0.0,
+    "shap": 0.0,
+    "cp": 0.0,
+    "partial": 0.0,
+    "accumulated": 4.440892098500626e-16,
+    "conditional": 4.440892098500626e-16,
+    "kernel_wrapper": 0.0,
+    "nonlinear_predict_triplot_default": 0.0,
+    "nonlinear_predict_triplot_shap": 0.0,
+    "aspect_default": 2.7755575615628914e-17,
+    "aspect_shap": 2.7755575615628914e-17,
+    "model_aspect": 0.0,
+    "predict_triplot": 0.0,
+    "model_triplot": 1.1102230246251565e-16,
+    "fairness_regression": 0.0,
+    "fairness_classification": 0.0,
+    "fairness_scores": 0.0,
+    "fairness_parity_loss": 0.0
+  },
+  "passed": true
+}

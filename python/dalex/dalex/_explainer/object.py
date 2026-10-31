@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 from dalex.model_explanations import ModelPerformance, VariableImportance, \
     AggregatedProfiles, ResidualDiagnostics
@@ -10,6 +11,8 @@ from . import checks
 from . import utils
 from . import helper
 from .. import _global_checks
+from .._dataframe import take_rows, as_numpy_vector, native_namespace
+from .._explanation import set_result_column
 
 
 class Explainer:
@@ -27,7 +30,7 @@ class Explainer:
     ----------
     model : object
         Model to be explained.
-    data : pd.DataFrame or np.ndarray (2d)
+    data : pd.DataFrame, eager Polars DataFrame or np.ndarray (2d)
         Data which will be used to calculate the explanations. It shouldn't contain
         the target column (See `y`).
         NOTE: If target variable is present in the data, some of the functionalities may
@@ -37,7 +40,7 @@ class Explainer:
     predict_function : function, optional
         Function that takes two parameters (model, data) and returns a np.ndarray (1d)
         with model predictions (default is predict method extracted from the model).
-        NOTE: This function needs to work with `data` as pd.DataFrame.
+        NOTE: This function must accept the native backend of `data`.
     residual_function : function, optional
         Function that takes three parameters (model, data, y) and returns a np.ndarray (1d)
         with model residuals (default is a function constructed from `predict_function`).
@@ -206,6 +209,8 @@ class Explainer:
 
         checks.check_method_data(data)
 
+        if self.data is not None and not isinstance(self.data, pd.DataFrame) and not isinstance(y, np.ndarray):
+            y = as_numpy_vector(y, "y")
         return self.residual_function(self.model, data, y)
 
     def predict_parts(self,
@@ -285,16 +290,23 @@ class Explainer:
         types = ('break_down_interactions', 'break_down', 'shap', 'shap_wrapper')
         _type = checks.check_method_type(type, types)
 
+        _sampling_state = None
+        if _type == 'shap_wrapper' and random_state is not None:
+            from .._random import get_random_state
+            _sampling_state = get_random_state(random_state).get_state()
+
         if isinstance(N, int):
             # temporarly overwrite data in the Explainer (fastest way)
             # at the end of predict_parts fix the Explainer (add original data)
-            if isinstance(random_state, int):
-                np.random.seed(random_state)
             N = min(N, self.data.shape[0])
-            I = np.random.choice(np.arange(self.data.shape[0]), N, replace=False)
-            from copy import deepcopy
-            _data = deepcopy(self.data)
-            self.data = self.data.iloc[I, :]
+            from .._random import get_random_state
+            rng = get_random_state(random_state)
+            I = rng.choice(self.data.shape[0], N, replace=False)
+            if _type == 'shap_wrapper' and random_state is not None:
+                _sampling_state = rng.get_state()
+            from copy import copy
+            self = copy(self)
+            self.data = take_rows(self.data, I)
 
         if _type == 'break_down_interactions' or _type == 'break_down':
             _predict_parts = BreakDown(
@@ -314,16 +326,14 @@ class Explainer:
         elif _type == 'shap_wrapper':
             _global_checks.global_check_import('shap', 'SHAP explanations')
             _predict_parts = ShapWrapper('predict_parts')
+            _predict_parts._rng_state = _sampling_state
         else:
             raise TypeError("Wrong type parameter.")
 
         _predict_parts.fit(self, new_observation, **kwargs)
         
         if label:
-            _predict_parts.result['label'] = label
-
-        if isinstance(N, int):
-            self.data = _data
+            set_result_column(_predict_parts, 'label', label)
 
         return _predict_parts
 
@@ -404,7 +414,7 @@ class Explainer:
         _predict_profile.fit(self, new_observation, y, verbose)
 
         if label:
-            _predict_profile.result['_label_'] = label
+            set_result_column(_predict_profile, '_label_', label)
             
         return _predict_profile
 
@@ -444,6 +454,9 @@ class Explainer:
 
         if type == 'lime':
             _global_checks.global_check_import('lime', 'LIME explanations')
+            if not isinstance(new_observation, (pd.DataFrame, pd.Series, np.ndarray, list)):
+                from .._dataframe import to_numpy
+                new_observation = to_numpy(new_observation)
             _new_observation = checks.check_new_observation_lime(new_observation)
             _explanation = utils.create_lime_explanation(self, _new_observation, **kwargs)
         else:
@@ -493,7 +506,7 @@ class Explainer:
         _model_performance.fit(self)
         
         if label:
-            _model_performance.result['label'] = label
+            set_result_column(_model_performance, 'label', label)
 
         return _model_performance
 
@@ -587,17 +600,22 @@ class Explainer:
             _model_parts.fit(self)
             
             if label:
-                _model_parts.result['label'] = label
+                set_result_column(_model_parts, 'label', label)
                  
         elif _type == 'shap_wrapper':
             _global_checks.global_check_import('shap', 'SHAP explanations')
             _model_parts = ShapWrapper('model_parts')
+            if random_state is not None:
+                from .._random import get_random_state
+                _model_parts._rng_state = get_random_state(random_state).get_state()
             if isinstance(N, int):
-                if isinstance(random_state, int):
-                    np.random.seed(random_state)
                 N = min(N, self.data.shape[0])
-                I = np.random.choice(np.arange(self.data.shape[0]), N, replace=False)
-                _new_observation = self.data.iloc[I, :]
+                from .._random import get_random_state
+                rng = get_random_state(random_state)
+                I = rng.choice(self.data.shape[0], N, replace=False)
+                if random_state is not None:
+                    _model_parts._rng_state = rng.get_state()
+                _new_observation = take_rows(self.data, I)
             else:
                 _new_observation = self.data
 
@@ -694,12 +712,11 @@ class Explainer:
         )
 
         if isinstance(N, int):
-            if isinstance(random_state, int):
-                np.random.seed(random_state)
             N = min(N, self.data.shape[0])
-            I = np.random.choice(np.arange(self.data.shape[0]), N, replace=False)
+            from .._random import get_random_state
+            I = get_random_state(random_state).choice(self.data.shape[0], N, replace=False)
             _y = self.y[I] if self.y is not None else self.y
-            _new_observation = self.data.iloc[I, :]
+            _new_observation = take_rows(self.data, I)
         else:
             _y = self.y
             _new_observation = self.data
@@ -719,7 +736,7 @@ class Explainer:
         _model_profile.fit(_ceteris_paribus, verbose)
 
         if label:
-            _model_profile.result['_label_'] = label
+            set_result_column(_model_profile, '_label_', label)
                 
         return _model_profile
 
@@ -755,7 +772,7 @@ class Explainer:
         _residual_diagnostics.fit(self)
 
         if label:
-            _residual_diagnostics.result['label'] = label
+            set_result_column(_residual_diagnostics, 'label', label)
             
         return _residual_diagnostics
 
@@ -902,23 +919,28 @@ class Explainer:
         - Steinberg, D., et al. (2020) https://arxiv.org/pdf/2001.06089.pdf
         """
 
+        backend = native_namespace(self.data)
+        predictions = self.y_hat if self.y_hat is not None else self.predict(self.data)
+
         if self.model_type == 'classification':
             fobject = GroupFairnessClassification(y=self.y,
-                                                  y_hat=self.y_hat,
+                                                  y_hat=predictions,
                                                   protected=protected,
                                                   privileged=privileged,
                                                   cutoff=cutoff,
                                                   epsilon=epsilon,
                                                   label=self.label,
+                                                  _backend=backend,
                                                   **kwargs)
 
         elif self.model_type == 'regression':
             fobject = GroupFairnessRegression(y=self.y,
-                                              y_hat=self.y_hat,
+                                              y_hat=predictions,
                                               protected=protected,
                                               privileged=privileged,
                                               epsilon=epsilon,
                                               label=self.label,
+                                                  _backend=backend,
                                               **kwargs)
 
         else :

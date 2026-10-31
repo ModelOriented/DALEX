@@ -1,0 +1,656 @@
+{
+  "environment": {
+    "python": "3.14.4",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "source_revision": "a1dac26144ebb234808a440fb635ceefbff255ed",
+    "rows": 10000,
+    "features": 10,
+    "repetitions": 6,
+    "rounds": 3,
+    "seed": 42
+  },
+  "pandas": {
+    "phases": [
+      {
+        "construction": 0.000179000009666197,
+        "initialization": 0.0014057999942451715,
+        "importance": 0.31335690000560135,
+        "inference": 0.26902120003069285
+      },
+      {
+        "construction": 0.00011550000635907054,
+        "initialization": 0.0007095000037224963,
+        "importance": 0.3131583999929717,
+        "inference": 0.2706042000645539
+      },
+      {
+        "construction": 0.00011299998732283711,
+        "initialization": 0.0006939000013517216,
+        "importance": 0.3129823000053875,
+        "inference": 0.2703703999868594
+      },
+      {
+        "construction": 0.00010930000280495733,
+        "initialization": 0.0006889999931445345,
+        "importance": 0.3112964000029024,
+        "inference": 0.2701895999489352
+      },
+      {
+        "construction": 0.00010790000669658184,
+        "initialization": 0.0006887000054121017,
+        "importance": 0.3115421999973478,
+        "inference": 0.2693905000342056
+      },
+      {
+        "construction": 0.00010989999282173812,
+        "initialization": 0.0006960000027902424,
+        "importance": 0.316875100004836,
+        "inference": 0.27323569999134634
+      }
+    ],
+    "hotspots": [
+      {
+        "file": "dalex/_explainer/object.py",
+        "line": 504,
+        "function": "model_parts",
+        "calls": 6,
+        "own": 3.6400000000000004e-05,
+        "cumulative": 1.8791728
+      },
+      {
+        "file": "model_explanations/_variable_importance/object.py",
+        "line": 105,
+        "function": "fit",
+        "calls": 6,
+        "own": 3.94e-05,
+        "cumulative": 1.8772421000000001
+      },
+      {
+        "file": "model_explanations/_variable_importance/utils.py",
+        "line": 12,
+        "function": "calculate_variable_importance",
+        "calls": 6,
+        "own": 0.00022860000000000003,
+        "cumulative": 1.8771685
+      },
+      {
+        "file": "model_explanations/_variable_importance/utils.py",
+        "line": 55,
+        "function": "loss_after_permutation",
+        "calls": 18,
+        "own": 0.08290070000000001,
+        "cumulative": 1.8679879000000001
+      },
+      {
+        "file": "dalex/benchmarks/bench_variable_importance_backends.py",
+        "line": 53,
+        "function": "__call__",
+        "calls": 222,
+        "own": 0.0004627,
+        "cumulative": 1.6229834
+      },
+      {
+        "file": "ensemble/_hist_gradient_boosting/gradient_boosting.py",
+        "line": 1695,
+        "function": "predict",
+        "calls": 222,
+        "own": 0.0005401000000000001,
+        "cumulative": 1.6145276000000002
+      },
+      {
+        "file": "ensemble/_hist_gradient_boosting/gradient_boosting.py",
+        "line": 1180,
+        "function": "_raw_predict",
+        "calls": 222,
+        "own": 0.0018328,
+        "cumulative": 1.6097651000000002
+      },
+      {
+        "file": "ensemble/_hist_gradient_boosting/gradient_boosting.py",
+        "line": 1220,
+        "function": "_predict_iterations",
+        "calls": 222,
+        "own": 0.014489100000000001,
+        "cumulative": 1.5758566
+      },
+      {
+        "file": "ensemble/_hist_gradient_boosting/predictor.py",
+        "line": 49,
+        "function": "predict",
+        "calls": 4440,
+        "own": 1.5569875000000002,
+        "cumulative": 1.5587826
+      },
+      {
+        "file": "dalex/dalex/_dataframe.py",
+        "line": 71,
+        "function": "shuffle_columns",
+        "calls": 180,
+        "own": 0.0012348,
+        "cumulative": 0.13656890000000002
+      },
+      {
+        "file": "pandas/core/indexing.py",
+        "line": 1177,
+        "function": "__getitem__",
+        "calls": 390,
+        "own": 0.0012194,
+        "cumulative": 0.0971341
+      },
+      {
+        "file": "pandas/core/indexing.py",
+        "line": 1005,
+        "function": "_getitem_tuple_same_dim",
+        "calls": 384,
+        "own": 0.0012339,
+        "cumulative": 0.0806391
+      },
+      {
+        "file": "pandas/core/indexing.py",
+        "line": 1366,
+        "function": "_getitem_tuple",
+        "calls": 180,
+        "own": 0.000785,
+        "cumulative": 0.05789010000000001
+      },
+      {
+        "file": "pandas/core/indexing.py",
+        "line": 1398,
+        "function": "_getitem_axis",
+        "calls": 180,
+        "own": 0.0004672,
+        "cumulative": 0.052785500000000006
+      },
+      {
+        "file": "pandas/core/indexing.py",
+        "line": 1335,
+        "function": "_getitem_iterable",
+        "calls": 180,
+        "own": 0.0002964,
+        "cumulative": 0.051250000000000004
+      },
+      {
+        "file": "dalex/dalex/_dataframe.py",
+        "line": 49,
+        "function": "take_rows",
+        "calls": 204,
+        "own": 0.0020642,
+        "cumulative": 0.0405712
+      },
+      {
+        "file": "pandas/core/indexing.py",
+        "line": 1533,
+        "function": "_get_listlike_indexer",
+        "calls": 180,
+        "own": 0.00020390000000000002,
+        "cumulative": 0.0360269
+      },
+      {
+        "file": "core/indexes/base.py",
+        "line": 6198,
+        "function": "_get_indexer_strict",
+        "calls": 180,
+        "own": 0.0008886,
+        "cumulative": 0.035667500000000005
+      },
+      {
+        "file": "pandas/core/indexing.py",
+        "line": 1690,
+        "function": "_getitem_tuple",
+        "calls": 204,
+        "own": 0.0006191,
+        "cumulative": 0.034373400000000005
+      },
+      {
+        "file": "ensemble/_hist_gradient_boosting/gradient_boosting.py",
+        "line": 242,
+        "function": "_preprocess_X",
+        "calls": 222,
+        "own": 0.00047270000000000005,
+        "cumulative": 0.028128800000000002
+      },
+      {
+        "file": "sklearn/utils/validation.py",
+        "line": 2932,
+        "function": "validate_data",
+        "calls": 222,
+        "own": 0.0008007,
+        "cumulative": 0.027656100000000003
+      },
+      {
+        "file": "pandas/core/indexing.py",
+        "line": 1720,
+        "function": "_getitem_axis",
+        "calls": 210,
+        "own": 0.00031820000000000004,
+        "cumulative": 0.0262496
+      },
+      {
+        "file": "pandas/core/indexing.py",
+        "line": 1697,
+        "function": "_get_list_axis",
+        "calls": 204,
+        "own": 0.00010180000000000001,
+        "cumulative": 0.0245567
+      },
+      {
+        "file": "pandas/core/generic.py",
+        "line": 4164,
+        "function": "_take_with_is_copy",
+        "calls": 204,
+        "own": 0.00037880000000000005,
+        "cumulative": 0.0244549
+      },
+      {
+        "file": "core/indexes/base.py",
+        "line": 3827,
+        "function": "get_indexer",
+        "calls": 384,
+        "own": 0.0012803,
+        "cumulative": 0.022416600000000002
+      },
+      {
+        "file": "core/internals/managers.py",
+        "line": 642,
+        "function": "reindex_indexer",
+        "calls": 384,
+        "own": 0.0012039000000000002,
+        "cumulative": 0.021887900000000002
+      },
+      {
+        "file": "pandas/core/generic.py",
+        "line": 4049,
+        "function": "take",
+        "calls": 204,
+        "own": 0.0007046,
+        "cumulative": 0.0199959
+      },
+      {
+        "file": "sklearn/utils/validation.py",
+        "line": 733,
+        "function": "check_array",
+        "calls": 222,
+        "own": 0.0017867,
+        "cumulative": 0.0177697
+      },
+      {
+        "file": "core/internals/managers.py",
+        "line": 888,
+        "function": "take",
+        "calls": 204,
+        "own": 0.00043650000000000004,
+        "cumulative": 0.017679800000000002
+      },
+      {
+        "file": "pandas/core/frame.py",
+        "line": 4282,
+        "function": "__setitem__",
+        "calls": 186,
+        "own": 0.0005436,
+        "cumulative": 0.0176735
+      },
+      {
+        "file": "core/indexes/base.py",
+        "line": 475,
+        "function": "__new__",
+        "calls": 444,
+        "own": 0.0023717,
+        "cumulative": 0.017568300000000002
+      },
+      {
+        "file": "core/indexes/base.py",
+        "line": 6174,
+        "function": "get_indexer_for",
+        "calls": 186,
+        "own": 0.00021960000000000003,
+        "cumulative": 0.0171017
+      },
+      {
+        "file": "pandas/core/frame.py",
+        "line": 4525,
+        "function": "_set_item",
+        "calls": 186,
+        "own": 0.0004173,
+        "cumulative": 0.0168781
+      },
+      {
+        "file": "core/indexes/base.py",
+        "line": 7659,
+        "function": "ensure_index",
+        "calls": 876,
+        "own": 0.0007555000000000001,
+        "cumulative": 0.0164908
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "function": "<built-in method builtins.isinstance>",
+        "calls": 68209,
+        "own": 0.009036200000000001,
+        "cumulative": 0.015793500000000002
+      }
+    ]
+  },
+  "polars": {
+    "phases": [
+      {
+        "construction": 0.0005241999897407368,
+        "initialization": 0.013119200011715293,
+        "importance": 0.3078096999961417,
+        "inference": 0.27520190001814626
+      },
+      {
+        "construction": 0.00018840000848285854,
+        "initialization": 0.00038329999370034784,
+        "importance": 0.30534599999373313,
+        "inference": 0.27465059999667574
+      },
+      {
+        "construction": 0.0001908999984152615,
+        "initialization": 0.0003896999987773597,
+        "importance": 0.3049382000026526,
+        "inference": 0.2730300000112038
+      },
+      {
+        "construction": 0.00018780000391416252,
+        "initialization": 0.000381799996830523,
+        "importance": 0.3052292999927886,
+        "inference": 0.2745426999463234
+      },
+      {
+        "construction": 0.00018940000154543668,
+        "initialization": 0.0003800999984377995,
+        "importance": 0.3040854999999283,
+        "inference": 0.2733608000271488
+      },
+      {
+        "construction": 0.0001804000057745725,
+        "initialization": 0.00043709999590646476,
+        "importance": 0.3096103999996558,
+        "inference": 0.277897700027097
+      }
+    ],
+    "hotspots": [
+      {
+        "file": "dalex/_explainer/object.py",
+        "line": 504,
+        "function": "model_parts",
+        "calls": 6,
+        "own": 3.76e-05,
+        "cumulative": 1.8369701
+      },
+      {
+        "file": "model_explanations/_variable_importance/object.py",
+        "line": 105,
+        "function": "fit",
+        "calls": 6,
+        "own": 3.0500000000000003e-05,
+        "cumulative": 1.8353266000000001
+      },
+      {
+        "file": "model_explanations/_variable_importance/utils.py",
+        "line": 12,
+        "function": "calculate_variable_importance",
+        "calls": 6,
+        "own": 0.00022290000000000002,
+        "cumulative": 1.8352590000000002
+      },
+      {
+        "file": "model_explanations/_variable_importance/utils.py",
+        "line": 55,
+        "function": "loss_after_permutation",
+        "calls": 18,
+        "own": 0.08254420000000001,
+        "cumulative": 1.8257619
+      },
+      {
+        "file": "dalex/dalex/_dataframe.py",
+        "line": 166,
+        "function": "__call__",
+        "calls": 216,
+        "own": 0.0006182000000000001,
+        "cumulative": 1.6495585000000001
+      },
+      {
+        "file": "dalex/benchmarks/bench_variable_importance_backends.py",
+        "line": 53,
+        "function": "__call__",
+        "calls": 216,
+        "own": 0.0007315,
+        "cumulative": 1.6488990000000001
+      },
+      {
+        "file": "ensemble/_hist_gradient_boosting/gradient_boosting.py",
+        "line": 1695,
+        "function": "predict",
+        "calls": 216,
+        "own": 0.0006541,
+        "cumulative": 1.6352118
+      },
+      {
+        "file": "ensemble/_hist_gradient_boosting/gradient_boosting.py",
+        "line": 1180,
+        "function": "_raw_predict",
+        "calls": 216,
+        "own": 0.0029925000000000004,
+        "cumulative": 1.6288635
+      },
+      {
+        "file": "ensemble/_hist_gradient_boosting/gradient_boosting.py",
+        "line": 1220,
+        "function": "_predict_iterations",
+        "calls": 216,
+        "own": 0.017092100000000002,
+        "cumulative": 1.5860659000000001
+      },
+      {
+        "file": "ensemble/_hist_gradient_boosting/predictor.py",
+        "line": 49,
+        "function": "predict",
+        "calls": 4320,
+        "own": 1.5633216,
+        "cumulative": 1.5652615
+      },
+      {
+        "file": "dalex/dalex/_dataframe.py",
+        "line": 71,
+        "function": "shuffle_columns",
+        "calls": 180,
+        "own": 0.0009897,
+        "cumulative": 0.0661717
+      },
+      {
+        "file": "ensemble/_hist_gradient_boosting/gradient_boosting.py",
+        "line": 242,
+        "function": "_preprocess_X",
+        "calls": 216,
+        "own": 0.0006617000000000001,
+        "cumulative": 0.034809900000000005
+      },
+      {
+        "file": "sklearn/utils/validation.py",
+        "line": 2932,
+        "function": "validate_data",
+        "calls": 216,
+        "own": 0.0009383000000000001,
+        "cumulative": 0.034148200000000004
+      },
+      {
+        "file": "site-packages/narwhals/dataframe.py",
+        "line": 1501,
+        "function": "with_columns",
+        "calls": 180,
+        "own": 0.000527,
+        "cumulative": 0.030634
+      },
+      {
+        "file": "site-packages/narwhals/dataframe.py",
+        "line": 212,
+        "function": "with_columns",
+        "calls": 180,
+        "own": 0.0007261,
+        "cumulative": 0.030107000000000002
+      },
+      {
+        "file": "site-packages/narwhals/dataframe.py",
+        "line": 1097,
+        "function": "__getitem__",
+        "calls": 198,
+        "own": 0.0009418,
+        "cumulative": 0.028403200000000003
+      },
+      {
+        "file": "narwhals/_polars/dataframe.py",
+        "line": 480,
+        "function": "__getitem__",
+        "calls": 198,
+        "own": 0.0005654000000000001,
+        "cumulative": 0.024590200000000003
+      },
+      {
+        "file": "dalex/dalex/_dataframe.py",
+        "line": 15,
+        "function": "as_eager_dataframe",
+        "calls": 210,
+        "own": 0.00023070000000000002,
+        "cumulative": 0.0227393
+      },
+      {
+        "file": "site-packages/narwhals/translate.py",
+        "line": 169,
+        "function": "from_native",
+        "calls": 210,
+        "own": 0.0001641,
+        "cumulative": 0.022490800000000002
+      },
+      {
+        "file": "site-packages/narwhals/translate.py",
+        "line": 270,
+        "function": "_from_native_impl",
+        "calls": 210,
+        "own": 0.0011884,
+        "cumulative": 0.0223267
+      },
+      {
+        "file": "sklearn/utils/validation.py",
+        "line": 733,
+        "function": "check_array",
+        "calls": 216,
+        "own": 0.0023347000000000003,
+        "cumulative": 0.0212519
+      },
+      {
+        "file": "polars/dataframe/frame.py",
+        "line": 1275,
+        "function": "__getitem__",
+        "calls": 198,
+        "own": 0.00020610000000000002,
+        "cumulative": 0.020824600000000002
+      },
+      {
+        "file": "polars/_utils/getitem.py",
+        "line": 128,
+        "function": "get_df_item_by_key",
+        "calls": 198,
+        "own": 0.0010815,
+        "cumulative": 0.0206185
+      },
+      {
+        "file": "polars/_utils/getitem.py",
+        "line": 291,
+        "function": "_select_rows",
+        "calls": 198,
+        "own": 0.000523,
+        "cumulative": 0.017838
+      },
+      {
+        "file": "site-packages/narwhals/_utils.py",
+        "line": 1595,
+        "function": "_hasattr_static",
+        "calls": 3090,
+        "own": 0.0012903,
+        "cumulative": 0.017485200000000003
+      },
+      {
+        "file": "cpython-3.14-windows-x86_64-none/Lib/inspect.py",
+        "line": 1725,
+        "function": "getattr_static",
+        "calls": 3090,
+        "own": 0.0037447,
+        "cumulative": 0.0161949
+      },
+      {
+        "file": "narwhals/_polars/dataframe.py",
+        "line": 451,
+        "function": "func",
+        "calls": 180,
+        "own": 0.00049,
+        "cumulative": 0.015871200000000002
+      },
+      {
+        "file": "model_explanations/_variable_importance/utils.py",
+        "line": 88,
+        "function": "calculate_loss",
+        "calls": 216,
+        "own": 0.0004109,
+        "cumulative": 0.0154193
+      },
+      {
+        "file": "stable/v2/dependencies.py",
+        "line": 58,
+        "function": "is_into_dataframe",
+        "calls": 432,
+        "own": 0.0008134,
+        "cumulative": 0.015196600000000001
+      },
+      {
+        "file": "dalex/_explainer/object.py",
+        "line": 104,
+        "function": "__init__",
+        "calls": 6,
+        "own": 5.41e-05,
+        "cumulative": 0.014766900000000001
+      },
+      {
+        "file": "polars/_utils/expired.py",
+        "line": 105,
+        "function": "wrapper",
+        "calls": 582,
+        "own": 0.0008629000000000001,
+        "cumulative": 0.014708200000000001
+      },
+      {
+        "file": "polars/dataframe/frame.py",
+        "line": 10708,
+        "function": "with_columns",
+        "calls": 180,
+        "own": 0.0006767,
+        "cumulative": 0.0140029
+      },
+      {
+        "file": "site-packages/narwhals/dependencies.py",
+        "line": 619,
+        "function": "_is_native_dataframe",
+        "calls": 432,
+        "own": 0.0011307,
+        "cumulative": 0.0138486
+      },
+      {
+        "file": "polars/dataframe/frame.py",
+        "line": 1940,
+        "function": "to_numpy",
+        "calls": 222,
+        "own": 0.0002652,
+        "cumulative": 0.013411600000000001
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "function": "<method 'to_numpy' of 'builtins.PyDataFrame' objects>",
+        "calls": 222,
+        "own": 0.0131464,
+        "cumulative": 0.0131464
+      }
+    ]
+  }
+}

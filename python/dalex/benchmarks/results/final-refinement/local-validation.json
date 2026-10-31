@@ -1,0 +1,52 @@
+{
+  "head": "34cb63005cc2f0edec980d19ba863cc97ede9b17",
+  "source_identity": {
+    "python_modules": 135,
+    "python_source_sha256": "441d90693067367af8a8727caf0b4a639515a6aef3c39312cfc876e07780ce5e",
+    "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+  },
+  "checks": {
+    "final-full": {
+      "tests": 2089,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 18,
+      "passed": 2071,
+      "junit_sha256": "1bc85a497e0bbee4a36edfe406018c57ac213286f16c1d5396f49c3d93791b7a",
+      "junit_filename": "final-full.xml"
+    },
+    "final-nightly": {
+      "tests": 289,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 289,
+      "junit_sha256": "3d70d892a93f4a6b2c548d4166f84aa626ac65aac764791f84d959b4d467a66c",
+      "junit_filename": "final-nightly.xml"
+    },
+    "final-minimum-polars": {
+      "tests": 166,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 166,
+      "junit_sha256": "e2968a67a786bdb022ae369b348f0652282717e8dbcdea33b96c92753d59315d",
+      "junit_filename": "final-minimum-polars.xml"
+    },
+    "final-minimum": {
+      "tests": 166,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 166,
+      "junit_sha256": "68b84ec5913ef68af158becc5c6a661a97491ec0537a18a2f60d6e4643532bc4",
+      "junit_filename": "final-minimum.xml"
+    }
+  },
+  "nightly_pandas_version": "3.2.0.dev0+455.g34825d8624",
+  "wheel": {
+    "filename": "dalex-1.8.0.9000-py3-none-any.whl",
+    "sha256": "c16d6c4704e6ae6b55064e0abf343cd54df3dfcf6463db3f74b685de719dad9f",
+    "requires_python": ">=3.10"
+  }
+}

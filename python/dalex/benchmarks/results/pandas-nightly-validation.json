@@ -1,0 +1,32 @@
+{
+  "checked_date": "2026-10-27",
+  "source_commit": "08e8c380f2fb2212fe0620206d8bb61c9819f780",
+  "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "pandas_version": "3.2.0.dev0+442.gcd83fbf6fd",
+  "pandas_git_revision": "cd83fbf6fdb9a3318222d36df167c9f42de57970",
+  "wheel_index": "https://pypi.anaconda.org/scientific-python-nightly-wheels/simple",
+  "pandas4_available_on_pypi_or_nightly": false,
+  "pandas4_tested": false,
+  "dependency_check": "passed",
+  "test_totals": {
+    "tests": 210,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 22,
+    "passed": 188,
+    "seconds": 361.931
+  },
+  "versions": {
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "pandas": "3.2.0.dev0+442.gcd83fbf6fd",
+    "narwhals": "2.28.0",
+    "polars": "2.1.0",
+    "pyarrow": "26.0.0",
+    "scikit-learn": "1.9.1",
+    "shap": "0.54.1",
+    "lightgbm": "4.7.0"
+  },
+  "scope": "Snapshot of pandas 3.2 development wheel; not pandas 4 compatibility evidence"
+}

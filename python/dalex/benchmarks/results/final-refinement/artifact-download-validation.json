@@ -1,0 +1,143 @@
+{
+  "passed": true,
+  "archives": [
+    {
+      "name": "tests-3.14-windows-latest-pandas2",
+      "sha256": "8ad14f0208ad0f2e13c7f9e4814ab0b62ad87f0ea7fd106a13398d0558b3303c",
+      "bytes": 27623,
+      "verified": true
+    },
+    {
+      "name": "minimum-pandas",
+      "sha256": "6c0ef3884d9bfab4f6ebbe2cd3811a9c74c7808b42d3ad7297de8f77b44b86d3",
+      "bytes": 23377,
+      "verified": true
+    },
+    {
+      "name": "tests-3.14-ubuntu-latest-pandas3",
+      "sha256": "f18bb44477d3403c2060659a3d9b4a2b7b2e0962f92e7e4c650952d26b2eb6dc",
+      "bytes": 27500,
+      "verified": true
+    },
+    {
+      "name": "tests-3.14t-ubuntu-latest",
+      "sha256": "b4869c1c90457f8747bf934dbd26f8e3c47e3891aeb6c0bd5f3db2451df40502",
+      "bytes": 28177,
+      "verified": true
+    },
+    {
+      "name": "tests-3.13-ubuntu-latest-pandas2",
+      "sha256": "c25b330e015857b188e305af5774aacb34868c42022cea8f5d51a57690f1727c",
+      "bytes": 27086,
+      "verified": true
+    },
+    {
+      "name": "tests-3.11-macos-latest-pandas2",
+      "sha256": "97e9879b606f79b9dfb4ad94b3e7d0da33a1a2df0de5cde2203fb00e7d024473",
+      "bytes": 27790,
+      "verified": true
+    },
+    {
+      "name": "pandas-only-package",
+      "sha256": "0be6c7518dd55afffebbb1857400e563e8f163082a4745ea7d0b795c71263500",
+      "bytes": 762,
+      "verified": true
+    },
+    {
+      "name": "tests-3.14-ubuntu-latest-pandas2",
+      "sha256": "b17966fb355978f498c30496f2360836e31858e24df2f2474542581bb017d5f9",
+      "bytes": 27203,
+      "verified": true
+    },
+    {
+      "name": "minimum-polars",
+      "sha256": "2f745b8d77618934da7c8c481d5248fd5748a940e2b7fec418bc2ae6f9787ea5",
+      "bytes": 22719,
+      "verified": true
+    },
+    {
+      "name": "legacy-estimator-bridge",
+      "sha256": "e9eee8ca85a5f4d151503686e3281dd6555673d19a0749a8b6699b2f8f581fdb",
+      "bytes": 996,
+      "verified": true
+    },
+    {
+      "name": "tests-3.11-ubuntu-latest-pandas2",
+      "sha256": "c55f4873bfc647e7f8a25db6ee9ec130baf6a34f26e479629051117dbbe3e5ed",
+      "bytes": 27507,
+      "verified": true
+    },
+    {
+      "name": "tests-3.13-macos-latest-pandas2",
+      "sha256": "8d55d7b46338bcbc9a68731c339eef5d370c14eb3416f33db82aaec9a3bd5304",
+      "bytes": 27789,
+      "verified": true
+    },
+    {
+      "name": "neural-tensorflow",
+      "sha256": "546ebcb1427747c08e7f9ce20a683b99f6f74915e5b6c85f4be46b8a7e4fd235",
+      "bytes": 1254,
+      "verified": true
+    },
+    {
+      "name": "neural-torch",
+      "sha256": "e0d7bbb2119e4c651cc7c5664f52d1176a7c5453117a523f0c73f0b041758343",
+      "bytes": 1102,
+      "verified": true
+    },
+    {
+      "name": "upstream-compatibility",
+      "sha256": "8949c50366dad31ac47cbc1e5974385068adc669e8e1a7eb60a4cc0fb37705f1",
+      "bytes": 7785,
+      "verified": true
+    },
+    {
+      "name": "tests-3.12-macos-latest-pandas2",
+      "sha256": "125812febc0c1802bf35fff1d7bbe82b4caf4e1a7e30879326382ccb1256ba07",
+      "bytes": 27199,
+      "verified": true
+    },
+    {
+      "name": "tests-3.10-macos-latest-pandas2",
+      "sha256": "b549f8c7eee0e9b9e950f0533db33361f61acb087fb4c9f3e4dfb7900a0dfa9b",
+      "bytes": 27297,
+      "verified": true
+    },
+    {
+      "name": "tests-3.10-ubuntu-latest-pandas2",
+      "sha256": "461a17b363483e1d256e48ea3b3d9150637ebec4f3c6166c0fbb32d9a8e64feb",
+      "bytes": 27625,
+      "verified": true
+    },
+    {
+      "name": "tests-3.12-ubuntu-latest-pandas2",
+      "sha256": "675d444a65e5354c829d62a4ef9a7d81a4621b1e071c0be617fe41e1f7bb1592",
+      "bytes": 26895,
+      "verified": true
+    },
+    {
+      "name": "dalex-narwhals-benchmark-sklearn-numpy",
+      "sha256": "4eb7075b8a8fe0251a5de4eee8f69a9ad824740a50e40089e6377194f507cce1",
+      "bytes": 7331,
+      "verified": true
+    },
+    {
+      "name": "dalex-narwhals-benchmark-lightgbm-native",
+      "sha256": "497920f540009766dba9ef1a02d7e1314a7861f35dc91f55f50cbb88f7bf1347",
+      "bytes": 7404,
+      "verified": true
+    },
+    {
+      "name": "tests-3.14-macos-latest-pandas2",
+      "sha256": "54d7072176e648db9d30bfe540ae7eea8a25d22ce8e97426f8468f1939f61bf4",
+      "bytes": 27391,
+      "verified": true
+    },
+    {
+      "name": "dalex-narwhals-benchmark-sklearn-native",
+      "sha256": "03bbd5ea940f61c9de23039bdecff60522b3321f7b77aa712eac7df1cb94e6e3",
+      "bytes": 7279,
+      "verified": true
+    }
+  ]
+}

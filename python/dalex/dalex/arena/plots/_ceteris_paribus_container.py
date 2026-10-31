@@ -1,4 +1,6 @@
-from pandas.api.types import is_numeric_dtype
+import narwhals.stable.v2 as nw
+from ..._dataframe import observation_display_values
+from .._native_eda import display_categories, numeric
 from .._plot_container import PlotContainer
 
 class CeterisParibusContainer(PlotContainer):
@@ -28,15 +30,19 @@ class CeterisParibusContainer(PlotContainer):
             variable_splits_with_obs=False,
             verbose=False
         )
-        if is_numeric_dtype(row[variable.variable]):
+        if numeric(nw.from_native(row)[variable.variable]):
             self.plot_component = 'NumericalCeterisParibus'
         else:
             self.plot_component = 'CategoricalCeterisParibus'
+        result = nw.from_native(cp.result_as(partition=variable.variable), eager_only=True)
+        attributes = observation_display_values(cp._native_observation_frame())
+        if '_ids_' in attributes:
+            attributes['_ids_'] = observation.get_label()
         self.data = {
-            'x': cp.result[variable.variable].tolist(),
-            'y': cp.result['_yhat_'].tolist(),
+            'x': display_categories(result[variable.variable]).to_list(),
+            'y': result['_yhat_'].to_list(),
             'variable': variable.variable,
-            'min': cp.result['_yhat_'].min(),
-            'max': cp.result['_yhat_'].max(),
-            'observation': cp.new_observation.iloc[0].to_dict()
+            'min': result['_yhat_'].min(),
+            'max': result['_yhat_'].max(),
+            'observation': attributes
         }

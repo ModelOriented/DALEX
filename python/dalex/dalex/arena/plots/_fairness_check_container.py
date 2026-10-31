@@ -1,8 +1,9 @@
 import numpy as np
-import pandas as pd
+import narwhals.stable.v2 as nw
 
-from pandas.api.types import is_object_dtype
+from ...fairness._basics.checks import check_protected
 from .._plot_container import PlotContainer
+from ..._dataframe import column_values
 from dalex.fairness._group_fairness import utils, checks
 
 def rm_nan(obj):
@@ -24,32 +25,25 @@ class FairnessCheckContainer(PlotContainer):
             raise Exception('Variable is not a column of explainer')
         exp = model.explainer
         y_hat = exp.predict(exp.data) if exp.y_hat is None else exp.y_hat
-        protected = exp.data[variable.variable]
-        if not is_object_dtype(protected):
+        series = nw.from_native(exp.data, eager_only=True)[variable.variable]
+        if not isinstance(series.dtype, (nw.String, nw.Categorical, nw.Enum, nw.Object)):
             self.set_message('Select categorical variable to check fairness')
             return
-
+        protected = check_protected(column_values(exp.data, variable.variable, preserve_nulls=True), False)
         if exp.model_type == 'classification':
-            output_df = None
+            output = {group: {} for group in np.unique(protected)}
             for cutoff in self.arena.get_option(self.plot_type, 'cutoffs'):
-                cutoff_dict = checks.check_cutoff(protected, cutoff, False)
-                sub_confusion_matrix = utils.SubgroupConfusionMatrix(exp.y, y_hat, protected, cutoff_dict)
-                sub_confusion_matrix_metrics = utils.SubgroupConfusionMatrixMetrics(sub_confusion_matrix)
-                df = sub_confusion_matrix_metrics.to_vertical_DataFrame()
-                df['cutoff'] = cutoff
-                output_df = df if output_df is None else pd.concat([output_df, df])
-
-            output = {}
-            for (subgroup, x) in output_df.set_index('metric').groupby('subgroup'):
-                output[subgroup] = {}
-                for (cutoff, y) in x.groupby('cutoff'):
-                    output[subgroup][cutoff] = rm_nan(y['score'].to_dict())
-            self.data = { 'subgroups': output }
-
-        #regression
+                cutoffs = checks.check_cutoff(protected, cutoff, False)
+                matrix = utils.SubgroupConfusionMatrix(exp.y, y_hat, protected, cutoffs)
+                metrics = utils.SubgroupConfusionMatrixMetrics(matrix).subgroup_confusion_matrix_metrics
+                for group, scores in metrics.items():
+                    output[group][cutoff] = rm_nan(scores)
+            self.data = {'subgroups': output}
         else:
             self.plot_component = 'RegressionFairness'
-            subgroups = np.unique(protected)
             self.data = {}
-            for subgroup in subgroups:
-                self.data[subgroup] = exp.model_fairness(protected, subgroup).result.to_dict()
+            for subgroup in np.unique(protected):
+                table = nw.from_native(exp.model_fairness(protected, subgroup).result_as(), eager_only=True)
+                groups = table['subgroup'].to_list()
+                self.data[subgroup] = {name: dict(zip(groups, table[name].to_list()))
+                                      for name in table.columns if name != 'subgroup'}

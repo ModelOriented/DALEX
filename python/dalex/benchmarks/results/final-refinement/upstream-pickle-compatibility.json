@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "reference_root": "/home/runner/work/DALEX/DALEX/legacy-reference/python/dalex",
+  "objects_loaded": 16,
+  "legacy_tables_compared": 14,
+  "current_source": {
+    "python_modules": 135,
+    "python_source_sha256": "441d90693067367af8a8727caf0b4a639515a6aef3c39312cfc876e07780ce5e",
+    "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+  },
+  "legacy_duplicate_pandas_exports": true,
+  "legacy_cp_aggregation": true,
+  "legacy_aspect_groups_and_plot": true,
+  "python": "3.14.9 (main, Oct 21 2026, 14:50:29) [GCC 13.3.0]",
+  "pandas": "2.3.3"
+}

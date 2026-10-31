@@ -1,10 +1,11 @@
 import numpy as np
-import pandas as pd
+import narwhals.stable.v2 as nw
 from plotly.subplots import make_subplots
 
 from . import checks, plot, utils
 from ... import _theme, _global_checks
-from ..._explanation import Explanation
+from ..._plotting import result_frame
+from ..._explanation import Explanation, EmptyTable, CompatibilityTable
 
 
 class Shap(Explanation):
@@ -65,7 +66,7 @@ class Shap(Explanation):
         self.path = _path
         self.keep_distributions = keep_distributions
         self.B = B
-        self.result = pd.DataFrame()
+        self.result = EmptyTable()
         self.yhats_distributions = None
         self.prediction = None
         self.intercept = None
@@ -74,6 +75,8 @@ class Shap(Explanation):
 
     def _repr_html_(self):
         return self.result._repr_html_()
+
+    yhats_distributions = CompatibilityTable()
 
     def fit(self,
             explainer,
@@ -96,7 +99,8 @@ class Shap(Explanation):
 
         _new_observation = checks.check_new_observation(new_observation, explainer)
         checks.check_columns_in_new_observation(_new_observation, explainer)
-        self.result, self.prediction, self.intercept, self.yhats_distributions = utils.shap(
+        from .._native_contributions import shap
+        self.result, self.prediction, self.intercept, self.yhats_distributions = shap(
             explainer,
             _new_observation,
             self.path,
@@ -157,23 +161,23 @@ class Shap(Explanation):
         # are there any other objects to plot?
         if objects is None:
             n = 1
-            _result_list = [self.result.loc[self.result['B'] == 0,].copy()]
+            _result_list = [result_frame(self).filter(nw.col('B') == 0)]
             _intercept_list = [self.intercept]
             _prediction_list = [self.prediction]
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             n = 2
-            _result_list = [self.result.loc[self.result['B'] == 0,].copy(),
-                            objects.result.loc[objects.result['B'] == 0,].copy()]
+            _result_list = [result_frame(self).filter(nw.col('B') == 0),
+                            result_frame(objects).filter(nw.col('B') == 0)]
             _intercept_list = [self.intercept, objects.intercept]
             _prediction_list = [self.prediction, objects.prediction]
         elif isinstance(objects, (list, tuple)):  # objects as tuple or array
             n = len(objects) + 1
-            _result_list = [self.result.loc[self.result['B'] == 0,].copy()]
+            _result_list = [result_frame(self).filter(nw.col('B') == 0)]
             _intercept_list = [self.intercept]
             _prediction_list = [self.prediction]
             for ob in objects:
                 _global_checks.global_check_object_class(ob, self.__class__)
-                _result_list += [ob.result.loc[ob.result['B'] == 0,].copy()]
+                _result_list += [result_frame(ob).filter(nw.col('B') == 0)]
                 _intercept_list += [ob.intercept]
                 _prediction_list += [ob.prediction]
         else:
@@ -191,7 +195,7 @@ class Shap(Explanation):
         #         deleted_indexes += [i]
         #
         # _result_list = [j for i, j in enumerate(_result_list) if i not in deleted_indexes]
-        model_names = [result.iloc[0, result.columns.get_loc("label")] for result in _result_list]
+        model_names = [result['label'][0] for result in _result_list]
 
         if vertical_spacing is None:
             vertical_spacing = 0.2 / n
@@ -238,13 +242,13 @@ class Shap(Explanation):
 
             fig.add_bar(
                 orientation="h",
-                y=df['variable'].tolist(),
-                x=df['contribution'].tolist(),
+                y=df['variable'].to_list(),
+                x=df['contribution'].to_list(),
                 textposition="outside",
-                text=df['label_text'].tolist(),
-                marker_color=[vcolors[int(c)] for c in df['sign'].tolist()],
+                text=df['label_text'].to_list(),
+                marker_color=[vcolors[int(c)] for c in df['sign'].to_list()],
                 base=prediction_baseline,
-                hovertext=df['tooltip_text'].tolist(),
+                hovertext=df['tooltip_text'].to_list(),
                 hoverinfo='text',
                 hoverlabel={'bgcolor': 'rgba(0,0,0,0.8)'},
                 showlegend=False,
@@ -262,7 +266,7 @@ class Shap(Explanation):
             plot_height += m * bar_width + (m + 1) * bar_width / 4
 
             if min_max is None:
-                cum = df.contribution.values + prediction_baseline
+                cum = df['contribution'].to_numpy() + prediction_baseline
                 min_max_margin = np.ptp(cum) * 0.15
                 temp_min_max[0] = np.min([temp_min_max[0], cum.min() - min_max_margin])
                 temp_min_max[1] = np.max([temp_min_max[1], cum.max() + min_max_margin])

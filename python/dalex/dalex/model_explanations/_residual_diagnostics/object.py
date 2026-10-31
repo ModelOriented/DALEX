@@ -1,10 +1,13 @@
 import numpy as np
-import pandas as pd
 import plotly.express as px
+import narwhals.stable.v2 as nw
+from narwhals.dependencies import is_pandas_dataframe
 
 from . import checks
 from ... import _theme, _global_checks, _global_utils
-from ..._explanation import Explanation
+from ..._explanation import Explanation, EmptyTable, IndexedTable, PandasFeatureTable
+from ..._dataframe import as_eager_dataframe, copy_for_edit
+from ..._plotting import result_frame, concat_frames
 
 
 class ResidualDiagnostics(Explanation):
@@ -32,7 +35,7 @@ class ResidualDiagnostics(Explanation):
 
         _variables = checks.check_variables(variables)
 
-        self.result = pd.DataFrame()
+        self.result = EmptyTable()
         self.variables = _variables
 
     def _repr_html_(self):
@@ -52,15 +55,29 @@ class ResidualDiagnostics(Explanation):
         -----------
         None
         """
-        result = explainer.data.copy()
+        source = copy_for_edit(explainer.data)
+        legacy_features = None
+        if is_pandas_dataframe(source) and not source.columns.is_unique:
+            # Keep duplicate labels at the input/publication boundary while
+            # computing the diagnostic columns through the shared native path.
+            if self.variables is not None:
+                selected = _global_utils.intersect_unsorted(self.variables, source.columns)
+                source = source.loc[:, selected]
+            legacy_features = source
+            result = nw.from_dict({'__dalex_row__': np.arange(len(source))}, backend='pandas')
+        else:
+            result = as_eager_dataframe(source)
+        namespace = nw.get_native_namespace(result)
+        index = source.index.copy() if is_pandas_dataframe(source) else None
 
         # if variables = NULL then all variables are added
         # otherwise only selected
-        if self.variables is not None:
-            result = result.loc[:, _global_utils.intersect_unsorted(self.variables, result.columns)]
+        if self.variables is not None and legacy_features is None:
+            selected = _global_utils.intersect_unsorted(self.variables, result.columns)
+            result = result.select(selected)
         # is there target
         if explainer.y is not None:
-            result = result.assign(y=explainer.y)
+            result = result.with_columns(nw.new_series('y', np.array(explainer.y, copy=True), backend=namespace))
         # are there predictions - add y_hat to the Explainer for the future
         if explainer.y_hat is None:
             explainer.y_hat = explainer.predict(explainer.data)
@@ -68,13 +85,18 @@ class ResidualDiagnostics(Explanation):
         if explainer.residuals is None:
             explainer.residuals = explainer.residual(explainer.data, explainer.y)
 
-        self.result = result.assign(
-            y_hat=explainer.y_hat,
-            residuals=explainer.residuals,
-            abs_residuals=np.abs(explainer.residuals),
-            label=explainer.label,
-            ids=np.arange(result.shape[0])+1
+        result = result.with_columns(
+            nw.new_series('y_hat', np.array(explainer.y_hat, copy=True), backend=namespace),
+            nw.new_series('residuals', np.array(explainer.residuals, copy=True), backend=namespace),
+            nw.new_series('abs_residuals', np.abs(explainer.residuals), backend=namespace),
+            nw.lit(explainer.label).alias('label'),
+            nw.new_series('ids', np.arange(len(result)) + 1, backend=namespace),
         )
+        if legacy_features is not None:
+            self.result = PandasFeatureTable(legacy_features, result.drop('__dalex_row__').to_native(),
+                                            scalar_columns={'label': explainer.label})
+        else:
+            self.result = IndexedTable(result.to_native(), index)
 
     def plot(self,
              objects=None,
@@ -120,28 +142,35 @@ class ResidualDiagnostics(Explanation):
             Return figure that can be edited or saved. See `show` parameter.
         """
 
-        _global_checks.global_check_import('statsmodels', 'smoothing line')
+        if smooth:
+            _global_checks.global_check_import('statsmodels', 'smoothing line')
 
         # are there any other objects to plot?
         if objects is None:
-            _df_list = [self.result.copy()]
+            _df_list = [result_frame(self)]
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
-            _df_list = [self.result.copy(), objects.result.copy()]
+            _df_list = [result_frame(self), result_frame(objects)]
         elif isinstance(objects, (list, tuple)):  # objects as tuple or array
-            _df_list = [self.result.copy()]
+            _df_list = [result_frame(self)]
             for ob in objects:
                 _global_checks.global_check_object_class(ob, self.__class__)
-                _df_list += [ob.result.copy()]
+                _df_list += [result_frame(ob)]
         else:
             _global_checks.global_raise_objects_class(objects, self.__class__)
 
-        _df = pd.concat(_df_list)
+        columns = list(dict.fromkeys([variable, yvariable, 'ids', 'label']))
+        # Do not concatenate unused original features (which may have different
+        # schemas across models) just to plot a few diagnostic columns.
+        _df = concat_frames((frame.select([name for name in columns if name in frame.columns])
+                             for frame in _df_list), how='diagonal').select(columns)
 
         if isinstance(N, int) and smooth:
             if N < _df.shape[0]:
-                _df = _df.sample(N, random_state=0, replace=False)
+                # Use pandas' historical positional sampling, independent of backend RNG.
+                positions = np.random.RandomState(0).choice(len(_df), size=N, replace=False)
+                _df = _df[positions.tolist(), :]
 
-        fig = px.scatter(_df,
+        fig = px.scatter(_df.to_native(),
                          x=variable,
                          y=yvariable,
                          hover_name='ids',

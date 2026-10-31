@@ -1,0 +1,13 @@
+{
+  "python": "3.10.20 (main, Apr  7 2026, 20:46:26) [MSC v.1944 64 bit (AMD64)]",
+  "versions": {
+    "pandas": "1.5.3",
+    "polars": "2.0.0",
+    "narwhals": "2.0.0",
+    "numpy": "1.24.4",
+    "scipy": "1.15.3",
+    "scikit-learn": "1.6.1",
+    "lightgbm": "4.7.0",
+    "pyarrow": "25.0.1"
+  }
+}

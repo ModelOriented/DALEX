@@ -3,6 +3,7 @@ import pandas as pd
 
 from .exceptions import *
 from ..._explainer import helper
+from ..._dataframe import as_numpy_vector
 
 def check_protected(protected, verbose):
 
@@ -12,24 +13,32 @@ def check_protected(protected, verbose):
             try:
                 helper.verbose_cat("protected list will be converted to np.ndarray", verbose)
                 protected = np.array(protected, dtype='U')
-            except:
-                ParameterCheckError("failed to convert list to np.ndarray, try converting it manually", verbose)
+            except (TypeError, ValueError) as exc:
+                raise ParameterCheckError("failed to convert protected list to a one-dimensional vector") from exc
 
         elif isinstance(protected, pd.Series):
             try:
                 helper.verbose_cat("protected Series will be converted to np.ndarray", verbose)
                 protected = np.array(protected, dtype='U')
-            except ParameterCheckError:
-                ParameterCheckError("failed to convert list to np.ndarray")
+            except (TypeError, ValueError) as exc:
+                raise ParameterCheckError("failed to convert protected Series to a one-dimensional vector") from exc
         else:
-            ParameterCheckError("unsupported protected type provided. Please convert protected to flat np.ndarray")
+            try:
+                protected = as_numpy_vector(protected, "protected")
+            except (TypeError, ValueError) as exc:
+                raise ParameterCheckError(
+                    "protected must be a one-dimensional vector or have one column"
+                ) from exc
+
+    if protected.ndim != 1:
+        raise ParameterCheckError("protected must be a one-dimensional vector")
 
     if protected.dtype.type is not str:
         try:
             helper.verbose_cat("protected array is not string type, converting to string ", verbose)
             protected = protected.astype(str)
-        except:
-            ParameterCheckError('Could not convert protected to String type')
+        except (TypeError, ValueError) as exc:
+            raise ParameterCheckError('Could not convert protected to String type') from exc
     return protected
 
 def check_parameters(y, y_hat, protected, privileged, verbose):
@@ -110,7 +119,7 @@ def check_y(y, verbose = True):
     elif isinstance(y, np.ndarray) and len(y.shape) != 1:
         raise ValueError("'y' must have only one dimension")
     elif not isinstance(y, np.ndarray):
-        raise TypeError("'y' must be a numpy.ndarray (1d) or pandas.Series")
+        y = as_numpy_vector(y, "y")
 
     return y
 

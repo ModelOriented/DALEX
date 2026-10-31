@@ -1,3 +1,5 @@
+from ..._dataframe import column_names
+from ..._random import get_random_state
 import numpy as np
 from warnings import warn
 
@@ -50,7 +52,7 @@ def check_variable_groups(variable_groups, explainer):
             if not isinstance(variable_groups[key][0], str):
                 raise TypeError("variable_groups is a dict of lists of variables")
 
-            wrong_names[i] = np.in1d(variable_groups[key], explainer.data.columns).all()
+            wrong_names[i] = np.isin(variable_groups[key], column_names(explainer.data)).all()
 
         wrong_names = not wrong_names.all()
 
@@ -70,7 +72,7 @@ def check_variables(variables, variable_groups, explainer):
     if variable_groups is None:
         # if `variables` are not specified, then extract from data
         if variables is None:
-            variables = list(explainer.data.columns)
+            variables = list(column_names(explainer.data))
         elif not isinstance(variables, (list, np.ndarray)):
             raise TypeError("variables must be list or numpy.ndarray or a dict")
     else:
@@ -112,9 +114,7 @@ def check_type(type):
 
 
 def check_random_state(random_state):
-    if random_state is not None:
-        np.random.seed(random_state)
-
+    get_random_state(random_state)
     return random_state
 
 

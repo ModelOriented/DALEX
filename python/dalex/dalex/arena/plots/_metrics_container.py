@@ -1,3 +1,4 @@
+import narwhals.stable.v2 as nw
 from .._plot_container import PlotContainer
 
 class MetricsContainer(PlotContainer):
@@ -10,5 +11,5 @@ class MetricsContainer(PlotContainer):
     options_category = 'Metrics'
     options = {}
     def _fit(self, model):
-        perf = model.explainer.model_performance().result
-        self.data = dict(perf.iloc[0])
+        perf = nw.from_native(model.explainer.model_performance().result_as(), eager_only=True).drop("label")
+        self.data = dict(zip(perf.columns, next(perf.iter_rows())))

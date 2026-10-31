@@ -1,11 +1,12 @@
 import numpy as np
-import pandas as pd
+import narwhals.stable.v2 as nw
 import plotly.express as px
 from copy import deepcopy
 
 from . import checks, utils
 from ... import _theme, _global_checks, _global_utils
-from ..._explanation import Explanation
+from ..._explanation import Explanation, EmptyTable
+from ..._plotting import result_frame, concat_frames
 
 
 class AggregatedProfiles(Explanation):
@@ -89,7 +90,7 @@ class AggregatedProfiles(Explanation):
         self.variables = _variables
         self.span = span
         self.center = center
-        self.result = pd.DataFrame()
+        self.result = EmptyTable()
         self.mean_prediction = None
         self.raw_profiles = None
         self.random_state = random_state
@@ -118,35 +119,19 @@ class AggregatedProfiles(Explanation):
         # are there any other cp?
         from dalex.predict_explanations import CeterisParibus
         if isinstance(ceteris_paribus, CeterisParibus):  # allow for ceteris_paribus to be a single element
-            all_profiles = ceteris_paribus.result.copy()
-            all_observations = ceteris_paribus.new_observation.copy()
             self.raw_profiles = deepcopy(ceteris_paribus)
+            profiles = [ceteris_paribus]
         elif isinstance(ceteris_paribus, (list, tuple)):  # ceteris_paribus as tuple or array
-            all_profiles = None
-            all_observations = None
             for cp in ceteris_paribus:
                 _global_checks.global_check_object_class(cp, CeterisParibus)
-                all_profiles = pd.concat([all_profiles, cp.result.copy()])
-                all_observations = pd.concat([all_observations, cp.new_observation.copy()])
+            profiles = list(ceteris_paribus)
         else:
             _global_checks.global_raise_objects_class(ceteris_paribus, CeterisParibus)
 
-        all_profiles, vnames = utils.prepare_numerical_categorical(all_profiles, self.variables, self.variable_type)
-
-        # select only suitable variables
-        all_profiles = all_profiles.loc[all_profiles['_vname_'].isin(vnames), :]
-
-        all_profiles = utils.prepare_x(all_profiles, self.variable_type)
-
-        self.mean_prediction = all_observations['_yhat_'].mean()
-
-        self.result = utils.aggregate_profiles(all_profiles,
-                                               self.mean_prediction,
-                                               self.type,
-                                               self.groups,
-                                               self.center,
-                                               self.span,
-                                               verbose)
+        from ._native import aggregate_ceteris
+        self.result, self.mean_prediction = aggregate_ceteris(
+            profiles, self.variables, self.variable_type, self.type,
+            self.groups, self.span, self.center)
 
     def plot(self,
              objects=None,
@@ -218,34 +203,40 @@ class AggregatedProfiles(Explanation):
 
         # are there any other objects to plot?
         if objects is None:
-            _result_df = self.result.assign(_mp_=self.mean_prediction if center else 0)
-        elif isinstance(objects, self.__class__):  # allow for objects to be a single element
-            _result_df = pd.concat([self.result.assign(_mp_=self.mean_prediction if center else 0),
-                                    objects.result.assign(_mp_=objects.mean_prediction if center else 0)])
-        elif isinstance(objects, (list, tuple)):  # objects as tuple or array
-            _result_df = self.result.assign(_mp_=self.mean_prediction if center else 0)
+            profiles = [self]
+        elif isinstance(objects, self.__class__):
+            profiles = [self, objects]
+        elif isinstance(objects, (list, tuple)):
+            profiles = [self, *objects]
             for ob in objects:
                 _global_checks.global_check_object_class(ob, self.__class__)
-                _result_df = pd.concat([_result_df, ob.result.assign(_mp_=ob.mean_prediction if center else 0)])
         else:
             _global_checks.global_raise_objects_class(objects, self.__class__)
+        _result_df = concat_frames([
+            result_frame(ob).with_columns(nw.lit(ob.mean_prediction if center else 0).alias('_mp_'))
+            for ob in profiles])
 
         # variables to use
-        all_variables = _result_df['_vname_'].dropna().unique().tolist()
+        all_variables = _result_df['_vname_'].drop_nulls().unique(maintain_order=True).to_list()
 
         if variables is not None:
             all_variables = _global_utils.intersect_unsorted(variables, all_variables)
             if len(all_variables) == 0:
                 raise TypeError("variables do not overlap with " + ''.join(variables))
 
-            _result_df = _result_df.loc[_result_df['_vname_'].isin(all_variables), :]
+            _result_df = _result_df.filter(nw.col('_vname_').is_in(list(all_variables)))
 
         #  calculate y axis range to allow for fixedrange True
         dl = _result_df['_yhat_'].to_numpy()
         min_max_margin = np.ptp(dl) * 0.10
         min_max = [dl.min() - min_max_margin, dl.max() + min_max_margin]
 
-        is_x_numeric = False if geom == 'bars' else pd.api.types.is_numeric_dtype(_result_df['_x_'])
+        is_x_numeric = geom != 'bars' and (_result_df.schema['_x_'].is_numeric() or _result_df.schema['_x_'] == nw.Boolean)
+        if is_x_numeric:
+            for ob in profiles:
+                stored = ob.__dict__.get('result')
+                if ob.__dict__.get('_compatibility_result') is None and hasattr(stored, '_dalex_plot_x_is_numeric'):
+                    is_x_numeric = is_x_numeric and stored._dalex_plot_x_is_numeric()
         n = len(all_variables)
 
         facet_nrow = int(np.ceil(n / facet_ncol))
@@ -255,13 +246,13 @@ class AggregatedProfiles(Explanation):
         hovermode, render_mode = 'x unified', 'svg'
 
         # color = '_groups_' doesnt make much sense for multiple AP objects
-        m = len(_result_df[color].dropna().unique())
+        m = len(_result_df[color].drop_nulls().unique())
 
         if is_x_numeric:
             if geom == 'profiles' and self.raw_profiles is not None:
                 render_mode = 'webgl'
 
-            fig = px.line(_result_df,
+            fig = px.line(_result_df.to_native(),
                           x="_x_", y="_yhat_", color=color, facet_col="_vname_",
                           category_orders={"_vname_": list(all_variables)},
                           labels={'_yhat_': 'prediction', '_label_': 'label', '_mp_': 'mean_prediction'},  # , color: 'group'},
@@ -294,13 +285,13 @@ class AggregatedProfiles(Explanation):
                 hovermode = False
                 fig = fig_cp
         else:
-            _result_df = _result_df.assign(_diff_=lambda x: x['_yhat_'] - x['_mp_'])
+            _result_df = _result_df.with_columns((nw.col('_yhat_') - nw.col('_mp_')).alias('_diff_'))
             mp_format = ':.3f'
             if not center:
                 min_max = [np.min([min_max[0], 0]), np.max([min_max[1], 0])]
                 mp_format = False
 
-            fig = px.bar(_result_df,
+            fig = px.bar(_result_df.to_native(),
                          x="_x_", y="_diff_", color="_label_", facet_col="_vname_",
                          category_orders={"_vname_": list(all_variables)},
                          labels={'_yhat_': 'prediction', '_label_': 'label', '_mp_': 'mean_prediction'},  # , color: 'group'},

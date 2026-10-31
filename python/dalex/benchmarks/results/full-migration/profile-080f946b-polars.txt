@@ -1,0 +1,44 @@
+Source: 080f946b4bb3f53134957875d8e7b3fbd854d71c
+         23163 function calls (22963 primitive calls) in 0.039 seconds
+
+   Ordered by: cumulative time
+   List reduced from 1008 to 35 due to restriction <35>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.039    0.039 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.local-dist\profile_final_profiles.py:18(explain)
+        1    0.012    0.012    0.037    0.037 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\_explainer\object.py:628(model_profile)
+        1    0.000    0.000    0.018    0.018 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\predict_explanations\_ceteris_paribus\object.py:107(fit)
+        1    0.000    0.000    0.017    0.017 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\predict_explanations\_ceteris_paribus\_native.py:82(calculate)
+        1    0.000    0.000    0.015    0.015 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\predict_explanations\_ceteris_paribus\_native.py:72(profile_tables)
+        2    0.000    0.000    0.015    0.007 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\predict_explanations\_ceteris_paribus\_native.py:17(single_profile)
+        3    0.000    0.000    0.012    0.004 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\_dataframe.py:463(__call__)
+        3    0.000    0.000    0.012    0.004 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\_explainer\yhat.py:5(yhat_default)
+        3    0.000    0.000    0.012    0.004 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\sklearn\ensemble\_hist_gradient_boosting\gradient_boosting.py:1695(predict)
+        3    0.000    0.000    0.012    0.004 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\sklearn\ensemble\_hist_gradient_boosting\gradient_boosting.py:1180(_raw_predict)
+        3    0.000    0.000    0.010    0.003 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\sklearn\ensemble\_hist_gradient_boosting\gradient_boosting.py:1220(_predict_iterations)
+       60    0.010    0.000    0.010    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\sklearn\ensemble\_hist_gradient_boosting\predictor.py:49(predict)
+        1    0.000    0.000    0.007    0.007 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\model_explanations\_aggregated_profiles\object.py:100(fit)
+        1    0.000    0.000    0.007    0.007 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\model_explanations\_aggregated_profiles\_native.py:281(aggregate_ceteris)
+       13    0.000    0.000    0.003    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\dataframe.py:1501(with_columns)
+       13    0.000    0.000    0.003    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\dataframe.py:212(with_columns)
+        2    0.000    0.000    0.003    0.001 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\model_explanations\_aggregated_profiles\_native.py:103(reduce_profiles)
+       33    0.000    0.000    0.003    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\polars\lazyframe\frame.py:1945(_collect_eager)
+       33    0.000    0.000    0.003    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\polars\lazyframe\engine.py:390(collect)
+       23    0.000    0.000    0.002    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\_polars\dataframe.py:451(func)
+       33    0.002    0.000    0.002    0.000 {method 'collect' of 'builtins.PyLazyFrame' objects}
+       15    0.000    0.000    0.002    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\dataframe.py:158(_flatten_and_extract)
+        1    0.000    0.000    0.002    0.002 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\_explanation.py:34(__get__)
+       39    0.000    0.000    0.002    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\stable\v2\__init__.py:444(from_native)
+        1    0.000    0.000    0.002    0.002 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\model_explanations\_aggregated_profiles\_table.py:21(_dalex_pandas_view)
+       39    0.000    0.000    0.002    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\translate.py:270(_from_native_impl)
+    40/30    0.000    0.000    0.002    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\expr.py:59(_to_compliant_expr)
+    40/30    0.000    0.000    0.002    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\_expression_parsing.py:927(evaluate_nodes)
+        2    0.000    0.000    0.002    0.001 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\model_explanations\_aggregated_profiles\_native.py:59(_ordered_aggregate)
+        1    0.000    0.000    0.001    0.001 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\_explainer\object.py:172(predict)
+      256    0.000    0.000    0.001    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\_utils.py:1595(_hasattr_static)
+        3    0.000    0.000    0.001    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\_dataframe.py:116(take_rows)
+        1    0.000    0.000    0.001    0.001 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\predict_explanations\_ceteris_paribus\checks.py:81(check_variable_splits)
+        1    0.000    0.000    0.001    0.001 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\predict_explanations\_ceteris_paribus\utils.py:170(calculate_variable_split)
+        3    0.000    0.000    0.001    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\sklearn\ensemble\_hist_gradient_boosting\gradient_boosting.py:242(_preprocess_X)
+
+

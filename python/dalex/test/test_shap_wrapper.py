@@ -1,4 +1,5 @@
 import unittest
+import numpy as np
 
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
@@ -43,8 +44,15 @@ class TestShapWrapperMLPRegressorTitanicFullDataset(unittest.TestCase):
         self.exp = dx.Explainer(clf, self.X, self.y, verbose=False)
 
     def test(self):
-        with self.assertRaises(TypeError):
-            self.exp.predict_parts(self.X.iloc[[0]], type='shap_wrapper')
+        # Kernel SHAP can now restore labelled batches for ColumnTransformer.
+        # This mixed-column pipeline previously failed the NumPy acceptance gate.
+        result = self.exp.predict_parts(self.X.iloc[[0]], type='shap_wrapper',
+                                        N=40, random_state=42, nsamples=20, silent=True)
+        assert np.isfinite(result.result).all()
+        np.testing.assert_allclose(
+            result.shap_explainer.expected_value + result.result.sum(axis=1),
+            self.exp.predict(self.X.iloc[[0]]), rtol=1e-10, atol=1e-10,
+        )
 
 
 class TestShapWrapperRandomForestClassifierTitanicNumericalDataset(unittest.TestCase):

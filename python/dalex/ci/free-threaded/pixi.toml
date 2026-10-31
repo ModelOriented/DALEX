@@ -1,0 +1,10 @@
+[workspace]
+name = "dalex-free-threaded-validation"
+version = "0.1.0"
+channels = ["conda-forge"]
+platforms = ["win-64", "linux-64"]
+
+[dependencies]
+python-freethreading = "3.14.*"
+pip = "*"
+polars = ">=1"

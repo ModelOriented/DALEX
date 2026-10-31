@@ -1,8 +1,13 @@
+from .._dataframe import column_names
 # utility functions for Explainer methods
 import numpy as np
 import pandas as pd
+import narwhals.stable.v2 as nw
+from narwhals.dependencies import is_pandas_dataframe
+from .._dataframe import to_numpy, frame_from_values, select_columns, native_namespace
 
 import types, inspect, warnings
+from functools import partial
     
 def create_lime_explanation(explainer, new_observation, **kwargs):
     # utility function for predict_surrogate(type='lime')    
@@ -10,9 +15,16 @@ def create_lime_explanation(explainer, new_observation, **kwargs):
     explainer_dict, explanation_dict = unpack_kwargs_lime(explainer, new_observation, **kwargs)
     lime_tabular_explainer = LimeTabularExplainer(**explainer_dict)
     explanation = lime_tabular_explainer.explain_instance(**explanation_dict)
-    
-    explanation.plot = types.MethodType(plot_lime_custom, explanation)
-    explanation.result = pd.DataFrame(explanation.as_list(), columns=['variable', 'effect'])
+    if not is_pandas_dataframe(explainer.data):
+        from ._lime import NativeLimeExplanation
+        native = NativeLimeExplanation.__new__(NativeLimeExplanation)
+        native.__dict__.update(explanation.__dict__)
+        explanation = native
+    explanation.plot = partial(plot_lime_custom, explanation)
+    rows = explanation.as_list()
+    explanation.result = nw.from_dict({'variable': [row[0] for row in rows],
+                                       'effect': [row[1] for row in rows]},
+                                      backend=native_namespace(explainer.data)).to_native()
     return explanation
     
 def unpack_kwargs_lime(explainer, new_observation, **kwargs):
@@ -27,20 +39,20 @@ def unpack_kwargs_lime(explainer, new_observation, **kwargs):
     explanation_dict = {k: kwargs.pop(k) for k in dict(kwargs) if k in explanation_args}
 
     if 'training_data' not in explainer_dict:
-        explainer_dict['training_data'] = explainer.data.to_numpy()
+        explainer_dict['training_data'] = to_numpy(explainer.data)
     if 'mode' not in explainer_dict:
         explainer_dict['mode'] = explainer.model_type
     if 'feature_names' not in explainer_dict:
-        explainer_dict['feature_names'] = explainer.data.columns
+        explainer_dict['feature_names'] = column_names(explainer.data)
     if 'data_row' not in explanation_dict:
         explanation_dict['data_row'] = new_observation
     if 'predict_fn' not in explanation_dict:
         if explainer_dict['mode'] == 'regression':
-            explanation_dict['predict_fn'] = lambda x: explainer.predict(pd.DataFrame(x, columns=explainer.data.columns))
+            explanation_dict['predict_fn'] = lambda x: explainer.predict(frame_from_values(x, explainer.data))
         elif explainer_dict['mode'] == 'classification':
             explanation_dict['predict_fn'] = \
-                lambda x: np.concatenate([1 - explainer.predict(pd.DataFrame(x, columns=explainer.data.columns)).reshape(-1, 1),
-                                          explainer.predict(pd.DataFrame(x, columns=explainer.data.columns)).reshape(-1, 1)],
+                lambda x: np.concatenate([1 - explainer.predict(frame_from_values(x, explainer.data)).reshape(-1, 1),
+                                          explainer.predict(frame_from_values(x, explainer.data)).reshape(-1, 1)],
                                          axis=1)
         else:
             raise ValueError("Pass a 'mode' parameter to the `predict_surrogate` method. "
@@ -64,24 +76,37 @@ def create_surrogate_model(explainer, type, max_vars, max_depth, **kwargs):
     # utility function for model_surrogate(type=('tree', 'linear'))
 
     y_hat = explainer.predict(explainer.data) if explainer.y_hat is None else explainer.y_hat
+    native = not is_pandas_dataframe(explainer.data)
 
     # init a proper model
     if explainer.model_type == 'regression':
         if type == 'tree':
-            from sklearn.tree import DecisionTreeRegressor
+            if native:
+                from ._surrogate import NativeDecisionTreeRegressor as DecisionTreeRegressor
+            else:
+                from sklearn.tree import DecisionTreeRegressor
             surrogate_model = DecisionTreeRegressor(max_depth=max_depth, **kwargs)
         elif type == 'linear':
-            from sklearn.linear_model import LinearRegression
+            if native:
+                from ._surrogate import NativeLinearRegression as LinearRegression
+            else:
+                from sklearn.linear_model import LinearRegression
             surrogate_model = LinearRegression(**kwargs)
         else:
             raise TypeError("'type' parameter must be one of {'tree', 'linear'}")
     elif explainer.model_type == 'classification':
         y_hat = y_hat.round().astype(int)  # modify prob to classes
         if type == 'tree':
-            from sklearn.tree import DecisionTreeClassifier
+            if native:
+                from ._surrogate import NativeDecisionTreeClassifier as DecisionTreeClassifier
+            else:
+                from sklearn.tree import DecisionTreeClassifier
             surrogate_model = DecisionTreeClassifier(max_depth=max_depth, **kwargs)
         elif type == 'linear':
-            from sklearn.linear_model import LogisticRegression
+            if native:
+                from ._surrogate import NativeLogisticRegression as LogisticRegression
+            else:
+                from sklearn.linear_model import LogisticRegression
             surrogate_model = LogisticRegression(**kwargs)
         else:
             raise TypeError("'type' parameter must be one of {'tree', 'linear'}")
@@ -89,39 +114,43 @@ def create_surrogate_model(explainer, type, max_vars, max_depth, **kwargs):
         raise ValueError("'explainer.model_type' must be 'regression' or 'classification'")
 
     # find the most important variables
-    if max_vars is not None and max_vars < len(explainer.data.columns):
+    if max_vars is not None and max_vars < len(column_names(explainer.data)):
         # use model native feature importance if possible
         if hasattr(explainer.model, "feature_importances_"):  # scikit, xgboost, lightgbm
             # take last max_vars of the variables sorted from least to most important
             vi = explainer.model.feature_importances_
-            variables = explainer.data.columns[np.argsort(vi)][-max_vars:]
+            variables = np.asarray(column_names(explainer.data))[np.argsort(vi)][-max_vars:]
         else:
             # calculate model_parts and take max_vars most important variables
             vi = explainer.model_parts(N=500, B=15)
-            variables = vi.result.variable[~vi.result.variable.isin(['_baseline_', '_full_model_'])].tail(max_vars)
-        X = explainer.data.loc[:, variables]
+            importance = nw.from_native(vi.result_as(), eager_only=True)
+            variables = importance.filter(~nw.col('variable').is_in(['_baseline_', '_full_model_'])).tail(max_vars)['variable'].to_list()
+        X = select_columns(explainer.data, variables)
     else:
-        variables = explainer.data.columns
+        variables = column_names(explainer.data)
         X = explainer.data
 
-    surrogate_model.fit(X, y_hat)
+    surrogate_model.fit(X if is_pandas_dataframe(X) else to_numpy(X), y_hat)
 
     # add additional attributes to the surrogate model object
-    surrogate_model.feature_names = variables.tolist()
+    surrogate_model.feature_names = list(variables)
     if hasattr(surrogate_model, 'classes_'):
         surrogate_model.class_names = surrogate_model.classes_.astype(str).tolist()
     else:
         surrogate_model.class_names = None
 
     from .object import Explainer
-    surrogate_explainer = Explainer(surrogate_model, X, y_hat, model_type=explainer.model_type, verbose=False)
+    from ._surrogate import predict_surrogate_model
+    surrogate_explainer = Explainer(surrogate_model, X, y_hat, model_type=explainer.model_type, verbose=False,
+                                    label=getattr(surrogate_model, '_legacy_class_name', surrogate_model.__class__.__name__),
+                                    predict_function=predict_surrogate_model if native else None)
     surrogate_model_performance = surrogate_explainer.model_performance()
-    surrogate_model.performance = surrogate_model_performance.result
+    surrogate_model.performance = surrogate_model_performance.__dict__['result'] if native else surrogate_model_performance.result
 
     # add the plot method to the surrogate model object
     if type == 'tree':
         # it uses feature_names and class_names if needed
-        surrogate_model.plot = types.MethodType(plot_tree_custom, surrogate_model)
+        surrogate_model.plot = partial(plot_tree_custom, surrogate_model)
 
     # TODO: add plot method for the linear model
 

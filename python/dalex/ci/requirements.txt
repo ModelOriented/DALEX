@@ -1,0 +1,17 @@
+pytest
+pytest-timeout
+polars>=1.0
+pyarrow
+scikit-learn
+lightgbm>=4.7,<5
+lime
+statsmodels
+shap
+flask
+flask-cors
+requests
+ipython
+ipywidgets
+anywidget>=0.9.13
+kaleido
+psutil

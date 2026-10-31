@@ -1,0 +1,47 @@
+{
+  "round2-wide-sklearn-baseline.json": {
+    "resolved_source_commit": "89e8db5cc0c9c5a1d783152acbc42ecc0d96a014",
+    "recorded_source_argument": "89e8db5c",
+    "library_source": {
+      "python_modules": 117,
+      "python_source_sha256": "85e73cf14745c6fa4e07c35126e438ccdccac3b7299b6825be1f71d2ebafa919",
+      "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+    },
+    "report_sha256": "68def60d4f4189c94d807f9f50cf96287f653424548cba4496aa344d2dc1bf2c",
+    "fitted_model_sha256": "f4272f546fc8e7d78ae9a33975a3f4d0927d279133058c47cc56e5955cde74d3"
+  },
+  "round2-wide-sklearn-candidate.json": {
+    "resolved_source_commit": "42b94c7f64cc1922e79cb7aafeb52dc4933020e0",
+    "recorded_source_argument": "HEAD",
+    "library_source": {
+      "python_modules": 117,
+      "python_source_sha256": "9d577658aae86122f7db6104c36703beb3e311e5b09bdbb33ad969f5ae078790",
+      "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+    },
+    "report_sha256": "6ed14a861fee183bdb00be27839c31831d80d362333fce4eaa4a0c1fe7d3ab68",
+    "fitted_model_sha256": "f4272f546fc8e7d78ae9a33975a3f4d0927d279133058c47cc56e5955cde74d3"
+  },
+  "round2-wide-lightgbm-baseline.json": {
+    "resolved_source_commit": "89e8db5cc0c9c5a1d783152acbc42ecc0d96a014",
+    "recorded_source_argument": "89e8db5c",
+    "library_source": {
+      "python_modules": 117,
+      "python_source_sha256": "85e73cf14745c6fa4e07c35126e438ccdccac3b7299b6825be1f71d2ebafa919",
+      "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+    },
+    "report_sha256": "954d402e1c6663108db2a3cc1cc7ed5ee188289361d5228be92e407bd7145b8c",
+    "fitted_model_sha256": "00225d5cff0afb87a1d871224e841f53d29f49c816ca0e212f48a25a15d18067"
+  },
+  "round2-wide-lightgbm-candidate.json": {
+    "resolved_source_commit": "42b94c7f64cc1922e79cb7aafeb52dc4933020e0",
+    "recorded_source_argument": "HEAD",
+    "library_source": {
+      "python_modules": 117,
+      "python_source_sha256": "9d577658aae86122f7db6104c36703beb3e311e5b09bdbb33ad969f5ae078790",
+      "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+    },
+    "report_sha256": "ecb31ea417120e88cc1fab12493e166157a6ecfbd1c48b3039f0cc4d040190a6",
+    "fitted_model_sha256": "00225d5cff0afb87a1d871224e841f53d29f49c816ca0e212f48a25a15d18067"
+  },
+  "candidate_argument_note": "The candidate CLI recorded literal HEAD. The head printed before those trials was 42b94c7f; library files stayed unchanged during timing. Archived Git sources resolve that argument here; raw measurement files are preserved unchanged."
+}

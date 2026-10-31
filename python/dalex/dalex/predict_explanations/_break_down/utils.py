@@ -1,240 +1,71 @@
-from copy import deepcopy
-
+"""Legacy pandas-returning adapters over native contribution kernels."""
 import numpy as np
-import pandas as pd
+import narwhals.stable.v2 as nw
+from narwhals.dependencies import get_pandas
+from ..._dataframe import column_names, observation_values, observation_display_values, to_pandas
 
 
-def local_interactions(explainer,
-                       new_observation,
-                       interaction_preference,
-                       type,
-                       order,
-                       keep_distributions):
-    # here one can add model and data and new observation
-    # just in case only some variables are specified
-    # this will work only for data.frames
+def local_interactions(explainer, new_observation, interaction_preference, type, order, keep_distributions):
+    from .._native_contributions import break_down
+    result, distributions = break_down(explainer, new_observation, interaction_preference,
+                                       type, order, keep_distributions)
+    return (to_pandas(result), distributions._dalex_pandas_view() if distributions is not None else None)
 
-    # set target
-    target_yhat = explainer.predict(new_observation)
-    baseline_yhat = np.mean(explainer.predict(explainer.data))
 
-    # 1d changes
-    # how the average would change if single variable is changed
-    average_yhats = calculate_1d_changes(explainer, new_observation)
-    diffs_1d = average_yhats - baseline_yhat
+def calculate_1d_changes(explainer, new_observation, values=None):
+    from .._native_contributions import one_dimensional_changes
+    cells = observation_values(new_observation) if values is None else values
+    return get_pandas().Series(one_dimensional_changes(explainer, cells), index=column_names(explainer.data))
 
-    if type == '2d':
-        # impact summary for 1d variables
-        feature_path_1d = pd.DataFrame({
-            'diff': diffs_1d,
-            'adiff': np.abs(diffs_1d),
-            'diff_norm': diffs_1d,
-            'adiff_norm': np.abs(diffs_1d),
-            'ind1': np.arange(len(explainer.data.columns)),
-            'ind2': None
-        })
 
-        p = explainer.data.shape[1]
-        inds = pd.DataFrame({
-            'ind1': np.hstack([np.arange(i, p) for i in range(1, p)]),
-            'ind2': np.hstack([np.repeat(i - 1, p - i) for i in range(1, p)])
-        })
+def calculate_2d_changes(explainer, new_observation, inds, diffs_1d, values=None):
+    from .._native_contributions import two_dimensional_changes
+    cells = observation_values(new_observation) if values is None else values
+    indices = nw.from_native(inds, eager_only=True).to_numpy()
+    differences = np.asarray(diffs_1d)
+    averages, normalized = two_dimensional_changes(explainer, cells, indices, differences)
+    names = list(column_names(explainer.data))
+    labels = [':'.join(names[int(i)] for i in pair) for pair in indices]
+    pd = get_pandas()
+    return pd.Series(averages, index=labels), pd.Series(normalized, index=labels)
 
-        # 2d changes
-        # how the average would change if two variables are changed
-        average_yhats_2d, average_yhats_2d_norm = calculate_2d_changes(explainer, new_observation, inds, diffs_1d)
 
-        diffs_2d = average_yhats_2d - baseline_yhat
-        diffs_2d_norm = average_yhats_2d_norm - baseline_yhat
+def create_ordered_path(feature_path, average_yhats_index, type, order):
+    from .._native_contributions import path_order
+    frame = nw.from_native(feature_path, eager_only=True)
+    score = 'adiff_norm' if type == '2d' else 'diff'
+    positions = path_order(frame[score].to_numpy(), list(feature_path.index), average_yhats_index, order)
+    # The private pandas contract retains its caller's index, including labels
+    # used to identify interactions. This is an index-publication boundary.
+    return feature_path.iloc[positions, :]
 
-        # impact summary for 2d variables
-        # large interaction_preference force to use interactions
 
-        feature_path_2d = pd.DataFrame({
-            'diff': diffs_2d,
-            'adiff': np.abs(diffs_2d) * interaction_preference,
-            'diff_norm': diffs_2d_norm,
-            'adiff_norm': np.abs(diffs_2d_norm) * interaction_preference,
-            'ind1': inds.loc[:, 'ind1'].values,
-            'ind2': inds.loc[:, 'ind2'].values
-        })
-
-        feature_path = pd.concat((feature_path_1d, feature_path_2d))
-
-    else:
-        # different definition
-        feature_path = pd.DataFrame({'diff': diffs_1d, 'ind1': np.arange(diffs_1d.shape[0])})
-
-    # how variables shall be ordered in the BD plot?
-    feature_path = create_ordered_path(feature_path, average_yhats.index, type, order)
-
-    # Now we know the path, so we can calculate contributions
-    # set variable indicators
-    result, yhats = calculate_contributions_along_path(explainer,
-                                                       new_observation,
-                                                       feature_path,
-                                                       baseline_yhat,
-                                                       target_yhat,
-                                                       type,
-                                                       keep_distributions)
-
-    result = pd.DataFrame(result)
-
+def calculate_contributions_along_path(explainer, new_observation, feature_path,
+        baseline_yhat, target_yhat, type, keep_distributions, values=None):
+    from .._native_contributions import contributions_along_path
+    from ..._explanation import IndexedTable
+    cells = observation_values(new_observation) if values is None else values
+    display = observation_display_values(new_observation, cells)
+    frame = nw.from_native(feature_path, eager_only=True)
+    rows = []
+    for name, record in zip(feature_path.index, frame.iter_rows(named=True)):
+        candidates = [record['ind1']]
+        if type == '2d' and record['ind2'] is not None:
+            candidates.append(record['ind2'])
+        rows.append((name, tuple(int(value) for value in candidates), None))
+    result, distributions = contributions_along_path(explainer, cells, display, rows,
+        float(np.asarray(baseline_yhat).item()), float(np.asarray(target_yhat).item()), keep_distributions)
+    published = to_pandas(result)
+    columns = {name: published[name].to_numpy() for name in published.columns}
+    columns['variable'] = published['variable'].tolist()
+    columns['label'] = explainer.label
     if keep_distributions:
-        yhats_distributions = pd.DataFrame({
-            'variable_name': "all data",
-            'variable': "all data",
-            'id': np.arange(0, explainer.data.shape[0]),
-            'prediction': explainer.predict(explainer.data),
-            'label': explainer.label
-        })
-
-        yhats_distributions = pd.concat([yhats_distributions, yhats])
-
-    yhats_distributions = yhats_distributions if keep_distributions else None
-
-    return result, yhats_distributions
-
-
-def calculate_1d_changes(explainer,
-                         new_observation):
-    yhats = np.empty_like(explainer.data.columns)
-    for i, col in enumerate(explainer.data.columns):
-        current_data = deepcopy(explainer.data)
-        current_data.loc[:, col] = new_observation.loc[:, col].iloc[0]
-        yhats[i] = explainer.predict(current_data).mean()
-
-    return pd.Series(yhats, index=explainer.data.columns)
-
-
-def calculate_2d_changes(explainer,
-                         new_observation,
-                         inds,
-                         diffs_1d):
-    average_yhats = np.empty(inds.shape[0])
-    average_yhats_norm = np.empty(inds.shape[0])
-
-    for i in range(inds.shape[0]):
-        current_data = deepcopy(explainer.data)
-        current_data.iloc[:, inds.iloc[i, 0]] = new_observation.iloc[0, inds.iloc[i, 0]]
-        current_data.iloc[:, inds.iloc[i, 1]] = new_observation.iloc[0, inds.iloc[i, 1]]
-
-        yhats = explainer.predict(current_data)
-        average_yhats[i] = yhats.mean()
-        average_yhats_norm[i] = average_yhats[i] - diffs_1d.iloc[inds.iloc[i, 0]] - diffs_1d.iloc[inds.iloc[i, 1]]
-
-    columns = explainer.data.columns
-    average_yhats = pd.Series(average_yhats)
-    average_yhats_norm = pd.Series(average_yhats_norm)
-    average_yhats.index = [':'.join(pair) for pair in zip(columns[inds.iloc[:, 0]], columns[inds.iloc[:, 1]])]
-    average_yhats_norm.index = [':'.join(pair) for pair in zip(columns[inds.iloc[:, 0]], columns[inds.iloc[:, 1]])]
-
-    return average_yhats, average_yhats_norm
-
-
-def create_ordered_path(feature_path,
-                        average_yhats_index,
-                        type,
-                        order):
-    if order is None:
-        # sort impacts and look for most importants elements
-        if type == '2d':
-            feature_path = feature_path.iloc[np.argsort(feature_path['adiff_norm'])[::-1], :]
-        else:
-            feature_path = feature_path.iloc[np.argsort(feature_path['diff'])[::-1], :]
-    elif np.issubdtype(order.dtype, int):
-        # case when permutation
-        feature_path = feature_path.iloc[order, :]
-
-    elif np.isin(order, average_yhats_index).all():
-        # case when character
-        feature_path = feature_path.loc[order, :]
+        data = nw.concat([nw.from_native(data) for data in distributions]).to_native()
+        index = np.concatenate([np.arange(len(nw.from_native(data))) for data in distributions])
+        predictions = IndexedTable(data, index)._dalex_pandas_view()
     else:
-        raise ValueError('Wrong order!')
-
-    return feature_path
-
-
-def calculate_contributions_along_path(explainer,
-                                       new_observation,
-                                       feature_path,
-                                       baseline_yhat,
-                                       target_yhat,
-                                       type,
-                                       keep_distributions):
-    open_variables = set(np.arange(explainer.data.shape[1]))
-    current_data = deepcopy(explainer.data)
-    step = 0
-    yhats = []
-    yhats_mean = []
-    selected_rows = []
-
-    for i in range(feature_path.shape[0]):
-        candidates = [feature_path['ind1'].iloc[i]]
-        if type == '2d':
-            ind2_is_None = feature_path['ind2'].iloc[i] is None
-            candidates.append(feature_path['ind2'].iloc[i]) if not ind2_is_None else None
-        else:
-            ind2_is_None = True
-
-        if open_variables.issuperset(candidates):
-            # we can add this effect to out path
-            for candidate in candidates:
-                current_data.iloc[:, candidate] = new_observation.iloc[0, candidate]
-
-            step += 1
-
-            yhats_pred = explainer.predict(current_data)
-
-            if keep_distributions:
-                yhats.append(
-                    pd.DataFrame({
-                        'variable_name': ':'.join(explainer.data.columns[candidates]),
-                        'variable': ':'.join(explainer.data.columns[candidates]) +
-                                    '=' +
-                                    nice_pair(new_observation,
-                                              candidates[0],
-                                              None if ind2_is_None else candidates[1]),
-                        'id': np.arange(explainer.data.shape[0]),
-                        'prediction': yhats_pred,
-                        'label': explainer.label
-                    })
-                )
-
-            yhats_mean.append(np.mean(yhats_pred))
-            selected_rows.append(i)
-            open_variables = open_variables.difference(candidates)
-
-    selected = feature_path.iloc[selected_rows, :]
-
-    # extract values
-    selected_values = selected.apply(lambda row: nice_pair(new_observation,
-                                                           row['ind1'],
-                                                           None if type == '1d' else row['ind2']),
-                                     axis=1)
-
-    # prepare values
-    yhats = pd.concat(yhats) if keep_distributions else None
-    
-    cumulative = np.hstack((baseline_yhat, yhats_mean, target_yhat))
-    contribution = np.hstack((cumulative[0], np.diff(cumulative)))
-    contribution[-1] = cumulative[-1]
-    
-    result = {
-        'variable_name': np.hstack(("intercept", selected.index, "")),
-        'variable_value': np.hstack(("", selected_values, "")),
-        'variable': 
-            ["intercept"] + 
-            [' = '.join(pair) for pair in zip(selected.index, selected_values)] + 
-            ['prediction'],
-        'cumulative': cumulative,
-        'contribution': contribution,
-        'sign': np.sign(contribution),
-        'position': np.arange(len(selected.index) + 1, -1, -1),
-        'label': explainer.label
-    }
-
-    return result, yhats
+        predictions = None
+    return columns, predictions
 
 
 def nice_pair(df, i1, i2):
@@ -243,7 +74,7 @@ def nice_pair(df, i1, i2):
 
 
 def nice_format(x):
-    return str(x) if isinstance(x, str) else str(float(signif(x)))
+    return str(float(signif(x))) if isinstance(x, (int, float, np.integer, np.floating)) else str(x)
 
 
 #:# https://stackoverflow.com/a/59888924

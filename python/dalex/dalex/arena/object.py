@@ -1,3 +1,4 @@
+from .._dataframe import column_names, select_columns
 import threading
 import time
 import numpy as np
@@ -133,8 +134,26 @@ class Arena:
         global_check_import('flask')
         global_check_import('flask_cors')
         global_check_import('requests')
-        self.server_thread = threading.Thread(target=start_server, args=(self, host, port, disable_logs))
+        ready = threading.Event()
+        startup_errors = []
+
+        def serve():
+            try:
+                start_server(self, host, port, disable_logs, ready=ready)
+            except BaseException as error:
+                # Werkzeug can raise SystemExit on bind errors. Surface it to
+                # the caller instead of silently killing the server thread.
+                startup_errors.append(error)
+                ready.set()
+
+        self.server_thread = threading.Thread(target=serve)
         self.server_thread.start()
+        if not ready.wait(timeout=10):
+            raise TimeoutError('Arena server did not become ready within 10 seconds')
+        if startup_errors:
+            self.server_thread.join()
+            self.server_thread = None
+            raise RuntimeError('Arena server failed to start') from startup_errors[0]
         if append_data:
             print(arena_url + '?append=http://' + host + ':' + str(port) + '/')
         else:
@@ -145,7 +164,9 @@ class Arena:
         if not self.server_thread:
             raise Exception('Server is not running')
         self._stop_server()
-        self.server_thread.join()
+        self.server_thread.join(timeout=10)
+        if self.server_thread.is_alive():
+            raise TimeoutError('Arena server did not stop within 10 seconds')
         self.server_thread = None
 
     def update_timestamp(self):
@@ -196,27 +217,38 @@ class Arena:
 
         Parameters
         -----------
-        observations : pandas.DataFrame
+        observations : pandas.DataFrame or eager Polars DataFrame
             Data frame of observations to be explained using instance level plots.
             Label for each observation is taken from row name.
         precalculate : bool or None
             Overrides constructor `precalculate` parameter when it is not None.
             If true, then only plots using thease observations will be precalculated.
         """
+        # Keep a buffer-sharing native snapshot for model inputs. The pandas
+        # display table cannot retain every native null or nullable integer.
+        native_observations = None
         if not isinstance(observations, DataFrame):
-            raise Exception('Observations argument is not a pandas DataFrame')
-        if len(observations.index.names) != 1:
-            raise Exception('Observations argument need to have only one index')
-        if not observations.index.is_unique:
-            raise Exception('Observations argument need to have unique indexes')
+            from .params import ObservationDataset
+            native_observations = select_columns(observations, column_names(observations))
+            labels = [str(i) for i in range(len(native_observations))]
+            observations = ObservationDataset(native_observations, index=labels)
+        else:
+            if len(observations.index.names) != 1:
+                raise Exception('Observations argument need to have only one index')
+            if not observations.index.is_unique:
+                raise Exception('Observations argument need to have unique indexes')
+            observations = observations.set_index(observations.index.astype(str))
+            labels = observations.index
         precalculate = self.precalculate if precalculate is None else bool(precalculate)
         old_observations = self.list_params('observation')
-        observations = observations.set_index(observations.index.astype(str))
+        if len(set(labels)) != len(labels):
+            raise Exception('Indexes of observations need to be unique after conversion to strings')
         params_objects = []
-        for x in observations.index:
+        for position, x in enumerate(labels):
             if x in old_observations:
                 raise Exception('Indexes of observations need to be unique across all observations')
-            params_objects.append(ObservationParam(dataset=observations, index=x))
+            params_objects.append(ObservationParam(dataset=observations, index=x,
+                                                   native_dataset=native_observations, position=position))
         with self.mutex:
             self.update_timestamp()
             self.observations.extend(params_objects)
@@ -233,7 +265,7 @@ class Arena:
 
         Parameters
         -----------
-        dataset : pandas.DataFrame
+        dataset : pandas.DataFrame or eager Polars DataFrame
             Data frame to be visualised using EDA plots. This
             dataset should contain target variable.
         target : str
@@ -244,13 +276,11 @@ class Arena:
             Overrides constructor `precalculate` parameter when it is not None.
             If true, then only plots using this model will be precalculated.
         """
-        if not isinstance(dataset, DataFrame):
-            raise Exception('Dataset argument is not a pandas DataFrame')
-        if len(dataset.columns.names) != 1:
+        if isinstance(dataset, DataFrame) and len(dataset.columns.names) != 1:
             raise Exception('Dataset argument need to have only one level column names')
         precalculate = self.precalculate if precalculate is None else bool(precalculate)
         target = str(target)
-        if target not in dataset.columns:
+        if target not in column_names(dataset):
             raise Exception('Target is not a column from dataset')
         if (not isinstance(label, str)) or (len(label) == 0):
             raise Exception('Label need to be at least one letter')

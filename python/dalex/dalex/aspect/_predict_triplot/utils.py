@@ -1,122 +1,37 @@
+"""Legacy hierarchy adapters and scalar label formatting."""
 import numpy as np
-import pandas as pd
-import itertools
 from copy import deepcopy
 import re
 
-from dalex.aspect._predict_aspect_importance.utils import (
-    calculate_predict_aspect_importance,
-    calculate_shap_predict_aspect_importance,
-)
+
+def calculate_predict_hierarchical_importance(aspect, new_observation, type='default',
+        N=2000, B=25, sample_method='default', f=2, processes=1, random_state=None):
+    from .._native_triplot import importance_calculator, hierarchical
+    importance = importance_calculator(aspect, kind=type, N=N, B=B,
+        sample_method=sample_method, f=f, processes=processes,
+        random_state=random_state, observation=new_observation)
+    result, _ = hierarchical(aspect, importance)
+    # Dependence metadata was attached by the historical object's fit method,
+    # rather than returned by this private intermediate helper.
+    result.columns = ['variable_names', 'variable_values', 'importance', 'label']
+    return result._dalex_pandas_view()
 
 
-def calculate_predict_hierarchical_importance(
-    aspect,
-    new_observation,
-    type="default",
-    N=2000,
-    B=25,
-    sample_method="default",
-    f=2,
-    processes=1,
-    random_state=None,
-):
-    result_df = pd.DataFrame()
-    cutting_heights = aspect.linkage_matrix[:, 2]
-
-    aspects_list_previous = aspect.get_aspects(h=2)
-    set_aspects_list_previous = {
-        tuple(aspect) for aspect in aspects_list_previous.values()
-    }
-
-    for i in range(len(cutting_heights)):
-        aspects_list_current = aspect.get_aspects(1 - cutting_heights[i])
-        set_aspects_list_current = {
-            tuple(aspect) for aspect in aspects_list_current.values()
-        }
-
-        set_diff = set_aspects_list_current - set_aspects_list_previous
-        if not bool(set_diff):
-            continue
-        lastly_merged = list(set_diff)
-        lastly_merged = [list(el) for el in lastly_merged]
-
-        if type == "default":
-            current_aspects_importance = calculate_predict_aspect_importance(
-                explainer=aspect.explainer,
-                new_observation=new_observation,
-                variable_groups=aspects_list_current,
-                N=N,
-                n_aspects=None,
-                sample_method=sample_method,
-                f=f,
-                random_state=random_state,
-            )
-        else:
-            current_aspects_importance = calculate_shap_predict_aspect_importance(
-                explainer=aspect.explainer,
-                new_observation=new_observation,
-                variable_groups=aspects_list_current,
-                N=N,
-                B=B,
-                processes=processes,
-                random_state=random_state,
-            )
-
-        ind = [
-            elem in lastly_merged for elem in current_aspects_importance.variable_names
-        ]
-        lastly_merged_aspect_importance = current_aspects_importance.loc[ind]
-
-        result_df = pd.concat([result_df, lastly_merged_aspect_importance])
-        set_aspects_list_previous = set_aspects_list_current
-
-    result_df = result_df.drop("aspect_name", axis=1).reset_index(drop=True)
-    return result_df
-
-
-def calculate_single_variable_importance(
-    aspect,
-    new_observation,
-    type,
-    N,
-    B, 
-    sample_method,
-    f,
-    processes,
-    random_state
-):
-    variable_groups = aspect.get_aspects(h=2)
-    if type == "default":
-        result_df = calculate_predict_aspect_importance(
-            aspect.explainer,
-            new_observation,
-            variable_groups,
-            N,
-            None,
-            sample_method,
-            f,
-            random_state)
-    else:
-        result_df = calculate_shap_predict_aspect_importance(
-            aspect.explainer,
-            new_observation,
-            variable_groups,
-            N,
-            B,
-            processes,
-            random_state)
-    result_df.variable_names = list(
-            itertools.chain.from_iterable(result_df.variable_names))
-    result_df.variable_values = list(
-            itertools.chain.from_iterable(result_df.variable_values))
-    result_df = result_df[["variable_names", "variable_values", "importance"]]
-    return result_df
-
+def calculate_single_variable_importance(aspect, new_observation, type, N, B,
+                                        sample_method, f, processes, random_state):
+    from .._native_triplot import importance_calculator, single_variable
+    importance = importance_calculator(aspect, kind=type, N=N, B=B,
+        sample_method=sample_method, f=f, processes=processes,
+        random_state=random_state, observation=new_observation)
+    result, _ = single_variable(aspect, importance)
+    return result._dalex_pandas_view()
 
 
 def nice_format(x):
-    return str(x) if isinstance(x, str) else str(float(signif(x)))
+    value = np.asarray(x)
+    if value.ndim != 0 or value.dtype.kind not in 'biuf':
+        return str(x)
+    return str(float(signif(x)))
 
 
 # https://stackoverflow.com/a/59888924

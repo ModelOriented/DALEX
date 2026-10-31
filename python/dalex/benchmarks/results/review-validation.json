@@ -1,0 +1,197 @@
+{
+  "source_commit": "107348aa",
+  "upstream_commit": "77ea3ad9580a3b68aaa94d8dca75d11bd527848f",
+  "ci_url": "https://github.com/brunocarlin/DALEX/actions/runs/40593699475",
+  "ci_jobs": [
+    {
+      "name": "Python 3.14t / ubuntu-latest / GIL disabled",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40593699475/job/122504113715"
+    },
+    {
+      "name": "backend-benchmark",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40593699475/job/122504113933"
+    },
+    {
+      "name": "minimum-pandas",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40593699475/job/122504114158"
+    },
+    {
+      "name": "Python 3.14 / macos-latest / pandas <3",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40593699475/job/122504114284"
+    },
+    {
+      "name": "Python 3.14 / ubuntu-latest / pandas >=3,<4",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40593699475/job/122504114308"
+    },
+    {
+      "name": "Python 3.10 / macos-latest / pandas <3",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40593699475/job/122504114324"
+    },
+    {
+      "name": "Python 3.11 / macos-latest / pandas <3",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40593699475/job/122504114331"
+    },
+    {
+      "name": "Python 3.13 / ubuntu-latest / pandas <3",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40593699475/job/122504114333"
+    },
+    {
+      "name": "Python 3.13 / macos-latest / pandas <3",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40593699475/job/122504114347"
+    },
+    {
+      "name": "Python 3.12 / ubuntu-latest / pandas <3",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40593699475/job/122504114377"
+    },
+    {
+      "name": "Python 3.11 / ubuntu-latest / pandas <3",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40593699475/job/122504114392"
+    },
+    {
+      "name": "Python 3.10 / ubuntu-latest / pandas <3",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40593699475/job/122504114405"
+    },
+    {
+      "name": "Python 3.14 / ubuntu-latest / pandas <3",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40593699475/job/122504114475"
+    },
+    {
+      "name": "Python 3.12 / macos-latest / pandas <3",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40593699475/job/122504114574"
+    }
+  ],
+  "ci_junit": {
+    "tests-3.10-macos-latest-pandas2": {
+      "tests": 164,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 142,
+      "seconds": 287.238
+    },
+    "tests-3.10-ubuntu-latest-pandas2": {
+      "tests": 164,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 142,
+      "seconds": 181.261
+    },
+    "tests-3.11-macos-latest-pandas2": {
+      "tests": 164,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 142,
+      "seconds": 261.228
+    },
+    "tests-3.11-ubuntu-latest-pandas2": {
+      "tests": 164,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 142,
+      "seconds": 305.654
+    },
+    "tests-3.12-macos-latest-pandas2": {
+      "tests": 164,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 142,
+      "seconds": 292.496
+    },
+    "tests-3.12-ubuntu-latest-pandas2": {
+      "tests": 164,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 142,
+      "seconds": 291.777
+    },
+    "tests-3.13-macos-latest-pandas2": {
+      "tests": 164,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 142,
+      "seconds": 291.06
+    },
+    "tests-3.13-ubuntu-latest-pandas2": {
+      "tests": 164,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 142,
+      "seconds": 303.002
+    },
+    "tests-3.14-macos-latest-pandas2": {
+      "tests": 164,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 142,
+      "seconds": 256.528
+    },
+    "tests-3.14-ubuntu-latest-pandas2": {
+      "tests": 164,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 142,
+      "seconds": 294.404
+    },
+    "tests-3.14-ubuntu-latest-pandas3": {
+      "tests": 164,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 142,
+      "seconds": 319.565
+    },
+    "tests-3.14t-ubuntu-latest": {
+      "tests": 164,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 142,
+      "seconds": 307.715
+    }
+  },
+  "local_windows_python314t": {
+    "tests": 164,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 22,
+    "passed": 142,
+    "seconds": 190.102
+  },
+  "installed_wheel_python314": {
+    "tests": 82,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 82,
+    "seconds": 46.058
+  },
+  "gil_mode": "PYTHON_GIL=0; EXPECT_GIL=0; actual state checked after each dependency import",
+  "automatic_gil_fallback": "SHAP _cext enables the GIL without the explicit override; concurrent extension safety unverified",
+  "distribution_sha256": {
+    "dalex-1.8.0.9000-py3-none-any.whl": "a153aa4865bbac506937b40fdd8a811a86219e990a7c18034e8a861a378660ed",
+    "dalex-1.8.0.9000.tar.gz": "4399833c78551a9d83a489ce13cdc511c51b2b4a67fe956f9fffd01bf8d78fba"
+  }
+}

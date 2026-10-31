@@ -1,146 +1,29 @@
+"""Legacy pandas-returning adapters over native Aspect importance kernels."""
 import numpy as np
-import pandas as pd
-from copy import deepcopy
-import multiprocessing as mp
-
+from ..._dataframe import observation_values
 from dalex import _global_checks
 
 
-def calculate_predict_aspect_importance(
-    explainer,
-    new_observation,
-    variable_groups,
-    N,
-    n_aspects,
-    sample_method,
-    f,
-    random_state
-):
+def _project(explainer, new_observation, variable_groups, **options):
+    from .._native_importance import calculate
+    from .._table import AspectTable
+    data, names, value_lists = calculate(explainer, new_observation, variable_groups, **options)
+    return AspectTable(data, names, [None] * len(names), new_observation,
+        value_lists=value_lists, columns=['aspect_name', 'variable_names', 'variable_values',
+                                          'importance', 'label'])._dalex_pandas_view()
+
+
+def calculate_predict_aspect_importance(explainer, new_observation, variable_groups,
+                                       N, n_aspects, sample_method, f, random_state):
     _global_checks.global_check_import('scikit-learn', 'Predict Aspect Importance explanations')
-    # create sample from data and copy
-    r = np.random.RandomState(random_state)
-    N = min(explainer.data.shape[0], N)
-    ids = r.randint(0, explainer.data.shape[0], N)
-    n_sample = explainer.data.iloc[ids, :].copy()
-    n_sample_changed = deepcopy(n_sample)
-    n_sample_changed.reset_index(inplace=True, drop=True)
-
-    if len(variable_groups) == 1:
-        result = pd.DataFrame(
-            {
-                "aspect_name": list(variable_groups.keys())[0],
-                "variable_names": [list(variable_groups.values())[0]],
-                "variable_values": new_observation[list(variable_groups.values())[0]].values.tolist(),
-                "importance": explainer.predict(new_observation) - explainer.y_hat.mean(),
-                "label": explainer.label,
-            }
-        )
-        return result
-
-    # generate binary matrix for replacing aspect
-    X_prim = get_sample(N, len(variable_groups), sample_method, f, random_state)
-
-    # replace aspect in sample with observation's values of features
-    for i in range(n_sample_changed.shape[0]):
-        for k, variables_set_key in enumerate(variable_groups):
-            if X_prim[i, k] == 1:
-                variables = variable_groups[variables_set_key]
-                n_sample_changed.loc[i, variables] = [
-                    new_observation.iloc[0][var] for var in variables
-                ]
-
-    # calculate change in predictions
-    y_changed = explainer.predict(n_sample_changed) - explainer.predict(n_sample)
-
-    # fit linear model to binary matrix and change in predictions vector to estimate aspect importance
-    X_prim = pd.DataFrame(X_prim)
-    X_prim.columns = [aspect_name for aspect_name in variable_groups]
-
-    if n_aspects == None:
-        from sklearn.linear_model import LinearRegression
-        lr = LinearRegression()
-        lr.fit(X_prim, y_changed)
-        model_coef = lr.coef_
-    else:
-        from sklearn.linear_model import lasso_path
-        lasso_res_matrix = lasso_path(X_prim, y_changed)[1]
-        indx = np.max(np.where(np.count_nonzero(lasso_res_matrix, axis=0) <= n_aspects))
-        model_coef = lasso_res_matrix[:, indx]
-
-    # generate result pd.DataFrame
-    variable_names = [
-        variable_groups[variables_set_key] for variables_set_key in variable_groups
-    ]
-    variable_values = [
-        new_observation[variables_list].values[0] for variables_list in variable_names
-    ]
-    result = pd.DataFrame(
-        {
-            "aspect_name": X_prim.columns,
-            "variable_names": variable_names,
-            "variable_values": variable_values,
-            "importance": model_coef,
-            "label": explainer.label,
-        }
-    )
-    result = result.sort_values(by="importance", key=abs, ascending=False).reset_index(
-        drop=True
-    )
-    return result
+    return _project(explainer, new_observation, variable_groups, kind='default', N=N,
+                    n_aspects=n_aspects, sample_method=sample_method, f=f, random_state=random_state)
 
 
-def calculate_shap_predict_aspect_importance(
-         explainer,
-         new_observation,
-         variable_groups,
-         N,
-         B,
-         processes,
-         random_state
-):
-    r = np.random.RandomState(random_state)
-    N = min(explainer.data.shape[0], N)
-    ids = r.randint(0, explainer.data.shape[0], N)
-    data_sample = explainer.data.iloc[ids, :].copy()
-    p = len(variable_groups)
-
-    if processes == 1:
-        result_list = [
-            iterate_paths(explainer.predict, data_sample,
-                           new_observation, variable_groups, p, b + 1, np.random)
-            for b in range(B)]
-    else:
-        # create number generator for each iteration
-        ss = np.random.SeedSequence(random_state)
-        generators = [np.random.default_rng(s) for s in ss.spawn(B)]
-        pool = mp.get_context('spawn').Pool(processes)
-        result_list = pool.starmap_async(iterate_paths,
-                                         [(explainer.predict, data_sample,
-                                           new_observation, variable_groups, p, b + 1, generators[b]) for b in range(B)]).get()
-        pool.close()
-
-    tmp_result = pd.concat(result_list)
-
-    # average over all of the paths
-    variable_average = tmp_result.pivot(index='aspect_name', columns='B', values='importance').mean(axis=1)
-    
-    # generate result pd.DataFrame
-    result = pd.DataFrame(
-            {
-            "aspect_name": variable_average.index.tolist(), 
-            "importance": variable_average.values.tolist(),
-            "label": explainer.label
-            }
-        )
-    result["variable_names"] = result["aspect_name"].map(variable_groups)
-    variable_values = [
-        new_observation[variables_list].values[0] for variables_list in result["variable_names"]
-    ]
-    result["variable_values"] = variable_values
-    result = result.sort_values(by="importance", key=abs, ascending=False).reset_index(
-        drop=True
-    )
-    return result[["aspect_name", "variable_names", "variable_values", "importance", "label"]]
+def calculate_shap_predict_aspect_importance(explainer, new_observation, variable_groups,
+                                            N, B, processes, random_state):
+    return _project(explainer, new_observation, variable_groups, kind='shap', N=N, B=B,
+                    processes=processes, random_state=random_state)
 
 
 def get_sample(n, p, sample_method="default", f=2, random_state=None):
@@ -163,31 +46,21 @@ def get_sample(n, p, sample_method="default", f=2, random_state=None):
     return X_prim
 
 
-def iterate_paths(predict_function, data_sample, new_observation, variable_groups, p, b, rng):
-    random_path = rng.choice(np.arange(p), p, replace=False)
-    return get_single_random_path(predict_function, data_sample, new_observation, variable_groups, random_path, b)
+def iterate_paths(predict_function, data_sample, new_observation, variable_groups, p, b, rng, values=None):
+    random_path = rng.choice(p, p, replace=False)
+    return get_single_random_path(predict_function, data_sample, new_observation,
+                                  variable_groups, random_path, b, values)
 
 
-def get_single_random_path(predict_function, data_sample, new_observation, variable_groups, random_path, b):
-    current_data = deepcopy(data_sample)
-    current_data.reset_index(inplace=True, drop=True)
-    variable_groups_varnames = list(variable_groups.values())
-    variable_groups_aspnames = list(variable_groups.keys())
-    yhats = np.empty(len(random_path) + 1)
-    yhats[0] = predict_function(current_data).mean()
-    for i, candidate in enumerate(random_path):
-        variables = variable_groups_varnames[candidate]
-        for var in variables:
-            current_data.loc[:, var] = new_observation.iloc[0][var]
-        yhats[i + 1] = predict_function(current_data).mean()
-
-    diffs = np.diff(yhats)
-    variable_names = [variable_groups_varnames[i] for i in random_path]
-    aspect_name = [variable_groups_aspnames[i] for i in random_path]
-
-    return pd.DataFrame({
-        'aspect_name': aspect_name,
-        'variable_names': variable_names,
-        'importance': diffs,
-        'B': b
-    })
+def get_single_random_path(predict_function, data_sample, new_observation,
+                           variable_groups, random_path, b, values=None):
+    from .._native_importance import path_contributions
+    from narwhals.dependencies import get_pandas
+    values = observation_values(new_observation) if values is None else values
+    groups, names = list(variable_groups.values()), list(variable_groups)
+    changes = path_contributions(predict_function, data_sample, values, groups,
+                                  random_path, reset_index=True)
+    # This private helper has historically returned pandas. Only publication
+    # happens here; native model inputs and numeric changes use shared kernels.
+    return get_pandas().DataFrame({'aspect_name': [names[i] for i in random_path],
+        'variable_names': [groups[i] for i in random_path], 'importance': changes, 'B': b})

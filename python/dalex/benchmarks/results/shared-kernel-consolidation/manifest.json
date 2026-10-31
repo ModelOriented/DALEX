@@ -1,0 +1,13 @@
+{
+  "normalization": "CRLF to LF",
+  "sha256": {
+    "ci-validation.json": "a9f53bf5e7029f22c69952d1407216fe7a9390d8b4acd023df4e56ecf9510ec3",
+    "local-validation.json": "b124d046b000b4f076ac5073548a3cde5cec4cbc98459729b29b908872701bca",
+    "pandas-only-wheel.json": "533dc74d990bc76e39cb49919e1e3761e6f90435683144c3e05a80ae727b63ec",
+    "pps-backend-parity.json": "2eea8d312f6ab7d7aebff1a69bb9d128f6233511f08271e9fcb7d1e93c9b5ba1",
+    "upstream-adapters.json": "c4da4106aa1e1541e1998a1ed70793f1779908f26188b05b80fcd7d5ecc88d38",
+    "upstream-numerical.json": "00f014a39c5ea110f150092467eb4910fb4326b4c3f7e5d86a99338225aed6fe",
+    "upstream-pickles.json": "9bc94488420c2cb016e254e9d391317d8d581c5aa5630e6411a5450f6f4c6e90",
+    "upstream-plots.json": "7e8c6a18f7ade24139e4ffb1b872dcb9c6caa995886b29de8d0e28bdc05990e1"
+  }
+}

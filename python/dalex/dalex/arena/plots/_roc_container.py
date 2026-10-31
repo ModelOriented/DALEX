@@ -1,4 +1,3 @@
-import pandas as pd
 import numpy as np
 from .._plot_container import PlotContainer
 
@@ -21,32 +20,27 @@ class ROCContainer(PlotContainer):
             return
 
         y_hat = exp.predict(exp.data) if exp.y_hat is None else exp.y_hat
-        df = pd.DataFrame({ 'y': exp.y.astype(bool), 'y_hat': y_hat })
-
-        P_n = df.y.sum()
-        N_n = df.shape[0] - P_n
-        if P_n == 0 or N_n == 0:
+        labels = np.asarray(exp.y, dtype=bool)
+        scores = np.asarray(y_hat)
+        positive = labels.sum()
+        negative = len(labels) - positive
+        if positive == 0 or negative == 0:
             self.set_message('Provided dataset contains only positive or only negative cases.', 'error')
             return
-
-        tpr_temp = df.groupby('y_hat').sum().reset_index().sort_values('y_hat', ascending=False)
-        fpr_temp = df.assign(y=1-df.y).groupby('y_hat').sum().reset_index().sort_values('y_hat', ascending=False)
-        
-        _df = pd.DataFrame({
-            'TPR': tpr_temp.y.cumsum() / P_n,
-            'TNR': 1 - (fpr_temp.y.cumsum() / N_n),
-            'cutoff': np.sort(df['y_hat'].unique())[::-1]
-        })
-
-        grid_points = self.get_option('grid_points')
-        if _df.shape[0] > grid_points:
-            _df = _df.sample(grid_points).sort_values('cutoff', ascending=False)
-
-        self.data = {
-            'cutoff': _df['cutoff'].tolist(),
-            'specifity': [1] + _df['TNR'].tolist(),
-            'sensivity': [0] + _df['TPR'].tolist()
-        }
+        valid = ~np.isnan(scores)
+        scores, labels = scores[valid], labels[valid]
+        order = np.argsort(scores, kind='stable')[::-1]
+        scores, labels = scores[order], labels[order]
+        ends = np.r_[np.flatnonzero(scores[:-1] != scores[1:]), len(scores)-1] if len(scores) else np.array([], dtype=int)
+        tpr = labels.cumsum()[ends] / positive
+        tnr = 1 - (~labels).cumsum()[ends] / negative
+        cutoffs = scores[ends]
+        maximum = self.get_option('grid_points')
+        if len(cutoffs) > maximum:
+            selected = np.sort(np.random.choice(len(cutoffs), maximum, replace=False))
+            cutoffs, tpr, tnr = cutoffs[selected], tpr[selected], tnr[selected]
+        self.data = {'cutoff': cutoffs.tolist(), 'specifity': [1] + tnr.tolist(),
+                     'sensivity': [0] + tpr.tolist()}
 
     def test_arena(arena):
         if type(arena).__name__ != 'Arena' or type(arena).__module__ != 'dalex.arena.object':

@@ -1,7 +1,11 @@
+from .._dataframe import column_names
+from .._explanation import CompatibilityTable, IndexedTable
 from abc import ABC, abstractmethod
 import numpy as np
 import math
-from pandas.api.types import is_numeric_dtype, is_bool_dtype, is_object_dtype
+import pandas as pd
+import narwhals.stable.v2 as nw
+from .._dataframe import column_values, frame_from_values, observation_values, observation_display_values, select_columns, take_rows
 
 class Param(ABC):
     @abstractmethod
@@ -25,8 +29,19 @@ class Param(ABC):
 class ModelParam(Param):
     def __init__(self, explainer):
         self.explainer = explainer
-        indexes = np.apply_along_axis(lambda x, y: not (x == y).all(), 0, explainer.data, explainer.y)
-        self.variables = explainer.data.columns[indexes]
+        indexes = []
+        for name in column_names(explainer.data):
+            equal = False
+            if explainer.y is not None:
+                try:
+                    equal = np.array_equal(column_values(explainer.data, name), explainer.y)
+                except (TypeError, ValueError, NotImplementedError):
+                    # Structured feature columns cannot equal a scalar target.
+                    pass
+            indexes.append(not equal)
+        names = column_names(explainer.data)
+        self.variables = (pd.Index(names)[indexes] if isinstance(explainer.data, pd.DataFrame)
+                          else np.asarray(names, dtype=object)[indexes])
     def get_label(self):
         return self.explainer.label
     def get_type(self):
@@ -42,7 +57,8 @@ class DatasetParam(Param):
         self.dataset = dataset
         self.label = label
         self.target = target
-        self.variables = dataset.columns.astype(str).drop(target)
+        self.variables = (dataset.columns.astype(str).drop(target) if isinstance(dataset, pd.DataFrame)
+                          else [str(name) for name in column_names(dataset) if str(name) != target])
     def get_label(self):
         return self.label
     def get_type(self):
@@ -66,12 +82,18 @@ class VariableParam(Param):
         self.min = None
         self.max = None
         self.levels = None
+        self._many_levels = False
     def update_attributes(self, column):
-        if is_bool_dtype(column):
+        column = nw.from_native(column, series_only=True)
+        dtype = column.dtype
+        temporal = isinstance(dtype, (nw.Date, nw.Datetime, nw.Duration))
+        if dtype == nw.Boolean:
             col_type = 'logical'
-        elif is_numeric_dtype(column):
+        elif dtype.is_numeric():
             col_type = 'numeric'
-        elif is_object_dtype(column):
+        elif temporal or isinstance(dtype, (nw.String, nw.Categorical, nw.Enum, nw.Object)):
+            col_type = 'categorical'
+        elif dtype == nw.Null:
             col_type = 'categorical'
         else:
             raise Exception('Column type is not supported')
@@ -79,15 +101,21 @@ class VariableParam(Param):
             self.type = col_type
         elif self.type != col_type:
             raise Exception('The same name was used for columns with different type')
+        present = column.drop_nulls()
+        if dtype.is_float():
+            present = present.filter(~present.is_nan())
+        values = present.cast(nw.String).unique().to_list() if temporal else present.unique().to_list()
         if self.type == 'numeric':
-            self.min = min(column.min(), math.inf if self.min is None else self.min)
-            self.max = max(column.max(), -math.inf if self.max is None else self.max)
-            if len(column.unique()) < 20:
-                self.levels = np.unique((self.levels or []) + column.unique().tolist()).tolist()
-            if not self.levels is None and len(self.levels) >= 20:
-                self.levels = None
+            if len(present):
+                self.min = min(present.min(), math.inf if self.min is None else self.min)
+                self.max = max(present.max(), -math.inf if self.max is None else self.max)
+            if not self._many_levels:
+                levels = np.unique((self.levels or []) + values).tolist()
+                self._many_levels = len(levels) >= 20
+                self.levels = None if self._many_levels else levels
         else:
-            self.levels = np.unique((self.levels or []) + column.unique().tolist()).tolist()
+            self.levels = np.unique((self.levels or []) + values).tolist()
+
     def get_attributes(self):
         return {
             'type': self.type,
@@ -100,9 +128,12 @@ class VariableParam(Param):
         return ['type', 'min', 'max', 'levels']
 
 class ObservationParam(Param):
-    def __init__(self, dataset, index):
+    dataset = CompatibilityTable()
+    def __init__(self, dataset, index, native_dataset=None, position=None):
         self.dataset = dataset
         self.index = index
+        self.native_dataset = native_dataset
+        self.position = position
     def get_label(self):
         return self.index
     def get_type(self):
@@ -111,19 +142,44 @@ class ObservationParam(Param):
         return self.dataset.loc[self.index]
     def get_row_for_model(self, model_param):
         try:
-            return self.dataset.loc[[self.index]][model_param.explainer.data.columns]
+            reference = model_param.explainer.data
+            names = list(column_names(reference))
+            if self.native_dataset is not None:
+                native = select_columns(take_rows(self.native_dataset, [self.position]), names)
+                if type(native) is type(reference):
+                    return native
+                values = observation_values(native)
+            else:
+                row = self.dataset.loc[[self.index], names]
+                if isinstance(reference, pd.DataFrame):
+                    return row
+                values = observation_values(row, row)
+            # A whole-row NumPy export promotes mixed integer/float rows and
+            # loses large UInt64 cells. Fill an explicit object matrix by column.
+            matrix = np.empty((1, len(names)), dtype=object)
+            for i, name in enumerate(names):
+                matrix[0, i] = values[name]
+            return frame_from_values(matrix, reference)
         except:
             return None
     def get_attributes(self):
-        return dict(self.get_row())
+        if self.native_dataset is not None:
+            native = take_rows(self.native_dataset, [self.position])
+            values = observation_values(native)
+            display = observation_display_values(native, values)
+            return {name: None if value is None else display[name] for name, value in values.items()}
+        return {name: self.dataset.at[self.index, name] for name in self.dataset.columns}
     @staticmethod
     def list_attributes(arena):
-        datasets = []
-        for obs in arena.get_params('observation'):
-            if len([1 for dataset in datasets if dataset is obs.dataset]) == 0:
-                datasets.append(obs.dataset)
-        columns = list(map(lambda x: x.columns.tolist(), datasets))
-        # flatten
-        columns = [col for columns_list in columns for col in columns_list]
-        columns = np.unique(columns).tolist()
-        return columns
+        names = set()
+        for observation in arena.get_params('observation'):
+            dataset = observation.native_dataset if observation.native_dataset is not None else observation.dataset
+            names.update(column_names(dataset))
+        return sorted(names)
+
+
+class ObservationDataset(IndexedTable):
+    def _dalex_pandas_view(self):
+        if not hasattr(self, '_pandas_cache'):
+            self._pandas_cache = super()._dalex_pandas_view()
+        return self._pandas_cache

@@ -1,45 +1,41 @@
 import numpy as np
-import pandas as pd
+import narwhals.stable.v2 as nw
+from types import SimpleNamespace
 from ... import _global_utils
 
 
 def prepare_data_for_break_down_plot(x, baseline, max_vars, rounding_function, digits):
-    x.loc[x["variable_name"] == "", "variable_name"] = "prediction"
-
-    temp = x.iloc[[0, x.shape[0] - 1], :].copy()
-    x = x.drop([0, x.shape[0] - 1])
-
-    variable_count = x.shape[0]
-
-    if variable_count > max_vars:
-        new_x = x.iloc[0:(max_vars + 1), :].copy()
-        new_x.iloc[max_vars, new_x.columns.get_loc('variable')] = "+ all other factors"
-        new_x.iloc[max_vars, new_x.columns.get_loc('contribution')] = \
-            np.sum(x.iloc[max_vars::, x.columns.get_loc('contribution')])
-        new_x.iloc[max_vars, new_x.columns.get_loc('cumulative')] = \
-            x.iloc[variable_count - 1, x.columns.get_loc('cumulative')]
-        x = new_x
-
-    x = pd.concat((temp.iloc[[0]], x, temp.iloc[[1]]))
-
-    # fix contribution and sign
-    x.iloc[[0, x.shape[0] - 1], x.columns.get_loc("contribution")] -= baseline
-
-    # use for text label and tooltip
-    x.loc[:, 'contribution'] = rounding_function(x.loc[:, 'contribution'], digits)
-    x.loc[:, 'cumulative'] = rounding_function(x.loc[:, 'cumulative'], digits)
-
-    x = x.assign(tooltip_text=x.apply(lambda row: tooltip_text(row), axis=1),
-                 label_text=_global_utils.convert_float_to_str(x.contribution, "+"))
-
-    x.iloc[[0, x.shape[0] - 1], x.columns.get_loc('tooltip_text')] = "Average response: " + str(
-        x.iloc[0, x.columns.get_loc('cumulative')]) + "<br>Prediction: " + str(
-        x.iloc[x.shape[0] - 1, x.columns.get_loc('cumulative')])
-
-    x.iloc[0, x.columns.get_loc("label_text")] = x.iloc[0, x.columns.get_loc('cumulative')]
-    x.iloc[x.shape[0] - 1, x.columns.get_loc("label_text")] = x.iloc[x.shape[0] - 1, x.columns.get_loc('cumulative')]
-
-    return x
+    namespace = nw.get_native_namespace(x)
+    x = x.select('variable', 'contribution', 'cumulative')
+    first, last = x.head(1), x.tail(1)
+    middle = x[1:-1, :]
+    if len(middle) > max_vars:
+        remainder = middle[max_vars:, :]
+        other = remainder.head(1).with_columns(
+            nw.lit('+ all other factors').alias('variable'),
+            nw.lit(np.nansum(remainder['contribution'].to_numpy())).alias('contribution'),
+            nw.lit(middle['cumulative'][-1]).alias('cumulative'),
+        )
+        middle = nw.concat([middle.head(max_vars), other], how='vertical')
+    x = nw.concat([first, middle, last], how='vertical')
+    contribution = x['contribution'].to_numpy().copy()
+    contribution[[0, -1]] -= baseline
+    # Existing pandas callbacks receive a Series; native callbacks receive the
+    # numerical vectors already needed to draw the bars.
+    argument = nw.new_series('contribution', contribution, backend=namespace)
+    argument = argument.to_native() if namespace.__name__ == 'pandas' else argument.to_numpy()
+    cumulative_arg = x['cumulative'].to_native() if namespace.__name__ == 'pandas' else x['cumulative'].to_numpy()
+    contribution = np.asarray(rounding_function(argument, digits))
+    cumulative = np.asarray(rounding_function(cumulative_arg, digits))
+    x = x.with_columns(nw.new_series('contribution', contribution, backend=namespace),
+                       nw.new_series('cumulative', cumulative, backend=namespace))
+    labels = _global_utils.convert_float_to_str(contribution, '+')
+    tooltips = [tooltip_text(SimpleNamespace(**row)) for row in x.iter_rows(named=True)]
+    endpoint = 'Average response: ' + str(cumulative[0]) + '<br>Prediction: ' + str(cumulative[-1])
+    tooltips[0] = tooltips[-1] = endpoint
+    labels[0], labels[-1] = str(cumulative[0]), str(cumulative[-1])
+    return x.with_columns(nw.new_series('tooltip_text', tooltips, backend=namespace),
+                          nw.new_series('label_text', labels, backend=namespace))
 
 
 def tooltip_text(row):

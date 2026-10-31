@@ -1,0 +1,14 @@
+{
+  "normalization": "CRLF to LF",
+  "sha256": {
+    "plot-benchmark-initial.json": "039d2b57b08e3e7c3eeda33333708dc0a7346a3eeee21fe6405b6146ecc28b91",
+    "plot-benchmark-final.json": "f55d48cc5f549e7af230c261b4dc98bb0ac8652b6dcb40b4033414fd305e7cac",
+    "ci-validation.json": "5593fb9266178411154d1fef42c9f83c22d0b0dafedb0d888cf92edab09e2e73",
+    "upstream-numerical.json": "1ef58ca29e030326111ead25c773cbde0bb11156454d444b2657b59d3a19f44f",
+    "upstream-plots.json": "10aa8442f6168ce4231d9683b4c3fedc5cbae575c95e0b15f24481d27ee4fb5e",
+    "upstream-pickles.json": "9bc94488420c2cb016e254e9d391317d8d581c5aa5630e6411a5450f6f4c6e90",
+    "gil-runtime.txt": "5a3bc05f10af7b6cebef14ce10ef0b5cd40c8aa2fb3fc496d409dccce598c6c5",
+    "gil-import-probe.json": "8761bdb40ea68c9a0ffeb46673da134df1b8e50fb100acf85807b1a842377589",
+    "local-validation.json": "37bf838718ed677bfa757bed34554f2e1553abdbe410088a19565c2f04032134"
+  }
+}

@@ -1,0 +1,44 @@
+Source: 783f06976b659bfeb7a0ea50839885371a09187f
+         163059 function calls (162853 primitive calls) in 0.059 seconds
+
+   Ordered by: cumulative time
+   List reduced from 1016 to 35 due to restriction <35>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.059    0.059 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.local-dist\profile_final_profiles.py:18(explain)
+        1    0.011    0.011    0.057    0.057 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\_explainer\object.py:628(model_profile)
+        1    0.000    0.000    0.037    0.037 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\predict_explanations\_ceteris_paribus\object.py:107(fit)
+        1    0.000    0.000    0.036    0.036 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\predict_explanations\_ceteris_paribus\_native.py:75(calculate)
+        1    0.000    0.000    0.034    0.034 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\predict_explanations\_ceteris_paribus\_native.py:65(profile_tables)
+        2    0.001    0.001    0.034    0.017 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\predict_explanations\_ceteris_paribus\_native.py:17(single_profile)
+    20002    0.003    0.000    0.019    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\predict_explanations\_ceteris_paribus\_native.py:49(<genexpr>)
+    20000    0.003    0.000    0.016    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\predict_explanations\_ceteris_paribus\_native.py:12(_missing)
+    20068    0.003    0.000    0.012    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\dependencies.py:68(get_pandas)
+        3    0.000    0.000    0.012    0.004 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\_dataframe.py:463(__call__)
+        3    0.000    0.000    0.012    0.004 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\_explainer\yhat.py:5(yhat_default)
+        3    0.000    0.000    0.012    0.004 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\sklearn\ensemble\_hist_gradient_boosting\gradient_boosting.py:1695(predict)
+        3    0.000    0.000    0.012    0.004 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\sklearn\ensemble\_hist_gradient_boosting\gradient_boosting.py:1180(_raw_predict)
+        3    0.000    0.000    0.011    0.004 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\sklearn\ensemble\_hist_gradient_boosting\gradient_boosting.py:1220(_predict_iterations)
+       60    0.010    0.000    0.010    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\sklearn\ensemble\_hist_gradient_boosting\predictor.py:49(predict)
+    20343    0.006    0.000    0.010    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\dependencies.py:50(_get_imported_module)
+        1    0.000    0.000    0.007    0.007 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\model_explanations\_aggregated_profiles\object.py:100(fit)
+        1    0.000    0.000    0.007    0.007 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\model_explanations\_aggregated_profiles\_native.py:281(aggregate_ceteris)
+       13    0.000    0.000    0.003    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\dataframe.py:1501(with_columns)
+       35    0.000    0.000    0.003    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\polars\lazyframe\frame.py:1945(_collect_eager)
+       13    0.000    0.000    0.003    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\dataframe.py:212(with_columns)
+       35    0.000    0.000    0.003    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\polars\lazyframe\engine.py:390(collect)
+        2    0.000    0.000    0.003    0.001 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\model_explanations\_aggregated_profiles\_native.py:103(reduce_profiles)
+40937/40926    0.003    0.000    0.003    0.000 {built-in method builtins.getattr}
+       35    0.003    0.000    0.003    0.000 {method 'collect' of 'builtins.PyLazyFrame' objects}
+       23    0.000    0.000    0.002    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\_polars\dataframe.py:451(func)
+        1    0.000    0.000    0.002    0.002 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\_explanation.py:34(__get__)
+        1    0.000    0.000    0.002    0.002 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\model_explanations\_aggregated_profiles\_table.py:21(_dalex_pandas_view)
+       15    0.000    0.000    0.002    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\dataframe.py:158(_flatten_and_extract)
+       39    0.000    0.000    0.002    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\stable\v2\__init__.py:444(from_native)
+       39    0.000    0.000    0.002    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\translate.py:270(_from_native_impl)
+        2    0.000    0.000    0.002    0.001 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\model_explanations\_aggregated_profiles\_native.py:59(_ordered_aggregate)
+    40/30    0.000    0.000    0.001    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\expr.py:59(_to_compliant_expr)
+    40/30    0.000    0.000    0.001    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\_expression_parsing.py:927(evaluate_nodes)
+    20706    0.001    0.000    0.001    0.000 {method 'get' of 'dict' objects}
+
+

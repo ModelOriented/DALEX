@@ -1,0 +1,30 @@
+{
+  "primary_full": {
+    "tests": 1340,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 18,
+    "passed": 1322
+  },
+  "minimum_focused": {
+    "tests": 107,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 107
+  },
+  "pandas_nightly_focused": {
+    "tests": 107,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 107
+  },
+  "pandas3_narwhals2_focused": {
+    "tests": 107,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 107
+  }
+}

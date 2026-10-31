@@ -1,0 +1,17 @@
+{
+  "polars": "2.1.0",
+  "cases": {
+    "numpy_export": {
+      "calls": 80,
+      "errors": []
+    },
+    "sklearn": {
+      "calls": 80,
+      "errors": []
+    },
+    "lightgbm": {
+      "calls": 80,
+      "errors": []
+    }
+  }
+}

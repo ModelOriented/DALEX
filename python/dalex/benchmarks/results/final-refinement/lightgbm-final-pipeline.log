@@ -1,0 +1,29 @@
+{"numpy": "1.23.5", "pandas": "1.5.3", "polars": "2.0.0", "pyarrow": "25.0.1", "narwhals": "2.0.0", "scikit-learn": "1.6.1", "lightgbm": "4.7.0"}
+DALEX imported before training: False
+transformed (64, 5) float64 True False (64, 5) Schema([('x', Float64), ('z', Float64), ('kind_a', Float64), ('kind_b', Float64), ('when', Float64)]) [-1.75230305e+00 -1.91228405e+00  0.00000000e+00  0.00000000e+00
+  2.02000000e+03] [2.80416641e+00 2.37084540e+00 1.00000000e+00 1.00000000e+00
+ 2.02000000e+03]
+Traceback (most recent call last):
+  File "D:\CodexScratch\DALEXNarwhals-20261031\complete-label-compatibility\.local-dist\probe_lightgbm_legacy_pipeline_final.py", line 45, in <module>
+    LGBMRegressor(n_estimators=8,n_jobs=1,random_state=42,verbosity=-1)).fit(data,target)
+  File "D:\CodexScratch\DALEXNarwhals-20261031\pps310\lib\site-packages\sklearn\base.py", line 1389, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+  File "D:\CodexScratch\DALEXNarwhals-20261031\pps310\lib\site-packages\sklearn\pipeline.py", line 662, in fit
+    self._final_estimator.fit(Xt, y, **last_step_params["fit"])
+  File "D:\CodexScratch\DALEXNarwhals-20261031\pps310\lib\site-packages\lightgbm\sklearn.py", line 1536, in fit
+    super().fit(
+  File "D:\CodexScratch\DALEXNarwhals-20261031\pps310\lib\site-packages\lightgbm\sklearn.py", line 1171, in fit
+    self._Booster = train(
+  File "D:\CodexScratch\DALEXNarwhals-20261031\pps310\lib\site-packages\lightgbm\engine.py", line 296, in train
+    booster = Booster(params=params, train_set=train_set)
+  File "D:\CodexScratch\DALEXNarwhals-20261031\pps310\lib\site-packages\lightgbm\basic.py", line 3758, in __init__
+    train_set.construct()
+  File "D:\CodexScratch\DALEXNarwhals-20261031\pps310\lib\site-packages\lightgbm\basic.py", line 2574, in construct
+    self._lazy_init(
+  File "D:\CodexScratch\DALEXNarwhals-20261031\pps310\lib\site-packages\lightgbm\basic.py", line 2189, in _lazy_init
+    self.set_label(label)
+  File "D:\CodexScratch\DALEXNarwhals-20261031\pps310\lib\site-packages\lightgbm\basic.py", line 3097, in set_label
+    self.set_field("label", label_array)
+  File "D:\CodexScratch\DALEXNarwhals-20261031\pps310\lib\site-packages\lightgbm\basic.py", line 2860, in set_field
+    _LIB.LGBM_DatasetSetField(
+OSError: exception: access violation reading 0x0000000000000000

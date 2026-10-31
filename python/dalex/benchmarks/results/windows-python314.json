@@ -1,0 +1,851 @@
+{
+  "environment": {
+    "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "versions": {
+      "dalex": "1.8.0.9000",
+      "numpy": "2.5.4",
+      "pandas": "2.3.3",
+      "polars": "2.1.0",
+      "narwhals": "2.28.0",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "psutil": "7.2.2"
+    }
+  },
+  "method": {
+    "repetitions": 5,
+    "rounds": 3,
+    "features": 10,
+    "seed_data": 123,
+    "seed_explanation": 42,
+    "sample_limit": 10000,
+    "threads_estimator": 1,
+    "rss_poll_seconds": 0.002,
+    "conversion_included": true,
+    "warmup_trials_per_backend": 1,
+    "memory_note": "Sampled process RSS, including interpreter/dependencies; peak may be underestimated."
+  },
+  "datasets": [
+    {
+      "rows": 1000,
+      "max_absolute_parity_error": 0.0,
+      "passed_numerical_parity": true,
+      "trials": [
+        {
+          "backend": "pandas",
+          "end_to_end": {
+            "seconds": 0.055552899997564964,
+            "inference_seconds": 0.04141890007304028,
+            "peak_rss_bytes": 221356032,
+            "rss_increase_bytes": 929792
+          },
+          "dataframe": {
+            "seconds": 0.0069401999935507774,
+            "peak_rss_bytes": 221433856,
+            "rss_increase_bytes": 32768
+          },
+          "repetition": 0
+        },
+        {
+          "backend": "polars",
+          "end_to_end": {
+            "seconds": 0.07795930000429507,
+            "inference_seconds": 0.043982100003631786,
+            "peak_rss_bytes": 225714176,
+            "rss_increase_bytes": 4960256
+          },
+          "dataframe": {
+            "seconds": 0.005795200006105006,
+            "peak_rss_bytes": 225894400,
+            "rss_increase_bytes": 131072
+          },
+          "repetition": 0
+        },
+        {
+          "backend": "polars",
+          "end_to_end": {
+            "seconds": 0.07781440000690054,
+            "inference_seconds": 0.04453159999684431,
+            "peak_rss_bytes": 225226752,
+            "rss_increase_bytes": 5124096
+          },
+          "dataframe": {
+            "seconds": 0.006762500008335337,
+            "peak_rss_bytes": 225308672,
+            "rss_increase_bytes": 32768
+          },
+          "repetition": 1
+        },
+        {
+          "backend": "pandas",
+          "end_to_end": {
+            "seconds": 0.05535389999567997,
+            "inference_seconds": 0.041341900010593235,
+            "peak_rss_bytes": 220618752,
+            "rss_increase_bytes": 913408
+          },
+          "dataframe": {
+            "seconds": 0.007491999989724718,
+            "peak_rss_bytes": 220696576,
+            "rss_increase_bytes": 32768
+          },
+          "repetition": 1
+        },
+        {
+          "backend": "pandas",
+          "end_to_end": {
+            "seconds": 0.05703700000594836,
+            "inference_seconds": 0.04295160004403442,
+            "peak_rss_bytes": 221147136,
+            "rss_increase_bytes": 995328
+          },
+          "dataframe": {
+            "seconds": 0.006698600001982413,
+            "peak_rss_bytes": 221224960,
+            "rss_increase_bytes": 28672
+          },
+          "repetition": 2
+        },
+        {
+          "backend": "polars",
+          "end_to_end": {
+            "seconds": 0.07714709998981562,
+            "inference_seconds": 0.043242599960649386,
+            "peak_rss_bytes": 225435648,
+            "rss_increase_bytes": 5201920
+          },
+          "dataframe": {
+            "seconds": 0.007603500009281561,
+            "peak_rss_bytes": 225603584,
+            "rss_increase_bytes": 118784
+          },
+          "repetition": 2
+        },
+        {
+          "backend": "polars",
+          "end_to_end": {
+            "seconds": 0.07613259999197908,
+            "inference_seconds": 0.04374759996426292,
+            "peak_rss_bytes": 225505280,
+            "rss_increase_bytes": 4968448
+          },
+          "dataframe": {
+            "seconds": 0.005961100003332831,
+            "peak_rss_bytes": 225603584,
+            "rss_increase_bytes": 49152
+          },
+          "repetition": 3
+        },
+        {
+          "backend": "pandas",
+          "end_to_end": {
+            "seconds": 0.05683580000186339,
+            "inference_seconds": 0.0421351000550203,
+            "peak_rss_bytes": 220741632,
+            "rss_increase_bytes": 913408
+          },
+          "dataframe": {
+            "seconds": 0.0063301000045612454,
+            "peak_rss_bytes": 220811264,
+            "rss_increase_bytes": 24576
+          },
+          "repetition": 3
+        },
+        {
+          "backend": "pandas",
+          "end_to_end": {
+            "seconds": 0.0557111999951303,
+            "inference_seconds": 0.0415259000583319,
+            "peak_rss_bytes": 221200384,
+            "rss_increase_bytes": 1019904
+          },
+          "dataframe": {
+            "seconds": 0.007028700012597255,
+            "peak_rss_bytes": 221278208,
+            "rss_increase_bytes": 28672
+          },
+          "repetition": 4
+        },
+        {
+          "backend": "polars",
+          "end_to_end": {
+            "seconds": 0.07782759999099653,
+            "inference_seconds": 0.04385519998322707,
+            "peak_rss_bytes": 224665600,
+            "rss_increase_bytes": 5087232
+          },
+          "dataframe": {
+            "seconds": 0.005859900003997609,
+            "peak_rss_bytes": 224862208,
+            "rss_increase_bytes": 143360
+          },
+          "repetition": 4
+        }
+      ],
+      "summary": {
+        "pandas": {
+          "end_to_end": {
+            "seconds": {
+              "median": 0.0557111999951303,
+              "q25": 0.055552899997564964,
+              "q75": 0.05683580000186339,
+              "min": 0.05535389999567997,
+              "max": 0.05703700000594836
+            },
+            "inference_seconds": {
+              "median": 0.0415259000583319,
+              "q25": 0.04141890007304028,
+              "q75": 0.0421351000550203,
+              "min": 0.041341900010593235,
+              "max": 0.04295160004403442
+            },
+            "peak_rss_bytes": {
+              "median": 221147136.0,
+              "q25": 220741632.0,
+              "q75": 221200384.0,
+              "min": 220618752,
+              "max": 221356032
+            },
+            "rss_increase_bytes": {
+              "median": 929792.0,
+              "q25": 913408.0,
+              "q75": 995328.0,
+              "min": 913408,
+              "max": 1019904
+            }
+          },
+          "dataframe": {
+            "seconds": {
+              "median": 0.0069401999935507774,
+              "q25": 0.006698600001982413,
+              "q75": 0.007028700012597255,
+              "min": 0.0063301000045612454,
+              "max": 0.007491999989724718
+            },
+            "peak_rss_bytes": {
+              "median": 221224960.0,
+              "q25": 220811264.0,
+              "q75": 221278208.0,
+              "min": 220696576,
+              "max": 221433856
+            },
+            "rss_increase_bytes": {
+              "median": 28672.0,
+              "q25": 28672.0,
+              "q75": 32768.0,
+              "min": 24576,
+              "max": 32768
+            }
+          }
+        },
+        "polars": {
+          "end_to_end": {
+            "seconds": {
+              "median": 0.07781440000690054,
+              "q25": 0.07714709998981562,
+              "q75": 0.07782759999099653,
+              "min": 0.07613259999197908,
+              "max": 0.07795930000429507
+            },
+            "inference_seconds": {
+              "median": 0.04385519998322707,
+              "q25": 0.04374759996426292,
+              "q75": 0.043982100003631786,
+              "min": 0.043242599960649386,
+              "max": 0.04453159999684431
+            },
+            "peak_rss_bytes": {
+              "median": 225435648.0,
+              "q25": 225226752.0,
+              "q75": 225505280.0,
+              "min": 224665600,
+              "max": 225714176
+            },
+            "rss_increase_bytes": {
+              "median": 5087232.0,
+              "q25": 4968448.0,
+              "q75": 5124096.0,
+              "min": 4960256,
+              "max": 5201920
+            }
+          },
+          "dataframe": {
+            "seconds": {
+              "median": 0.005961100003332831,
+              "q25": 0.005859900003997609,
+              "q75": 0.006762500008335337,
+              "min": 0.005795200006105006,
+              "max": 0.007603500009281561
+            },
+            "peak_rss_bytes": {
+              "median": 225603584.0,
+              "q25": 225308672.0,
+              "q75": 225603584.0,
+              "min": 224862208,
+              "max": 225894400
+            },
+            "rss_increase_bytes": {
+              "median": 118784.0,
+              "q25": 49152.0,
+              "q75": 131072.0,
+              "min": 32768,
+              "max": 143360
+            }
+          }
+        }
+      },
+      "pandas_time_over_polars_time": {
+        "end_to_end": 0.7159497469644418,
+        "dataframe": 1.164248207490318
+      }
+    },
+    {
+      "rows": 10000,
+      "max_absolute_parity_error": 0.0,
+      "passed_numerical_parity": true,
+      "trials": [
+        {
+          "backend": "pandas",
+          "end_to_end": {
+            "seconds": 0.31195620000653435,
+            "inference_seconds": 0.27784920000704005,
+            "peak_rss_bytes": 226832384,
+            "rss_increase_bytes": 5763072
+          },
+          "dataframe": {
+            "seconds": 0.009978100002626888,
+            "peak_rss_bytes": 225443840,
+            "rss_increase_bytes": 786432
+          },
+          "repetition": 0
+        },
+        {
+          "backend": "polars",
+          "end_to_end": {
+            "seconds": 0.3403610999957891,
+            "inference_seconds": 0.28417049994459376,
+            "peak_rss_bytes": 233394176,
+            "rss_increase_bytes": 12177408
+          },
+          "dataframe": {
+            "seconds": 0.011341299992636777,
+            "peak_rss_bytes": 234254336,
+            "rss_increase_bytes": 811008
+          },
+          "repetition": 0
+        },
+        {
+          "backend": "polars",
+          "end_to_end": {
+            "seconds": 0.3373913999967044,
+            "inference_seconds": 0.27783180003461894,
+            "peak_rss_bytes": 233185280,
+            "rss_increase_bytes": 12390400
+          },
+          "dataframe": {
+            "seconds": 0.011849500006064773,
+            "peak_rss_bytes": 233820160,
+            "rss_increase_bytes": 585728
+          },
+          "repetition": 1
+        },
+        {
+          "backend": "pandas",
+          "end_to_end": {
+            "seconds": 0.3172713000094518,
+            "inference_seconds": 0.28275950004172046,
+            "peak_rss_bytes": 226332672,
+            "rss_increase_bytes": 5681152
+          },
+          "dataframe": {
+            "seconds": 0.010620400003972463,
+            "peak_rss_bytes": 224997376,
+            "rss_increase_bytes": 835584
+          },
+          "repetition": 1
+        },
+        {
+          "backend": "pandas",
+          "end_to_end": {
+            "seconds": 0.3089499000052456,
+            "inference_seconds": 0.27626739992410876,
+            "peak_rss_bytes": 226476032,
+            "rss_increase_bytes": 5410816
+          },
+          "dataframe": {
+            "seconds": 0.01031939999666065,
+            "peak_rss_bytes": 224866304,
+            "rss_increase_bytes": 827392
+          },
+          "repetition": 2
+        },
+        {
+          "backend": "polars",
+          "end_to_end": {
+            "seconds": 0.3407122999924468,
+            "inference_seconds": 0.2843175000161864,
+            "peak_rss_bytes": 232042496,
+            "rss_increase_bytes": 11350016
+          },
+          "dataframe": {
+            "seconds": 0.011272500007180497,
+            "peak_rss_bytes": 233058304,
+            "rss_increase_bytes": 966656
+          },
+          "repetition": 2
+        },
+        {
+          "backend": "polars",
+          "end_to_end": {
+            "seconds": 0.3360450000036508,
+            "inference_seconds": 0.281110100026126,
+            "peak_rss_bytes": 232505344,
+            "rss_increase_bytes": 11448320
+          },
+          "dataframe": {
+            "seconds": 0.011702999996487051,
+            "peak_rss_bytes": 233447424,
+            "rss_increase_bytes": 892928
+          },
+          "repetition": 3
+        },
+        {
+          "backend": "pandas",
+          "end_to_end": {
+            "seconds": 0.3062320000026375,
+            "inference_seconds": 0.273178099989309,
+            "peak_rss_bytes": 226516992,
+            "rss_increase_bytes": 5214208
+          },
+          "dataframe": {
+            "seconds": 0.00949870000476949,
+            "peak_rss_bytes": 225251328,
+            "rss_increase_bytes": 24576
+          },
+          "repetition": 3
+        },
+        {
+          "backend": "pandas",
+          "end_to_end": {
+            "seconds": 0.3086734000098659,
+            "inference_seconds": 0.2755256000527879,
+            "peak_rss_bytes": 226066432,
+            "rss_increase_bytes": 5296128
+          },
+          "dataframe": {
+            "seconds": 0.01010820000374224,
+            "peak_rss_bytes": 225120256,
+            "rss_increase_bytes": 1228800
+          },
+          "repetition": 4
+        },
+        {
+          "backend": "polars",
+          "end_to_end": {
+            "seconds": 0.3363097000110429,
+            "inference_seconds": 0.27893320002476685,
+            "peak_rss_bytes": 231686144,
+            "rss_increase_bytes": 11333632
+          },
+          "dataframe": {
+            "seconds": 0.012147900008130819,
+            "peak_rss_bytes": 232710144,
+            "rss_increase_bytes": 974848
+          },
+          "repetition": 4
+        }
+      ],
+      "summary": {
+        "pandas": {
+          "end_to_end": {
+            "seconds": {
+              "median": 0.3089499000052456,
+              "q25": 0.3086734000098659,
+              "q75": 0.31195620000653435,
+              "min": 0.3062320000026375,
+              "max": 0.3172713000094518
+            },
+            "inference_seconds": {
+              "median": 0.27626739992410876,
+              "q25": 0.2755256000527879,
+              "q75": 0.27784920000704005,
+              "min": 0.273178099989309,
+              "max": 0.28275950004172046
+            },
+            "peak_rss_bytes": {
+              "median": 226476032.0,
+              "q25": 226332672.0,
+              "q75": 226516992.0,
+              "min": 226066432,
+              "max": 226832384
+            },
+            "rss_increase_bytes": {
+              "median": 5410816.0,
+              "q25": 5296128.0,
+              "q75": 5681152.0,
+              "min": 5214208,
+              "max": 5763072
+            }
+          },
+          "dataframe": {
+            "seconds": {
+              "median": 0.01010820000374224,
+              "q25": 0.009978100002626888,
+              "q75": 0.01031939999666065,
+              "min": 0.00949870000476949,
+              "max": 0.010620400003972463
+            },
+            "peak_rss_bytes": {
+              "median": 225120256.0,
+              "q25": 224997376.0,
+              "q75": 225251328.0,
+              "min": 224866304,
+              "max": 225443840
+            },
+            "rss_increase_bytes": {
+              "median": 827392.0,
+              "q25": 786432.0,
+              "q75": 835584.0,
+              "min": 24576,
+              "max": 1228800
+            }
+          }
+        },
+        "polars": {
+          "end_to_end": {
+            "seconds": {
+              "median": 0.3373913999967044,
+              "q25": 0.3363097000110429,
+              "q75": 0.3403610999957891,
+              "min": 0.3360450000036508,
+              "max": 0.3407122999924468
+            },
+            "inference_seconds": {
+              "median": 0.281110100026126,
+              "q25": 0.27893320002476685,
+              "q75": 0.28417049994459376,
+              "min": 0.27783180003461894,
+              "max": 0.2843175000161864
+            },
+            "peak_rss_bytes": {
+              "median": 232505344.0,
+              "q25": 232042496.0,
+              "q75": 233185280.0,
+              "min": 231686144,
+              "max": 233394176
+            },
+            "rss_increase_bytes": {
+              "median": 11448320.0,
+              "q25": 11350016.0,
+              "q75": 12177408.0,
+              "min": 11333632,
+              "max": 12390400
+            }
+          },
+          "dataframe": {
+            "seconds": {
+              "median": 0.011702999996487051,
+              "q25": 0.011341299992636777,
+              "q75": 0.011849500006064773,
+              "min": 0.011272500007180497,
+              "max": 0.012147900008130819
+            },
+            "peak_rss_bytes": {
+              "median": 233447424.0,
+              "q25": 233058304.0,
+              "q75": 233820160.0,
+              "min": 232710144,
+              "max": 234254336
+            },
+            "rss_increase_bytes": {
+              "median": 892928.0,
+              "q25": 811008.0,
+              "q75": 966656.0,
+              "min": 585728,
+              "max": 974848
+            }
+          }
+        }
+      },
+      "pandas_time_over_polars_time": {
+        "end_to_end": 0.9157017636141981,
+        "dataframe": 0.8637272500022618
+      }
+    },
+    {
+      "rows": 100000,
+      "max_absolute_parity_error": 0.0,
+      "passed_numerical_parity": true,
+      "trials": [
+        {
+          "backend": "pandas",
+          "end_to_end": {
+            "seconds": 0.32028440000431146,
+            "inference_seconds": 0.2795592000184115,
+            "peak_rss_bytes": 242221056,
+            "rss_increase_bytes": 12595200
+          },
+          "dataframe": {
+            "seconds": 0.011174400002346374,
+            "peak_rss_bytes": 234217472,
+            "rss_increase_bytes": 28672
+          },
+          "repetition": 0
+        },
+        {
+          "backend": "polars",
+          "end_to_end": {
+            "seconds": 0.34088999999221414,
+            "inference_seconds": 0.27695699996547773,
+            "peak_rss_bytes": 253198336,
+            "rss_increase_bytes": 23597056
+          },
+          "dataframe": {
+            "seconds": 0.0152591000078246,
+            "peak_rss_bytes": 246276096,
+            "rss_increase_bytes": 0
+          },
+          "repetition": 0
+        },
+        {
+          "backend": "polars",
+          "end_to_end": {
+            "seconds": 0.33795390000159387,
+            "inference_seconds": 0.2760145000065677,
+            "peak_rss_bytes": 252977152,
+            "rss_increase_bytes": 23113728
+          },
+          "dataframe": {
+            "seconds": 0.015616299991961569,
+            "peak_rss_bytes": 246640640,
+            "rss_increase_bytes": 589824
+          },
+          "repetition": 1
+        },
+        {
+          "backend": "pandas",
+          "end_to_end": {
+            "seconds": 0.3163605000008829,
+            "inference_seconds": 0.2777734999835957,
+            "peak_rss_bytes": 241270784,
+            "rss_increase_bytes": 11890688
+          },
+          "dataframe": {
+            "seconds": 0.011579199999687262,
+            "peak_rss_bytes": 233312256,
+            "rss_increase_bytes": 24576
+          },
+          "repetition": 1
+        },
+        {
+          "backend": "pandas",
+          "end_to_end": {
+            "seconds": 0.31555410000146367,
+            "inference_seconds": 0.2760143999475986,
+            "peak_rss_bytes": 241311744,
+            "rss_increase_bytes": 11976704
+          },
+          "dataframe": {
+            "seconds": 0.011858600002597086,
+            "peak_rss_bytes": 233357312,
+            "rss_increase_bytes": 28672
+          },
+          "repetition": 2
+        },
+        {
+          "backend": "polars",
+          "end_to_end": {
+            "seconds": 0.3397119000001112,
+            "inference_seconds": 0.27638380001008045,
+            "peak_rss_bytes": 252477440,
+            "rss_increase_bytes": 23248896
+          },
+          "dataframe": {
+            "seconds": 0.013752099999692291,
+            "peak_rss_bytes": 245551104,
+            "rss_increase_bytes": 0
+          },
+          "repetition": 2
+        },
+        {
+          "backend": "polars",
+          "end_to_end": {
+            "seconds": 0.3446288999984972,
+            "inference_seconds": 0.280693099994096,
+            "peak_rss_bytes": 252518400,
+            "rss_increase_bytes": 23048192
+          },
+          "dataframe": {
+            "seconds": 0.014958999992813915,
+            "peak_rss_bytes": 245592064,
+            "rss_increase_bytes": 0
+          },
+          "repetition": 3
+        },
+        {
+          "backend": "pandas",
+          "end_to_end": {
+            "seconds": 0.31210949999513105,
+            "inference_seconds": 0.2744232000259217,
+            "peak_rss_bytes": 241729536,
+            "rss_increase_bytes": 12517376
+          },
+          "dataframe": {
+            "seconds": 0.012444699998013675,
+            "peak_rss_bytes": 233811968,
+            "rss_increase_bytes": 2113536
+          },
+          "repetition": 3
+        },
+        {
+          "backend": "pandas",
+          "end_to_end": {
+            "seconds": 0.31262329999299254,
+            "inference_seconds": 0.2748112999688601,
+            "peak_rss_bytes": 242028544,
+            "rss_increase_bytes": 12599296
+          },
+          "dataframe": {
+            "seconds": 0.012067400006344542,
+            "peak_rss_bytes": 234020864,
+            "rss_increase_bytes": 28672
+          },
+          "repetition": 4
+        },
+        {
+          "backend": "polars",
+          "end_to_end": {
+            "seconds": 0.3412972000078298,
+            "inference_seconds": 0.278017299977364,
+            "peak_rss_bytes": 252940288,
+            "rss_increase_bytes": 22978560
+          },
+          "dataframe": {
+            "seconds": 0.015211200006888248,
+            "peak_rss_bytes": 246009856,
+            "rss_increase_bytes": 0
+          },
+          "repetition": 4
+        }
+      ],
+      "summary": {
+        "pandas": {
+          "end_to_end": {
+            "seconds": {
+              "median": 0.31555410000146367,
+              "q25": 0.31262329999299254,
+              "q75": 0.3163605000008829,
+              "min": 0.31210949999513105,
+              "max": 0.32028440000431146
+            },
+            "inference_seconds": {
+              "median": 0.2760143999475986,
+              "q25": 0.2748112999688601,
+              "q75": 0.2777734999835957,
+              "min": 0.2744232000259217,
+              "max": 0.2795592000184115
+            },
+            "peak_rss_bytes": {
+              "median": 241729536.0,
+              "q25": 241311744.0,
+              "q75": 242028544.0,
+              "min": 241270784,
+              "max": 242221056
+            },
+            "rss_increase_bytes": {
+              "median": 12517376.0,
+              "q25": 11976704.0,
+              "q75": 12595200.0,
+              "min": 11890688,
+              "max": 12599296
+            }
+          },
+          "dataframe": {
+            "seconds": {
+              "median": 0.011858600002597086,
+              "q25": 0.011579199999687262,
+              "q75": 0.012067400006344542,
+              "min": 0.011174400002346374,
+              "max": 0.012444699998013675
+            },
+            "peak_rss_bytes": {
+              "median": 233811968.0,
+              "q25": 233357312.0,
+              "q75": 234020864.0,
+              "min": 233312256,
+              "max": 234217472
+            },
+            "rss_increase_bytes": {
+              "median": 28672.0,
+              "q25": 28672.0,
+              "q75": 28672.0,
+              "min": 24576,
+              "max": 2113536
+            }
+          }
+        },
+        "polars": {
+          "end_to_end": {
+            "seconds": {
+              "median": 0.34088999999221414,
+              "q25": 0.3397119000001112,
+              "q75": 0.3412972000078298,
+              "min": 0.33795390000159387,
+              "max": 0.3446288999984972
+            },
+            "inference_seconds": {
+              "median": 0.27695699996547773,
+              "q25": 0.27638380001008045,
+              "q75": 0.278017299977364,
+              "min": 0.2760145000065677,
+              "max": 0.280693099994096
+            },
+            "peak_rss_bytes": {
+              "median": 252940288.0,
+              "q25": 252518400.0,
+              "q75": 252977152.0,
+              "min": 252477440,
+              "max": 253198336
+            },
+            "rss_increase_bytes": {
+              "median": 23113728.0,
+              "q25": 23048192.0,
+              "q75": 23248896.0,
+              "min": 22978560,
+              "max": 23597056
+            }
+          },
+          "dataframe": {
+            "seconds": {
+              "median": 0.015211200006888248,
+              "q25": 0.014958999992813915,
+              "q75": 0.0152591000078246,
+              "min": 0.013752099999692291,
+              "max": 0.015616299991961569
+            },
+            "peak_rss_bytes": {
+              "median": 246009856.0,
+              "q25": 245592064.0,
+              "q75": 246276096.0,
+              "min": 245551104,
+              "max": 246640640
+            },
+            "rss_increase_bytes": {
+              "median": 0.0,
+              "q25": 0.0,
+              "q75": 0.0,
+              "min": 0,
+              "max": 589824
+            }
+          }
+        }
+      },
+      "pandas_time_over_polars_time": {
+        "end_to_end": 0.9256771979485197,
+        "dataframe": 0.779596612839686
+      }
+    }
+  ],
+  "source_revision": "0cbe570e5013cdd0b931c17a36243eab5b266021"
+}

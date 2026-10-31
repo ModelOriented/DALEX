@@ -1,5 +1,4 @@
 import unittest
-import sys
 
 from plotly.graph_objs import Figure
 from sklearn.compose import ColumnTransformer
@@ -10,7 +9,6 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 
 import dalex as dx
 
-import time
 import numpy as np
 import pandas as pd
 from dalex.arena.static import get_free_port, try_port
@@ -74,26 +72,18 @@ class ArenaTestTitanic(unittest.TestCase):
         except Exception:
             pass
 
-    @unittest.skipUnless(sys.platform.startswith("ubuntu"), "requires Ubuntu")
     def test_server(self):
         arena = dx.Arena()
         arena.push_model(self.exp)
         arena.push_model(self.exp2)
         port = get_free_port()
+        self.assertIsNotNone(port)
+        arena.run_server(port=port)
         try:
-            arena.run_server(port=port)
-            time.sleep(10)
             self.assertFalse(try_port(port))
-            arena.stop_server()
-        except AssertionError as e:
+        finally:
             arena.stop_server()
 
-        try:
-            arena.stop_server()
-        except Exception:
-            pass
-
-    @unittest.skipUnless(sys.platform.startswith("ubuntu"), "requires Ubuntu")
     def test_plots(self):
         arena = dx.Arena()
         arena.push_model(self.exp)
@@ -110,7 +100,6 @@ class ArenaTestTitanic(unittest.TestCase):
         except Exception:
             pass
 
-    @unittest.skipUnless(sys.platform.startswith("ubuntu"), "requires Ubuntu")
     def test_observation_attributes(self):
         arena = dx.Arena()
         arena.push_model(self.exp)
@@ -128,7 +117,6 @@ class ArenaTestTitanic(unittest.TestCase):
         except Exception:
             pass
         
-    @unittest.skipUnless(sys.platform.startswith("ubuntu"), "requires Ubuntu")
     def test_variable_attributes(self):
         arena = dx.Arena()
         arena.push_model(self.exp)

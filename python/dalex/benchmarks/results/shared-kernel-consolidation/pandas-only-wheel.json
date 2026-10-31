@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+  "dalex_source": "D:\\CodexScratch\\DALEXNarwhals-20261031\\pandas-only314\\Lib\\site-packages\\dalex\\__init__.py",
+  "current_source": {
+    "python_modules": 135,
+    "python_source_sha256": "f235a1468429e225ff5ac6f4895f9ab6a09003ed35882c871d2bfbe1c73ba22b",
+    "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+  },
+  "core_dependency_bounds": {
+    "setuptools": "",
+    "packaging": "",
+    "pandas": ">=1.5.3",
+    "narwhals": ">=2.0",
+    "numpy": ">=1.23.5",
+    "scipy": ">=1.6.3",
+    "plotly": ">=6.0.0",
+    "tqdm": ">=4.61.2"
+  },
+  "families": [
+    "importance",
+    "breakdown",
+    "interactions",
+    "shap",
+    "cp",
+    "performance",
+    "diagnostics",
+    "partial",
+    "conditional",
+    "accumulated",
+    "model_aspect",
+    "model_triplot"
+  ],
+  "optional_modules_present": {
+    "polars": false,
+    "pyarrow": false,
+    "sklearn": false,
+    "shap": false,
+    "lime": false,
+    "statsmodels": false
+  },
+  "versions": {
+    "dalex": "1.8.0.9000",
+    "pandas": "3.1.0",
+    "numpy": "2.5.4",
+    "narwhals": "2.28.0",
+    "plotly": "7.1.0",
+    "scipy": "1.18.1"
+  }
+}

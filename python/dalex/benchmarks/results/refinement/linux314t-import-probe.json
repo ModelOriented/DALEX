@@ -1,0 +1,138 @@
+[
+  {
+    "module": "numpy",
+    "returncode": 0,
+    "stderr": "",
+    "free_threaded": true,
+    "gil_before": false,
+    "gil_after": false
+  },
+  {
+    "module": "scipy",
+    "returncode": 0,
+    "stderr": "",
+    "free_threaded": true,
+    "gil_before": false,
+    "gil_after": false
+  },
+  {
+    "module": "pandas",
+    "returncode": 0,
+    "stderr": "",
+    "free_threaded": true,
+    "gil_before": false,
+    "gil_after": false
+  },
+  {
+    "module": "polars",
+    "returncode": 0,
+    "stderr": "",
+    "free_threaded": true,
+    "gil_before": false,
+    "gil_after": false
+  },
+  {
+    "module": "narwhals",
+    "returncode": 0,
+    "stderr": "",
+    "free_threaded": true,
+    "gil_before": false,
+    "gil_after": false
+  },
+  {
+    "module": "pyarrow",
+    "returncode": 0,
+    "stderr": "",
+    "free_threaded": true,
+    "gil_before": false,
+    "gil_after": false
+  },
+  {
+    "module": "sklearn",
+    "returncode": 0,
+    "stderr": "",
+    "free_threaded": true,
+    "gil_before": false,
+    "gil_after": false
+  },
+  {
+    "module": "lightgbm",
+    "returncode": 0,
+    "stderr": "",
+    "free_threaded": true,
+    "gil_before": false,
+    "gil_after": false
+  },
+  {
+    "module": "shap",
+    "returncode": 0,
+    "stderr": "<frozen importlib._bootstrap>:491: RuntimeWarning: The global interpreter lock (GIL) has been enabled to load module 'shap._cext', which has not declared that it can run safely without the GIL. To override this behavior and keep the GIL disabled (at your own risk), run with PYTHON_GIL=0 or -Xgil=0.\n",
+    "free_threaded": true,
+    "gil_before": false,
+    "gil_after": true
+  },
+  {
+    "module": "lime.lime_tabular",
+    "returncode": 0,
+    "stderr": "",
+    "free_threaded": true,
+    "gil_before": false,
+    "gil_after": false
+  },
+  {
+    "module": "skimage",
+    "returncode": 0,
+    "stderr": "",
+    "free_threaded": true,
+    "gil_before": false,
+    "gil_after": false
+  },
+  {
+    "module": "statsmodels.api",
+    "returncode": 0,
+    "stderr": "",
+    "free_threaded": true,
+    "gil_before": false,
+    "gil_after": false
+  },
+  {
+    "module": "matplotlib",
+    "returncode": 0,
+    "stderr": "",
+    "free_threaded": true,
+    "gil_before": false,
+    "gil_after": false
+  },
+  {
+    "module": "flask",
+    "returncode": 0,
+    "stderr": "",
+    "free_threaded": true,
+    "gil_before": false,
+    "gil_after": false
+  },
+  {
+    "module": "ipywidgets",
+    "returncode": 0,
+    "stderr": "",
+    "free_threaded": true,
+    "gil_before": false,
+    "gil_after": false
+  },
+  {
+    "module": "anywidget",
+    "returncode": 0,
+    "stderr": "",
+    "free_threaded": true,
+    "gil_before": false,
+    "gil_after": false
+  },
+  {
+    "module": "dalex",
+    "returncode": 0,
+    "stderr": "",
+    "free_threaded": true,
+    "gil_before": false,
+    "gil_after": false
+  }
+]

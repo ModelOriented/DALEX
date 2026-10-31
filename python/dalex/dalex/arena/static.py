@@ -4,7 +4,7 @@ import random
 import socket
 import logging
 import sys
-from .server import convert
+from .server import serialize_json
 
 def try_port(port):
     """Tests if port is available
@@ -108,12 +108,12 @@ def get_json(arena):
     str
     """
     arena.plots_manager.fill_cache()
-    result = json.dumps({
+    result = serialize_json({
         'version': '1.2.0',
         'availableParams': arena.list_available_params(),
         'paramsAttributes': arena.get_params_attributes(),
         'data': list(map(lambda p: p.serialize(), arena.plots_manager.cache))
-    }, default=convert)
+    })
     return result
 
 def generate_token():

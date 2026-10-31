@@ -2,6 +2,8 @@ from copy import deepcopy
 
 import numpy as np
 import pandas as pd
+import narwhals.stable.v2 as nw
+from ._table import FairnessTable, ParityTable
 
 from . import checks
 from ... import _global_checks
@@ -87,7 +89,7 @@ class SubgroupConfusionMatrixMetrics:
                           'FNR': FNR, 'FPR': FPR, "FDR": FDR, 'FOR': FOR, 'ACC': ACC, 'STP': STP}
 
             for metric in cf_metrics.keys():
-                if not pd.isna(cf_metrics.get(metric)):
+                if not np.isnan(cf_metrics.get(metric)):
                     cf_metrics[metric] = round(cf_metrics.get(metric), 3)
 
             subgroup_confusion_matrix_metrics[sub] = deepcopy(cf_metrics)
@@ -95,21 +97,19 @@ class SubgroupConfusionMatrixMetrics:
         self.subgroup_confusion_matrix_metrics = subgroup_confusion_matrix_metrics
 
     def to_vertical_DataFrame(self) -> pd.DataFrame:
-
-        df_list = []
-        metrics = self.subgroup_confusion_matrix_metrics
-        for subgroup in metrics.keys():
-            metric = metrics.get(subgroup)
-            subgroup_vec = np.repeat(subgroup, len(metric))
-            sub_df = pd.DataFrame({'metric': metric.keys(), 'subgroup': subgroup_vec, 'score': metric.values()})
-            df_list.append(sub_df)
-        data = pd.concat(df_list, ignore_index=True)
-        return data
+        from ._plotting import long_frame
+        frame = nw.from_native(self.to_native_table('pandas').data)
+        return long_frame(frame).select('metric', 'subgroup', 'score').to_pandas().reset_index(drop=True)
 
     def to_horizontal_DataFrame(self) -> pd.DataFrame:
+        return self.to_native_table('pandas')._dalex_pandas_view()
 
+    def to_native_table(self, backend='pandas'):
         metrics = self.subgroup_confusion_matrix_metrics
-        return pd.DataFrame(metrics).transpose()
+        columns = list(next(iter(metrics.values())))
+        values = {'subgroup': list(metrics)}
+        values.update({name: np.asarray([row[name] for row in metrics.values()], dtype=float) for name in columns})
+        return FairnessTable(nw.from_dict(values, backend=backend).to_native())
 
     def __str__(self):
 
@@ -119,74 +119,37 @@ class SubgroupConfusionMatrixMetrics:
 
 # -------------- Functions needed in creation and methods of GroupFairnessClassification object in object.py --------------
 
-def calculate_parity_loss(sub_confusion_matrix_metrics, privileged):
-    """
-    Calculates parity_loss with formula
-    M_parity_loss = sum(|log(M/M_p)|)
+def calculate_parity_loss(sub_confusion_matrix_metrics, privileged, *, native=False, backend='pandas'):
+    table = calculate_ratio(sub_confusion_matrix_metrics, privileged, native=True, backend=backend)
+    frame = nw.from_native(table.data, eager_only=True).drop('subgroup')
+    values = np.sum(np.abs(np.log(frame.to_numpy())), axis=0)
+    result = ParityTable(nw.from_dict({'metric': frame.columns, 'score': values}, backend=backend).to_native())
+    return result if native else result._dalex_pandas_view()
 
-    where
-    M - vector of metrics for each subgroup
-    M_p - value in metric for privileged subgroup
-    """
+
+def calculate_ratio(sub_confusion_matrix_metrics, privileged, *, native=False, backend='pandas'):
     assert isinstance(sub_confusion_matrix_metrics, SubgroupConfusionMatrixMetrics)
-    df_ratio = calculate_ratio(sub_confusion_matrix_metrics, privileged)
-    columns = df_ratio.columns
-    df_log = np.log(df_ratio.to_numpy())
-    df_absolute_log = abs(df_log)
-    df_summed = pd.DataFrame(df_absolute_log, index=df_ratio.index.values, columns=columns).apply(sum)
-    return df_summed
-
-
-def calculate_ratio(sub_confusion_matrix_metrics, privileged):
-    """
-    Calculates ratio of metrics - divides all by privileged
-    Does not allow for zeros in ratios, instead puts NaN
-    """
-    assert isinstance(sub_confusion_matrix_metrics, SubgroupConfusionMatrixMetrics)
-    df = sub_confusion_matrix_metrics.to_horizontal_DataFrame()
-
-    privileged_index = np.where(df.index.values == privileged)[0][0]
-    df_ratio = df / df.iloc[privileged_index, :]
-    df_ratio = df_ratio.to_numpy()
-    df_ratio[df_ratio == 0] = np.nan
-    df_ratio[np.isinf(df_ratio)] = np.nan
-    df_out = pd.DataFrame(df_ratio, index=df.index.values, columns=df.columns)
-    return df_out
+    rows = sub_confusion_matrix_metrics.subgroup_confusion_matrix_metrics
+    groups = list(rows)
+    columns = list(next(iter(rows.values())))
+    matrix = np.asarray([[row[name] for name in columns] for row in rows.values()], dtype=float)
+    values = matrix / matrix[groups.index(privileged)]
+    values[(values == 0) | np.isinf(values)] = np.nan
+    result = FairnessTable(nw.from_dict({'subgroup': groups, **{name: values[:, i] for i, name in enumerate(columns)}},
+                                        backend=backend).to_native())
+    return result if native else result._dalex_pandas_view()
 
 
 # -------------- Functions used in plots --------------
 def _unwrap_parity_loss_data(fobject, other_objects, metrics, verbose):
-    """ Unwrap parity loss data
-    Some functions use using same computations, they are put here.
-    Function creates parity loss DataFrame from fobject and stacks it with
-    data from other_objects. This is private, helper function.
-    """
-
-    data = pd.DataFrame()
-    data['score'] = deepcopy(fobject.parity_loss)
-    data['label'] = np.repeat(fobject.label, len(fobject.parity_loss))
-    data['metric'] = data.index
-    data = data.reset_index(drop=True)
-
-    if other_objects is not None:
-        for object in other_objects:
-            other_data = pd.DataFrame()
-            other_data['score'] = deepcopy(object.parity_loss)
-            other_data['label'] = np.repeat(object.label, len(object.parity_loss))
-            other_data['metric'] = other_data.index
-            other_data = other_data.reset_index(drop=True)
-            data = pd.concat([data, other_data])
-
-    if len(metrics) > 1:
-        data = data.loc[data.metric.isin(metrics), :]
-    else:
-        data = data.loc[data.metric == metrics[0]]
-    # checking for nans
-    if any(pd.isna(data.score)):
-        models_with_nans = set(data.loc[pd.isna(data.score), :].label)
-        helper.verbose_cat(f"Found NaNs in following models: {models_with_nans}", verbose)
-
-    return data
+    """Legacy pandas adapter over the native parity plot table."""
+    from ._plotting import parity_data, table_frame
+    result = parity_data(fobject, other_objects, metrics, verbose).to_pandas()
+    positions = [np.flatnonzero(np.isin(table_frame(obj, 'parity_loss')['metric'].to_list(), metrics))
+                 for obj in [fobject, *(other_objects or [])]]
+    result = result.loc[:, ['score', 'label', 'metric']]
+    result.index = np.concatenate(positions)
+    return result
 
 
 def _fairness_theme(title):
@@ -200,22 +163,18 @@ def _fairness_theme(title):
 
 
 def _metric_ratios_2_df(fobject):
-    """
-    Converts GroupFairnessClassification
-    to elegant DataFrame with 4 columns (subgroup, metric, score, label)
-    """
-
-    data = fobject.result
-    data = data.stack(dropna=False)
-    data = data.reset_index()
-    data.columns = ["subgroup", "metric", "score"]
-    data = data.loc[data.metric.isin(["TPR", "ACC", "PPV", "FPR", "STP"])]
-    data = data.loc[data.subgroup != fobject.privileged]
-    data.score -= 1
-
-    data['label'] = np.repeat(fobject.label, data.shape[0])
-
-    return data
+    """Legacy pandas adapter over the common native long-table kernel."""
+    from ._plotting import long_table, table_frame
+    metrics = ['TPR', 'ACC', 'PPV', 'FPR', 'STP']
+    frame = table_frame(fobject)
+    columns = [name for name in frame.columns if name != 'subgroup']
+    selected = np.tile(np.isin(columns, metrics), len(frame)) & np.repeat(
+        np.asarray(frame['subgroup'].to_list()) != fobject.privileged, len(columns))
+    result = (long_table(fobject).filter(nw.col('metric').is_in(metrics) &
+                                       (nw.col('subgroup') != fobject.privileged))
+              .with_columns((nw.col('score') - 1).alias('score')).to_pandas())
+    result.index = np.flatnonzero(selected)
+    return result
 
 
 def _classification_performance(fobject, verbose, type='accuracy'):
@@ -279,7 +238,7 @@ class RegressionDict:
 
 # -------------- Functions needed in creation and methods of GroupFairnessRegression object in object.py --------------
 
-def calculate_regression_measures(y, y_hat, protected, privileged):
+def calculate_regression_measures(y, y_hat, protected, privileged, *, native=False, backend='pandas'):
     _global_checks.global_check_import('scikit-learn', 'fairness in regression')
     from sklearn.linear_model import LogisticRegression
 
@@ -314,33 +273,46 @@ def calculate_regression_measures(y, y_hat, protected, privileged):
         r_sep = ((pred_p_ys / (1 - pred_p_ys) * (1 - pred_p_y) / pred_p_y)).mean()
         r_suf = ((pred_p_ys / (1 - pred_p_ys)) * ((1 - pred_p_s) / pred_p_s)).mean()
 
-        to_append = pd.DataFrame({'subgroup': [unprivileged],
-                                  'independence': [r_ind],
-                                  'separation': [r_sep],
-                                  'sufficiency': [r_suf]})
-        data_list.append(to_append)
+        data_list.append((unprivileged, r_ind, r_sep, r_suf))
+    columns = ['subgroup', 'independence', 'separation', 'sufficiency']
+    values = {name: [row[i] for row in data_list] if i == 0 else np.asarray([row[i] for row in data_list], dtype=float)
+              for i, name in enumerate(columns)}
+    data = nw.from_dict(values, backend=backend).to_native()
+    result = FairnessTable(data, index_name='subgroup', empty_objects=True)
+    return result if native else result._dalex_pandas_view()
 
-    if data_list:
-        data = pd.concat(data_list, ignore_index=True)
-    else:
-        data = pd.DataFrame(columns=['subgroup', 'independence', 'separation', 'sufficiency'])
-
-    # append the scale
-    to_append = pd.DataFrame({'subgroup': [privileged],
-                              'independence': [1],
-                              'separation': [1],
-                              'sufficiency': [1]})
-    ## TODO: this should be uncommented but adds blanks to the plots
-    # data = pd.concat([data, to_append]) 
-
-    data.index = data.subgroup
-    data = data.iloc[:, 1:]
-    return data
 
 
 # -------------- Helper functions --------------
 def fairness_check_metrics():
     return ["TPR", "ACC", "PPV", "FPR", "STP"]
+
+
+def _fairness_check_table(obj, subgroups, metrics):
+    from ._plotting import table_frame
+    frame = table_frame(obj).with_row_index('__source_row__')
+    missing_groups = set(subgroups) - set(frame['subgroup'].to_list())
+    missing_metrics = set(metrics) - set(frame.columns)
+    if missing_groups or missing_metrics:
+        raise KeyError(list(missing_groups | missing_metrics))
+    if not len(subgroups):
+        return frame.head(0).select('subgroup', *metrics)
+    order = nw.from_dict({'subgroup': list(subgroups), '__check_order__': np.arange(len(subgroups))},
+                         backend=nw.get_native_namespace(frame))
+    return (order.join(frame, on='subgroup', how='left')
+            .sort(['__check_order__', '__source_row__']).select('subgroup', *metrics))
+
+
+def _fairness_check_display(obj, frame, subgroups, metrics):
+    """The historical pandas console renderer is an explicit output boundary."""
+    from ..._dataframe import to_pandas
+    value = obj.__dict__.get('_compatibility_result', obj.__dict__.get('result'))
+    if isinstance(value, pd.DataFrame):
+        # Caller edits retain their exact extension dtypes and index name.
+        return value.loc[subgroups, metrics]
+    result = to_pandas(frame.to_native()).set_index('subgroup')
+    result.index.name = getattr(value, 'index_name', None)
+    return result
 
 
 def universal_fairness_check(self, epsilon, verbose, num_for_not_fair, num_for_no_decision, metrics):
@@ -349,15 +321,21 @@ def universal_fairness_check(self, epsilon, verbose, num_for_not_fair, num_for_n
     else:
         epsilon = checks.check_epsilon(epsilon)
 
-    metric_ratios = self.result
-
     subgroups = np.unique(self.protected)
     subgroups_without_privileged = subgroups[subgroups != self.privileged]
-    metric_ratios = metric_ratios.loc[subgroups_without_privileged, metrics]
-
-    metrics_exceeded = ((metric_ratios > 1 / epsilon) | (epsilon > metric_ratios)).apply(sum, 0)
-
-    names_of_exceeded_metrics = list(metrics_exceeded.index[metrics_exceeded != 0])
+    frame = _fairness_check_table(self, subgroups_without_privileged, metrics)
+    values = np.asarray(frame.select(metrics).to_numpy(), dtype=float)
+    exceeded = ((values > 1 / epsilon) | (epsilon > values)).any(axis=0)
+    legacy = self.__dict__.get('_compatibility_result', self.__dict__.get('result'))
+    if isinstance(legacy, pd.DataFrame):
+        # Python sum over nullable pandas comparisons historically propagates
+        # pd.NA, and its object-result != 0 selection flags that metric. Preserve
+        # those explicit legacy edits without coalescing NA and floating NaN.
+        selected = legacy.loc[subgroups_without_privileged, metrics]
+        for index, metric in enumerate(metrics):
+            if isinstance(selected[metric].dtype, pd.api.extensions.ExtensionDtype):
+                exceeded[index] |= any(value is pd.NA for value in selected[metric].array)
+    names_of_exceeded_metrics = [metric for metric, flag in zip(metrics, exceeded) if flag]
     if len(names_of_exceeded_metrics) >= num_for_not_fair:
         print(f'Bias detected in {len(names_of_exceeded_metrics)} metrics: {", ".join(names_of_exceeded_metrics)}')
     elif len(names_of_exceeded_metrics) == num_for_no_decision:
@@ -380,8 +358,8 @@ def universal_fairness_check(self, epsilon, verbose, num_for_not_fair, num_for_n
     print(
         f'\nRatios of metrics, based on \'{self.privileged}\'. Parameter \'epsilon\' was set to {epsilon}'
         f' and therefore metrics should be within ({epsilon}, {round(1 / epsilon, 3)})')
-    print(metric_ratios.to_string())
-    if pd.isna(metric_ratios).sum().sum() > 0:
+    print(_fairness_check_display(self, frame, subgroups_without_privileged, metrics).to_string())
+    if np.isnan(values).any():
         helper.verbose_cat(
             '\nWarning!\nTake into consideration that NaN\'s are present, consider checking \'metric_scores\' '
             'plot to see the difference', verbose=verbose)

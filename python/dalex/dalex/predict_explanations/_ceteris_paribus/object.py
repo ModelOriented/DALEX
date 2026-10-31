@@ -2,11 +2,11 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 import warnings
-from copy import deepcopy
 
-from . import checks, plot, utils
+from . import checks, utils
 from ... import _theme, _global_checks, _global_utils
-from ..._explanation import Explanation
+from ..._explanation import Explanation, CompatibilityTable, EmptyTable
+import narwhals.stable.v2 as nw
 
 
 class CeterisParibus(Explanation):
@@ -75,12 +75,33 @@ class CeterisParibus(Explanation):
         self.variable_splits = variable_splits
         self.variable_splits_type = _variable_splits_type
         self.variable_splits_with_obs = variable_splits_with_obs
-        self.result = pd.DataFrame()
+        self.result = EmptyTable()
         self.new_observation = None
         self.processes = _processes
 
     def _repr_html_(self):
         return self.result._repr_html_()
+
+    new_observation = CompatibilityTable()
+
+    def _native_profile_frames(self):
+        """Use native partitions until a caller edits the legacy pandas view."""
+        from ._table import ProfileTables
+        stored = self.__dict__.get('result')
+        cached = self.__dict__.get('_compatibility_result')
+        if isinstance(stored, ProfileTables) and cached is None:
+            return list(zip(stored.variables, stored.frames))
+        frame = nw.from_native(cached if cached is not None else stored, eager_only=True)
+        variables = frame['_vname_'].unique(maintain_order=True).to_list()
+        return [(variable, frame.filter(nw.col('_vname_') == nw.lit(variable)).to_native()) for variable in variables]
+
+    def _native_observation_frame(self):
+        from ._table import ObservationTable
+        stored = self.__dict__.get('new_observation')
+        cached = self.__dict__.get('_compatibility_new_observation')
+        if isinstance(stored, ObservationTable) and cached is None:
+            return stored.data
+        return cached if cached is not None else stored
 
     def fit(self,
             explainer,
@@ -111,7 +132,8 @@ class CeterisParibus(Explanation):
 
         checks.check_data(explainer.data, self.variables)
 
-        self.new_observation = checks.check_new_observation(new_observation, explainer)
+        observation = checks.check_new_observation(new_observation, explainer)
+        self._native_features = not isinstance(explainer.data, pd.DataFrame)
 
         self.variable_splits = checks.check_variable_splits(self.variable_splits,
                                                      self.variables,
@@ -119,13 +141,16 @@ class CeterisParibus(Explanation):
                                                      explainer.data,
                                                      self.variable_splits_type,
                                                      self.variable_splits_with_obs,
-                                                     self.new_observation)
+                                                     observation)
 
         y = checks.check_y(y)
 
-        self.result, self.new_observation = utils.calculate_ceteris_paribus(
+        self._native_missing_states = utils.native_numeric_missing_states(observation, self.variable_splits)
+
+        from ._native import calculate
+        self.result, self.new_observation = calculate(
             explainer,
-            self.new_observation,
+            observation,
             self.variable_splits,
             y,
             self.processes,
@@ -196,26 +221,21 @@ class CeterisParibus(Explanation):
         if isinstance(variables, str):
             variables = (variables,)
 
-        # are there any other objects to plot?
+        from ._plotting import profile_frame, plot_frame, categorical_color
         if objects is None:
-            _result_df = self.result.assign(_original_yhat_=lambda x: self.new_observation.loc[x.index, '_yhat_'])
+            profiles = [self]
             _include = self.variable_splits_with_obs
-        elif isinstance(objects, self.__class__):  # allow for objects to be a single element
-            _result_df = pd.concat([
-                self.result.assign(_original_yhat_=lambda x: self.new_observation.loc[x.index, '_yhat_']),
-                objects.result.assign(_original_yhat_=lambda x: objects.new_observation.loc[x.index, '_yhat_'])])
-            _include = np.all([self.variable_splits_with_obs, objects.variable_splits_with_obs])
-        elif isinstance(objects, (list, tuple)):  # objects as tuple or array
-            _result_df = self.result.assign(_original_yhat_=lambda x: self.new_observation.loc[x.index, '_yhat_'])
-            _include = [self.variable_splits_with_obs]
+        elif isinstance(objects, self.__class__):
+            profiles = [self, objects]
+            _include = np.all([ob.variable_splits_with_obs for ob in profiles])
+        elif isinstance(objects, (list, tuple)):
+            profiles = [self, *objects]
             for ob in objects:
                 _global_checks.global_check_object_class(ob, self.__class__)
-                _result_df = pd.concat([
-                    _result_df, ob.result.assign(_original_yhat_=lambda x: ob.new_observation.loc[x.index, '_yhat_'])])
-                _include += [ob.variable_splits_with_obs]
-            _include = np.all(_include)
+            _include = np.all([ob.variable_splits_with_obs for ob in profiles])
         else:
             _global_checks.global_raise_objects_class(objects, self.__class__)
+        _result_df, _originals, _converted, _absent = profile_frame(profiles)
 
         if _include is False and show_observations:
                 warnings.warn("'show_observations' parameter changed to False,"
@@ -224,7 +244,7 @@ class CeterisParibus(Explanation):
                 show_observations = False
 
         # variables to use
-        all_variables = list(_result_df['_vname_'].dropna().unique())
+        all_variables = _result_df['_vname_'].drop_nulls().unique(maintain_order=True).to_list()
 
         if variables is not None:
             all_variables = _global_utils.intersect_unsorted(variables, all_variables)
@@ -232,7 +252,9 @@ class CeterisParibus(Explanation):
                 raise TypeError("variables do not overlap with " + ''.join(variables))
 
         # names of numeric variables
-        numeric_variables = _result_df[all_variables].select_dtypes(include=np.number).columns.tolist()
+        numeric_variables = [name for name in all_variables if (
+            _result_df.schema[name].is_numeric() and not isinstance(_result_df.schema[name], nw.Decimal)
+        ) or isinstance(_result_df.schema[name], nw.Duration)]
 
         if variable_type == "numerical":
             variable_names = numeric_variables
@@ -258,24 +280,13 @@ class CeterisParibus(Explanation):
                 raise TypeError("There are no non-numerical variables.")
 
         # prepare profiles data
-        _result_df = _result_df.loc[_result_df['_vname_'].isin(variable_names), ].reset_index(drop=True)
+        _result_df = plot_frame(_result_df, _originals, _converted, _absent, variable_names,
+                               variable_type == 'categorical')
 
         #  calculate y axis range to allow for fixedrange True
         dl = _result_df['_yhat_'].to_numpy()
         min_max_margin = np.ptp(dl) * 0.10
         min_max = [dl.min() - min_max_margin, dl.max() + min_max_margin]
-
-        # create _x_
-        if len(variable_names) == 1:
-            _result_df.loc[:, '_x_'] = deepcopy(_result_df.loc[:, variable_names[0]])
-        else:
-            for variable in variable_names:
-                where_variable = _result_df['_vname_'] == variable
-                _result_df.loc[where_variable, '_x_'] = deepcopy(_result_df.loc[where_variable, variable])
-
-        # change x column to proper character values
-        if variable_type == 'categorical':
-            _result_df.loc[:, '_x_'] = _result_df.apply(lambda row: str(row[row['_vname_']]), axis=1)
 
         n = len(variable_names)
         facet_nrow = int(np.ceil(n / facet_ncol))
@@ -286,13 +297,12 @@ class CeterisParibus(Explanation):
 
         plot_height = 78 + 71 + facet_nrow * (280 + 60)
 
-        _result_df = _result_df.assign(_text_=_result_df.apply(lambda obs: plot.tooltip_text(obs), axis=1))
 
         if variable_type == "numerical":    
-            m = len(_result_df[color].dropna().unique())
-            _result_df[color] = _result_df[color].astype(object)  # prevent error when using pd.StringDtype
+            m = len(_result_df[color].drop_nulls().unique())
+            _result_df = categorical_color(_result_df, color)
         
-            fig = px.line(_result_df,
+            fig = px.line(_result_df.to_native(),
                           x="_x_", y="_yhat_", color=color, facet_col="_vname_", line_group='_ids_',
                           category_orders={"_vname_": list(variable_names)},
                           labels={'_yhat_': 'prediction', '_label_': 'label', '_ids_': 'id'},  # , color: 'group'},
@@ -313,10 +323,10 @@ class CeterisParibus(Explanation):
                                    'range': min_max})
 
             if show_observations:
-                _points_df = _result_df.loc[_result_df['_original_'] == _result_df['_x_'], :].copy()
+                _points_df = _result_df.filter(nw.col('_is_observation_'))
 
-                fig_points = px.scatter(_points_df,
-                                        x='_original_', y='_yhat_', facet_col='_vname_',
+                fig_points = px.scatter(_points_df.to_native(),
+                                        x='_x_', y='_yhat_', facet_col='_vname_',
                                         category_orders={"_vname_": list(variable_names)},
                                         labels={'_yhat_': 'prediction', '_label_': 'label', '_ids_': 'id'},
                                         custom_data=['_text_'],
@@ -340,11 +350,11 @@ class CeterisParibus(Explanation):
                 # https://github.com/plotly/plotly.py/issues/2657
                 raise TypeError("Please pick one observation per label or change the `color` parameter.")
 
-            m = len(_result_df[color].dropna().unique())
-            _result_df[color] = _result_df[color].astype(object)  # prevent error when using pd.StringDtype
+            m = len(_result_df[color].drop_nulls().unique())
+            _result_df = categorical_color(_result_df, color)
             
-            _result_df = _result_df.assign(_diff_=lambda x: x['_yhat_'] - x['_original_yhat_'])
-            fig = px.bar(_result_df,
+            _result_df = _result_df.with_columns((nw.col('_yhat_') - nw.col('_original_yhat_')).alias('_diff_'))
+            fig = px.bar(_result_df.to_native(),
                          x="_diff_", y="_x_", color=color, facet_col="_vname_",
                          category_orders={"_vname_": list(variable_names)},
                          labels={'_yhat_': 'prediction', '_label_': 'label', '_ids_': 'id'},  # , color: 'group'},
@@ -372,9 +382,9 @@ class CeterisParibus(Explanation):
                               line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'})
                 
             if show_observations:
-                _points_df = _result_df.loc[_result_df['_original_'] == _result_df['_x_'], :].copy()
+                _points_df = _result_df.filter(nw.col('_is_observation_'))
 
-                fig_points = px.scatter(_points_df,
+                fig_points = px.scatter(_points_df.to_native(),
                                         x='_yhat_', y='_x_', facet_col='_vname_',
                                         category_orders={"_vname_": list(variable_names)},
                                         labels={'_yhat_': 'prediction', '_label_': 'label', '_ids_': 'id'},

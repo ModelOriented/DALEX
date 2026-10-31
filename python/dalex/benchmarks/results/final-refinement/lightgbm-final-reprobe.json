@@ -1,0 +1,18 @@
+[
+  {
+    "exit_code": 1,
+    "case": "pipeline"
+  },
+  {
+    "exit_code": 0,
+    "case": "numpy"
+  },
+  {
+    "exit_code": 0,
+    "case": "polars"
+  },
+  {
+    "exit_code": 0,
+    "case": "pyarrow"
+  }
+]

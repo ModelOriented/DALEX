@@ -1,0 +1,44 @@
+Source: 783f06976b659bfeb7a0ea50839885371a09187f
+         196774 function calls (195118 primitive calls) in 0.102 seconds
+
+   Ordered by: cumulative time
+   List reduced from 1277 to 35 due to restriction <35>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.001    0.001    0.102    0.102 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.local-dist\profile_final_profiles.py:18(explain)
+        1    0.012    0.012    0.100    0.100 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\_explainer\object.py:628(model_profile)
+        1    0.000    0.000    0.066    0.066 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\predict_explanations\_ceteris_paribus\object.py:107(fit)
+        1    0.000    0.000    0.042    0.042 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\predict_explanations\_ceteris_paribus\_native.py:75(calculate)
+        1    0.000    0.000    0.039    0.039 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\predict_explanations\_ceteris_paribus\_native.py:65(profile_tables)
+        2    0.004    0.002    0.039    0.019 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\predict_explanations\_ceteris_paribus\_native.py:17(single_profile)
+        1    0.001    0.001    0.024    0.024 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\predict_explanations\_ceteris_paribus\checks.py:81(check_variable_splits)
+        1    0.002    0.002    0.023    0.023 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\predict_explanations\_ceteris_paribus\utils.py:170(calculate_variable_split)
+        1    0.000    0.000    0.022    0.022 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\model_explanations\_aggregated_profiles\object.py:100(fit)
+        1    0.000    0.000    0.020    0.020 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\model_explanations\_aggregated_profiles\_native.py:281(aggregate_ceteris)
+    20000    0.003    0.000    0.016    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\predict_explanations\_ceteris_paribus\_native.py:12(_missing)
+       51    0.000    0.000    0.014    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\pandas\core\indexing.py:1177(__getitem__)
+       13    0.000    0.000    0.013    0.001 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\dataframe.py:1501(with_columns)
+       13    0.000    0.000    0.013    0.001 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\dataframe.py:212(with_columns)
+        3    0.000    0.000    0.013    0.004 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\_explainer\yhat.py:5(yhat_default)
+        3    0.000    0.000    0.013    0.004 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\sklearn\ensemble\_hist_gradient_boosting\gradient_boosting.py:1695(predict)
+        3    0.000    0.000    0.013    0.004 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\sklearn\ensemble\_hist_gradient_boosting\gradient_boosting.py:1180(_raw_predict)
+    20170    0.003    0.000    0.013    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\dependencies.py:68(get_pandas)
+        2    0.000    0.000    0.012    0.006 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\series.py:1799(filter)
+        2    0.000    0.000    0.012    0.006 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\_pandas_like\series.py:430(filter)
+        2    0.000    0.000    0.012    0.006 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\pandas\core\indexing.py:1398(_getitem_axis)
+       13    0.000    0.000    0.012    0.001 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\_pandas_like\dataframe.py:504(with_columns)
+        2    0.000    0.000    0.011    0.006 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\pandas\core\indexing.py:1206(_getbool_axis)
+       11    0.000    0.000    0.011    0.001 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\pandas\core\generic.py:4049(take)
+       11    0.000    0.000    0.011    0.001 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\pandas\core\internals\managers.py:888(take)
+        9    0.000    0.000    0.010    0.001 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\pandas\core\generic.py:4164(_take_with_is_copy)
+        3    0.000    0.000    0.010    0.003 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\sklearn\ensemble\_hist_gradient_boosting\gradient_boosting.py:1220(_predict_iterations)
+       60    0.010    0.000    0.010    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\sklearn\ensemble\_hist_gradient_boosting\predictor.py:49(predict)
+    20350    0.006    0.000    0.010    0.000 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\dependencies.py:50(_get_imported_module)
+        2    0.000    0.000    0.009    0.005 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\python\dalex\dalex\model_explanations\_aggregated_profiles\_native.py:103(reduce_profiles)
+        2    0.000    0.000    0.006    0.003 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\series.py:1042(drop_nulls)
+        2    0.000    0.000    0.006    0.003 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\narwhals\_pandas_like\series.py:679(drop_nulls)
+        2    0.000    0.000    0.006    0.003 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\pandas\core\series.py:5839(dropna)
+        2    0.000    0.000    0.006    0.003 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\pandas\core\dtypes\missing.py:718(remove_na_arraylike)
+        2    0.000    0.000    0.005    0.003 D:\CodexScratch\DALEXNarwhals-20261030\validation-checkout\.venv314\Lib\site-packages\pandas\core\series.py:1107(__getitem__)
+
+

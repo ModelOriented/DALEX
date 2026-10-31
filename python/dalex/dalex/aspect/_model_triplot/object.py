@@ -1,12 +1,14 @@
+from .._plotting import plot_data
 import numpy as np
 import pandas as pd
 from copy import deepcopy
 import plotly.graph_objs as go
 
 from dalex import _theme, _global_checks
-from dalex._explanation import Explanation
+from dalex._explanation import Explanation, EmptyTable, CompatibilityTable
 
 from . import checks, plot, utils
+from ..plot import copy_dendrogram
 
 
 class ModelTriplot(Explanation):
@@ -57,6 +59,8 @@ class ModelTriplot(Explanation):
     -----
     - https://arxiv.org/abs/2104.03403
     """
+    single_variable_importance = CompatibilityTable()
+
     def __init__(
         self,
         loss_function=None,
@@ -77,7 +81,7 @@ class ModelTriplot(Explanation):
         self.B = _B
         self.random_state = _random_state
         self.processes = _processes
-        self.result = pd.DataFrame()
+        self.result = EmptyTable()
         self.single_variable_importance = None
         self._hierarchical_clustering_dendrogram = None
 
@@ -102,34 +106,12 @@ class ModelTriplot(Explanation):
 
         self._hierarchical_clustering_dendrogram = aspect._hierarchical_clustering_dendrogram
         
-        ## middle plot
-        (
-        self.result,
-        aspect._full_hierarchical_aspect_importance
-        ) = utils.calculate_model_hierarchical_importance(
-            aspect,
-            self.loss_function,
-            self.type,
-            self.N,
-            self.B,
-            self.processes,
-            self.random_state
-        )
+        from .._native_triplot import calculate
+        self.result, self.single_variable_importance, full = calculate(
+            aspect, loss_function=self.loss_function, kind=self.type, N=self.N, B=self.B,
+            processes=self.processes, random_state=self.random_state)
+        aspect._full_hierarchical_aspect_importance = full
 
-        ## left plot data
-        self.single_variable_importance, svi_full = utils.calculate_single_variable_importance(
-            aspect,
-            self.loss_function,
-            self.type,
-            self.N,
-            self.B,
-            self.processes,
-            self.random_state,
-        )
-    
-        aspect._full_hierarchical_aspect_importance = pd.concat(
-            [aspect._full_hierarchical_aspect_importance, svi_full]
-        )
 
     def plot(
         self,
@@ -176,10 +158,9 @@ class ModelTriplot(Explanation):
         None or plotly.graph_objects.Figure or ipywidgets.HBox with plotly.graph_objs._figurewidget.FigureWidget
             Return figure that can be edited or saved. See `show` parameter.
         """
-        _global_checks.global_check_import('kaleido', 'Model Triplot')
         ## right plot
         hierarchical_clustering_dendrogram_plot_without_annotations = (
-            self._hierarchical_clustering_dendrogram
+            copy_dendrogram(self._hierarchical_clustering_dendrogram)
         )
         variables_order = list(
             hierarchical_clustering_dendrogram_plot_without_annotations.layout.yaxis.ticktext
@@ -192,7 +173,7 @@ class ModelTriplot(Explanation):
             updated_dendro_traces,
         ) = plot.plot_model_hierarchical_importance(
             hierarchical_clustering_dendrogram_plot_without_annotations,
-            self.result,
+            plot_data(self),
             rounding_function,
             digits,
             show_change
@@ -216,7 +197,7 @@ class ModelTriplot(Explanation):
 
         ## left plot
         fig = plot.plot_single_aspects_importance(
-            self.single_variable_importance,
+            plot_data(self, 'single_variable_importance'),
             variables_order,
             rounding_function,
             digits,
@@ -329,6 +310,7 @@ class ModelTriplot(Explanation):
 
         if widget:
             _global_checks.global_check_import('ipywidgets', 'Model Triplot')
+            _global_checks.global_check_import('anywidget', 'Model Triplot')
             from ipywidgets import HBox, Layout
             fig = go.FigureWidget(fig, layout={"autosize": True, "hoverdistance": 100})
             original_bar_colors = deepcopy([fig.data[0]["marker"]["color"]] * m)

@@ -1,0 +1,190 @@
+{
+  "source_commit": "035450550ee922f07a3155cc1675ef6ac73ce9c9",
+  "source_library_tree": "0ba878c2052fbdc0e3d87bcf1844fa70c662e212",
+  "library_source": {
+    "python_modules": 117,
+    "python_source_sha256": "fd5aec47dde89795203b7fca40c8cdfa240c39aac89a0724293727cce330a71c",
+    "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+  },
+  "source_suite": {
+    "tests": 580,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 18,
+    "passed": 562
+  },
+  "minimum_polars_narwhals_suite": {
+    "tests": 580,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 18,
+    "passed": 562
+  },
+  "pandas_nightly_suite": {
+    "tests": 580,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 18,
+    "passed": 562
+  },
+  "installed_wheel_suite": {
+    "tests": 580,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 18,
+    "passed": 562
+  },
+  "outside_git_checkout": true,
+  "installed_wheel_python_modules_match_source": 117,
+  "distributions_sha256": {
+    "dalex-1.8.0.9000-py3-none-any.whl": "fc8c381ec7805b915df2014b6dc823735dff464c2e51b3be44f61dd9bc76aa38",
+    "dalex-1.8.0.9000.tar.gz": "199a4bf6fdfca79807ceeaad9217e878882eb43cf3de2b2fe1bc682ff1de1be4"
+  },
+  "legacy_outputs": 23,
+  "max_absolute_legacy_error": 0,
+  "source_ci": {
+    "head": "035450550ee922f07a3155cc1675ef6ac73ce9c9",
+    "url": "https://github.com/brunocarlin/DALEX/actions/runs/40804809506",
+    "jobs": 20,
+    "counts": {
+      "full": 15,
+      "neural": 2,
+      "legacy_pps": 1,
+      "benchmark_reports": 6
+    },
+    "dependency_imports": 21,
+    "forced_gil_enabled": false,
+    "automatic_fallback": [
+      "shap"
+    ],
+    "junit": {
+      "minimum-pandas\\legacy-pps-tests.xml": {
+        "passed": 18,
+        "tests": 18,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "minimum-pandas\\minimum-pandas.xml": {
+        "passed": 562,
+        "tests": 580,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18
+      },
+      "minimum-polars\\minimum-polars.xml": {
+        "passed": 562,
+        "tests": 580,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18
+      },
+      "neural-tensorflow\\neural-tests.xml": {
+        "passed": 8,
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "neural-torch\\neural-tests.xml": {
+        "passed": 8,
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "tests-3.10-macos-latest-pandas2\\test-results.xml": {
+        "passed": 562,
+        "tests": 580,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18
+      },
+      "tests-3.10-ubuntu-latest-pandas2\\test-results.xml": {
+        "passed": 562,
+        "tests": 580,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18
+      },
+      "tests-3.11-macos-latest-pandas2\\test-results.xml": {
+        "passed": 562,
+        "tests": 580,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18
+      },
+      "tests-3.11-ubuntu-latest-pandas2\\test-results.xml": {
+        "passed": 562,
+        "tests": 580,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18
+      },
+      "tests-3.12-macos-latest-pandas2\\test-results.xml": {
+        "passed": 562,
+        "tests": 580,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18
+      },
+      "tests-3.12-ubuntu-latest-pandas2\\test-results.xml": {
+        "passed": 562,
+        "tests": 580,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18
+      },
+      "tests-3.13-macos-latest-pandas2\\test-results.xml": {
+        "passed": 562,
+        "tests": 580,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18
+      },
+      "tests-3.13-ubuntu-latest-pandas2\\test-results.xml": {
+        "passed": 562,
+        "tests": 580,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18
+      },
+      "tests-3.14-macos-latest-pandas2\\test-results.xml": {
+        "passed": 562,
+        "tests": 580,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18
+      },
+      "tests-3.14-ubuntu-latest-pandas2\\test-results.xml": {
+        "passed": 562,
+        "tests": 580,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18
+      },
+      "tests-3.14-ubuntu-latest-pandas3\\test-results.xml": {
+        "passed": 562,
+        "tests": 580,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18
+      },
+      "tests-3.14-windows-latest-pandas2\\test-results.xml": {
+        "passed": 562,
+        "tests": 580,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18
+      },
+      "tests-3.14t-ubuntu-latest\\test-results.xml": {
+        "passed": 562,
+        "tests": 580,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 18
+      }
+    }
+  },
+  "benchmark_protocol": "1M original Polars rows, N1000, B3, five alternating warm isolated trials/backend, same saved fitted model; model/BLAS threads1, Polars8. Original construction/training excluded, pandas conversion included; RSS poll2ms is a lower bound."
+}

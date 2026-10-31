@@ -1,0 +1,28 @@
+{
+  "source_commit": "b7f7ef3cde3e8bd19d2dcad070a45174cf9b58ae",
+  "ci_url": "https://github.com/brunocarlin/DALEX/actions/runs/40630382414",
+  "source_suite": {
+    "tests": 372,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 18,
+    "passed": 354
+  },
+  "installed_wheel_suite": {
+    "tests": 372,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 18,
+    "passed": 354
+  },
+  "installed_package_boundary": "fresh process outside checkout, asserted dalex imports from the interpreter site-packages",
+  "wheel_python_modules_equal_current_source": 117,
+  "distributions_sha256": {
+    "dalex-1.8.0.9000-py3-none-any.whl": "0149712b5710e953e00311f5d871be8b6b399273e8e6b5f631c4b409ab871068",
+    "dalex-1.8.0.9000.tar.gz": "cae912902c5695c19b2c3fc189b20286dfe35c07bded173abc1a54a9ef00b8dd"
+  },
+  "legacy_outputs": 23,
+  "max_absolute_legacy_error": 0,
+  "change": "Reapply the full Arrow schema over permuted immutable buffers, preserving replaced-field metadata without converting feature values. Pandas/Polars processing and the recorded benchmark protocols are unchanged.",
+  "baseline_evidence": "refinement-validation.json (source-stamped 353/18 snapshot; this follow-up adds one regression test)"
+}

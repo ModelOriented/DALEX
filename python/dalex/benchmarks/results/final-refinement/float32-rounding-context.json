@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "current_source": {
+    "python_modules": 135,
+    "python_source_sha256": "441d90693067367af8a8727caf0b4a639515a6aef3c39312cfc876e07780ce5e",
+    "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+  },
+  "scope": "Two executions of the instrumented Float32 ratio/missing-draw case; original assertion still runs",
+  "cases": [
+    {
+      "backend": "polars",
+      "actual": [
+        1.0,
+        44.23159408569336,
+        238.71737670898438,
+        707.3204956054688,
+        781.8294677734375
+      ],
+      "legacy_mean_oracle": [
+        1.0,
+        44.231590270996094,
+        238.7173614501953,
+        707.3204345703125,
+        781.8292846679688
+      ],
+      "max_absolute_error": 0.00018310546875,
+      "max_relative_error": 2.342013433632921e-07,
+      "rtol": 9.5367431640625e-07,
+      "atol": 1.1920928955078125e-07
+    },
+    {
+      "backend": "pyarrow",
+      "actual": [
+        1.0,
+        44.23159408569336,
+        238.71737670898438,
+        707.3204956054688,
+        781.8294677734375
+      ],
+      "legacy_mean_oracle": [
+        1.0,
+        44.231590270996094,
+        238.7173614501953,
+        707.3204345703125,
+        781.8292846679688
+      ],
+      "max_absolute_error": 0.00018310546875,
+      "max_relative_error": 2.342013433632921e-07,
+      "rtol": 9.5367431640625e-07,
+      "atol": 1.1920928955078125e-07
+    }
+  ]
+}

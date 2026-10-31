@@ -1,0 +1,14 @@
+{
+  "primary_before_whitespace_cleanup": {
+    "tests": 1734,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 18
+  },
+  "pandas_nightly_exact_commit": {
+    "tests": 1734,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 18
+  }
+}

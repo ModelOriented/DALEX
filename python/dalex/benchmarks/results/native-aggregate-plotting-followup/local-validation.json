@@ -1,0 +1,16 @@
+{
+  "primary": {
+    "tests": 1439,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 18,
+    "passed": 1421
+  },
+  "nightly": {
+    "tests": 1439,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 18,
+    "passed": 1421
+  }
+}

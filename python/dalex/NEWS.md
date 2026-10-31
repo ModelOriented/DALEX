@@ -2,7 +2,89 @@
 
 ### development
 
-...
+* prepare CP/aggregate overlays, fairness and Aspect/triplot figures natively,
+  preserving precise metadata, legacy edits and native widget callbacks
+* consolidate older pandas algorithms into adapters over shared native kernels;
+  compare private indexes/dtypes and nonlinear estimates with untouched upstream
+* retain one serial Shapley path stream across hierarchy cuts and historical
+  pandas intervention indexes for index-sensitive Aspect callbacks
+* test the installed wheel with pandas-only core dependencies; require optional
+  statsmodels only when diagnostic smoothing is requested
+* retain native importance result/permutation tables until legacy pandas access;
+  add independent result_as exports and retain writable pandas result semantics
+* compute CP and aggregated profiles through typed native tables, including
+  Gaussian weighting and accumulated effects; publish legacy pandas views lazily
+* preserve nanosecond profile grids on older supported Polars and test real
+  sklearn/LightGBM preprocessing integrations through exports, plots and pickle
+* compute performance/diagnostics and breakdown/Shapley tables natively while
+  retaining pandas result indexes, raw distributions and mutable legacy views
+* calculate ROC-AUC directly from vectors without rounding large integer scores
+* compute Aspect statistics, importance and triplot hierarchies natively; export
+  mixed observation values as typed structs and retain legacy pandas cells
+* retain intermediate merges at tied clustering heights, invalidate triplot
+  caches when seeds/process counts change, and restore numeric Plotly coordinates
+  after typed-array serialization for subsequent plot calculations
+* retain native classification/regression fairness tables and parity vectors,
+  materializing historical subgroup indexes/Series only at the pandas boundary
+* compute Arena attributes, EDA, explanations and background Shapley reductions
+  on native tables; retain lazy pandas resource dictionaries and typed exports
+* add native bundled dataset loaders with explicit optional row identifiers
+* retain nanosecond resource snapshots and independent nested SHAP array exports
+* preserve exact large-integer profile grids and conditional distances, separate
+  native null/NaN bins and groups, and provide typed aggregate partition exports
+* retain lazy native LIME/surrogate result tables with compatible pandas return
+  classes, native prediction adapters and pickle-safe plotting callables
+* build automatic numeric profile grids with native missing-value filtering and
+  range reductions, avoiding Python scalar scans of full reference datasets
+* apply custom explanation labels without publishing pandas tables and preserve
+  the historical performance index when an override adds a label column
+* compute base Aspect dendrogram hover geometry without browser rendering,
+  including constant coordinate spans
+* avoid filtering/copying clean reference columns and normalize CP split values
+  once per grid; retain exact Decimal counterfactuals instead of floating coercion
+
+* include actual nullable observation cells in automatic profile grids, including
+  observations outside an all-missing reference feature; emit valid Arena JSON
+  with null display values for nonfinite numbers without changing model inputs
+* preserve physical Arrow features despite pandas index metadata, refresh stale
+  pandas dtype hints after numeric promotions, and retain callback serialization
+  when prediction/residual adapters are reused
+* retain observed missing memberships in grouped profiles and exclude unused
+  categorical groups instead of emitting empty or undefined effects
+* avoid redundant work-frame clones for native expression edits while retaining
+  owned pandas buffers; batch observation validity checks across wide schemas
+* cover Polars-output sklearn preprocessing pipelines feeding sklearn and
+  LightGBM classifiers/regressors, including imputation and unknown categories
+* retain native Arena observation snapshots and exact cross-backend cells;
+  inspect feature/target matches without exporting a full mixed feature matrix
+* preserve native numeric null/NaN distinctions and exact nullable integers in
+  breakdown, Shapley, Aspect and explicit ceteris-paribus interventions; retain
+  distinct numeric aggregate missing bins instead of silently merging states
+* preserve missing numeric interventions in partial/conditional profiles and
+  reject unordered missing numeric grids for accumulated effects explicitly
+* accept native fairness membership/mitigation vectors and restore legacy Arena
+  coverage that was disabled by an unreachable platform guard
+* include `anywidget` in the optional full dependencies for Plotly 6+ triplots
+* build triplot hover geometry directly from numeric coordinates, preserving
+  existing vertices and supporting constant panels without a headless browser
+* extend native feature coverage to Arrow labels and test Polars-trained sklearn
+  and LightGBM 4.7 regression/classification models, preprocessing and Tree SHAP
+* isolate explicit explanation seeds, including sampled Kernel SHAP, and test
+  shared-model/native-frame concurrency without changing legacy serial values
+* validate CPU TensorFlow/PyTorch Deep/Gradient SHAP tensor and plotting boundaries
+* benchmark native prediction and Polars-origin workflows across six explanation
+  families, retaining explanation-only regressions and memory tradeoffs
+
+* accept eager Polars feature frames through Narwhals while preserving native
+  model callbacks across explanation methods; retain pandas result tables (#575)
+* propose Python >=3.10 and Narwhals >=2; validate Python 3.10–3.14 and provide a
+  locked conda-forge Polars route for Python 3.14t with the GIL disabled
+* allow pandas >=1.5.3 after fixing pandas 3 copy-on-write, string dtype and
+  reshaping compatibility; keep legacy pandas coverage in CI
+* use Narwhals' stable.v2 API without speculative future-major dependency caps;
+  report the pandas/Narwhals versions actually tested separately
+* report cold/warm backend performance, memory and numerical parity separately;
+  free-threaded SHAP extension safety remains an upstream limitation
 
 ### v1.8.0 (2026-01-20)
 
@@ -437,3 +519,42 @@ properly updated and bars in `plot` are sorted by `abs(contribution)`
 * `BreakDown`, `Shap`, `CeterisParibus`, `ModelPerformance`,
 `VariableImportance` and `AggregatedProfiles` objects with a `plot` method
 * `load_titanic()` function which loads the `titanic_imputed` dataset
+# Narwhals refinement
+
+- Use the Narwhals stable v2 API. Validate positional gathers before integer
+  narrowing and reject fractional/boolean shuffle positions consistently.
+- Preserve null categorical values at Arrow/NumPy boundaries, temporal precision
+  and time zones, nested scalar observations, Decimal precision and Arrow metadata.
+- Generate numeric profile grids from nonmissing values on every backend; an
+  all-missing numeric feature has one missing split. Quantiles now ignore missing
+  values on pandas too. Boolean grids remain categorical.
+- Support fractional counterfactuals on pandas 3 and positional pandas Series
+  replacements. Restore pandas 1.5 accumulated/conditional profile support.
+- Expand categorical/missing-value sklearn and LightGBM integration coverage;
+  run the complete minimum-version suite and add Windows Python 3.14 CI.
+
+- Correct conditional categorical profiles for integer codes, nullable booleans
+  and missing levels. Keep missing display labels distinct from literal category
+  strings. Numeric-only explanation outputs remain checked against upstream.
+- Keep categorical profile construction compatible with strict pandas 3 dtypes,
+  preserve all-null native fields, and normalize nullable object vectors.
+- Avoid irrelevant temporal conversions during numeric target-leakage checks.
+  Use cheap Polars clones at export/prediction boundaries to prevent older
+  Polars versions borrowing a shared frame mutably during threaded explanations.
+- Add complete minimum Polars 1.0/Narwhals 2.0 coverage on Python 3.14 and shared
+  sklearn/LightGBM importance checks with both sampled and complete backgrounds.
+- Reuse pandas work frames already copied by break-down/Shapley/Aspect algorithms
+  while keeping caller inputs unchanged. Skip the hidden target-leakage scan when
+  verbose output is disabled. Remove deprecated inplace result-table updates.
+- Support parameterless Torch modules whose dtype/device is defined by buffers;
+  test trainable/frozen CPU models across both neural explanation APIs and all
+  three frame backends without changing model weights or Torch's default dtype.
+- Add runnable native model recipes and a standalone dependency import-order
+  diagnostic. Benchmarks can reuse fitted models across source revisions and run
+  pandas alone against unmodified upstream code.
+- Avoid identity-population array/range allocations while retaining seeded draws;
+  materialize Shapley observation display data once per explanation.
+- Restrict the Polars export-clone workaround to older versions; Polars 2's
+  internally locked dataframes avoid per-prediction column-reference cloning.
+- Normalize numeric nullable pandas storage at external SHAP boundaries, retaining
+  exact large integer values when no missing-value promotion is needed.

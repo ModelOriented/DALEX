@@ -8,9 +8,13 @@ from dalex.aspect._predict_triplot.object import PredictTriplot
 
 from . import utils, checks, plot
 from .. import _theme
+from .._explanation import ResultTables, CompatibilityTable
+from ._native_dependence import matrix_values
+from ._table import AspectTable
+import narwhals.stable.v2 as nw
 
 
-class Aspect:
+class Aspect(ResultTables):
     """Create Aspect
 
     Explanation methods that do not take into account dependencies between variables
@@ -72,6 +76,21 @@ class Aspect:
     - triplot: https://arxiv.org/abs/2104.03403
     """
 
+    depend_matrix = CompatibilityTable()
+    _dendrogram_aspects_ordered = CompatibilityTable()
+    _full_hierarchical_aspect_importance = CompatibilityTable()
+
+    def _native_depend_matrix(self):
+        return self.__dict__.get('_compatibility_depend_matrix', self.__dict__['depend_matrix'])
+
+    @staticmethod
+    def _set_result_label(explanation, label):
+        table = explanation.__dict__.get('result')
+        if isinstance(table, AspectTable) and '_compatibility_result' not in explanation.__dict__:
+            table.data = nw.from_native(table.data, eager_only=True).with_columns(nw.lit(label).alias('label')).to_native()
+        else:
+            explanation.result['label'] = label
+
     def __init__(
         self,
         explainer,
@@ -87,16 +106,16 @@ class Aspect:
         self.corr_method = _corr_method
         self.agg_method = _agg_method
         self.depend_matrix = utils.calculate_depend_matrix(
-            self.explainer.data, self.depend_method, self.corr_method, self.agg_method
+            self.explainer.data, self.depend_method, self.corr_method, self.agg_method, native=True
         )
         self.linkage_matrix = utils.calculate_linkage_matrix(
-            self.depend_matrix, clust_method
+            self._native_depend_matrix(), clust_method
         )
         self._hierarchical_clustering_dendrogram = plot.plot_dendrogram(
-            self.linkage_matrix, self.depend_matrix.columns
+            self.linkage_matrix, matrix_values(self._native_depend_matrix())[1]
         )
         self._dendrogram_aspects_ordered = utils.get_dendrogram_aspects_ordered(
-            self._hierarchical_clustering_dendrogram, self.depend_matrix
+            self._hierarchical_clustering_dendrogram, self._native_depend_matrix(), native=True
         )
         self._full_hierarchical_aspect_importance = None
         self._mt_params = None
@@ -124,20 +143,17 @@ class Aspect:
             aspect_label = fcluster(self.linkage_matrix, 1 - h, criterion="distance")
         else:
             aspect_label = fcluster(self.linkage_matrix, n, criterion="maxclust")
-        aspects = pd.DataFrame(
-            {"feature": self.depend_matrix.columns, "aspect": aspect_label}
-        )
-        aspects = aspects.groupby("aspect")["feature"].apply(list).reset_index()
+        names = matrix_values(self._native_depend_matrix())[1]
+        groups = {}
+        for name, label in zip(names, aspect_label):
+            groups.setdefault(label, []).append(name)
         aspects_dict = {}
-
-        # rename an aspect when there is a single variable in it
         i = 1
-        for index, row in aspects.iterrows():
-            if len(row["feature"]) > 1:
-                aspects_dict[f"aspect_{i}"] = row["feature"]
-                i += 1
-            else:
-                aspects_dict[row["feature"][0]] = row["feature"]
+        for label in sorted(groups):
+            features = groups[label]
+            key = f"aspect_{i}" if len(features) > 1 else features[0]
+            aspects_dict[key] = features
+            i += len(features) > 1
 
         return aspects_dict
 
@@ -171,11 +187,16 @@ class Aspect:
         None or plotly.graph_objects.Figure
             Return figure that can be edited or saved. See `show` parameter.
         """
-        m = len(self.depend_matrix.columns)
+        m = len(matrix_values(self._native_depend_matrix())[1])
         plot_height = 78 + 71 + m * lines_interspace + (m + 1) * lines_interspace / 4
         fig = self._hierarchical_clustering_dendrogram
+        # Read native storage directly. The descriptor is the writable legacy
+        # pandas boundary, so accessing it here would publish a view just to
+        # prepare tooltips. An explicitly read/edited view stays authoritative.
+        aspects = self.__dict__.get('_compatibility__dendrogram_aspects_ordered',
+                                    self.__dict__['_dendrogram_aspects_ordered'])
         fig = plot.add_text_and_tooltips_to_dendrogram(
-            fig, self._dendrogram_aspects_ordered, rounding_function, digits
+            fig, aspects, rounding_function, digits
         )
         fig = plot._add_points_on_dendrogram_traces(fig)
         fig.update_layout(
@@ -268,13 +289,13 @@ class Aspect:
             self.agg_method,
             processes,
             random_state,
-            _depend_matrix=self.depend_matrix
+            _depend_matrix=self._native_depend_matrix()
         )
 
         pai.fit(self.explainer, new_observation)
 
         if label is not None:
-            pai.result["label"] = label
+            self._set_result_label(pai, label)
 
         return pai
 
@@ -331,22 +352,28 @@ class Aspect:
             variable_groups = self.get_aspects(h)
 
             # get results from triplot if it was precalculated with the same params
-            if self._full_hierarchical_aspect_importance is not None:
+            full = self.__dict__.get('_compatibility__full_hierarchical_aspect_importance',
+                                     self.__dict__.get('_full_hierarchical_aspect_importance'))
+            if full is not None:
                 if (
                     self._mt_params["loss_function"] == loss_function
                     and self._mt_params["N"] == N
                     and self._mt_params["B"] == B
                     and self._mt_params["type"] == type
+                    and self._mt_params.get('random_state') == random_state
+                    and self._mt_params.get('processes') == processes
                 ):
                     h = min(1, h)
-                    h_selected = np.unique(
-                        self._full_hierarchical_aspect_importance.loc[
-                            self._full_hierarchical_aspect_importance.h >= h
-                        ].h
-                    )[0]
-                    mai_result = self._full_hierarchical_aspect_importance.loc[
-                        self._full_hierarchical_aspect_importance.h == h_selected
-                    ]
+                    if isinstance(full, AspectTable):
+                        heights = nw.from_native(full.data, eager_only=True)['h'].to_numpy()
+                        selected = np.unique(heights[heights >= h])[0]
+                        ids = np.flatnonzero(heights == selected).tolist()
+                        columns = [name for name in full._columns() if name != 'h']
+                        mai_result = full.subset(ids, columns=columns, keep_index=True)
+                    else:
+                        selected = np.unique(full.loc[full.h >= h].h)[0]
+                        mai_result = full.loc[full.h == selected]
+
 
         ai = ModelAspectImportance(
             loss_function=loss_function,
@@ -356,28 +383,22 @@ class Aspect:
             variable_groups=variable_groups,
             processes=processes,
             random_state=random_state,
-            _depend_matrix=self.depend_matrix
+            _depend_matrix=self._native_depend_matrix()
         )
 
         # calculate if there was no results
         if mai_result is None:
             ai.fit(self.explainer)
         else: 
-            mai_result = mai_result[
-                [
-                    "aspect_name",
-                    "variable_names",
-                    "dropout_loss",
-                    "dropout_loss_change",
-                    "min_depend",
-                    "vars_min_depend",
-                    "label",
+            if not isinstance(mai_result, AspectTable):
+                mai_result = mai_result[
+                    ["aspect_name", "variable_names", "dropout_loss", "dropout_loss_change",
+                     "min_depend", "vars_min_depend", "label"]
                 ]
-            ]
             ai.result = mai_result
 
         if label is not None:
-            ai.result["label"] = label
+            self._set_result_label(ai, label)
 
         return ai
 
@@ -475,7 +496,8 @@ class Aspect:
         
         loss_function = checks.check_method_loss_function(self.explainer, loss_function) # get proper loss_function for model_type
         mt = ModelTriplot(loss_function, type, N, B, processes, random_state)
-        self._mt_params = {"loss_function": loss_function, "type": type, "N": N, "B": B} # save params for future calls of model_parts
+        self._mt_params = {"loss_function": loss_function, "type": type, "N": N, "B": B,
+                           "random_state": random_state, "processes": processes}
         mt.fit(self)
 
         return mt

@@ -13,9 +13,10 @@ from re import search
 # - flask:          Arena.run_server
 # - flask_cors:     Arena.run_server
 # - requests:       Arena.stop_server
-# - kaleido:        Aspect triplot widgets
+# - kaleido:        optional Plotly static image exports
 # - ppscore:        Aspect dependency method
 # - ipywidgets:     Aspect triplot widgets
+# - anywidget:      Plotly >=6 FigureWidget used by Aspect triplots
 OPTIONAL_DEPENDENCIES = {
     'dalex': '99.0',
     'lime': '0.2.0.1',
@@ -26,7 +27,8 @@ OPTIONAL_DEPENDENCIES = {
     'flask_cors': '3.0.8',
     'requests': '2.24.0',
     'kaleido': '0.2.1',
-    'ipywidgets': '7.6.3'
+    'ipywidgets': '7.6.3',
+    'anywidget': '0.9.13'
 }
     # 'ppscore': '1.3.0',
 # WARNING

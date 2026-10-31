@@ -1,13 +1,15 @@
+from .._plotting import plot_data
 import numpy as np
 import pandas as pd
 import plotly.graph_objs as go
 from copy import deepcopy
 
 from dalex import _theme, _global_checks
-from dalex._explanation import Explanation
+from dalex._explanation import Explanation, EmptyTable, CompatibilityTable
 from dalex.aspect._predict_aspect_importance.object import PredictAspectImportance
 
 from . import checks, plot, utils
+from ..plot import copy_dendrogram
 
 
 
@@ -73,6 +75,8 @@ class PredictTriplot(Explanation):
     -----
     - https://arxiv.org/abs/2104.03403
     """
+    single_variable_importance = CompatibilityTable()
+
     def __init__(
         self,
         type="default",
@@ -95,7 +99,7 @@ class PredictTriplot(Explanation):
         self.B = checks.check_B(B)
         self.sample_method = sample_method
         self.f = f
-        self.result = pd.DataFrame()
+        self.result = EmptyTable()
         self.single_variable_importance = None
         self._hierarchical_clustering_dendrogram = None
 
@@ -124,50 +128,16 @@ class PredictTriplot(Explanation):
         self._hierarchical_clustering_dendrogram = aspect._hierarchical_clustering_dendrogram
 
         self.prediction = aspect.explainer.predict(_new_observation)[0]
-        self.intercept = aspect.explainer.y_hat.mean()
+        self.intercept = (aspect.explainer.y_hat if aspect.explainer.y_hat is not None
+                          else aspect.explainer.predict(aspect.explainer.data)).mean()
 
-        ## middle plot data
-        self.result = (
-            utils.calculate_predict_hierarchical_importance(
-                aspect,
-                _new_observation,
-                self.type,
-                self.N,
-                self.B,
-                self.sample_method,
-                self.f,
-                self.processes,
-                self.random_state,
-            )
-        )
+        from .._native_triplot import calculate
+        self.result, self.single_variable_importance, _ = calculate(
+            aspect, kind=self.type, N=self.N, B=self.B, processes=self.processes,
+            random_state=self.random_state, observation=_new_observation,
+            sample_method=self.sample_method, f=self.f)
 
-        self.result.insert(3, "min_depend", None)
-        self.result.insert(4, "vars_min_depend", None)
-        for index, row in self.result.iterrows():
-            _matching_row = aspect._dendrogram_aspects_ordered.loc[
-                pd.Series(map(set, aspect._dendrogram_aspects_ordered.variable_names))
-                == set(row.variable_names)
-            ]
-            min_dep = _matching_row.min_depend.values[0]
-            vars_min_depend = _matching_row.vars_min_depend.values[0]
-            self.result.at[index, "min_depend"] = min_dep
-            self.result.at[
-                index, "vars_min_depend"
-            ] = vars_min_depend
 
-        ## left plot data
-        self.single_variable_importance = utils.calculate_single_variable_importance(
-            aspect,
-            _new_observation,
-            self.type,
-            self.N,
-            self.B, 
-            self.sample_method,
-            self.f,
-            self.processes,
-            self.random_state
-        )
-        
     def plot(
         self,
         absolute_value=False,
@@ -217,11 +187,8 @@ class PredictTriplot(Explanation):
         None or plotly.graph_objects.Figure or ipywidgets.HBox with plotly.graph_objs._figurewidget.FigureWidget
             Return figure that can be edited or saved. See `show` parameter.
         """    
-        _global_checks.global_check_import('kaleido', 'Predict Triplot')
         ## right plot
-        hierarchical_clustering_dendrogram_plot_without_annotations = go.Figure(
-            self._hierarchical_clustering_dendrogram
-        )
+        hierarchical_clustering_dendrogram_plot_without_annotations = copy_dendrogram(self._hierarchical_clustering_dendrogram)
         variables_order = list(
             hierarchical_clustering_dendrogram_plot_without_annotations.layout.yaxis.ticktext
         )
@@ -232,7 +199,7 @@ class PredictTriplot(Explanation):
             updated_dendro_traces,
         ) = plot.plot_predict_hierarchical_importance(
             hierarchical_clustering_dendrogram_plot_without_annotations,
-            self.result,
+            plot_data(self),
             rounding_function,
             digits,
             absolute_value,
@@ -257,7 +224,7 @@ class PredictTriplot(Explanation):
 
         ## left plot
         fig = plot.plot_single_aspects_importance(
-            self.single_variable_importance,
+            plot_data(self, 'single_variable_importance'),
             variables_order,
             rounding_function,
             digits,
@@ -306,7 +273,7 @@ class PredictTriplot(Explanation):
 
         plot_height = 78 + 71 + m * bar_width + (m + 1) * bar_width / 4
         ticktext = plot.get_ticktext_for_plot(
-            self.single_variable_importance, variables_order, abbrev_labels
+            plot_data(self, 'single_variable_importance'), variables_order, abbrev_labels
         )
 
         fig.update_layout(
@@ -383,6 +350,7 @@ class PredictTriplot(Explanation):
 
         if widget:
             _global_checks.global_check_import('ipywidgets', 'Predict Triplot')
+            _global_checks.global_check_import('anywidget', 'Predict Triplot')
             from ipywidgets import HBox, Layout
             fig = go.FigureWidget(fig, layout={"autosize": True, "hoverdistance": 100})
             original_bar_colors = deepcopy(list(fig.data[0]["marker"]["color"]))

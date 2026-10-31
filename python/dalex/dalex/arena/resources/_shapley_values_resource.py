@@ -1,4 +1,4 @@
-import pandas as pd
+from .._native_resources import ShapRecords, records, stats
 from .._resource import Resource
 
 
@@ -22,16 +22,12 @@ class ShapleyValuesResource(Resource):
         with self.mutex:
             if self.data.get('intercept') is None:
                 self.data['intercept'] = shap.intercept
-            result = shap.result
-            result = result[result.B != 0]
-            if self.data.get('result') is not None:
-                result = pd.concat([self.data['result'], result])
+            result = ShapRecords.from_shap(shap)
+            previous = self.data.native('result')
+            if previous is not None:
+                result = records(previous).append(result)
             self.data['result'] = result
-            stats = result.groupby(['variable_name', 'variable_value']) \
-                .agg({'contribution': ['mean', 'max', 'min', q1, q3]}) \
-                .contribution
-            stats['abs'] = stats['mean'].abs()
-            self.data['stats'] = stats
+            self.data['stats'] = stats(result)
 
     def _fit(self, model, observation):
         row = observation.get_row_for_model(model)

@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "reference_root": "/home/runner/work/DALEX/DALEX/legacy-reference/python/dalex",
+  "objects_loaded": 15,
+  "legacy_tables_compared": 13,
+  "legacy_cp_aggregation": true,
+  "legacy_aspect_groups_and_plot": true,
+  "python": "3.14.8 (main, Oct  1 2026, 02:38:33) [GCC 13.3.0]",
+  "pandas": "2.3.3"
+}

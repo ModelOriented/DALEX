@@ -1,0 +1,341 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "passed": true,
+      "source": {
+        "python_modules": 114,
+        "python_source_sha256": "ec8b40e7cbd47083ba94ed09c269a1e45472dfb063461e5c2142f6ceeab2e7f5",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "backend": "pandas",
+      "model": "sklearn.ensemble._hist_gradient_boosting.gradient_boosting.HistGradientBoostingRegressor",
+      "rows": 1000000,
+      "precalculate": true,
+      "actual_y_hat": true,
+      "actual_residuals": true,
+      "max_absolute_prediction_error": 0.0,
+      "model_sha256": "5460555e0c011af73f584c17b43506bd6a1653ab20ecbfd3fc9878f43cb00afe",
+      "y_hat_sha256": "a43baf35e1a6b9eca8c02d5ef63564f1f98c87bccfb64f114de7eb3ea917d1c6",
+      "initialization_dataframe_export_events": [
+        {
+          "backend": "pandas.core.frame",
+          "method": "__array__",
+          "shape": [
+            1000000,
+            10
+          ],
+          "result_type": "ndarray",
+          "nbytes": 80000000,
+          "c_contiguous": false,
+          "f_contiguous": true
+        },
+        {
+          "backend": "pandas.core.frame",
+          "method": "__array__",
+          "shape": [
+            1000000,
+            10
+          ],
+          "result_type": "ndarray",
+          "nbytes": 80000000,
+          "c_contiguous": false,
+          "f_contiguous": true
+        },
+        {
+          "backend": "pandas.core.frame",
+          "method": "__array__",
+          "shape": [
+            1000000,
+            10
+          ],
+          "result_type": "ndarray",
+          "nbytes": 80000000,
+          "c_contiguous": false,
+          "f_contiguous": true
+        }
+      ],
+      "scope": "Instrumented diagnostic after benchmarks; its execution time and memory are not benchmark results.",
+      "source_name": "upstream"
+    },
+    {
+      "passed": true,
+      "source": {
+        "python_modules": 135,
+        "python_source_sha256": "441d90693067367af8a8727caf0b4a639515a6aef3c39312cfc876e07780ce5e",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "backend": "pandas",
+      "model": "sklearn.ensemble._hist_gradient_boosting.gradient_boosting.HistGradientBoostingRegressor",
+      "rows": 1000000,
+      "precalculate": true,
+      "actual_y_hat": true,
+      "actual_residuals": true,
+      "max_absolute_prediction_error": 0.0,
+      "model_sha256": "5460555e0c011af73f584c17b43506bd6a1653ab20ecbfd3fc9878f43cb00afe",
+      "y_hat_sha256": "a43baf35e1a6b9eca8c02d5ef63564f1f98c87bccfb64f114de7eb3ea917d1c6",
+      "initialization_dataframe_export_events": [
+        {
+          "backend": "pandas.core.frame",
+          "method": "to_numpy",
+          "shape": [
+            1,
+            10
+          ],
+          "result_type": "ndarray",
+          "nbytes": 80,
+          "c_contiguous": true,
+          "f_contiguous": true
+        },
+        {
+          "backend": "pandas.core.frame",
+          "method": "__array__",
+          "shape": [
+            1000000,
+            10
+          ],
+          "result_type": "ndarray",
+          "nbytes": 80000000,
+          "c_contiguous": false,
+          "f_contiguous": true
+        },
+        {
+          "backend": "pandas.core.frame",
+          "method": "__array__",
+          "shape": [
+            1000000,
+            10
+          ],
+          "result_type": "ndarray",
+          "nbytes": 80000000,
+          "c_contiguous": false,
+          "f_contiguous": true
+        }
+      ],
+      "scope": "Instrumented diagnostic after benchmarks; its execution time and memory are not benchmark results.",
+      "source_name": "candidate"
+    },
+    {
+      "passed": true,
+      "source": {
+        "python_modules": 135,
+        "python_source_sha256": "441d90693067367af8a8727caf0b4a639515a6aef3c39312cfc876e07780ce5e",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "backend": "polars",
+      "model": "sklearn.ensemble._hist_gradient_boosting.gradient_boosting.HistGradientBoostingRegressor",
+      "rows": 1000000,
+      "precalculate": true,
+      "actual_y_hat": true,
+      "actual_residuals": true,
+      "max_absolute_prediction_error": 0.0,
+      "model_sha256": "5460555e0c011af73f584c17b43506bd6a1653ab20ecbfd3fc9878f43cb00afe",
+      "y_hat_sha256": "a43baf35e1a6b9eca8c02d5ef63564f1f98c87bccfb64f114de7eb3ea917d1c6",
+      "initialization_dataframe_export_events": [
+        {
+          "backend": "polars.dataframe.frame",
+          "method": "to_numpy",
+          "shape": [
+            1000000,
+            10
+          ],
+          "result_type": "ndarray",
+          "nbytes": 80000000,
+          "c_contiguous": false,
+          "f_contiguous": true
+        },
+        {
+          "backend": "polars.dataframe.frame",
+          "method": "__array__",
+          "shape": [
+            1000000,
+            10
+          ],
+          "result_type": "ndarray",
+          "nbytes": 80000000,
+          "c_contiguous": false,
+          "f_contiguous": true
+        },
+        {
+          "backend": "polars.dataframe.frame",
+          "method": "to_numpy",
+          "shape": [
+            1000000,
+            10
+          ],
+          "result_type": "ndarray",
+          "nbytes": 80000000,
+          "c_contiguous": false,
+          "f_contiguous": true
+        },
+        {
+          "backend": "polars.dataframe.frame",
+          "method": "__array__",
+          "shape": [
+            1000000,
+            10
+          ],
+          "result_type": "ndarray",
+          "nbytes": 80000000,
+          "c_contiguous": false,
+          "f_contiguous": true
+        }
+      ],
+      "scope": "Instrumented diagnostic after benchmarks; its execution time and memory are not benchmark results.",
+      "source_name": "candidate"
+    },
+    {
+      "passed": true,
+      "source": {
+        "python_modules": 114,
+        "python_source_sha256": "ec8b40e7cbd47083ba94ed09c269a1e45472dfb063461e5c2142f6ceeab2e7f5",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "backend": "pandas",
+      "model": "lightgbm.sklearn.LGBMRegressor",
+      "rows": 1000000,
+      "precalculate": true,
+      "actual_y_hat": true,
+      "actual_residuals": true,
+      "max_absolute_prediction_error": 0.0,
+      "model_sha256": "666f89a9561b9d607b7fc7b889c3a505dcc078f54efbff065421e6997435fe49",
+      "y_hat_sha256": "955f2ef894845928bee01e26296950794e212c158ac2ae82a106b33edd44fbc3",
+      "initialization_dataframe_export_events": [
+        {
+          "backend": "pandas.core.frame",
+          "method": "__array__",
+          "shape": [
+            1000000,
+            10
+          ],
+          "result_type": "ndarray",
+          "nbytes": 80000000,
+          "c_contiguous": false,
+          "f_contiguous": true
+        },
+        {
+          "backend": "pandas.core.frame",
+          "method": "to_numpy",
+          "shape": [
+            1000000,
+            10
+          ],
+          "result_type": "ndarray",
+          "nbytes": 80000000,
+          "c_contiguous": false,
+          "f_contiguous": true
+        },
+        {
+          "backend": "pandas.core.frame",
+          "method": "to_numpy",
+          "shape": [
+            1000000,
+            10
+          ],
+          "result_type": "ndarray",
+          "nbytes": 80000000,
+          "c_contiguous": false,
+          "f_contiguous": true
+        }
+      ],
+      "scope": "Instrumented diagnostic after benchmarks; its execution time and memory are not benchmark results.",
+      "source_name": "upstream"
+    },
+    {
+      "passed": true,
+      "source": {
+        "python_modules": 135,
+        "python_source_sha256": "441d90693067367af8a8727caf0b4a639515a6aef3c39312cfc876e07780ce5e",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "backend": "pandas",
+      "model": "lightgbm.sklearn.LGBMRegressor",
+      "rows": 1000000,
+      "precalculate": true,
+      "actual_y_hat": true,
+      "actual_residuals": true,
+      "max_absolute_prediction_error": 0.0,
+      "model_sha256": "666f89a9561b9d607b7fc7b889c3a505dcc078f54efbff065421e6997435fe49",
+      "y_hat_sha256": "955f2ef894845928bee01e26296950794e212c158ac2ae82a106b33edd44fbc3",
+      "initialization_dataframe_export_events": [
+        {
+          "backend": "pandas.core.frame",
+          "method": "to_numpy",
+          "shape": [
+            1,
+            10
+          ],
+          "result_type": "ndarray",
+          "nbytes": 80,
+          "c_contiguous": true,
+          "f_contiguous": true
+        },
+        {
+          "backend": "pandas.core.frame",
+          "method": "to_numpy",
+          "shape": [
+            1000000,
+            10
+          ],
+          "result_type": "ndarray",
+          "nbytes": 80000000,
+          "c_contiguous": false,
+          "f_contiguous": true
+        },
+        {
+          "backend": "pandas.core.frame",
+          "method": "to_numpy",
+          "shape": [
+            1000000,
+            10
+          ],
+          "result_type": "ndarray",
+          "nbytes": 80000000,
+          "c_contiguous": false,
+          "f_contiguous": true
+        }
+      ],
+      "scope": "Instrumented diagnostic after benchmarks; its execution time and memory are not benchmark results.",
+      "source_name": "candidate"
+    },
+    {
+      "passed": true,
+      "source": {
+        "python_modules": 135,
+        "python_source_sha256": "441d90693067367af8a8727caf0b4a639515a6aef3c39312cfc876e07780ce5e",
+        "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+      },
+      "backend": "polars",
+      "model": "lightgbm.sklearn.LGBMRegressor",
+      "rows": 1000000,
+      "precalculate": true,
+      "actual_y_hat": true,
+      "actual_residuals": true,
+      "max_absolute_prediction_error": 0.0,
+      "model_sha256": "666f89a9561b9d607b7fc7b889c3a505dcc078f54efbff065421e6997435fe49",
+      "y_hat_sha256": "955f2ef894845928bee01e26296950794e212c158ac2ae82a106b33edd44fbc3",
+      "initialization_dataframe_export_events": [
+        {
+          "backend": "polars.dataframe.frame",
+          "method": "__arrow_c_stream__",
+          "shape": [
+            1000000,
+            10
+          ],
+          "result_type": "PyCapsule"
+        },
+        {
+          "backend": "polars.dataframe.frame",
+          "method": "__arrow_c_stream__",
+          "shape": [
+            1000000,
+            10
+          ],
+          "result_type": "PyCapsule"
+        }
+      ],
+      "scope": "Instrumented diagnostic after benchmarks; its execution time and memory are not benchmark results.",
+      "source_name": "candidate"
+    }
+  ]
+}

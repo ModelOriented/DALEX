@@ -1,4 +1,6 @@
-from pandas.api.types import is_numeric_dtype
+from ..._dataframe import numeric_columns
+import narwhals.stable.v2 as nw
+from .._native_eda import display_categories
 from .._plot_container import PlotContainer
 
 class PartialDependenceContainer(PlotContainer):
@@ -17,7 +19,7 @@ class PartialDependenceContainer(PlotContainer):
     def _fit(self, model, variable):
         if not variable.variable in model.variables:
             raise Exception('Variable is not a column of explainer')
-        if is_numeric_dtype(model.explainer.data[variable.variable]):
+        if variable.variable in numeric_columns(model.explainer.data):
             self.plot_component = 'LinearDependence'
             profile = model.explainer.model_profile(
                 type='partial',
@@ -37,9 +39,10 @@ class PartialDependenceContainer(PlotContainer):
                 N=self.get_option('N'),
                 verbose=False
             )
+        result = nw.from_native(profile.result_as(), eager_only=True)
         self.data = {
-            'x': profile.result['_x_'].tolist(),
-            'y': profile.result['_yhat_'].tolist(),
+            'x': display_categories(result['_x_']).to_list(),
+            'y': result['_yhat_'].to_list(),
             'variable': variable.variable,
             'base': profile.mean_prediction
         }

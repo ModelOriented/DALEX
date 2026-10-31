@@ -184,7 +184,7 @@ class FairnessTest(unittest.TestCase):
         ratios = dx.fairness._group_fairness.utils.calculate_ratio(scf_metrics, "a")
         TPR_parity_loss = parity_loss.iloc[0]
 
-        TPR_ratios = ratios.TPR / ratios.TPR[0]
+        TPR_ratios = ratios.TPR / ratios.TPR.iloc[0]
         TPR_log = abs(np.log(TPR_ratios))
 
         self.assertEqual(TPR_log.sum(), TPR_parity_loss)

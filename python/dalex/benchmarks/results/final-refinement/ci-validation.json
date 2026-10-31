@@ -1,0 +1,290 @@
+{
+  "head": "34cb63005cc2f0edec980d19ba863cc97ede9b17",
+  "url": "https://github.com/brunocarlin/DALEX/actions/runs/41183547272",
+  "jobs": 23,
+  "job_results": [
+    {
+      "name": "backend-benchmark (sklearn-native)",
+      "conclusion": "success"
+    },
+    {
+      "name": "Neural SHAP / torch / Python 3.14",
+      "conclusion": "success"
+    },
+    {
+      "name": "backend-benchmark (sklearn-numpy)",
+      "conclusion": "success"
+    },
+    {
+      "name": "Upstream pandas numerical and pickle compatibility / Python 3.14",
+      "conclusion": "success"
+    },
+    {
+      "name": "Python 3.13 / macos-latest / pandas <3",
+      "conclusion": "success"
+    },
+    {
+      "name": "Installed wheel / pandas-only core / Python 3.14",
+      "conclusion": "success"
+    },
+    {
+      "name": "Windows Python 3.10 / LightGBM 4.6 / explicit model bridge",
+      "conclusion": "success"
+    },
+    {
+      "name": "Python 3.14 / macos-latest / pandas <3",
+      "conclusion": "success"
+    },
+    {
+      "name": "Python 3.14t / ubuntu-latest / GIL disabled",
+      "conclusion": "success"
+    },
+    {
+      "name": "Python 3.14 / windows-latest / pandas <3",
+      "conclusion": "success"
+    },
+    {
+      "name": "Python 3.10 / ubuntu-latest / pandas <3",
+      "conclusion": "success"
+    },
+    {
+      "name": "backend-benchmark (lightgbm-native)",
+      "conclusion": "success"
+    },
+    {
+      "name": "Python 3.14 / Polars 1.0 / Narwhals 2.0 / Plotly 6.0",
+      "conclusion": "success"
+    },
+    {
+      "name": "minimum-pandas",
+      "conclusion": "success"
+    },
+    {
+      "name": "Neural SHAP / tensorflow / Python 3.13",
+      "conclusion": "success"
+    },
+    {
+      "name": "Python 3.10 / macos-latest / pandas <3",
+      "conclusion": "success"
+    },
+    {
+      "name": "Python 3.14 / ubuntu-latest / pandas >=3,<4",
+      "conclusion": "success"
+    },
+    {
+      "name": "Python 3.12 / ubuntu-latest / pandas <3",
+      "conclusion": "success"
+    },
+    {
+      "name": "Python 3.14 / ubuntu-latest / pandas <3",
+      "conclusion": "success"
+    },
+    {
+      "name": "Python 3.11 / macos-latest / pandas <3",
+      "conclusion": "success"
+    },
+    {
+      "name": "Python 3.12 / macos-latest / pandas <3",
+      "conclusion": "success"
+    },
+    {
+      "name": "Python 3.11 / ubuntu-latest / pandas <3",
+      "conclusion": "success"
+    },
+    {
+      "name": "Python 3.13 / ubuntu-latest / pandas <3",
+      "conclusion": "success"
+    }
+  ],
+  "library_git_tree": "c6fec18c50c4a258c5b5b5623462586085e28322",
+  "test_git_tree": "6ba6fafdccb1d0c091feb00b4d3c90f3a8c1a189",
+  "source_identity": {
+    "python_modules": 135,
+    "python_source_sha256": "441d90693067367af8a8727caf0b4a639515a6aef3c39312cfc876e07780ce5e",
+    "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+  },
+  "junit": {
+    "legacy-estimator-bridge\\legacy-estimator-bridge.xml": {
+      "tests": 4,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 4
+    },
+    "minimum-pandas\\legacy-pps-tests.xml": {
+      "tests": 18,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 18
+    },
+    "minimum-pandas\\minimum-pandas.xml": {
+      "tests": 2089,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 18,
+      "passed": 2071
+    },
+    "minimum-polars\\minimum-polars.xml": {
+      "tests": 2089,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 18,
+      "passed": 2071
+    },
+    "neural-tensorflow\\neural-tests.xml": {
+      "tests": 8,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 8
+    },
+    "neural-torch\\neural-tests.xml": {
+      "tests": 8,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 8
+    },
+    "tests-3.10-macos-latest-pandas2\\test-results.xml": {
+      "tests": 2089,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 18,
+      "passed": 2071
+    },
+    "tests-3.10-ubuntu-latest-pandas2\\test-results.xml": {
+      "tests": 2089,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 18,
+      "passed": 2071
+    },
+    "tests-3.11-macos-latest-pandas2\\test-results.xml": {
+      "tests": 2089,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 18,
+      "passed": 2071
+    },
+    "tests-3.11-ubuntu-latest-pandas2\\test-results.xml": {
+      "tests": 2089,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 18,
+      "passed": 2071
+    },
+    "tests-3.12-macos-latest-pandas2\\test-results.xml": {
+      "tests": 2089,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 18,
+      "passed": 2071
+    },
+    "tests-3.12-ubuntu-latest-pandas2\\test-results.xml": {
+      "tests": 2089,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 18,
+      "passed": 2071
+    },
+    "tests-3.13-macos-latest-pandas2\\test-results.xml": {
+      "tests": 2089,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 18,
+      "passed": 2071
+    },
+    "tests-3.13-ubuntu-latest-pandas2\\test-results.xml": {
+      "tests": 2089,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 18,
+      "passed": 2071
+    },
+    "tests-3.14-macos-latest-pandas2\\test-results.xml": {
+      "tests": 2089,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 18,
+      "passed": 2071
+    },
+    "tests-3.14-ubuntu-latest-pandas2\\test-results.xml": {
+      "tests": 2089,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 18,
+      "passed": 2071
+    },
+    "tests-3.14-ubuntu-latest-pandas3\\test-results.xml": {
+      "tests": 2089,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 18,
+      "passed": 2071
+    },
+    "tests-3.14-windows-latest-pandas2\\test-results.xml": {
+      "tests": 2089,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 18,
+      "passed": 2071
+    },
+    "tests-3.14t-ubuntu-latest\\test-results.xml": {
+      "tests": 2089,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 18,
+      "passed": 2071
+    }
+  },
+  "junit_kinds": {
+    "full": 15,
+    "neural": 2,
+    "pps": 1,
+    "legacy-estimator": 1
+  },
+  "skip_reasons": [
+    "Legacy PPS suite requires DALEX_TEST_PPS=1 and compatible optional dependencies."
+  ],
+  "float32_loss_instrumented_cases_per_full_suite": 54,
+  "float32_loss_max_absolute_error": {
+    "pandas": 0.0,
+    "polars": 0.00018310546875,
+    "pyarrow": 0.00018310546875
+  },
+  "float32_loss_native_tolerance": {
+    "rtol": 9.5367431640625e-07,
+    "atol": 1.1920928955078125e-07
+  },
+  "runtime_import_checks": 21,
+  "gil_enabled_after_imports": false,
+  "automatic_gil_fallback": [
+    "shap"
+  ],
+  "ci_benchmark_reports": 6,
+  "ci_benchmark_max_absolute_error": 0,
+  "numeric_outputs": 29,
+  "numeric_max_absolute_error": 8.881784197001252e-16,
+  "legacy_helper_public_text_outputs": 265,
+  "pandas3_label_outputs": 129,
+  "legacy_pickle_objects": 16,
+  "legacy_duplicate_pandas_exports": true,
+  "pandas_only_wheel_families": 12,
+  "pandas_only_base_dendrogram": true,
+  "pps_native_matrix_storage": true,
+  "upstream_figures": 178,
+  "exact_figure_payloads": 168,
+  "hover_density_exceptions": [
+    "aspect-predict-triplot-default-False",
+    "aspect-predict-triplot-default-True",
+    "aspect-predict-triplot-shap-False",
+    "aspect-predict-triplot-shap-True",
+    "aspect-model-triplot-False",
+    "aspect-model-triplot-True",
+    "aspect-dendrogram-0",
+    "aspect-dendrogram-3",
+    "aspect-dendrogram-custom",
+    "aspect-dendrogram-constant"
+  ]
+}

@@ -1,4 +1,6 @@
+from .._plotting import as_plot_data, ordered
 import numpy as np
+from ..plot import copy_dendrogram
 import plotly.graph_objects as go
 from copy import deepcopy 
 
@@ -16,10 +18,12 @@ def plot_predict_hierarchical_importance(
     absolute_value,
     type
 ):
-    dendrogram_hierarchical_importance = go.Figure(dendrogram_hierarchical_correlation)
+    dendrogram_hierarchical_importance = copy_dendrogram(dendrogram_hierarchical_correlation)
+    hierarchical_importance_data = as_plot_data(hierarchical_importance_data)
+    hierarchical_rows = hierarchical_importance_data.rows()
     importance_dict = {}
-    min_imp = min(hierarchical_importance_data["importance"])
-    max_imp = max(hierarchical_importance_data["importance"])
+    min_imp = min(hierarchical_importance_data.frame["importance"].to_numpy())
+    max_imp = max(hierarchical_importance_data.frame["importance"].to_numpy())
 
 
     tick_dict = dict(zip(dendrogram_hierarchical_importance.layout.yaxis.tickvals, 
@@ -32,8 +36,8 @@ def plot_predict_hierarchical_importance(
         aspects_vars_before.append((tick_dict[scatter.y[1]], tick_dict[scatter.y[2]]))
 
     updated = []
-    for i, row in hierarchical_importance_data[:-1].iterrows():
-        dendro_mask = np.array([set(row.variable_names) == set(el) for el in aspects_dendro_order])
+    for i, row in enumerate(hierarchical_rows[:-1]):
+        dendro_mask = np.array([set(row['variable_names']) == set(el) for el in aspects_dendro_order])
         if dendro_mask.any():
             k = np.flatnonzero(dendro_mask == True)[0]
             updated.append(k)
@@ -57,17 +61,17 @@ def plot_predict_hierarchical_importance(
         vars_before = aspects_vars_before[i]
         if i not in updated:
             if absolute_value == True:
-                imp_scatter = abs(hierarchical_importance_data.iloc[-1]["importance"])
+                imp_scatter = abs(hierarchical_rows[-1]["importance"])
             else:
-                imp_scatter = hierarchical_importance_data.iloc[-1]["importance"]
+                imp_scatter = hierarchical_rows[-1]["importance"]
             change_last = True if type == 'default' else False
             scatter.hoverinfo = "text"
             scatter.hoverlabel = {"bgcolor": "rgba(0,0,0,0.8)"}
-            scatter.hovertext = tooltip_text_aspect(hierarchical_importance_data.iloc[-1], rounding_function, digits, change_last)
+            scatter.hovertext = tooltip_text_aspect(hierarchical_rows[-1], rounding_function, digits, change_last)
             scatter_clustering = dendrogram_hierarchical_correlation.data[i]
             scatter_clustering.hoverinfo = "text"
             scatter_clustering.hoverlabel = {"bgcolor": "rgba(0,0,0,0.8)"}
-            scatter_clustering.hovertext = tooltip_text_aspect(hierarchical_importance_data.iloc[-1], rounding_function, digits, change_last)
+            scatter_clustering.hovertext = tooltip_text_aspect(hierarchical_rows[-1], rounding_function, digits, change_last)
             scatter.x[1:3] = imp_scatter
             importance_dict[tuple(aspects_dendro_order[i])] = imp_scatter
         if tuple(vars_before[0]) in importance_dict.keys():
@@ -96,45 +100,40 @@ def plot_predict_hierarchical_importance(
 def get_ticktext_for_plot(
     single_aspect_importance_df, variables_order, abbrev_labels=0
 ):
-    _df = deepcopy(single_aspect_importance_df)
-    ticktext = [
-        f"{variable} = {utils.nice_format(_df.loc[_df['variable_names']==variable, 'variable_values'].values[0])}"
-        if abbrev_labels <= 0
-        else utils.text_abbreviate(
-            f"{variable} = {utils.nice_format(_df.loc[_df['variable_names']==variable, 'variable_values'].values[0])}",
-            abbrev_labels,
-        )
-        for variable in variables_order
-    ]
+    rows = as_plot_data(single_aspect_importance_df).rows()
+    values = {row['variable_names']: row['variable_values'] for row in rows}
+    ticktext = [utils.text_abbreviate(f"{variable} = {utils.nice_format(values[variable])}", abbrev_labels)
+                if abbrev_labels > 0 else f"{variable} = {utils.nice_format(values[variable])}"
+                for variable in variables_order]
     return ticktext
 
 
 def tooltip_text_aspect(row, rounding_function, digits, last=False):
     var_val_string = ""
-    for i in range(len(row.variable_names)):
+    for i in range(len(row['variable_names'])):
         var_val_string += (
-            "<br>" + row.variable_names[i] + " = " + str(row.variable_values[i])
+            "<br>" + row['variable_names'][i] + " = " + str(row['variable_values'][i])
         )
     keyword = "Change in average response: " if last else "Importance: " 
 
     return (
-        f"Min abs depend: {rounding_function(row.min_depend, digits)}<br>"
-        + "(between variables: " + ", ".join(row.vars_min_depend) + ")<br>"
-        + keyword + f"{rounding_function(row.importance, digits)}<br>Variables: "
+        f"Min abs depend: {rounding_function(row['min_depend'], digits)}<br>"
+        + "(between variables: " + ", ".join(row['vars_min_depend']) + ")<br>"
+        + keyword + f"{rounding_function(row['importance'], digits)}<br>Variables: "
         + var_val_string
     )
 
 
 def tooltip_text_single(row, rounding_function, digits):
     return (
-        f"Importance: {rounding_function(row.importance, digits)}<br>"
+        f"Importance: {rounding_function(row['importance'], digits)}<br>"
         + "Variable:<br>"
-        + f"{row.variable_names} = " + str(row.variable_values)
+        + f"{row['variable_names']} = " + str(row['variable_values'])
     )
 
 
 def add_text_to_dendrogram(fig, updated, rounding_function, digits, type="clustering"):
-    res_fig = go.Figure(fig)
+    res_fig = copy_dendrogram(fig)
     corner_scatters = [] 
     for i, scatter in enumerate(res_fig.data):
         if i in updated:
@@ -172,18 +171,12 @@ def plot_single_aspects_importance(
     result_dataframe, order, rounding_function, digits, vcolors
 ):
     fig = go.Figure()
-    _result = deepcopy(result_dataframe)
-    sorter = dict(zip(order, range(len(order))))
-    _result["order"] = _result["variable_names"].map(sorter)
-    _result = _result.sort_values(["order"], ascending=True).reset_index(drop=True)
-    _result = _result.drop("order", axis=1)
-    _result.loc[:, "importance"] = rounding_function(
-                _result.loc[:, "importance"], digits
-            )
-
-    _result["color"] = [0 if imp > 0 else 1 for imp in _result["importance"]]
-    _result["tooltip_text"] = _result.apply(tooltip_text_single, args=(rounding_function, digits), axis=1)
-    _result["label_text"] = _global_utils.convert_float_to_str(_result.importance, "+")
+    _data = ordered(result_dataframe, order).rounded('importance', rounding_function, digits)
+    _rows = _data.rows()
+    _result = _data.frame
+    colors = [0 if value > 0 else 1 for value in _result['importance'].to_list()]
+    tooltip = [tooltip_text_single(row, rounding_function, digits) for row in _rows]
+    labels = _global_utils.convert_float_to_str(_result['importance'].to_numpy(), '+')
 
     if vcolors is None:
         vcolors = _theme.get_aspect_importance_colors()
@@ -201,13 +194,13 @@ def plot_single_aspects_importance(
 
     fig.add_bar(
         orientation="h",
-        y=_result["variable_names"].tolist(),
-        x=_result["importance"].tolist(),
+        y=[row['variable_names'] for row in _rows],
+        x=_result["importance"].to_list(),
         textposition="outside",
-        text=_result["label_text"].tolist(),
+        text=labels,
         textfont_color=["#371ea3"] * len(order),
-        marker_color=[vcolors[int(c)] for c in _result["color"].tolist()],
-        hovertext=_result["tooltip_text"].tolist(),
+        marker_color=[vcolors[int(c)] for c in colors],
+        hovertext=tooltip,
         hoverinfo="text",
         hoverlabel={"bgcolor": "rgba(0,0,0,0.8)"},
         showlegend=False,
@@ -240,12 +233,12 @@ def plot_single_aspects_importance(
     )
 
     temp_min_max = [np.inf, -np.inf]
-    min_max_margin = np.ptp(_result.importance.values) * 0.15
+    min_max_margin = np.ptp(_result['importance'].to_numpy()) * 0.15
     temp_min_max[0] = np.min(
-        [temp_min_max[0], _result.importance.values.min() - min_max_margin]
+        [temp_min_max[0], _result['importance'].to_numpy().min() - min_max_margin]
     )
     temp_min_max[1] = np.max(
-        [temp_min_max[1], _result.importance.values.max() + min_max_margin]
+        [temp_min_max[1], _result['importance'].to_numpy().max() + min_max_margin]
     )
 
     fig.update_xaxes({"range": temp_min_max})
@@ -281,12 +274,13 @@ def _add_between_points(
 
 def _add_points_on_dendrogram_traces(fig):
     k = len(fig.data)
-    range_x2 = fig.full_figure_for_development(warn=False).layout.xaxis2.range
-    range_x2_len = range_x2[1] - range_x2[0]
-    range_x3 = fig.full_figure_for_development(warn=False).layout.xaxis3.range
-    range_x3_len = range_x3[1] - range_x3[0]
-    range_y = fig.full_figure_for_development(warn=False).layout.yaxis.range
-    range_y_len = range_y[1] - range_y[0]
+    # Only hover-point density depends on these spans. All added points remain
+    # on existing straight segments, so resolving browser defaults is unnecessary.
+    range_x2_len = _global_utils.finite_range_length(fig.layout.xaxis2.range)
+    range_x3_len = _global_utils.finite_range_length(fig.layout.xaxis3.range)
+    range_y_len = _global_utils.finite_range_length([
+        value for trace in fig.data if trace.y is not None for value in trace.y
+    ])
     middle_point = [None] * k
     for i in range(1, k):
         if i < ((k - 1) / 2 + 1):

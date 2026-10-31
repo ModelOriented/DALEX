@@ -1,0 +1,704 @@
+{
+  "passed": true,
+  "reports": [
+    {
+      "filename": "final-million-sklearn.json",
+      "archive_entry": "final-million-sklearn.json",
+      "uncompressed_bytes": 371601,
+      "sha256": "5c1c3538268f5b4f90f4aa0c9478eb38319ad03fe1683e2ffacf2b802d5483f7",
+      "sources": {
+        "upstream": {
+          "revision": "77ea3ad9580a3b68aaa94d8dca75d11bd527848f",
+          "python_modules": 114,
+          "python_source_sha256": "ec8b40e7cbd47083ba94ed09c269a1e45472dfb063461e5c2142f6ceeab2e7f5",
+          "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+        },
+        "before": {
+          "revision": "fdb23b037e088bb6b9b6e72b2977cce6a04831ae",
+          "python_modules": 135,
+          "python_source_sha256": "f235a1468429e225ff5ac6f4895f9ab6a09003ed35882c871d2bfbe1c73ba22b",
+          "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+        },
+        "candidate": {
+          "revision": "3b66481e829f581f4c2d427719b1601667973f3d",
+          "python_modules": 135,
+          "python_source_sha256": "441d90693067367af8a8727caf0b4a639515a6aef3c39312cfc876e07780ce5e",
+          "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+        }
+      },
+      "settings": {
+        "source": [
+          "upstream=D:/CodexScratch/DALEXNarwhals-20261030/validation-checkout/.local-dist/upstream/python/dalex",
+          "before=D:/CodexScratch/DALEXNarwhals-20261031/legacy-adapters/python/dalex",
+          "candidate=D:/CodexScratch/DALEXNarwhals-20261031/complete-label-compatibility/python/dalex"
+        ],
+        "revision": [
+          "upstream=77ea3ad9580a3b68aaa94d8dca75d11bd527848f",
+          "before=fdb23b037e088bb6b9b6e72b2977cce6a04831ae",
+          "candidate=3b66481e829f581f4c2d427719b1601667973f3d"
+        ],
+        "pandas_only_source": [
+          "upstream"
+        ],
+        "model": "sklearn",
+        "model_file": ".local-dist/comparison-sklearn.pkl",
+        "rows": 1000000,
+        "features": 10,
+        "sample": 1000,
+        "rounds": 3,
+        "trials": 5,
+        "precalculate": false,
+        "families": [
+          "importance",
+          "breakdown",
+          "shap",
+          "partial",
+          "conditional",
+          "accumulated"
+        ],
+        "output": ".local-dist/final-million-sklearn.json",
+        "worker_root": null,
+        "backend": null,
+        "family": null
+      },
+      "workers": 150,
+      "fitted_model_sha256": "5460555e0c011af73f584c17b43506bd6a1653ab20ecbfd3fc9878f43cb00afe",
+      "data_sha256": "baf8d10a7a35a24bb94e2491910d39c83499e036cfbdaa1171604afc834b1910",
+      "max_absolute_parity_error": {
+        "importance": 0.0,
+        "breakdown": 0.0,
+        "shap": 0.0,
+        "partial": 6.661338147750939e-16,
+        "conditional": 6.661338147750939e-16,
+        "accumulated": 6.661338147750939e-16
+      },
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0",
+        "numpy": "2.5.4",
+        "scikit-learn": "1.9.1"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]"
+    },
+    {
+      "filename": "final-million-lightgbm.json",
+      "archive_entry": "final-million-lightgbm.json",
+      "uncompressed_bytes": 376082,
+      "sha256": "373b58fa43df0aaa234c08744615afb9c57822faa496bcf8f616e814f4bbca4d",
+      "sources": {
+        "upstream": {
+          "revision": "77ea3ad9580a3b68aaa94d8dca75d11bd527848f",
+          "python_modules": 114,
+          "python_source_sha256": "ec8b40e7cbd47083ba94ed09c269a1e45472dfb063461e5c2142f6ceeab2e7f5",
+          "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+        },
+        "before": {
+          "revision": "fdb23b037e088bb6b9b6e72b2977cce6a04831ae",
+          "python_modules": 135,
+          "python_source_sha256": "f235a1468429e225ff5ac6f4895f9ab6a09003ed35882c871d2bfbe1c73ba22b",
+          "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+        },
+        "candidate": {
+          "revision": "3b66481e829f581f4c2d427719b1601667973f3d",
+          "python_modules": 135,
+          "python_source_sha256": "441d90693067367af8a8727caf0b4a639515a6aef3c39312cfc876e07780ce5e",
+          "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+        }
+      },
+      "settings": {
+        "source": [
+          "upstream=D:/CodexScratch/DALEXNarwhals-20261030/validation-checkout/.local-dist/upstream/python/dalex",
+          "before=D:/CodexScratch/DALEXNarwhals-20261031/legacy-adapters/python/dalex",
+          "candidate=D:/CodexScratch/DALEXNarwhals-20261031/complete-label-compatibility/python/dalex"
+        ],
+        "revision": [
+          "upstream=77ea3ad9580a3b68aaa94d8dca75d11bd527848f",
+          "before=fdb23b037e088bb6b9b6e72b2977cce6a04831ae",
+          "candidate=3b66481e829f581f4c2d427719b1601667973f3d"
+        ],
+        "pandas_only_source": [
+          "upstream"
+        ],
+        "model": "lightgbm",
+        "model_file": ".local-dist/comparison-lightgbm.pkl",
+        "rows": 1000000,
+        "features": 10,
+        "sample": 1000,
+        "rounds": 3,
+        "trials": 5,
+        "precalculate": false,
+        "families": [
+          "importance",
+          "breakdown",
+          "shap",
+          "partial",
+          "conditional",
+          "accumulated"
+        ],
+        "output": ".local-dist/final-million-lightgbm.json",
+        "worker_root": null,
+        "backend": null,
+        "family": null
+      },
+      "workers": 150,
+      "fitted_model_sha256": "666f89a9561b9d607b7fc7b889c3a505dcc078f54efbff065421e6997435fe49",
+      "data_sha256": "baf8d10a7a35a24bb94e2491910d39c83499e036cfbdaa1171604afc834b1910",
+      "max_absolute_parity_error": {
+        "importance": 0.0,
+        "breakdown": 0.0,
+        "shap": 0.0,
+        "partial": 4.440892098500626e-16,
+        "conditional": 8.881784197001252e-16,
+        "accumulated": 4.440892098500626e-16
+      },
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0",
+        "numpy": "2.5.4",
+        "scikit-learn": "1.9.1",
+        "lightgbm": "4.7.0"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]"
+    },
+    {
+      "filename": "final-wide-sklearn.json",
+      "archive_entry": "final-wide-sklearn.json",
+      "uncompressed_bytes": 3377066,
+      "sha256": "ca8889a6b51c80f2e0618ebe1ae4ff186e867d57e852f32839fbe085b5a1951f",
+      "sources": {
+        "upstream": {
+          "revision": "77ea3ad9580a3b68aaa94d8dca75d11bd527848f",
+          "python_modules": 114,
+          "python_source_sha256": "ec8b40e7cbd47083ba94ed09c269a1e45472dfb063461e5c2142f6ceeab2e7f5",
+          "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+        },
+        "candidate": {
+          "revision": "3b66481e829f581f4c2d427719b1601667973f3d",
+          "python_modules": 135,
+          "python_source_sha256": "441d90693067367af8a8727caf0b4a639515a6aef3c39312cfc876e07780ce5e",
+          "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+        }
+      },
+      "settings": {
+        "source": [
+          "upstream=D:/CodexScratch/DALEXNarwhals-20261030/validation-checkout/.local-dist/upstream/python/dalex",
+          "candidate=D:/CodexScratch/DALEXNarwhals-20261031/complete-label-compatibility/python/dalex"
+        ],
+        "revision": [
+          "upstream=77ea3ad9580a3b68aaa94d8dca75d11bd527848f",
+          "candidate=3b66481e829f581f4c2d427719b1601667973f3d"
+        ],
+        "pandas_only_source": [
+          "upstream"
+        ],
+        "model": "sklearn",
+        "model_file": ".local-dist/comparison-wide-sklearn.pkl",
+        "rows": 128,
+        "features": 1000,
+        "sample": 32,
+        "rounds": 3,
+        "trials": 5,
+        "precalculate": false,
+        "families": [
+          "breakdown",
+          "shap"
+        ],
+        "output": ".local-dist/final-wide-sklearn.json",
+        "worker_root": null,
+        "backend": null,
+        "family": null
+      },
+      "workers": 30,
+      "fitted_model_sha256": "f4272f546fc8e7d78ae9a33975a3f4d0927d279133058c47cc56e5955cde74d3",
+      "data_sha256": "6fa0e3648eb711ac64248a0fa2b49344b14f8f43b3b2423376e6f7dbf4a69ca0",
+      "max_absolute_parity_error": {
+        "breakdown": 0.0,
+        "shap": 0.0
+      },
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0",
+        "numpy": "2.5.4",
+        "scikit-learn": "1.9.1"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]"
+    },
+    {
+      "filename": "final-wide-lightgbm.json",
+      "archive_entry": "final-wide-lightgbm.json",
+      "uncompressed_bytes": 3381451,
+      "sha256": "275dba2dd630201fabb3fcafbb46e82b3d6f0b8f2138ebefab8cb51396821268",
+      "sources": {
+        "upstream": {
+          "revision": "77ea3ad9580a3b68aaa94d8dca75d11bd527848f",
+          "python_modules": 114,
+          "python_source_sha256": "ec8b40e7cbd47083ba94ed09c269a1e45472dfb063461e5c2142f6ceeab2e7f5",
+          "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+        },
+        "candidate": {
+          "revision": "3b66481e829f581f4c2d427719b1601667973f3d",
+          "python_modules": 135,
+          "python_source_sha256": "441d90693067367af8a8727caf0b4a639515a6aef3c39312cfc876e07780ce5e",
+          "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+        }
+      },
+      "settings": {
+        "source": [
+          "upstream=D:/CodexScratch/DALEXNarwhals-20261030/validation-checkout/.local-dist/upstream/python/dalex",
+          "candidate=D:/CodexScratch/DALEXNarwhals-20261031/complete-label-compatibility/python/dalex"
+        ],
+        "revision": [
+          "upstream=77ea3ad9580a3b68aaa94d8dca75d11bd527848f",
+          "candidate=3b66481e829f581f4c2d427719b1601667973f3d"
+        ],
+        "pandas_only_source": [
+          "upstream"
+        ],
+        "model": "lightgbm",
+        "model_file": ".local-dist/comparison-wide-lightgbm.pkl",
+        "rows": 128,
+        "features": 1000,
+        "sample": 32,
+        "rounds": 3,
+        "trials": 5,
+        "precalculate": false,
+        "families": [
+          "breakdown",
+          "shap"
+        ],
+        "output": ".local-dist/final-wide-lightgbm.json",
+        "worker_root": null,
+        "backend": null,
+        "family": null
+      },
+      "workers": 30,
+      "fitted_model_sha256": "00225d5cff0afb87a1d871224e841f53d29f49c816ca0e212f48a25a15d18067",
+      "data_sha256": "6fa0e3648eb711ac64248a0fa2b49344b14f8f43b3b2423376e6f7dbf4a69ca0",
+      "max_absolute_parity_error": {
+        "breakdown": 0.0,
+        "shap": 0.0
+      },
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0",
+        "numpy": "2.5.4",
+        "scikit-learn": "1.9.1",
+        "lightgbm": "4.7.0"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]"
+    },
+    {
+      "filename": "final-default-sklearn.json",
+      "archive_entry": "final-default-sklearn.json",
+      "uncompressed_bytes": 102892,
+      "sha256": "872cc41fb0a7069d4c25145c9d190331c266aaa150b43348c05553fbe639b6bb",
+      "sources": {
+        "upstream": {
+          "revision": "77ea3ad9580a3b68aaa94d8dca75d11bd527848f",
+          "python_modules": 114,
+          "python_source_sha256": "ec8b40e7cbd47083ba94ed09c269a1e45472dfb063461e5c2142f6ceeab2e7f5",
+          "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+        },
+        "candidate": {
+          "revision": "3b66481e829f581f4c2d427719b1601667973f3d",
+          "python_modules": 135,
+          "python_source_sha256": "441d90693067367af8a8727caf0b4a639515a6aef3c39312cfc876e07780ce5e",
+          "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+        }
+      },
+      "settings": {
+        "source": [
+          "upstream=D:/CodexScratch/DALEXNarwhals-20261030/validation-checkout/.local-dist/upstream/python/dalex",
+          "candidate=D:/CodexScratch/DALEXNarwhals-20261031/complete-label-compatibility/python/dalex"
+        ],
+        "revision": [
+          "upstream=77ea3ad9580a3b68aaa94d8dca75d11bd527848f",
+          "candidate=3b66481e829f581f4c2d427719b1601667973f3d"
+        ],
+        "pandas_only_source": [
+          "upstream"
+        ],
+        "model": "sklearn",
+        "model_file": ".local-dist/comparison-sklearn.pkl",
+        "rows": 1000000,
+        "features": 10,
+        "sample": 1000,
+        "rounds": 3,
+        "trials": 5,
+        "precalculate": true,
+        "families": [
+          "importance",
+          "partial",
+          "conditional"
+        ],
+        "output": ".local-dist/final-default-sklearn.json",
+        "worker_root": null,
+        "backend": null,
+        "family": null
+      },
+      "workers": 45,
+      "fitted_model_sha256": "5460555e0c011af73f584c17b43506bd6a1653ab20ecbfd3fc9878f43cb00afe",
+      "data_sha256": "baf8d10a7a35a24bb94e2491910d39c83499e036cfbdaa1171604afc834b1910",
+      "max_absolute_parity_error": {
+        "importance": 0.0,
+        "partial": 4.440892098500626e-16,
+        "conditional": 8.881784197001252e-16
+      },
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0",
+        "numpy": "2.5.4",
+        "scikit-learn": "1.9.1"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]"
+    },
+    {
+      "filename": "final-default-lightgbm.json",
+      "archive_entry": "final-default-lightgbm.json",
+      "uncompressed_bytes": 104333,
+      "sha256": "cdfa952ed7dfa1e2b334bf7665a5542bc91e7f7cc16c81c0a68a3d98a4aaa72e",
+      "sources": {
+        "upstream": {
+          "revision": "77ea3ad9580a3b68aaa94d8dca75d11bd527848f",
+          "python_modules": 114,
+          "python_source_sha256": "ec8b40e7cbd47083ba94ed09c269a1e45472dfb063461e5c2142f6ceeab2e7f5",
+          "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+        },
+        "candidate": {
+          "revision": "3b66481e829f581f4c2d427719b1601667973f3d",
+          "python_modules": 135,
+          "python_source_sha256": "441d90693067367af8a8727caf0b4a639515a6aef3c39312cfc876e07780ce5e",
+          "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+        }
+      },
+      "settings": {
+        "source": [
+          "upstream=D:/CodexScratch/DALEXNarwhals-20261030/validation-checkout/.local-dist/upstream/python/dalex",
+          "candidate=D:/CodexScratch/DALEXNarwhals-20261031/complete-label-compatibility/python/dalex"
+        ],
+        "revision": [
+          "upstream=77ea3ad9580a3b68aaa94d8dca75d11bd527848f",
+          "candidate=3b66481e829f581f4c2d427719b1601667973f3d"
+        ],
+        "pandas_only_source": [
+          "upstream"
+        ],
+        "model": "lightgbm",
+        "model_file": ".local-dist/comparison-lightgbm.pkl",
+        "rows": 1000000,
+        "features": 10,
+        "sample": 1000,
+        "rounds": 3,
+        "trials": 5,
+        "precalculate": true,
+        "families": [
+          "importance",
+          "partial",
+          "conditional"
+        ],
+        "output": ".local-dist/final-default-lightgbm.json",
+        "worker_root": null,
+        "backend": null,
+        "family": null
+      },
+      "workers": 45,
+      "fitted_model_sha256": "666f89a9561b9d607b7fc7b889c3a505dcc078f54efbff065421e6997435fe49",
+      "data_sha256": "baf8d10a7a35a24bb94e2491910d39c83499e036cfbdaa1171604afc834b1910",
+      "max_absolute_parity_error": {
+        "importance": 0.0,
+        "partial": 4.440892098500626e-16,
+        "conditional": 1.1102230246251565e-15
+      },
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0",
+        "numpy": "2.5.4",
+        "scikit-learn": "1.9.1",
+        "lightgbm": "4.7.0"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]"
+    },
+    {
+      "filename": "final-single-thread-sklearn.json",
+      "archive_entry": "final-single-thread-sklearn.json",
+      "uncompressed_bytes": 67589,
+      "sha256": "f82990392ac064ed3aa18406ea67a80ab147fd719284a4a203b075274b063d2b",
+      "sources": {
+        "upstream": {
+          "revision": "77ea3ad9580a3b68aaa94d8dca75d11bd527848f",
+          "python_modules": 114,
+          "python_source_sha256": "ec8b40e7cbd47083ba94ed09c269a1e45472dfb063461e5c2142f6ceeab2e7f5",
+          "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+        },
+        "candidate": {
+          "revision": "3b66481e829f581f4c2d427719b1601667973f3d",
+          "python_modules": 135,
+          "python_source_sha256": "441d90693067367af8a8727caf0b4a639515a6aef3c39312cfc876e07780ce5e",
+          "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+        }
+      },
+      "settings": {
+        "source": [
+          "upstream=D:/CodexScratch/DALEXNarwhals-20261030/validation-checkout/.local-dist/upstream/python/dalex",
+          "candidate=D:/CodexScratch/DALEXNarwhals-20261031/complete-label-compatibility/python/dalex"
+        ],
+        "revision": [
+          "upstream=77ea3ad9580a3b68aaa94d8dca75d11bd527848f",
+          "candidate=3b66481e829f581f4c2d427719b1601667973f3d"
+        ],
+        "pandas_only_source": [
+          "upstream"
+        ],
+        "model": "sklearn",
+        "model_file": ".local-dist/comparison-sklearn.pkl",
+        "rows": 1000000,
+        "features": 10,
+        "sample": 1000,
+        "rounds": 3,
+        "trials": 5,
+        "precalculate": false,
+        "families": [
+          "importance",
+          "conditional"
+        ],
+        "output": ".local-dist/final-single-thread-sklearn.json",
+        "worker_root": null,
+        "backend": null,
+        "family": null
+      },
+      "workers": 30,
+      "fitted_model_sha256": "5460555e0c011af73f584c17b43506bd6a1653ab20ecbfd3fc9878f43cb00afe",
+      "data_sha256": "baf8d10a7a35a24bb94e2491910d39c83499e036cfbdaa1171604afc834b1910",
+      "max_absolute_parity_error": {
+        "importance": 0.0,
+        "conditional": 1.3322676295501878e-15
+      },
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0",
+        "numpy": "2.5.4",
+        "scikit-learn": "1.9.1"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]"
+    },
+    {
+      "filename": "final-single-thread-lightgbm.json",
+      "archive_entry": "final-single-thread-lightgbm.json",
+      "uncompressed_bytes": 68442,
+      "sha256": "baf8255aab68b91ea1193b64e88d45ea8d7062a3ab53f3a56c284bdcf008f5e0",
+      "sources": {
+        "upstream": {
+          "revision": "77ea3ad9580a3b68aaa94d8dca75d11bd527848f",
+          "python_modules": 114,
+          "python_source_sha256": "ec8b40e7cbd47083ba94ed09c269a1e45472dfb063461e5c2142f6ceeab2e7f5",
+          "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+        },
+        "candidate": {
+          "revision": "3b66481e829f581f4c2d427719b1601667973f3d",
+          "python_modules": 135,
+          "python_source_sha256": "441d90693067367af8a8727caf0b4a639515a6aef3c39312cfc876e07780ce5e",
+          "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+        }
+      },
+      "settings": {
+        "source": [
+          "upstream=D:/CodexScratch/DALEXNarwhals-20261030/validation-checkout/.local-dist/upstream/python/dalex",
+          "candidate=D:/CodexScratch/DALEXNarwhals-20261031/complete-label-compatibility/python/dalex"
+        ],
+        "revision": [
+          "upstream=77ea3ad9580a3b68aaa94d8dca75d11bd527848f",
+          "candidate=3b66481e829f581f4c2d427719b1601667973f3d"
+        ],
+        "pandas_only_source": [
+          "upstream"
+        ],
+        "model": "lightgbm",
+        "model_file": ".local-dist/comparison-lightgbm.pkl",
+        "rows": 1000000,
+        "features": 10,
+        "sample": 1000,
+        "rounds": 3,
+        "trials": 5,
+        "precalculate": false,
+        "families": [
+          "importance",
+          "conditional"
+        ],
+        "output": ".local-dist/final-single-thread-lightgbm.json",
+        "worker_root": null,
+        "backend": null,
+        "family": null
+      },
+      "workers": 30,
+      "fitted_model_sha256": "666f89a9561b9d607b7fc7b889c3a505dcc078f54efbff065421e6997435fe49",
+      "data_sha256": "baf8d10a7a35a24bb94e2491910d39c83499e036cfbdaa1171604afc834b1910",
+      "max_absolute_parity_error": {
+        "importance": 0.0,
+        "conditional": 1.3322676295501878e-15
+      },
+      "versions": {
+        "pandas": "2.3.3",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0",
+        "numpy": "2.5.4",
+        "scikit-learn": "1.9.1",
+        "lightgbm": "4.7.0"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]"
+    },
+    {
+      "filename": "final-pandas31-sklearn.json",
+      "archive_entry": "final-pandas31-sklearn.json",
+      "uncompressed_bytes": 67579,
+      "sha256": "66c90182e4771f904b2b51b09e1db559fa151ea5c32e7bf7c3f426ee603bc39a",
+      "sources": {
+        "upstream": {
+          "revision": "77ea3ad9580a3b68aaa94d8dca75d11bd527848f",
+          "python_modules": 114,
+          "python_source_sha256": "ec8b40e7cbd47083ba94ed09c269a1e45472dfb063461e5c2142f6ceeab2e7f5",
+          "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+        },
+        "candidate": {
+          "revision": "3b66481e829f581f4c2d427719b1601667973f3d",
+          "python_modules": 135,
+          "python_source_sha256": "441d90693067367af8a8727caf0b4a639515a6aef3c39312cfc876e07780ce5e",
+          "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+        }
+      },
+      "settings": {
+        "source": [
+          "upstream=D:/CodexScratch/DALEXNarwhals-20261030/validation-checkout/.local-dist/upstream/python/dalex",
+          "candidate=D:/CodexScratch/DALEXNarwhals-20261031/complete-label-compatibility/python/dalex"
+        ],
+        "revision": [
+          "upstream=77ea3ad9580a3b68aaa94d8dca75d11bd527848f",
+          "candidate=3b66481e829f581f4c2d427719b1601667973f3d"
+        ],
+        "pandas_only_source": [
+          "upstream"
+        ],
+        "model": "sklearn",
+        "model_file": ".local-dist/comparison-sklearn.pkl",
+        "rows": 1000000,
+        "features": 10,
+        "sample": 1000,
+        "rounds": 3,
+        "trials": 5,
+        "precalculate": false,
+        "families": [
+          "importance",
+          "conditional"
+        ],
+        "output": ".local-dist/final-pandas31-sklearn.json",
+        "worker_root": null,
+        "backend": null,
+        "family": null
+      },
+      "workers": 30,
+      "fitted_model_sha256": "5460555e0c011af73f584c17b43506bd6a1653ab20ecbfd3fc9878f43cb00afe",
+      "data_sha256": "baf8d10a7a35a24bb94e2491910d39c83499e036cfbdaa1171604afc834b1910",
+      "max_absolute_parity_error": {
+        "importance": 0.0,
+        "conditional": 6.661338147750939e-16
+      },
+      "versions": {
+        "pandas": "3.1.0",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0",
+        "numpy": "2.5.4",
+        "scikit-learn": "1.9.1"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]"
+    },
+    {
+      "filename": "final-pandas31-lightgbm.json",
+      "archive_entry": "final-pandas31-lightgbm.json",
+      "uncompressed_bytes": 68464,
+      "sha256": "a3ef90a122d9d050f9751d8d81415f3c7b7a21dcb149fc665d6620258371eecd",
+      "sources": {
+        "upstream": {
+          "revision": "77ea3ad9580a3b68aaa94d8dca75d11bd527848f",
+          "python_modules": 114,
+          "python_source_sha256": "ec8b40e7cbd47083ba94ed09c269a1e45472dfb063461e5c2142f6ceeab2e7f5",
+          "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+        },
+        "candidate": {
+          "revision": "3b66481e829f581f4c2d427719b1601667973f3d",
+          "python_modules": 135,
+          "python_source_sha256": "441d90693067367af8a8727caf0b4a639515a6aef3c39312cfc876e07780ce5e",
+          "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+        }
+      },
+      "settings": {
+        "source": [
+          "upstream=D:/CodexScratch/DALEXNarwhals-20261030/validation-checkout/.local-dist/upstream/python/dalex",
+          "candidate=D:/CodexScratch/DALEXNarwhals-20261031/complete-label-compatibility/python/dalex"
+        ],
+        "revision": [
+          "upstream=77ea3ad9580a3b68aaa94d8dca75d11bd527848f",
+          "candidate=3b66481e829f581f4c2d427719b1601667973f3d"
+        ],
+        "pandas_only_source": [
+          "upstream"
+        ],
+        "model": "lightgbm",
+        "model_file": ".local-dist/comparison-lightgbm.pkl",
+        "rows": 1000000,
+        "features": 10,
+        "sample": 1000,
+        "rounds": 3,
+        "trials": 5,
+        "precalculate": false,
+        "families": [
+          "importance",
+          "conditional"
+        ],
+        "output": ".local-dist/final-pandas31-lightgbm.json",
+        "worker_root": null,
+        "backend": null,
+        "family": null
+      },
+      "workers": 30,
+      "fitted_model_sha256": "666f89a9561b9d607b7fc7b889c3a505dcc078f54efbff065421e6997435fe49",
+      "data_sha256": "baf8d10a7a35a24bb94e2491910d39c83499e036cfbdaa1171604afc834b1910",
+      "max_absolute_parity_error": {
+        "importance": 0.0,
+        "conditional": 8.881784197001252e-16
+      },
+      "versions": {
+        "pandas": "3.1.0",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0",
+        "narwhals": "2.28.0",
+        "numpy": "2.5.4",
+        "scikit-learn": "1.9.1",
+        "lightgbm": "4.7.0"
+      },
+      "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]"
+    }
+  ],
+  "archive": {
+    "filename": "measurements.zip",
+    "sha256": "67bb63c34d591c033bf4fa4e64b556a2d667d5193ed6c7e2a7ec7f18ff96ba85",
+    "bytes": 746998,
+    "entries": 10
+  },
+  "measured_workers": 570,
+  "warmups_per_worker": 1
+}

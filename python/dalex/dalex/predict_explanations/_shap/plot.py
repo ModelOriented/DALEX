@@ -1,31 +1,33 @@
 import numpy as np
+import narwhals.stable.v2 as nw
+from types import SimpleNamespace
 from ... import _global_utils
 
 
 def prepare_data_for_shap_plot(x, baseline, prediction, max_vars, rounding_function, digits):
-    variable_count = x.shape[0]
-    # sort by absolute value of contribution
-    x = x.iloc[(-x['contribution'].abs()).argsort()].reset_index(drop=True)
-
-    if variable_count > max_vars:
+    namespace = nw.get_native_namespace(x)
+    x = x.select('variable', 'contribution', 'sign')
+    order = np.argsort(-np.abs(x['contribution'].to_numpy()), kind='quicksort')
+    x = x[order.tolist(), :]
+    if len(x) > max_vars:
         last_row = max_vars - 1
-        new_x = x.iloc[0:(last_row + 1), :].copy()
-        new_x.iloc[last_row, new_x.columns.get_loc('variable')] = "+ all other factors"
-        contribution_sum = np.sum(x.iloc[last_row::, x.columns.get_loc('contribution')])
-        new_x.iloc[last_row, new_x.columns.get_loc('contribution')] = contribution_sum
-        new_x.iloc[last_row, new_x.columns.get_loc('sign')] = np.sign(contribution_sum)
-
-        x = new_x.copy()
-
-    # use for text label and tooltip
-    x.loc[:, 'contribution'] = rounding_function(x.loc[:, 'contribution'], digits)
+        contribution_sum = np.nansum(x[last_row:, :]['contribution'].to_numpy())
+        other = x[last_row:last_row + 1, :].with_columns(
+            nw.lit('+ all other factors').alias('variable'),
+            nw.lit(contribution_sum).alias('contribution'),
+            nw.lit(float(np.sign(contribution_sum))).alias('sign'),
+        )
+        x = nw.concat([x.head(last_row), other], how='vertical')
+    argument = x['contribution'].to_native() if namespace.__name__ == 'pandas' else x['contribution'].to_numpy()
+    contributions = np.asarray(rounding_function(argument, digits))
+    x = x.with_columns(nw.new_series('contribution', contributions, backend=namespace))
     baseline = rounding_function(baseline, digits)
     prediction = rounding_function(prediction, digits)
-
-    x = x.assign(tooltip_text=x.apply(lambda row: tooltip_text(row, baseline, prediction), axis=1),
-                 label_text=_global_utils.convert_float_to_str(x.contribution, "+"))
-
-    return x
+    tooltips = [tooltip_text(SimpleNamespace(**row), baseline, prediction) for row in x.iter_rows(named=True)]
+    return x.with_columns(
+        nw.new_series('tooltip_text', tooltips, backend=namespace),
+        nw.new_series('label_text', _global_utils.convert_float_to_str(contributions, '+'), backend=namespace),
+    )
 
 
 def tooltip_text(row, baseline, prediction):

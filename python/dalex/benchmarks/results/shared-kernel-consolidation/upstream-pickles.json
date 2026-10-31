@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "reference_root": "C:\\Users\\bruno\\Documents\\ChatGPT\\dalex improvements\\DALEX\\.local-dist\\upstream\\python\\dalex",
+  "objects_loaded": 15,
+  "legacy_tables_compared": 13,
+  "legacy_cp_aggregation": true,
+  "legacy_aspect_groups_and_plot": true,
+  "python": "3.14.4 (main, Apr  7 2026, 20:48:46) [MSC v.1944 64 bit (AMD64)]",
+  "pandas": "2.3.3"
+}

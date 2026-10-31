@@ -7,10 +7,10 @@ from ... import _global_checks, _theme
 
 class GroupFairnessClassification(_FairnessObject):
 
-    def __init__(self, y, y_hat, protected, privileged, label, verbose=False, cutoff=0.5, epsilon=0.8):
+    def __init__(self, y, y_hat, protected, privileged, label, verbose=False, cutoff=0.5, epsilon=0.8, *, _backend=None):
 
-        super().__init__(y, y_hat, protected, privileged, verbose)
-        checks.check_classification_parameters(y, y_hat, protected, privileged, verbose)
+        super().__init__(y, y_hat, protected, privileged, verbose, backend=_backend)
+        checks.check_classification_parameters(self.y, self.y_hat, self.protected, self.privileged, verbose)
         cutoff = checks.check_cutoff(self.protected, cutoff, verbose)
         self.cutoff = cutoff
         epsilon = checks.check_epsilon(epsilon)
@@ -24,12 +24,12 @@ class GroupFairnessClassification(_FairnessObject):
         )
 
         sub_confusion_matrix_metrics = utils.SubgroupConfusionMatrixMetrics(sub_confusion_matrix)
-        df_ratios = utils.calculate_ratio(sub_confusion_matrix_metrics, self.privileged)
-        parity_loss = utils.calculate_parity_loss(sub_confusion_matrix_metrics, self.privileged)
+        df_ratios = utils.calculate_ratio(sub_confusion_matrix_metrics, self.privileged, native=True, backend=self._result_backend)
+        parity_loss = utils.calculate_parity_loss(sub_confusion_matrix_metrics, self.privileged, native=True, backend=self._result_backend)
 
         self._subgroup_confusion_matrix = sub_confusion_matrix
         self._subgroup_confusion_matrix_metrics_object = sub_confusion_matrix_metrics
-        self.metric_scores = sub_confusion_matrix_metrics.to_horizontal_DataFrame()
+        self.metric_scores = sub_confusion_matrix_metrics.to_native_table(self._result_backend)
         self.parity_loss = parity_loss
         self.result = df_ratios
         self.label = label
@@ -237,12 +237,14 @@ class GroupFairnessClassification(_FairnessObject):
 
 class GroupFairnessRegression(_FairnessObject):
 
-    def __init__(self, y, y_hat, protected, privileged, label, epsilon=0.8, verbose=False):
+    def __init__(self, y, y_hat, protected, privileged, label, epsilon=0.8, verbose=False, *, _backend=None):
 
-        super().__init__(y, y_hat, protected, privileged, verbose)
+        super().__init__(y, y_hat, protected, privileged, verbose, backend=_backend)
         checks.check_epsilon(epsilon)
 
-        df_ratios = utils.calculate_regression_measures(y, y_hat, protected, privileged)
+        df_ratios = utils.calculate_regression_measures(
+            self.y, self.y_hat, self.protected, self.privileged, native=True, backend=self._result_backend
+        )
 
         self.result = df_ratios
         self.label = label

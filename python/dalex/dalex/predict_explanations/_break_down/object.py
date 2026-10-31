@@ -1,11 +1,12 @@
 import numpy as np
-import pandas as pd
+import narwhals.stable.v2 as nw
 from plotly.subplots import make_subplots
 import warnings
 
 from . import checks, plot, utils
 from ... import _theme, _global_checks
-from ..._explanation import Explanation
+from ..._plotting import result_frame
+from ..._explanation import Explanation, EmptyTable, CompatibilityTable
 
 
 class BreakDown(Explanation):
@@ -57,11 +58,13 @@ class BreakDown(Explanation):
         self.keep_distributions = keep_distributions
         self.order = _order
         self.interaction_preference = interaction_preference
-        self.result = pd.DataFrame()
+        self.result = EmptyTable()
         self.yhats_distributions = None
 
     def _repr_html_(self):
         return self.result._repr_html_()
+
+    yhats_distributions = CompatibilityTable()
 
     def fit(self,
             explainer,
@@ -88,7 +91,8 @@ class BreakDown(Explanation):
             _new_observation = _new_observation.iloc[0, :]
 
         if self.type == 'break_down_interactions':
-            result, yhats_distributions = utils.local_interactions(
+            from .._native_contributions import break_down
+            result, yhats_distributions = break_down(
                 explainer,
                 _new_observation,
                 self.interaction_preference,
@@ -97,7 +101,8 @@ class BreakDown(Explanation):
                 self.keep_distributions
             )
         elif self.type == 'break_down':
-            result, yhats_distributions = utils.local_interactions(
+            from .._native_contributions import break_down
+            result, yhats_distributions = break_down(
                 explainer,
                 _new_observation,
                 self.interaction_preference,
@@ -162,16 +167,16 @@ class BreakDown(Explanation):
         # are there any other objects to plot?
         if objects is None:
             n = 1
-            _result_list = [self.result.copy()]
+            _result_list = [result_frame(self)]
         elif isinstance(objects, self.__class__):  # allow for objects to be a single element
             n = 2
-            _result_list = [self.result.copy(), objects.result.copy()]
+            _result_list = [result_frame(self), result_frame(objects)]
         elif isinstance(objects, (list, tuple)):  # objects as tuple or array
             n = len(objects) + 1
-            _result_list = [self.result.copy()]
+            _result_list = [result_frame(self)]
             for ob in objects:
                 _global_checks.global_check_object_class(ob, self.__class__)
-                _result_list += [ob.result.copy()]
+                _result_list += [result_frame(ob)]
         else:
             _global_checks.global_raise_objects_class(objects, self.__class__)
 
@@ -180,12 +185,12 @@ class BreakDown(Explanation):
             if len(_result['label'].unique()) > 1:
                 n += len(_result['label'].unique()) - 1
                 # add new data frames to list
-                _result_list += [v for k, v in _result.groupby('label', sort=False)]
+                _result_list += [_result.filter(nw.col('label') == label) for label in _result['label'].unique(maintain_order=True).to_list()]
 
                 deleted_indexes += [i]
 
         _result_list = [val for i, val in enumerate(_result_list) if i not in deleted_indexes]
-        model_names = [result.iloc[0, result.columns.get_loc("label")] for result in _result_list]
+        model_names = [result['label'][0] for result in _result_list]
 
         if vertical_spacing is None:
             vertical_spacing = 0.2 / n
@@ -210,7 +215,7 @@ class BreakDown(Explanation):
                 m = max_vars + 3
 
             if baseline is None:
-                prediction_baseline = _result.iloc[0, _result.columns.get_loc("cumulative")]
+                prediction_baseline = _result['cumulative'][0]
             else: 
                 prediction_baseline = baseline
 
@@ -234,16 +239,16 @@ class BreakDown(Explanation):
             fig.add_waterfall(
                 orientation="h",
                 measure=measure,
-                y=df['variable'].tolist(),
-                x=df['contribution'].tolist(),
+                y=df['variable'].to_list(),
+                x=df['contribution'].to_list(),
                 textposition="outside",
-                text=df['label_text'].tolist(),
+                text=df['label_text'].to_list(),
                 connector={"mode": "spanning", "line": {"width": 1, "color": "#371ea3", "dash": "solid"}},
                 decreasing={"marker": {"color": vcolors[-1]}},
                 increasing={"marker": {"color": vcolors[1]}},
                 totals={"marker": {"color": vcolors[0]}},
                 base=prediction_baseline,
-                hovertext=df['tooltip_text'].tolist(),
+                hovertext=df['tooltip_text'].to_list(),
                 hoverinfo='text+delta',
                 hoverlabel={'bgcolor': 'rgba(0,0,0,0.8)'},
                 showlegend=False,
@@ -255,7 +260,7 @@ class BreakDown(Explanation):
                              row=i + 1, col=1)
 
             if min_max is None:
-                cum = df.cumulative.values
+                cum = df['cumulative'].to_numpy()
                 min_max_margin = np.ptp(cum) * 0.15
                 temp_min_max[0] = np.min([temp_min_max[0], cum.min() - min_max_margin])
                 temp_min_max[1] = np.max([temp_min_max[1], cum.max() + min_max_margin])

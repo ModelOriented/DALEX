@@ -1,0 +1,635 @@
+{
+  "source": {
+    "python_modules": 135,
+    "python_source_sha256": "441d90693067367af8a8727caf0b4a639515a6aef3c39312cfc876e07780ce5e"
+  },
+  "scope": "pd-rooted call expressions, including chained calls; not a count of independent algorithms or a proof of absence of pandas. Method calls on existing objects, to_pandas/namespace aliases and dynamic code require separate control-flow review and runtime guards.",
+  "calls": [
+    {
+      "path": "_dataframe.py",
+      "line": 153,
+      "function": "shuffle_columns",
+      "call": "pd.Series",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "_dataframe.py",
+      "line": 165,
+      "function": "shuffle_columns",
+      "call": "pd.Series",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "_dataframe.py",
+      "line": 169,
+      "function": "shuffle_columns",
+      "call": "pd.api.types.is_scalar",
+      "category": "scalar/dtype compatibility",
+      "reason": "Preserve exact scalar, temporal, missing-value or assignment semantics without converting the feature table."
+    },
+    {
+      "path": "_dataframe.py",
+      "line": 255,
+      "function": "_arrow_cell",
+      "call": "pd.Timestamp",
+      "category": "scalar/dtype compatibility",
+      "reason": "Preserve exact scalar, temporal, missing-value or assignment semantics without converting the feature table."
+    },
+    {
+      "path": "_dataframe.py",
+      "line": 257,
+      "function": "_arrow_cell",
+      "call": "pd.Timedelta",
+      "category": "scalar/dtype compatibility",
+      "reason": "Preserve exact scalar, temporal, missing-value or assignment semantics without converting the feature table."
+    },
+    {
+      "path": "_dataframe.py",
+      "line": 307,
+      "function": "observation_display_values",
+      "call": "pd.Timestamp",
+      "category": "scalar/dtype compatibility",
+      "reason": "Preserve exact scalar, temporal, missing-value or assignment semantics without converting the feature table."
+    },
+    {
+      "path": "_dataframe.py",
+      "line": 308,
+      "function": "observation_display_values",
+      "call": "pd.isna",
+      "category": "scalar/dtype compatibility",
+      "reason": "Preserve exact scalar, temporal, missing-value or assignment semantics without converting the feature table."
+    },
+    {
+      "path": "_dataframe.py",
+      "line": 312,
+      "function": "observation_display_values",
+      "call": "pd.Timedelta",
+      "category": "scalar/dtype compatibility",
+      "reason": "Preserve exact scalar, temporal, missing-value or assignment semantics without converting the feature table."
+    },
+    {
+      "path": "_dataframe.py",
+      "line": 326,
+      "function": "_temporal_counts",
+      "call": "pd.isna",
+      "category": "scalar/dtype compatibility",
+      "reason": "Preserve exact scalar, temporal, missing-value or assignment semantics without converting the feature table."
+    },
+    {
+      "path": "_dataframe.py",
+      "line": 407,
+      "function": "set_columns",
+      "call": "pd.Series",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "_dataframe.py",
+      "line": 408,
+      "function": "set_columns",
+      "call": "pd.api.types.is_scalar",
+      "category": "scalar/dtype compatibility",
+      "reason": "Preserve exact scalar, temporal, missing-value or assignment semantics without converting the feature table."
+    },
+    {
+      "path": "_dataframe.py",
+      "line": 428,
+      "function": "set_columns",
+      "call": "pd.api.types.is_scalar",
+      "category": "scalar/dtype compatibility",
+      "reason": "Preserve exact scalar, temporal, missing-value or assignment semantics without converting the feature table."
+    },
+    {
+      "path": "_dataframe.py",
+      "line": 431,
+      "function": "set_columns",
+      "call": "pd.api.types.is_scalar",
+      "category": "scalar/dtype compatibility",
+      "reason": "Preserve exact scalar, temporal, missing-value or assignment semantics without converting the feature table."
+    },
+    {
+      "path": "_dataframe.py",
+      "line": 431,
+      "function": "set_columns",
+      "call": "pd.isna",
+      "category": "scalar/dtype compatibility",
+      "reason": "Preserve exact scalar, temporal, missing-value or assignment semantics without converting the feature table."
+    },
+    {
+      "path": "_dataframe.py",
+      "line": 451,
+      "function": "set_columns",
+      "call": "pd.isna",
+      "category": "scalar/dtype compatibility",
+      "reason": "Preserve exact scalar, temporal, missing-value or assignment semantics without converting the feature table."
+    },
+    {
+      "path": "_dataframe.py",
+      "line": 558,
+      "function": "frame_from_values",
+      "call": "pd.DataFrame",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "_dataframe.py",
+      "line": 559,
+      "function": "frame_from_values",
+      "call": "pd.RangeIndex",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "_dataframe.py",
+      "line": 564,
+      "function": "frame_from_values",
+      "call": "pd.Categorical",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "_dataframe.py",
+      "line": 578,
+      "function": "frame_from_values",
+      "call": "pd.isna",
+      "category": "scalar/dtype compatibility",
+      "reason": "Preserve exact scalar, temporal, missing-value or assignment semantics without converting the feature table."
+    },
+    {
+      "path": "_explainer/checks.py",
+      "line": 18,
+      "function": "check_data",
+      "call": "pd.DataFrame",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "_explanation.py",
+      "line": 137,
+      "function": "_dalex_pandas_view",
+      "call": "pd.DataFrame",
+      "category": "label metadata or legacy publication",
+      "reason": "Publish an explicit legacy public/private pandas return, including heterogeneous native partitions."
+    },
+    {
+      "path": "arena/_native_eda.py",
+      "line": 24,
+      "function": "display_categories",
+      "call": "pd.Timestamp(count, unit=dtype.time_unit, tz=dtype.time_zone).isoformat",
+      "category": "scalar/dtype compatibility",
+      "reason": "Format or classify scalar values and legacy publication dtypes; no statistical dataframe pipeline."
+    },
+    {
+      "path": "arena/_native_eda.py",
+      "line": 24,
+      "function": "display_categories",
+      "call": "pd.Timestamp",
+      "category": "scalar/dtype compatibility",
+      "reason": "Format or classify scalar values and legacy publication dtypes; no statistical dataframe pipeline."
+    },
+    {
+      "path": "arena/_native_eda.py",
+      "line": 27,
+      "function": "display_categories",
+      "call": "pd.Timedelta(count, unit=dtype.time_unit).isoformat",
+      "category": "scalar/dtype compatibility",
+      "reason": "Format or classify scalar values and legacy publication dtypes; no statistical dataframe pipeline."
+    },
+    {
+      "path": "arena/_native_eda.py",
+      "line": 27,
+      "function": "display_categories",
+      "call": "pd.Timedelta",
+      "category": "scalar/dtype compatibility",
+      "reason": "Format or classify scalar values and legacy publication dtypes; no statistical dataframe pipeline."
+    },
+    {
+      "path": "arena/_native_resources.py",
+      "line": 152,
+      "function": "_dalex_pandas_view",
+      "call": "pd.concat([to_pandas(part) for part in self.partitions.values()]).sort_values",
+      "category": "label metadata or legacy publication",
+      "reason": "Publish an explicit legacy public/private pandas return, including heterogeneous native partitions."
+    },
+    {
+      "path": "arena/_native_resources.py",
+      "line": 152,
+      "function": "_dalex_pandas_view",
+      "call": "pd.concat",
+      "category": "label metadata or legacy publication",
+      "reason": "Publish an explicit legacy public/private pandas return, including heterogeneous native partitions."
+    },
+    {
+      "path": "arena/params.py",
+      "line": 43,
+      "function": "__init__",
+      "call": "pd.Index",
+      "category": "label metadata or legacy publication",
+      "reason": "Keep historical observation-label Index metadata; native feature storage is independent."
+    },
+    {
+      "path": "arena/server.py",
+      "line": 93,
+      "function": "start_server.get_params",
+      "call": "pd.concat([reference.head(n=0), pd.DataFrame({k: v for k, v in obj.items() if k in reference.columns}, index=[0])], ignore_index=True).tail(n=1).reset_index",
+      "category": "original pandas HTTP input",
+      "reason": "Build a submitted observation against an original pandas reference; native references build a native row."
+    },
+    {
+      "path": "arena/server.py",
+      "line": 93,
+      "function": "start_server.get_params",
+      "call": "pd.concat([reference.head(n=0), pd.DataFrame({k: v for k, v in obj.items() if k in reference.columns}, index=[0])], ignore_index=True).tail",
+      "category": "original pandas HTTP input",
+      "reason": "Build a submitted observation against an original pandas reference; native references build a native row."
+    },
+    {
+      "path": "arena/server.py",
+      "line": 93,
+      "function": "start_server.get_params",
+      "call": "pd.concat",
+      "category": "original pandas HTTP input",
+      "reason": "Build a submitted observation against an original pandas reference; native references build a native row."
+    },
+    {
+      "path": "arena/server.py",
+      "line": 95,
+      "function": "start_server.get_params",
+      "call": "pd.DataFrame",
+      "category": "original pandas HTTP input",
+      "reason": "Build a submitted observation against an original pandas reference; native references build a native row."
+    },
+    {
+      "path": "aspect/_native_dependence.py",
+      "line": 27,
+      "function": "matrix_table",
+      "call": "pd.DataFrame",
+      "category": "label metadata or legacy publication",
+      "reason": "Retain non-string physical pandas feature labels at an explicit compatibility boundary."
+    },
+    {
+      "path": "aspect/_predict_aspect_importance/checks.py",
+      "line": 33,
+      "function": "check_new_observation",
+      "call": "pd.DataFrame",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "aspect/_predict_aspect_importance/checks.py",
+      "line": 37,
+      "function": "check_new_observation",
+      "call": "pd.DataFrame",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "aspect/_predict_aspect_importance/checks.py",
+      "line": 50,
+      "function": "check_new_observation",
+      "call": "pd.api.types.is_bool_dtype",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "aspect/_predict_triplot/checks.py",
+      "line": 42,
+      "function": "check_new_observation",
+      "call": "pd.DataFrame",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "aspect/_predict_triplot/checks.py",
+      "line": 46,
+      "function": "check_new_observation",
+      "call": "pd.DataFrame",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "aspect/_predict_triplot/checks.py",
+      "line": 59,
+      "function": "check_new_observation",
+      "call": "pd.api.types.is_bool_dtype",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "aspect/utils.py",
+      "line": 21,
+      "function": "calculate_cat_assoc_matrix",
+      "call": "pd.DataFrame",
+      "category": "label metadata or legacy publication",
+      "reason": "Publish an explicit legacy public/private pandas return, including heterogeneous native partitions."
+    },
+    {
+      "path": "aspect/utils.py",
+      "line": 37,
+      "function": "calculate_cat_num_assoc_matrix",
+      "call": "pd.DataFrame",
+      "category": "label metadata or legacy publication",
+      "reason": "Publish an explicit legacy public/private pandas return, including heterogeneous native partitions."
+    },
+    {
+      "path": "aspect/utils.py",
+      "line": 137,
+      "function": "get_dendrogram_aspects_ordered",
+      "call": "pd.DataFrame",
+      "category": "label metadata or legacy publication",
+      "reason": "Publish an explicit legacy public/private pandas return, including heterogeneous native partitions."
+    },
+    {
+      "path": "datasets/_load.py",
+      "line": 11,
+      "function": "_load",
+      "call": "pd.read_csv",
+      "category": "default dataset API",
+      "reason": "Historical default pandas reader; native backend readers are separate guarded paths."
+    },
+    {
+      "path": "model_explanations/_aggregated_profiles/_table.py",
+      "line": 48,
+      "function": "_dalex_plot_data",
+      "call": "pd.Timedelta",
+      "category": "scalar/dtype compatibility",
+      "reason": "Format or classify scalar values and legacy publication dtypes; no statistical dataframe pipeline."
+    },
+    {
+      "path": "model_explanations/_aggregated_profiles/_table.py",
+      "line": 53,
+      "function": "_dalex_plot_data",
+      "call": "pd.Timestamp",
+      "category": "scalar/dtype compatibility",
+      "reason": "Format or classify scalar values and legacy publication dtypes; no statistical dataframe pipeline."
+    },
+    {
+      "path": "model_explanations/_aggregated_profiles/_table.py",
+      "line": 118,
+      "function": "_dalex_pandas_view",
+      "call": "pd.concat",
+      "category": "label metadata or legacy publication",
+      "reason": "Publish an explicit legacy public/private pandas return, including heterogeneous native partitions."
+    },
+    {
+      "path": "model_explanations/_aggregated_profiles/utils.py",
+      "line": 100,
+      "function": "categorical_profile_labels.missing",
+      "call": "pd.api.types.is_scalar",
+      "category": "scalar/dtype compatibility",
+      "reason": "Format or classify scalar values and legacy publication dtypes; no statistical dataframe pipeline."
+    },
+    {
+      "path": "model_explanations/_aggregated_profiles/utils.py",
+      "line": 100,
+      "function": "categorical_profile_labels.missing",
+      "call": "pd.isna",
+      "category": "scalar/dtype compatibility",
+      "reason": "Format or classify scalar values and legacy publication dtypes; no statistical dataframe pipeline."
+    },
+    {
+      "path": "model_explanations/_variable_importance/utils.py",
+      "line": 49,
+      "function": "calculate_variable_importance",
+      "call": "pd.Index",
+      "category": "label metadata or legacy publication",
+      "reason": "Resolve non-portable pandas/Python labels or publish a legacy private/public return; loss aggregation is native."
+    },
+    {
+      "path": "model_explanations/_variable_importance/utils.py",
+      "line": 57,
+      "function": "calculate_variable_importance",
+      "call": "pd.DataFrame",
+      "category": "label metadata or legacy publication",
+      "reason": "Resolve non-portable pandas/Python labels or publish a legacy private/public return; loss aggregation is native."
+    },
+    {
+      "path": "model_explanations/_variable_importance/utils.py",
+      "line": 64,
+      "function": "calculate_variable_importance",
+      "call": "pd.concat([pd.DataFrame(columns=labels)], sort=True).columns.tolist",
+      "category": "label metadata or legacy publication",
+      "reason": "Resolve non-portable pandas/Python labels or publish a legacy private/public return; loss aggregation is native."
+    },
+    {
+      "path": "model_explanations/_variable_importance/utils.py",
+      "line": 64,
+      "function": "calculate_variable_importance",
+      "call": "pd.concat",
+      "category": "label metadata or legacy publication",
+      "reason": "Resolve non-portable pandas/Python labels or publish a legacy private/public return; loss aggregation is native."
+    },
+    {
+      "path": "model_explanations/_variable_importance/utils.py",
+      "line": 64,
+      "function": "calculate_variable_importance",
+      "call": "pd.DataFrame",
+      "category": "label metadata or legacy publication",
+      "reason": "Resolve non-portable pandas/Python labels or publish a legacy private/public return; loss aggregation is native."
+    },
+    {
+      "path": "model_explanations/_variable_importance/utils.py",
+      "line": 118,
+      "function": "calculate_variable_importance",
+      "call": "pd.DataFrame",
+      "category": "label metadata or legacy publication",
+      "reason": "Resolve non-portable pandas/Python labels or publish a legacy private/public return; loss aggregation is native."
+    },
+    {
+      "path": "model_explanations/_variable_importance/utils.py",
+      "line": 120,
+      "function": "calculate_variable_importance",
+      "call": "pd.DataFrame",
+      "category": "label metadata or legacy publication",
+      "reason": "Resolve non-portable pandas/Python labels or publish a legacy private/public return; loss aggregation is native."
+    },
+    {
+      "path": "model_explanations/_variable_importance/utils.py",
+      "line": 160,
+      "function": "loss_after_permutation",
+      "call": "pd.DataFrame",
+      "category": "label metadata or legacy publication",
+      "reason": "Resolve non-portable pandas/Python labels or publish a legacy private/public return; loss aggregation is native."
+    },
+    {
+      "path": "predict_explanations/_break_down/checks.py",
+      "line": 26,
+      "function": "check_new_observation",
+      "call": "pd.DataFrame",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "predict_explanations/_break_down/checks.py",
+      "line": 30,
+      "function": "check_new_observation",
+      "call": "pd.DataFrame",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "predict_explanations/_break_down/checks.py",
+      "line": 41,
+      "function": "check_new_observation",
+      "call": "pd.api.types.is_bool_dtype",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "predict_explanations/_break_down/utils.py",
+      "line": 30,
+      "function": "calculate_2d_changes",
+      "call": "pd.Series",
+      "category": "label metadata or legacy publication",
+      "reason": "Publish an explicit legacy public/private pandas return, including heterogeneous native partitions."
+    },
+    {
+      "path": "predict_explanations/_break_down/utils.py",
+      "line": 30,
+      "function": "calculate_2d_changes",
+      "call": "pd.Series",
+      "category": "label metadata or legacy publication",
+      "reason": "Publish an explicit legacy public/private pandas return, including heterogeneous native partitions."
+    },
+    {
+      "path": "predict_explanations/_ceteris_paribus/_plotting.py",
+      "line": 96,
+      "function": "_display_column",
+      "call": "pd.Timedelta",
+      "category": "scalar/dtype compatibility",
+      "reason": "Format or classify scalar values and legacy publication dtypes; no statistical dataframe pipeline."
+    },
+    {
+      "path": "predict_explanations/_ceteris_paribus/_plotting.py",
+      "line": 97,
+      "function": "_display_column",
+      "call": "pd.Timestamp",
+      "category": "scalar/dtype compatibility",
+      "reason": "Format or classify scalar values and legacy publication dtypes; no statistical dataframe pipeline."
+    },
+    {
+      "path": "predict_explanations/_ceteris_paribus/_table.py",
+      "line": 10,
+      "function": "_legacy_column",
+      "call": "pd.api.types.is_float_dtype",
+      "category": "scalar/dtype compatibility",
+      "reason": "Format or classify scalar values and legacy publication dtypes; no statistical dataframe pipeline."
+    },
+    {
+      "path": "predict_explanations/_ceteris_paribus/_table.py",
+      "line": 66,
+      "function": "_dalex_pandas_view",
+      "call": "pd.concat",
+      "category": "label metadata or legacy publication",
+      "reason": "Publish an explicit legacy public/private pandas return, including heterogeneous native partitions."
+    },
+    {
+      "path": "predict_explanations/_ceteris_paribus/checks.py",
+      "line": 44,
+      "function": "check_new_observation",
+      "call": "pd.DataFrame",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "predict_explanations/_ceteris_paribus/checks.py",
+      "line": 48,
+      "function": "check_new_observation",
+      "call": "pd.DataFrame",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "predict_explanations/_ceteris_paribus/checks.py",
+      "line": 59,
+      "function": "check_new_observation",
+      "call": "pd.api.types.is_bool_dtype",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "predict_explanations/_native_contributions.py",
+      "line": 171,
+      "function": "_dalex_pandas_view",
+      "call": "pd.concat",
+      "category": "label metadata or legacy publication",
+      "reason": "Publish an explicit legacy public/private pandas return, including heterogeneous native partitions."
+    },
+    {
+      "path": "predict_explanations/_shap/checks.py",
+      "line": 33,
+      "function": "check_new_observation",
+      "call": "pd.DataFrame",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "predict_explanations/_shap/checks.py",
+      "line": 37,
+      "function": "check_new_observation",
+      "call": "pd.DataFrame",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "predict_explanations/_shap/checks.py",
+      "line": 48,
+      "function": "check_new_observation",
+      "call": "pd.api.types.is_bool_dtype",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "wrappers/_shap/checks.py",
+      "line": 77,
+      "function": "check_new_observation_predict_parts",
+      "call": "pd.DataFrame",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "wrappers/_shap/checks.py",
+      "line": 81,
+      "function": "check_new_observation_predict_parts",
+      "call": "pd.DataFrame",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "wrappers/_shap/checks.py",
+      "line": 92,
+      "function": "check_new_observation_predict_parts",
+      "call": "pd.api.types.is_bool_dtype",
+      "category": "input/index/dtype adapter",
+      "reason": "Operate on original pandas inputs or convert explicitly supported non-frame observations; native frames follow separate paths."
+    },
+    {
+      "path": "wrappers/_shap/object.py",
+      "line": 19,
+      "function": "model_matrix",
+      "call": "pd.isna",
+      "category": "external numerical boundary",
+      "reason": "Normalize nullable numeric pandas cells to NumPy NaN at the external SHAP matrix boundary."
+    }
+  ],
+  "pd_rooted_call_expressions": 76,
+  "category_counts": {
+    "input/index/dtype adapter": 25,
+    "scalar/dtype compatibility": 24,
+    "label metadata or legacy publication": 21,
+    "original pandas HTTP input": 4,
+    "default dataset API": 1,
+    "external numerical boundary": 1
+  },
+  "additional_reviewed_boundaries": [
+    "PandasFeatureTable publishes original duplicate-label features beside shared native diagnostic vectors; no separate pandas statistics.",
+    "Pandas positional row/shuffle/column assignment adapters retain original indexes, duplicate/MultiIndex labels and extension dtypes.",
+    "External estimator/LIME matrix reconstruction restores physical column positions and original pandas column metadata.",
+    "External PPS receives pandas; subsequent matrix reshape and symmetry use native storage.",
+    "Aggregate _dalex_pandas_view.apply joins legacy caption strings only after explicit publication.",
+    "H2O/NumPy legacy input conversion remains; H2O real-model behavior is not independently certified.",
+    "Native-construction guards, independent oracle comparisons and real fitted pipelines supplement the static inventory."
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "source_commit": "080f946b4bb3f53134957875d8e7b3fbd854d71c",
+  "library_git_tree": "512d02f10fe29440d8ecfc2aea8fece9ebff634b",
+  "library_source": {
+    "python_modules": 131,
+    "python_source_sha256": "a06cae644c9ed0b5df77fb70f80aeaa5c1ee8c34edcf31b9caba32f328c4f31d",
+    "normalization": "sorted relative paths and source bytes, CRLF normalized to LF"
+  },
+  "million_workflow_ratio_range": [
+    1.5945007195096055,
+    2.716241621874222
+  ],
+  "wide_ratio_range": [
+    1.5268283656179926,
+    3.785311569754044
+  ],
+  "million_max_absolute_error": 8.881784197001252e-16,
+  "wide_max_absolute_error": 0.0,
+  "pandas_candidate_over_upstream_total_range": [
+    0.6442991197735687,
+    1.2452861698724873
+  ],
+  "explanation_stage_regressions": [
+    {
+      "model": "sklearn",
+      "method": "breakdown",
+      "pandas_time_over_polars_time": 0.983515319497326
+    },
+    {
+      "model": "sklearn",
+      "method": "shap",
+      "pandas_time_over_polars_time": 0.998154984925679
+    },
+    {
+      "model": "lightgbm",
+      "method": "breakdown",
+      "pandas_time_over_polars_time": 0.9550352089974707
+    }
+  ],
+  "files": {
+    "before-grid-optimization-sklearn.json": "98327f80f8550bd0bd131ce21c33e273727a2fb0b666fd6111d6f0ad43277a0f",
+    "before-redundant-work-lightgbm.json": "2a626748b5d4bd02b9b07c0a3f922819defd4791eb1f7c845e2d86d9258f8eb5",
+    "before-redundant-work-sklearn.json": "0fa5273e6cb9bd9c9c34aeba3eaca2013bdd1a43719afb47316e8bcbf81c8404",
+    "free-threaded-dependency-versions.txt": "7c02ca00eb64e5003ac6ca1790f2593bf48539ca0c1d456012c61bd5e4fa40e0",
+    "free-threaded-gil-import-probe.json": "8761bdb40ea68c9a0ffeb46673da134df1b8e50fb100acf85807b1a842377589",
+    "free-threaded-runtime-state.log": "5a3bc05f10af7b6cebef14ce10ef0b5cd40c8aa2fb3fc496d409dccce598c6c5",
+    "full-migration-final-lightgbm.json": "6522b2e55d0ff58128d0c01872bc4fd2e83344323cfe4cd9c35123fd22d9df08",
+    "full-migration-final-sklearn.json": "a69069a705845fb691b2bf4ae7f21e050cb5c0acccd807a8dc887543f54a2b16",
+    "full-migration-upstream-lightgbm.json": "ff033032049dd36373d377a0c68cc6d5ac0ac5ed9abd3ca9d8f5a2749964a9e2",
+    "full-migration-upstream-sklearn.json": "41eb30b86aafbe78f52b5e4653a64f43a1862664c9ba53d3154b22ae165f1344",
+    "full-migration-wide-lightgbm.json": "609baa38e1ef0ef1404775b53ed6aa83fcd108dfe69046dad9aeb5253dff0053",
+    "full-migration-wide-sklearn.json": "ea621b3fc322e82c7503fcf5a5e450771c5f33609d84576ff73d4e19d29c1ff2",
+    "legacy-parity.json": "1ef58ca29e030326111ead25c773cbde0bb11156454d444b2657b59d3a19f44f",
+    "local-dependency-versions.txt": "823bc444583bcb24af405c77228a54eef7ffc7b2b65cc19f53563a8905270f47",
+    "profile-080f946b-pandas.txt": "32055b80edaa9028870938125a60517eac71a6c84ddbeac5dabb6f97eac9cb05",
+    "profile-080f946b-polars.txt": "d33191a3f22b1c3a9651ed457a72bc1511d413f20429bcb42206ff2c11617bed",
+    "profile-783f0697-pandas.txt": "765f49bf6f316b22038baaf63aa1dfb74e4c9df09009058044c3531b2010189e",
+    "profile-783f0697-polars.txt": "026d7946abf10a73d8d86edd49124c3d677ca1726e977a3ab28572d63cb5c33c",
+    "validation.json": "ae119178983a679f5aacbcbdf7e1013286b40ab8e68081f08d80db86053f4ea2"
+  },
+  "checkout": "D:\\CodexScratch\\DALEXNarwhals-20261030\\validation-checkout",
+  "source_version_order": "783f0697 candidate, then upstream, then final optimized candidate; backend order alternated within each source",
+  "file_hash_normalization": "SHA256 of UTF-8 text with CRLF normalized to LF"
+}

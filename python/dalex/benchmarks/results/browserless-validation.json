@@ -1,0 +1,35 @@
+{
+  "source_parent_commit": "de7bfaccdeec02f6f2f8b8a96489396d7bec5c74",
+  "source_library_git_tree": "cbfb93d0a86a8e18d7919df1281a28a88ac5b9d2",
+  "source_suite": {
+    "tests": 378,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 18,
+    "passed": 360
+  },
+  "installed_wheel_suite": {
+    "tests": 378,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 18,
+    "passed": 360
+  },
+  "focused_widgets": {
+    "tests": 12,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 12
+  },
+  "wheel_python_modules_equal_current_source": 117,
+  "distributions_sha256": {
+    "dalex-1.8.0.9000-py3-none-any.whl": "b2849411db560514c1dba95460c9ea6a38676782f443c1081783e001d934d903",
+    "dalex-1.8.0.9000.tar.gz": "128ae4329305446a597ab91d5f1a20534315314390393f910cb64ddd7321ae64"
+  },
+  "legacy_outputs": 23,
+  "max_absolute_legacy_error": 0,
+  "installed_package_boundary": "Fresh process outside checkout; asserted import under interpreter site-packages.",
+  "change": "Compute hover interpolation spans numerically without Chrome. Preserve original vertices/endpoints; intermediate hover density may differ. Constant/nonfinite spans use a finite fallback. No timeout increase or extra skip.",
+  "baseline_evidence": "refinement-validation.json and arrow-metadata-validation.json are historical source-stamped snapshots."
+}

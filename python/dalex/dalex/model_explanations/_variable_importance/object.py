@@ -1,10 +1,11 @@
 import numpy as np
-import pandas as pd
+import narwhals.stable.v2 as nw
 from plotly.subplots import make_subplots
 
 from . import checks, plot, utils
 from ... import _theme, _global_checks
-from ..._explanation import Explanation
+from ..._explanation import Explanation, CompatibilityTable
+from ..._plotting import result_frame, concat_frames, descending_order
 
 
 class VariableImportance(Explanation):
@@ -95,12 +96,15 @@ class VariableImportance(Explanation):
         self.variable_groups = variable_groups
         self.random_state = _random_state
         self.keep_raw_permutations = _keep_raw_permutations
-        self.result = pd.DataFrame()
+        from ..._explanation import EmptyTable
+        self.result = EmptyTable()
         self.permutation = None
         self.processes = _processes
 
     def _repr_html_(self):
         return self.result._repr_html_()
+
+    permutation = CompatibilityTable()
 
     def fit(self, explainer):
         """Calculate the result of explanation
@@ -129,7 +133,8 @@ class VariableImportance(Explanation):
                                                                             explainer.label,
                                                                             self.processes,
                                                                             self.keep_raw_permutations,
-                                                                            self.random_state)
+                                                                            self.random_state,
+                                                                            native=True)
 
     def plot(self,
              objects=None,
@@ -179,43 +184,41 @@ class VariableImportance(Explanation):
         if split not in ("model", "variable"):
             raise TypeError("split should be 'model' or 'variable'")
 
-        # are there any other objects to plot?
         if objects is None:
-            n = 1
-            _result_df = self.result.copy()
-            if split == 'variable':  # force split by model if only one explainer
+            explanations = [self]
+            if split == 'variable':
                 split = 'model'
-        elif isinstance(objects, self.__class__):  # allow for objects to be a single element
-            n = 2
-            _result_df = pd.concat([self.result.copy(), objects.result.copy()])
-        elif isinstance(objects, (list, tuple)):  # objects as tuple or array
-            n = len(objects) + 1
-            _result_df = self.result.copy()
+        elif isinstance(objects, self.__class__):
+            explanations = [self, objects]
+        elif isinstance(objects, (list, tuple)):
+            explanations = [self, *objects]
             for ob in objects:
                 _global_checks.global_check_object_class(ob, self.__class__)
-                _result_df = pd.concat([_result_df, ob.result.copy()])
         else:
             _global_checks.global_raise_objects_class(objects, self.__class__)
-
-        dl = _result_df.loc[_result_df.variable != '_baseline_', 'dropout_loss'].to_numpy()
+        n = len(explanations)
+        _result_df = concat_frames(result_frame(ob).select('label', 'variable', 'dropout_loss')
+                                   for ob in explanations)
+        dl = _result_df.filter(nw.col('variable') != '_baseline_')['dropout_loss'].to_numpy()
         min_max_margin = np.ptp(dl) * 0.15
         min_max = [dl.min() - min_max_margin, dl.max() + min_max_margin]
 
-        # take out full model
-        best_fits = _result_df[_result_df.variable == '_full_model_']
-
-        # this produces dropout_loss_x and dropout_loss_y columns
-        _result_df = _result_df.merge(best_fits[['label', 'dropout_loss']], how="left", on="label")
-        _result_df = _result_df[['label', 'variable', 'dropout_loss_x', 'dropout_loss_y']].rename(
-            columns={'dropout_loss_x': 'dropout_loss', 'dropout_loss_y': 'full_model'})
-
-        # remove full_model and baseline
-        _result_df = _result_df[(_result_df.variable != '_full_model_') & (_result_df.variable != '_baseline_')]
-
-        # calculate order of bars or variable plots (split = 'variable')
-        # get variable permutation
-        perm = _result_df[['variable', 'dropout_loss']].groupby('variable').mean().reset_index(). \
-            sort_values('dropout_loss', ascending=False).variable.values
+        best_fits = _result_df.filter(nw.col('variable') == '_full_model_').select(
+            'label', nw.col('dropout_loss').alias('full_model'))
+        # Arrow joins do not promise input order. Restore it explicitly because
+        # subplot, legend and model ordering are part of the plotting API.
+        _result_df = _result_df.with_row_index('__plot_order').join(best_fits, on='label', how='left').sort(
+            '__plot_order').drop('__plot_order').filter(
+                ~nw.col('variable').is_in(['_full_model_', '_baseline_']))
+        means = _result_df.group_by('variable').agg(nw.col('dropout_loss').mean())
+        names = means['variable'].to_list()
+        # Legacy pandas group labels may mix numbers and strings. Its groupby
+        # sorts numeric labels first; sorting that object column directly fails.
+        alphabetical = sorted(range(len(names)), key=lambda i: (isinstance(names[i], str), names[i]))
+        means = means[alphabetical, :]
+        # Match pandas' historical descending quicksort, including tied losses.
+        order = descending_order(means['dropout_loss'].to_numpy())
+        perm = means[order.tolist(), :]['variable'].to_list()
 
         plot_height = 78 + 71
 
@@ -224,7 +227,7 @@ class VariableImportance(Explanation):
         if vertical_spacing is None:
             vertical_spacing = 0.2 / n
 
-        model_names = _result_df['label'].unique().tolist()
+        model_names = _result_df['label'].unique(maintain_order=True).to_list()
 
         if len(model_names) != n:
             raise ValueError('label must be unique for each model')
@@ -236,7 +239,7 @@ class VariableImportance(Explanation):
                                 subplot_titles=model_names)
 
             # split df by model
-            df_list = [v for k, v in _result_df.groupby('label', sort=False)]
+            df_list = [_result_df.filter(nw.col('label') == label) for label in model_names]
 
             for i, df in enumerate(df_list):
                 m = df.shape[0]
@@ -245,32 +248,28 @@ class VariableImportance(Explanation):
 
                 # take only m variables (for max_vars)
                 # sort rows of df by variable permutation and drop unused variables
-                df = df.sort_values('dropout_loss').tail(m) \
-                    .set_index('variable').reindex(perm).dropna().reset_index()
-
-                baseline = df.iloc[0, df.columns.get_loc('full_model')]
-
-                df = df.assign(difference=lambda x: x['dropout_loss'] - baseline)
-
-                lt = df.difference.apply(lambda val:
-                                         "+"+str(rounding_function(np.abs(val), digits)) if val > 0
-                                         else str(rounding_function(np.abs(val), digits)))
-                tt = df.apply(lambda row: plot.tooltip_text(row, rounding_function, digits), axis=1)
-                df = df.assign(label_text=lt,
-                               tooltip_text=tt)
+                selected = np.argsort(df['dropout_loss'].to_numpy(), kind='quicksort')
+                selected = selected[-m:] if m else selected[:0]
+                df = df[selected.tolist(), :]
+                positions = {name: index for index, name in enumerate(df['variable'].to_list())}
+                df = df[[positions[name] for name in perm if name in positions], :].drop_nulls().filter(
+                    ~nw.col('dropout_loss').is_nan() & ~nw.col('full_model').is_nan())
+                baseline = df['full_model'][0]
+                df = df.with_columns((nw.col('dropout_loss') - baseline).alias('difference'))
+                lt, tt = plot.texts(df, rounding_function, digits)
 
                 fig.add_shape(type='line', x0=baseline, x1=baseline, y0=-1, y1=m, yref="paper", xref="x",
                               line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'}, row=i + 1, col=1)
 
                 fig.add_bar(
                     orientation="h",
-                    y=df['variable'].tolist(),
-                    x=df['difference'].tolist(),
+                    y=df['variable'].to_list(),
+                    x=df['difference'].to_list(),
                     textposition="outside",
-                    text=df['label_text'].tolist(),
+                    text=lt,
                     marker_color=colors[i],
                     base=baseline,
-                    hovertext=df['tooltip_text'].tolist(),
+                    hovertext=tt,
                     hoverinfo='text',
                     hoverlabel={'bgcolor': 'rgba(0,0,0,0.8)'},
                     showlegend=False,
@@ -289,7 +288,7 @@ class VariableImportance(Explanation):
                 plot_height += m * bar_width + (m + 1) * bar_width / 4 + 30
         else:
             # split df by variable
-            df_list = [v for k, v in _result_df.groupby('variable', sort=False)]
+            df_list = [_result_df.filter(nw.col('variable') == name) for name in perm]
 
             n = len(df_list)
             if max_vars is not None and max_vars < n:
@@ -303,7 +302,7 @@ class VariableImportance(Explanation):
             fig = make_subplots(rows=n, cols=1, shared_xaxes=True, vertical_spacing=vertical_spacing, x_title='drop-out loss',
                                 subplot_titles=variable_names)
 
-            df_dict = {e.variable.array[0]: e for e in df_list}
+            df_dict = dict(zip(perm, df_list))
 
             # take only n=max_vars elements from df_dict
             for i in range(n):
@@ -312,27 +311,21 @@ class VariableImportance(Explanation):
 
                 baseline = 0
 
-                df = df.assign(difference=lambda x: x['dropout_loss'] - x['full_model'])
-
-                lt = df.difference.apply(lambda val:
-                                         "+"+str(rounding_function(np.abs(val), digits)) if val > 0
-                                         else str(rounding_function(np.abs(val), digits)))
-                tt = df.apply(lambda row: plot.tooltip_text(row, rounding_function, digits), axis=1)
-                df = df.assign(label_text=lt,
-                               tooltip_text=tt)
+                df = df.with_columns((nw.col('dropout_loss') - nw.col('full_model')).alias('difference'))
+                lt, tt = plot.texts(df, rounding_function, digits)
 
                 fig.add_shape(type='line', x0=baseline, x1=baseline, y0=-1, y1=m, yref="paper", xref="x",
                               line={'color': "#371ea3", 'width': 1.5, 'dash': 'dot'}, row=i + 1, col=1)
 
                 fig.add_bar(
                     orientation="h",
-                    y=df['label'].tolist(),
-                    x=df['dropout_loss'].tolist(),
+                    y=df['label'].to_list(),
+                    x=df['dropout_loss'].to_list(),
                     # textposition="outside",
-                    # text=df['label_text'].tolist(),
+                    # text=lt,
                     marker_color=colors,
                     base=baseline,
-                    hovertext=df['tooltip_text'].tolist(),
+                    hovertext=tt,
                     hoverinfo='text',
                     hoverlabel={'bgcolor': 'rgba(0,0,0,0.8)'},
                     showlegend=False,

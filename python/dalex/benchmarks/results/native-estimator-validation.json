@@ -1,0 +1,269 @@
+{
+  "source_commit": "08e8c380f2fb2212fe0620206d8bb61c9819f780",
+  "upstream_commit": "77ea3ad9580a3b68aaa94d8dca75d11bd527848f",
+  "ci_url": "https://github.com/brunocarlin/DALEX/actions/runs/40604998136",
+  "jobs": [
+    {
+      "name": "Python 3.14t / ubuntu-latest / GIL disabled",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40604998136/job/122542180024"
+    },
+    {
+      "name": "Neural SHAP / torch / Python 3.14",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40604998136/job/122542180063"
+    },
+    {
+      "name": "Python 3.12 / macos-latest / pandas <3",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40604998136/job/122542180092"
+    },
+    {
+      "name": "backend-benchmark (sklearn-native)",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40604998136/job/122542180100"
+    },
+    {
+      "name": "minimum-pandas",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40604998136/job/122542180114"
+    },
+    {
+      "name": "Neural SHAP / tensorflow / Python 3.13",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40604998136/job/122542180142"
+    },
+    {
+      "name": "backend-benchmark (lightgbm-native)",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40604998136/job/122542180163"
+    },
+    {
+      "name": "backend-benchmark (sklearn-numpy)",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40604998136/job/122542180243"
+    },
+    {
+      "name": "Python 3.14 / macos-latest / pandas <3",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40604998136/job/122542180319"
+    },
+    {
+      "name": "Python 3.13 / ubuntu-latest / pandas <3",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40604998136/job/122542180335"
+    },
+    {
+      "name": "Python 3.14 / ubuntu-latest / pandas >=3,<4",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40604998136/job/122542180340"
+    },
+    {
+      "name": "Python 3.10 / macos-latest / pandas <3",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40604998136/job/122542180372"
+    },
+    {
+      "name": "Python 3.12 / ubuntu-latest / pandas <3",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40604998136/job/122542180397"
+    },
+    {
+      "name": "Python 3.13 / macos-latest / pandas <3",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40604998136/job/122542180411"
+    },
+    {
+      "name": "Python 3.11 / ubuntu-latest / pandas <3",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40604998136/job/122542180502"
+    },
+    {
+      "name": "Python 3.14 / ubuntu-latest / pandas <3",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40604998136/job/122542180505"
+    },
+    {
+      "name": "Python 3.10 / ubuntu-latest / pandas <3",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40604998136/job/122542180524"
+    },
+    {
+      "name": "Python 3.11 / macos-latest / pandas <3",
+      "conclusion": "success",
+      "url": "https://github.com/brunocarlin/DALEX/actions/runs/40604998136/job/122542180534"
+    }
+  ],
+  "primary_ci_junit": {
+    "tests-3.10-macos-latest-pandas2": {
+      "tests": 210,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 188,
+      "seconds": 256.851
+    },
+    "tests-3.10-ubuntu-latest-pandas2": {
+      "tests": 210,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 188,
+      "seconds": 345.272
+    },
+    "tests-3.11-macos-latest-pandas2": {
+      "tests": 210,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 188,
+      "seconds": 327.815
+    },
+    "tests-3.11-ubuntu-latest-pandas2": {
+      "tests": 210,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 188,
+      "seconds": 320.271
+    },
+    "tests-3.12-macos-latest-pandas2": {
+      "tests": 210,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 188,
+      "seconds": 256.509
+    },
+    "tests-3.12-ubuntu-latest-pandas2": {
+      "tests": 210,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 188,
+      "seconds": 302.471
+    },
+    "tests-3.13-macos-latest-pandas2": {
+      "tests": 210,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 188,
+      "seconds": 279.143
+    },
+    "tests-3.13-ubuntu-latest-pandas2": {
+      "tests": 210,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 188,
+      "seconds": 169.368
+    },
+    "tests-3.14-macos-latest-pandas2": {
+      "tests": 210,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 188,
+      "seconds": 212.87
+    },
+    "tests-3.14-ubuntu-latest-pandas2": {
+      "tests": 210,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 188,
+      "seconds": 239.289
+    },
+    "tests-3.14-ubuntu-latest-pandas3": {
+      "tests": 210,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 188,
+      "seconds": 236.302
+    },
+    "tests-3.14t-ubuntu-latest": {
+      "tests": 210,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 188,
+      "seconds": 309.727
+    }
+  },
+  "neural_ci_junit": {
+    "neural-tensorflow": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 4,
+      "seconds": 6.802
+    },
+    "neural-torch": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 4,
+      "seconds": 3.548
+    }
+  },
+  "local_junit": {
+    "python314": {
+      "tests": 210,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 188,
+      "seconds": 345.802
+    },
+    "python314t": {
+      "tests": 210,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 188,
+      "seconds": 373.392
+    },
+    "pandas32_nightly": {
+      "tests": 210,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 22,
+      "passed": 188,
+      "seconds": 361.931
+    },
+    "installed_wheel": {
+      "tests": 128,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 128,
+      "seconds": 108.416
+    },
+    "installed_wheel_torch": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 4,
+      "seconds": 26.248
+    }
+  },
+  "distributions_sha256": {
+    "dalex-1.8.0.9000-py3-none-any.whl": "d01cda7d0081b23ccbd9fd2d98ee1b435364d3fb152c04fcfaa4e0e265c4de2e",
+    "dalex-1.8.0.9000.tar.gz": "fc3eb3aa656d9da07f01f96cc10eb16505fd47a9c8a477b52e42507c72a91bb1"
+  },
+  "rng_scope": "Explicit seeded core streams are local MT19937; Kernel/Gradient SHAP cooperate through a scoped global NumPy RNG lock. Unseeded and arbitrary external RNG consumers are not certified concurrent.",
+  "free_threading": "Actual GIL disabled after all dependency imports with PYTHON_GIL=0; neural jobs use ordinary Python. SHAP auto-enables the GIL without the override.",
+  "minimum_pandas_junit": {
+    "tests": 21,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 21,
+    "seconds": 0.947
+  }
+}

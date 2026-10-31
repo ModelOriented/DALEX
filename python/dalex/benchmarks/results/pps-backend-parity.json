@@ -1,0 +1,6 @@
+{
+  "pandas": "1.5.3",
+  "ppscore": "1.3.0",
+  "passed": true,
+  "max_absolute_difference": 0.0
+}
